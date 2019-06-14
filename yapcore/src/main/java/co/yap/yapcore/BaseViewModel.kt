@@ -1,12 +1,10 @@
 package co.yap.yapcore
 
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.OnLifecycleEvent
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.*
 
 
-abstract class BaseViewModel : ViewModel(), IBase.ViewModel {
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application), IBase.ViewModel {
 
     //var viewListener: N? = null
     private var state: BaseState? = null
@@ -56,9 +54,9 @@ abstract class BaseViewModel : ViewModel(), IBase.ViewModel {
         owner?.lifecycle?.removeObserver(this)
     }
 
-    /*  override fun getState(): IBase.State {
+      override fun getState(): IBase.State {
           if (state == null) state = BaseState()
           return state as BaseState
-      }*/
+      }
 }
 
