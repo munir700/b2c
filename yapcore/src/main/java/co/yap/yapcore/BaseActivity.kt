@@ -5,14 +5,12 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.view.View
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
-abstract class BaseActivity : AppCompatActivity(), BaseFragment.Callback, InternetConnectionListener, Events,
-    IBase.View {
+abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,19 +20,6 @@ abstract class BaseActivity : AppCompatActivity(), BaseFragment.Callback, Intern
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
-
-    override fun onFragmentAttached() {
-
-    }
-
-    override fun onFragmentDetached(tag: String) {
-
-    }
 
     @TargetApi(Build.VERSION_CODES.M)
     fun requestPermissionsSafely(permissions: Array<String>, requestCode: Int) {
@@ -57,7 +42,7 @@ abstract class BaseActivity : AppCompatActivity(), BaseFragment.Callback, Intern
     }
 
     override fun onBackPressed() {
-        finish()
+        super.onBackPressed()
     }
 
     override fun showToast(msg: String) {
@@ -66,20 +51,22 @@ abstract class BaseActivity : AppCompatActivity(), BaseFragment.Callback, Intern
         }
     }
 
-    override fun onInternetAvailble() {
+    override fun onConnectivityChange(isAvailable: Boolean) {
 
     }
 
-    override fun onInternetUnavailable() {
+    override fun getContext(): Context {
+        return this
+    }
+
+    override fun onFragmentAttached() {
 
     }
 
-    override fun onClickView(view: View) {
-        when (view.id) {
-//            R.id.ivBack -> onBackPressed()
-        }
+    override fun onFragmentDetached(tag: String) {
+
     }
 
-    val iContext: Context
-        get() = this
+    override fun showLoader(isVisible: Boolean) {
+    }
 }
