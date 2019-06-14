@@ -25,9 +25,9 @@ abstract class BaseBindingActivity : BaseActivity() {
     }
 
     /**
-     * Override for set view model
+     * Override for set binding variable
      *
-     * @return view model instance
+     * @return variable id
      */
 
     abstract fun getBindingVariable(): Int
@@ -35,7 +35,7 @@ abstract class BaseBindingActivity : BaseActivity() {
     /**
      * @return layout resource id
      */
-    
+
     @LayoutRes
     abstract fun getLayoutId(): Int
 
