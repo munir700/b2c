@@ -1,4 +1,18 @@
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
+
+
+project.ext {
+    compileSdkVersion = 28
+    minSdkVersion = 19
+    targetSdkVersion = 28
+    supportLibraryVersion = "28.0.3"
+    playServicesVersion = "16.0.0"
+    retrofitVersion = "2.5.0"
+    daggerVersion = "2.16"
+    lifecycleVersion = "2.0.0"
+}
 
 android {
     compileSdkVersion 28
@@ -19,6 +33,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dataBinding {
+        enabled = true
     }
 }
 
@@ -43,6 +61,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime:$project.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$project.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycleVersion"
+    implementation 'androidx.core:core-ktx:1.0.1'
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$project.lifecycleVersion"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }
 
@@ -52,4 +73,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+repositories {
+    mavenCentral()
 }
