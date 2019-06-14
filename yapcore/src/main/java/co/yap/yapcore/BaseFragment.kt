@@ -2,60 +2,71 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import co.yap.yapcore.BaseActivity
 
 
 abstract class BaseFragment : Fragment(), IBase.View {
-
-    var baseActivity: BaseActivity? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(false)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is BaseActivity) {
-            val activity = context as BaseActivity
-            this.baseActivity = activity
-            activity.onFragmentAttached()
+        if (context is IFragmentHolder) {
+            context.onFragmentAttached()
+        } else {
+            throw IllegalStateException("Could not find reference to IFragmentHolder. Make sure parent activity implements IFragmentHolder interface")
+        }
+
+        if (context !is IBase.View) {
+            throw IllegalStateException("Could not find reference to IBase.View. Make sure parent activity implements IBase.View interface")
         }
     }
 
     override fun onDetach() {
-        baseActivity = null
         super.onDetach()
+        if (getFragmentHolder() != null) {
+            getFragmentHolder()?.onFragmentDetached("")
+        }
     }
 
 
     override fun showLoader(visibility: Boolean) {
-
-    }
-
-    protected fun hideLoader(visibility: Boolean) {
-
-    }
-
-    interface Callback {
-
-        fun onFragmentAttached()
-
-        fun onFragmentDetached(tag: String)
+        getBaseView()?.showLoader(visibility)
     }
 
     override fun showToast(msg: String) {
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun getContext(): Context {
+        return this.context
+    }
+
+    override fun onBackPressed() {
+        getBaseView()?.onBackPressed()
+    }
+
+    private fun getFragmentHolder(): IFragmentHolder? {
+        if (context is IFragmentHolder) {
+            return context as IFragmentHolder
+        }
+
+        return null
+    }
+
+    private fun getBaseView(): IBase.View? {
+        if (context is IBase.View) {
+            return context as IBase.View
+        }
+
+        return null
+    }
+
+    override fun onConnectivityChange(isAvailable: Boolean) {
+        getBaseView()?.onConnectivityChange(isAvailable)
     }
 }

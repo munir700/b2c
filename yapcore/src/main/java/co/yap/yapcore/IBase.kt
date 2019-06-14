@@ -4,13 +4,12 @@ import android.content.Context
 
 
 interface IBase {
-    interface View {
-        fun iContext(): Context
+    interface View : InternetConnectionListener {
+        fun getContext(): Context
         fun showLoader(isVisible: Boolean)
         fun showToast(msg: String)
         fun <T : IBase.ViewModel> getViewModel(): T
         fun onBackPressed()
-
     }
 
     interface ViewModel : ILifecycle {
