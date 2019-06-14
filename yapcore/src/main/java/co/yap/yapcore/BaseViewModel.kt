@@ -54,9 +54,9 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         owner?.lifecycle?.removeObserver(this)
     }
 
-    /*  override fun getState(): IBase.State {
+      override fun getState(): IBase.State {
           if (state == null) state = BaseState()
           return state as BaseState
-      }*/
+      }
 }
 
