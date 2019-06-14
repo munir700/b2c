@@ -1,43 +1,68 @@
 package co.yap.yapcore
 
 import androidx.databinding.BaseObservable
+import androidx.databinding.Bindable
 
 
 class BaseState : BaseObservable(), IBase.State {
-    override fun isLoading(): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getToolbarTitle(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getError(): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    private var loading = false
+    private lateinit var error: String
+    private lateinit var toolbarTitle: String
 
     override fun reset() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        loading = false
+        toolbarTitle = ""
+        error = ""
+    }
+
+    @Bindable
+    fun setLoading(loading: Boolean) {
+        this.loading = loading
+        notifyPropertyChanged(BR.loading)
+    }
+
+    override fun isLoading(): Boolean {
+        return this.loading
+    }
+
+    fun setToolbarTitle(title: String) {
+        toolbarTitle = title
+        notifyPropertyChanged(BR.toolbarTitle)
+    }
+
+    @Bindable
+    override fun getToolbarTitle(): String {
+        return toolbarTitle
     }
 
     override fun getString(key: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        return Translator.getInstance().getString(key)
+        return ""
+    }
+
+    @Bindable
+    override fun getError(): String {
+        return error
+    }
+
+    fun setError(error: String) {
+        this.error = error
+        notifyPropertyChanged(BR.error)
     }
 
     override fun destroy() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun init() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun resume() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun pause() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
+    }
 }
