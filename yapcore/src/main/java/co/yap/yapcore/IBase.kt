@@ -8,7 +8,7 @@ interface IBase {
         fun getContext(): Context
         fun showLoader(isVisible: Boolean)
         fun showToast(msg: String)
-        fun <T : IBase.ViewModel> getViewModel()
+        fun <T : IBase.ViewModel> getViewModel(): T
         fun onBackPressed()
     }
 

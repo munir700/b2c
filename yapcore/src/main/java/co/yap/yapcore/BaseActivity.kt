@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 
 abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
 
-
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val window = this.window
@@ -69,4 +69,5 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
 
     override fun showLoader(isVisible: Boolean) {
     }
+
 }
