@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import co.yap.app.adapters.TestAdapter
+import co.yap.app.models.User
 import co.yap.yapcore.BaseBindingAdapter
 
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,12 +24,14 @@ class MainActivity : AppCompatActivity() {
                 .setAction("Action", null).show()
         }
 
-        val adapter: TestAdapter = TestAdapter(this)
-        adapter.onItemClickListener = object: BaseBindingAdapter.OnItemClickListener {
-            override fun onItemClick(view: View, pos: Int) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        }
+//        val adapter: TestAdapter = TestAdapter(this)
+//        adapter.onItemClickListener = object: BaseBindingAdapter.OnItemClickListener {
+//            override fun onItemClick(view: View, pos: Int) {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//            }
+//        }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
