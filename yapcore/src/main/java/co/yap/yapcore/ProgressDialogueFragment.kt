@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import co.yap.yapcore.BaseBindingAdapter.OnItemClickListener
 
 class ProgressDialogueFragment : DialogFragment() {
 
@@ -15,7 +16,6 @@ class ProgressDialogueFragment : DialogFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setStyle(DialogFragment.STYLE_NORMAL, R.style.CustomDialog)
-
 
     }
 }

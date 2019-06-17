@@ -17,7 +17,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
+abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View, BaseBindingAdapter.OnItemClickListener {
     private var snackbar: Snackbar? = null
     private var DURATION_CODE = -2
 
@@ -130,5 +130,14 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
         return snackbar
 
     }
+
+    fun asd() {
+
+    }
+
+    override fun onItemClick(view: View, pos: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
 }
