@@ -10,7 +10,7 @@ abstract class BaseFragment : Fragment(), IBase.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(false)
+        setHasOptionsMenu(true)
     }
 
     override fun onAttach(context: Context) {
@@ -77,7 +77,19 @@ abstract class BaseFragment : Fragment(), IBase.View {
         return null
     }
 
-    override fun onConnectivityChange(isAvailable: Boolean) {
-        getBaseView()?.onConnectivityChange(isAvailable)
+    override fun showInternetSnack(isVisible: Boolean) {
+        getBaseView()?.showInternetSnack(isVisible)
+    }
+
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+        getBaseView()?.onNetworkStateChanged(isConnected)
+    }
+
+    override fun isPermissionGranted(permission: String): Boolean {
+        return getBaseView()?.isPermissionGranted(permission)!!
+    }
+
+    override fun requestPermissions() {
+        getBaseView()?.requestPermissions()
     }
 }
