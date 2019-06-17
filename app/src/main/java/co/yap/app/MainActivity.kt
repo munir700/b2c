@@ -5,6 +5,9 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import co.yap.app.adapters.TestAdapter
+import co.yap.yapcore.BaseBindingAdapter
 
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -18,6 +21,13 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+        }
+
+        val adapter: TestAdapter = TestAdapter(this)
+        adapter.onItemClickListener = object: BaseBindingAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, pos: Int) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
         }
     }
 

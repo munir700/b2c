@@ -11,11 +11,11 @@ import androidx.databinding.ViewDataBinding
 
 abstract class BaseBindingAdapter<VH : BaseBindingHolder>(val context: Context) : BaseAdapter() {
 
-//    var onItemClickListener: OnItemClickListener? = null
-//        get() {
-//            if (field == null) this.onItemClickListener = OnItemClickListener.DEFAULT
-//            return field
-//        }
+    var onItemClickListener: OnItemClickListener? = null
+        get() {
+            if (field == null) field = OnItemClickListener.invoke()
+            return field
+        }
 
     override fun getItem(position: Int): Any {
         return getDataForPosition(position)
@@ -41,6 +41,7 @@ abstract class BaseBindingAdapter<VH : BaseBindingHolder>(val context: Context) 
 
         holder.adapterPosition = position
         holder.bind(getDataForPosition(position) as Object)
+        view.setOnClickListener(View.OnClickListener { view -> onItemClickListener?.onItemClick(view, holder.adapterPosition) })
 
         return view
     }
@@ -54,10 +55,15 @@ abstract class BaseBindingAdapter<VH : BaseBindingHolder>(val context: Context) 
     interface OnItemClickListener {
         fun onItemClick(view: View, pos: Int)
 
-//        companion object {
+        companion object {
+            operator fun invoke(): OnItemClickListener {
+                return object: OnItemClickListener {
+                    override fun onItemClick(view: View, pos: Int) {
 
-//            var DEFAULT = { view, pos -> }
-//        }
+                    }
+                }
+            }
+        }
 
     }
 }
