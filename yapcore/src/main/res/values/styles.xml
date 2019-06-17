@@ -10,121 +10,147 @@
 
     </style>
 
-    //text heading styles
+    <!-- App Fonts-->
+    <style name="AppFontRegular">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="AppFontLight">
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="AppFontMedium">
+        <item name="android:fontFamily">@font/roboto_medium</item>
+    </style>
+
+    <style name="AppFontBold">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppFontBoldItalic">
+        <item name="android:fontFamily">@font/roboto_bold</item>
+    </style>
+
+    <style name="AppFontMediumItalic">
+        <item name="android:fontFamily">@font/roboto_medium_italic</item>
+    </style>
+
+
+    <!--text heading styles-->
 
     <style name="Title1">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:lineSpacingExtra">10sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
     <style name="ATitle1">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">10sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
 
     <style name="ATitle2">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
 
     <style name="Title2">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
 
     <style name="ATitle3">
-        <item name="android:textSize">21sp</item>
+        <item name="android:textSize">@dimen/text_size_h5</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">9sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
     <style name="Title3">
-        <item name="android:textSize">21sp</item>
+        <item name="android:textSize">@dimen/text_size_h5</item>
         <item name="android:lineSpacingExtra">9sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
     <style name="ALarge">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">10sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
     <style name="ARegular">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">8sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
     <style name="Large">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
         <item name="android:lineSpacingExtra">10sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
 
     <style name="Regular">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:textColor">@color/dark_purple</item>
     </style>
 
     <style name="ASmall">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
     <style name="Small">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
     <style name="Micro">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
 
     <style name="AMicro">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">#@color/dark_purple</item>
+        <item name="android:textColor">@color/dark_purple</item>
     </style>
 
-    //Grey
+    <!-- Grey text -->
 
     <style name="Title1Grey">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:lineSpacingExtra">10sp</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
 
     <style name="ATitle1Grey">
-        <item name="android:textSize">28sp</item>
+        <item name="android:textSize">@dimen/text_size_h7</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">10sp</item>
@@ -133,7 +159,7 @@
 
 
     <style name="ATitle2Grey">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">8sp</item>
@@ -142,14 +168,14 @@
 
 
     <style name="Title2Grey">
-        <item name="android:textSize">24sp</item>
+        <item name="android:textSize">@dimen/text_size_h6</item>
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
 
 
     <style name="ATitle3Grey">
-        <item name="android:textSize">21sp</item>
+        <item name="android:textSize">@dimen/text_size_h5</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">9sp</item>
@@ -157,13 +183,13 @@
     </style>
 
     <style name="Title3Grey">
-        <item name="android:textSize">21sp</item>
+        <item name="android:textSize">@dimen/text_size_h5</item>
         <item name="android:lineSpacingExtra">9sp</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
 
     <style name="ALargeGrey">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">10sp</item>
@@ -171,7 +197,7 @@
     </style>
 
     <style name="ARegularGrey">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">8sp</item>
@@ -179,19 +205,19 @@
     </style>
 
     <style name="LargeGrey">
-        <item name="android:textSize">18sp</item>
+        <item name="android:textSize">@dimen/text_size_h4</item>
         <item name="android:lineSpacingExtra">10sp</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
 
     <style name="RegularGrey">
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
 
     <style name="ASmallGrey">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
@@ -199,19 +225,19 @@
     </style>
 
     <style name="SmallGrey">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
 
     <style name="MicroGrey">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/grey_dark</item>
     </style>
 
     <style name="AMicroGrey">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:fontFamily">sans-serif</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
