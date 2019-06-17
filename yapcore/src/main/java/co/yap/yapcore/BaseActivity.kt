@@ -28,8 +28,10 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     }
+    abstract fun performInjection()
 
-    private val progressDialogueFragment: ProgressDialogueFragment = ProgressDialogueFragment()
+    private val progressDialogueFragment: ProgressDialogueFragment =
+        ProgressDialogueFragment()
 
     @TargetApi(Build.VERSION_CODES.M)
     fun requestPermissionsSafely(permissions: Array<String>, requestCode: Int) {

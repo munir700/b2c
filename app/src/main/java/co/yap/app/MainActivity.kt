@@ -2,16 +2,20 @@ package co.yap.app
 
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import co.yap.app.adapters.TestAdapter
+import co.yap.app.di.CoreActivity
 import co.yap.yapcore.BaseBindingAdapter
+import co.yap.yapcore.IBase
 
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : CoreActivity() {
+    override fun <T : IBase.ViewModel> getViewModel(): T {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

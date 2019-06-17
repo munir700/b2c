@@ -4,6 +4,19 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'kotlin-kapt'
+
+project.ext {
+    compileSdkVersion = 28
+    minSdkVersion = 19
+    targetSdkVersion = 28
+    supportLibraryVersion = "28.0.3"
+    playServicesVersion = "16.0.0"
+    retrofitVersion = "2.5.0"
+    daggerVersion = "2.16"
+    lifecycleVersion = "2.0.0"
+}
+
 
 android {
     compileSdkVersion 28
@@ -43,10 +56,21 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
+    // Dagger
+    implementation "com.google.dagger:dagger:$project.daggerVersion"
+    implementation "com.google.dagger:dagger-android:$project.daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$project.daggerVersion"
+
+    kapt "com.google.dagger:dagger-compiler:$project.daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$project.daggerVersion"
+
     implementation project(path: ':yapcore')
 }
 
 
+kapt {
+    generateStubs = true
+}
 
 android {
     compileOptions {

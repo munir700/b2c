@@ -4,7 +4,8 @@ import android.app.Application
 import androidx.lifecycle.*
 
 
-abstract class BaseViewModel(application: Application) : AndroidViewModel(application), IBase.ViewModel {
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application),
+    IBase.ViewModel {
 
     //var viewListener: N? = null
     private var state: BaseState? = null

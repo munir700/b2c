@@ -33,7 +33,8 @@ abstract class BaseFragment : Fragment(), IBase.View {
         }
     }
 
-    private val progressDialogueFragment: ProgressDialogueFragment = ProgressDialogueFragment()
+    private val progressDialogueFragment: ProgressDialogueFragment =
+        ProgressDialogueFragment()
 
 
     override fun showLoader(visibility: Boolean) {
