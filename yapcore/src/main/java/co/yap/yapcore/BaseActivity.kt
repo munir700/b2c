@@ -68,19 +68,22 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
     fun showSnackBar() {
         snackbar = setSnackBar(
             getContext(),
+            //TODO hard coded string
             "No internet connection",
             Snackbar.LENGTH_INDEFINITE
         )
-
+            //TODO hard coded string
             .setAction("Settings",
                 View.OnClickListener { getContext().startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) })
             .setActionTextColor(getContext().getResources().getColor(R.color.colorPrimary))
         snackbar!!.show()
         //(getContext() as MyApplication).mInternetConnectionListener.onInternetUnavailable()
     }
-    fun dissmissSnackBar(){
+
+    fun dissmissSnackBar() {
         val snackbarConnected = setSnackBar(
             getContext(),
+            //TODO hard coded string
             "Internet connected.",
             Snackbar.LENGTH_SHORT
         )
@@ -103,6 +106,7 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) {
+            //TODO hard coded string
             progressDialogueFragment.show(supportFragmentManager, "loading")
         } else {
             progressDialogueFragment.dismiss()
