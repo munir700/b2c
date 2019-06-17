@@ -21,6 +21,7 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
     private var snackbar: Snackbar? = null
     private var DURATION_CODE = -2
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val window = this.window
@@ -28,6 +29,7 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
     }
 
+    private val progressDialogueFragment: ProgressDialogueFragment = ProgressDialogueFragment()
 
     @TargetApi(Build.VERSION_CODES.M)
     fun requestPermissionsSafely(permissions: Array<String>, requestCode: Int) {
@@ -100,6 +102,12 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View {
     }
 
     override fun showLoader(isVisible: Boolean) {
+        if (isVisible) {
+            progressDialogueFragment.show(supportFragmentManager, "loading")
+        } else {
+            progressDialogueFragment.dismiss()
+
+        }
     }
 
     private fun setSnackBar(context: Context, message: String, duration: Int): Snackbar {
