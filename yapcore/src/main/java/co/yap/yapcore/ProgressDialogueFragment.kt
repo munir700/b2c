@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import co.yap.yapcore.BaseBindingAdapter.OnItemClickListener
+import co.yap.yapcore.R
 
 class ProgressDialogueFragment : DialogFragment() {
 

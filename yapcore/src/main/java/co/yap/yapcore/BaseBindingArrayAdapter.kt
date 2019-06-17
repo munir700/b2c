@@ -18,11 +18,12 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
     ArrayAdapter<T>(context, resourceId, objects) {
 
     var onItemClickListener: OnItemClickListener? = null
-//        get() {
-//            if (field == null)
-//                this.onItemClickListener = OnItemClickListener.DEFAULT
-//            return field
-//        }
+        get() {
+            if (field == null) field =
+                OnItemClickListener.invoke()
+            return field
+        }
+
     private val layoutInflater: LayoutInflater
 
     abstract fun createViewHolder(binding: ViewDataBinding): VH
@@ -34,12 +35,9 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val v = createViewFromResource(position, view, parent, resourceId)
         val holder = v.tag as VH
-        v.setOnClickListener { vi ->
-            onItemClickListener?.onItemClick(
-                holder.itemView,
-                holder.adapterPosition
-            )
-        }
+        v.setOnClickListener(View.OnClickListener { v -> onItemClickListener?.onItemClick(v, holder.adapterPosition) })
+
+
         return v
     }
 
@@ -55,7 +53,7 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
             holder = view.tag as VH
         }
 
-        holder.adapterPosition=position
+        holder.adapterPosition = position
         holder.bind(getItem(position) as Object)
         return view
     }
@@ -79,16 +77,22 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
             val root = _parent.rootView
             root.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK))
             root.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK))
-            onItemClickListener?.onItemClick(holder.itemView, holder.adapterPosition)
+            holder.itemView?.let { onItemClickListener?.onItemClick(it, holder.adapterPosition) }
         }
     }
 
     interface OnItemClickListener {
         fun onItemClick(view: View, pos: Int)
 
-//        companion object {
-//
-//            val DEFAULT = { view, pos -> }
-//        }
+        companion object {
+            operator fun invoke(): OnItemClickListener {
+                return object : OnItemClickListener {
+                    override fun onItemClick(view: View, pos: Int) {
+
+                    }
+                }
+            }
+        }
+
     }
 }

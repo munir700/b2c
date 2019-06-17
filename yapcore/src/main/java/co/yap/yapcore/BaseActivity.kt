@@ -13,22 +13,28 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import co.yap.yapcore.helpers.NetworkManager
+import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
-    NetworkManager.OnNetworkStateChangeListener {
+    NetworkManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
+
     private var snackbar: Snackbar? = null
     private var DURATION_CODE = -2
+    private lateinit var permissionsManager: PermissionsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+
         NetworkManager.init(this)
         NetworkManager.subscribe(this)
+        permissionsManager = PermissionsManager(this, this, this)
     }
 
-    private val progressDialogueFragment: ProgressDialogueFragment = ProgressDialogueFragment()
+    private val progressDialogueFragment: ProgressDialogueFragment =
+        ProgressDialogueFragment()
 
     fun hideKeyboard() {
         val view = this.currentFocus
@@ -44,8 +50,8 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
         }
     }
 
-    override fun onNetworkStateChanged(isAvailable: Boolean) {
-        showInternetSnack(!isAvailable)
+    override fun onNetworkStateChanged(isConnected: Boolean) {
+        showInternetSnack(!isConnected)
     }
 
     override fun showInternetSnack(isVisible: Boolean) {
@@ -120,6 +126,31 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
     override fun onDestroy() {
         NetworkManager.unsubscribe(this)
         super.onDestroy()
+    }
+
+    override fun onPermissionGranted(permission: String?) {
+    }
+
+    override fun onPermissionNotGranted(permission: String?) {
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        permissionsManager.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
+    /**
+     * Checks if user has granted the specific permission
+     */
+    override fun isPermissionGranted(permission: String): Boolean {
+        return permissionsManager.isPermissionGranted(permission)
+    }
+
+    /**
+     * Request permissions explicitly
+     */
+    override fun requestPermissions() {
+        return permissionsManager.requestAppPermissions()
     }
 
 }
