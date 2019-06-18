@@ -3,5 +3,23 @@
     <color name="colorGreyVeryDark">#4d4d4d</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDarkGreen">#00a79d</color>
-    <color name="colorPrimary">#019ae8</color>
+
+    <!-- Zeplin Color palette -->
+
+    <color name="colorPrimary">#5e35b1</color>
+    <color name="colorPrimaryDark">#272262</color>
+    <color name="colorPrimaryLight">#7c4dff</color>
+    <color name="secondary">#a682ff</color>
+    <color name="secondaryDark">#a682ff</color> <!-- to be defined -->
+    <color name="secondaryLight">#a682ff</color> <!-- to be defined -->
+    <color name="grey">#c9c8d8</color>
+    <color name="greyDark">#9391b1</color>
+    <color name="greyLight">#dae0f0</color>
+    <color name="tertiary">#bb42eb</color>
+    <color name="tertiaryDark">#bb42eb</color> <!-- to be defined -->
+    <color name="tertiaryLight">#bb42eb</color> <!-- to be defined -->
+    <color name="error">#ff3b30</color>
+    <color name="white">#ffffff</color>
+    <color name="success">#44d389</color>
+    <color name="warning">#ffc430</color>
 </resources>
