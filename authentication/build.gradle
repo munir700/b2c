@@ -1,15 +1,19 @@
-//apply plugin: 'com.android.library'
-//apply from: '../shared/build.gradle'
-
-android {
-
-}
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // Test dependencies
+    project.testDependencies.each {
+        add(it.configuration, it.dependency)
+    }
+
+    // shared dependencies to all modules
+    project.commonDependencies.each {
+        add(it.configuration, it.dependency)
+    }
+
+    // app specific dependencies
+    project.authenticationDependencies.each {
+        add(it.configuration, it.dependency)
+    }
 }

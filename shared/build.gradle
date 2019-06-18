@@ -41,6 +41,12 @@ project.ext {
             daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
             daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
 
+            // Retrofit2
+            retrofit: "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
+            okhttp3LoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpLoggerVersion",
+            retrofitConverterGson: "com.squareup.retrofit2:converter-gson:$okhttpGsonVersion",
+
             // Androidx
             appcompat             : 'androidx.appcompat:appcompat:1.1.0-beta01',
             coreKtx               : 'androidx.core:core-ktx:1.0.2',
@@ -94,7 +100,12 @@ project.ext {
     authenticationDependencies = []
 
     // dependencies which need to be added in network module only in conjunction with commonDependencies
-    networkingDependencies = []
+    networkingDependencies = [
+            [configuration: "implementation", dependency: libraries.retrofit],
+            [configuration: "implementation", dependency: libraries.retrofitConverterGson],
+            [configuration: "implementation", dependency: libraries.okhttp],
+            [configuration: "implementation", dependency: libraries.okhttp3LoggingInterceptor]
+    ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
     yapDependencies = []
