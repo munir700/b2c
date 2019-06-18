@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import co.yap.app.di.BaseActivity
+import co.yap.networking.RetroNetwork
 import co.yap.yapcore.IBase
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
