@@ -16,7 +16,6 @@ class CustomButton : Button {
     private var btnHeight: Int = 0
     private var pressedColor: Int = 0
     private var defaultStateColor: Int = 0
-    private var disabledColor: Int = 0
     private var roundRadius: Int = 0
     private var btnRadius: Int = 0
     private var shapeType: Int = 0
@@ -30,8 +29,10 @@ class CustomButton : Button {
         init(context, attrs)
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs,
-        defStyleAttr) {
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
+        context, attrs,
+        defStyleAttr
+    ) {
         init(context, attrs)
     }
 
@@ -41,14 +42,26 @@ class CustomButton : Button {
             return
         }
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomButton)
-        pressedColor = typedArray.getColor(R.styleable.CustomButton_pressed_color,
-            resources.getColor(R.color.colorPrimary))
-
-        defaultStateColor = typedArray.getColor(R.styleable.CustomButton_unpressed_color,
-            resources.getColor(R.color.colorPrimaryDark))
+        pressedColor = typedArray.getColor(
+            R.styleable.CustomButton_pressed_color,
+            resources.getColor(R.color.colorPrimary)
+        )
+        if (this.isEnabled) {
+            defaultStateColor = typedArray.getColor(
+                R.styleable.CustomButton_unpressed_color,
+                resources.getColor(R.color.colorPrimaryDark)
+            )
+        } else {
+            defaultStateColor = typedArray.getColor(
+                R.styleable.CustomButton_unpressed_color,
+                resources.getColor(R.color.greyLight)
+            )
+        }
         shapeType = typedArray.getInt(R.styleable.CustomButton_btn_shape_type, 1)
-        roundRadius = typedArray.getDimensionPixelSize(R.styleable.CustomButton_round_radius,
-            resources.getDimensionPixelSize(R.dimen.round_radius))
+        roundRadius = typedArray.getDimensionPixelSize(
+            R.styleable.CustomButton_round_radius,
+            resources.getDimensionPixelSize(R.dimen.round_radius)
+        )
 
         typedArray.recycle()
         paint.color = defaultStateColor
@@ -58,6 +71,7 @@ class CustomButton : Button {
         this.isDrawingCacheEnabled = true
         this.isClickable = true
         this.setBackgroundColor(resources.getColor(R.color.transparent))
+
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
@@ -73,8 +87,10 @@ class CustomButton : Button {
             return
         }
         if (shapeType == 0) {
-            canvas.drawCircle((btnWeight / 2).toFloat(), (btnHeight / 2).toFloat(), btnRadius.toFloat(),
-                paint)
+            canvas.drawCircle(
+                (btnWeight / 2).toFloat(), (btnHeight / 2).toFloat(), btnRadius.toFloat(),
+                paint
+            )
         } else {
             rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
             canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
@@ -83,19 +99,22 @@ class CustomButton : Button {
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
         when (event.action) {
+
             MotionEvent.ACTION_DOWN -> {
-                paint.color = pressedColor
-                invalidate()
+                if (this.isEnabled) {
+                    paint.color = pressedColor
+                    invalidate()
+                }
             }
 
             MotionEvent.ACTION_UP -> {
-                paint.color = defaultStateColor
-                invalidate()
+                if (this.isEnabled) {
+                    paint.color = defaultStateColor
+                    invalidate()
+                }
             }
-
         }
         return super.onTouchEvent(event)
     }
-
 
 }
