@@ -19,7 +19,8 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
 
     var onItemClickListener: OnItemClickListener? = null
         get() {
-            if (field == null) field = OnItemClickListener.invoke()
+            if (field == null) field =
+                OnItemClickListener.invoke()
             return field
         }
 

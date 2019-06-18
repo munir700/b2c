@@ -3,29 +3,16 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
-project.ext {
-    compileSdkVersion = 28
-    minSdkVersion = 19
-    targetSdkVersion = 28
-    supportLibraryVersion = "28.0.3"
-    playServicesVersion = "16.0.0"
-    retrofitVersion = "2.5.0"
-    daggerVersion = "2.16"
-    lifecycleVersion = "2.0.0"
-}
-
 android {
-    compileSdkVersion 28
+    compileSdkVersion project.compileSdkVersion
     flavorDimensions "default"
+
     defaultConfig {
-
-        minSdkVersion 19
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode project.versionCode
+        versionName project.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
     }
 
     buildTypes {
@@ -65,6 +52,10 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-runtime:$project.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-common-java8:$project.lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycleVersion"
+
+    // sdp for text size ratios
+    implementation 'com.intuit.sdp:sdp-android:1.0.5'
+
 }
 
 kapt {

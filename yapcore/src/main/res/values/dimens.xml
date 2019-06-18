@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    //Headings
+    <dimen name="text_size_h1">@dimen/_12sdp</dimen>
+    <dimen name="text_size_h2">@dimen/_14sdp</dimen>
+    <dimen name="text_size_h3">@dimen/_16sdp</dimen>
+    <dimen name="text_size_h4">@dimen/_18sdp</dimen>
+    <dimen name="text_size_h5">@dimen/_21sdp</dimen>
+    <dimen name="text_size_h6">@dimen/_24sdp</dimen>
+    <dimen name="text_size_h7">@dimen/_28sdp</dimen>
+
+    //Content
+    <dimen name="text_size_c1">@dimen/_9sdp</dimen>
+    <dimen name="text_size_c2">@dimen/_10sdp</dimen>
+    <dimen name="text_size_c3">@dimen/_11sdp</dimen>
+    <dimen name="text_size_c4">@dimen/_12sdp</dimen>
+    <dimen name="text_size_c5">@dimen/_13sdp</dimen>
+    <dimen name="text_size_c6">@dimen/_14sdp</dimen>
+
+</resources>
