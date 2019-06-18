@@ -3,20 +3,20 @@
     <color name="colorGreyVeryDark">#4d4d4d</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDarkGreen">#00a79d</color>
-    <color name="colorPrimary">#019ae8</color>
 
     <!-- Zeplin Color palette -->
 
-    <color name="dark_purple">#272262</color>
-    <color name="grey">#c9c8d8</color>
-    <color name="purple_01">#5e35b1</color>
-    <color name="grey_soft">#dae0f0</color>
-    <color name="purple_03">#a682ff</color>
-    <color name="error">#ff3b30</color>
-    <color name="white">#ffffff</color>
-    <color name="grey_dark">#9391b1</color>
-    <color name="purple_02">#7c4dff</color>
-    <color name="success">#44d389</color>
-    <color name="warning">#ffc430</color>
-    <color name="purple_alt">#bb42eb</color>
+    <color name="colorPrimaryDark">#272262</color>
+    <color name="colorGrey">#c9c8d8</color>
+    <color name="colorPrimary">#5e35b1</color>
+    <color name="colorGreyLight">#dae0f0</color>
+    <color name="colorSecondary">#a682ff</color>
+    <color name="colorError">#ff3b30</color>
+    <color name="colorwhite">#ffffff</color>
+    <color name="colorGreyDark">#9391b1</color>
+    <color name="colorPrimaryLight">#7c4dff</color>
+    <color name="colorSuccess">#44d389</color>
+    <color name="colorWarning">#ffc430</color>
+    <color name="colorTertiary">#bb42eb</color>
+
 </resources>
