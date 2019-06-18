@@ -1,33 +1,21 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
-
-project.ext {
-    compileSdkVersion = 28
-    minSdkVersion = 19
-    targetSdkVersion = 28
-    supportLibraryVersion = "28.0.3"
-    playServicesVersion = "16.0.0"
-    retrofitVersion = "2.5.0"
-    daggerVersion = "2.16"
-    lifecycleVersion = "2.0.0"
-}
 
 
 android {
-    compileSdkVersion 28
     flavorDimensions "default"
+    compileSdkVersion project.compileSdkVersion
     defaultConfig {
         applicationId "co.yap"
-        minSdkVersion 19
-        targetSdkVersion 28
+
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+        versionCode project.versionCode
+        versionName project.versionName
+
         multiDexEnabled true
-        versionCode 1
-        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
     }
@@ -41,6 +29,11 @@ android {
 
     dataBinding {
         enabled = true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -72,9 +65,3 @@ kapt {
     generateStubs = true
 }
 
-android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-}
