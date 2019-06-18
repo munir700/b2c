@@ -222,7 +222,7 @@
     <style name="MicroGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">@color/greyDark</item>
+        <item name="android:textColor">@color/greyDark</item> 
     </style>
 
     <style name="AMicroGrey" parent="AppFontRegular">
