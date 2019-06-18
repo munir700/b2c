@@ -18,4 +18,10 @@
     <dimen name="text_size_c5">@dimen/_13sdp</dimen>
     <dimen name="text_size_c6">@dimen/_14sdp</dimen>
 
+
+    //
+
+    <dimen name="base_padding">16dp</dimen>
+    <dimen name="btn_radius">2dp</dimen>
+    <dimen name="round_radius">0dp</dimen>
 </resources>
