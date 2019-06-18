@@ -35,6 +35,6 @@ subprojects {
         apply plugin: 'com.android.library'
     }
 
-    apply from: '../shared/build.gradle'
+    apply from: '../dependencies/build.gradle'
 }
 
