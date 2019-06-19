@@ -1,73 +1,22 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-
-android {
-    compileSdkVersion project.compileSdkVersion
-    flavorDimensions "default"
-
-    defaultConfig {
-        minSdkVersion project.minSdkVersion
-        targetSdkVersion project.targetSdkVersion
-        versionCode project.versionCode
-        versionName project.versionName
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    dataBinding {
-        enabled = true
-    }
-}
-
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.android.material:material:1.1.0-alpha07'
-    kapt 'com.android.databinding:compiler:3.4.1'
-    
-    //androidx
-    implementation 'androidx.appcompat:appcompat:1.1.0-beta01'
-    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.cardview:cardview:1.0.0'
-    implementation 'androidx.recyclerview:recyclerview:1.1.0-alpha06'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.constraintlayout:constraintlayout-solver:1.1.3'
-    implementation 'androidx.vectordrawable:vectordrawable:1.1.0-beta02'
+    // Test dependencies
+    project.testDependencies.each {
+        add(it.configuration, it.dependency)
+    }
 
-    //noinspection GradleDependency
-    implementation "androidx.lifecycle:lifecycle-runtime:$project.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-common-java8:$project.lifecycleVersion"
-    implementation "androidx.lifecycle:lifecycle-extensions:$project.lifecycleVersion"
+    // shared dependencies to all modules
+    project.commonDependencies.each {
+        add(it.configuration, it.dependency)
+    }
 
-    // sdp for text size ratios
-    implementation 'com.intuit.sdp:sdp-android:1.0.5'
-
-}
-
-kapt {
-    generateStubs = true
-}
-
-android {
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+    // module specific dependencies
+    project.yapcoreDependencies.each {
+        add(it.configuration, it.dependency)
     }
 }
+
 repositories {
     mavenCentral()
 }
