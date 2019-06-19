@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CustomButton">
-        <attr name="disabled_color" format="color"/>
+        <attr name="text_color" format="color"/>
+        <attr name="text" format="reference"/>
+        <attr name="text_size" format="dimension"/>
         <attr name="pressed_color" format="color"/>
         <attr name="unpressed_color" format="color"/>
         <attr name="round_radius" format="dimension"/>
@@ -10,23 +12,5 @@
             <enum name="circle" value="0"/>
             <enum name="rectangle" value="1"/>
         </attr>
-    </declare-styleable>
-
-    <declare-styleable name="CustomImageButton">
-        <attr name="pressed_src" format="reference"/>
-        <attr name="unpressed_src" format="reference"/>
-    </declare-styleable>
-
-
-    <declare-styleable name="CustomInputLayoutAttributes">
-        <attr name="textColor" format="reference|color"/>
-        <attr name="hintColor" format="reference|color"/>
-        <attr name="dividerColor" format="reference|color"/>
-        <attr name="errorColor" format="reference|color"/>
-        <attr name="hintWidth" format="dimension"/>
-        <attr name="textSize" format="dimension"/>
-        <attr name="hint" format="string"/>
-        <attr name="errorText" format="string"/>
-
     </declare-styleable>
 </resources>
