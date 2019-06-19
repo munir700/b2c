@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import co.yap.app.di.BaseActivity
 import co.yap.networking.RetroNetwork
+import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.IBase
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -23,14 +24,6 @@ class MainActivity : BaseActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-
-//        val adapter: TestAdapter = TestAdapter(this)
-//        adapter.onItemClickListener = object: BaseBindingAdapter.OnItemClickListener {
-//            override fun onItemClick(view: View, pos: Int) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//            }
-//        }
-
 
     }
 

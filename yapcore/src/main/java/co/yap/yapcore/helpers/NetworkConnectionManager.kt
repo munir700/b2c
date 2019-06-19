@@ -5,8 +5,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.net.ConnectivityManager
+import androidx.databinding.ObservableBoolean
+import java.util.*
+import kotlin.collections.ArrayList
 
-object NetworkManager {
+object NetworkConnectionManager {
     interface OnNetworkStateChangeListener {
         fun onNetworkStateChanged(isConnected: Boolean)
     }

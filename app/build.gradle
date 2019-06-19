@@ -4,6 +4,32 @@ android {
         applicationId "co.yap"
         multiDexEnabled true
     }
+
+    productFlavors {
+
+        live {
+            resValue "string", "app_name", "YAP"
+            buildConfigField("String", "BASE_URL", "\"http://demo.yap.co\"")
+        }
+
+        dev {
+            applicationIdSuffix ".dev"
+            buildConfigField("String", "BASE_URL", "\"https://dev.yap.co\"")
+            resValue "string", "app_name", "YAP Dev"
+        }
+
+        qa {
+            applicationIdSuffix ".qa"
+            buildConfigField("String", "BASE_URL", "\"http://qa.yap.co\"")
+            resValue "string", "app_name", "YAP QA"
+        }
+
+        stage {
+            applicationIdSuffix ".stage"
+            buildConfigField("String", "BASE_URL", "\"http://stg.yap.co\"")
+            resValue "string", "app_name", "YAP Stage"
+        }
+    }
 }
 
 

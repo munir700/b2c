@@ -102,6 +102,7 @@ project.ext {
 
     // dependencies which need to be added in network module only in conjunction with commonDependencies
     networkingDependencies = [
+            [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: libraries.retrofit],
             [configuration: "implementation", dependency: libraries.retrofitConverterGson],
             [configuration: "implementation", dependency: libraries.okhttp],
