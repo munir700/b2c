@@ -14,7 +14,7 @@
             android:gravity="center_vertical|center"
             android:orientation="vertical">
 
-        <co.yap.yapcore.CustomButton
+        <co.yap.yapcore.CoreButton
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:btn_round_radius="50dp"
@@ -32,7 +32,7 @@
                 app:btn_drawable_padding_top="4.5"
                 tools:ignore="MissingConstraints"/>
 
-        <co.yap.yapcore.CustomButton
+        <co.yap.yapcore.CoreButton
                 android:id="@+id/close_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
                 app:btn_shape_type="rectangle"
                 tools:ignore="MissingConstraints"/>
 
-        <co.yap.yapcore.CustomButton
+        <co.yap.yapcore.CoreButton
                 android:id="@+id/close_btn_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                 app:btn_shape_type="rectangle"
                 tools:ignore="MissingConstraints"/>
 
-        <co.yap.yapcore.CustomButton
+        <co.yap.yapcore.CoreButton
                 android:id="@+id/close_btn_one"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
         <!--app:view_right_drawable="@drawable/abc_vector_test"-->
         <!--/>-->
 
-        <co.yap.yapcore.CustomButton
+        <co.yap.yapcore.CoreButton
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:enabled="false"

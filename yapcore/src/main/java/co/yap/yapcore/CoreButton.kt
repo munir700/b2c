@@ -12,7 +12,7 @@ import android.view.MotionEvent
 import android.widget.Button
 
 
-class CustomButton : Button {
+class CoreButton : Button {
 
     private var btnWeight: Int = 0
     private var btnHeight: Int = 0
@@ -64,57 +64,57 @@ class CustomButton : Button {
         }
 
         val typedArray =
-            context.obtainStyledAttributes(attrs, R.styleable.CustomButton)
+            context.obtainStyledAttributes(attrs, R.styleable.CoreButton)
 
         paint.style = Paint.Style.STROKE
 
         drawable = typedArray.getDrawable(
-            R.styleable.CustomButton_btn_drawable
+            R.styleable.CoreButton_btn_drawable
         )
-        drawablePositionType = typedArray.getInt(R.styleable.CustomButton_btn_drawable_position, 2)
+        drawablePositionType = typedArray.getInt(R.styleable.CoreButton_btn_drawable_position, 2)
 
 
         labelTextColor = typedArray.getColor(
-            R.styleable.CustomButton_btn_text_color,
+            R.styleable.CoreButton_btn_text_color,
             resources.getColor(R.color.white)
         )
 
         label = resources.getText(
             typedArray
-                .getResourceId((R.styleable.CustomButton_btn_text), R.string.empty_string)
+                .getResourceId((R.styleable.CoreButton_btn_text), R.string.empty_string)
         ).toString()
 
         pressedColor = typedArray.getColor(
-            R.styleable.CustomButton_btn_pressed_color,
+            R.styleable.CoreButton_btn_pressed_color,
             resources.getColor(R.color.colorPrimary)
         )
 
         if (this.isEnabled) {
             defaultStateColor = typedArray.getColor(
-                R.styleable.CustomButton_btn_unpressed_color,
+                R.styleable.CoreButton_btn_unpressed_color,
                 resources.getColor(R.color.colorPrimaryDark)
             )
         } else {
             defaultStateColor = typedArray.getColor(
-                R.styleable.CustomButton_btn_unpressed_color,
+                R.styleable.CoreButton_btn_unpressed_color,
                 resources.getColor(R.color.greyLight)
             )
         }
 
-        shapeType = typedArray.getInt(R.styleable.CustomButton_btn_shape_type, 1)
+        shapeType = typedArray.getInt(R.styleable.CoreButton_btn_shape_type, 1)
         drawablePaddingLeft =
-            typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
+            typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
         drawablePaddingRight =
-            typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_right, defaultDrawablePaddingRight)
-        drawablePaddingTop = typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_top, drawablePaddingTop)
+            typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_right, defaultDrawablePaddingRight)
+        drawablePaddingTop = typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_top, drawablePaddingTop)
 
         roundRadius = typedArray.getDimensionPixelSize(
-            R.styleable.CustomButton_btn_round_radius,
+            R.styleable.CoreButton_btn_round_radius,
             resources.getDimensionPixelSize(R.dimen.round_radius)
         )
 
         labelTextSize = typedArray.getDimensionPixelSize(
-            R.styleable.CustomButton_btn_text_size,
+            R.styleable.CoreButton_btn_text_size,
             resources.getDimensionPixelSize(R.dimen.label_text_size)
         ).toFloat()
 
