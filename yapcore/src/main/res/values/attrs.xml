@@ -3,14 +3,23 @@
     <declare-styleable name="CustomButton">
         <attr name="text_color" format="color"/>
         <attr name="text" format="reference"/>
-        <attr name="text_size" format="dimension"/>
+        <attr name="btn_drawable" format="reference"/>
+         <attr name="text_size" format="dimension"/>
         <attr name="pressed_color" format="color"/>
         <attr name="unpressed_color" format="color"/>
         <attr name="round_radius" format="dimension"/>
         <attr name="btn_radius" format="dimension"/>
+        <attr name="btn_set_position" format="dimension"/>
+
         <attr name="btn_shape_type" format="enum">
             <enum name="circle" value="0"/>
             <enum name="rectangle" value="1"/>
+        </attr>
+
+        <attr name="btn_drawable_position" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+            <enum name="center" value="2"/>
         </attr>
     </declare-styleable>
 </resources>
