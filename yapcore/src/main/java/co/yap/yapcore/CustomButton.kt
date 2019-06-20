@@ -1,7 +1,12 @@
 package co.yap.yapcore
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.RectF
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.Button
@@ -18,11 +23,16 @@ class CustomButton : Button {
     private var roundRadius: Int = 0
     private var btnRadius: Int = 0
     private var shapeType: Int = 0
+    private var DRAWABLE_RIGHT: Int = 1
+    private var DRAWABLE_LEFT: Int = 0
+    private var drawablePositionType: Int = 0
     private var labelTextSize: Float = 0f
-
+    var drawable: Drawable? = null
     private var paintText: Paint = Paint()
     private var paint: Paint = Paint()
     private var rectF: RectF = RectF()
+    lateinit var bitmapIcon: Bitmap
+
 
     constructor(context: Context) : super(context)
 
@@ -49,40 +59,48 @@ class CustomButton : Button {
 
         paint.style = Paint.Style.STROKE
 
+        drawable = typedArray.getDrawable(
+            R.styleable.CustomButton_btn_drawable
+        )
+        drawablePositionType = typedArray.getInt(R.styleable.CustomButton_btn_drawable_position, 2)
+
+
         labelTextColor = typedArray.getColor(
-            R.styleable.CustomButton_text_color,
+            R.styleable.CustomButton_btn_text_color,
             resources.getColor(R.color.white)
         )
 
         label = resources.getText(
             typedArray
-                .getResourceId((R.styleable.CustomButton_text), R.string.app_name)
+                .getResourceId((R.styleable.CustomButton_btn_text), R.string.app_name)
         ).toString()
 
         pressedColor = typedArray.getColor(
-            R.styleable.CustomButton_pressed_color,
+            R.styleable.CustomButton_btn_pressed_color,
             resources.getColor(R.color.colorPrimary)
         )
 
         if (this.isEnabled) {
             defaultStateColor = typedArray.getColor(
-                R.styleable.CustomButton_unpressed_color,
+                R.styleable.CustomButton_btn_unpressed_color,
                 resources.getColor(R.color.colorPrimaryDark)
             )
         } else {
             defaultStateColor = typedArray.getColor(
-                R.styleable.CustomButton_unpressed_color,
+                R.styleable.CustomButton_btn_unpressed_color,
                 resources.getColor(R.color.greyLight)
             )
         }
 
         shapeType = typedArray.getInt(R.styleable.CustomButton_btn_shape_type, 1)
+
         roundRadius = typedArray.getDimensionPixelSize(
-            R.styleable.CustomButton_round_radius,
+            R.styleable.CustomButton_btn_round_radius,
             resources.getDimensionPixelSize(R.dimen.round_radius)
         )
+
         labelTextSize = typedArray.getDimensionPixelSize(
-            R.styleable.CustomButton_text_size,
+            R.styleable.CustomButton_btn_text_size,
             resources.getDimensionPixelSize(R.dimen.label_text_size)
         ).toFloat()
 
@@ -96,16 +114,34 @@ class CustomButton : Button {
         this.setBackgroundColor(resources.getColor(R.color.transparent))
 
         /* text paint styling */
+
         paintText.setColor(labelTextColor)
         paintText.setTextSize(labelTextSize)
         paintText.textAlign = Paint.Align.CENTER
         paintText.style = Paint.Style.FILL
 
-//        set typefacae remaining
+    }
 
-//        val typeface = resources.getFont(R.font.roboto_bold)
-//        paintText.typeface = typeface
+    fun drawableToBitmap(drawable: Drawable): Bitmap? {
+        var bitmap: Bitmap? = null
 
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
+            }
+        }
+
+        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            bitmap =
+                Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
@@ -126,13 +162,38 @@ class CustomButton : Button {
                 (btnWeight / 2).toFloat(), (btnHeight / 2).toFloat(), btnRadius.toFloat(),
                 paint
             )
-            val icon: Bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_back_arrow)
-            canvas.drawBitmap(icon, (btnWeight / 2.5).toFloat(), (btnHeight / 2.5).toFloat(), paintText)
         } else {
             rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
             canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
             canvas.drawText(label, (btnWeight / 2).toFloat(), (btnHeight / 1.6).toFloat(), paintText)
 
+        }
+
+        if (null != drawable) {
+            bitmapIcon = drawable?.let { this!!.drawableToBitmap(it) }!!
+
+
+            when (drawablePositionType) {
+                DRAWABLE_LEFT -> canvas.drawBitmap(
+                    bitmapIcon,
+                    (btnWeight / 9.5).toFloat(),//position from left
+                    (btnHeight / 3.0).toFloat(),// set y-position of drawable left from top
+                    paintText
+                )
+
+                DRAWABLE_RIGHT -> canvas.drawBitmap(
+                    bitmapIcon,
+                    (btnWeight / 1.2).toFloat(),
+                    (btnHeight / 3.0).toFloat(),// set y-position of drawable right
+                    paintText
+                )
+                else -> canvas.drawBitmap(
+                    bitmapIcon,
+                    (btnWeight / 2.5).toFloat(),
+                    (btnHeight / 2.5).toFloat(),// set y-position of drawable right
+                    paintText
+                )
+            }
         }
     }
 
@@ -155,5 +216,4 @@ class CustomButton : Button {
         }
         return super.onTouchEvent(event)
     }
-
 }
