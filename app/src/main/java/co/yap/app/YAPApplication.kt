@@ -7,8 +7,8 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 class YAPApplication : Application() {
 
     init {
-        NetworkConnectionManager.init(this) // TODO: handle destroy of NetworkConnectionManager when app destroys
-        RetroNetwork.initWith(this, BuildConfig.BASE_URL)
+//        NetworkConnectionManager.init(this) // TODO: handle destroy of NetworkConnectionManager when app destroys
+  //      RetroNetwork.initWith(this, BuildConfig.BASE_URL)
     }
 
 }
