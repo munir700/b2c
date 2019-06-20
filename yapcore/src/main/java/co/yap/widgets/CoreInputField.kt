@@ -1,5 +1,6 @@
 package co.yap.widgets
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -14,9 +15,10 @@ import androidx.annotation.RequiresApi
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 
-
+@Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
+@SuppressLint("CustomViewStyleable")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class CustomWidgetEditText @JvmOverloads constructor(
+class CoreInputField @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0,
@@ -30,8 +32,8 @@ class CustomWidgetEditText @JvmOverloads constructor(
     private var DRAWABLE_LEFT: Int = 0
     lateinit var bitmapIcon: Bitmap
 
-    private var btnWeight: Int = 0
-    private var btnHeight: Int = 0
+    private var viewWeight: Int = 0
+    private var viewHeight: Int = 0
 
 
     private var defaultDrawablePaddingLeft: Float = 9.5f
@@ -42,7 +44,7 @@ class CustomWidgetEditText @JvmOverloads constructor(
     private var drawablePaddingRight: Float = 1.1f
     private var drawablePaddingTop: Float = 5.5f
 
-    init {
+     init {
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
 
 
@@ -85,7 +87,7 @@ class CustomWidgetEditText @JvmOverloads constructor(
     }
 
     fun drawableToBitmap(drawable: Drawable): Bitmap? {
-        var bitmap: Bitmap? = null
+        val bitmap: Bitmap?
 
         if (drawable is BitmapDrawable) {
             if (drawable.bitmap != null) {
@@ -118,41 +120,37 @@ class CustomWidgetEditText @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(w, h, oldWidth, oldHeight)
-        btnWeight = w
-        btnHeight = h
-//        btnRadius = btnWeight / 2
+        viewWeight = w
+        viewHeight = h
     }
 
-    override fun onDraw(canvas: Canvas) {
+    override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
-        if (paintText == null) {
-            return
-        }
 
 
         if (null != drawable) {
-            bitmapIcon = drawable?.let { this!!.drawableToBitmap(it) }!!
+            bitmapIcon = drawable?.let { this.drawableToBitmap(it) }!!
 
 
             when (drawablePositionType) {
-                DRAWABLE_LEFT -> canvas.drawBitmap(
+                DRAWABLE_LEFT -> canvas?.drawBitmap(
                     bitmapIcon,
-                    (btnWeight / drawablePaddingLeft).toFloat(),    //position from left
-                    (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable left from top
+                    (viewWeight / drawablePaddingLeft),    //position from left (float value)
+                    (viewHeight / drawablePaddingTop),     // set y-position of drawable left from top (float value)
                     paintText
                 )
 
-                DRAWABLE_RIGHT -> canvas.drawBitmap(
+                DRAWABLE_RIGHT -> canvas?.drawBitmap(
                     bitmapIcon,
-                    (btnWeight / drawablePaddingRight).toFloat(),       //position from left
-                    (btnHeight / drawablePaddingTop).toFloat(),         // set y-position of drawable right
+                    (viewWeight / drawablePaddingRight),       //position from left (float value)
+                    (viewHeight / drawablePaddingTop),         // set y-position of drawable right (float value)
                     paintText
                 )
                 else ->
-                    canvas.drawBitmap(
+                    canvas?.drawBitmap(
                         bitmapIcon,
-                        (btnWeight / drawablePaddingTop).toFloat(),     //position from left
-                        (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable right
+                        (viewWeight / drawablePaddingTop),     //position from left (float value)
+                        (viewHeight / drawablePaddingTop),     // set y-position of drawable right (float value)
                         paintText
                     )
             }

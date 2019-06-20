@@ -87,7 +87,7 @@
                 app:btn_shape_type="rectangle"
                 tools:ignore="MissingConstraints"/>
 
-        <co.yap.widgets.CustomWidgetEditText
+        <co.yap.widgets.CoreInputField
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:background="@color/colorDarkGreen"
@@ -96,8 +96,7 @@
                 app:view_hint_input_field="@string/app_name_sample"
                 app:view_drawable_position="right"
          />
-        <!--<co.yap.widgets.CustomWidgetEditText-->
-        <!--android:layout_width="match_parent"-->
+        <!--<co.yap.widgets.CoreInputField      android:layout_width="match_parent"-->
         <!--android:layout_height="100dp"-->
         <!--android:layout_marginTop="100dp"-->
         <!--app:view_right_drawable="@drawable/abc_vector_test"-->
