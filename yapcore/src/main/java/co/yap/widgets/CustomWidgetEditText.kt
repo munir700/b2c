@@ -32,13 +32,13 @@ class CustomWidgetEditText @JvmOverloads constructor(
             val error = resources.getText(
                 typedArray.getResourceId(R.styleable.view_input_field_view_error_input_field, R.string.empty_string)
             )
-            val drawableEnd = resources?.getDrawable(
-                typedArray
-                    .getResourceId(
-                        R.styleable.view_input_field_view_right_drawable,
-                        R.drawable.ic_keyboard_arrow_left_black_24dp
-                    ), resources.newTheme()
-            ).toString()
+//            val drawableEnd = resources?.getDrawable(
+//                typedArray
+//                    .getResourceId(
+//                        R.styleable.view_input_field_view_right_drawable,
+//                        R.drawable.ic_keyboard_arrow_left_black_24dp
+//                    ), resources.newTheme()
+//            ).toString()
 
             etEmail.hint = title
             if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal(error = error.toString())
