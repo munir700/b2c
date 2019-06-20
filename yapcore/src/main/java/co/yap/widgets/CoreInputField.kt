@@ -49,26 +49,26 @@ class CoreInputField @JvmOverloads constructor(
 
 
         attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it, R.styleable.view_input_field, 0, 0)
+            val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
             val title = resources.getText(
                 typedArray
-                    .getResourceId(R.styleable.view_input_field_view_hint_input_field, R.string.empty_string)
+                    .getResourceId(R.styleable.CoreInputField_view_hint_input_field, R.string.empty_string)
             )
             val error = resources.getText(
-                typedArray.getResourceId(R.styleable.view_input_field_view_error_input_field, R.string.empty_string)
+                typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
             )
             drawable = typedArray.getDrawable(
-                R.styleable.view_input_field_view_drawable
+                R.styleable.CoreInputField_view_drawable
             )
-            drawablePositionType = typedArray.getInt(R.styleable.view_input_field_view_drawable_position, 1)
+            drawablePositionType = typedArray.getInt(R.styleable.CoreInputField_view_drawable_position, 1)
             drawablePaddingLeft =
-                typedArray.getFloat(R.styleable.view_input_field_view_drawable_padding_left, defaultDrawablePaddingLeft)
+                typedArray.getFloat(R.styleable.CoreInputField_view_drawable_padding_left, defaultDrawablePaddingLeft)
             drawablePaddingRight = typedArray.getFloat(
-                R.styleable.view_input_field_view_drawable_padding_right,
+                R.styleable.CoreInputField_view_drawable_padding_right,
                 defaultDrawablePaddingRight
             )
             drawablePaddingTop =
-                typedArray.getFloat(R.styleable.view_input_field_view_drawable_padding_top, defaultDrawablePaddingTop)
+                typedArray.getFloat(R.styleable.CoreInputField_view_drawable_padding_top, defaultDrawablePaddingTop)
 
 
 

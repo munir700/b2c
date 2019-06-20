@@ -90,7 +90,6 @@
         <co.yap.widgets.CoreInputField
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:background="@color/colorDarkGreen"
                 app:view_drawable="@drawable/ic_back_arrow"
                 app:view_error_input_field="@string/err_email"
                 app:view_hint_input_field="@string/app_name_sample"
