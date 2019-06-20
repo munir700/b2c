@@ -1,11 +1,11 @@
 package co.yap.yapcore
 
 import android.content.Context
-import co.yap.yapcore.helpers.NetworkManager
+import co.yap.yapcore.helpers.NetworkConnectionManager
 
 
 interface IBase {
-    interface View : NetworkManager.OnNetworkStateChangeListener {
+    interface View : NetworkConnectionManager.OnNetworkStateChangeListener {
         fun getContext(): Context
         fun showLoader(isVisible: Boolean)
         fun showToast(msg: String)

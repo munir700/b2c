@@ -1,10 +1,7 @@
 package co.yap.yapcore
 
-
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Paint
-import android.graphics.RectF
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.Button
@@ -14,12 +11,16 @@ class CustomButton : Button {
 
     private var btnWeight: Int = 0
     private var btnHeight: Int = 0
+    private var label: String = ""
+    private var labelTextColor: Int = 0
     private var pressedColor: Int = 0
     private var defaultStateColor: Int = 0
     private var roundRadius: Int = 0
     private var btnRadius: Int = 0
     private var shapeType: Int = 0
+    private var labelTextSize: Float = 0f
 
+    private var paintText: Paint = Paint()
     private var paint: Paint = Paint()
     private var rectF: RectF = RectF()
 
@@ -34,6 +35,7 @@ class CustomButton : Button {
         defStyleAttr
     ) {
         init(context, attrs)
+
     }
 
     @Suppress("DEPRECATION")
@@ -41,11 +43,27 @@ class CustomButton : Button {
         if (isInEditMode) {
             return
         }
-        val typedArray = context.obtainStyledAttributes(attrs, R.styleable.CustomButton)
+
+        val typedArray =
+            context.obtainStyledAttributes(attrs, R.styleable.CustomButton)
+
+        paint.style = Paint.Style.STROKE
+
+        labelTextColor = typedArray.getColor(
+            R.styleable.CustomButton_text_color,
+            resources.getColor(R.color.white)
+        )
+
+        label = resources.getText(
+            typedArray
+                .getResourceId((R.styleable.CustomButton_text), R.string.app_name)
+        ).toString()
+
         pressedColor = typedArray.getColor(
             R.styleable.CustomButton_pressed_color,
             resources.getColor(R.color.colorPrimary)
         )
+
         if (this.isEnabled) {
             defaultStateColor = typedArray.getColor(
                 R.styleable.CustomButton_unpressed_color,
@@ -57,11 +75,16 @@ class CustomButton : Button {
                 resources.getColor(R.color.greyLight)
             )
         }
+
         shapeType = typedArray.getInt(R.styleable.CustomButton_btn_shape_type, 1)
         roundRadius = typedArray.getDimensionPixelSize(
             R.styleable.CustomButton_round_radius,
             resources.getDimensionPixelSize(R.dimen.round_radius)
         )
+        labelTextSize = typedArray.getDimensionPixelSize(
+            R.styleable.CustomButton_text_size,
+            resources.getDimensionPixelSize(R.dimen.label_text_size)
+        ).toFloat()
 
         typedArray.recycle()
         paint.color = defaultStateColor
@@ -71,6 +94,17 @@ class CustomButton : Button {
         this.isDrawingCacheEnabled = true
         this.isClickable = true
         this.setBackgroundColor(resources.getColor(R.color.transparent))
+
+        /* text paint styling */
+        paintText.setColor(labelTextColor)
+        paintText.setTextSize(labelTextSize)
+        paintText.textAlign = Paint.Align.CENTER
+        paintText.style = Paint.Style.FILL
+
+//        set typefacae remaining
+
+//        val typeface = resources.getFont(R.font.roboto_bold)
+//        paintText.typeface = typeface
 
     }
 
@@ -86,14 +120,19 @@ class CustomButton : Button {
         if (paint == null) {
             return
         }
+
         if (shapeType == 0) {
             canvas.drawCircle(
                 (btnWeight / 2).toFloat(), (btnHeight / 2).toFloat(), btnRadius.toFloat(),
                 paint
             )
+            val icon: Bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_back_arrow)
+            canvas.drawBitmap(icon, (btnWeight / 2.5).toFloat(), (btnHeight / 2.5).toFloat(), paintText)
         } else {
             rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
             canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
+            canvas.drawText(label, (btnWeight / 2).toFloat(), (btnHeight / 1.6).toFloat(), paintText)
+
         }
     }
 
