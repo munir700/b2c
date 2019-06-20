@@ -1,6 +1,10 @@
 package co.yap.widgets
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.os.Build
 import android.view.LayoutInflater
@@ -18,6 +22,9 @@ class CustomWidgetEditText @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : RelativeLayout(context, attrs, defStyle, defStyleRes) {
 
+    var drawable: Drawable? = null
+    private var drawablePositionType: Int = 0
+
 
     init {
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
@@ -32,19 +39,37 @@ class CustomWidgetEditText @JvmOverloads constructor(
             val error = resources.getText(
                 typedArray.getResourceId(R.styleable.view_input_field_view_error_input_field, R.string.empty_string)
             )
-//            val drawableEnd = resources?.getDrawable(
-//                typedArray
-//                    .getResourceId(
-//                        R.styleable.view_input_field_view_right_drawable,
-//                        R.drawable.ic_keyboard_arrow_left_black_24dp
-//                    ), resources.newTheme()
-//            ).toString()
-
+            drawable = typedArray.getDrawable(
+                R.styleable.view_input_field_view_drawable
+            )
+            drawablePositionType=typedArray.getInt(R.styleable.view_input_field_view_drawable_position, 1)
             etEmail.hint = title
             if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal(error = error.toString())
             typedArray.recycle()
         }
 
+    }
+
+    fun drawableToBitmap(drawable: Drawable): Bitmap? {
+        var bitmap: Bitmap? = null
+
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
+            }
+        }
+
+        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            bitmap =
+                Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
     }
 
     private fun settingUIForError(error: String) {

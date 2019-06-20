@@ -31,7 +31,12 @@
     <declare-styleable name="view_input_field">
         <attr name="view_hint_input_field" format="reference" />
         <attr name="view_error_input_field" format="reference"/>
-        <attr name="view_right_drawable" format="reference" />
+        <attr name="view_drawable" format="reference" />
+        <attr name="view_drawable_position" format="reference" >
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
+        </attr>
+
 
 
     </declare-styleable>
