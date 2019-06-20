@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">yapcore</string>
 
     //All strings are temporary
     <string name="empty_string"> </string>

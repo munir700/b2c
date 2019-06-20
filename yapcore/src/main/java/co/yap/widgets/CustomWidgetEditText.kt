@@ -34,13 +34,13 @@ class CustomWidgetEditText @JvmOverloads constructor(
     private var btnHeight: Int = 0
 
 
-    private var defaultDrawablePaddingLeft: Float = 5.2f
-    private var defaultDrawablePaddingRight: Float = 5.5f
-    private var defaultDrawablePaddingTop: Float = 2.5f
+    private var defaultDrawablePaddingLeft: Float = 9.5f
+    private var defaultDrawablePaddingRight: Float = 1.1f
+    private var defaultDrawablePaddingTop: Float = 5.5f
 
-    private var drawablePaddingLeft: Float = 5.2f
-    private var drawablePaddingRight: Float = 5.2f
-    private var drawablePaddingTop: Float = 2.5f
+    private var drawablePaddingLeft: Float = 9.5f
+    private var drawablePaddingRight: Float = 1.1f
+    private var drawablePaddingTop: Float = 5.5f
 
     init {
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
@@ -116,6 +116,12 @@ class CustomWidgetEditText @JvmOverloads constructor(
         tvError.text = error
     }
 
+    override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
+        super.onSizeChanged(w, h, oldWidth, oldHeight)
+        btnWeight = w
+        btnHeight = h
+//        btnRadius = btnWeight / 2
+    }
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)

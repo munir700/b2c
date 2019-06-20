@@ -81,7 +81,7 @@ class CustomButton : Button {
 
         label = resources.getText(
             typedArray
-                .getResourceId((R.styleable.CustomButton_btn_text), R.string.app_name)
+                .getResourceId((R.styleable.CustomButton_btn_text), R.string.empty_string)
         ).toString()
 
         pressedColor = typedArray.getColor(
@@ -102,9 +102,11 @@ class CustomButton : Button {
         }
 
         shapeType = typedArray.getInt(R.styleable.CustomButton_btn_shape_type, 1)
-        drawablePaddingLeft = typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
-        drawablePaddingRight = typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_right, defaultDrawablePaddingRight)
-        drawablePaddingTop = typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_top, defaultDrawablePaddingTop)
+        drawablePaddingLeft =
+            typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
+        drawablePaddingRight =
+            typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_right, defaultDrawablePaddingRight)
+        drawablePaddingTop = typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_top, drawablePaddingTop)
 
         roundRadius = typedArray.getDimensionPixelSize(
             R.styleable.CustomButton_btn_round_radius,
