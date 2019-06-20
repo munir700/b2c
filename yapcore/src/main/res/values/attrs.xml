@@ -13,4 +13,17 @@
             <enum name="rectangle" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="CustomImageButton">
+        <attr name="pressed_src" format="reference"/>
+        <attr name="unpressed_src" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="view_input_field">
+        <attr name="view_hint_input_field" format="reference" />
+        <attr name="view_error_input_field" format="reference"/>
+        <attr name="view_right_drawable" format="reference" />
+
+
+    </declare-styleable>
 </resources>
