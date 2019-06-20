@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import co.yap.app.di.BaseActivity
+import co.yap.networking.RetroNetwork
+import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.IBase
 
 class MainActivity : BaseActivity() {
@@ -14,14 +16,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
-//        val adapter: TestAdapter = TestAdapter(this)
-//        adapter.onItemClickListener = object: BaseBindingAdapter.OnItemClickListener {
-//            override fun onItemClick(view: View, pos: Int) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//            }
-//        }
 
 
     }

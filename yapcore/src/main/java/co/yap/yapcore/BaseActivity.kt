@@ -12,12 +12,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import co.yap.yapcore.helpers.NetworkManager
+import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
-    NetworkManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
+    NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
 
     private var snackbar: Snackbar? = null
     private var DURATION_CODE = -2
@@ -28,8 +28,8 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
         this.window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         this.window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
 
-        NetworkManager.init(this)
-        NetworkManager.subscribe(this)
+        NetworkConnectionManager.init(this)
+        NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
     }
 
@@ -124,7 +124,7 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
     }
 
     override fun onDestroy() {
-        NetworkManager.unsubscribe(this)
+        NetworkConnectionManager.unsubscribe(this)
         super.onDestroy()
     }
 
