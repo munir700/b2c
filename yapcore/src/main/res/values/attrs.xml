@@ -9,7 +9,9 @@
         <attr name="btn_unpressed_color" format="color"/>
         <attr name="btn_round_radius" format="dimension"/>
         <attr name="btn_radius" format="dimension"/>
-        <attr name="btn_set_position" format="dimension"/>
+        <attr name="btn_drawable_padding_top" format="float"/>
+        <attr name="btn_drawable_padding_right" format="float"/>
+        <attr name="btn_drawable_padding_left" format="float"/>
 
         <attr name="btn_shape_type" format="enum">
             <enum name="circle" value="0"/>
@@ -31,7 +33,7 @@
     <declare-styleable name="view_input_field">
         <attr name="view_hint_input_field" format="reference" />
         <attr name="view_error_input_field" format="reference"/>
-        <attr name="view_right_drawable" format="reference" />
+        <attr name="view_drawable" format="reference" />
 
 
     </declare-styleable>

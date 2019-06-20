@@ -25,6 +25,15 @@ class CustomButton : Button {
     private var shapeType: Int = 0
     private var DRAWABLE_RIGHT: Int = 1
     private var DRAWABLE_LEFT: Int = 0
+
+    private var defaultDrawablePaddingLeft: Float = 9.5f
+    private var defaultDrawablePaddingRight: Float = 1.2f
+    private var defaultDrawablePaddingTop: Float = 2.5f
+
+    private var drawablePaddingLeft: Float = 9.5f
+    private var drawablePaddingRight: Float = 1.2f
+    private var drawablePaddingTop: Float = 2.5f
+
     private var drawablePositionType: Int = 0
     private var labelTextSize: Float = 0f
     var drawable: Drawable? = null
@@ -93,6 +102,9 @@ class CustomButton : Button {
         }
 
         shapeType = typedArray.getInt(R.styleable.CustomButton_btn_shape_type, 1)
+        drawablePaddingLeft = typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
+        drawablePaddingRight = typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_right, defaultDrawablePaddingRight)
+        drawablePaddingTop = typedArray.getFloat(R.styleable.CustomButton_btn_drawable_padding_top, defaultDrawablePaddingTop)
 
         roundRadius = typedArray.getDimensionPixelSize(
             R.styleable.CustomButton_btn_round_radius,
@@ -176,23 +188,24 @@ class CustomButton : Button {
             when (drawablePositionType) {
                 DRAWABLE_LEFT -> canvas.drawBitmap(
                     bitmapIcon,
-                    (btnWeight / 9.5).toFloat(),//position from left
-                    (btnHeight / 3.0).toFloat(),// set y-position of drawable left from top
+                    (btnWeight / drawablePaddingLeft).toFloat(),    //position from left
+                    (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable left from top
                     paintText
                 )
 
                 DRAWABLE_RIGHT -> canvas.drawBitmap(
                     bitmapIcon,
-                    (btnWeight / 1.2).toFloat(),
-                    (btnHeight / 3.0).toFloat(),// set y-position of drawable right
+                    (btnWeight / drawablePaddingRight).toFloat(),       //position from left
+                    (btnHeight / drawablePaddingTop).toFloat(),         // set y-position of drawable right
                     paintText
                 )
-                else -> canvas.drawBitmap(
-                    bitmapIcon,
-                    (btnWeight / 2.5).toFloat(),
-                    (btnHeight / 2.5).toFloat(),// set y-position of drawable right
-                    paintText
-                )
+                else ->
+                    canvas.drawBitmap(
+                        bitmapIcon,
+                        (btnWeight / drawablePaddingTop).toFloat(),     //position from left
+                        (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable right
+                        paintText
+                    )
             }
         }
     }
