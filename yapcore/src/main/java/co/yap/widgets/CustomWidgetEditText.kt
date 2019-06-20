@@ -1,8 +1,13 @@
 package co.yap.widgets
 
 import android.content.Context
-import android.util.AttributeSet
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
@@ -18,6 +23,24 @@ class CustomWidgetEditText @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : RelativeLayout(context, attrs, defStyle, defStyleRes) {
 
+    var drawable: Drawable? = null
+    private var drawablePositionType: Int = 0
+    private var paintText: Paint = Paint()
+    private var DRAWABLE_RIGHT: Int = 1
+    private var DRAWABLE_LEFT: Int = 0
+    lateinit var bitmapIcon: Bitmap
+
+    private var btnWeight: Int = 0
+    private var btnHeight: Int = 0
+
+
+    private var defaultDrawablePaddingLeft: Float = 5.2f
+    private var defaultDrawablePaddingRight: Float = 5.5f
+    private var defaultDrawablePaddingTop: Float = 2.5f
+
+    private var drawablePaddingLeft: Float = 5.2f
+    private var drawablePaddingRight: Float = 5.2f
+    private var drawablePaddingTop: Float = 2.5f
 
     init {
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
@@ -32,19 +55,55 @@ class CustomWidgetEditText @JvmOverloads constructor(
             val error = resources.getText(
                 typedArray.getResourceId(R.styleable.view_input_field_view_error_input_field, R.string.empty_string)
             )
-//            val drawableEnd = resources?.getDrawable(
-//                typedArray
-//                    .getResourceId(
-//                        R.styleable.view_input_field_view_right_drawable,
-//                        R.drawable.ic_keyboard_arrow_left_black_24dp
-//                    ), resources.newTheme()
-//            ).toString()
+            drawable = typedArray.getDrawable(
+                R.styleable.view_input_field_view_drawable
+            )
+            drawablePositionType = typedArray.getInt(R.styleable.view_input_field_view_drawable_position, 1)
+            drawablePaddingLeft =
+                typedArray.getFloat(R.styleable.view_input_field_view_drawable_padding_left, defaultDrawablePaddingLeft)
+            drawablePaddingRight = typedArray.getFloat(
+                R.styleable.view_input_field_view_drawable_padding_right,
+                defaultDrawablePaddingRight
+            )
+            drawablePaddingTop =
+                typedArray.getFloat(R.styleable.view_input_field_view_drawable_padding_top, defaultDrawablePaddingTop)
+
+
 
             etEmail.hint = title
             if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal(error = error.toString())
             typedArray.recycle()
+
+
+            /* text paint styling */
+
+            paintText.textAlign = Paint.Align.CENTER
+            paintText.style = Paint.Style.FILL
+
         }
 
+    }
+
+    fun drawableToBitmap(drawable: Drawable): Bitmap? {
+        var bitmap: Bitmap? = null
+
+        if (drawable is BitmapDrawable) {
+            if (drawable.bitmap != null) {
+                return drawable.bitmap
+            }
+        }
+
+        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
+            bitmap =
+                Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
+        }
+
+        val canvas = Canvas(bitmap)
+        drawable.setBounds(0, 0, canvas.width, canvas.height)
+        drawable.draw(canvas)
+        return bitmap
     }
 
     private fun settingUIForError(error: String) {
@@ -57,5 +116,41 @@ class CustomWidgetEditText @JvmOverloads constructor(
         tvError.text = error
     }
 
+
+    override fun onDraw(canvas: Canvas) {
+        super.onDraw(canvas)
+        if (paintText == null) {
+            return
+        }
+
+
+        if (null != drawable) {
+            bitmapIcon = drawable?.let { this!!.drawableToBitmap(it) }!!
+
+
+            when (drawablePositionType) {
+                DRAWABLE_LEFT -> canvas.drawBitmap(
+                    bitmapIcon,
+                    (btnWeight / drawablePaddingLeft).toFloat(),    //position from left
+                    (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable left from top
+                    paintText
+                )
+
+                DRAWABLE_RIGHT -> canvas.drawBitmap(
+                    bitmapIcon,
+                    (btnWeight / drawablePaddingRight).toFloat(),       //position from left
+                    (btnHeight / drawablePaddingTop).toFloat(),         // set y-position of drawable right
+                    paintText
+                )
+                else ->
+                    canvas.drawBitmap(
+                        bitmapIcon,
+                        (btnWeight / drawablePaddingTop).toFloat(),     //position from left
+                        (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable right
+                        paintText
+                    )
+            }
+        }
+    }
 
 }
