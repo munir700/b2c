@@ -66,28 +66,28 @@ class CustomButton : Button {
 
 
         labelTextColor = typedArray.getColor(
-            R.styleable.CustomButton_text_color,
+            R.styleable.CustomButton_btn_text_color,
             resources.getColor(R.color.white)
         )
 
         label = resources.getText(
             typedArray
-                .getResourceId((R.styleable.CustomButton_text), R.string.app_name)
+                .getResourceId((R.styleable.CustomButton_btn_text), R.string.app_name)
         ).toString()
 
         pressedColor = typedArray.getColor(
-            R.styleable.CustomButton_pressed_color,
+            R.styleable.CustomButton_btn_pressed_color,
             resources.getColor(R.color.colorPrimary)
         )
 
         if (this.isEnabled) {
             defaultStateColor = typedArray.getColor(
-                R.styleable.CustomButton_unpressed_color,
+                R.styleable.CustomButton_btn_unpressed_color,
                 resources.getColor(R.color.colorPrimaryDark)
             )
         } else {
             defaultStateColor = typedArray.getColor(
-                R.styleable.CustomButton_unpressed_color,
+                R.styleable.CustomButton_btn_unpressed_color,
                 resources.getColor(R.color.greyLight)
             )
         }
@@ -95,12 +95,12 @@ class CustomButton : Button {
         shapeType = typedArray.getInt(R.styleable.CustomButton_btn_shape_type, 1)
 
         roundRadius = typedArray.getDimensionPixelSize(
-            R.styleable.CustomButton_round_radius,
+            R.styleable.CustomButton_btn_round_radius,
             resources.getDimensionPixelSize(R.dimen.round_radius)
         )
 
         labelTextSize = typedArray.getDimensionPixelSize(
-            R.styleable.CustomButton_text_size,
+            R.styleable.CustomButton_btn_text_size,
             resources.getDimensionPixelSize(R.dimen.label_text_size)
         ).toFloat()
 

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CustomButton">
-        <attr name="text_color" format="color"/>
-        <attr name="text" format="reference"/>
+        <attr name="btn_text_color" format="color"/>
+        <attr name="btn_text" format="reference"/>
         <attr name="btn_drawable" format="reference"/>
-         <attr name="text_size" format="dimension"/>
-        <attr name="pressed_color" format="color"/>
-        <attr name="unpressed_color" format="color"/>
-        <attr name="round_radius" format="dimension"/>
+         <attr name="btn_text_size" format="dimension"/>
+        <attr name="btn_pressed_color" format="color"/>
+        <attr name="btn_unpressed_color" format="color"/>
+        <attr name="btn_round_radius" format="dimension"/>
         <attr name="btn_radius" format="dimension"/>
         <attr name="btn_set_position" format="dimension"/>
 
