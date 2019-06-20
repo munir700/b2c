@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -30,4 +29,19 @@
             android:layout_margin="@dimen/fab_margin"
             app:srcCompat="@android:drawable/ic_dialog_email"/>
 
+    <co.yap.widgets.CustomWidgetEditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="170dp"
+            app:view_right_drawable="@drawable/abc_vector_test"
+            app:view_error_input_field="@string/err_email"
+            app:view_hint_input_field="@string/app_name_sample"
+
+    />
+    <co.yap.widgets.CustomWidgetEditText
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_marginTop="100dp"
+            app:view_right_drawable="@drawable/abc_vector_test"
+    />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
