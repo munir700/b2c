@@ -91,13 +91,17 @@ project.ext {
     appDependencies = [
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.networking)],
+            [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: libraries.constraintLayout],
             [configuration: "implementation", dependency: libraries.constraintlayoutSolver],
             [configuration: "implementation", dependency: libraries.biometric]
     ]
 
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
-    translationDependencies = []
+    translationDependencies = [
+            [configuration: "implementation", dependency: project(modules.yapcore)],
+
+    ]
 
     // dependencies which need to be added in authentication module only in conjunction with commonDependencies
     authenticationDependencies = []
@@ -112,7 +116,9 @@ project.ext {
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
-    yapDependencies = []
+    yapDependencies = [
+            [configuration: "implementation", dependency: project(modules.yapcore)]
+    ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
     yapcoreDependencies = [

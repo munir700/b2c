@@ -6,6 +6,8 @@ import android.view.MenuItem
 import co.yap.app.di.BaseActivity
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
+import co.yap.translation.Translator
+import co.yap.translation.TraslatorKeys
 import co.yap.yapcore.IBase
 
 class MainActivity : BaseActivity() {
@@ -16,8 +18,11 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+//        var str: String = Translator.translatorInstance.getString(TraslatorKeys.ERR_NETWORK)
+//
+        var str: String = Translator.getString(application,TraslatorKeys.txt_input_hint_search_currency)
 
-
+        showToast(str)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
