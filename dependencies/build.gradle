@@ -29,40 +29,45 @@ project.ext {
     // All libraries that any module can contain
     libraries = [
             // Android
-            sdp                   : 'com.intuit.sdp:sdp-android:1.0.5',
-            kotlinStdlib          : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
-            databindingCompiler   : 'com.android.databinding:compiler:3.4.1',
-            material              : 'com.google.android.material:material:1.0.0',
+            sdp                      : 'com.intuit.sdp:sdp-android:1.0.5',
+            kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
+            material                 : 'com.google.android.material:material:1.0.0',
 
             // Dagger
-            dagger                : "com.google.dagger:dagger:$daggerVersion",
-            daggerAndroid         : "com.google.dagger:dagger-android:$daggerVersion",
-            daggerAndroidSupport  : "com.google.dagger:dagger-android-support:$daggerVersion",
-            daggerCompiler        : "com.google.dagger:dagger-compiler:$daggerVersion",
-            daggerAndroidProcessor: "com.google.dagger:dagger-android-processor:$daggerVersion",
+            dagger                   : "com.google.dagger:dagger:$daggerVersion",
+            daggerAndroid            : "com.google.dagger:dagger-android:$daggerVersion",
+            daggerAndroidSupport     : "com.google.dagger:dagger-android-support:$daggerVersion",
+            daggerCompiler           : "com.google.dagger:dagger-compiler:$daggerVersion",
+            daggerAndroidProcessor   : "com.google.dagger:dagger-android-processor:$daggerVersion",
 
             // Retrofit2
-            retrofit: "com.squareup.retrofit2:retrofit:$retrofitVersion",
-            okhttp: "com.squareup.okhttp3:okhttp:$okhttpVersion",
+            retrofit                 : "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            okhttp                   : "com.squareup.okhttp3:okhttp:$okhttpVersion",
             okhttp3LoggingInterceptor: "com.squareup.okhttp3:logging-interceptor:$okhttpLoggerVersion",
-            retrofitConverterGson: "com.squareup.retrofit2:converter-gson:$okhttpGsonVersion",
+            retrofitConverterGson    : "com.squareup.retrofit2:converter-gson:$okhttpGsonVersion",
 
             // Androidx
-            appcompat             : 'androidx.appcompat:appcompat:1.1.0-beta01',
-            coreKtx               : 'androidx.core:core-ktx:1.0.2',
-            constraintLayout      : 'androidx.constraintlayout:constraintlayout:1.1.3',
-            constraintlayoutSolver: 'androidx.constraintlayout:constraintlayout-solver:1.1.3',
-            legacySupportV13      : 'androidx.legacy:legacy-support-v13:1.0.0',
-            legacySupportV4       : 'androidx.legacy:legacy-support-v4:1.0.0',
-            cardview              : 'androidx.cardview:cardview:1.0.0',
-            recyclerview          : 'androidx.recyclerview:recyclerview:1.1.0-alpha06',
-            vectordrawable        : 'androidx.vectordrawable:vectordrawable:1.1.0-beta02',
-            biometric             : 'androidx.biometric:biometric:1.0.0-alpha03',
+            appcompat                : 'androidx.appcompat:appcompat:1.1.0-beta01',
+            coreKtx                  : 'androidx.core:core-ktx:1.0.2',
+            constraintLayout         : 'androidx.constraintlayout:constraintlayout:1.1.3',
+            constraintlayoutSolver   : 'androidx.constraintlayout:constraintlayout-solver:1.1.3',
+            legacySupportV13         : 'androidx.legacy:legacy-support-v13:1.0.0',
+            legacySupportV4          : 'androidx.legacy:legacy-support-v4:1.0.0',
+            cardview                 : 'androidx.cardview:cardview:1.0.0',
+            recyclerview             : 'androidx.recyclerview:recyclerview:1.1.0-alpha06',
+            vectordrawable           : 'androidx.vectordrawable:vectordrawable:1.1.0-beta02',
+            biometric                : 'androidx.biometric:biometric:1.0.0-alpha03',
 
             // Androidx Architecture
-            lifecycleRuntime      : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
-            lifecycleCommonJava   : "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion",
-            lifecycleExtensions   : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
+            lifecycleRuntime         : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
+            lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion",
+            lifecycleExtensions      : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
+
+            // kotlin coroutine
+            coroutineCore            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1',
+            coroutineAndroid         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1'
+
     ]
 
     // Test dependencies which need to be added in all modules
@@ -105,10 +110,12 @@ project.ext {
     // dependencies which need to be added in network module only in conjunction with commonDependencies
     networkingDependencies = [
             [configuration: "implementation", dependency: project(modules.yapcore)],
-            [configuration: "implementation", dependency: libraries.retrofit],
-            [configuration: "implementation", dependency: libraries.retrofitConverterGson],
-            [configuration: "implementation", dependency: libraries.okhttp],
-            [configuration: "implementation", dependency: libraries.okhttp3LoggingInterceptor]
+            [configuration: "api", dependency: libraries.retrofit],
+            [configuration: "api", dependency: libraries.retrofitConverterGson],
+            [configuration: "api", dependency: libraries.okhttp],
+            [configuration: "api", dependency: libraries.okhttp3LoggingInterceptor],
+            [configuration: "api", dependency: libraries.coroutineCore],
+            [configuration: "api", dependency: libraries.coroutineAndroid]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
