@@ -19,8 +19,7 @@ interface IBase {
     interface ViewModel : ILifecycle {
         fun getState(): State
         fun getContext(): Context
-        fun getString(): String
-
+        fun getString(resourceId: Int): String
     }
 
     interface State {

@@ -1,15 +1,26 @@
 package co.yap.yapcore
 
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.*
+import co.yap.yapcore.interfaces.CoroutineViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
 abstract class BaseViewModel(application: Application) : AndroidViewModel(application),
-    IBase.ViewModel {
+    IBase.ViewModel, CoroutineViewModel {
 
     private var state: BaseState? = null
+    override val viewModelJob: Job
+        get() = Job()
+    override val viewModelScope: CoroutineScope
+        get() = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     override fun onCleared() {
+        cancelAllJobs()
         super.onCleared()
     }
 
@@ -56,5 +67,18 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         if (state == null) state = BaseState()
         return state as BaseState
     }
+
+    override fun cancelAllJobs() {
+        viewModelJob.cancel()
+    }
+
+    override fun launch(block: () -> Unit) {
+        viewModelScope.launch { block() }
+    }
+
+    override fun getContext(): Context = getApplication<Application>().applicationContext
+
+    // TODO: use Translation module to get the translated string
+    override fun getString(resourceId: Int): String = getContext().resources.getString(resourceId)
 }
 
