@@ -7,8 +7,14 @@ import co.yap.app.di.BaseActivity
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.IBase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlin.coroutines.CoroutineContext
 
 class MainActivity : BaseActivity() {
+
+
     override fun <T : IBase.ViewModel> getViewModel(): T {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -16,7 +22,6 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
 
     }
 
