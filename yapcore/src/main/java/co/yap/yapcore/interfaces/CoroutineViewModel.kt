@@ -7,5 +7,5 @@ internal interface CoroutineViewModel {
     val viewModelJob: Job
     val viewModelScope: CoroutineScope
     fun cancelAllJobs()
-    fun launch(block: () -> Unit)
+    fun launch(block: suspend () -> Unit)
 }

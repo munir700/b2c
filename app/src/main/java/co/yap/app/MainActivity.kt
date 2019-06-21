@@ -3,9 +3,15 @@ package co.yap.app
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import androidx.lifecycle.ViewModelProviders
+import co.yap.app.api.login.LoginRepository
+import co.yap.app.api.login.requestdtos.LoginRequest
 import co.yap.app.di.BaseActivity
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
+import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -15,13 +21,15 @@ import kotlin.coroutines.CoroutineContext
 class MainActivity : BaseActivity() {
 
 
-    override fun <T : IBase.ViewModel> getViewModel(): T {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+//        getViewModel<BaseViewModel>().launch {
+//            LoginRepository.login(LoginRequest("asd", "asd"))
+//        }
 
     }
 

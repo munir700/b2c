@@ -10,10 +10,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
-abstract class BaseViewModel(application: Application) : AndroidViewModel(application),
-    IBase.ViewModel, CoroutineViewModel {
+abstract class BaseViewModel<S: IBase.State>(application: Application) : AndroidViewModel(application),
+    IBase.ViewModel<S>, CoroutineViewModel {
 
-    private var state: BaseState? = null
     override val viewModelJob: Job
         get() = Job()
     override val viewModelScope: CoroutineScope
@@ -26,22 +25,20 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     override fun onCreate() {
-        getState().init()
+        state.init()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    override fun onStart() {
-
-    }
+    override fun onStart(){}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     override fun OnResume() {
-        getState().resume()
+        state.resume()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     override fun onPause() {
-        getState().pause()
+        state.pause()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -51,7 +48,7 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun onDestroy() {
-        getState().destroy()
+        state.destroy()
     }
 
     override fun registerLifecycleOwner(owner: LifecycleOwner?) {
@@ -63,16 +60,11 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
         owner?.lifecycle?.removeObserver(this)
     }
 
-    override fun getState(): IBase.State {
-        if (state == null) state = BaseState()
-        return state as BaseState
-    }
-
     override fun cancelAllJobs() {
         viewModelJob.cancel()
     }
 
-    override fun launch(block: () -> Unit) {
+    override fun launch(block: suspend () -> Unit) {
         viewModelScope.launch { block() }
     }
 
@@ -80,5 +72,6 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     // TODO: use Translation module to get the translated string
     override fun getString(resourceId: Int): String = getContext().resources.getString(resourceId)
+
 }
 

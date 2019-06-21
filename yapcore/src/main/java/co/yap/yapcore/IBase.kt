@@ -9,15 +9,15 @@ interface IBase {
         fun getContext(): Context
         fun showLoader(isVisible: Boolean)
         fun showToast(msg: String)
-        fun <T : ViewModel> getViewModel(): T
+        // fun <T : ViewModel> getViewModel(): T
         fun onBackPressed()
         fun showInternetSnack(isVisible: Boolean)
         fun isPermissionGranted(permission: String): Boolean
         fun requestPermissions()
     }
 
-    interface ViewModel : ILifecycle {
-        fun getState(): State
+    interface ViewModel<S : State> : ILifecycle {
+        val state: S
         fun getContext(): Context
         fun getString(resourceId: Int): String
     }
