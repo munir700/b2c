@@ -92,13 +92,10 @@ class CoreButton : Button {
         if (this.isEnabled) {
             defaultStateColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_unpressed_color,
-                resources.getColor(R.color.colorPrimaryDark)
+                resources.getColor(R.color.colorPrimary)
             )
         } else {
-            defaultStateColor = typedArray.getColor(
-                R.styleable.CoreButton_btn_unpressed_color,
-                resources.getColor(R.color.greyLight)
-            )
+            defaultStateColor = resources.getColor(R.color.greyLight)
         }
 
         shapeType = typedArray.getInt(R.styleable.CoreButton_btn_shape_type, 1)
@@ -117,7 +114,7 @@ class CoreButton : Button {
             R.styleable.CoreButton_btn_text_size,
             resources.getDimensionPixelSize(R.dimen.label_text_size)
         ).toFloat()
-
+        
         typedArray.recycle()
         paint.color = defaultStateColor
         paint.style = Paint.Style.FILL
