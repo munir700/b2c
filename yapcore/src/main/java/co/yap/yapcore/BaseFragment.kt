@@ -6,7 +6,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 
 
-abstract class BaseFragment : Fragment(), IBase.View {
+abstract class BaseFragment<V: IBase.ViewModel<*>> : Fragment(), IBase.View<V> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,7 +21,7 @@ abstract class BaseFragment : Fragment(), IBase.View {
             throw IllegalStateException("Could not find reference to IFragmentHolder. Make sure parent activity implements IFragmentHolder interface")
         }
 
-        if (context !is IBase.View) {
+        if (context !is IBase.View<*>) {
             throw IllegalStateException("Could not find reference to IBase.View. Make sure parent activity implements IBase.View interface")
         }
     }
@@ -65,9 +65,9 @@ abstract class BaseFragment : Fragment(), IBase.View {
         return null
     }
 
-    private fun getBaseView(): IBase.View? {
-        if (context is IBase.View) {
-            return context as IBase.View
+    private fun getBaseView(): IBase.View<*>? {
+        if (context is IBase.View<*>) {
+            return context as IBase.View<*>
         }
 
         return null

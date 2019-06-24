@@ -8,7 +8,7 @@ import co.yap.translation.Translator
 import co.yap.translation.TraslatorKeys
 import co.yap.yapcore.IBase
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
 
     override val viewModel: IBase.ViewModel<IBase.State>
         get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.

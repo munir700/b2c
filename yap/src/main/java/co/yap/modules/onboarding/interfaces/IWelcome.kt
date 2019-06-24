@@ -7,5 +7,6 @@ interface IWelcome {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnGetStarted()
     }
-    interface State : IBase.State
+    interface State : IBase.State {
+    }
 }

@@ -4,8 +4,9 @@ import android.os.Bundle
 import co.yap.app.di.component.DaggerActivityComponent
 import co.yap.app.di.module.ActivityModule
 import co.yap.yapcore.BaseActivity
+import co.yap.yapcore.IBase
 
-abstract class BaseActivity : BaseActivity() {
+abstract class BaseActivity<V: IBase.ViewModel<*>> : BaseActivity<V>() {
     lateinit var daggerComponent: DaggerActivityComponent
 
     override fun onCreate(savedInstanceState: Bundle?) {
