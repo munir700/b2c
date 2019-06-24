@@ -1,100 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="24dp">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="24dp">
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|center"
+        android:gravity="center_vertical|center"
+        android:orientation="vertical">
+
+        <co.yap.yapcore.CoreButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|center"
-            android:gravity="center_vertical|center"
-            android:orientation="vertical">
+            app:btn_round_radius="50dp"
+            android:enabled="true"
+            android:textColor="@color/colorWhite"
+            android:text="@string/app_name"
+            android:layout_margin="24dp"
+            android:gravity="center"
+            android:paddingBottom="@dimen/_44sdp"
+            app:btn_text_size="@dimen/text_size_h4"
+            app:btn_drawable="@drawable/ic_back_arrow_new"
+            app:btn_drawable_position="left"
+            app:btn_shape_type="rectangle"
+            app:btn_drawable_padding_top="4.5"
+            tools:ignore="MissingConstraints"/>
 
         <co.yap.yapcore.CoreButton
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:btn_round_radius="50dp"
-                android:enabled="true"
-                android:textColor="@color/colorWhite"
-                android:text="@string/app_name"
-                app:btn_text="@string/app_name"
-                android:layout_margin="24dp"
-                android:gravity="center"
-                android:paddingBottom="@dimen/_44sdp"
-                app:btn_text_size="@dimen/text_size_h4"
-                app:btn_drawable="@drawable/ic_back_arrow_new"
-                app:btn_drawable_position="left"
-                app:btn_shape_type="rectangle"
-                app:btn_drawable_padding_top="4.5"
-                tools:ignore="MissingConstraints"/>
+            android:id="@+id/close_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:btn_round_radius="50dp"
+            android:enabled="true"
+            android:textColor="@color/colorWhite"
+            android:text="@string/app_name"
+
+            android:layout_margin="24dp"
+            android:gravity="center"
+            app:btn_text_size="@dimen/text_size_h4"
+            app:btn_drawable="@drawable/ic_back_arrow"
+            app:btn_drawable_position="right"
+            app:btn_shape_type="rectangle"
+            tools:ignore="MissingConstraints"/>
 
         <co.yap.yapcore.CoreButton
-                android:id="@+id/close_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:btn_round_radius="50dp"
-                android:enabled="true"
-                android:textColor="@color/colorWhite"
-                android:text="@string/app_name"
-
-                app:btn_text="@string/app_name"
-                android:layout_margin="24dp"
-                android:gravity="center"
-                app:btn_text_size="@dimen/text_size_h4"
-                app:btn_drawable="@drawable/ic_back_arrow"
-                app:btn_drawable_position="right"
-                app:btn_shape_type="rectangle"
-                tools:ignore="MissingConstraints"/>
-
-        <co.yap.yapcore.CoreButton
-                android:id="@+id/close_btn_new"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:btn_round_radius="50dp"
-                android:enabled="true"
-                android:textColor="@color/colorWhite"
-                android:text="@string/app_name"
-                app:btn_text="@string/app_name"
-                android:layout_margin="24dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:gravity="center"
-                app:btn_text_size="@dimen/text_size_h4"
-                app:btn_drawable="@drawable/ic_back_arrow"
-                app:btn_drawable_position="left"
-                app:btn_shape_type="rectangle"
-                tools:ignore="MissingConstraints"/>
+            android:id="@+id/close_btn_new"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:btn_round_radius="50dp"
+            android:enabled="true"
+            android:textColor="@color/colorWhite"
+            android:text="@string/app_name"
+            android:layout_margin="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            app:btn_text_size="@dimen/text_size_h4"
+            app:btn_drawable="@drawable/ic_back_arrow"
+            app:btn_drawable_position="left"
+            app:btn_shape_type="rectangle"
+            tools:ignore="MissingConstraints"/>
 
         <co.yap.yapcore.CoreButton
-                android:id="@+id/close_btn_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:btn_round_radius="50dp"
-                android:enabled="true"
-                android:textColor="@color/colorWhite"
-                android:text="@string/app_name"
-                app:btn_text="@string/app_name"
-                android:layout_margin="24dp"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp"
-                android:gravity="center"
-                app:btn_text_size="@dimen/text_size_h4"
-                android:drawablePadding="@dimen/_20sdp"
-                app:btn_shape_type="rectangle"
-                tools:ignore="MissingConstraints"/>
+            android:id="@+id/close_btn_one"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:btn_round_radius="50dp"
+            android:enabled="true"
+            android:textColor="@color/colorWhite"
+            android:text="@string/app_name"
+            android:layout_margin="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            app:btn_text_size="@dimen/text_size_h4"
+            android:drawablePadding="@dimen/_20sdp"
+            app:btn_shape_type="rectangle"
+            tools:ignore="MissingConstraints"/>
 
         <co.yap.widgets.CoreInputField
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                app:view_drawable="@drawable/ic_back_arrow"
-                app:view_error_input_field="@string/err_email"
-                app:view_hint_input_field="@string/app_name_sample"
-                app:view_drawable_position="right"
-         />
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:view_drawable="@drawable/ic_back_arrow"
+            app:view_error_input_field="@string/err_email"
+            app:view_hint_input_field="@string/app_name_sample"
+            app:view_drawable_position="right"
+            />
         <!--<co.yap.widgets.CoreInputField      android:layout_width="match_parent"-->
         <!--android:layout_height="100dp"-->
         <!--android:layout_marginTop="100dp"-->
@@ -102,15 +98,15 @@
         <!--/>-->
 
         <co.yap.yapcore.CoreButton
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:enabled="false"
-                app:btn_pressed_color="@color/success"
-                app:btn_round_radius="50dp"
-                android:layout_marginTop="20dp"
-                app:btn_drawable="@drawable/ic_back_arrow"
-                app:btn_shape_type="circle"
-                app:btn_unpressed_color="@color/colorPrimary"/>
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:enabled="false"
+            app:btn_pressed_color="@color/success"
+            app:btn_round_radius="50dp"
+            android:layout_marginTop="20dp"
+            app:btn_drawable="@drawable/ic_back_arrow"
+            app:btn_shape_type="circle"
+            app:btn_unpressed_color="@color/colorPrimary"/>
     </LinearLayout>
 
 </ScrollView>

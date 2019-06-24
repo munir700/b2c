@@ -16,7 +16,6 @@ class CoreButton : Button {
 
     private var btnWeight: Int = 0
     private var btnHeight: Int = 0
-    private var label: String = ""
     private var labelTextColor: Int = 0
     private var pressedColor: Int = 0
     private var defaultStateColor: Int = 0
@@ -79,11 +78,6 @@ class CoreButton : Button {
             resources.getColor(R.color.white)
         )
 
-        label = resources.getText(
-            typedArray
-                .getResourceId((R.styleable.CoreButton_btn_text), R.string.empty_string)
-        ).toString()
-
         pressedColor = typedArray.getColor(
             R.styleable.CoreButton_btn_pressed_color,
             resources.getColor(R.color.colorPrimary)
@@ -114,7 +108,7 @@ class CoreButton : Button {
             R.styleable.CoreButton_btn_text_size,
             resources.getDimensionPixelSize(R.dimen.label_text_size)
         ).toFloat()
-        
+
         typedArray.recycle()
         paint.color = defaultStateColor
         paint.style = Paint.Style.FILL
@@ -176,7 +170,7 @@ class CoreButton : Button {
         } else {
             rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
             canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
-            canvas.drawText(label, (btnWeight / 2).toFloat(), (btnHeight / 1.6).toFloat(), paintText)
+            canvas.drawText(text.toString(), (btnWeight / 2).toFloat(), (btnHeight / 1.6).toFloat(), paintText)
 
         }
 
