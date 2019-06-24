@@ -1,2 +1,5 @@
 <resources>
+    <string name="app_name">translation</string>
+    <string name="txt_input_hint_search_currency">dummy text from translation layer</string>
+
 </resources>
