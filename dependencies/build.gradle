@@ -13,10 +13,10 @@ project.ext {
     playServicesVersion = "16.0.0"
     retrofitVersion = "2.5.0"
     daggerVersion = "2.16"
-    lifecycleVersion = "2.0.0"
     okhttpVersion = "3.12.1"
     okhttpLoggerVersion = "3.10.0"
     okhttpGsonVersion = "2.5.0"
+    arch = "2.0.0"
     modules = [
             app           : ':app',
             authentication: ':authentication',
@@ -60,14 +60,15 @@ project.ext {
             biometric                : 'androidx.biometric:biometric:1.0.0-alpha03',
 
             // Androidx Architecture
-            lifecycleRuntime         : "androidx.lifecycle:lifecycle-runtime:$lifecycleVersion",
-            lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$lifecycleVersion",
-            lifecycleExtensions      : "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion",
-            // lifecycleViewmodel       : "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion",
+            lifecycleRuntime         : "androidx.lifecycle:lifecycle-runtime:$arch",
+            lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$arch",
+            lifecycleExtensions      : "androidx.lifecycle:lifecycle-extensions:$arch",
+            navigationFragment       : "androidx.navigation:navigation-fragment-ktx:$arch",
+            navigationUI             : "androidx.navigation:navigation-ui-ktx:$arch",
 
             // kotlin coroutine
             coroutineCore            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1',
-            coroutineAndroid         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1'
+            coroutineAndroid         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1',
 
     ]
 
@@ -97,14 +98,12 @@ project.ext {
     appDependencies = [
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.networking)],
-            [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: libraries.biometric]
     ]
 
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
     translationDependencies = [
-            [configuration: "implementation", dependency: project(modules.yapcore)],
-
+            [configuration: "implementation", dependency: project(modules.networking)],
     ]
 
     // dependencies which need to be added in authentication module only in conjunction with commonDependencies
@@ -112,6 +111,7 @@ project.ext {
 
     // dependencies which need to be added in network module only in conjunction with commonDependencies
     networkingDependencies = [
+            // TODO: Remove dependency of yapcore from this module
             [configuration: "implementation", dependency: project(modules.yapcore)], // using this to get NetworkConnectionManager
             [configuration: "api", dependency: libraries.retrofit],
             [configuration: "api", dependency: libraries.retrofitConverterGson],
@@ -121,7 +121,9 @@ project.ext {
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
     yapDependencies = [
-            [configuration: "implementation", dependency: project(modules.yapcore)]
+            [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: libraries.navigationFragment],
+            [configuration: "implementation", dependency: libraries.navigationUI]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
@@ -154,6 +156,7 @@ android {
         versionCode project.versionCode
         versionName project.versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

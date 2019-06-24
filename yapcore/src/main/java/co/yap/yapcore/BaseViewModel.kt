@@ -2,6 +2,7 @@ package co.yap.yapcore
 
 import android.app.Application
 import android.content.Context
+import android.view.animation.TranslateAnimation
 import androidx.lifecycle.*
 import co.yap.yapcore.interfaces.CoroutineViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -12,6 +13,9 @@ import kotlinx.coroutines.launch
 
 abstract class BaseViewModel<S: IBase.State>(application: Application) : AndroidViewModel(application),
     IBase.ViewModel<S>, CoroutineViewModel {
+
+    override val context: Context
+        get() = getApplication<Application>().applicationContext
 
     override val viewModelJob: Job
         get() = Job()
@@ -68,10 +72,10 @@ abstract class BaseViewModel<S: IBase.State>(application: Application) : Android
         viewModelScope.launch { block() }
     }
 
-    override fun getContext(): Context = getApplication<Application>().applicationContext
+    // override fun getContext(): Context = getApplication<Application>().applicationContext
 
     // TODO: use Translation module to get the translated string
-    override fun getString(resourceId: Int): String = getContext().resources.getString(resourceId)
+    override fun getString(resourceId: Int): String = context.resources.getString(resourceId)
 
 }
 

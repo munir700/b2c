@@ -10,14 +10,10 @@ import androidx.databinding.ViewDataBinding
 
 abstract class BaseBindingFragment : BaseFragment() {
 
-    protected lateinit var viewDataBinding: ViewDataBinding
-    protected lateinit var baseViewModel: BaseViewModel
-    private var mRootView: View? = null
-
+    private lateinit var viewDataBinding: ViewDataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        baseViewModel = getViewModel()
         setHasOptionsMenu(false)
     }
 
@@ -25,15 +21,13 @@ abstract class BaseBindingFragment : BaseFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        viewDataBinding = DataBindingUtil.inflate<ViewDataBinding>(inflater, getLayoutId(), container, false)
-        mRootView = viewDataBinding.getRoot()
-        return mRootView
+        viewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false)
+        return viewDataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        this.baseViewModel = if (baseViewModel == null) getViewModel() else baseViewModel
-        viewDataBinding.setVariable(getBindingVariable(), baseViewModel)
+        viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()
     }
 

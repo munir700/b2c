@@ -13,12 +13,11 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
         get() = LoginState()
 
     override fun performLogin(email: String, password: String) {
-        // launch(repository.login(LoginRequest("", "")))
-        viewModelScope.launch {
+        launch {
             repository.login(LoginRequest("", ""))
         }
     }
 
     override val repository: LoginRepository
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+        get() = LoginRepository
 }

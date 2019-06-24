@@ -53,10 +53,6 @@ abstract class BaseFragment : Fragment(), IBase.View {
         Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
     }
 
-    override fun getContext(): Context {
-        return this.context
-    }
-
     override fun onBackPressed() {
         getBaseView()?.onBackPressed()
     }
