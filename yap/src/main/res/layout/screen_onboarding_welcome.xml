@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.viewpager.widget.ViewPager
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp" />
+
+    <co.yap.yapcore.CoreButton
+        android:id="@+id/close_btn_one"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:btn_round_radius="50dp"
+        android:enabled="true"
+        android:textColor="@color/colorWhite"
+        android:text="@string/app_name_sample"
+        app:btn_text="@string/app_name_sample"
+        android:layout_margin="24dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center"
+        app:btn_text_size="@dimen/text_size_h4"
+        android:drawablePadding="@dimen/_20sdp"
+        app:btn_shape_type="rectangle"
+        tools:ignore="MissingConstraints"/>
 
 </LinearLayout>

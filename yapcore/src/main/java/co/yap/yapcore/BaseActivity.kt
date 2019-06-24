@@ -16,7 +16,7 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
+abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragmentHolder, IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
 
     private var snackbar: Snackbar? = null
