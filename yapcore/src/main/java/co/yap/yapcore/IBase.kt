@@ -5,8 +5,8 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 
 
 interface IBase {
-    interface View : NetworkConnectionManager.OnNetworkStateChangeListener {
-        val viewModel: ViewModel<State>
+    interface View<V: ViewModel<*>> : NetworkConnectionManager.OnNetworkStateChangeListener {
+        val viewModel: V
         fun showLoader(isVisible: Boolean)
         fun showToast(msg: String)
         fun onBackPressed()
