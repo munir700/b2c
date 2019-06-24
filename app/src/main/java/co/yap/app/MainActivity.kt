@@ -6,9 +6,12 @@ import android.view.MenuItem
 import co.yap.app.di.BaseActivity
 import co.yap.translation.Translator
 import co.yap.translation.TraslatorKeys
+import co.yap.yapcore.IBase
 
 class MainActivity : BaseActivity() {
 
+    override val viewModel: IBase.ViewModel<IBase.State>
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

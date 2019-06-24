@@ -68,8 +68,8 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
             .setAction(
                 // TODO: Use strings for these
                 "Settings"
-            ) { getContext().startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            .setActionTextColor(getContext().getResources().getColor(R.color.colorPrimary))
+            ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+            .setActionTextColor(getResources().getColor(R.color.colorPrimary))
         snackbar!!.show()
     }
 
@@ -82,10 +82,6 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
         )
         snackbarConnected.show()
         snackbar?.dismiss()
-    }
-
-    override fun getContext(): Context {
-        return this
     }
 
     override fun onFragmentAttached() {
