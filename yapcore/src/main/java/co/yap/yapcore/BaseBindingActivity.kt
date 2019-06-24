@@ -5,7 +5,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseBindingActivity : BaseActivity() {
+abstract class BaseBindingActivity<V: IBase.ViewModel<*>> : BaseActivity<V>() {
 
     private lateinit var viewDataBinding: ViewDataBinding
 
