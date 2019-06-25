@@ -41,7 +41,7 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View
         val pager = findViewById<ViewPager>(R.id.welcome_pager)
         pager.adapter = WelcomePagerAdapter(
             context = this,
-            contents = viewModel.pages,
+            contents = viewModel.getPages(),
             layout = R.layout.content_onboarding_welcome
         )
 
