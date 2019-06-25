@@ -5,10 +5,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseBindingActivity : BaseActivity() {
+abstract class BaseBindingActivity<V: IBase.ViewModel<*>> : BaseActivity<V>() {
 
-    protected lateinit var viewDataBinding: ViewDataBinding
-    protected lateinit var baseViewModel: BaseViewModel
+    private lateinit var viewDataBinding: ViewDataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,10 +16,8 @@ abstract class BaseBindingActivity : BaseActivity() {
 
 
     protected fun performDataBinding() {
-        viewDataBinding = DataBindingUtil
-            .setContentView<ViewDataBinding>(this, getLayoutId())
-        this.baseViewModel = if (baseViewModel == null) getViewModel() else baseViewModel
-        viewDataBinding.setVariable(getBindingVariable(), baseViewModel)
+        viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())
+        viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()
     }
 

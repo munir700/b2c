@@ -4,7 +4,7 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 
 
-class BaseState : BaseObservable(), IBase.State {
+abstract class BaseState : BaseObservable(), IBase.State {
     private var loading = false
     private lateinit var error: String
     private lateinit var toolbarTitle: String

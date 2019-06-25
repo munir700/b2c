@@ -5,22 +5,20 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 
 
 interface IBase {
-    interface View : NetworkConnectionManager.OnNetworkStateChangeListener {
-        fun getContext(): Context
+    interface View<V: ViewModel<*>> : NetworkConnectionManager.OnNetworkStateChangeListener {
+        val viewModel: V
         fun showLoader(isVisible: Boolean)
         fun showToast(msg: String)
-        fun <T : ViewModel> getViewModel(): T
         fun onBackPressed()
         fun showInternetSnack(isVisible: Boolean)
         fun isPermissionGranted(permission: String): Boolean
         fun requestPermissions()
     }
 
-    interface ViewModel : ILifecycle {
-        fun getState(): State
-        fun getContext(): Context
-        fun getString(): String
-
+    interface ViewModel<S : State> : ILifecycle {
+        val state: S
+        val context: Context
+        fun getString(resourceId: Int): String
     }
 
     interface State {

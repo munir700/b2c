@@ -16,7 +16,7 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
 
-abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
+abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragmentHolder, IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
 
     private var snackbar: Snackbar? = null
@@ -68,8 +68,8 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
             .setAction(
                 // TODO: Use strings for these
                 "Settings"
-            ) { getContext().startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            .setActionTextColor(getContext().getResources().getColor(R.color.colorPrimary))
+            ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
+            .setActionTextColor(getResources().getColor(R.color.colorPrimary))
         snackbar!!.show()
     }
 
@@ -82,10 +82,6 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
         )
         snackbarConnected.show()
         snackbar?.dismiss()
-    }
-
-    override fun getContext(): Context {
-        return this
     }
 
     override fun onFragmentAttached() {
@@ -115,7 +111,7 @@ abstract class BaseActivity : AppCompatActivity(), IFragmentHolder, IBase.View,
         text.setTextColor(activity.resources.getColor(R.color.colorWhite))
 
         if (duration == DURATION_CODE) {
-            layout.setBackgroundColor(activity.resources.getColor(R.color.colorGreyVeryDark))
+            layout.setBackgroundColor(activity.resources.getColor(R.color.colorAccent))
             val snackbarView = snackbar.view
             val textView = snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
             textView.setTextColor(Color.WHITE)
