@@ -9,7 +9,6 @@ import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 
 object BiometricUtil {
 
-
     val isBiometricPromptEnabled: Boolean
         get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
 
