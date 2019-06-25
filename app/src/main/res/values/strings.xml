@@ -1,4 +1,28 @@
 <resources>
     <string name="app_name_new">YAP</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Home Screen -->
+    <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
+    <string name="screen_home_display_text_account_selection">I want an account for</string>
+    <string name="screen_home_button_personal_text">Personal</string>
+    <string name="screen_home_button_business_text">Business</string>
+    <string name="screen_home_display_text_sign_in">Already have an account? Sign In</string>
+
+
+    <!-- Welcom Screen -->
+    <string name="screen_welcom_b2c_display_text_page1_title">Real-time banking</string>
+    <string name="screen_welcom_b2c_display_text_page2_title">Real-time perks</string>
+    <string name="screen_welcom_b2c_display_text_page3_title">Real-time benefits</string>
+    <string name="screen_welcom_b2c_display_text_page1_details">Current account with no\nhidden fees</string>
+    <string name="screen_welcom_b2c_display_text_page2_details">A free MasterCard debit card</string>
+    <string name="screen_welcom_b2c_display_text_page3_details">Built-in budgeting at your\nfingertips</string>
+    <string name="screen_welcom_b2b_display_text_page1_title">Real-time analytics</string>
+    <string name="screen_welcom_b2b_display_text_page2_title">Real-time management</string>
+    <string name="screen_welcom_b2b_display_text_page3_title">Real-time visibility</string>
+    <string name="screen_welcom_b2b_display_text_page1_details">Built-in budgeting at your\nfingertips</string>
+    <string name="screen_welcom_b2b_display_text_page2_details">Simplified expense and\npayroll processes</string>
+    <string name="screen_welcom_b2b_display_text_page3_details">Full overview of business\nspending</string>
+    <string name="screen_welcom_button_get_started">Get started</string>
+
 </resources>

@@ -111,7 +111,7 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
         text.setTextColor(activity.resources.getColor(R.color.colorWhite))
 
         if (duration == DURATION_CODE) {
-            layout.setBackgroundColor(activity.resources.getColor(R.color.colorGreyVeryDark))
+            layout.setBackgroundColor(activity.resources.getColor(R.color.colorAccent))
             val snackbarView = snackbar.view
             val textView = snackbarView.findViewById<View>(com.google.android.material.R.id.snackbar_text) as TextView
             textView.setTextColor(Color.WHITE)

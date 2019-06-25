@@ -2,7 +2,6 @@
 <resources>
     <declare-styleable name="CoreButton">
         <attr name="btn_text_color" format="color"/>
-        <attr name="btn_text" format="reference"/>
         <attr name="btn_drawable" format="reference"/>
         <attr name="btn_text_size" format="dimension"/>
         <attr name="btn_pressed_color" format="color"/>
