@@ -20,6 +20,15 @@ class BiometricActivity : AppCompatActivity() {
             override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
                 super.onAuthenticationError(errorCode, errString)
                 Log.e("onAuthenticationError", "onAuthenticationError")
+
+                when (errorCode) {
+                    BiometricPrompt.ERROR_NEGATIVE_BUTTON -> print("onAuthenticationError: ERROR_NEGATIVE_BUTTON")
+                    BiometricPrompt.ERROR_HW_NOT_PRESENT -> print("onAuthenticationError: ERROR_HW_NOT_PRESENT")
+                    BiometricPrompt.ERROR_HW_UNAVAILABLE -> print("onAuthenticationError: ERROR_HW_UNAVAILABLE")
+                    BiometricPrompt.ERROR_NO_BIOMETRICS -> print("onAuthenticationError: ERROR_NO_BIOMETRICS")
+                    BiometricPrompt.ERROR_NO_SPACE -> print("onAuthenticationError: ERROR_NO_SPACE")
+                    else -> print("Something went wrong")
+                }
             }
 
             override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -36,7 +45,7 @@ class BiometricActivity : AppCompatActivity() {
 
         val promptInfo = BiometricPrompt.PromptInfo.Builder()
             .setTitle("Sign in")
-            .setNegativeButtonText("Cancel")
+            .setNegativeButtonText("Use Passcode Instead")
             .build()
 
 
