@@ -33,6 +33,8 @@
             android:layout_height="wrap_content"
             style="@style/ATitle3Grey"
             android:id="@+id/textView2"
+            android:gravity="center"
+            android:textAlignment="center"
             android:layout_marginTop="@dimen/_14sdp"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"

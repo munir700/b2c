@@ -13,6 +13,7 @@ import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.viewmodels.WelcomeViewModel
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingActivity
+import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View {
     companion object {
@@ -37,11 +38,15 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View
         super.onCreate(savedInstanceState)
 
         viewModel.accountType = getAccountType()
-        findViewById<ViewPager>(R.id.welcome_pager).adapter = WelcomePagerAdapter(
+        val pager = findViewById<ViewPager>(R.id.welcome_pager)
+        pager.adapter = WelcomePagerAdapter(
             context = this,
             contents = viewModel.pages,
             layout = R.layout.content_onboarding_welcome
         )
+
+        val wormDotsIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
+        wormDotsIndicator.setViewPager(pager)
     }
 
     private fun getAccountType(): AccountType {
