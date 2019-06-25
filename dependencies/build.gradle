@@ -1,6 +1,7 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 project.ext {
     compileSdkVersion = 28
@@ -59,6 +60,10 @@ project.ext {
             vectordrawable           : 'androidx.vectordrawable:vectordrawable:1.1.0-beta02',
             biometric                : 'androidx.biometric:biometric:1.0.0-alpha03',
 
+            //Navigation
+            navigationFragmentKtx    : "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
+            navigationUItKtx         : "androidx.navigation:navigation-ui-ktx:$navigationVersion",
+
             // Androidx Architecture
             lifecycleRuntime         : "androidx.lifecycle:lifecycle-runtime:$arch",
             lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$arch",
@@ -99,7 +104,11 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.networking)],
-            [configuration: "implementation", dependency: libraries.biometric]
+            [configuration: "implementation", dependency: libraries.biometric],
+            //Navigation
+            [configuration: "implementation", dependency: libraries.navigationFragmentKtx],
+            [configuration: "implementation", dependency: libraries.navigationUItKtx]
+
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
