@@ -1,2 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="co.yap"/>
+          package="co.yap">
+
+    <application>
+        <activity android:name=".modules.onboarding.activities.WelcomeActivity"/>
+    </application>
+</manifest>

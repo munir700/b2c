@@ -98,6 +98,7 @@ project.ext {
     appDependencies = [
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.biometric]
     ]
