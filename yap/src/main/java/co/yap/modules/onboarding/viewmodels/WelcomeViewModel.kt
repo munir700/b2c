@@ -5,6 +5,7 @@ import co.yap.R
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.modules.onboarding.states.WelcomeState
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 
 class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>(application), IWelcome.ViewModel {
@@ -20,9 +21,9 @@ class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>
     }
 
     fun generatePages(): ArrayList<WelcomeContent> {
-        val content = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_banking)
-        val content1 = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_perks)
-        val content2 = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_benefits)
-        return arrayListOf(content, content1, content2)
+        val content1 = WelcomeContent(getString(Strings.screen_welcom_b2b_display_text_page1_title), getString(Strings.screen_welcom_b2b_display_text_page1_details), R.drawable.ic_real_time_banking)
+        val content2 = WelcomeContent(getString(Strings.screen_welcom_b2b_display_text_page2_title), getString(Strings.screen_welcom_b2b_display_text_page2_details), R.drawable.ic_real_time_perks)
+        val content3 = WelcomeContent(getString(Strings.screen_welcom_b2b_display_text_page3_title), getString(Strings.screen_welcom_b2b_display_text_page3_details), R.drawable.ic_real_time_benefits)
+        return arrayListOf(content1, content2, content3)
     }
 }

@@ -15,8 +15,8 @@ class WelcomeActivity : BaseActivity<IWelcome.ViewModel>(), IWelcome.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val adapter = WelcomePagerAdapter(context = this, layout = R.layout.screen_onboarding_welcome, contents = viewModel.pages)
+        val adapter =
+            WelcomePagerAdapter(context = this, layout = R.layout.screen_onboarding_welcome, contents = viewModel.pages)
         findViewById<ViewPager>(R.id.welcome_pager).adapter = adapter
-
     }
 }

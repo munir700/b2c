@@ -105,6 +105,7 @@ project.ext {
     // dependencies which need to be added in app module only in conjunction with commonDependencies
     yapDependencies = [
             [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: libraries.navigationFragment],
             [configuration: "implementation", dependency: libraries.navigationUI]
     ]

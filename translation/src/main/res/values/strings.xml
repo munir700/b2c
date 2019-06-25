@@ -1,7 +1,4 @@
 <resources>
-    <string name="app_name">translation</string>
-    <string name="txt_input_hint_search_currency">dummy text from translation layer</string>
-
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
     <string name="screen_home_display_text_account_selection">I want an account for</string>

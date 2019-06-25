@@ -9,7 +9,7 @@ object Translator {
     }
 
     fun getString(context: Context, keyID: Int): String {
-        return context.getResources()?.getString(keyID)!!
+        return context.resources.getString(keyID)
     }
 
     fun getString(context: Context, keyID: String): String {
