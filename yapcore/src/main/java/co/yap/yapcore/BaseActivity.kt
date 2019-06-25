@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import co.yap.translation.Translator
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
@@ -148,5 +149,7 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
     override fun requestPermissions() {
         return permissionsManager.requestAppPermissions()
     }
+
+    override fun getString(resourceKey: String): String = Translator.getString(this, resourceKey)
 
 }

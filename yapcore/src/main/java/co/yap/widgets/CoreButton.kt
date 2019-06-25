@@ -1,4 +1,4 @@
-package co.yap.yapcore
+package co.yap.widgets
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.Button
+import co.yap.yapcore.R
 
 
 class CoreButton : Button {
@@ -128,7 +129,7 @@ class CoreButton : Button {
     }
 
     fun drawableToBitmap(drawable: Drawable): Bitmap? {
-        var bitmap: Bitmap? = null
+        var bitmap: Bitmap?
 
         if (drawable is BitmapDrawable) {
             if (drawable.bitmap != null) {
@@ -158,9 +159,6 @@ class CoreButton : Button {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (paint == null) {
-            return
-        }
 
         if (shapeType == 0) {
             canvas.drawCircle(
