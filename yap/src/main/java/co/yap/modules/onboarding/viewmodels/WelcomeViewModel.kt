@@ -17,11 +17,10 @@ class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>
     override val state: IWelcome.State
         get() = WelcomeState()
 
-    override val pages: ArrayList<WelcomeContent>
-        get() = generateB2CPages()
-
     override fun handlePressOnGetStarted() {
     }
+
+    override fun getPages(): ArrayList<WelcomeContent> = if (accountType == AccountType.B2C) generateB2CPages() else generateB2BPages()
 
     fun generateB2BPages(): ArrayList<WelcomeContent> {
         val content1 = WelcomeContent(
