@@ -4,34 +4,32 @@ import android.app.Application
 import android.content.Context
 
 object Translator {
-    //    val context: Context= ctx.applicationContext
     fun getString(context: Context, keyID: Int, vararg args: String): String {
-        return context?.getResources()?.getString(keyID, args)!!
+        return context.resources.getString(keyID, args)
     }
 
-    fun getString(context: Application, keyID: Int): String {
-        return context?.getResources()?.getString(keyID)!!
+    fun getString(context: Context, keyID: Int): String {
+        return context.getResources()?.getString(keyID)!!
     }
 
-    fun getString(context: Application, keyID: String): String {
-        val stringResourceId = context?.getResources()?.getIdentifier(keyID, "string", context?.getPackageName())
-        return getString(context, stringResourceId!!)
+    fun getString(context: Context, keyID: String): String {
+        val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
+        return getString(context, stringResourceId)
 
     }
 
-    fun getString(context: Application, keyID: String, value: String): String {
-        val stringResourceId = context?.getResources()?.getIdentifier(keyID, "string", context?.getPackageName())
-        return context?.getResources()?.getString(stringResourceId!!, value)!!
+    fun getString(context: Context, keyID: String, value: String): String {
+        val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
+        return context.resources.getString(stringResourceId!!, value)!!
     }
 
     fun getString(context: Application, keyID: String, value1: String, value2: String): String {
-        val stringResourceId = context?.getResources()
-            ?.getIdentifier(keyID, "string", context?.getPackageName())
-        return stringResourceId?.let { context?.getResources()?.getString(it, value1, value2) }!!
+        val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
+        return stringResourceId.let { context.resources.getString(it, value1, value2) }
     }
 
     fun getString(
-        context: Application,
+        context: Context,
         keyID: String,
         value1: String,
         value2: String,
@@ -40,7 +38,7 @@ object Translator {
         value5: String,
         value6: String
     ): String {
-        val stringResourceId = context?.getResources()?.getIdentifier(keyID, "string", context?.getPackageName())
-        return context?.getResources()?.getString(stringResourceId!!, value1, value2, value3, value4, value5, value6)!!
+        val stringResourceId = context.resources.getIdentifier(keyID, "string",context.packageName)
+        return context.resources.getString(stringResourceId, value1, value2, value3, value4, value5, value6)
     }
 }

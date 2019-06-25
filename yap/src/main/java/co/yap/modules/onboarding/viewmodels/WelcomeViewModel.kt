@@ -20,9 +20,9 @@ class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>
     }
 
     fun generatePages(): ArrayList<WelcomeContent> {
-        val pages: ArrayList<String> = arrayListOf()
-        val content: WelcomeContent = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_banking)
-        val content1: WelcomeContent = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_perks)
-        val content2: WelcomeContent = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_benefits)
+        val content = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_banking)
+        val content1 = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_perks)
+        val content2 = WelcomeContent("Title1", "Subtitle1", R.drawable.ic_real_time_benefits)
+        return arrayListOf(content, content1, content2)
     }
 }

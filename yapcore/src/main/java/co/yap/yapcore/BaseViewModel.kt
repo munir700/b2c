@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.view.animation.TranslateAnimation
 import androidx.lifecycle.*
+import co.yap.translation.Translator
 import co.yap.yapcore.interfaces.CoroutineViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -72,10 +73,8 @@ abstract class BaseViewModel<S: IBase.State>(application: Application) : Android
         viewModelScope.launch { block() }
     }
 
-    // override fun getContext(): Context = getApplication<Application>().applicationContext
+    override fun getString(resourceId: Int): String = Translator.getString(context, resourceId)
 
-    // TODO: use Translation module to get the translated string
-    override fun getString(resourceId: Int): String = context.resources.getString(resourceId)
-
+    override fun getString(resourceId: String): String = Translator.getString(context, resourceId)
 }
 

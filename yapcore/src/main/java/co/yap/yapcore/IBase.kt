@@ -19,6 +19,7 @@ interface IBase {
         val state: S
         val context: Context
         fun getString(resourceId: Int): String
+        fun getString(resourceId: String): String
     }
 
     interface State {
