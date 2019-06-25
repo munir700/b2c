@@ -20,12 +20,12 @@
             android:layout_weight="1"
             android:layout_height="0dp"/>
 
-        <co.yap.yapcore.CoreButton
+        <co.yap.widgets.CoreButton
             android:id="@+id/close_btn_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:btn_round_radius="50dp"
             android:enabled="true"
+            style="@style/RectangleBtnStyle"
             android:textColor="@color/colorWhite"
             app:text="@{Strings.screen_welcom_button_get_started}"
             android:layout_margin="24dp"
@@ -34,8 +34,7 @@
             android:gravity="center"
             app:btn_text_size="@dimen/text_size_h4"
             android:drawablePadding="@dimen/_20sdp"
-            app:btn_shape_type="rectangle"
-            tools:ignore="MissingConstraints"/>
+            app:btn_shape_type="rectangle" />
 
     </LinearLayout>
 

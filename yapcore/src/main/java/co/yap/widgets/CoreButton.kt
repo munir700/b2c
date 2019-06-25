@@ -129,7 +129,7 @@ class CoreButton : Button {
     }
 
     fun drawableToBitmap(drawable: Drawable): Bitmap? {
-        var bitmap: Bitmap? = null
+        var bitmap: Bitmap?
 
         if (drawable is BitmapDrawable) {
             if (drawable.bitmap != null) {
@@ -159,9 +159,6 @@ class CoreButton : Button {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        if (paint == null) {
-            return
-        }
 
         if (shapeType == 0) {
             canvas.drawCircle(
