@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.BaseBindingAdapter
 
+// TODO: Remove this file
 class TestAdapter(context: Context) : BaseBindingAdapter<TestViewHolder>(context) {
     override fun createViewHolder(binding: ViewDataBinding): TestViewHolder {
         return TestViewHolder(binding)

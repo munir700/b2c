@@ -13,12 +13,14 @@ interface IBase {
         fun showInternetSnack(isVisible: Boolean)
         fun isPermissionGranted(permission: String): Boolean
         fun requestPermissions()
+        fun getString(resourceKey: String): String
     }
 
     interface ViewModel<S : State> : ILifecycle {
         val state: S
         val context: Context
         fun getString(resourceId: Int): String
+        fun getString(resourceId: String): String
     }
 
     interface State {

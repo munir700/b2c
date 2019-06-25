@@ -33,6 +33,7 @@ project.ext {
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
             material                 : 'com.google.android.material:material:1.0.0',
+            viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
 
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
@@ -98,37 +99,23 @@ project.ext {
     appDependencies = [
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.biometric]
-    ]
-
-    // dependencies which need to be added in translation module only in conjunction with commonDependencies
-    translationDependencies = [
-            [configuration: "implementation", dependency: project(modules.networking)],
-    ]
-
-    // dependencies which need to be added in authentication module only in conjunction with commonDependencies
-    authenticationDependencies = []
-
-    // dependencies which need to be added in network module only in conjunction with commonDependencies
-    networkingDependencies = [
-            // TODO: Remove dependency of yapcore from this module
-            [configuration: "implementation", dependency: project(modules.yapcore)], // using this to get NetworkConnectionManager
-            [configuration: "api", dependency: libraries.retrofit],
-            [configuration: "api", dependency: libraries.retrofitConverterGson],
-            [configuration: "api", dependency: libraries.okhttp],
-            [configuration: "api", dependency: libraries.okhttp3LoggingInterceptor],
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
     yapDependencies = [
             [configuration: "implementation", dependency: project(modules.yapcore)],
+            [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: libraries.navigationFragment],
-            [configuration: "implementation", dependency: libraries.navigationUI]
+            [configuration: "implementation", dependency: libraries.navigationUI],
+            [configuration: "implementation", dependency: libraries.viewpagerDots]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
     yapcoreDependencies = [
+            [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "api", dependency: libraries.appcompat],
             [configuration: "api", dependency: libraries.constraintLayout],
             [configuration: "api", dependency: libraries.constraintlayoutSolver],
@@ -142,6 +129,22 @@ project.ext {
             [configuration: "api", dependency: libraries.lifecycleExtensions],
             [configuration: "api", dependency: libraries.coroutineCore],
             [configuration: "api", dependency: libraries.coroutineAndroid]
+    ]
+
+    // dependencies which need to be added in translation module only in conjunction with commonDependencies
+    translationDependencies = [
+            [configuration: "implementation", dependency: project(modules.networking)],
+    ]
+
+    // dependencies which need to be added in authentication module only in conjunction with commonDependencies
+    authenticationDependencies = []
+
+    // dependencies which need to be added in network module only in conjunction with commonDependencies
+    networkingDependencies = [
+            [configuration: "api", dependency: libraries.retrofit],
+            [configuration: "api", dependency: libraries.retrofitConverterGson],
+            [configuration: "api", dependency: libraries.okhttp],
+            [configuration: "api", dependency: libraries.okhttp3LoggingInterceptor],
     ]
 
 
