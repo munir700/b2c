@@ -1,6 +1,7 @@
 package co.yap.app
 
 import android.app.Application
+import co.yap.app.BuildConfig
 import co.yap.networking.RetroNetwork
 import co.yap.yapcore.helpers.NetworkConnectionManager
 

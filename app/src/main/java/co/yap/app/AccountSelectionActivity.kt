@@ -20,8 +20,6 @@ import kotlinx.android.synthetic.main.activity_account_selection.*
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_account_selection)
 
-
-
         btnBusiness.setOnClickListener {
 
 

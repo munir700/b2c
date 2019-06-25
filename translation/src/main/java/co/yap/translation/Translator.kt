@@ -20,7 +20,7 @@ object Translator {
 
     fun getString(context: Context, keyID: String, value: String): String {
         val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
-        return context.resources.getString(stringResourceId!!, value)!!
+        return context.resources.getString(stringResourceId, value)
     }
 
     fun getString(context: Application, keyID: String, value1: String, value2: String): String {

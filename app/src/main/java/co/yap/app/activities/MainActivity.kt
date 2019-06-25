@@ -1,8 +1,9 @@
-package co.yap.app
+package co.yap.app.activities
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import co.yap.app.R
 import co.yap.app.di.BaseActivity
 import co.yap.translation.Translator
 import co.yap.translation.Strings

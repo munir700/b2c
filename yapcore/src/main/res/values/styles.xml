@@ -234,7 +234,7 @@
 
 
     <style name="RectangleBtnStyle" parent="AppFontMedium">
-        <item name="btn_text_size">@dimen/text_size_h3</item>
+        <item name="btn_text_size">@dimen/text_size_h4</item>
         <item name="btn_shape_type">rectangle</item>
         <item name="android:enabled">true</item>
         <item name="btn_round_radius">50dp</item>
