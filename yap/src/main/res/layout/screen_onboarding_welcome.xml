@@ -8,6 +8,7 @@
     android:layout_height="match_parent">
 
     <androidx.viewpager.widget.ViewPager
+        android:id="@+id/welcome_pager"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp" />
