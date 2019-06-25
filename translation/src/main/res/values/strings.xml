@@ -4,10 +4,11 @@
     <string name="screen_home_display_text_account_selection">I want an account for</string>
     <string name="screen_home_button_personal_text">Personal</string>
     <string name="screen_home_button_business_text">Business</string>
-    <string name="screen_home_display_text_sign_in">Already have an account? Sign In</string>
+    <string name="screen_home_display_text_sign_in_action">Sign In</string>
+    <string name="screen_home_display_text_sign_in_title">Already have an account?</string>
 
 
-    <!-- Welcom Screen -->
+    <!-- Welcome Screen -->
     <string name="screen_welcom_b2c_display_text_page1_title">Real-time banking</string>
     <string name="screen_welcom_b2c_display_text_page2_title">Real-time perks</string>
     <string name="screen_welcom_b2c_display_text_page3_title">Real-time benefits</string>
