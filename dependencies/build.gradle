@@ -33,6 +33,7 @@ project.ext {
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
             material                 : 'com.google.android.material:material:1.0.0',
+            viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
 
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
@@ -108,7 +109,8 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: libraries.navigationFragment],
-            [configuration: "implementation", dependency: libraries.navigationUI]
+            [configuration: "implementation", dependency: libraries.navigationUI],
+            [configuration: "implementation", dependency: libraries.viewpagerDots]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies

@@ -12,8 +12,9 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.viewmodels.WelcomeViewModel
 import co.yap.yapcore.BaseActivity
+import co.yap.yapcore.BaseBindingActivity
 
-class WelcomeActivity : BaseActivity<IWelcome.ViewModel>(), IWelcome.View {
+class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View {
     companion object {
 
         private val ACCOUNT_TYPE = "account_type"
@@ -25,14 +26,15 @@ class WelcomeActivity : BaseActivity<IWelcome.ViewModel>(), IWelcome.View {
         }
     }
 
+    override fun getBindingVariable(): Int = 0
 
+    override fun getLayoutId(): Int = R.layout.screen_onboarding_welcome
 
     override val viewModel: IWelcome.ViewModel
         get() = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.screen_onboarding_welcome)
 
         viewModel.accountType = getAccountType()
         findViewById<ViewPager>(R.id.welcome_pager).adapter = WelcomePagerAdapter(
