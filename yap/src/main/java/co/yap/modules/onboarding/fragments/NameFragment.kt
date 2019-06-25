@@ -1,4 +1,4 @@
-package co.yap.app.onboarding.fragments
+package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,7 +8,7 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.navOptions
-import co.yap.app.R
+import co.yap.R
 
 class NameFragment : Fragment() {
     override fun onCreateView(

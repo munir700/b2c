@@ -5,7 +5,7 @@
             app:startDestination="@id/emailFragment">
     <fragment
         android:id="@+id/emailFragment"
-        android:name="co.yap.app.onboarding.fragments.EmailFragment"
+        android:name="co.yap.modules.onboarding.fragments.EmailFragment"
         android:label="EmailFragment">
 
         <action
@@ -20,7 +20,7 @@
 
     <fragment
         android:id="@+id/nameFragment"
-        android:name="co.yap.app.onboarding.fragments.NameFragment"
+        android:name="co.yap.modules.onboarding.fragments.NameFragment"
         android:label="NameFragment">
         <action
             android:id="@+id/action_nameFragment_to_mobileFragment"
@@ -33,7 +33,7 @@
 
     <fragment
         android:id="@+id/mobileFragment"
-        android:name="co.yap.app.onboarding.fragments.MobileFragment"
+        android:name="co.yap.modules.onboarding.fragments.MobileFragment"
         android:label="MobileFragment">
         <action
             android:id="@+id/action_mobileFragment_to_emailFragment"

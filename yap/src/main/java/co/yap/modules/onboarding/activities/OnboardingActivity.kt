@@ -1,4 +1,4 @@
-package co.yap.app.onboarding.activities
+package co.yap.modules.onboarding.activities
 
 import android.content.res.Resources
 import android.os.Bundle
@@ -9,8 +9,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import co.yap.app.R
-import co.yap.app.di.BaseActivity
+import co.yap.R
+import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.IBase
 
 class OnboardingActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {

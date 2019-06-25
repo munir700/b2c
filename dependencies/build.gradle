@@ -104,11 +104,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.networking)],
-            [configuration: "implementation", dependency: libraries.biometric],
-            //Navigation
-            [configuration: "implementation", dependency: libraries.navigationFragmentKtx],
-            [configuration: "implementation", dependency: libraries.navigationUItKtx]
-
+            [configuration: "implementation", dependency: libraries.biometric]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -116,7 +112,10 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: libraries.navigationFragment],
-            [configuration: "implementation", dependency: libraries.navigationUI]
+            [configuration: "implementation", dependency: libraries.navigationUI],
+            //Navigation
+            [configuration: "implementation", dependency: libraries.navigationFragmentKtx],
+            [configuration: "implementation", dependency: libraries.navigationUItKtx]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies

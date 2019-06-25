@@ -1,4 +1,4 @@
-package co.yap.app.onboarding.fragments
+package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,16 +8,16 @@ import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
-import co.yap.app.R
+import co.yap.R
 
-class EmailFragment : Fragment() {
+class MobileFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_email, container, false)
+        return inflater.inflate(R.layout.fragment_mobile, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,8 +31,9 @@ class EmailFragment : Fragment() {
                 popExit = R.anim.slide_out_right
             }
         }
+
         view.findViewById<Button>(R.id.next_button)?.setOnClickListener {
-            findNavController().navigate(R.id.action_emailFragment_to_nameFragment, null, options)
+            findNavController().navigate(R.id.action_mobileFragment_to_emailFragment, null, options)
         }
     }
 }
