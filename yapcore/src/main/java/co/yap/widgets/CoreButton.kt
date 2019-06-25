@@ -1,4 +1,4 @@
-package co.yap.yapcore
+package co.yap.widgets
 
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.widget.Button
+import co.yap.yapcore.R
 
 
 class CoreButton : Button {

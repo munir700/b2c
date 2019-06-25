@@ -16,42 +16,50 @@ import co.yap.yapcore.interfaces.IBindable
 
 object UIBinder {
     @BindingAdapter("bitmap")
+    @JvmStatic
     fun setImageBitmap(view: ImageView, bitmap: Bitmap) {
         view.setImageBitmap(bitmap)
     }
 
     @BindingAdapter("src")
+    @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {
         view.setImageResource(resId)
     }
 
     @BindingAdapter("text")
+    @JvmStatic
     fun setText(view: TextView, text: String) {
         view.text = Translator.getString(view.context, text)
     }
 
     @BindingAdapter("text")
+    @JvmStatic
     fun setText(view: TextView, textId: Int) {
         view.text = Translator.getString(view.context, textId)
     }
 
     @BindingAdapter("hint")
+    @JvmStatic
     fun setHint(view: TextView, textId: String) {
         view.hint = Translator.getString(view.context, textId)
     }
 
     @BindingAdapter("hint")
+    @JvmStatic
     fun setHint(view: EditText, textId: String) {
         view.hint = Translator.getString(view.context, textId)
     }
 
     @BindingAdapter("selected")
+    @JvmStatic
     fun setSelected(view: Button, selected: Boolean) {
         view.isSelected = selected
         view.isPressed = selected
     }
 
     @BindingAdapter("entries", "layout")
+    @JvmStatic
     fun <T : IBindable> setEntries(
         viewGroup: ViewGroup,
         entries: List<T>?, layoutId: Int
