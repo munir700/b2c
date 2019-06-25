@@ -7,7 +7,7 @@ import co.yap.yapcore.IBase
 interface IWelcome {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
-        val pages: ArrayList<WelcomeContent>
+        fun getPages(): ArrayList<WelcomeContent>
         var accountType: AccountType
         fun handlePressOnGetStarted()
     }
