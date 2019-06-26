@@ -6,6 +6,9 @@ import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.di.BaseActivity
+import co.yap.modules.onboarding.activities.OnboardingActivity
+import co.yap.modules.onboarding.activities.WelcomeActivity
+import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.IBase
 import kotlinx.android.synthetic.main.activity_account_selection.*
 
@@ -24,16 +27,15 @@ class AccountSelectionActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
         viewDataBinding.executePendingBindings()
 
         btnBusiness.setOnClickListener {
-            showToast("start b2b onboarding Flow")
+            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
         }
 
         btnPersonal.setOnClickListener {
-            showToast("start b2c onboarding Flow")
+            startActivity(WelcomeActivity.newIntent(this, AccountType.B2C))
         }
 
         tvSignIn.setOnClickListener {
-
-            showToast("start sign in screen here")
+            startActivity(OnboardingActivity.newIntent(this, AccountType.B2C))
         }
     }
 }

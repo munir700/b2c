@@ -1,5 +1,5 @@
 package co.yap.yapcore.interfaces
 
 interface IBindable {
-    val bindingVariable: Int
+    var bindingVariable: Int
 }

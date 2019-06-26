@@ -88,7 +88,7 @@
             android:layout_height="100dp"
             app:view_drawable="@drawable/ic_back_arrow"
             app:view_error_input_field="@string/err_email"
-            app:view_hint_input_field="@string/app_name_sample"
+            app:view_hint_input_field="@string/app_name"
             app:view_drawable_position="right"
             />
         <!--<co.yap.widgets.CoreInputField      android:layout_width="match_parent"-->

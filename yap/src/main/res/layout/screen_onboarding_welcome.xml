@@ -1,34 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/welcome_pager"
+    <data>
+
+        <import type="co.yap.translation.Strings"/>
+    </data>
+
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_weight="1"
-        android:layout_height="0dp" />
+        android:layout_height="match_parent">
 
-    <co.yap.widgets.CoreButton
-        android:id="@+id/close_btn_one"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:btn_round_radius="50dp"
-        android:enabled="true"
-        android:textColor="@color/colorWhite"
-        android:text="@string/app_name_sample"
-        app:btn_text="@string/app_name_sample"
-        android:layout_margin="24dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:gravity="center"
-        app:btn_text_size="@dimen/text_size_h4"
-        android:drawablePadding="@dimen/_20sdp"
-        app:btn_shape_type="rectangle"
-        tools:ignore="MissingConstraints"/>
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/welcome_pager"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:layout_height="0dp"/>
 
-</LinearLayout>
+        <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+            android:id="@+id/worm_dots_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_24sdp"
+            app:dotsColor="@color/colorPrimary"
+            app:dotsStrokeColor="@color/greyDark"
+            android:layout_gravity="center_horizontal"
+            app:dotsCornerRadius="8dp"
+            app:dotsSize="16dp"
+            app:dotsSpacing="4dp"
+            app:dotsStrokeWidth="2dp"/>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/close_btn_one"
+            android:layout_width="@dimen/_196sdp"
+            android:layout_height="@dimen/_52sdp"
+            android:enabled="true"
+            android:layout_gravity="center_horizontal"
+            style="@style/RectangleBtnStyle"
+            android:textColor="@color/colorWhite"
+            app:text="@{Strings.screen_welcom_button_get_started}"
+            android:layout_margin="24dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</layout>
