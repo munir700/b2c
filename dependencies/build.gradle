@@ -1,6 +1,7 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 project.ext {
     compileSdkVersion = 28
@@ -60,6 +61,10 @@ project.ext {
             vectordrawable           : 'androidx.vectordrawable:vectordrawable:1.1.0-beta02',
             biometric                : 'androidx.biometric:biometric:1.0.0-alpha03',
 
+            //Navigation
+            navigationFragmentKtx    : "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
+            navigationUItKtx         : "androidx.navigation:navigation-ui-ktx:$navigationVersion",
+
             // Androidx Architecture
             lifecycleRuntime         : "androidx.lifecycle:lifecycle-runtime:$arch",
             lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$arch",
@@ -110,6 +115,9 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.translation)],
             [configuration: "implementation", dependency: libraries.navigationFragment],
             [configuration: "implementation", dependency: libraries.navigationUI],
+            //Navigation
+            [configuration: "implementation", dependency: libraries.navigationFragmentKtx],
+            [configuration: "implementation", dependency: libraries.navigationUItKtx],
             [configuration: "implementation", dependency: libraries.viewpagerDots]
     ]
 
