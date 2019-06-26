@@ -25,12 +25,15 @@ class CoreInputField @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : RelativeLayout(context, attrs, defStyle, defStyleRes) {
 
-    var drawable: Drawable? = null
-    private var drawablePositionType: Int = 0
+    var drawableRight: Drawable? = null
+    var drawableLeft: Drawable? = null
+    private var drawablePositionType: Int = 1
     private var paintText: Paint = Paint()
     private var DRAWABLE_RIGHT: Int = 1
     private var DRAWABLE_LEFT: Int = 0
-    lateinit var bitmapIcon: Bitmap
+    private var DRAWABLES: Int = 2
+    lateinit var bitmapIconRight: Bitmap
+    lateinit var bitmapIconLeft: Bitmap
 
     private var viewWeight: Int = 0
     private var viewHeight: Int = 0
@@ -44,7 +47,7 @@ class CoreInputField @JvmOverloads constructor(
     private var drawablePaddingRight: Float = 1.1f
     private var drawablePaddingTop: Float = 5.5f
 
-     init {
+    init {
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
 
 
@@ -57,10 +60,20 @@ class CoreInputField @JvmOverloads constructor(
             val error = resources.getText(
                 typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
             )
-            drawable = typedArray.getDrawable(
-                R.styleable.CoreInputField_view_drawable
-            )
-            drawablePositionType = typedArray.getInt(R.styleable.CoreInputField_view_drawable_position, 1)
+
+            if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)) {
+                drawableRight = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)
+                drawablePositionType=1
+            }else{
+                drawableRight = null
+
+            }
+            if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_left)) {
+                drawableLeft = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_left)
+                drawablePositionType=0
+            }else{
+                drawableLeft=null
+            }
             drawablePaddingLeft =
                 typedArray.getFloat(R.styleable.CoreInputField_view_drawable_padding_left, defaultDrawablePaddingLeft)
             drawablePaddingRight = typedArray.getFloat(
@@ -126,35 +139,85 @@ class CoreInputField @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
+var checkNonEmptyDrawable=false;
+        if(null!= drawableRight && null!= drawableLeft){
+            drawablePositionType=DRAWABLES
+        }
+        if (null!=drawableLeft){
+            bitmapIconLeft = drawableLeft?.let { this.drawableToBitmap(it) }!!
+            checkNonEmptyDrawable=true
+        }
+        if (null!=drawableRight){
+            bitmapIconRight = drawableRight?.let { this.drawableToBitmap(it) }!!
+            checkNonEmptyDrawable=true
+        }
+        if (checkNonEmptyDrawable) {
 
-
-        if (null != drawable) {
-            bitmapIcon = drawable?.let { this.drawableToBitmap(it) }!!
 
 
             when (drawablePositionType) {
-                DRAWABLE_LEFT -> canvas?.drawBitmap(
-                    bitmapIcon,
+                DRAWABLE_LEFT ->
+                canvas?.drawBitmap(
+                    bitmapIconLeft,
                     (viewWeight / drawablePaddingLeft),    //position from left (float value)
-                    (viewHeight / drawablePaddingTop),     // set y-position of drawable left from top (float value)
+                    (viewHeight / drawablePaddingTop),     // set y-position of drawableRight left from top (float value)
                     paintText
                 )
-
-                DRAWABLE_RIGHT -> canvas?.drawBitmap(
-                    bitmapIcon,
+//
+                DRAWABLE_RIGHT ->
+                canvas?.drawBitmap(
+                    bitmapIconRight,
                     (viewWeight / drawablePaddingRight),       //position from left (float value)
-                    (viewHeight / drawablePaddingTop),         // set y-position of drawable right (float value)
+                    (viewHeight / drawablePaddingTop),         // set y-position of drawableRight right (float value)
                     paintText
                 )
-                else ->
+                DRAWABLES -> {
                     canvas?.drawBitmap(
-                        bitmapIcon,
-                        (viewWeight / drawablePaddingTop),     //position from left (float value)
-                        (viewHeight / drawablePaddingTop),     // set y-position of drawable right (float value)
+                        bitmapIconRight,
+                        (viewWeight / drawablePaddingRight),       //position from left (float value)
+                        (viewHeight / drawablePaddingTop),         // set y-position of drawableRight right (float value)
                         paintText
                     )
+
+                    canvas?.drawBitmap(
+                        bitmapIconLeft,
+                        (viewWeight / drawablePaddingLeft),    //position from left (float value)
+                        (viewHeight / drawablePaddingTop),     // set y-position of drawableRight left from top (float value)
+                        paintText
+                    )
+                }
             }
         }
+
+//        if (null != drawableLeft) {
+//            bitmapIconLeft = drawableLeft?.let { this.drawableToBitmap(it) }!!
+//
+//
+////            when (drawablePositionType) {
+////                DRAWABLE_LEFT ->
+//            canvas?.drawBitmap(
+//                    bitmapIconLeft,
+//                    (viewWeight / drawablePaddingLeft),    //position from left (float value)
+//                    (viewHeight / drawablePaddingTop),     // set y-position of drawableLeft left from top (float value)
+//                    paintText
+//                )
+//
+////                DRAWABLE_RIGHT ->
+//            canvas?.drawBitmap(
+//                    bitmapIconLeft,
+//                    (viewWeight / drawablePaddingRight),       //position from left (float value)
+//                    (viewHeight / drawablePaddingTop),         // set y-position of drawableLeft right (float value)
+//                    paintText
+//                )
+////                else ->
+////                    canvas?.drawBitmap(
+////                        bitmapIconLeft,
+////                        (viewWeight / drawablePaddingTop),     //position from left (float value)
+////                        (viewHeight / drawablePaddingTop),     // set y-position of drawableLeft right (float value)
+////                        paintText
+////                    )
+////            }
+//        }
     }
 
 }
