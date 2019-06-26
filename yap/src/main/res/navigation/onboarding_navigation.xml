@@ -12,10 +12,7 @@
         <action
             android:id="@+id/action_emailFragment_to_nameFragment"
             app:destination="@id/nameFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            />
 
     </fragment>
 
@@ -26,10 +23,7 @@
         <action
             android:id="@+id/action_nameFragment_to_mobileFragment"
             app:destination="@id/mobileFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            />
     </fragment>
 
     <fragment
@@ -37,16 +31,16 @@
         android:name="co.yap.modules.onboarding.fragments.MobileFragment"
         android:label="MobileFragment">
         <action
-            android:id="@+id/action_mobileFragment_to_emailFragment"
-            app:destination="@id/emailFragment"
-            app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right"/>
+            android:id="@+id/action_mobileFragment_to_phoneVerificationFragment"
+            app:destination="@id/phoneVerificationFragment"/>
     </fragment>
     <fragment
         android:id="@+id/phoneVerificationFragment"
         android:name="co.yap.modules.onboarding.fragments.PhoneVerificationFragment"
         android:label="fragment_phone_verification"
-        tools:layout="@layout/fragment_phone_verification"/>
+        tools:layout="@layout/fragment_phone_verification">
+        <action
+            android:id="@+id/action_phoneVerificationFragment_to_emailFragment"
+            app:destination="@id/emailFragment"/>
+    </fragment>
 </navigation>

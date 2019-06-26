@@ -33,7 +33,8 @@ class MobileFragment : Fragment() {
         }
 
         view.findViewById<Button>(R.id.next_button)?.setOnClickListener {
-            findNavController().navigate(R.id.action_mobileFragment_to_emailFragment, null, options)
+            findNavController().navigate(R.id.phoneVerificationFragment, null, options)
+            // findNavController().navigate(R.id.action_mobileFragment_to_emailFragment, null, options)
         }
     }
 }
