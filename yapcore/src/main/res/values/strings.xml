@@ -2,6 +2,7 @@
 
     //All strings are temporary
     <string name="empty_string"> </string>
+    <string name="dialer_type_normal">dailer text</string>
     <string name="app_name_sample">yapcoreSample</string>
     <string name="err_email">Please enter you email</string>
 

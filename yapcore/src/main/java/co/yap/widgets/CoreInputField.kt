@@ -13,7 +13,7 @@ import android.view.LayoutInflater
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import co.yap.yapcore.R
-import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
+import kotlinx.android.synthetic.main.core_input_field.view.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @SuppressLint("CustomViewStyleable")
@@ -45,7 +45,7 @@ class CoreInputField @JvmOverloads constructor(
     private var drawablePaddingTop: Float = 5.5f
 
      init {
-        LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
+        LayoutInflater.from(context).inflate(R.layout.core_input_field, this, true)
 
 
         attrs?.let {
@@ -60,7 +60,7 @@ class CoreInputField @JvmOverloads constructor(
             drawable = typedArray.getDrawable(
                 R.styleable.CoreInputField_view_drawable
             )
-            drawablePositionType = typedArray.getInt(R.styleable.CoreInputField_view_drawable_position, 1)
+            drawablePositionType = typedArray.getInteger(R.styleable.CoreInputField_view_drawable_position, 1)
             drawablePaddingLeft =
                 typedArray.getFloat(R.styleable.CoreInputField_view_drawable_padding_left, defaultDrawablePaddingLeft)
             drawablePaddingRight = typedArray.getFloat(
