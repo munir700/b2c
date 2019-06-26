@@ -1,37 +1,49 @@
 package co.yap.yapcore
 
 import android.app.Application
+import android.content.Context
+import android.view.animation.TranslateAnimation
 import androidx.lifecycle.*
+import co.yap.translation.Translator
+import co.yap.yapcore.interfaces.CoroutineViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 
-abstract class BaseViewModel(application: Application) : AndroidViewModel(application),
-    IBase.ViewModel {
+abstract class BaseViewModel<S: IBase.State>(application: Application) : AndroidViewModel(application),
+    IBase.ViewModel<S>, CoroutineViewModel {
 
-    //var viewListener: N? = null
-    private var state: BaseState? = null
+    override val context: Context
+        get() = getApplication<Application>().applicationContext
+
+    override val viewModelJob: Job
+        get() = Job()
+    override val viewModelScope: CoroutineScope
+        get() = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     override fun onCleared() {
+        cancelAllJobs()
         super.onCleared()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     override fun onCreate() {
-        getState().init()
+        state.init()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    override fun onStart() {
-
-    }
+    override fun onStart(){}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     override fun OnResume() {
-        getState().resume()
+        state.resume()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_PAUSE)
     override fun onPause() {
-        getState().pause()
+        state.pause()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
@@ -41,23 +53,28 @@ abstract class BaseViewModel(application: Application) : AndroidViewModel(applic
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     override fun onDestroy() {
-        getState().destroy()
+        state.destroy()
     }
 
-    override fun registerLifecycleOwner(owner: LifecycleOwner) {
-        if (owner != null) {
-            unregisterLifecycleOwner(owner)
-            owner.lifecycle.addObserver(this)
-        }
+    override fun registerLifecycleOwner(owner: LifecycleOwner?) {
+        unregisterLifecycleOwner(owner)
+        owner?.lifecycle?.addObserver(this)
     }
 
-    override fun unregisterLifecycleOwner(owner: LifecycleOwner) {
+    override fun unregisterLifecycleOwner(owner: LifecycleOwner?) {
         owner?.lifecycle?.removeObserver(this)
     }
 
-      override fun getState(): IBase.State {
-          if (state == null) state = BaseState()
-          return state as BaseState
-      }
+    override fun cancelAllJobs() {
+        viewModelJob.cancel()
+    }
+
+    override fun launch(block: suspend () -> Unit) {
+        viewModelScope.launch { block() }
+    }
+
+    override fun getString(resourceId: Int): String = Translator.getString(context, resourceId)
+
+    override fun getString(resourceId: String): String = Translator.getString(context, resourceId)
 }
 

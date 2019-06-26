@@ -1,23 +1,22 @@
-package co.yap.app
+package co.yap.app.activities
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import co.yap.app.R
 import co.yap.app.di.BaseActivity
-import co.yap.networking.RetroNetwork
-import co.yap.networking.interfaces.NetworkConstraintsListener
+import co.yap.translation.Translator
+import co.yap.translation.Strings
 import co.yap.yapcore.IBase
 
-class MainActivity : BaseActivity() {
-    override fun <T : IBase.ViewModel> getViewModel(): T {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+class MainActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
+
+    override val viewModel: IBase.ViewModel<IBase.State>
+        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

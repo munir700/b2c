@@ -167,7 +167,7 @@
     </style>
 
 
-    <style name="ATitle3Grey">
+    <style name="ATitle3Grey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h5</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">9sp</item>
@@ -180,7 +180,7 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
-    <style name="ALargeGrey">
+    <style name="ALargeGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h4</item>
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">10sp</item>
@@ -222,7 +222,7 @@
     <style name="MicroGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h1</item>
         <item name="android:lineSpacingExtra">6sp</item>
-        <item name="android:textColor">@color/greyDark</item> 
+        <item name="android:textColor">@color/greyDark</item>
     </style>
 
     <style name="AMicroGrey" parent="AppFontRegular">
@@ -230,6 +230,14 @@
         <item name="android:textStyle">normal</item>
         <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/greyDark</item>
+    </style>
+
+
+    <style name="RectangleBtnStyle" parent="AppFontMedium">
+        <item name="btn_text_size">@dimen/text_size_h4</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="btn_round_radius">50dp</item>
     </style>
 
 </resources>

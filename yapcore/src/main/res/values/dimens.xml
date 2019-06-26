@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    //Headings
+    <!-- Headings -->
     <dimen name="text_size_h1">@dimen/_12sdp</dimen>
     <dimen name="text_size_h2">@dimen/_14sdp</dimen>
     <dimen name="text_size_h3">@dimen/_16sdp</dimen>
@@ -10,7 +10,7 @@
     <dimen name="text_size_h6">@dimen/_24sdp</dimen>
     <dimen name="text_size_h7">@dimen/_28sdp</dimen>
 
-    //Content
+    <!-- Content -->
     <dimen name="text_size_c1">@dimen/_9sdp</dimen>
     <dimen name="text_size_c2">@dimen/_10sdp</dimen>
     <dimen name="text_size_c3">@dimen/_11sdp</dimen>
@@ -19,10 +19,30 @@
     <dimen name="text_size_c6">@dimen/_14sdp</dimen>
 
 
-    //
-
     <dimen name="base_padding">16dp</dimen>
     <dimen name="btn_radius">2dp</dimen>
     <dimen name="round_radius">0dp</dimen>
     <dimen name="label_text_size">12dp</dimen>
+
+    <!-- MARGIN -->
+    <dimen name="margin_extra_small">@dimen/_4sdp</dimen>
+    <dimen name="margin_small">@dimen/_8sdp</dimen>
+    <dimen name="margin_normal">@dimen/_12sdp</dimen>
+    <dimen name="margin_normal_large">@dimen/_14sdp</dimen>
+    <dimen name="margin_medium">@dimen/_16sdp</dimen>
+    <dimen name="margin_medium_large">@dimen/_20sdp</dimen>
+    <dimen name="margin_large">@dimen/_24sdp</dimen>
+    <dimen name="margin_xl">@dimen/_32sdp</dimen>
+    <dimen name="margin_xxl">@dimen/_56sdp</dimen>
+
+    <dimen name="text_content_margin">@dimen/_30sdp</dimen>
+    <dimen name="btn_content_margin">@dimen/_15sdp</dimen>
+    <dimen name="nav_drawer_width">@dimen/_300sdp</dimen>
+
+    <!-- PADDING -->
+
+    <dimen name="padding_onboarding_image">-110dp</dimen>
+
+
+
 </resources>
