@@ -59,7 +59,7 @@ object BiometricUtil {
     fun isPermissionGranted(context: Context): Boolean {
         return ActivityCompat.checkSelfPermission(
             context,
-            Manifest.permission.USE_BIOMETRIC
+            Manifest.permission.USE_FINGERPRINT
         ) == PackageManager.PERMISSION_GRANTED
     }
 }
