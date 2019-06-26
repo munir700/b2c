@@ -26,13 +26,11 @@
         app:layout_constraintEnd_toEndOf="@+id/text"/>
 
     <co.yap.widgets.CoreInputField
-        android:id="@+id/text"
+        android:id="@+id/inputMobileNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:view_drawable_left="@drawable/bitmap"
         app:view_drawable_right="@drawable/invalid_name"
-        app:view_drawable_padding_left="11.5"
-        app:view_error_input_field="@string/screen_phone_number_display_text_error"
         android:background="@color/white"
         android:layout_marginTop="@dimen/margin_heading_to_field"
         app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"

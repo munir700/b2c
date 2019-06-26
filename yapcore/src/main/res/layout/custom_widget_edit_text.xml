@@ -30,6 +30,7 @@
             android:imeOptions="actionDone"
             android:inputType="textEmailAddress"
             android:paddingStart="20dp"
+            android:drawablePadding="@dimen/margin_small"
             android:paddingEnd="20dp"
             android:textSize="20sp"/>
         <!--</com.google.android.material.textfield.TextInputLayout>-->
@@ -40,6 +41,7 @@
             android:layout_height="wrap_content"
             style="@style/AMicroGrey"
             android:textSize="12sp"
+            android:visibility="gone"
             android:paddingStart="@dimen/margin_extra_small"
             android:layout_marginTop="@dimen/margin_small"
             android:layout_below="@+id/etEmail"/>

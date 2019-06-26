@@ -34,9 +34,6 @@
         <attr name="view_error_input_field" format="reference"/>
         <attr name="view_drawable_right" format="reference"/>
         <attr name="view_drawable_left" format="reference"/>
-        <attr name="view_drawable_padding_top" format="float"/>
-        <attr name="view_drawable_padding_right" format="float"/>
-        <attr name="view_drawable_padding_left" format="float"/>
 
     </declare-styleable>
 </resources>
