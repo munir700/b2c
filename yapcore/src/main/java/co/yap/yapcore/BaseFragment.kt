@@ -2,6 +2,9 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 
@@ -88,4 +91,6 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : Fragment(), IBase.View<V> {
     override fun requestPermissions() {
         getBaseView()?.requestPermissions()
     }
+
+
 }
