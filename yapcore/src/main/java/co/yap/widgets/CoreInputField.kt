@@ -61,6 +61,7 @@ class CoreInputField @JvmOverloads constructor(
                 R.styleable.CoreInputField_view_drawable
             )
             drawablePositionType = typedArray.getInteger(R.styleable.CoreInputField_view_drawable_position, 1)
+
             drawablePaddingLeft =
                 typedArray.getFloat(R.styleable.CoreInputField_view_drawable_padding_left, defaultDrawablePaddingLeft)
             drawablePaddingRight = typedArray.getFloat(
@@ -69,8 +70,10 @@ class CoreInputField @JvmOverloads constructor(
             )
             drawablePaddingTop =
                 typedArray.getFloat(R.styleable.CoreInputField_view_drawable_padding_top, defaultDrawablePaddingTop)
+            val focusable = typedArray.getInteger(R.styleable.CoreInputField_view_focusable, 0)
 
 
+            if(focusable==0) etEmail.isFocusable=false else etEmail.isFocusable
 
             etEmail.hint = title
             if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal(error = error.toString())

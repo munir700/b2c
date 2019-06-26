@@ -2,4 +2,8 @@
     <string name="app_name_new">YAP</string>
     <string name="action_settings">Settings</string>
 
+    //Login screen
+    <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
+    <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
+
 </resources>

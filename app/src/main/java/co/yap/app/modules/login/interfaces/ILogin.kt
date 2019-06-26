@@ -9,5 +9,10 @@ interface ILogin {
         fun performLogin(email: String, password: String)
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var email: String
+        var emailError: String
+        var valid: Boolean
+        
+    }
 }
