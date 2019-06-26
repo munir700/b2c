@@ -1,4 +1,4 @@
-package co.yap.app.modules.login
+package co.yap.app.modules.login.interfaces
 
 import co.yap.yapcore.IBase
 

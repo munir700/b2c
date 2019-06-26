@@ -1,11 +1,12 @@
-package co.yap.app.modules.login
+package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
 import co.yap.app.api.login.LoginRepository
 import co.yap.app.api.login.requestdtos.LoginRequest
+import co.yap.app.modules.login.interfaces.ILogin
+import co.yap.app.modules.login.states.LoginState
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.yapcore.BaseViewModel
-import kotlinx.coroutines.launch
 
 class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel, IRepositoryHolder<LoginRepository> {
 
