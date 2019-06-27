@@ -11,7 +11,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
-import androidx.databinding.Bindable
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 
@@ -29,7 +28,6 @@ class CoreInputField @JvmOverloads constructor(
     var drawableRight: Drawable? = null
     var drawableLeft: Drawable? = null
     private var paintText: Paint = Paint()
-
     private var viewWeight: Int = 0
     private var viewHeight: Int = 0
     private var textInput: String = ""
@@ -88,6 +86,29 @@ class CoreInputField @JvmOverloads constructor(
 
         }
 
+    }
+
+    fun setDrawableRightIcon(drawable: Drawable) {
+        drawableRight = drawable
+        if (null != drawableLeft) {
+            etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+
+        } else {
+            etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+
+        }
+
+    }
+
+    fun setDrawableLeftIcon(drawable: Drawable) {
+        drawableLeft = drawable
+
+        if (null != drawableRight) {
+            etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+
+        } else {
+            etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
+        }
     }
 
     fun setview_input_text(text: String) {

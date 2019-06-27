@@ -2,6 +2,7 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -86,5 +87,17 @@ object UIBinder {
         view.setview_input_text(textValue)
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("coreInputDrawableLeft")
+    fun drawableLeft(view: CoreInputField, drawable: Drawable) {
+        view.setDrawableLeftIcon(drawable)
+    }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("coreInputDrawableRight")
+    fun drawableRight(view: CoreInputField, drawable: Drawable) {
+        view.setDrawableRightIcon(drawable)
+    }
 }
