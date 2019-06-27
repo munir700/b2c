@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/onboarding_navigation"
-            app:startDestination="@id/emailFragment">
+            app:startDestination="@id/mobileFragment">
     <fragment
         android:id="@+id/emailFragment"
         android:name="co.yap.modules.onboarding.fragments.EmailFragment"

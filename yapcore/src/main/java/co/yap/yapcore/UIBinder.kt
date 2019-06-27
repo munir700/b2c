@@ -2,16 +2,19 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
+import co.yap.widgets.CoreInputField
 import co.yap.yapcore.interfaces.IBindable
 
 object UIBinder {
@@ -75,5 +78,13 @@ object UIBinder {
             }
         }
     }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("coreInputText")
+    fun setText(view: CoreInputField, textValue: String) {
+        view.setview_input_text(textValue)
+    }
+
 
 }

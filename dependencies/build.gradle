@@ -33,6 +33,7 @@ project.ext {
             sdp                      : 'com.intuit.sdp:sdp-android:1.0.5',
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
+//            databindingCompiler      : "androidx.databinding:compiler:$kotlin_version",
             material                 : 'com.google.android.material:material:1.0.0',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
 

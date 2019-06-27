@@ -2,18 +2,22 @@ package co.yap.widgets
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.Canvas
+import android.content.res.TypedArray
 import android.graphics.Paint
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.RelativeLayout
+import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
+import androidx.databinding.Bindable
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.Observable
+import co.yap.yapcore.BR
 import co.yap.yapcore.R
-import kotlinx.android.synthetic.main.core_input_field.view.*
+import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @SuppressLint("CustomViewStyleable")
@@ -23,33 +27,40 @@ class CoreInputField @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0,
     defStyleRes: Int = 0
-) : RelativeLayout(context, attrs, defStyle, defStyleRes) {
+) : RelativeLayout(context, attrs, defStyle, defStyleRes) ,Observable{
 
-    var drawable: Drawable? = null
-    private var drawablePositionType: Int = 0
+
+    var drawableRight: Drawable? = null
+    var drawableLeft: Drawable? = null
     private var paintText: Paint = Paint()
-    private var DRAWABLE_RIGHT: Int = 1
-    private var DRAWABLE_LEFT: Int = 0
-    lateinit var bitmapIcon: Bitmap
 
     private var viewWeight: Int = 0
     private var viewHeight: Int = 0
+    private var textInput: String = ""
+    lateinit var typedArray:TypedArray
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
 
+    }
 
-    private var defaultDrawablePaddingLeft: Float = 9.5f
-    private var defaultDrawablePaddingRight: Float = 1.1f
-    private var defaultDrawablePaddingTop: Float = 5.5f
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+        fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            if (propertyId == BR.view_input_text) {
+//                    viewModel.state.email
+                textInput =
+                    typedArray.getString(R.styleable.CoreInputField_view_input_text)
+                etEmail.setText(textInput)
 
-    private var drawablePaddingLeft: Float = 9.5f
-    private var drawablePaddingRight: Float = 1.1f
-    private var drawablePaddingTop: Float = 5.5f
+            }
+        }
+    }
+    init {
 
-     init {
-        LayoutInflater.from(context).inflate(R.layout.core_input_field, this, true)
+        LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
+//        val layout: ConstraintLayout = LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true) as ConstraintLayout
 
 
         attrs?.let {
-            val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
+              typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
             val title = resources.getText(
                 typedArray
                     .getResourceId(R.styleable.CoreInputField_view_hint_input_field, R.string.empty_string)
@@ -57,26 +68,40 @@ class CoreInputField @JvmOverloads constructor(
             val error = resources.getText(
                 typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
             )
-            drawable = typedArray.getDrawable(
-                R.styleable.CoreInputField_view_drawable
-            )
-            drawablePositionType = typedArray.getInteger(R.styleable.CoreInputField_view_drawable_position, 1)
 
-            drawablePaddingLeft =
-                typedArray.getFloat(R.styleable.CoreInputField_view_drawable_padding_left, defaultDrawablePaddingLeft)
-            drawablePaddingRight = typedArray.getFloat(
-                R.styleable.CoreInputField_view_drawable_padding_right,
-                defaultDrawablePaddingRight
-            )
-            drawablePaddingTop =
-                typedArray.getFloat(R.styleable.CoreInputField_view_drawable_padding_top, defaultDrawablePaddingTop)
-            val focusable = typedArray.getInteger(R.styleable.CoreInputField_view_focusable, 0)
+            if (null != typedArray.getString(R.styleable.CoreInputField_view_input_text)) {
 
+                textInput =
+                typedArray.getString(R.styleable.CoreInputField_view_input_text)
+            }
+//            val textInput = resources.getText(
+//                typedArray
+//                    .getResourceId(R.styleable.CoreInputField_view_input_text, R.string.empty_string)
+//            )
 
-            if(focusable==0) etEmail.isFocusable=false else etEmail.isFocusable
+            if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)) {
+                drawableRight = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)
+                etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+            } else {
+                drawableRight = null
+            }
 
+            if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_left)) {
+                drawableLeft = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_left)
+
+                etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
+            }
+
+            if (null != drawableRight && null != drawableLeft) {
+                etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+            }
+
+            if(!textInput.isEmpty()){
+                etEmail.setText(textInput)
+
+            }
             etEmail.hint = title
-            if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal(error = error.toString())
+            if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
             typedArray.recycle()
 
 
@@ -89,36 +114,43 @@ class CoreInputField @JvmOverloads constructor(
 
     }
 
-    fun drawableToBitmap(drawable: Drawable): Bitmap? {
-        val bitmap: Bitmap?
+    fun setview_input_text(text: String) {
+        etEmail.setText(text)
 
-        if (drawable is BitmapDrawable) {
-            if (drawable.bitmap != null) {
-                return drawable.bitmap
-            }
-        }
-
-        if (drawable.intrinsicWidth <= 0 || drawable.intrinsicHeight <= 0) {
-            bitmap =
-                Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888)
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.intrinsicWidth, drawable.intrinsicHeight, Bitmap.Config.ARGB_8888)
-        }
-
-        val canvas = Canvas(bitmap)
-        drawable.setBounds(0, 0, canvas.width, canvas.height)
-        drawable.draw(canvas)
-        return bitmap
     }
 
-    private fun settingUIForError(error: String) {
+    @Bindable
+    fun getview_input_text(): String? {
+      return  etEmail.text.toString()
+
+    }
+
+    fun setText(text: String) {
+        etEmail.setText(text)
+
+    }
+
+
+    @Bindable
+    fun getText():String{
+        return etEmail.text.toString()
+    }
+
+    fun viewSetTextTwo() {
+        etEmail.setText(textInput)
+
+    }
+
+    fun settingUIForError(error: String) {
         etEmail.setBackgroundResource(R.drawable.bg_round_error_layout)
         tvError.text = error
+        tvError.visibility = View.VISIBLE
     }
 
-    private fun settingUIForNormal(error: String) {
+    fun settingUIForNormal() {
         etEmail.setBackgroundResource(R.drawable.bg_round_edit_text)
-        tvError.text = error
+        tvError.text = ""
+        tvError.visibility = View.GONE
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
@@ -126,38 +158,4 @@ class CoreInputField @JvmOverloads constructor(
         viewWeight = w
         viewHeight = h
     }
-
-    override fun onDraw(canvas: Canvas?) {
-        super.onDraw(canvas)
-
-
-        if (null != drawable) {
-            bitmapIcon = drawable?.let { this.drawableToBitmap(it) }!!
-
-
-            when (drawablePositionType) {
-                DRAWABLE_LEFT -> canvas?.drawBitmap(
-                    bitmapIcon,
-                    (viewWeight / drawablePaddingLeft),    //position from left (float value)
-                    (viewHeight / drawablePaddingTop),     // set y-position of drawable left from top (float value)
-                    paintText
-                )
-
-                DRAWABLE_RIGHT -> canvas?.drawBitmap(
-                    bitmapIcon,
-                    (viewWeight / drawablePaddingRight),       //position from left (float value)
-                    (viewHeight / drawablePaddingTop),         // set y-position of drawable right (float value)
-                    paintText
-                )
-                else ->
-                    canvas?.drawBitmap(
-                        bitmapIcon,
-                        (viewWeight / drawablePaddingTop),     //position from left (float value)
-                        (viewHeight / drawablePaddingTop),     // set y-position of drawable right (float value)
-                        paintText
-                    )
-            }
-        }
-    }
-
 }

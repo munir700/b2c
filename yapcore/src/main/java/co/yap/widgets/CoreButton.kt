@@ -180,21 +180,21 @@ class CoreButton : Button {
                 DRAWABLE_LEFT -> canvas.drawBitmap(
                     bitmapIcon,
                     (btnWeight / drawablePaddingLeft).toFloat(),    //position from left
-                    (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable left from top
+                    (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawableRight left from top
                     paintText
                 )
 
                 DRAWABLE_RIGHT -> canvas.drawBitmap(
                     bitmapIcon,
                     (btnWeight / drawablePaddingRight).toFloat(),       //position from left
-                    (btnHeight / drawablePaddingTop).toFloat(),         // set y-position of drawable right
+                    (btnHeight / drawablePaddingTop).toFloat(),         // set y-position of drawableRight right
                     paintText
                 )
                 else ->
                     canvas.drawBitmap(
                         bitmapIcon,
                         (btnWeight / drawablePaddingTop).toFloat(),     //position from left
-                        (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable right
+                        (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawableRight right
                         paintText
                     )
             }

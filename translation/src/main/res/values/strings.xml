@@ -22,4 +22,12 @@
     <string name="screen_welcom_b2b_display_text_page2_details">Simplified expense and\npayroll processes</string>
     <string name="screen_welcom_b2b_display_text_page3_details">Full overview of business\nspending</string>
     <string name="screen_welcom_button_get_started">Get started</string>
+
+
+   <!-- Phone Number Screen -->
+
+    <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>
+    <string name="screen_phone_number_display_text_error">You\’ve entered an invalid phone number. Please, try again.</string>
+    <string name="screen_phone_number_button_send">Send</string>
+
 </resources>
