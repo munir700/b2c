@@ -1,4 +1,4 @@
-package co.yap.app.modules.login
+package co.yap.app.modules.login.interfaces
 
 import co.yap.yapcore.IBase
 
@@ -9,5 +9,10 @@ interface ILogin {
         fun performLogin(email: String, password: String)
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var email: String
+        var emailError: String
+        var valid: Boolean
+        
+    }
 }
