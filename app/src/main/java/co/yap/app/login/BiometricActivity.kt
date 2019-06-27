@@ -1,48 +1,81 @@
 package co.yap.app.login
 
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricPrompt
 import co.yap.app.R
-import java.util.concurrent.Executors
 
-class BiometricActivity : AppCompatActivity() {
+class BiometricActivity : AppCompatActivity(), BiometricCallback {
+    lateinit var mBiometricManager: BiometricManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_biometric)
 
-        val executor = Executors.newSingleThreadExecutor()
-        val biometricPrompt = BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
-
-            override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
-                super.onAuthenticationError(errorCode, errString)
-                Log.e("onAuthenticationError", "onAuthenticationError")
-            }
-
-            override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                super.onAuthenticationSucceeded(result)
-                Log.e("onAuthSucceeded", "onAuthenticationSucceeded")
-            }
-
-            override fun onAuthenticationFailed() {
-                super.onAuthenticationFailed()
-                Log.e("onAuthenticationFailed", "onAuthenticationFailed")
-            }
-        })
-
-
-        val promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Sign in")
-            .setNegativeButtonText("Cancel")
-            .build()
-
-
         findViewById<Button>(R.id.btnAuth).setOnClickListener {
-            biometricPrompt.authenticate(promptInfo)
+            mBiometricManager = BiometricManager.BiometricBuilder(this@BiometricActivity)
+                .setTitle(getString(R.string.biometric_title))
+                .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
+                .build()
+
+            mBiometricManager.authenticate(this@BiometricActivity)
         }
 
+    }
+
+
+    override fun onSdkVersionNotSupported() {
+        Toast.makeText(applicationContext, getString(R.string.biometric_error_sdk_not_supported), Toast.LENGTH_LONG)
+            .show()
+    }
+
+    override fun onBiometricAuthenticationNotSupported() {
+        Toast.makeText(
+            applicationContext,
+            getString(R.string.biometric_error_hardware_not_supported),
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    override fun onBiometricAuthenticationNotAvailable() {
+        Toast.makeText(
+            applicationContext,
+            getString(R.string.biometric_error_fingerprint_not_available),
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    override fun onBiometricAuthenticationPermissionNotGranted() {
+        Toast.makeText(
+            applicationContext,
+            getString(R.string.biometric_error_permission_not_granted),
+            Toast.LENGTH_LONG
+        ).show()
+    }
+
+    override fun onBiometricAuthenticationInternalError(error: String) {
+        Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
+    }
+
+    override fun onAuthenticationFailed() {
+        //        Toast.makeText(getApplicationContext(), getString(R.string.biometric_failure), Toast.LENGTH_LONG).show();
+    }
+
+    override fun onAuthenticationCancelled() {
+        Toast.makeText(applicationContext, getString(R.string.biometric_cancelled), Toast.LENGTH_LONG).show()
+        mBiometricManager.cancelAuthentication()
+    }
+
+    override fun onAuthenticationSuccessful() {
+        Toast.makeText(applicationContext, getString(R.string.biometric_success), Toast.LENGTH_LONG).show()
+    }
+
+    override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence) {
+        //        Toast.makeText(getApplicationContext(), helpString, Toast.LENGTH_LONG).show();
+    }
+
+    override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+        //        Toast.makeText(getApplicationContext(), errString, Toast.LENGTH_LONG).show();
     }
 }

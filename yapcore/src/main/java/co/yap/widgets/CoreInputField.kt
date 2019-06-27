@@ -10,12 +10,8 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.RelativeLayout
-import androidx.annotation.Nullable
 import androidx.annotation.RequiresApi
 import androidx.databinding.Bindable
-import androidx.databinding.DataBindingUtil
-import androidx.databinding.Observable
-import co.yap.yapcore.BR
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 
@@ -27,7 +23,7 @@ class CoreInputField @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyle: Int = 0,
     defStyleRes: Int = 0
-) : RelativeLayout(context, attrs, defStyle, defStyleRes) ,Observable{
+) : RelativeLayout(context, attrs, defStyle, defStyleRes) {
 
 
     var drawableRight: Drawable? = null
@@ -37,30 +33,14 @@ class CoreInputField @JvmOverloads constructor(
     private var viewWeight: Int = 0
     private var viewHeight: Int = 0
     private var textInput: String = ""
-    lateinit var typedArray:TypedArray
-    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+    lateinit var typedArray: TypedArray
 
-    }
-
-    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
-        fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            if (propertyId == BR.view_input_text) {
-//                    viewModel.state.email
-                textInput =
-                    typedArray.getString(R.styleable.CoreInputField_view_input_text)
-                etEmail.setText(textInput)
-
-            }
-        }
-    }
     init {
 
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
-//        val layout: ConstraintLayout = LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true) as ConstraintLayout
-
 
         attrs?.let {
-              typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
+            typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
             val title = resources.getText(
                 typedArray
                     .getResourceId(R.styleable.CoreInputField_view_hint_input_field, R.string.empty_string)
@@ -72,12 +52,8 @@ class CoreInputField @JvmOverloads constructor(
             if (null != typedArray.getString(R.styleable.CoreInputField_view_input_text)) {
 
                 textInput =
-                typedArray.getString(R.styleable.CoreInputField_view_input_text)
+                    typedArray.getString(R.styleable.CoreInputField_view_input_text)
             }
-//            val textInput = resources.getText(
-//                typedArray
-//                    .getResourceId(R.styleable.CoreInputField_view_input_text, R.string.empty_string)
-//            )
 
             if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)) {
                 drawableRight = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)
@@ -96,7 +72,7 @@ class CoreInputField @JvmOverloads constructor(
                 etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
             }
 
-            if(!textInput.isEmpty()){
+            if (!textInput.isEmpty()) {
                 etEmail.setText(textInput)
 
             }
@@ -119,25 +95,8 @@ class CoreInputField @JvmOverloads constructor(
 
     }
 
-    @Bindable
     fun getview_input_text(): String? {
-      return  etEmail.text.toString()
-
-    }
-
-    fun setText(text: String) {
-        etEmail.setText(text)
-
-    }
-
-
-    @Bindable
-    fun getText():String{
         return etEmail.text.toString()
-    }
-
-    fun viewSetTextTwo() {
-        etEmail.setText(textInput)
 
     }
 
