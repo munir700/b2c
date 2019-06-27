@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="co.yap.translation.Strings"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        tools:context="co.yap.app.modules.login.activities.BiometricPermissionActivity">
+
+        <ImageView
+            android:id="@+id/ivFingerprint"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/margin_xxl"
+            android:background="@drawable/bg_fingerprint"
+            android:padding="14dp"
+            app:srcCompat="@drawable/ic_fingerprint"/>
+
+        <TextView
+            android:id="@+id/tvTouchIdPermissionTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ALarge"
+            android:lineSpacingExtra="9sp"
+            tools:text="@string/screen_touch_id_permission_text_title"
+            android:layout_marginTop="@dimen/margin_large"
+            android:textAlignment="center"
+            app:layout_constraintTop_toBottomOf="@+id/ivFingerprint"
+            android:layout_marginEnd="@dimen/margin_xl"
+            android:layout_marginStart="@dimen/margin_xl"
+            app:text="@{Strings.screen_touch_id_permission_text_title}"
+            />
+
+        <TextView
+            android:id="@+id/tvTermsAndConditions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:textAlignment="center"
+            android:layout_marginBottom="@dimen/margin_normal"
+            style="@style/AMicroGrey"
+            app:text="@{Strings.screen_touch_id_permission_text_terms_and_conditions}"
+            app:layout_constraintBottom_toTopOf="@+id/btnLogIn"
+            tools:text="@string/screen_touch_id_permission_text_terms_and_conditions"
+            />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnLogIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/RectangleBtnStyle"
+            android:textColor="@color/colorWhite"
+            app:text="@{Strings.screen_touch_id_permission_button_touch_id}"
+            tools:text="@string/screen_touch_id_permission_button_touch_id"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:paddingTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
+            android:paddingBottom="8dp"
+            android:gravity="center"
+            android:paddingEnd="@dimen/_30sdp"
+            android:paddingStart="@dimen/_30sdp"
+            app:btn_drawable_position="left"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintVertical_bias="0.75"
+            />
+
+        <TextView
+            android:id="@+id/tvNoThanks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Large"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="@dimen/margin_large"
+            app:text="@{Strings.screen_touch_id_permission_text_denied}"
+            tools:text="@string/screen_touch_id_permission_text_denied"
+            />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
