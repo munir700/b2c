@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/onboarding_navigation"
+            app:startDestination="@id/emailFragment">
+    <fragment
+        android:id="@+id/emailFragment"
+        android:name="co.yap.modules.onboarding.fragments.EmailFragment"
+        android:label="EmailFragment">
+
+        <action
+            android:id="@+id/action_emailFragment_to_nameFragment"
+            app:destination="@id/nameFragment"
+            />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nameFragment"
+        android:name="co.yap.modules.onboarding.fragments.NameFragment"
+        android:label="NameFragment">
+        <action
+            android:id="@+id/action_nameFragment_to_mobileFragment"
+            app:destination="@id/mobileFragment"
+            />
+    </fragment>
+
+    <fragment
+        android:id="@+id/mobileFragment"
+        android:name="co.yap.modules.onboarding.fragments.MobileFragment"
+        android:label="MobileFragment">
+        <action
+            android:id="@+id/action_mobileFragment_to_phoneVerificationFragment"
+            app:destination="@id/phoneVerificationFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/phoneVerificationFragment"
+        android:name="co.yap.modules.onboarding.fragments.PhoneVerificationFragment"
+        android:label="fragment_phone_verification"
+        tools:layout="@layout/fragment_phone_verification">
+        <action
+            android:id="@+id/action_phoneVerificationFragment_to_emailFragment"
+            app:destination="@id/emailFragment"/>
+    </fragment>
+</navigation>

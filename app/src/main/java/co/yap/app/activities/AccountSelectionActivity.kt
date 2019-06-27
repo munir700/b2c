@@ -6,6 +6,8 @@ import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.di.BaseActivity
+import co.yap.app.modules.login.activities.LogInActivity
+import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.IBase
@@ -34,7 +36,8 @@ class AccountSelectionActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
         }
 
         tvSignIn.setOnClickListener {
-            showToast("start sign in screen here")
+            startActivity(LogInActivity.newIntent(this))
+
         }
     }
 }
