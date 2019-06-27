@@ -13,6 +13,8 @@ import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.viewmodels.WelcomeViewModel
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.helpers.Navigator
+import co.yap.yapcore.interfaces.INavigator
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View {
