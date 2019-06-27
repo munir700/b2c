@@ -22,4 +22,12 @@
     <string name="screen_welcom_b2b_display_text_page2_details">Simplified expense and\npayroll processes</string>
     <string name="screen_welcom_b2b_display_text_page3_details">Full overview of business\nspending</string>
     <string name="screen_welcom_button_get_started">Get started</string>
+
+
+    <!-- Onboarding -->
+    <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
+    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to %1s</string>
+    <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
+    <string name="screen_verify_phone_number_button_send">Send</string>
+
 </resources>
