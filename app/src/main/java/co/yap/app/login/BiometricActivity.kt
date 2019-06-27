@@ -31,8 +31,6 @@ class BiometricActivity : AppCompatActivity(), BiometricCallback {
             sharedPreferenceManager.getValueString("encryptedPasscode")!!
         )
 
-
-
         Toast.makeText(
             applicationContext,
             "Plain text: " + passcode + "\n\n " +
