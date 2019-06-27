@@ -29,12 +29,12 @@
         android:id="@+id/inputMobileNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:view_drawable_left="@drawable/bitmap"
-        app:view_drawable_right="@drawable/invalid_name"
         android:background="@color/white"
         android:layout_marginTop="@dimen/margin_heading_to_field"
         app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"
         app:layout_constraintStart_toStartOf="parent"
+        app:view_drawable_left="@drawable/bitmap"
+        app:view_drawable_right="@drawable/path"
         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="8dp"/>
@@ -60,18 +60,5 @@
         tools:ignore="MissingConstraints"
         android:layout_marginBottom="@dimen/margin_extra_large"
         tools:layout_editor_absoluteX="44dp"/>
-
-    <!--<Button-->
-    <!--android:text="Button"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:id="@+id/button10"-->
-    <!--android:layout_marginTop="8dp"-->
-    <!--app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--android:layout_marginStart="8dp"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--android:layout_marginEnd="8dp"/>-->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

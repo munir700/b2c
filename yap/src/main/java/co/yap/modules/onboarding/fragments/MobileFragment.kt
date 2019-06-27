@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.navOptions
 import co.yap.R
 import co.yap.widgets.CoreInputField
+import kotlinx.android.synthetic.main.fragment_mobile.*
 
 class MobileFragment : Fragment() {
     override fun onCreateView(
@@ -34,12 +35,12 @@ class MobileFragment : Fragment() {
                 popExit = R.anim.slide_out_right
             }
         }
+
         view.findViewById<CoreInputField>(R.id.inputMobileNumber)
             ?.settingUIForError(getString(R.string.screen_phone_number_display_text_error))
 
         view.findViewById<Button>(R.id.next_button)?.setOnClickListener {
-            //            findNavController().navigate(R.id.action_mobileFragment_to_emailFragment, null, options)
-            view.findViewById<CoreInputField>(R.id.inputMobileNumber)?.settingUIForNormal()
+            inputMobileNumber?.setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
 
         }
     }
