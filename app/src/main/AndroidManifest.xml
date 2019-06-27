@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="co.yap.app">
 
+
+    <uses-permission android:name="android.permission.USE_BIOMETRIC" />
+    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
     <application
             android:name=".YAPApplication"
             android:allowBackup="true"
@@ -11,12 +15,6 @@
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
         <activity android:name=".login.BiometricActivity">
-
-        </activity>
-        <activity
-                android:name=".activities.AccountSelectionActivity"
-                android:label="@string/app_name"
-                android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -24,14 +22,15 @@
             </intent-filter>
         </activity>
         <activity
+                android:name=".activities.AccountSelectionActivity"
+                android:label="@string/app_name"
+                android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity
                 android:name=".activities.MainActivity"
                 android:label="@string/app_name"
                 android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
         </activity>
 
     </application>
