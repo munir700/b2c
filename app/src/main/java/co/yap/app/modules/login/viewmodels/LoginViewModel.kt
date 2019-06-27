@@ -21,4 +21,9 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
 
     override val repository: LoginRepository
         get() = LoginRepository
+
+    override fun onCreate() {
+        super.onCreate()
+
+    }
 }

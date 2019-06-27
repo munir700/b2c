@@ -17,7 +17,7 @@ abstract class BaseBindingFragment<V: IBase.ViewModel<*>> : BaseFragment<V>() {
         setHasOptionsMenu(false)
     }
 
-    override fun onCreateView(
+    final override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {

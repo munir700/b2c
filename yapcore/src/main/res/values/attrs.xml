@@ -41,6 +41,8 @@
             <enum name="left" value="0"/>
             <enum name="right" value="1"/>
         </attr>
+        <attr name="view_focusable" format="boolean" />
+
 
     </declare-styleable>
 
