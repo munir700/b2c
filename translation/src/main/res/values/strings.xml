@@ -30,4 +30,19 @@
     <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
     <string name="screen_verify_phone_number_button_send">Send</string>
 
+    <!--  Login screen -->
+    <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
+    <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
+    <string name="screen_sign_in_button_sign_in">Sign in</string>
+    <string name="screen_sign_in_display_text_sign_up">Create an account? Sign Up</string>
+
+    <!-- Touch id permission screen -->
+    <string name="screen_touch_id_permission_text_title">Would you like to use Touch ID to log in to your account?</string>
+    <string name="screen_touch_id_permission_text_title_terms_and_conditions">By creating a passcode you agree to our</string>
+    <string name="screen_touch_id_permission_text_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="screen_touch_id_permission_button_touch_id">Use Touch ID</string>
+    <string name="screen_touch_id_permission_text_denied">No, thanks</string>
+
+
+
 </resources>
