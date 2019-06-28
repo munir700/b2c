@@ -23,8 +23,9 @@
             android:paddingStart="20dp"
             android:drawablePadding="@dimen/margin_small"
             android:paddingEnd="20dp"
+            android:longClickable="false"
+            android:textIsSelectable="false"
             android:textSize="20sp"
-            android:maxLength="9"
             />
 
         <TextView

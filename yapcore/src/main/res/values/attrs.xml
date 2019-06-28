@@ -36,7 +36,12 @@
         <attr name="view_drawable_left" format="reference"/>
         <attr name="view_focusable" format="boolean" />
         <attr name="view_input_text" format="string" />
+        <!--<attr name="view_input_type" format="reference" />-->
 
+        <attr name="view_input_type" format="enum">
+            <enum name="phone" value="1"/>
+            <enum name="email" value="2"/>
+         </attr>
     </declare-styleable>
 
     <declare-styleable name="CoreDialerPad">

@@ -6,13 +6,16 @@ import android.content.res.TypedArray
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.text.*
 import android.util.AttributeSet
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
+import android.view.View.OnClickListener
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
+import androidx.core.text.color
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
+
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @SuppressLint("CustomViewStyleable")
@@ -31,7 +34,12 @@ class CoreInputField @JvmOverloads constructor(
     private var viewWeight: Int = 0
     private var viewHeight: Int = 0
     private var textInput: String = ""
+    private var countryCode: String = "+971 "
     lateinit var typedArray: TypedArray
+    var inputType: Int = 0
+    var PHONE_INPUT_TYPE: Int = 1
+    var EMAIL_INPUT_TYPE: Int = 2
+    var PHONE_NUMBER_LENGTH: Int = 13
 
     init {
 
@@ -43,6 +51,9 @@ class CoreInputField @JvmOverloads constructor(
                 typedArray
                     .getResourceId(R.styleable.CoreInputField_view_hint_input_field, R.string.empty_string)
             )
+            inputType = typedArray.getInt(R.styleable.CoreInputField_view_input_type, inputType)
+
+
             val error = resources.getText(
                 typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
             )
@@ -72,9 +83,10 @@ class CoreInputField @JvmOverloads constructor(
 
             if (!textInput.isEmpty()) {
                 etEmail.setText(textInput)
-
             }
+
             etEmail.hint = title
+            setViewInputType()
             if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
             typedArray.recycle()
 
@@ -88,6 +100,107 @@ class CoreInputField @JvmOverloads constructor(
 
     }
 
+    private fun setViewInputType() {
+        when (inputType) {
+            PHONE_INPUT_TYPE -> {
+                etEmail.inputType = InputType.TYPE_CLASS_PHONE
+                setPhoneNumberField()
+            }
+
+            EMAIL_INPUT_TYPE -> {
+                etEmail.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            }
+        }
+    }
+
+    private fun setPhoneNumberField() {
+        etEmail.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(PHONE_NUMBER_LENGTH)))
+
+        val builder = SpannableStringBuilder("")
+        builder.color(color = R.color.greySoft) {
+            append(countryCode)
+        }
+
+        etEmail.setText(builder)
+        etEmail.setSelection(etEmail.text.length)
+        disableTextSelection()
+
+        etEmail.setCursorVisible(false)
+
+        etEmail.setOnClickListener(OnClickListener { etEmail.setSelection(etEmail.getText().toString().length) })
+
+        etEmail.setCursorVisible(true)
+
+        etEmail.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (p0.toString().length == 5) {
+                    etEmail.setCursorVisible(false)
+                    /* disable backpress */
+                    cursorPlacement()
+                    etEmail.setOnKeyListener(object : OnKeyListener {
+
+                        override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
+                            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                                if (p1 <= 5) {
+                                    return true
+                                }
+                            }
+                            return false
+                        }
+                    })
+                } else {
+                    /*enable backpress*/
+
+                    cursorPlacement()
+                    etEmail.setOnKeyListener(object : OnKeyListener {
+                        override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
+                            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                                if (p1 <= 5) {
+                                    return true
+                                }
+                            }
+                            return false
+                        }
+                    })
+
+                }
+            }
+        })
+    }
+
+    private fun cursorPlacement() {
+        etEmail.setOnClickListener(OnClickListener { etEmail.setSelection(etEmail.getText().toString().length) })
+        etEmail.setCursorVisible(true)
+    }
+
+    private fun disableTextSelection() {
+        etEmail.isLongClickable = false
+        etEmail.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                return false
+            }
+
+            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                return false
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                return false
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) {
+                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+    }
+
     fun setDrawableRightIcon(drawable: Drawable) {
         drawableRight = drawable
         if (null != drawableLeft) {
@@ -97,7 +210,6 @@ class CoreInputField @JvmOverloads constructor(
             etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
 
         }
-
     }
 
     fun setDrawableLeftIcon(drawable: Drawable) {

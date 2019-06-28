@@ -100,4 +100,15 @@ object UIBinder {
     fun drawableRight(view: CoreInputField, drawable: Drawable) {
         view.setDrawableRightIcon(drawable)
     }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("coreInputError")
+    fun setErrorMessage(view: CoreInputField, error: String) {
+        if (null != error) {
+            view.settingUIForError(error)
+        } else {
+            view.settingUIForNormal()
+        }
+    }
 }
