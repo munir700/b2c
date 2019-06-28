@@ -11,6 +11,7 @@
         <attr name="btn_drawable_padding_top" format="float"/>
         <attr name="btn_drawable_padding_right" format="float"/>
         <attr name="btn_drawable_padding_left" format="float"/>
+        <attr name="btn_enable" format="boolean"/>
 
         <attr name="btn_shape_type" format="enum">
             <enum name="circle" value="0"/>

@@ -25,6 +25,7 @@ class CoreButton : Button {
     private var shapeType: Int = 0
     private var DRAWABLE_RIGHT: Int = 1
     private var DRAWABLE_LEFT: Int = 0
+    private var enableButton: Boolean = true
 
     private var defaultDrawablePaddingLeft: Float = 9.5f
     private var defaultDrawablePaddingRight: Float = 1.2f
@@ -72,6 +73,7 @@ class CoreButton : Button {
             R.styleable.CoreButton_btn_drawable
         )
         drawablePositionType = typedArray.getInt(R.styleable.CoreButton_btn_drawable_position, 2)
+        enableButton = typedArray.getBoolean(R.styleable.CoreButton_btn_enable, enableButton)
 
 
         labelTextColor = typedArray.getColor(
@@ -84,7 +86,7 @@ class CoreButton : Button {
             resources.getColor(R.color.colorPrimary)
         )
 
-        if (this.isEnabled) {
+        if (enableButton) {
             defaultStateColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_unpressed_color,
                 resources.getColor(R.color.colorPrimary)
@@ -219,5 +221,18 @@ class CoreButton : Button {
             }
         }
         return super.onTouchEvent(event)
+    }
+
+    fun enableButton(enable: Boolean) {
+
+        if (!enable) {
+            defaultStateColor = resources.getColor(R.color.greyLight)
+            paint.color = defaultStateColor
+            invalidate()
+        } else {
+            defaultStateColor = resources.getColor(R.color.colorPrimary)
+            paint.color = defaultStateColor
+            invalidate()
+        }
     }
 }

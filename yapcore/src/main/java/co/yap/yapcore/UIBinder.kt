@@ -15,6 +15,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
+import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreInputField
 import co.yap.yapcore.interfaces.IBindable
 
@@ -110,5 +111,14 @@ object UIBinder {
         } else {
             view.settingUIForNormal()
         }
+    }
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("coreButtonText")
+    fun setEnable(view: CoreButton, enable: Boolean) {
+        if (null != enable) {
+            view.enableButton(enable)
+        }
+
     }
 }

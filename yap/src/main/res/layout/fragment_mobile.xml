@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:btn_round_radius="50dp"
-        android:enabled="true"
+        app:btn_enable="false"
         android:textColor="@color/colorWhite"
         android:text="@string/screen_phone_number_button_send"
         android:paddingTop="8dp"
@@ -59,7 +59,7 @@
         android:drawablePadding="@dimen/_20sdp"
         app:btn_shape_type="rectangle"
         tools:ignore="MissingConstraints"
-        android:layout_marginBottom="@dimen/margin_extra_large"
+        android:layout_marginBottom="@dimen/margin_medium_large"
         tools:layout_editor_absoluteX="44dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
