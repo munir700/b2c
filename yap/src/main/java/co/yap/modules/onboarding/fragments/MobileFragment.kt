@@ -10,8 +10,6 @@ import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.navigation.navOptions
 import co.yap.R
-import co.yap.widgets.CoreButton
-import co.yap.widgets.CoreInputField
 import kotlinx.android.synthetic.main.fragment_mobile.*
 
 class MobileFragment : Fragment() {
@@ -36,9 +34,6 @@ class MobileFragment : Fragment() {
                 popExit = R.anim.slide_out_right
             }
         }
-
-//        view.findViewById<CoreButton>(R.id.next_button)
-//            ?.enableButton(true)
 
         view.findViewById<Button>(R.id.next_button)?.setOnClickListener {
             inputMobileNumber?.setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))

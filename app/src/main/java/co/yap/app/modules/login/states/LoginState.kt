@@ -12,7 +12,7 @@ class LoginState : BaseState(), ILogin.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.email)
-            valid=validate()
+            valid = validate()
         }
 
     @get:Bindable
@@ -20,7 +20,7 @@ class LoginState : BaseState(), ILogin.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.emailError)
-            valid=validate()
+            valid = validate()
         }
 
     @get:Bindable
@@ -33,5 +33,4 @@ class LoginState : BaseState(), ILogin.State {
     fun validate(): Boolean {
         return (email.length > 5)
     }
-
 }

@@ -10,5 +10,9 @@ interface IMobile {
         fun validateMobileNumber()
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var mobile: String
+        var mobileError: String
+        var valid: Boolean
+    }
 }
