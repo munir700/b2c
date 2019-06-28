@@ -38,7 +38,8 @@
 
     <!-- Touch id permission screen -->
     <string name="screen_touch_id_permission_text_title">Would you like to use Touch ID to log in to your account?</string>
-    <string name="screen_touch_id_permission_text_terms_and_conditions">By creating a passcode you agree to our Terms &amp; Conditions</string>
+    <string name="screen_touch_id_permission_text_title_terms_and_conditions">By creating a passcode you agree to our</string>
+    <string name="screen_touch_id_permission_text_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="screen_touch_id_permission_button_touch_id">Use Touch ID</string>
     <string name="screen_touch_id_permission_text_denied">No, thanks</string>
 

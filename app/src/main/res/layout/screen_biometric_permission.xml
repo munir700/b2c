@@ -42,21 +42,34 @@
             />
 
         <TextView
-            android:id="@+id/tvTermsAndConditions"
+            android:id="@+id/tvTermsAndConditionsTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:textAlignment="center"
-            android:layout_marginBottom="@dimen/margin_normal"
+
             style="@style/AMicroGrey"
+            app:text="@{Strings.screen_touch_id_permission_text_title_terms_and_conditions}"
+            app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
+            tools:text="@string/screen_touch_id_permission_text_title_terms_and_conditions"
+            />
+
+        <TextView
+            android:id="@+id/tvTermsAndConditions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginBottom="@dimen/margin_normal"
             app:text="@{Strings.screen_touch_id_permission_text_terms_and_conditions}"
-            app:layout_constraintBottom_toTopOf="@+id/btnLogIn"
             tools:text="@string/screen_touch_id_permission_text_terms_and_conditions"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/btnTouchId"
             />
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnLogIn"
+            android:id="@+id/btnTouchId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/RectangleBtnStyle"

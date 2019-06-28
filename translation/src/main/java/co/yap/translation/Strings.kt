@@ -37,6 +37,7 @@ object Strings {
 
     // Touch id permission screen
     const val screen_touch_id_permission_text_title: String = "screen_touch_id_permission_text_title"
+    const val screen_touch_id_permission_text_title_terms_and_conditions: String = "screen_touch_id_permission_text_title_terms_and_conditions"
     const val screen_touch_id_permission_text_terms_and_conditions: String = "screen_touch_id_permission_text_terms_and_conditions"
     const val screen_touch_id_permission_button_touch_id: String = "screen_touch_id_permission_button_touch_id"
     const val screen_touch_id_permission_text_denied: String = "screen_touch_id_permission_text_denied"
