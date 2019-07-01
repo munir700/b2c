@@ -6,10 +6,13 @@ import android.content.res.TypedArray
 import android.graphics.Paint
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.text.*
+import android.text.InputFilter
+import android.text.InputType
+import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.*
 import android.view.View.OnClickListener
+import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.core.text.color
@@ -40,10 +43,12 @@ class CoreInputField @JvmOverloads constructor(
     var PHONE_INPUT_TYPE: Int = 1
     var EMAIL_INPUT_TYPE: Int = 2
     var PHONE_NUMBER_LENGTH: Int = 13
+    lateinit var editText: EditText
 
     init {
 
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
+        editText = etEmail
 
         attrs?.let {
             typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
@@ -130,52 +135,9 @@ class CoreInputField @JvmOverloads constructor(
         etEmail.setOnClickListener(OnClickListener { etEmail.setSelection(etEmail.getText().toString().length) })
 
         etEmail.setCursorVisible(true)
-
-        etEmail.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                if (p0.toString().length == 5) {
-                    etEmail.setCursorVisible(false)
-                    /* disable backpress */
-                    cursorPlacement()
-                    etEmail.setOnKeyListener(object : OnKeyListener {
-
-                        override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                            if (keyCode == KeyEvent.KEYCODE_DEL) {
-                                if (p1 <= 5) {
-                                    return true
-                                }
-                            }
-                            return false
-                        }
-                    })
-                } else {
-                    /*enable backpress*/
-
-                    cursorPlacement()
-                    etEmail.setOnKeyListener(object : OnKeyListener {
-                        override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                            if (keyCode == KeyEvent.KEYCODE_DEL) {
-                                if (p1 <= 5) {
-                                    return true
-                                }
-                            }
-                            return false
-                        }
-                    })
-
-                }
-            }
-        })
     }
 
-    private fun cursorPlacement() {
+    fun cursorPlacement() {
         etEmail.setOnClickListener(OnClickListener { etEmail.setSelection(etEmail.getText().toString().length) })
         etEmail.setCursorVisible(true)
     }
@@ -201,7 +163,7 @@ class CoreInputField @JvmOverloads constructor(
         })
     }
 
-    fun setDrawableRightIcon(drawable: Drawable) {
+    fun setDrawableRightIcon(drawable: Drawable?) {
         drawableRight = drawable
         if (null != drawableLeft) {
             etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
@@ -237,6 +199,8 @@ class CoreInputField @JvmOverloads constructor(
         etEmail.setBackgroundResource(R.drawable.bg_round_error_layout)
         tvError.text = error
         tvError.visibility = View.VISIBLE
+        setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
+
     }
 
     fun settingUIForNormal() {

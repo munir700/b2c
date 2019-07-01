@@ -34,8 +34,7 @@
         app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"
         app:layout_constraintStart_toStartOf="parent"
         app:view_drawable_left="@drawable/bitmap"
-        app:view_drawable_right="@drawable/path"
-        android:layout_marginStart="8dp"
+         android:layout_marginStart="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:view_input_type="phone"
         android:layout_marginEnd="8dp"/>
