@@ -2,11 +2,15 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import co.yap.translation.Translator
 
 
-abstract class BaseFragment<V: IBase.ViewModel<*>> : Fragment(), IBase.View<V> {
+abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,10 +41,8 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : Fragment(), IBase.View<V> {
         ProgressDialogueFragment()
 
 
-    override fun showLoader(visibility: Boolean) {
-//        getBaseView()?.showLoader(visibility)
-
-        if (visibility) {
+    override fun showLoader(isVisible: Boolean) {
+        if (isVisible) {
             fragmentManager?.let { progressDialogueFragment.show(it, "loading") }
 
         } else {
@@ -88,4 +90,6 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : Fragment(), IBase.View<V> {
     override fun requestPermissions() {
         getBaseView()?.requestPermissions()
     }
+
+    override fun getString(resourceKey: String): String = Translator.getString(context!!, resourceKey)
 }

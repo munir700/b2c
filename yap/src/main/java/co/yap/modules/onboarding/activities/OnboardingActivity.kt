@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -13,10 +14,14 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import co.yap.R
 import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.onboarding.interfaces.IOnboarding
+import co.yap.modules.onboarding.viewmodels.OnboardingViewModel
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.IBase
+import co.yap.yapcore.helpers.Navigator
+import co.yap.yapcore.interfaces.INavigator
 
-class OnboardingActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
+class OnboardingActivity : BaseActivity<IOnboarding.ViewModel>(), INavigator {
     companion object {
 
         private val ACCOUNT_TYPE = "account_type"
@@ -27,10 +32,12 @@ class OnboardingActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
             return intent
         }
     }
-    override val viewModel: IBase.ViewModel<IBase.State>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    override val viewModel: IOnboarding.ViewModel
+        get() = ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
+
+    override val navigator: Navigator
+        get() = Navigator(this, R.id.my_nav_host_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,43 +45,6 @@ class OnboardingActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        val host: NavHostFragment = supportFragmentManager
-            .findFragmentById(R.id.my_nav_host_fragment) as NavHostFragment? ?: return
-
-        val navController = host.navController
-
-        appBarConfiguration = AppBarConfiguration(navController.graph)
-
-        setupActionBar(navController, appBarConfiguration)
-
-
-        navController.addOnDestinationChangedListener { _, destination, _ ->
-            val dest: String = try {
-                resources.getResourceName(destination.id)
-            } catch (e: Resources.NotFoundException) {
-                Integer.toString(destination.id)
-            }
-        }
     }
 
-
-    private fun setupActionBar(
-        navController: NavController,
-        appBarConfig: AppBarConfiguration
-    ) {
-        /*
-          This allows NavigationUI to decide what label to show in the action bar
-          By using appBarConfig, it will also determine whether to
-          show the up arrow or drawer menu icon
-         */
-        setupActionBarWithNavController(navController, appBarConfig)
-    }
-
-
-    override fun onSupportNavigateUp(): Boolean {
-        // Allows NavigationUI to support proper up navigation or the drawer layout
-        // drawer menu, depending on the situation
-        return findNavController(R.id.my_nav_host_fragment).navigateUp(appBarConfiguration)
-    }
 }

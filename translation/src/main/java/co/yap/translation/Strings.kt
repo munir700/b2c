@@ -23,4 +23,24 @@ object Strings {
     const val screen_welcom_b2b_display_text_page3_details: String = "screen_welcom_b2b_display_text_page3_details"
     const val screen_welcom_button_get_started: String = "screen_welcom_button_get_started"
 
+    const val screen_verify_phone_number_display_text_title: String = "screen_verify_phone_number_display_text_title"
+    const val screen_verify_phone_number_display_text_sub_title: String =
+        "screen_verify_phone_number_display_text_sub_title"
+    const val screen_verify_phone_number_button_resend_otp: String = "screen_verify_phone_number_button_resend_otp"
+    const val screen_verify_phone_number_button_send: String = "screen_verify_phone_number_button_send"
+
+    // Login screen
+    const val screen_sign_in_display_text_heading_text: String = "screen_sign_in_display_text_heading_text"
+    const val screen_sign_in_input_text_email_hint: String = "screen_sign_in_input_text_email_hint"
+    const val screen_sign_in_button_sign_in: String = "screen_sign_in_button_sign_in"
+    const val screen_sign_in_display_text_sign_up: String = "screen_sign_in_display_text_sign_up"
+
+    // Touch id permission screen
+    const val screen_touch_id_permission_text_title: String = "screen_touch_id_permission_text_title"
+    const val screen_touch_id_permission_text_title_terms_and_conditions: String = "screen_touch_id_permission_text_title_terms_and_conditions"
+    const val screen_touch_id_permission_text_terms_and_conditions: String = "screen_touch_id_permission_text_terms_and_conditions"
+    const val screen_touch_id_permission_button_touch_id: String = "screen_touch_id_permission_button_touch_id"
+    const val screen_touch_id_permission_text_denied: String = "screen_touch_id_permission_text_denied"
+
+
 }

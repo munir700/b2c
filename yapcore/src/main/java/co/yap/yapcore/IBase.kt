@@ -25,11 +25,11 @@ interface IBase {
     }
 
     interface State {
-        fun isLoading(): Boolean
-        fun getToolbarTitle(): String
-        fun getError(): String
+        var loading: Boolean
+        var toolbarTitle: String
+        var error: String
         fun reset()
-        fun getString(key: String): String
+        // fun getString(key: String): String
         fun destroy()
         fun init()
         fun resume()

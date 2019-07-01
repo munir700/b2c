@@ -5,6 +5,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import co.yap.app.R
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class BiometricActivity : AppCompatActivity(), BiometricCallback {
     lateinit var mBiometricManager: BiometricManager
@@ -21,6 +22,22 @@ class BiometricActivity : AppCompatActivity(), BiometricCallback {
 
             mBiometricManager.authenticate(this@BiometricActivity)
         }
+
+        val sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(this@BiometricActivity)
+        val passcode = "5550"
+        sharedPreferenceManager.save("encryptedPasscode", EncryptionUtils.encrypt(this@BiometricActivity, passcode)!!)
+        val decryptedPasscode = EncryptionUtils.decrypt(
+            this@BiometricActivity,
+            sharedPreferenceManager.getValueString("encryptedPasscode")!!
+        )
+
+        Toast.makeText(
+            applicationContext,
+            "Plain text: " + passcode + "\n\n " +
+                    "Encrypted text: " + sharedPreferenceManager.getValueString("encryptedPasscode")!! + "\n\n " +
+                    "Decrypted text: " + decryptedPasscode, Toast.LENGTH_LONG
+        ).show()
+
 
     }
 

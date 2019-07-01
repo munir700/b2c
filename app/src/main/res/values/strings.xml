@@ -17,9 +17,6 @@
     <string name="biometric_failure">Login not successful!</string>
     <string name="biometric_cancelled">Authentication cancelled by user</string>
     <string name="biometric_success">Login Successful</string>
-    //Login screen
-    <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
-    <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
-    <string name="screen_sign_in_display_text_sign_up">Create an account? Sign Up</string>
+
 
 </resources>

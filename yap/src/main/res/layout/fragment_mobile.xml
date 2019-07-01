@@ -67,7 +67,9 @@
             app:btn_shape_type="rectangle"
             tools:ignore="MissingConstraints"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            tools:layout_editor_absoluteX="44dp"/>
+            tools:layout_editor_absoluteX="44dp"
+            app:coreButtonText="@{mobileViewModel.state.valid}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
