@@ -7,7 +7,7 @@ interface IMobile {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnNext()
-        fun validateMobileNumber()
+        fun validateMobileNumber(phoneNumber:String): Boolean?
     }
 
     interface State : IBase.State {

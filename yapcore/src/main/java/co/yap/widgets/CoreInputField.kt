@@ -37,7 +37,7 @@ class CoreInputField @JvmOverloads constructor(
     private var viewWeight: Int = 0
     private var viewHeight: Int = 0
     private var textInput: String = ""
-    private var countryCode: String = "+971 "
+    public var countryCode: String = "+971 "
     lateinit var typedArray: TypedArray
     var inputType: Int = 0
     var PHONE_INPUT_TYPE: Int = 1

@@ -10,21 +10,33 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
-import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.navOptions
+import co.yap.BR
 import co.yap.R
+import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.widgets.CoreInputField
+import co.yap.yapcore.BaseBindingFragment
 import kotlinx.android.synthetic.main.fragment_mobile.*
 
-class MobileFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_mobile, container, false)
+
+class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
+
+    override fun getBindingVariable(): Int = BR.mobileViewModel
+    override fun getLayoutId(): Int = R.layout.fragment_mobile
+
+    override val viewModel: IMobile.ViewModel
+        get() = ViewModelProviders.of(this).get(MobileViewModel::class.java)
+
+    override fun getString(resourceKey: String): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        return super.onCreateView(inflater, container, savedInstanceState)
+     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,6 +51,9 @@ class MobileFragment : Fragment() {
             }
         }
 
+
+
+
         view.findViewById<CoreInputField>(R.id.inputMobileNumber)?.editText!!.addTextChangedListener(object :
             TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
@@ -48,7 +63,9 @@ class MobileFragment : Fragment() {
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0.toString().length == 13) {
+
+
+                if (p0.toString().length == inputMobileNumber.PHONE_NUMBER_LENGTH) {
                     inputMobileNumber.settingUIForNormal()
 
                     var phoneNumber: String = p0.toString().trim()
