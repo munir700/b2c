@@ -20,4 +20,12 @@ abstract class BaseNavFragment : Fragment() {
     protected fun navigate(navFragmentId: Int, args: Bundle? = null, navOptions: NavOptions? = options) {
         findNavController().navigate(navFragmentId, args, navOptions)
     }
+
+    protected fun navigateBack(destinationId: Int = -1, inclusive: Boolean = false) {
+        if (destinationId != -1) {
+            findNavController().popBackStack(destinationId, inclusive)
+        } else {
+            findNavController().popBackStack()
+        }
+    }
 }
