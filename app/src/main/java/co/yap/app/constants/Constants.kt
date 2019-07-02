@@ -1,5 +1,7 @@
 package co.yap.app.constants
 
-class Constants {
-//    val READ_TIMEOUT_SECONDS = 60
+object Constants {
+    const val TOUCH_ID_SCREEN_TYPE: String = "Touch_id"
+    const val NOTIFICATION_SCREEN_TYPE: String = "Notification"
+    const val SCREEN_TYPE: String = "screenType"
 }

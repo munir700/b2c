@@ -6,15 +6,14 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.constants.Constants.SCREEN_TYPE
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
 import co.yap.yapcore.BaseBindingActivity
-import kotlinx.android.synthetic.main.screen_biometric_permission.*
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel>(), ISystemPermission.View {
     companion object {
-        private val SCREEN_TYPE = "screenType"
         fun newIntent(context: Context, type: String): Intent {
             val intent = Intent(context, SystemPermissionActivity::class.java);
             intent.putExtra(SCREEN_TYPE, type)

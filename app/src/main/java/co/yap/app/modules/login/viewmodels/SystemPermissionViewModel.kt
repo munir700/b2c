@@ -10,6 +10,7 @@ import android.opengl.Visibility
 import android.os.Build
 import android.view.View
 import co.yap.app.R
+import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.models.SystemPermissionsContent
 import co.yap.app.modules.login.states.SystemPermissionState
@@ -27,24 +28,13 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
     }
 
     fun setupViews() {
-        if (screenType == "Touch_id") touchIdViews() else notificationViews()
+        if (screenType == Constants.TOUCH_ID_SCREEN_TYPE) touchIdViews() else notificationViews()
     }
 
     override val state: SystemPermissionState = SystemPermissionState()
 
-
-    /* private fun touchIdViews(): SystemPermissionsContent {
-         return SystemPermissionsContent(
-             R.drawable.ic_fingerprint,
-             getString(Strings.screen_system_permission_text_title),
-             View.VISIBLE,
-             getString(Strings.screen_system_permission_button_touch_id)
-         )
-
-     }*/
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun touchIdViews() {
-        // val drawable: Drawable = context.getDrawable(R.drawable.ic_fingerprint)
         state.icon = R.drawable.ic_fingerprint
         state.title = getString(Strings.screen_system_permission_text_title)
         state.termsAndConditionsVisibility = true
@@ -53,21 +43,10 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     fun notificationViews() {
-        // val drawable: Drawable = context.getDrawable(R.drawable.ic_notification)
-
         state.icon = R.drawable.ic_notification
         state.title = getString(Strings.screen_notification_permission_text_title)
         state.termsAndConditionsVisibility = false
         state.buttonTitle = getString(Strings.screen_notification_permission_button_title)
     }
-    /*   private fun notificationViews(): SystemPermissionsContent {
-           return SystemPermissionsContent(
-               R.drawable.ic_notification,
-               getString(Strings.screen_notification_permission_text_title),
-               View.GONE,
-               getString(Strings.screen_notification_permission_button_title)
-           )
-       }*/
-
 
 }

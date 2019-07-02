@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.constants.Constants
 import co.yap.app.di.BaseActivity
 import co.yap.app.modules.login.activities.SystemPermissionActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
@@ -36,7 +37,7 @@ class AccountSelectionActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
 
         tvSignIn.setOnClickListener {
             //startActivity(LogInActivity.newIntent(this))
-            startActivity(SystemPermissionActivity.newIntent(this,"Touchid"))
+            startActivity(SystemPermissionActivity.newIntent(this,Constants.TOUCH_ID_SCREEN_TYPE))
 
         }
     }
