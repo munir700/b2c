@@ -1,13 +1,11 @@
 package co.yap.yapcore
 
+import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -75,5 +73,16 @@ object UIBinder {
             }
         }
     }
+
+//    @BindingAdapter("progress")
+//    @JvmStatic
+//    fun setProgress(progressBar: ProgressBar, progress: Int) {
+        // will update the "progress" propriety of seekbar until it reaches progress
+//        ObjectAnimator animation = ObjectAnimator.ofInt(seekbar, "progress", progress);
+//        animation.setDuration(500); // 0.5 second
+//        animation.setInterpolator(new DecelerateInterpolator());
+//        animation.start();
+//    }
+
 
 }

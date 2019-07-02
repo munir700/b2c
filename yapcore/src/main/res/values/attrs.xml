@@ -57,4 +57,10 @@
 
 
     </declare-styleable>
+
+    <!-- Font Awesome attr-->
+    <declare-styleable name="FontTextView">
+        <attr name="brand_icon" format="boolean" />
+        <attr name="solid_icon" format="boolean" />
+    </declare-styleable>
 </resources>
