@@ -27,8 +27,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="@dimen/margin_xxl"
             tools:background="@drawable/bg_fingerprint"
-            bitmap="@{systemPermissionViewModel.state.icon}"
-            android:background="@{systemPermissionViewModel.state.icon}"
+            app:bitmap="@{systemPermissionViewModel.state.icon}"
             tools:srcCompat="@drawable/ic_fingerprint"/>
 
         <TextView
