@@ -13,6 +13,5 @@ interface ILogin {
         var email: String
         var emailError: String
         var valid: Boolean
-        
     }
 }

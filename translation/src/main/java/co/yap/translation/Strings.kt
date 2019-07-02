@@ -36,11 +36,13 @@ object Strings {
     const val screen_sign_in_display_text_sign_up: String = "screen_sign_in_display_text_sign_up"
 
     // Touch id permission screen
-    const val screen_touch_id_permission_text_title: String = "screen_touch_id_permission_text_title"
-    const val screen_touch_id_permission_text_title_terms_and_conditions: String = "screen_touch_id_permission_text_title_terms_and_conditions"
-    const val screen_touch_id_permission_text_terms_and_conditions: String = "screen_touch_id_permission_text_terms_and_conditions"
-    const val screen_touch_id_permission_button_touch_id: String = "screen_touch_id_permission_button_touch_id"
-    const val screen_touch_id_permission_text_denied: String = "screen_touch_id_permission_text_denied"
+    const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
+    const val screen_notification_permission_text_title: String = "screen_notification_permission_text_title"
+    const val screen_system_permission_text_title_terms_and_conditions: String = "screen_system_permission_text_title_terms_and_conditions"
+    const val screen_system_permission_text_terms_and_conditions: String = "screen_system_permission_text_terms_and_conditions"
+    const val screen_system_permission_button_touch_id: String = "screen_system_permission_button_touch_id"
+    const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
+    const val screen_notification_permission_button_title: String = "screen_notification_permission_button_title"
 
 
 }

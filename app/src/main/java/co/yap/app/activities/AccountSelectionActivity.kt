@@ -38,7 +38,7 @@ class AccountSelectionActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
 
         tvSignIn.setOnClickListener {
             //startActivity(LogInActivity.newIntent(this))
-            startActivity(BiometricPermissionActivity.newIntent(this))
+            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
 
         }
     }
