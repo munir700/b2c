@@ -7,6 +7,13 @@ import co.yap.yapcore.BaseViewModel
 
 class OnboardingViewModel(application: Application) : BaseViewModel<IOnboarding.State>(application), IOnboarding.ViewModel {
 
-    override val state: IOnboarding.State
-        get() = OnboardingState()
+    override val state: OnboardingState = OnboardingState()
+
+    override fun handlePressOnBackButton() {
+        state.currentProgress = state.currentProgress - 10
+    }
+
+    override fun handlePressOnTickButton() {
+        state.currentProgress = state.currentProgress + 10
+    }
 }

@@ -7,8 +7,6 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.di.BaseActivity
 import co.yap.app.modules.login.activities.BiometricPermissionActivity
-import co.yap.app.modules.login.activities.LogInActivity
-import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.IBase
