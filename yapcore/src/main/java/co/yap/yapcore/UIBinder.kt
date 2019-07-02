@@ -115,7 +115,7 @@ object UIBinder {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
-    @BindingAdapter("coreButtonText")
+    @BindingAdapter("enableCoreButton")
     fun setEnable(view: CoreButton, enable: Boolean) {
         if (null != enable) {
             view.enableButton(enable)

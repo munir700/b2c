@@ -1,12 +1,15 @@
 package co.yap.modules.onboarding.fragments
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
+import android.text.Spannable
+import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.view.KeyEvent
 import android.view.View
-import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.navOptions
@@ -43,6 +46,8 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
             }
         }
 
+        var twoDigitStr: String = ""
+        var threeDigitStr: String = ""
 
         inputMobileNumber?.editText!!.addTextChangedListener(object :
             TextWatcher {
@@ -52,6 +57,7 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
 
+            @SuppressLint("ResourceAsColor")
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
 
@@ -66,8 +72,58 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
                     inputMobileNumber.settingUIForNormal()
                     next_button.enableButton(false)
                     inputMobileNumber?.setDrawableRightIcon(null)
+                }
 
+                if (p0.toString().toCharArray().size == 7 && p1 == 6) {
 
+                    var charArray = inputMobileNumber.editText.getText().toString().toCharArray()
+                    if (charArray.get(charArray.lastIndex).isDigit()) {
+
+                        twoDigitStr = p0.toString().substring(5, 7)
+                        val colored = inputMobileNumber.countryCode
+                        val builder = SpannableStringBuilder()
+
+                        builder.append(colored)
+
+                        builder.setSpan(
+                            ForegroundColorSpan(R.color.greySoft),
+                            0,
+                            colored.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                        builder.append(twoDigitStr)
+
+                        inputMobileNumber.editText.setText(
+                            builder.append(" ")
+                        )
+                        inputMobileNumber.editText.setSelection(builder.toString().length)
+                    }
+                }
+                if (p0.toString().toCharArray().size == 11 && p1 == 10) {
+
+                    var charArray = inputMobileNumber.editText.getText().toString().toCharArray()
+                    if (charArray.get(charArray.lastIndex).isDigit()) {
+
+                        threeDigitStr = p0.toString().substring(7)
+                        val colored = inputMobileNumber.countryCode
+                        val builder = SpannableStringBuilder()
+
+                        builder.append(colored)
+
+                        builder.setSpan(
+                            ForegroundColorSpan(R.color.greySoft),
+                            0,
+                            colored.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                        builder.append(twoDigitStr)
+                        builder.append(threeDigitStr)
+
+                        inputMobileNumber.editText.setText(
+                            builder.append(" ")
+                        )
+                        inputMobileNumber.editText.setSelection(builder.toString().length)
+                    }
                 }
 
                 if (p0.toString().length == 5) {
@@ -99,16 +155,9 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
                             return false
                         }
                     })
-
                 }
             }
         })
-
-        view.findViewById<Button>(R.id.next_button)?.setOnClickListener {
-            inputMobileNumber?.setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
-
-        }
-
     }
 
     fun checkMobileNumberValidation(phoneNumber: String): Boolean? {

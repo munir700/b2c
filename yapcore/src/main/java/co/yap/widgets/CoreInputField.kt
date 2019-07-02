@@ -42,7 +42,7 @@ class CoreInputField @JvmOverloads constructor(
     var inputType: Int = 0
     var PHONE_INPUT_TYPE: Int = 1
     var EMAIL_INPUT_TYPE: Int = 2
-    var PHONE_NUMBER_LENGTH: Int = 13
+    var PHONE_NUMBER_LENGTH: Int = 16
     lateinit var editText: EditText
 
     init {
@@ -164,14 +164,26 @@ class CoreInputField @JvmOverloads constructor(
     }
 
     fun setDrawableRightIcon(drawable: Drawable?) {
+
         drawableRight = drawable
-        if (null != drawableLeft) {
+
+        if (null != drawableLeft ) {
             etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
 
         } else {
             etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
-
         }
+
+
+
+//        drawableRight = drawable
+//        if (null != drawableLeft) {
+//            etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+//
+//        } else {
+//            etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+//
+//        }
     }
 
     fun setDrawableLeftIcon(drawable: Drawable) {

@@ -70,8 +70,10 @@
             tools:ignore="MissingConstraints"
             android:layout_marginBottom="@dimen/margin_medium_large"
             tools:layout_editor_absoluteX="44dp"
-            app:coreButtonText="@{mobileViewModel.state.valid}"
-            />
+            app:enableCoreButton="@{mobileViewModel.state.valid}"
+            android:onClick="@{() -> mobileViewModel.handlePressOnNext()}"/>
+
+        />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

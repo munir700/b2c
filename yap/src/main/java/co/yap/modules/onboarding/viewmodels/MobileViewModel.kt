@@ -43,5 +43,7 @@ class MobileViewModel(application: Application) : BaseViewModel<IMobile.State>(a
 
     override fun handlePressOnNext() {
 
+        state.valid = false
+
     }
 }
