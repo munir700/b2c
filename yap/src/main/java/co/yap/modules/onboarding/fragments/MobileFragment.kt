@@ -5,9 +5,7 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.KeyEvent
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProviders
@@ -16,7 +14,6 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
-import co.yap.widgets.CoreInputField
 import co.yap.yapcore.BaseBindingFragment
 import kotlinx.android.synthetic.main.fragment_mobile.*
 
@@ -33,11 +30,6 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        setHasOptionsMenu(true)
-//        return super.onCreateView(inflater, container, savedInstanceState)
-//     }
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,9 +44,7 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
         }
 
 
-
-
-        view.findViewById<CoreInputField>(R.id.inputMobileNumber)?.editText!!.addTextChangedListener(object :
+        inputMobileNumber?.editText!!.addTextChangedListener(object :
             TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -72,7 +62,6 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
                     phoneNumber = phoneNumber.trim().replace(" ", "")
 
                     checkMobileNumberValidation(phoneNumber)
-
                 } else {
                     inputMobileNumber.settingUIForNormal()
                     next_button.enableButton(false)
@@ -119,9 +108,9 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
             inputMobileNumber?.setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
 
         }
+
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun checkMobileNumberValidation(phoneNumber: String): Boolean? {
         if (!phoneNumber.trim().equals("")) {
             val input = phoneNumber.trim().replace("+", "")
@@ -130,8 +119,8 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
 
                 /* enable core button
                  set normal UI*/
-                next_button.enableButton(false)
-                inputMobileNumber.settingUIForError(getString(R.string.screen_phone_number_display_text_error))
+                viewModel.state.valid = false
+                viewModel.state.mobileError = getString(R.string.screen_phone_number_display_text_error)
                 return false
             }
         }
@@ -139,27 +128,16 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
 
             /* disable core button
              set error UI*/
-            inputMobileNumber.settingUIForError(getString(R.string.screen_phone_number_display_text_error))
-            next_button.enableButton(false)
-
-
+            viewModel.state.valid = false
+            viewModel.state.drawbleRight = null
+            viewModel.state.mobileError = getString(R.string.screen_phone_number_display_text_error)
             return false
         }
-        removeError()
-        inputMobileNumber.setDrawableRightIcon(resources.getDrawable(co.yap.yapcore.R.drawable.path))
+        viewModel.state.valid = true
+        viewModel.state.mobileError = ""
+        viewModel.state.drawbleRight = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
 
         return true
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    private fun removeError() {
-
-        /*set success icon
-        enable core button
-        set normal UI
-        */
-        inputMobileNumber.settingUIForNormal()
-        next_button.enableButton(true)
     }
 
 }
