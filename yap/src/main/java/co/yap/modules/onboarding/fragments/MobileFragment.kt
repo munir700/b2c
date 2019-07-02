@@ -80,17 +80,13 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
                     if (charArray.get(charArray.lastIndex).isDigit()) {
 
                         twoDigitStr = p0.toString().substring(5, 7)
-                        val colored = inputMobileNumber.countryCode
                         val builder = SpannableStringBuilder()
-
-                        builder.append(colored)
-
-                        builder.setSpan(
-                            ForegroundColorSpan(R.color.greySoft),
-                            0,
-                            colored.length,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        val colored = inputMobileNumber.countryCode
+                        builder.append(
+                            colored
                         )
+                        setColoredString(builder, colored).toString()
+
                         builder.append(twoDigitStr)
 
                         inputMobileNumber.editText.setText(
@@ -108,14 +104,13 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
                         val colored = inputMobileNumber.countryCode
                         val builder = SpannableStringBuilder()
 
-                        builder.append(colored)
 
-                        builder.setSpan(
-                            ForegroundColorSpan(R.color.greySoft),
-                            0,
-                            colored.length,
-                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+
+                        builder.append(
+                            colored
                         )
+                        setColoredString(builder, colored).toString()
+
                         builder.append(twoDigitStr)
                         builder.append(threeDigitStr)
 
@@ -158,6 +153,16 @@ class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
                 }
             }
         })
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun setColoredString(builder: SpannableStringBuilder, colored: String) {
+        builder.setSpan(
+            ForegroundColorSpan(R.color.greySoft),
+            0,
+            colored.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
     }
 
     fun checkMobileNumberValidation(phoneNumber: String): Boolean? {
