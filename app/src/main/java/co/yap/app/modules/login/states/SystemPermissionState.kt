@@ -1,29 +1,19 @@
 package co.yap.app.modules.login.states
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import androidx.databinding.Bindable
 import co.yap.app.BR
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.yapcore.BaseState
 
 class SystemPermissionState : BaseState(), ISystemPermission.State {
- /*   @get:Bindable
-    override var icon: Bitmap?= null
+
+    @get:Bindable
+    override var icon: Int = 0
         set(value) {
             field = value
             notifyPropertyChanged(BR.icon)
 
-        }*/
- @get:Bindable
- override var icon: Bitmap?= null
-     set(value) {
-         field = value
-         notifyPropertyChanged(BR.icon)
-
-     }
+        }
 
     override var title: String = ""
         @Bindable get() = field
@@ -45,12 +35,5 @@ class SystemPermissionState : BaseState(), ISystemPermission.State {
             field = value
             notifyPropertyChanged(BR.buttonTitle)
         }
-
-
-    /*   override var icon : Drawable? = null
-       set(value)  {
-           field=value
-           notifyPropertyChanged(BR.emailError)
-       }*/
 
 }

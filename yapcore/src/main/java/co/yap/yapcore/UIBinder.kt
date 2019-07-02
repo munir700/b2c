@@ -18,8 +18,9 @@ import co.yap.yapcore.interfaces.IBindable
 object UIBinder {
     @BindingAdapter("bitmap")
     @JvmStatic
-    fun setImageBitmap(view: ImageView, bitmap: Bitmap) {
-        view.setImageBitmap(bitmap)
+    fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
+        if (bitmap != null)
+            view.setImageBitmap(bitmap)
     }
 
     @BindingAdapter("src")
@@ -32,7 +33,7 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, drawable: Drawable?) {
         if (drawable != null)
-        view.setImageDrawable(drawable)
+            view.setImageDrawable(drawable)
     }
 
 
