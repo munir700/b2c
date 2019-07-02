@@ -8,7 +8,7 @@ import co.yap.yapcore.BaseState
 class LoginState : BaseState(), ILogin.State {
 
     @get:Bindable
-    override var email: String = ""
+    override var email: String = "abs"
         set(value) {
             field = value
             notifyPropertyChanged(BR.email)
@@ -33,5 +33,4 @@ class LoginState : BaseState(), ILogin.State {
     fun validate(): Boolean {
         return (email.length > 5)
     }
-
 }

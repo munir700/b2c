@@ -22,9 +22,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="@dimen/margin_xxl"
-            android:background="@drawable/bg_fingerprint"
+            tools:background="@drawable/bg_fingerprint"
             android:padding="14dp"
-            app:srcCompat="@drawable/ic_fingerprint"/>
+            tools:srcCompat="@drawable/ic_fingerprint"/>
 
         <TextView
             android:id="@+id/tvTouchIdPermissionTitle"
@@ -32,13 +32,12 @@
             android:layout_height="wrap_content"
             style="@style/ALarge"
             android:lineSpacingExtra="9sp"
-            tools:text="@string/screen_touch_id_permission_text_title"
+            tools:text="@string/screen_system_permission_text_title"
             android:layout_marginTop="@dimen/margin_large"
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@+id/ivFingerprint"
             android:layout_marginEnd="@dimen/margin_xl"
             android:layout_marginStart="@dimen/margin_xl"
-            app:text="@{Strings.screen_touch_id_permission_text_title}"
             />
 
         <TextView
@@ -48,11 +47,10 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:textAlignment="center"
-
             style="@style/AMicroGrey"
-            app:text="@{Strings.screen_touch_id_permission_text_title_terms_and_conditions}"
+            app:text="@{Strings.screen_system_permission_text_title_terms_and_conditions}"
             app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
-            tools:text="@string/screen_touch_id_permission_text_title_terms_and_conditions"
+            tools:text="@string/screen_system_permission_text_title_terms_and_conditions"
             />
 
         <TextView
@@ -61,8 +59,8 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimary"
             android:layout_marginBottom="@dimen/margin_normal"
-            app:text="@{Strings.screen_touch_id_permission_text_terms_and_conditions}"
-            tools:text="@string/screen_touch_id_permission_text_terms_and_conditions"
+            app:text="@{Strings.screen_system_permission_text_terms_and_conditions}"
+            tools:text="@string/screen_system_permission_text_terms_and_conditions"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/btnTouchId"
@@ -74,8 +72,7 @@
             android:layout_height="wrap_content"
             style="@style/RectangleBtnStyle"
             android:textColor="@color/colorWhite"
-            app:text="@{Strings.screen_touch_id_permission_button_touch_id}"
-            tools:text="@string/screen_touch_id_permission_button_touch_id"
+            tools:text="@string/screen_system_permission_button_touch_id"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="@dimen/margin_normal"
@@ -85,7 +82,6 @@
             android:gravity="center"
             android:paddingEnd="@dimen/_30sdp"
             android:paddingStart="@dimen/_30sdp"
-            app:btn_drawable_position="left"
             tools:ignore="MissingConstraints"
             app:layout_constraintVertical_bias="0.75"
             />
@@ -100,8 +96,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="@dimen/margin_large"
-            app:text="@{Strings.screen_touch_id_permission_text_denied}"
-            tools:text="@string/screen_touch_id_permission_text_denied"
+            app:text="@{Strings.screen_system_permission_text_denied}"
+            tools:text="@string/screen_system_permission_text_denied"
             />
 
 
