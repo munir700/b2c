@@ -2,6 +2,7 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Button
@@ -26,6 +27,14 @@ object UIBinder {
     fun setImageResId(view: ImageView, resId: Int) {
         view.setImageResource(resId)
     }
+
+    @BindingAdapter("src")
+    @JvmStatic
+    fun setImageResId(view: ImageView, drawable: Drawable?) {
+        if (drawable != null)
+        view.setImageDrawable(drawable)
+    }
+
 
     @BindingAdapter("text")
     @JvmStatic
