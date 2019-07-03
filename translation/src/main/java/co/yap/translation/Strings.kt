@@ -44,5 +44,12 @@ object Strings {
     const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
     const val screen_notification_permission_button_title: String = "screen_notification_permission_button_title"
 
+    //Onboarding congratulations screen
+    const val screen_onboarding_congratulations_display_text_title: String = "screen_onboarding_congratulations_display_text_title"
+    const val screen_onboarding_congratulations_display_text_sub_title: String = "screen_onboarding_congratulations_display_text_sub_title"
+    const val screen_onboarding_congratulations_display_text_iban: String = "screen_onboarding_congratulations_display_text_iban"
+    const val screen_onboarding_congratulations_display_text_meeting_note: String = "screen_onboarding_congratulations_display_text_meeting_note"
+    const val screen_onboarding_congratulations_button_complete_verification: String = "screen_onboarding_congratulations_button_complete_verification"
+
 
 }
