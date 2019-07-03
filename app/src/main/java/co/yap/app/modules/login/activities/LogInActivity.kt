@@ -2,6 +2,7 @@ package co.yap.app.modules.login.activities
 
 import android.content.Context
 import android.content.Intent
+
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R

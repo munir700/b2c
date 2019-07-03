@@ -25,7 +25,7 @@ class AccountSelectionActivity : DefaultActivity() {
         viewDataBinding.executePendingBindings()
 
         btnBusiness.setOnClickListener {
-//            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
+            //            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
             startActivity(OnboardingActivity.newIntent(this, AccountType.B2B))
         }
 
