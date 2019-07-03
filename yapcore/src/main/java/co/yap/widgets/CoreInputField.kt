@@ -167,23 +167,13 @@ class CoreInputField @JvmOverloads constructor(
 
         drawableRight = drawable
 
-        if (null != drawableLeft ) {
+        if (null != drawableLeft) {
             etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
 
         } else {
             etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
         }
 
-
-
-//        drawableRight = drawable
-//        if (null != drawableLeft) {
-//            etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
-//
-//        } else {
-//            etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
-//
-//        }
     }
 
     fun setDrawableLeftIcon(drawable: Drawable) {

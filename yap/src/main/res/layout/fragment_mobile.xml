@@ -2,6 +2,7 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android">
+
     <data>
 
         <variable
@@ -30,7 +31,8 @@
             app:layout_constraintBottom_toTopOf="@+id/text"
             tools:layout_editor_absoluteY="219dp"
             tools:layout_editor_absoluteX="54dp"
-            app:layout_constraintEnd_toEndOf="@+id/text"/>
+            app:layout_constraintEnd_toEndOf="@+id/text"
+            />
 
         <co.yap.widgets.CoreInputField
             android:id="@+id/inputMobileNumber"
@@ -45,8 +47,15 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:view_input_type="phone"
             android:layout_marginEnd="8dp"
-            app:coreInputDrawableRight="@{mobileViewModel.state.drawbleRight}"
             app:coreInputError="@{mobileViewModel.state.mobileError}"
+            app:textWatcher="@{mobileViewModel.state.getTextWatcher()}"
+            app:coreInputDrawableRight="@{mobileViewModel.state.drawbleRight}"
+            app:resetUI="@{mobileViewModel.state.refreshField}"
+            app:disableKeyBack="@{mobileViewModel.state.handleBackPress}"
+            app:inputText="@{mobileViewModel.state.inputText}"
+            app:selection="@{mobileViewModel.state.setSelection}"
+            app:cursorPlacement="@{mobileViewModel.state.cursorPlacement}"
+
             />
 
         <co.yap.widgets.CoreButton
@@ -72,8 +81,5 @@
             tools:layout_editor_absoluteX="44dp"
             app:enableCoreButton="@{mobileViewModel.state.valid}"
             android:onClick="@{() -> mobileViewModel.handlePressOnNext()}"/>
-
-        />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

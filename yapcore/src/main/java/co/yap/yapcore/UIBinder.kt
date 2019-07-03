@@ -4,7 +4,11 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.text.SpannableStringBuilder
+import android.text.TextWatcher
+import android.view.KeyEvent
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -81,6 +85,19 @@ object UIBinder {
         }
     }
 
+    /* core input text field */
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("enableCoreButton")
+    fun setEnable(view: CoreButton, enable: Boolean) {
+        if (null != enable) {
+            view.enableButton(enable)
+        }
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputText")
@@ -115,11 +132,94 @@ object UIBinder {
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
-    @BindingAdapter("enableCoreButton")
-    fun setEnable(view: CoreButton, enable: Boolean) {
-        if (null != enable) {
-            view.enableButton(enable)
+    @BindingAdapter("resetUI")
+    fun resetUI(view: CoreInputField, refresh: Boolean) {
+        if (refresh) {
+            view.settingUIForNormal()
+
         }
 
     }
+
+    /* textwatcher */
+
+
+    @JvmStatic
+    @BindingAdapter("textWatcher")
+    fun setTextChangeListener(view: CoreInputField, watcher: TextWatcher) {
+        view.editText.addTextChangedListener(watcher)
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("cursorPlacement")
+    fun cursorPlacement(view: CoreInputField, placeCursor: Boolean) {
+        view.cursorPlacement()
+
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("inputText")
+    fun setInputText(view: CoreInputField, text: SpannableStringBuilder) {
+        view.editText.setText(text)
+        view.editText.setSelection(view.editText.text.length)
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("isCursorVisible")
+    fun isCursorVisible(view: CoreInputField, isVisible: Boolean) {
+        view.editText.setCursorVisible(isVisible)
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("selection")
+    fun selection(view: CoreInputField, selection: Int) {
+        view.editText.setSelection(selection)
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("disableKeyBack")
+    fun disableKeyBack(view: CoreInputField, index: Int) {
+
+        if (view.editText.text.toString().length == 5) {
+            view.editText.setCursorVisible(false)
+            /* disable backpress */
+            view.cursorPlacement()
+            view.editText.setOnKeyListener(object : View.OnKeyListener {
+
+                override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
+                    if (keyCode == KeyEvent.KEYCODE_DEL) {
+                        if (index <= 5) {
+                            return true
+                        }
+                    }
+                    return false
+                }
+            })
+        } else {
+            /*enable backpress*/
+
+            view.cursorPlacement()
+            view.editText.setOnKeyListener(object : View.OnKeyListener {
+                override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
+                    if (keyCode == KeyEvent.KEYCODE_DEL) {
+                        if (index <= 5) {
+                            return true
+                        }
+                    }
+                    return false
+                }
+            })
+        }
+    }
+
 }
