@@ -159,8 +159,8 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
 
     private val stateListener = object: Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-            if (propertyId == BR.error && viewModel.state.error.isNotBlank()) {
-                showToast(viewModel.state.error)
+            if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
+                showToast(viewModel.state.toast)
             }
         }
     }
