@@ -171,7 +171,7 @@ class CoreInputField @JvmOverloads constructor(
             etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
 
         } else {
-            etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+             etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
         }
 
     }

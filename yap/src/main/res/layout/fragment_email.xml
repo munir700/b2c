@@ -5,9 +5,9 @@
 
     <data>
 
-        <!--<variable-->
-            <!--name="mobileViewModel"-->
-            <!--type="co.yap.modules.onboarding.viewmodels.MobileViewModel"/>-->
+        <variable
+            name="emailViewModel"
+            type="co.yap.modules.onboarding.viewmodels.EmailViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
 
@@ -40,7 +40,7 @@
             />
 
         <co.yap.widgets.CoreInputField
-            android:id="@+id/inputEmaialAddress"
+            android:id="@+id/inputEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
@@ -49,20 +49,24 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:hint="@{Strings.screen_enter_email_display_text_email_address}"
             app:view_input_type="email"
             android:layout_marginEnd="8dp"
+            app:coreInputHint="@{emailViewModel.state.emailHint}"
+            app:enable="@{emailViewModel.state.focused}"
+            app:changeCoreInputFocus="@{emailViewModel.state.getFocusChanage()}"
 
             />
-<!--            app:hint="@{Strings.screen_enter_email_display_text_email_address}"
--->
-        <!--app:coreInputError="@{mobileViewModel.state.mobileError}"-->
-        <!--app:textWatcher="@{mobileViewModel.state.getTextWatcher()}"-->
-        <!--app:coreInputDrawableRight="@{mobileViewModel.state.drawbleRight}"-->
-        <!--app:resetUI="@{mobileViewModel.state.refreshField}"-->
-        <!--app:inputText="@{mobileViewModel.state.inputText}"-->
-        <!--app:selection="@{mobileViewModel.state.setSelection}"-->
-        <!--app:cursorPlacement="@{mobileViewModel.state.cursorPlacement}"-->
+
+        <!--app:text="@{Strings.screen_enter_email_b2c_display_text_title}"-->
+        <!--app:hint="@{Strings.screen_enter_email_display_text_email_address}" -->
+        <!--app:coreInputError="@{emailViewModel.state.mobileError}"-->
+        <!--app:textWatcher="@{emailViewModel.state.getTextWatcher()}"-->
+        <!--app:coreInputDrawableRight="@{emailViewModel.state.drawbleRight}"-->
+        <!--app:resetUI="@{emailViewModel.state.refreshField}"-->
+        <!--app:inputText="@{emailViewModel.state.inputText}"-->
+        <!--app:selection="@{emailViewModel.state.setSelection}"-->
+        <!--app:cursorPlacement="@{emailViewModel.state.cursorPlacement}"-->
+
         <co.yap.widgets.CoreButton
             android:id="@+id/next_button"
             android:layout_width="match_parent"
@@ -84,8 +88,8 @@
             tools:ignore="MissingConstraints"
             android:layout_marginBottom="@dimen/margin_medium_large"
             tools:layout_editor_absoluteX="44dp"
-          />
-        <!--app:enableCoreButton="@{mobileViewModel.state.valid}"-->
-        <!--android:onClick="@{() -> mobileViewModel.handlePressOnNext()}"-->
+            app:enableCoreButton="@{emailViewModel.state.valid}"
+            android:onClick="@{() -> emailViewModel.handlePressOnNext()}"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,25 +1,31 @@
 package co.yap.modules.onboarding.fragments
 
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.navOptions
+import co.yap.BR
 import co.yap.R
+import co.yap.modules.onboarding.interfaces.IEmail
+import co.yap.modules.onboarding.viewmodels.EmailViewModel
+import co.yap.yapcore.BaseBindingFragment
 
-class EmailFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_email, container, false)
+
+class EmailFragment : BaseBindingFragment<IEmail.ViewModel>() {
+
+    override fun getBindingVariable(): Int = BR.emailViewModel
+    override fun getLayoutId(): Int = R.layout.fragment_email
+
+    override val viewModel: IEmail.ViewModel
+        get() = ViewModelProviders.of(this).get(EmailViewModel::class.java)
+
+    override fun getString(resourceKey: String): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -30,9 +36,6 @@ class EmailFragment : Fragment() {
                 popEnter = R.anim.slide_in_left
                 popExit = R.anim.slide_out_right
             }
-        }
-        view.findViewById<Button>(R.id.next_button)?.setOnClickListener {
-            findNavController().navigate(R.id.action_emailFragment_to_nameFragment, null, options)
         }
     }
 }
