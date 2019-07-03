@@ -18,15 +18,6 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
 
     override fun performLogin(email: String, password: String) {
         launch {
-            when (val response = repository.getCSRFToken()) {
-                is RetroApiResponse.Success -> {
-                    Log.d("CSRF Succ", response.data.toString())
-                }
-                is RetroApiResponse.Error -> {
-                    Log.d("CSRF Err", response.error.toString())
-                }
-            }
-
             when (val response = repository.login(email, password)) {
                 is RetroApiResponse.Success -> {
                     Log.d("Succ", response.data.toString())

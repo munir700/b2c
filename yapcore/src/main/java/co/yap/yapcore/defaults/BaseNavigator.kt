@@ -1,4 +1,4 @@
-package co.yap.yapcore.helpers
+package co.yap.yapcore.defaults
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -8,12 +8,11 @@ import androidx.lifecycle.OnLifecycleEvent
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.setupActionBarWithNavController
-import co.yap.yapcore.interfaces.INavigator
+import co.yap.yapcore.interfaces.IBaseNavigator
 
-class Navigator(val activity: AppCompatActivity, override val navHostId: Int) : INavigator, LifecycleObserver {
+open class BaseNavigator(open val activity: AppCompatActivity, override val navHostId: Int) : IBaseNavigator, LifecycleObserver {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
-    override val navigator: Navigator = this
 
     init {
         (activity as LifecycleOwner).lifecycle.addObserver(this)

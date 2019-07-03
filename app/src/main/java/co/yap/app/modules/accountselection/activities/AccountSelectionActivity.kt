@@ -35,8 +35,6 @@ class AccountSelectionActivity : DefaultActivity() {
 
         tvSignIn.setOnClickListener {
             startActivity(LogInActivity.newIntent(this))
-            // startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
-
         }
     }
 }
