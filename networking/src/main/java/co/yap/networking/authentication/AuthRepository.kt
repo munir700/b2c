@@ -20,7 +20,7 @@ object AuthRepository : BaseRepository(), AuthApi {
     private val api: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
 
     override suspend fun login(username: String, password: String): RetroApiResponse<LoginResponse> {
-        val response = executeSafely(call = { api.login("client_credentials", username, password) })
+        val response = executeSafely(call = { api.login("client_credentials", username, password)  })
         when (response) {
             is RetroApiResponse.Success -> CookiesManager.jwtToken = response.data.accessToken
         }

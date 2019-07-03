@@ -20,10 +20,12 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
         launch {
             when (val response = repository.login(email, password)) {
                 is RetroApiResponse.Success -> {
-                    Log.d("Succ", response.data.toString())
+
+                    Log.d("AccessToken", response.data.accessToken)
                 }
                 is RetroApiResponse.Error -> {
-                    Log.d("Err", response.error.toString())
+                    state.error = response.error.message
+                    Log.d("Error", response.error.message)
                 }
             }
 
@@ -32,7 +34,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
 
     override fun handlePressOnLogin() {
         if (state.validate()) {
-            performLogin(state.email, "Aaaaaa1@" )
+            performLogin(state.email, "Aaaaaa1" )
         }
     }
 }
