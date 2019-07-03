@@ -4,10 +4,14 @@ import co.yap.yapcore.IBase
 
 interface IOnboarding {
     interface View : IBase.View<ViewModel>
-    interface ViewModel : IBase.ViewModel<State>
+
+    interface ViewModel : IBase.ViewModel<State> {
+        fun handlePressOnBackButton()
+        fun handlePressOnTickButton()
+    }
+
     interface State : IBase.State {
-        val totalProgress: Int
-            get() = 100
+        var totalProgress: Int
         var currentProgress: Int
     }
 }

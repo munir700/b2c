@@ -12,16 +12,18 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
+import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IOnboarding
 import co.yap.modules.onboarding.viewmodels.OnboardingViewModel
 import co.yap.yapcore.BaseActivity
+import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IBase
 import co.yap.yapcore.helpers.Navigator
 import co.yap.yapcore.interfaces.INavigator
 
-class OnboardingActivity : BaseActivity<IOnboarding.ViewModel>(), INavigator {
+class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator {
     companion object {
 
         private val ACCOUNT_TYPE = "account_type"
@@ -39,12 +41,8 @@ class OnboardingActivity : BaseActivity<IOnboarding.ViewModel>(), INavigator {
     override val navigator: Navigator
         get() = Navigator(this, R.id.my_nav_host_fragment)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_onboarding_navigation)
+    override fun getBindingVariable(): Int = BR.viewModel
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-    }
+    override fun getLayoutId(): Int = R.layout.activity_onboarding_navigation
 
 }

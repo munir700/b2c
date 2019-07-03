@@ -4,6 +4,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -249,6 +250,14 @@
         <item name="btn_shape_type">rectangle</item>
         <item name="android:enabled">true</item>
         <item name="btn_round_radius">50dp</item>
+    </style>
+
+    <!-- Progress bar -->
+    <style name="YAPProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:minWidth">@dimen/_200sdp</item>
+        <item name="android:progressDrawable">@drawable/yap_progress_bar</item>
+        <item name="android:layout_height">@dimen/_6sdp</item>
+
     </style>
 
 </resources>

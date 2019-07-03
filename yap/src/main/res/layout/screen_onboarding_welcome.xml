@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
     >
 
     <data>
-
         <import type="co.yap.translation.Strings"/>
     </data>
 
 
     <LinearLayout
         android:orientation="vertical"
+        tools:context=".modules.onboarding.activities.WelcomeActivity"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -41,6 +42,7 @@
             android:layout_gravity="center_horizontal"
             style="@style/RectangleBtnStyle"
             android:textColor="@color/colorWhite"
+            android:onClick="onPressGetStarted"
             app:text="@{Strings.screen_welcom_button_get_started}"
             android:layout_margin="24dp"
             android:paddingTop="8dp"

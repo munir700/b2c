@@ -55,4 +55,8 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View
         return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }
 
+    override fun onPressGetStarted(view: View) {
+        viewModel.handlePressOnGetStarted()
+        startActivity(OnboardingActivity.newIntent(this, getAccountType()))
+    }
 }

@@ -138,11 +138,9 @@ object UIBinder {
             view.settingUIForNormal()
 
         }
-
     }
 
     /* textwatcher */
-
 
     @JvmStatic
     @BindingAdapter("textWatcher")
@@ -221,5 +219,19 @@ object UIBinder {
             })
         }
     }
+
+    /* end region textwatcher */
+
+
+    //    @BindingAdapter("progress")
+//    @JvmStatic
+//    fun setProgress(progressBar: ProgressBar, progress: Int) {
+    // will update the "progress" propriety of seekbar until it reaches progress
+//        ObjectAnimator animation = ObjectAnimator.ofInt(seekbar, "progress", progress);
+//        animation.setDuration(500); // 0.5 second
+//        animation.setInterpolator(new DecelerateInterpolator());
+//        animation.start();
+//    }
+
 
 }
