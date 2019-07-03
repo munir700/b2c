@@ -7,6 +7,7 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.di.BaseActivity
 import co.yap.app.modules.login.activities.BiometricPermissionActivity
+import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.IBase
@@ -27,7 +28,8 @@ class AccountSelectionActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
         viewDataBinding.executePendingBindings()
 
         btnBusiness.setOnClickListener {
-            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
+//            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
+            startActivity(OnboardingActivity.newIntent(this, AccountType.B2B))
         }
 
         btnPersonal.setOnClickListener {

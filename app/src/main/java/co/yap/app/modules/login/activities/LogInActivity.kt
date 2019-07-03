@@ -30,13 +30,13 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(),ILogin.View {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (viewModel.state as LoginState).addOnPropertyChangedCallback(object:Observable.OnPropertyChangedCallback() {
-            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
-                if (propertyId == BR.email) {
-//                    viewModel.state.email
-                }
-            }
-        })
+//        (viewModel.state as LoginState).addOnPropertyChangedCallback(object:Observable.OnPropertyChangedCallback() {
+//            override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+//                if (propertyId == BR.email) {
+////                    viewModel.state.email
+//                }
+//            }
+//        })
 
     }
 

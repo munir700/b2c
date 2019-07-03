@@ -1,25 +1,31 @@
 package co.yap.modules.onboarding.fragments
 
+import android.os.Build
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.navOptions
+import co.yap.BR
 import co.yap.R
+import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.modules.onboarding.viewmodels.MobileViewModel
+import co.yap.yapcore.BaseBindingFragment
 
-class MobileFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_mobile, container, false)
+
+class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
+
+    override fun getBindingVariable(): Int = BR.mobileViewModel
+    override fun getLayoutId(): Int = R.layout.fragment_mobile
+
+    override val viewModel: IMobile.ViewModel
+        get() = ViewModelProviders.of(this).get(MobileViewModel::class.java)
+
+    override fun getString(resourceKey: String): String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -30,11 +36,6 @@ class MobileFragment : Fragment() {
                 popEnter = R.anim.slide_in_left
                 popExit = R.anim.slide_out_right
             }
-        }
-
-        view.findViewById<Button>(R.id.next_button)?.setOnClickListener {
-            findNavController().navigate(R.id.phoneVerificationFragment, null, options)
-            // findNavController().navigate(R.id.action_mobileFragment_to_emailFragment, null, options)
         }
     }
 }
