@@ -8,6 +8,9 @@
         <variable
             name="mobileViewModel"
             type="co.yap.modules.onboarding.viewmodels.MobileViewModel"/>
+
+        <import type="co.yap.translation.Strings"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,13 +28,15 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             style="@style/ATitle3"
-            android:text="@string/screen_phone_number_display_text_title"
+            tools:text="@string/screen_phone_number_display_text_title"
             android:layout_marginTop="@dimen/margin_extra_large"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/text"
             tools:layout_editor_absoluteY="219dp"
             tools:layout_editor_absoluteX="54dp"
             app:layout_constraintEnd_toEndOf="@+id/text"
+            app:text="@{Strings.screen_phone_number_display_text_title}"
+
             />
 
         <co.yap.widgets.CoreInputField

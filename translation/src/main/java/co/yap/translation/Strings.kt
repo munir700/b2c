@@ -29,20 +29,34 @@ object Strings {
     const val screen_verify_phone_number_button_resend_otp: String = "screen_verify_phone_number_button_resend_otp"
     const val screen_verify_phone_number_button_send: String = "screen_verify_phone_number_button_send"
 
-    // Login screen
+    /* Login screen */
     const val screen_sign_in_display_text_heading_text: String = "screen_sign_in_display_text_heading_text"
     const val screen_sign_in_input_text_email_hint: String = "screen_sign_in_input_text_email_hint"
     const val screen_sign_in_button_sign_in: String = "screen_sign_in_button_sign_in"
     const val screen_sign_in_display_text_sign_up: String = "screen_sign_in_display_text_sign_up"
 
-    // Touch id permission screen
+    /* Touch id permission screen */
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
     const val screen_notification_permission_text_title: String = "screen_notification_permission_text_title"
-    const val screen_system_permission_text_title_terms_and_conditions: String = "screen_system_permission_text_title_terms_and_conditions"
-    const val screen_system_permission_text_terms_and_conditions: String = "screen_system_permission_text_terms_and_conditions"
+    const val screen_system_permission_text_title_terms_and_conditions: String =
+        "screen_system_permission_text_title_terms_and_conditions"
+    const val screen_system_permission_text_terms_and_conditions: String =
+        "screen_system_permission_text_terms_and_conditions"
     const val screen_system_permission_button_touch_id: String = "screen_system_permission_button_touch_id"
     const val screen_system_permission_text_denied: String = "screen_system_permission_text_denied"
     const val screen_notification_permission_button_title: String = "screen_notification_permission_button_title"
+
+    /*  Phone Number Screen */
+    const val screen_phone_number_display_text_title: String = "screen_phone_number_display_text_title"
+    const val screen_phone_number_display_text_error: String = "screen_phone_number_display_text_error"
+    const val screen_phone_number_button_send: String = "screen_phone_number_button_send"
+
+    /* Email Screen */
+    const val screen_enter_email_b2c_display_text_title: String = "screen_enter_email_b2c_display_text_title"
+    const val screen_enter_email_b2b_display_text_title: String = "screen_enter_email_b2b_display_text_title"
+    const val screen_enter_email_b2b_display_text_sub_heading: String =
+        "screen_enter_email_b2b_display_text_sub_heading"
+    const val screen_enter_email_display_text_email_address: String = "screen_enter_email_display_text_email_address"
 
 
 }
