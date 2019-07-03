@@ -1,29 +1,47 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
-import co.yap.app.api.login.LoginRepository
-import co.yap.app.api.login.requestdtos.LoginRequest
+import android.util.Log
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 
-class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel, IRepositoryHolder<LoginRepository> {
+class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel,
+    IRepositoryHolder<AuthRepository> {
 
-    override val state: ILogin.State
-        get() = LoginState()
+    override val state: LoginState = LoginState()
+
+    override val repository: AuthRepository = AuthRepository
 
     override fun performLogin(email: String, password: String) {
         launch {
-            repository.login(LoginRequest("", ""))
+            when (val response = repository.getCSRFToken()) {
+                is RetroApiResponse.Success -> {
+                    Log.d("CSRF Succ", response.data.toString())
+                }
+                is RetroApiResponse.Error -> {
+                    Log.d("CSRF Err", response.error.toString())
+                }
+            }
+
+            when (val response = repository.login(email, password)) {
+                is RetroApiResponse.Success -> {
+                    Log.d("Succ", response.data.toString())
+                }
+                is RetroApiResponse.Error -> {
+                    Log.d("Err", response.error.toString())
+                }
+            }
+
         }
     }
 
-    override val repository: LoginRepository
-        get() = LoginRepository
-
-    override fun onCreate() {
-        super.onCreate()
-
+    override fun handlePressOnLogin() {
+        if (state.validate()) {
+            performLogin(state.email, "Aaaaaa1@" )
+        }
     }
 }

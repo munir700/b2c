@@ -4,6 +4,8 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.interfaces.TokenValidator
 import okhttp3.Interceptor
 import okhttp3.Response
+import org.json.JSONArray
+import org.json.JSONObject
 
 internal abstract class SessionValidator : TokenValidator, Interceptor {
     override var isLoggedIn: Boolean
@@ -26,6 +28,7 @@ internal abstract class SessionValidator : TokenValidator, Interceptor {
             // need to refresh the token since previous token was invalid
             // TODO: Implement token refresh logic here. For now let's invalidate
             invalidate()
+
         }
 
         return response

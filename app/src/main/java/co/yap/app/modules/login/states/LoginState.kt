@@ -8,11 +8,11 @@ import co.yap.yapcore.BaseState
 class LoginState : BaseState(), ILogin.State {
 
     @get:Bindable
-    override var email: String = "abs"
+    override var email: String = "wkm@yap.com"
         set(value) {
             field = value
             notifyPropertyChanged(BR.email)
-            valid = validate()
+            notifyPropertyChanged(BR.valid)
         }
 
     @get:Bindable
@@ -20,17 +20,16 @@ class LoginState : BaseState(), ILogin.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.emailError)
-            valid = validate()
+            notifyPropertyChanged(BR.valid)
         }
+
 
     @get:Bindable
     override var valid: Boolean = false
-        set(value) {
-            field = value
-            notifyChange()
-        }
+        get() = validate()
+
 
     fun validate(): Boolean {
-        return (email.length > 5)
+        return (email.length > 5 && emailError.isEmpty())
     }
 }
