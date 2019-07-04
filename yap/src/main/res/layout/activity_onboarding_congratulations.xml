@@ -20,7 +20,7 @@
 
 
         <TextView
-            android:id="@+id/tvHeadingMobile"
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -30,9 +30,95 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/text"
             tools:layout_editor_absoluteY="219dp"
-            tools:layout_editor_absoluteX="54dp"
-            app:layout_constraintEnd_toEndOf="@+id/text"
-            />
+            tools:layout_editor_absoluteX="54dp"/>
+
+        <TextView
+            android:id="@+id/tvSubTitle"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="@string/screen_onboarding_congratulations_display_text_sub_title"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_medium"/>
+
+        <ImageView
+            android:id="@+id/ivCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/yap_card_basic"
+            android:layout_marginTop="10dp"
+            app:layout_constraintTop_toBottomOf="@+id/tvSubTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
+        <TextView
+            android:id="@+id/tvIbanTitle"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/screen_onboarding_congratulations_display_text_iban"
+            app:layout_constraintTop_toBottomOf="@+id/ivCard"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/tvIban"
+            style="@style/ALarge"
+            android:textColor="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@drawable/bg_round_edit_text"
+            android:paddingTop="@dimen/_12sdp"
+            android:paddingBottom="@dimen/_12sdp"
+            android:paddingEnd="@dimen/_20sdp"
+            android:paddingStart="@dimen/_20sdp"
+            tools:text="AE07 0331 2345 6789 01** ***"
+            app:layout_constraintTop_toBottomOf="@+id/tvIbanTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"/>
+
+        <TextView
+            android:id="@+id/tvMeetingNotes"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            tools:text="@string/screen_onboarding_congratulations_display_text_meeting_note"
+            app:layout_constraintTop_toBottomOf="@+id/tvIban"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/margin_medium"/>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnCompleteVerification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:btn_round_radius="50dp"
+            app:btn_enable="false"
+            android:textColor="@color/colorWhite"
+            android:text="@string/screen_onboarding_congratulations_button_complete_verification"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:minHeight="@dimen/_52sdp"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginRight="@dimen/margin_xxl"
+            app:btn_text_size="@dimen/text_size_h4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:drawablePadding="@dimen/_20sdp"
+            app:btn_shape_type="rectangle"
+            tools:ignore="MissingConstraints"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            tools:layout_editor_absoluteX="44dp"/>
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
