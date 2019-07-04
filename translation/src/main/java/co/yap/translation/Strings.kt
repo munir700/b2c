@@ -2,6 +2,12 @@ package co.yap.translation
 
 
 object Strings {
+    // Common
+    const val common_display_text_retry: String = "common_display_text_retry"
+    const val common_button_next: String = "common_button_next"
+    const val common_display_text_error_no_internet: String = "common_display_text_error_no_internet"
+
+    // Onboarding
     const val app_name: String = "app_name"
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
     const val screen_home_display_text_account_selection: String = "screen_home_display_text_account_selection"
@@ -28,6 +34,11 @@ object Strings {
         "screen_verify_phone_number_display_text_sub_title"
     const val screen_verify_phone_number_button_resend_otp: String = "screen_verify_phone_number_button_resend_otp"
     const val screen_verify_phone_number_button_send: String = "screen_verify_phone_number_button_send"
+
+    // Name Screen
+    const val screen_name_display_text_title: String = "screen_name_display_text_title"
+    const val screen_name_display_text_first_name: String = "screen_name_display_text_first_name"
+    const val screen_name_display_text_last_name: String = "screen_name_display_text_last_name"
 
     // Login screen
     const val screen_sign_in_display_text_heading_text: String = "screen_sign_in_display_text_heading_text"

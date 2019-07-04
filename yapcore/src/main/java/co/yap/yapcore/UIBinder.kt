@@ -21,7 +21,10 @@ import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreInputField
+import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.interfaces.IBindable
+import org.json.JSONArray
+
 
 object UIBinder {
     @BindingAdapter("bitmap")
@@ -46,6 +49,30 @@ object UIBinder {
     @JvmStatic
     fun setText(view: TextView, textId: Int) {
         view.text = Translator.getString(view.context, textId)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textKey: String, concat: Array<String>) {
+        view.text = Translator.getString(view.context, textKey, *concat)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textId: Int, concat: Array<String>) {
+        view.text = Translator.getString(view.context, textId, *concat)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textKey: String, concat: String) {
+        view.text = Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textId: Int, concat: String) {
+        view.text = Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("hint")
