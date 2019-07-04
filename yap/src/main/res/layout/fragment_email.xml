@@ -52,8 +52,6 @@
             app:view_input_type="email"
             android:layout_marginEnd="8dp"
             app:coreInputHint="@{emailViewModel.state.emailHint}"
-            app:enable="@{emailViewModel.state.focused}"
-            app:changeCoreInputFocus="@{emailViewModel.state.getFocusChanage()}"
 
             />
 

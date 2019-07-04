@@ -85,7 +85,6 @@ object UIBinder {
         }
     }
 
-    /* core input text field */
 
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -97,6 +96,14 @@ object UIBinder {
         }
     }
 
+    /* core input text field */
+
+
+    @BindingAdapter("coreInputHint")
+    @JvmStatic
+    fun setHint(view: CoreInputField, hint: String) {
+        view.editText.setHint(hint)
+    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
@@ -151,26 +158,8 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("changeCoreInputFocus")
     fun setFocusChangeListener(view: CoreInputField, focusChangeListener: View.OnFocusChangeListener) {
-        view.editText.onFocusChangeListener = focusChangeListener
+        view.editText.setOnFocusChangeListener(focusChangeListener)
     }
-
-
-    @JvmStatic
-    @BindingAdapter("enable")
-    fun enableState(view: CoreInputField, enable: Boolean) {
-        if (!enable) {
-//    view.editText.isFocused
-            view.editText.clearFocus()
-
-        } else {
-            view.editText.isFocusableInTouchMode
-//        = enable
-
-        }
-//        view.editText.hasFocus() = enable
-//        view.editText.isEnabled = enable
-    }
-
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
@@ -244,23 +233,5 @@ object UIBinder {
     }
 
     /* end region textwatcher */
-
-
-    @BindingAdapter("coreInputHint")
-    @JvmStatic
-    fun setHint(view: CoreInputField, hint: String) {
-        view.editText.setHint(hint)
-    }
-
-    //    @BindingAdapter("progress")
-//    @JvmStatic
-//    fun setProgress(progressBar: ProgressBar, progress: Int) {
-    // will update the "progress" propriety of seekbar until it reaches progress
-//        ObjectAnimator animation = ObjectAnimator.ofInt(seekbar, "progress", progress);
-//        animation.setDuration(500); // 0.5 second
-//        animation.setInterpolator(new DecelerateInterpolator());
-//        animation.start();
-//    }
-
 
 }

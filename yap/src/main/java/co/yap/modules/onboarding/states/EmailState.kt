@@ -8,7 +8,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
-import android.view.View
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
@@ -207,7 +206,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
 
                             builder.append(twoDigitStr)
                             builder.append(" ")
-//                            inputText = builder
                             setSelection = builder.toString().length
                         }
                     }
@@ -227,7 +225,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
 
                             builder.append(twoDigitStr)
                             builder.append(threeDigitStr)
-//                            email = builder.append(" ")
                             setSelection = builder.toString().length
                         }
                     }
@@ -245,49 +242,4 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             }
         }
     }
-
-
-    private var onFocusChangeListener: View.OnFocusChangeListener? = null
-
-    fun getOnFocusChangeListener(): View.OnFocusChangeListener? {
-        return onFocusChangeListener
-    }
-
-    fun setOnFocusChangeListener(onFocusChangeListener: View.OnFocusChangeListener) {
-        this.onFocusChangeListener = onFocusChangeListener
-    }
-
-    @get:Bindable
-    override var focused: Boolean = false
-        get() = field
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.focused)
-        }
-
-
-    fun focusChangeListener() = { view: View?, isFocused: Boolean ->
-        focused = isFocused
-
-        if (getOnFocusChangeListener() != null) getOnFocusChangeListener()!!.onFocusChange(view, isFocused)
-    }
-
-    fun focusChange(): View.OnFocusChangeListener {
-
-        return object : View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                focused = hasFocus
-            }
-        }
-    }
-
-    fun getFocusChanage(): View.OnFocusChangeListener {
-
-        return object : View.OnFocusChangeListener {
-            override fun onFocusChange(v: View?, hasFocus: Boolean) {
-                focused = hasFocus
-            }
-        }
-    }
-
 }

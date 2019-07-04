@@ -135,13 +135,13 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         )
     }
 
-    fun checkMobileNumberValidation(phoneNumber: String): Boolean? {
+    fun validateMobileNumber(phoneNumber: String): Boolean? {
         if (!phoneNumber.trim().equals("")) {
             val input = phoneNumber.trim().replace("+", "")
             val regex = "[0-9]+"
             if (input.length < 5 || !input.matches(regex.toRegex())) {
 
-                /* disable core input field
+                /* disable core button
                  set error UI*/
                 valid = false
                 refreshField = false
@@ -187,7 +187,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                         var phoneNumber: String = p0.toString().trim()
                         phoneNumber = phoneNumber.trim().replace(" ", "")
 
-                        checkMobileNumberValidation(phoneNumber)
+                        validateMobileNumber(phoneNumber)
                     } else {
                         refreshField = true
                         valid = false

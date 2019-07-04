@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Paint
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.InputFilter
@@ -101,6 +102,7 @@ class CoreInputField @JvmOverloads constructor(
             paintText.textAlign = Paint.Align.CENTER
             paintText.style = Paint.Style.FILL
 
+            onKeyBoardDismissal()
         }
 
     }
@@ -171,7 +173,7 @@ class CoreInputField @JvmOverloads constructor(
             etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
 
         } else {
-             etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+            etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
         }
 
     }
@@ -216,4 +218,34 @@ class CoreInputField @JvmOverloads constructor(
         viewWeight = w
         viewHeight = h
     }
+
+
+    /* handle keyboard dismissal event */
+    fun onKeyBoardDismissal() {
+
+        etEmail.getViewTreeObserver().addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (etEmail.isFocused()) {
+                        if (!keyboardShown(etEmail.getRootView())) {
+                            editText.isActivated = false
+                        } else {
+                            editText.isActivated = true
+                        }
+                    }
+                    return
+                }
+            })
+    }
+
+    private fun keyboardShown(rootView: View): Boolean {
+
+        val softKeyboardHeight = 100
+        val r = Rect()
+        rootView.getWindowVisibleDisplayFrame(r)
+        val dm = rootView.resources.displayMetrics
+        val heightDiff = rootView.bottom - r.bottom
+        return heightDiff > softKeyboardHeight * dm.density
+    }
+
 }
