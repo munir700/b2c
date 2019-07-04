@@ -2,7 +2,6 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
