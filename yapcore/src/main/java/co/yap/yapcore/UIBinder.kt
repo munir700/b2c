@@ -32,8 +32,9 @@ import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 object UIBinder {
     @BindingAdapter("bitmap")
     @JvmStatic
-    fun setImageBitmap(view: ImageView, bitmap: Bitmap) {
-        view.setImageBitmap(bitmap)
+    fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
+        if (bitmap != null)
+            view.setImageBitmap(bitmap)
     }
 
     @BindingAdapter("src")
@@ -47,6 +48,14 @@ object UIBinder {
     fun setDialerErrorMessage(view: CoreDialerPad, error: String) {
         if (!error.isEmpty()) view.settingUIForError(error) else view.settingUIForNormal()
     }
+
+    @BindingAdapter("src")
+    @JvmStatic
+    fun setImageResId(view: ImageView, drawable: Drawable?) {
+        if (drawable != null)
+            view.setImageDrawable(drawable)
+    }
+
 
     @BindingAdapter("text")
     @JvmStatic

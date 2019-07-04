@@ -8,7 +8,7 @@ interface ILifecycle : LifecycleObserver {
     fun onStart()
     fun onStop()
     fun onDestroy()
-    fun OnResume()
+    fun onResume()
     fun onPause()
     fun registerLifecycleOwner(owner: LifecycleOwner?)
     fun unregisterLifecycleOwner(owner: LifecycleOwner?)
