@@ -23,7 +23,8 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".modules.login.activities.BiometricPermissionActivity">
+
+        <activity android:name=".modules.login.activities.SystemPermissionActivity">
         </activity>
         <activity
             android:name=".modules.login.activities.LogInActivity"

@@ -2,11 +2,11 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.KeyEvent
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,8 +26,9 @@ import co.yap.yapcore.interfaces.IBindable
 object UIBinder {
     @BindingAdapter("bitmap")
     @JvmStatic
-    fun setImageBitmap(view: ImageView, bitmap: Bitmap) {
-        view.setImageBitmap(bitmap)
+    fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
+        if (bitmap != null)
+            view.setImageBitmap(bitmap)
     }
 
     @BindingAdapter("src")
@@ -35,6 +36,14 @@ object UIBinder {
     fun setImageResId(view: ImageView, resId: Int) {
         view.setImageResource(resId)
     }
+
+    @BindingAdapter("src")
+    @JvmStatic
+    fun setImageResId(view: ImageView, drawable: Drawable?) {
+        if (drawable != null)
+            view.setImageDrawable(drawable)
+    }
+
 
     @BindingAdapter("text")
     @JvmStatic

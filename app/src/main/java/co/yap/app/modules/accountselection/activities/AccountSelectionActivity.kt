@@ -7,6 +7,9 @@ import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.activities.LogInActivity
 import co.yap.modules.onboarding.activities.OnboardingActivity
+import co.yap.app.constants.Constants
+import co.yap.app.di.BaseActivity
+import co.yap.app.modules.login.activities.SystemPermissionActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.defaults.DefaultActivity
@@ -35,6 +38,9 @@ class AccountSelectionActivity : DefaultActivity() {
 
         tvSignIn.setOnClickListener {
             startActivity(LogInActivity.newIntent(this))
+            //startActivity(LogInActivity.newIntent(this))
+         //   startActivity(SystemPermissionActivity.newIntent(this,Constants.TOUCH_ID_SCREEN_TYPE))
+
         }
     }
 }

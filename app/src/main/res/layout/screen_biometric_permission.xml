@@ -2,8 +2,12 @@
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <variable
+            name="systemPermissionViewModel"
+            type="co.yap.app.modules.login.viewmodels.SystemPermissionViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
+        <import type="android.view.View"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -12,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context="co.yap.app.modules.login.activities.BiometricPermissionActivity">
+        tools:context="co.yap.app.modules.login.activities.SystemPermissionActivity">
 
         <ImageView
             android:id="@+id/ivFingerprint"
@@ -23,7 +27,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginTop="@dimen/margin_xxl"
             tools:background="@drawable/bg_fingerprint"
-            android:padding="14dp"
+            app:src="@{systemPermissionViewModel.state.icon}"
             tools:srcCompat="@drawable/ic_fingerprint"/>
 
         <TextView
@@ -35,6 +39,7 @@
             tools:text="@string/screen_system_permission_text_title"
             android:layout_marginTop="@dimen/margin_large"
             android:textAlignment="center"
+            android:text="@{systemPermissionViewModel.state.title}"
             app:layout_constraintTop_toBottomOf="@+id/ivFingerprint"
             android:layout_marginEnd="@dimen/margin_xl"
             android:layout_marginStart="@dimen/margin_xl"
@@ -48,6 +53,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:textAlignment="center"
             style="@style/AMicroGrey"
+            android:visibility="@{systemPermissionViewModel.state.termsAndConditionsVisibility ? View.VISIBLE : View.GONE}"
             app:text="@{Strings.screen_system_permission_text_title_terms_and_conditions}"
             app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
             tools:text="@string/screen_system_permission_text_title_terms_and_conditions"
@@ -61,6 +67,7 @@
             android:layout_marginBottom="@dimen/margin_normal"
             app:text="@{Strings.screen_system_permission_text_terms_and_conditions}"
             tools:text="@string/screen_system_permission_text_terms_and_conditions"
+            android:visibility="@{systemPermissionViewModel.state.termsAndConditionsVisibility? View.VISIBLE : View.GONE}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/btnTouchId"
@@ -73,6 +80,7 @@
             style="@style/RectangleBtnStyle"
             android:textColor="@color/colorWhite"
             tools:text="@string/screen_system_permission_button_touch_id"
+            android:text="@{systemPermissionViewModel.state.buttonTitle}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="@dimen/margin_normal"
@@ -80,8 +88,8 @@
             app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
             android:paddingBottom="8dp"
             android:gravity="center"
-            android:paddingEnd="@dimen/_30sdp"
-            android:paddingStart="@dimen/_30sdp"
+            android:paddingEnd="@dimen/_50sdp"
+            android:paddingStart="@dimen/_50sdp"
             tools:ignore="MissingConstraints"
             app:layout_constraintVertical_bias="0.75"
             />
