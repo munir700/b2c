@@ -47,6 +47,7 @@
 
     <declare-styleable name="CoreDialerPad">
         <attr name="dialer_max_length" format="integer"/>
+        <attr name="dialer_error" format="reference"/>
         <attr name="dialer_pass_code" format="enum">
             <enum name="defaultType" value="0"/>
             <enum name="passcode" value="1"/>

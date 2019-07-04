@@ -43,8 +43,8 @@
             android:layout_marginEnd="8dp"/>
 
         <ImageView
-            android:layout_width="@dimen/_250sdp"
-            android:layout_height="@dimen/_182sdp"
+            android:layout_width="@dimen/_230sdp"
+            android:layout_height="@dimen/_162sdp"
             android:scaleType="fitXY"
             android:layout_marginTop="@dimen/_40sdp"
             app:src="@{content.imageResource}"
