@@ -66,6 +66,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_xxl"
+                    app:coreInputText="@{loginViewModel.state.email}"
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
                     app:layout_constraintTop_toBottomOf="@+id/tvSignIn"/>
 
@@ -77,6 +78,7 @@
                     android:enabled="@{loginViewModel.state.valid}"
                     android:textColor="@color/colorWhite"
                     android:text="@string/screen_sign_in_button_sign_in"
+                    android:onClick="@{(v) -> loginViewModel.handlePressOnLogin()}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etEmailField"

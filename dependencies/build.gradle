@@ -12,7 +12,7 @@ project.ext {
     playServicesVersion = '16.0.0'
     supportLibraryVersion = "28.0.3"
     playServicesVersion = "16.0.0"
-    retrofitVersion = "2.5.0"
+    retrofitVersion = "2.6.0"
     daggerVersion = "2.16"
     okhttpVersion = "3.12.1"
     okhttpLoggerVersion = "3.10.0"
@@ -33,6 +33,7 @@ project.ext {
             sdp                      : 'com.intuit.sdp:sdp-android:1.0.5',
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
+//            databindingCompiler      : "androidx.databinding:compiler:$kotlin_version",
             material                 : 'com.google.android.material:material:1.0.0',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
             otpView                  : 'com.github.aabhasr1:OtpView:1.0.6',
@@ -154,6 +155,8 @@ project.ext {
             [configuration: "api", dependency: libraries.retrofitConverterGson],
             [configuration: "api", dependency: libraries.okhttp],
             [configuration: "api", dependency: libraries.okhttp3LoggingInterceptor],
+            [configuration: "implementation", dependency: libraries.coroutineCore],
+            [configuration: "implementation", dependency: libraries.coroutineAndroid],
     ]
 
 

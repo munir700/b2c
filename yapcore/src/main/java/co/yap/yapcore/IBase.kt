@@ -25,6 +25,7 @@ interface IBase {
     }
 
     interface State {
+        var toast: String
         var loading: Boolean
         var toolbarTitle: String
         var error: String

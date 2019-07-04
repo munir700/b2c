@@ -91,7 +91,7 @@
                 style="@style/RectangleBtnStyle"
                 android:enabled="true"
                 app:text="@{Strings.screen_home_button_personal_text}"
-                android:paddingEnd="@dimen/margin_xl"
+                android:paddingEnd="@dimen/margin_extra_large"
                 tools:ignore="MissingConstraints"
                 android:layout_marginRight="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/margin_medium"
