@@ -21,7 +21,7 @@ object RetroNetwork : Network {
     private const val CONNECTION_TIMEOUT_SECONDS = 60L
     private const val DISK_CACHE_SIZE = (10 * 1024 * 1024).toLong() // 10 MB
 
-    private var application: Application? = null
+    // private var application: Application? = null
     private var retro: Retrofit? = null
     private var networkConstraintsListener: NetworkConstraintsListener? = null
         get() {
@@ -30,13 +30,13 @@ object RetroNetwork : Network {
         }
 
     override fun initWith(application: Application, baseUrl: String) {
-        this.application = application
+        // this.application = application
         build(application, baseUrl)
     }
 
     @Throws(IllegalStateException::class)
     override fun <T> createService(serviceInterface: Class<T>): T {
-        if (retro == null) throw IllegalStateException("RetroNetwork is not initialised. Make sure you have called 'initWith' before calling calling this function ")
+        if (retro == null) throw IllegalStateException("RetroNetwork is not initialised. Make sure you have called 'initWith' before calling this function ")
         return retro?.create(serviceInterface)!!
     }
 

@@ -1,22 +1,19 @@
-package co.yap.app.activities
+package co.yap.app.modules.accountselection.activities
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.app.di.BaseActivity
-import co.yap.app.modules.login.activities.BiometricPermissionActivity
+import co.yap.app.modules.login.activities.LogInActivity
 import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
-import co.yap.yapcore.IBase
+import co.yap.yapcore.defaults.DefaultActivity
 import kotlinx.android.synthetic.main.activity_account_selection.*
 
 
-class AccountSelectionActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
-    override val viewModel: IBase.ViewModel<IBase.State>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
+class AccountSelectionActivity : DefaultActivity() {
 
     private lateinit var viewDataBinding: ViewDataBinding
 
@@ -28,7 +25,7 @@ class AccountSelectionActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
         viewDataBinding.executePendingBindings()
 
         btnBusiness.setOnClickListener {
-//            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
+            //            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
             startActivity(OnboardingActivity.newIntent(this, AccountType.B2B))
         }
 
@@ -37,9 +34,7 @@ class AccountSelectionActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
         }
 
         tvSignIn.setOnClickListener {
-            //startActivity(LogInActivity.newIntent(this))
-            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
-
+            startActivity(LogInActivity.newIntent(this))
         }
     }
 }
