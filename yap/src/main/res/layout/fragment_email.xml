@@ -35,6 +35,7 @@
             tools:layout_editor_absoluteY="219dp"
             tools:layout_editor_absoluteX="54dp"
             app:layout_constraintEnd_toEndOf="@+id/text"
+
             app:text="@{Strings.screen_enter_email_b2c_display_text_title}"
 
             />
@@ -44,26 +45,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:layout_marginTop="@dimen/margin_heading_to_field"
+            android:layout_marginTop="44dp"
             app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:view_input_type="email"
             android:layout_marginEnd="8dp"
+            android:layout_marginBottom="@dimen/_100sdp"
             app:coreInputHint="@{emailViewModel.state.emailHint}"
+            app:textWatcher="@{emailViewModel.state.getTextWatcher()}"
+            app:coreInputError="@{emailViewModel.state.emailError}"
+            app:coreInputDrawableRight="@{emailViewModel.state.drawbleRight}"
+            app:selection="@{emailViewModel.state.setSelection}"
+            app:resetUI="@{emailViewModel.state.refreshField}"
+            app:cursorPlacement="@{emailViewModel.state.cursorPlacement}"
+            app:layout_constraintHorizontal_bias="0.487"/>
 
-            />
-
-        <!--app:text="@{Strings.screen_enter_email_b2c_display_text_title}"-->
-        <!--app:hint="@{Strings.screen_enter_email_display_text_email_address}" -->
-        <!--app:coreInputError="@{emailViewModel.state.mobileError}"-->
-        <!--app:textWatcher="@{emailViewModel.state.getTextWatcher()}"-->
-        <!--app:coreInputDrawableRight="@{emailViewModel.state.drawbleRight}"-->
-        <!--app:resetUI="@{emailViewModel.state.refreshField}"-->
-        <!--app:inputText="@{emailViewModel.state.inputText}"-->
-        <!--app:selection="@{emailViewModel.state.setSelection}"-->
-        <!--app:cursorPlacement="@{emailViewModel.state.cursorPlacement}"-->
+        <TextView
+            android:id="@+id/tvSuccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/ASmallGrey"
+            android:textSize="12sp"
+            android:visibility="gone"
+            android:gravity="center"
+            android:paddingStart="@dimen/margin_extra_small"
+            android:layout_below="@+id/etInputField"
+            tools:ignore="MissingConstraints"
+            app:layout_constraintBottom_toTopOf="@+id/next_button"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/_40sdp"
+            app:layout_constraintTop_toBottomOf="@+id/inputEmailAddress"
+            app:layout_constraintHorizontal_bias="0.487"
+            app:layout_constraintVertical_bias="0.0"/>
 
         <co.yap.widgets.ComponentCoreButton
             android:id="@+id/next_button"

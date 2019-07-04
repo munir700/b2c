@@ -141,28 +141,16 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             val regex = "[0-9]+"
             if (input.length < 5 || !input.matches(regex.toRegex())) {
 
-                /* disable core button
-                 set error UI*/
-                valid = false
-                refreshField = false
-                mobileError = mContext.getString(R.string.screen_phone_number_display_text_error)
-                return false
+                return setErrorUI()
             }
         }
         if (phoneNumber.trim().equals("")) {
 
-            /* disable core button
-             set error UI*/
-            refreshField = false
-            valid = false
+            setErrorUI()
             drawbleRight = null
-            mobileError = mContext.getString(R.string.screen_phone_number_display_text_error)
-            return false
+             return false
         }
-        refreshField = true
-        valid = true
-        mobileError = ""
-        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+        setSuccessUI()
 
         return true
     }
@@ -189,9 +177,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
                         validateMobileNumber(phoneNumber)
                     } else {
-                        refreshField = true
-                        valid = false
-                        drawbleRight = null
+                        setDefaultUI()
                     }
 
                     if (p0.toString().toCharArray().size == 7 && p1 == 6) {
@@ -246,5 +232,27 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                 }
             }
         }
+    }
+
+    private fun setSuccessUI() {
+        refreshField = true
+        valid = true
+        mobileError = ""
+        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+    }
+
+    private fun setErrorUI(): Boolean {
+        /* disable core button
+                 set error UI*/
+        valid = false
+        refreshField = false
+        mobileError = mContext.getString(R.string.screen_phone_number_display_text_error)
+        return false
+    }
+
+    private fun setDefaultUI() {
+        refreshField = true
+        valid = false
+        drawbleRight = null
     }
 }

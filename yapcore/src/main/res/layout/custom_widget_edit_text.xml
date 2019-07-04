@@ -12,7 +12,7 @@
         >
 
         <EditText
-            android:id="@+id/etEmail"
+            android:id="@+id/etInputField"
             android:layout_width="match_parent"
             android:layout_height="52dp"
             android:background="@drawable/bg_round_edit_text"
@@ -37,7 +37,7 @@
             android:visibility="gone"
             android:paddingStart="@dimen/margin_extra_small"
             android:layout_marginTop="@dimen/margin_small"
-            android:layout_below="@+id/etEmail"/>
+            android:layout_below="@+id/etInputField"/>
 
 
     </RelativeLayout>

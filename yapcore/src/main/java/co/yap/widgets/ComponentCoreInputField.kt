@@ -49,7 +49,7 @@ class ComponentCoreInputField @JvmOverloads constructor(
     init {
 
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
-        editText = etEmail
+        editText = etInputField
 
         attrs?.let {
             typedArray = context.obtainStyledAttributes(it, R.styleable.ComponentCoreInputField, 0, 0)
@@ -72,7 +72,7 @@ class ComponentCoreInputField @JvmOverloads constructor(
 
             if (null != typedArray.getDrawable(R.styleable.ComponentCoreInputField_view_drawable_right)) {
                 drawableRight = typedArray.getDrawable(R.styleable.ComponentCoreInputField_view_drawable_right)
-                etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+                etInputField.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
             } else {
                 drawableRight = null
             }
@@ -80,18 +80,18 @@ class ComponentCoreInputField @JvmOverloads constructor(
             if (null != typedArray.getDrawable(R.styleable.ComponentCoreInputField_view_drawable_left)) {
                 drawableLeft = typedArray.getDrawable(R.styleable.ComponentCoreInputField_view_drawable_left)
 
-                etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
+                etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
             }
 
             if (null != drawableRight && null != drawableLeft) {
-                etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+                etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
             }
 
             if (!textInput.isEmpty()) {
-                etEmail.setText(textInput)
+                etInputField.setText(textInput)
             }
 
-            etEmail.hint = title
+            etInputField.hint = title
             setViewInputType()
             if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
             typedArray.recycle()
@@ -110,43 +110,43 @@ class ComponentCoreInputField @JvmOverloads constructor(
     private fun setViewInputType() {
         when (inputType) {
             PHONE_INPUT_TYPE -> {
-                etEmail.inputType = InputType.TYPE_CLASS_PHONE
+                etInputField.inputType = InputType.TYPE_CLASS_NUMBER
                 setPhoneNumberField()
             }
 
             EMAIL_INPUT_TYPE -> {
-                etEmail.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                etInputField.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             }
         }
     }
 
     private fun setPhoneNumberField() {
-        etEmail.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(PHONE_NUMBER_LENGTH)))
+        etInputField.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(PHONE_NUMBER_LENGTH)))
 
         val builder = SpannableStringBuilder("")
         builder.color(color = R.color.greySoft) {
             append(countryCode)
         }
 
-        etEmail.setText(builder)
-        etEmail.setSelection(etEmail.text.length)
+        etInputField.setText(builder)
+        etInputField.setSelection(etInputField.text.length)
         disableTextSelection()
 
-        etEmail.setCursorVisible(false)
+        etInputField.setCursorVisible(false)
 
-        etEmail.setOnClickListener(OnClickListener { etEmail.setSelection(etEmail.getText().toString().length) })
+        etInputField.setOnClickListener(OnClickListener { etInputField.setSelection(etInputField.getText().toString().length) })
 
-        etEmail.setCursorVisible(true)
+        etInputField.setCursorVisible(true)
     }
 
     fun cursorPlacement() {
-        etEmail.setOnClickListener(OnClickListener { etEmail.setSelection(etEmail.getText().toString().length) })
-        etEmail.setCursorVisible(true)
+        etInputField.setOnClickListener(OnClickListener { etInputField.setSelection(etInputField.getText().toString().length) })
+        etInputField.setCursorVisible(true)
     }
 
     private fun disableTextSelection() {
-        etEmail.isLongClickable = false
-        etEmail.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
+        etInputField.isLongClickable = false
+        etInputField.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
                 return false
             }
@@ -170,10 +170,10 @@ class ComponentCoreInputField @JvmOverloads constructor(
         drawableRight = drawable
 
         if (null != drawableLeft) {
-            etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+            etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
 
         } else {
-            etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+            etInputField.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
         }
 
     }
@@ -182,25 +182,25 @@ class ComponentCoreInputField @JvmOverloads constructor(
         drawableLeft = drawable
 
         if (null != drawableRight) {
-            etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+            etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
 
         } else {
-            etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
+            etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
         }
     }
 
     fun setview_input_text(text: String) {
-        etEmail.setText(text)
+        etInputField.setText(text)
 
     }
 
     fun getview_input_text(): String? {
-        return etEmail.text.toString()
+        return etInputField.text.toString()
 
     }
 
     fun settingUIForError(error: String) {
-        etEmail.setBackgroundResource(R.drawable.bg_round_error_layout)
+        etInputField.setBackgroundResource(R.drawable.bg_round_error_layout)
         tvError.text = error
         tvError.visibility = View.VISIBLE
         setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
@@ -208,7 +208,7 @@ class ComponentCoreInputField @JvmOverloads constructor(
     }
 
     fun settingUIForNormal() {
-        etEmail.setBackgroundResource(R.drawable.bg_round_edit_text)
+        etInputField.setBackgroundResource(R.drawable.bg_round_edit_text)
         tvError.text = ""
         tvError.visibility = View.GONE
     }
@@ -223,11 +223,11 @@ class ComponentCoreInputField @JvmOverloads constructor(
     /* handle keyboard dismissal event */
     fun onKeyBoardDismissal() {
 
-        etEmail.getViewTreeObserver().addOnGlobalLayoutListener(
+        etInputField.getViewTreeObserver().addOnGlobalLayoutListener(
             object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                    if (etEmail.isFocused()) {
-                        if (!keyboardShown(etEmail.getRootView())) {
+                    if (etInputField.isFocused()) {
+                        if (!keyboardShown(etInputField.getRootView())) {
                             editText.isActivated = false
                         } else {
                             editText.isActivated = true

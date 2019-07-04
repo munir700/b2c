@@ -3,15 +3,17 @@ package co.yap.modules.onboarding.states
 import android.app.Application
 import android.graphics.drawable.Drawable
 import android.text.Editable
-import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.yapcore.BaseState
+import java.util.regex.Pattern
 
 class EmailState(application: Application) : BaseState(), IEmail.State {
+    val mContext = application.applicationContext
+
     @get:Bindable
     override var emailHint: String =
         application.applicationContext.getString(R.string.screen_enter_email_display_text_email_address)
@@ -38,11 +40,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             notifyPropertyChanged(BR.emailError)
         }
 
-    val mContext = application.applicationContext
-    var PHONE_NUMBER_LENGTH: Int = 16
-
-    var twoDigitStr: String = ""
-    var threeDigitStr: String = ""
 
     @get:Bindable
     override var drawbleRight: Drawable? = null
@@ -101,36 +98,56 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             notifyPropertyChanged(BR.handleBackPress)
         }
 
-    fun checkMobileNumberValidation(phoneNumber: String): Boolean? {
-        if (!phoneNumber.trim().equals("")) {
-            val input = phoneNumber.trim().replace("+", "")
-            val regex = "[0-9]+"
-            if (input.length < 5 || !input.matches(regex.toRegex())) {
+    fun isValidEmail(email: String): Boolean {
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+        // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-                /* disable core input field
-                 set error UI*/
-                valid = false
-                refreshField = false
-                emailError = mContext.getString(R.string.screen_phone_number_display_text_error)
-                return false
-            }
-        }
-        if (phoneNumber.trim().equals("")) {
+        inputStr = email
+        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(inputStr)
 
-            /* disable core button
-             set error UI*/
-            refreshField = false
-            valid = false
-            drawbleRight = null
-            emailError = mContext.getString(R.string.screen_phone_number_display_text_error)
-            return false
+        if (matcher.matches()) {
+            isValid = true
         }
+
+        return isValid
+    }
+
+    fun validateEmail(email: String): Boolean {
+        var isValidEmail = false
+        if ("" == email.trim { it <= ' ' }) {
+            isValidEmail = false
+        } else if (isValidEmail(email)) {
+            isValidEmail = true
+        } else {
+            return isValidEmail
+        }
+        return isValidEmail
+    }
+
+
+    private fun setSuccessUI() {
         refreshField = true
         valid = true
         emailError = ""
         drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+    }
 
-        return true
+    private fun setErrorUI(): Boolean {
+        /* disable core button
+                 set error UI*/
+        valid = false
+        refreshField = false
+        emailError = mContext.getString(R.string.screen_phone_number_display_text_error)
+        return false
+    }
+
+    private fun setDefaultUI() {
+        refreshField = true
+        valid = false
+        drawbleRight = null
     }
 
 
@@ -148,59 +165,10 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 if (!p0.isNullOrEmpty() && p0.length >= 5) {
-                    if (p0.toString().length == PHONE_NUMBER_LENGTH) {
-                        refreshField = true
-                        var phoneNumber: String = p0.toString().trim()
-                        phoneNumber = phoneNumber.trim().replace(" ", "")
-
-                        checkMobileNumberValidation(phoneNumber)
+                    if (validateEmail(p0.toString())) {
+                        setSuccessUI()
                     } else {
-                        refreshField = true
-                        valid = false
-                        drawbleRight = null
-                    }
-
-                    if (p0.toString().toCharArray().size == 7 && p1 == 6) {
-
-                        var charArray = p0.toString().toCharArray()
-                        if (charArray.get(charArray.lastIndex).isDigit()) {
-
-                            twoDigitStr = p0.toString().substring(5, 7)
-                            val builder = SpannableStringBuilder()
-//                            val colored = countryCode
-
-
-                            builder.append(twoDigitStr)
-                            builder.append(" ")
-                            setSelection = builder.toString().length
-                        }
-                    }
-                    if (p0.toString().toCharArray().size == 11 && p1 == 10) {
-
-                        var charArray = p0.toString().toCharArray()
-                        if (charArray.get(charArray.lastIndex).isDigit()) {
-
-                            threeDigitStr = p0.toString().substring(7)
-                            val builder = SpannableStringBuilder()
-
-//                            builder.append(
-//                                colored
-//                            )
-
-                            builder.append(twoDigitStr)
-                            builder.append(threeDigitStr)
-                            setSelection = builder.toString().length
-                        }
-                    }
-
-                    if (p0.toString().length == 5) {
-                        /*disable backpress*/
-
-                        handleBackPress = p1
-                    } else {
-                        /*enable backpress*/
-
-                        handleBackPress = p1
+                        setDefaultUI()
                     }
                 }
             }

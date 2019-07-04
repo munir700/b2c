@@ -53,6 +53,7 @@
             app:view_input_type="phone"
             android:layout_marginEnd="8dp"
             app:coreInputError="@{mobileViewModel.state.mobileError}"
+
             app:textWatcher="@{mobileViewModel.state.getTextWatcher()}"
             app:coreInputDrawableRight="@{mobileViewModel.state.drawbleRight}"
             app:resetUI="@{mobileViewModel.state.refreshField}"
