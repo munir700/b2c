@@ -3,6 +3,10 @@ package co.yap.yapcore
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.graphics.Bitmap
+import android.os.Build
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.*
@@ -10,6 +14,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
+import co.yap.widgets.CoreDialerPad
 import co.yap.yapcore.interfaces.IBindable
 
 object UIBinder {
@@ -25,6 +30,12 @@ object UIBinder {
         view.setImageResource(resId)
     }
 
+    @JvmStatic
+    @BindingAdapter("CoreDialerError")
+    fun setDialerErrorMessage(view: CoreDialerPad, error: String) {
+        if (!error.isEmpty()) view.settingUIForError(error) else view.settingUIForNormal()
+    }
+
     @BindingAdapter("text")
     @JvmStatic
     fun setText(view: TextView, text: String) {
@@ -35,6 +46,24 @@ object UIBinder {
     @JvmStatic
     fun setText(view: TextView, textId: Int) {
         view.text = Translator.getString(view.context, textId)
+    }
+
+    @BindingAdapter("text", "start", "end")
+    @JvmStatic
+    fun setText(view: TextView, text: String, start: Int, end: Int) {
+        val text1 = SpannableString(text)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            text1.setSpan(
+                ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark, null)), start, end,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+        } else {
+            text1.setSpan(
+                ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark)), start, end,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+        }
+        view.text = text1
     }
 
     @BindingAdapter("hint")
@@ -77,7 +106,7 @@ object UIBinder {
 //    @BindingAdapter("progress")
 //    @JvmStatic
 //    fun setProgress(progressBar: ProgressBar, progress: Int) {
-        // will update the "progress" propriety of seekbar until it reaches progress
+    // will update the "progress" propriety of seekbar until it reaches progress
 //        ObjectAnimator animation = ObjectAnimator.ofInt(seekbar, "progress", progress);
 //        animation.setDuration(500); // 0.5 second
 //        animation.setInterpolator(new DecelerateInterpolator());

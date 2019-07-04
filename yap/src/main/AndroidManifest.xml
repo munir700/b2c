@@ -8,5 +8,6 @@
                   android:theme="@style/AppTheme.NoActionBar">
             <nav-graph android:value="@navigation/onboarding_navigation"/>
         </activity>
+        <activity android:name=".modules.onboarding.activities.CreatePasscodeActivity"/>
     </application>
 </manifest>
