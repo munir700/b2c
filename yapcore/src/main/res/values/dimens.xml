@@ -2,13 +2,13 @@
 <resources>
 
     <!-- Headings -->
-    <dimen name="text_size_h1">@dimen/_12sdp</dimen>
-    <dimen name="text_size_h2">@dimen/_14sdp</dimen>
-    <dimen name="text_size_h3">@dimen/_16sdp</dimen>
-    <dimen name="text_size_h4">@dimen/_18sdp</dimen>
-    <dimen name="text_size_h5">@dimen/_21sdp</dimen>
-    <dimen name="text_size_h6">@dimen/_24sdp</dimen>
-    <dimen name="text_size_h7">@dimen/_28sdp</dimen>
+    <dimen name="text_size_h1">@dimen/_10sdp</dimen>
+    <dimen name="text_size_h2">@dimen/_12sdp</dimen>
+    <dimen name="text_size_h3">@dimen/_14sdp</dimen>
+    <dimen name="text_size_h4">@dimen/_16sdp</dimen>
+    <dimen name="text_size_h5">@dimen/_19sdp</dimen>
+    <dimen name="text_size_h6">@dimen/_22sdp</dimen>
+    <dimen name="text_size_h7">@dimen/_26sdp</dimen>
 
     <!-- Content -->
     <dimen name="text_size_c1">@dimen/_9sdp</dimen>
