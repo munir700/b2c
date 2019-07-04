@@ -34,7 +34,7 @@
             app:dotsSpacing="4dp"
             app:dotsStrokeWidth="2dp"/>
 
-        <co.yap.widgets.CoreButton
+        <co.yap.widgets.ComponentCoreButton
             android:id="@+id/close_btn_one"
             android:layout_width="@dimen/_196sdp"
             android:layout_height="@dimen/_52sdp"

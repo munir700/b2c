@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @SuppressLint("CustomViewStyleable")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-class CoreInputField @JvmOverloads constructor(
+class ComponentCoreInputField @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0,
@@ -52,33 +52,33 @@ class CoreInputField @JvmOverloads constructor(
         editText = etEmail
 
         attrs?.let {
-            typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
+            typedArray = context.obtainStyledAttributes(it, R.styleable.ComponentCoreInputField, 0, 0)
             val title = resources.getText(
                 typedArray
-                    .getResourceId(R.styleable.CoreInputField_view_hint_input_field, R.string.empty_string)
+                    .getResourceId(R.styleable.ComponentCoreInputField_view_hint_input_field, R.string.empty_string)
             )
-            inputType = typedArray.getInt(R.styleable.CoreInputField_view_input_type, inputType)
+            inputType = typedArray.getInt(R.styleable.ComponentCoreInputField_view_input_type, inputType)
 
 
             val error = resources.getText(
-                typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
+                typedArray.getResourceId(R.styleable.ComponentCoreInputField_view_error_input_field, R.string.empty_string)
             )
 
-            if (null != typedArray.getString(R.styleable.CoreInputField_view_input_text)) {
+            if (null != typedArray.getString(R.styleable.ComponentCoreInputField_view_input_text)) {
 
                 textInput =
-                    typedArray.getString(R.styleable.CoreInputField_view_input_text)
+                    typedArray.getString(R.styleable.ComponentCoreInputField_view_input_text)
             }
 
-            if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)) {
-                drawableRight = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)
+            if (null != typedArray.getDrawable(R.styleable.ComponentCoreInputField_view_drawable_right)) {
+                drawableRight = typedArray.getDrawable(R.styleable.ComponentCoreInputField_view_drawable_right)
                 etEmail.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
             } else {
                 drawableRight = null
             }
 
-            if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_left)) {
-                drawableLeft = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_left)
+            if (null != typedArray.getDrawable(R.styleable.ComponentCoreInputField_view_drawable_left)) {
+                drawableLeft = typedArray.getDrawable(R.styleable.ComponentCoreInputField_view_drawable_left)
 
                 etEmail.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
             }

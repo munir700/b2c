@@ -13,7 +13,7 @@ import android.widget.Button
 import co.yap.yapcore.R
 
 
-class CoreButton : Button {
+class ComponentCoreButton : Button {
 
     private var btnWeight: Int = 0
     private var btnHeight: Int = 0
@@ -65,50 +65,58 @@ class CoreButton : Button {
         }
 
         val typedArray =
-            context.obtainStyledAttributes(attrs, R.styleable.CoreButton)
+            context.obtainStyledAttributes(attrs, R.styleable.ComponentCoreButton)
 
         paint.style = Paint.Style.STROKE
 
         drawable = typedArray.getDrawable(
-            R.styleable.CoreButton_btn_drawable
+            R.styleable.ComponentCoreButton_btn_drawable
         )
-        drawablePositionType = typedArray.getInt(R.styleable.CoreButton_btn_drawable_position, 2)
-        enableButton = typedArray.getBoolean(R.styleable.CoreButton_btn_enable, enableButton)
+        drawablePositionType = typedArray.getInt(R.styleable.ComponentCoreButton_btn_drawable_position, 2)
+        enableButton = typedArray.getBoolean(R.styleable.ComponentCoreButton_btn_enable, enableButton)
 
 
         labelTextColor = typedArray.getColor(
-            R.styleable.CoreButton_btn_text_color,
+            R.styleable.ComponentCoreButton_btn_text_color,
             resources.getColor(R.color.white)
         )
 
-        pressedColor = typedArray.getColor(
-            R.styleable.CoreButton_btn_pressed_color,
-            resources.getColor(R.color.colorPrimary)
-        )
+//        pressedColor = typedArray.getColor(
+//            R.styleable.ComponentCoreButton_btn_pressed_color,
+//            resources.getColor(R.color.colorPrimary)
+//        )
 
         if (enableButton) {
             defaultStateColor = typedArray.getColor(
-                R.styleable.CoreButton_btn_unpressed_color,
+                R.styleable.ComponentCoreButton_btn_unpressed_color,
                 resources.getColor(R.color.colorPrimary)
             )
+
+            //
+            pressedColor = typedArray.getColor(
+                R.styleable.ComponentCoreButton_btn_pressed_color,
+                resources.getColor(R.color.colorPrimary)
+            )
+
         } else {
             defaultStateColor = resources.getColor(R.color.greyLight)
+            pressedColor = resources.getColor(R.color.greyLight)
         }
 
-        shapeType = typedArray.getInt(R.styleable.CoreButton_btn_shape_type, 1)
+        shapeType = typedArray.getInt(R.styleable.ComponentCoreButton_btn_shape_type, 1)
         drawablePaddingLeft =
-            typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
+            typedArray.getFloat(R.styleable.ComponentCoreButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
         drawablePaddingRight =
-            typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_right, defaultDrawablePaddingRight)
-        drawablePaddingTop = typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_top, drawablePaddingTop)
+            typedArray.getFloat(R.styleable.ComponentCoreButton_btn_drawable_padding_right, defaultDrawablePaddingRight)
+        drawablePaddingTop = typedArray.getFloat(R.styleable.ComponentCoreButton_btn_drawable_padding_top, drawablePaddingTop)
 
         roundRadius = typedArray.getDimensionPixelSize(
-            R.styleable.CoreButton_btn_round_radius,
+            R.styleable.ComponentCoreButton_btn_round_radius,
             resources.getDimensionPixelSize(R.dimen.round_radius)
         )
 
         labelTextSize = typedArray.getDimensionPixelSize(
-            R.styleable.CoreButton_btn_text_size,
+            R.styleable.ComponentCoreButton_btn_text_size,
             resources.getDimensionPixelSize(R.dimen.label_text_size)
         ).toFloat()
 

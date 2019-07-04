@@ -39,7 +39,7 @@
 
             />
 
-        <co.yap.widgets.CoreInputField
+        <co.yap.widgets.ComponentCoreInputField
             android:id="@+id/inputEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
         <!--app:selection="@{emailViewModel.state.setSelection}"-->
         <!--app:cursorPlacement="@{emailViewModel.state.cursorPlacement}"-->
 
-        <co.yap.widgets.CoreButton
+        <co.yap.widgets.ComponentCoreButton
             android:id="@+id/next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

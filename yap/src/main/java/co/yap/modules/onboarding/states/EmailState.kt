@@ -1,13 +1,10 @@
 package co.yap.modules.onboarding.states
 
-import android.annotation.SuppressLint
 import android.app.Application
 import android.graphics.drawable.Drawable
 import android.text.Editable
-import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
-import android.text.style.ForegroundColorSpan
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
@@ -42,7 +39,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         }
 
     val mContext = application.applicationContext
-    var countryCode: String = "+971 "
     var PHONE_NUMBER_LENGTH: Int = 16
 
     var twoDigitStr: String = ""
@@ -81,7 +77,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         }
 
     @get:Bindable
-    override var setSelection: Int = countryCode.length
+    override var setSelection: Int = email.length
         get() = field
         set(value) {
             field = value
@@ -97,22 +93,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             notifyPropertyChanged(BR.refreshField)
 
         }
-
-    @SuppressLint("ResourceAsColor")
-    fun formatecountry(): SpannableStringBuilder {
-        val builder = SpannableStringBuilder(countryCode)
-        builder.setSpan(
-            ForegroundColorSpan(R.color.greySoft),
-            0,
-            countryCode.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        setSelection = countryCode.length
-
-        return builder
-    }
-
-
     @get:Bindable
     override var handleBackPress: Int = 0
         get() = field
@@ -120,17 +100,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             field = value
             notifyPropertyChanged(BR.handleBackPress)
         }
-
-
-    @SuppressLint("ResourceAsColor")
-    private fun setColoredString(builder: SpannableStringBuilder, colored: String) {
-        builder.setSpan(
-            ForegroundColorSpan(R.color.greySoft),
-            0,
-            colored.length,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-    }
 
     fun checkMobileNumberValidation(phoneNumber: String): Boolean? {
         if (!phoneNumber.trim().equals("")) {
@@ -198,11 +167,8 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
 
                             twoDigitStr = p0.toString().substring(5, 7)
                             val builder = SpannableStringBuilder()
-                            val colored = countryCode
-                            builder.append(
-                                colored
-                            )
-                            setColoredString(builder, colored).toString()
+//                            val colored = countryCode
+
 
                             builder.append(twoDigitStr)
                             builder.append(" ")
@@ -215,13 +181,11 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
                         if (charArray.get(charArray.lastIndex).isDigit()) {
 
                             threeDigitStr = p0.toString().substring(7)
-                            val colored = countryCode
                             val builder = SpannableStringBuilder()
 
-                            builder.append(
-                                colored
-                            )
-                            setColoredString(builder, colored).toString()
+//                            builder.append(
+//                                colored
+//                            )
 
                             builder.append(twoDigitStr)
                             builder.append(threeDigitStr)

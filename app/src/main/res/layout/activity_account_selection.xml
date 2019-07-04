@@ -83,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvDisplayTestAccountSelection"
             >
 
-            <co.yap.widgets.CoreButton
+            <co.yap.widgets.ComponentCoreButton
                 android:id="@+id/btnPersonal"
                 android:layout_width="0dp"
                 android:layout_weight=".5"
@@ -99,7 +99,7 @@
                 android:paddingTop="@dimen/margin_normal_large"
                 android:paddingBottom="@dimen/margin_normal_large"/>
 
-            <co.yap.widgets.CoreButton
+            <co.yap.widgets.ComponentCoreButton
                 android:id="@+id/btnBusiness"
                 android:layout_width="0dp"
                 android:layout_weight=".5"

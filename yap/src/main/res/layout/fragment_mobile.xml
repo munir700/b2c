@@ -39,7 +39,7 @@
 
             />
 
-        <co.yap.widgets.CoreInputField
+        <co.yap.widgets.ComponentCoreInputField
             android:id="@+id/inputMobileNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
 
             />
 
-        <co.yap.widgets.CoreButton
+        <co.yap.widgets.ComponentCoreButton
             android:id="@+id/next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

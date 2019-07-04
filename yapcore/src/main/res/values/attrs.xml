@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="CoreButton">
+    <declare-styleable name="ComponentCoreButton">
         <attr name="btn_text_color" format="color"/>
         <attr name="btn_drawable" format="reference"/>
         <attr name="btn_text_size" format="dimension"/>
@@ -30,7 +30,7 @@
         <attr name="unpressed_src" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="CoreInputField">
+    <declare-styleable name="ComponentCoreInputField">
         <attr name="view_hint_input_field" format="reference"/>
         <attr name="view_error_input_field" format="reference"/>
         <attr name="view_drawable_right" format="reference"/>

@@ -19,8 +19,8 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
-import co.yap.widgets.CoreButton
-import co.yap.widgets.CoreInputField
+import co.yap.widgets.ComponentCoreButton
+import co.yap.widgets.ComponentCoreInputField
 import co.yap.yapcore.interfaces.IBindable
 
 object UIBinder {
@@ -90,7 +90,7 @@ object UIBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("enableCoreButton")
-    fun setEnable(view: CoreButton, enable: Boolean) {
+    fun setEnable(view: ComponentCoreButton, enable: Boolean) {
         if (null != enable) {
             view.enableButton(enable)
         }
@@ -101,35 +101,35 @@ object UIBinder {
 
     @BindingAdapter("coreInputHint")
     @JvmStatic
-    fun setHint(view: CoreInputField, hint: String) {
+    fun setHint(view: ComponentCoreInputField, hint: String) {
         view.editText.setHint(hint)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputText")
-    fun setText(view: CoreInputField, textValue: String) {
+    fun setText(view: ComponentCoreInputField, textValue: String) {
         view.setview_input_text(textValue)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputDrawableLeft")
-    fun drawableLeft(view: CoreInputField, drawable: Drawable) {
+    fun drawableLeft(view: ComponentCoreInputField, drawable: Drawable) {
         view.setDrawableLeftIcon(drawable)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputDrawableRight")
-    fun drawableRight(view: CoreInputField, drawable: Drawable?) {
+    fun drawableRight(view: ComponentCoreInputField, drawable: Drawable?) {
         view.setDrawableRightIcon(drawable)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputError")
-    fun setErrorMessage(view: CoreInputField, error: String) {
+    fun setErrorMessage(view: ComponentCoreInputField, error: String) {
         if (null != error && !error.isEmpty()) {
             view.settingUIForError(error)
         } else {
@@ -140,7 +140,7 @@ object UIBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("resetUI")
-    fun resetUI(view: CoreInputField, refresh: Boolean) {
+    fun resetUI(view: ComponentCoreInputField, refresh: Boolean) {
         if (refresh) {
             view.settingUIForNormal()
 
@@ -151,20 +151,20 @@ object UIBinder {
 
     @JvmStatic
     @BindingAdapter("textWatcher")
-    fun setTextChangeListener(view: CoreInputField, watcher: TextWatcher) {
+    fun setTextChangeListener(view: ComponentCoreInputField, watcher: TextWatcher) {
         view.editText.addTextChangedListener(watcher)
     }
 
     @JvmStatic
     @BindingAdapter("changeCoreInputFocus")
-    fun setFocusChangeListener(view: CoreInputField, focusChangeListener: View.OnFocusChangeListener) {
+    fun setFocusChangeListener(view: ComponentCoreInputField, focusChangeListener: View.OnFocusChangeListener) {
         view.editText.setOnFocusChangeListener(focusChangeListener)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("cursorPlacement")
-    fun cursorPlacement(view: CoreInputField, placeCursor: Boolean) {
+    fun cursorPlacement(view: ComponentCoreInputField, placeCursor: Boolean) {
         view.cursorPlacement()
 
     }
@@ -173,7 +173,7 @@ object UIBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("inputText")
-    fun setInputText(view: CoreInputField, text: SpannableStringBuilder) {
+    fun setInputText(view: ComponentCoreInputField, text: SpannableStringBuilder) {
         view.editText.setText(text)
         view.editText.setSelection(view.editText.text.length)
 
@@ -182,7 +182,7 @@ object UIBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("isCursorVisible")
-    fun isCursorVisible(view: CoreInputField, isVisible: Boolean) {
+    fun isCursorVisible(view: ComponentCoreInputField, isVisible: Boolean) {
         view.editText.setCursorVisible(isVisible)
 
     }
@@ -190,7 +190,7 @@ object UIBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("selection")
-    fun selection(view: CoreInputField, selection: Int) {
+    fun selection(view: ComponentCoreInputField, selection: Int) {
         view.editText.setSelection(selection)
 
     }
@@ -198,7 +198,7 @@ object UIBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("disableKeyBack")
-    fun disableKeyBack(view: CoreInputField, index: Int) {
+    fun disableKeyBack(view: ComponentCoreInputField, index: Int) {
 
         if (view.editText.text.toString().length == 5) {
             view.editText.setCursorVisible(false)

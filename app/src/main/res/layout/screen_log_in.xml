@@ -61,7 +61,7 @@
                     android:layout_marginTop="25dp"
                     app:layout_constraintTop_toBottomOf="@+id/ivYap"/>
 
-                <co.yap.widgets.CoreInputField
+                <co.yap.widgets.ComponentCoreInputField
                     android:id="@+id/etEmailField"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -70,7 +70,7 @@
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
                     app:layout_constraintTop_toBottomOf="@+id/tvSignIn"/>
 
-                <co.yap.widgets.CoreButton
+                <co.yap.widgets.ComponentCoreButton
                     android:id="@+id/btnLogIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
