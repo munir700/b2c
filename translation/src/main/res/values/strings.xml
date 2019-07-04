@@ -51,4 +51,16 @@
     <string name="screen_system_permission_text_denied">No, thanks</string>
     <string name="screen_notification_permission_button_title">Yes, keep me up to date</string>
 
+    <!--  Onboarding congratulations screen -->
+    <string name="screen_onboarding_congratulations_display_text_title">Congrats, Nada!</string>
+    <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Business Account has been created for FZ LLC in less than 30 seconds!</string>
+    <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
+    <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID and Trade License at hand before we proceed</string>
+    <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
+
+
+
+
+
+
 </resources>
