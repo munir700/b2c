@@ -5,6 +5,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.app.modules.login.activities.LogInActivity
 import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.app.constants.Constants
@@ -37,10 +38,11 @@ class AccountSelectionActivity : DefaultActivity() {
         }
 
         tvSignIn.setOnClickListener {
-            startActivity(LogInActivity.newIntent(this))
             //startActivity(LogInActivity.newIntent(this))
-         //   startActivity(SystemPermissionActivity.newIntent(this,Constants.TOUCH_ID_SCREEN_TYPE))
+            startActivity(CreatePasscodeActivity.newIntent(this))
+//            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
 
+//            startActivity(LogInActivity.newIntent(this))
         }
     }
 }

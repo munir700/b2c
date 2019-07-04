@@ -51,6 +51,15 @@
     <string name="screen_system_permission_text_denied">No, thanks</string>
     <string name="screen_notification_permission_button_title">Yes, keep me up to date</string>
 
+    <!-- Create passcode screen -->
+    <string name="screen_create_passcode_display_text_title">Create a 4 to 6 digit passcode to access your account</string>
+    <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
+    <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="screen_create_passcode_button_create_passcode">Create passcode</string>
+    <string name="screen_create_passcode_display_text_error_sequence">Passcode cannot be a straight sequence</string>
+    <string name="screen_create_passcode_display_text_error_same_digits">Passcode cannot be of same digits</string>
+
+
     <!--  Onboarding congratulations screen -->
     <string name="screen_onboarding_congratulations_display_text_title">Congrats, Nada!</string>
     <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Business Account has been created for FZ LLC in less than 30 seconds!</string>

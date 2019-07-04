@@ -3,10 +3,13 @@ package co.yap.yapcore
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.KeyEvent
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +22,12 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
+import co.yap.widgets.CoreDialerPad
+
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreInputField
 import co.yap.yapcore.interfaces.IBindable
+import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
 object UIBinder {
     @BindingAdapter("bitmap")
@@ -35,6 +41,12 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {
         view.setImageResource(resId)
+    }
+
+    @JvmStatic
+    @BindingAdapter("CoreDialerError")
+    fun setDialerErrorMessage(view: CoreDialerPad, error: String) {
+        if (!error.isEmpty()) view.settingUIForError(error) else view.settingUIForNormal()
     }
 
     @BindingAdapter("src")
@@ -55,6 +67,24 @@ object UIBinder {
     @JvmStatic
     fun setText(view: TextView, textId: Int) {
         view.text = Translator.getString(view.context, textId)
+    }
+
+    @BindingAdapter("text", "start", "end")
+    @JvmStatic
+    fun setText(view: TextView, text: String, start: Int, end: Int) {
+        val text1 = SpannableString(text)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            text1.setSpan(
+                ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark, null)), start, end,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+        } else {
+            text1.setSpan(
+                ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark)), start, end,
+                Spannable.SPAN_INCLUSIVE_INCLUSIVE
+            )
+        }
+        view.text = text1
     }
 
     @BindingAdapter("hint")
@@ -155,6 +185,12 @@ object UIBinder {
     @BindingAdapter("textWatcher")
     fun setTextChangeListener(view: CoreInputField, watcher: TextWatcher) {
         view.editText.addTextChangedListener(watcher)
+    }
+
+    @JvmStatic
+    @BindingAdapter("passcodeTextWatcher")
+    fun setTextChangeListener(view: CoreDialerPad, watcher: TextWatcher) {
+        view.etPassCodeText.addTextChangedListener(watcher)
     }
 
 
