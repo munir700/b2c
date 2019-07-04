@@ -27,10 +27,18 @@ abstract class BaseState : BaseObservable(), IBase.State {
             notifyPropertyChanged(BR.error)
         }
 
+    @get:Bindable
+    override var toast: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.toast)
+        }
+
     override fun reset() {
         loading = false
         toolbarTitle = ""
         error = ""
+        toast = ""
     }
 
     override fun destroy() {

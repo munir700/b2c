@@ -32,8 +32,11 @@
     <dimen name="margin_medium">@dimen/_16sdp</dimen>
     <dimen name="margin_medium_large">@dimen/_20sdp</dimen>
     <dimen name="margin_large">@dimen/_24sdp</dimen>
-    <dimen name="margin_xl">@dimen/_32sdp</dimen>
+    <dimen name="margin_extra_large">@dimen/_32sdp</dimen>
+    <dimen name="margin_xl">@dimen/_44sdp</dimen>
     <dimen name="margin_xxl">@dimen/_56sdp</dimen>
+
+    <dimen name="margin_heading_to_field">@dimen/_50sdp</dimen>
 
     <dimen name="text_content_margin">@dimen/_30sdp</dimen>
     <dimen name="btn_content_margin">@dimen/_15sdp</dimen>

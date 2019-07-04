@@ -24,7 +24,13 @@
     <string name="screen_welcom_button_get_started">Get started</string>
 
 
-    <!-- Onboarding -->
+    <!-- Phone Number Screen -->
+
+    <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>
+    <string name="screen_phone_number_display_text_error">You\’ve entered an invalid phone number. Please, try again.</string>
+    <string name="screen_phone_number_button_send">Send</string>
+
+     <!-- Onboarding -->
     <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
     <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to %1s</string>
     <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
@@ -44,6 +50,16 @@
     <string name="screen_system_permission_button_touch_id">Use Touch ID</string>
     <string name="screen_system_permission_text_denied">No, thanks</string>
     <string name="screen_notification_permission_button_title">Yes, keep me up to date</string>
+
+    <!--  Onboarding congratulations screen -->
+    <string name="screen_onboarding_congratulations_display_text_title">Congrats, Nada!</string>
+    <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Business Account has been created for FZ LLC in less than 30 seconds!</string>
+    <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
+    <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID and Trade License at hand before we proceed</string>
+    <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
+
+
+
 
 
 

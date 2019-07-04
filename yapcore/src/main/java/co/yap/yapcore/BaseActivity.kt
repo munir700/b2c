@@ -12,10 +12,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.Observable
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
+import java.util.*
 
 abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragmentHolder, IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
@@ -32,6 +34,8 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
         NetworkConnectionManager.init(this)
         NetworkConnectionManager.subscribe(this)
         permissionsManager = PermissionsManager(this, this, this)
+        registerStateListeners()
+
     }
 
     private val progressDialogueFragment: ProgressDialogueFragment =
@@ -122,6 +126,7 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
 
     override fun onDestroy() {
         NetworkConnectionManager.unsubscribe(this)
+        unregisterStateListeners()
         super.onDestroy()
     }
 
@@ -151,5 +156,31 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
     }
 
     override fun getString(resourceKey: String): String = Translator.getString(this, resourceKey)
+
+    private val stateListener = object: Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
+                showToast(viewModel.state.toast)
+            }
+        }
+    }
+
+    private fun registerStateListeners () {
+        if (viewModel is BaseViewModel<*>) {
+            viewModel.registerLifecycleOwner(this)
+        }
+        if (viewModel.state is BaseState) {
+            (viewModel.state as BaseState).addOnPropertyChangedCallback(stateListener)
+        }
+    }
+
+    private fun unregisterStateListeners () {
+        if (viewModel is BaseViewModel<*>) {
+            viewModel.unregisterLifecycleOwner(this)
+        }
+        if (viewModel.state is BaseState) {
+            (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateListener)
+        }
+    }
 
 }
