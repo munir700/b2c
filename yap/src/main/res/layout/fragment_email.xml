@@ -39,7 +39,7 @@
             />
 
 
-        <co.yap.widgets.ComponentCoreInputField
+        <co.yap.widgets.CoreInputField
             android:id="@+id/inputEmailAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
             app:layout_constraintHorizontal_bias="0.487"
             app:layout_constraintVertical_bias="0.0"/>
 
-        <co.yap.widgets.ComponentCoreButton
+        <co.yap.widgets.CoreButton
             android:id="@+id/next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

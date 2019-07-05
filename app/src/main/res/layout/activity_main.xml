@@ -14,7 +14,7 @@
         android:gravity="center_vertical|center"
         android:orientation="vertical">
 
-        <co.yap.widgets.ComponentCoreButton
+        <co.yap.widgets.CoreButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:btn_round_radius="50dp"
@@ -31,7 +31,7 @@
             app:btn_drawable_padding_top="4.5"
             tools:ignore="MissingConstraints"/>
 
-        <co.yap.widgets.ComponentCoreButton
+        <co.yap.widgets.CoreButton
             android:id="@+id/close_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
             app:btn_shape_type="rectangle"
             tools:ignore="MissingConstraints"/>
 
-        <co.yap.widgets.ComponentCoreButton
+        <co.yap.widgets.CoreButton
             android:id="@+id/close_btn_new"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
             app:btn_shape_type="rectangle"
             tools:ignore="MissingConstraints"/>
 
-        <co.yap.widgets.ComponentCoreButton
+        <co.yap.widgets.CoreButton
             android:id="@+id/close_btn_one"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -83,20 +83,20 @@
             app:btn_shape_type="rectangle"
             tools:ignore="MissingConstraints"/>
 
-        <co.yap.widgets.ComponentCoreInputField
+        <co.yap.widgets.CoreInputField
             android:layout_width="match_parent"
             android:layout_height="100dp"
             app:view_drawable_right="@drawable/ic_back_arrow"
             app:view_error_input_field="@string/err_email"
             app:view_hint_input_field="@string/app_name"
             />
-        <!--<co.yap.widgets.ComponentCoreInputField      android:layout_width="match_parent"-->
+        <!--<co.yap.widgets.CoreInputField      android:layout_width="match_parent"-->
         <!--android:layout_height="100dp"-->
         <!--android:layout_marginTop="100dp"-->
         <!--app:view_right_drawable="@drawableRight/abc_vector_test"-->
         <!--/>-->
 
-        <co.yap.widgets.ComponentCoreButton
+        <co.yap.widgets.CoreButton
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:enabled="false"

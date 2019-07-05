@@ -30,11 +30,11 @@
             app:dotsStrokeColor="@color/greyDark"
             android:layout_gravity="center_horizontal"
             app:dotsCornerRadius="8dp"
-            app:dotsSize="16dp"
+            app:dotsSize="14dp"
             app:dotsSpacing="4dp"
             app:dotsStrokeWidth="2dp"/>
 
-        <co.yap.widgets.ComponentCoreButton
+        <co.yap.widgets.CoreButton
             android:id="@+id/close_btn_one"
             android:layout_width="@dimen/_196sdp"
             android:layout_height="@dimen/_52sdp"

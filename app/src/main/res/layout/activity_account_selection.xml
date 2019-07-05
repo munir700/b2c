@@ -83,7 +83,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvDisplayTestAccountSelection"
             >
 
-            <co.yap.widgets.ComponentCoreButton
+            <co.yap.widgets.CoreButton
                 android:id="@+id/btnPersonal"
                 android:layout_width="0dp"
                 android:layout_weight=".5"
@@ -99,7 +99,7 @@
                 android:paddingTop="@dimen/margin_normal_large"
                 android:paddingBottom="@dimen/margin_normal_large"/>
 
-            <co.yap.widgets.ComponentCoreButton
+            <co.yap.widgets.CoreButton
                 android:id="@+id/btnBusiness"
                 android:layout_width="0dp"
                 android:layout_weight=".5"
@@ -118,34 +118,44 @@
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvDisplayTextSignIn"
-            app:text="@{Strings.screen_home_display_text_sign_in_title}"
-            style="@style/ARegularGrey"
-            android:gravity="center"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:ignore="MissingConstraints"
-            android:layout_marginTop="@dimen/margin_normal_large"
             app:layout_constraintTop_toBottomOf="@+id/layoutButtons"
-            android:layout_marginStart="@dimen/margin_medium"
-            app:layout_constraintStart_toStartOf="@+id/layoutButtons"/>
-
-        <TextView
-            android:id="@+id/tvSignIn"
-            app:text="@{Strings.screen_home_display_text_sign_in_action}"
-            style="@style/ARegularGrey"
+            app:layout_constraintStart_toStartOf="@+id/layoutButtons"
             android:gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorPrimary"
-            tools:ignore="MissingConstraints"
-            app:layout_constraintLeft_toRightOf="@+id/tvDisplayTextSignIn"
-            android:paddingStart="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_large"
-            android:paddingBottom="@dimen/margin_large"
-            android:paddingTop="@dimen/margin_normal_large"
-            app:layout_constraintTop_toBottomOf="@+id/layoutButtons"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
+            <TextView
+                android:id="@+id/tvDisplayTextSignIn"
+                app:text="@{Strings.screen_home_display_text_sign_in_title}"
+                tools:text="@string/screen_home_display_text_sign_in_title"
+                style="@style/ARegularGrey"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:ignore="MissingConstraints"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:layout_marginStart="@dimen/margin_medium"/>
+
+            <TextView
+                android:id="@+id/tvSignIn"
+                app:text="@{Strings.screen_home_display_text_sign_in_action}"
+                tools:text="@string/screen_home_display_text_sign_in_action"
+                style="@style/ARegularGrey"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimary"
+                tools:ignore="MissingConstraints"
+                app:layout_constraintLeft_toRightOf="@+id/tvDisplayTextSignIn"
+                android:paddingStart="@dimen/margin_small"
+                android:paddingEnd="@dimen/margin_large"
+                android:paddingBottom="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_normal_large"
+                android:layout_toRightOf="@+id/tvDisplayTextSignIn"/>
+        </RelativeLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="ComponentCoreButton">
+    <declare-styleable name="CoreButton">
         <attr name="btn_text_color" format="color"/>
         <attr name="btn_drawable" format="reference"/>
         <attr name="btn_text_size" format="dimension"/>
@@ -30,7 +30,7 @@
         <attr name="unpressed_src" format="reference"/>
     </declare-styleable>
 
-    <declare-styleable name="ComponentCoreInputField">
+    <declare-styleable name="CoreInputField">
         <attr name="view_hint_input_field" format="reference"/>
         <attr name="view_error_input_field" format="reference"/>
         <attr name="view_drawable_right" format="reference"/>
@@ -47,6 +47,7 @@
 
     <declare-styleable name="CoreDialerPad">
         <attr name="dialer_max_length" format="integer"/>
+        <attr name="dialer_error" format="reference"/>
         <attr name="dialer_pass_code" format="enum">
             <enum name="defaultType" value="0"/>
             <enum name="passcode" value="1"/>

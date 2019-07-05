@@ -37,7 +37,7 @@ abstract class BaseViewModel<S: IBase.State>(application: Application) : Android
     override fun onStart(){}
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    override fun OnResume() {
+    override fun onResume() {
         state.resume()
     }
 

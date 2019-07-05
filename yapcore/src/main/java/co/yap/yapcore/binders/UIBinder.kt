@@ -14,7 +14,7 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
-import co.yap.widgets.ComponentCoreButton
+import co.yap.widgets.CoreButton
 import co.yap.yapcore.interfaces.IBindable
 
 object UIBinder {
@@ -83,7 +83,7 @@ object UIBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("enableCoreButton")
-    fun setEnable(view: ComponentCoreButton, enable: Boolean) {
+    fun setEnable(view: CoreButton, enable: Boolean) {
         if (null != enable) {
             view.enableButton(enable)
         }

@@ -81,7 +81,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/button10"/>
 
-        <co.yap.widgets.ComponentCoreButton
+        <co.yap.widgets.CoreButton
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -8,9 +8,8 @@ import android.view.KeyEvent
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
-import co.yap.widgets.ComponentCoreInputField
+import co.yap.widgets.CoreInputField
 import androidx.databinding.InverseBindingAdapter
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import android.text.Editable
 import androidx.databinding.InverseBindingListener
 
@@ -22,10 +21,10 @@ object CoreInputUiBinder {
 
     @JvmStatic
     @BindingAdapter(value = ["realValueAttrChanged"])
-    fun setListener(componentCoreInputField: ComponentCoreInputField, listener: InverseBindingListener?) {
+    fun setListener(coreInputField: CoreInputField, listener: InverseBindingListener?) {
 
         if (listener != null) {
-            componentCoreInputField.editText.addTextChangedListener(
+            coreInputField.editText.addTextChangedListener(
                 object : TextWatcher {
                     override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
                     override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -38,14 +37,14 @@ object CoreInputUiBinder {
 
     @JvmStatic
     @BindingAdapter("realValue")
-    fun setRealValue(view: ComponentCoreInputField, value: String) {
+    fun setRealValue(view: CoreInputField, value: String) {
         view.editText.setText(value)
     }
 
     @JvmStatic
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @InverseBindingAdapter(attribute = "realValue")
-    fun getRealValue(editText: ComponentCoreInputField): String {
+    fun getRealValue(editText: CoreInputField): String {
 
         return editText.getInputText()
     }
@@ -56,35 +55,35 @@ object CoreInputUiBinder {
 
     @BindingAdapter("coreInputHint")
     @JvmStatic
-    fun setHint(view: ComponentCoreInputField, hint: String) {
+    fun setHint(view: CoreInputField, hint: String) {
         view.editText.setHint(hint)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputText")
-    fun setText(view: ComponentCoreInputField, textValue: String) {
+    fun setText(view: CoreInputField, textValue: String) {
         view.editText.setText(textValue)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputDrawableLeft")
-    fun drawableLeft(view: ComponentCoreInputField, drawable: Drawable) {
+    fun drawableLeft(view: CoreInputField, drawable: Drawable) {
         view.setDrawableLeftIcon(drawable)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputDrawableRight")
-    fun drawableRight(view: ComponentCoreInputField, drawable: Drawable?) {
+    fun drawableRight(view: CoreInputField, drawable: Drawable?) {
         view.setDrawableRightIcon(drawable)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("coreInputError")
-    fun setErrorMessage(view: ComponentCoreInputField, error: String) {
+    fun setErrorMessage(view: CoreInputField, error: String) {
         if (null != error && !error.isEmpty()) {
             view.settingUIForError(error)
         } else {
@@ -95,7 +94,7 @@ object CoreInputUiBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("resetUI")
-    fun resetUI(view: ComponentCoreInputField, refresh: Boolean) {
+    fun resetUI(view: CoreInputField, refresh: Boolean) {
         if (refresh) {
             view.settingUIForNormal()
 
@@ -106,20 +105,20 @@ object CoreInputUiBinder {
 
     @JvmStatic
     @BindingAdapter("textWatcher")
-    fun setTextChangeListener(view: ComponentCoreInputField, watcher: TextWatcher) {
+    fun setTextChangeListener(view: CoreInputField, watcher: TextWatcher) {
         view.editText.addTextChangedListener(watcher)
     }
 
     @JvmStatic
     @BindingAdapter("changeCoreInputFocus")
-    fun setFocusChangeListener(view: ComponentCoreInputField, focusChangeListener: View.OnFocusChangeListener) {
+    fun setFocusChangeListener(view: CoreInputField, focusChangeListener: View.OnFocusChangeListener) {
         view.editText.setOnFocusChangeListener(focusChangeListener)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("cursorPlacement")
-    fun cursorPlacement(view: ComponentCoreInputField, placeCursor: Boolean) {
+    fun cursorPlacement(view: CoreInputField, placeCursor: Boolean) {
         view.cursorPlacement()
 
     }
@@ -128,7 +127,7 @@ object CoreInputUiBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("inputText")
-    fun setSpannableInputText(view: ComponentCoreInputField, text: SpannableStringBuilder) {
+    fun setSpannableInputText(view: CoreInputField, text: SpannableStringBuilder) {
         view.editText.setText(text)
         view.editText.setSelection(view.editText.text.length)
 
@@ -137,7 +136,7 @@ object CoreInputUiBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("isCursorVisible")
-    fun isCursorVisible(view: ComponentCoreInputField, isVisible: Boolean) {
+    fun isCursorVisible(view: CoreInputField, isVisible: Boolean) {
         view.editText.setCursorVisible(isVisible)
 
     }
@@ -145,7 +144,7 @@ object CoreInputUiBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("selection")
-    fun selection(view: ComponentCoreInputField, selection: Int) {
+    fun selection(view: CoreInputField, selection: Int) {
         view.editText.setSelection(selection)
 
     }
@@ -153,7 +152,7 @@ object CoreInputUiBinder {
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("disableKeyBack")
-    fun disableKeyBack(view: ComponentCoreInputField, index: Int) {
+    fun disableKeyBack(view: CoreInputField, index: Int) {
         val lengthh: Int = view.editText.text.toString().length
         if (view.editText.text.toString().length == 5) {
             view.editText.setCursorVisible(false)
