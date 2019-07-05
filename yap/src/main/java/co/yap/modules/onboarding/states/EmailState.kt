@@ -17,6 +17,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         set(value) {
             field=value
             notifyPropertyChanged(BR.twoWayTextWatcher)
+//            settwoWayTextWatcher()
         }
 
     val mContext = application.applicationContext
@@ -158,7 +159,15 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
     }
 
 
-//    fun settwoWayTextWatcher(): TextWatcher {}
+    fun settwoWayTextWatcher()  {
+        if (!twoWayTextWatcher.isNullOrEmpty() && twoWayTextWatcher.length >= 5) {
+            if (validateEmail(twoWayTextWatcher.toString())) {
+                setSuccessUI()
+            } else {
+                setDefaultUI()
+            }
+        }
+    }
 
 //    fun gettwoWayTextWatcher(): TextWatcher {}
 

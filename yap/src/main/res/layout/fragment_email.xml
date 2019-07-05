@@ -35,10 +35,9 @@
             tools:layout_editor_absoluteY="219dp"
             tools:layout_editor_absoluteX="54dp"
             app:layout_constraintEnd_toEndOf="@+id/text"
-
             app:text="@{Strings.screen_enter_email_b2c_display_text_title}"
-
             />
+
 
         <co.yap.widgets.ComponentCoreInputField
             android:id="@+id/inputEmailAddress"
@@ -60,8 +59,9 @@
             app:selection="@{emailViewModel.state.setSelection}"
             app:resetUI="@{emailViewModel.state.refreshField}"
             app:cursorPlacement="@{emailViewModel.state.cursorPlacement}"
-            app:layout_constraintHorizontal_bias="0.487"/>
-
+            app:layout_constraintHorizontal_bias="0.487"
+           />
+        <!--app:realValue="@={emailViewModel.state.twoWayTextWatcher}"-->
         <TextView
             android:id="@+id/tvSuccess"
             android:layout_width="match_parent"

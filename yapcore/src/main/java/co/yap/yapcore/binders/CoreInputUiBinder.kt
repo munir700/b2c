@@ -9,9 +9,50 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import co.yap.widgets.ComponentCoreInputField
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
+import android.text.Editable
+import androidx.databinding.InverseBindingListener
+
+
 
 
 object CoreInputUiBinder {
+
+
+    @JvmStatic
+    @BindingAdapter(value = ["realValueAttrChanged"])
+    fun setListener(componentCoreInputField: ComponentCoreInputField, listener: InverseBindingListener?) {
+
+        if (listener != null) {
+            componentCoreInputField.editText.addTextChangedListener(
+                object : TextWatcher {
+                    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+                    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+                    override fun afterTextChanged(editable: Editable) {
+                        listener.onChange()
+                    }
+                })
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("realValue")
+    fun setRealValue(view: ComponentCoreInputField, value: String) {
+        view.editText.setText(value)
+    }
+
+    @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @InverseBindingAdapter(attribute = "realValue")
+    fun getRealValue(editText: ComponentCoreInputField): String {
+
+        return editText.getInputText()
+    }
+
+
+
+
 
     @BindingAdapter("coreInputHint")
     @JvmStatic
