@@ -57,7 +57,8 @@
     <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
     <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
     <string name="screen_sign_in_button_sign_in">Sign in</string>
-    <string name="screen_sign_in_display_text_sign_up">Create an account? Sign Up</string>
+    <string name="screen_sign_in_display_text_sign_up_prefix">Create an account?</string>
+    <string name="screen_sign_in_display_text_sign_up">Sign Up</string>
 
     <!-- Touch id permission screen -->
     <string name="screen_system_permission_text_title">Would you like to use Touch ID to log in to your account?</string>
