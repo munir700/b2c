@@ -8,7 +8,7 @@ import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.BaseBindingFragment
 
 
-class PhoneVerificationFragment : BaseBindingFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
+class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
 
     override val viewModel: IPhoneVerification.ViewModel
         get() = ViewModelProviders.of(this).get(PhoneVerificationViewModel::class.java)

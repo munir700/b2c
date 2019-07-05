@@ -8,7 +8,7 @@ import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.yapcore.BaseBindingFragment
 
 
-class MobileFragment : BaseBindingFragment<IMobile.ViewModel>() {
+class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.mobileViewModel
     override fun getLayoutId(): Int = R.layout.fragment_mobile
