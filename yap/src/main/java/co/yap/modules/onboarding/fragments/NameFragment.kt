@@ -9,7 +9,7 @@ import co.yap.modules.onboarding.interfaces.IName
 import co.yap.modules.onboarding.viewmodels.NameViewModel
 import co.yap.yapcore.BaseBindingFragment
 
-class NameFragment : BaseBindingFragment<IName.ViewModel>(), IName.View {
+class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_name
@@ -22,7 +22,7 @@ class NameFragment : BaseBindingFragment<IName.ViewModel>(), IName.View {
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.phoneVerificationFragment) }
+    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.emailFragment) }
 
     override fun onDestroyView() {
         super.onDestroyView()

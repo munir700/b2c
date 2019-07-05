@@ -15,7 +15,7 @@ import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.yapcore.BaseBindingFragment
 
 
-class CongratulationsFragment : BaseBindingFragment<ICongratulations.ViewModel>() {
+class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_onboarding_congratulations
