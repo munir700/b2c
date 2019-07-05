@@ -152,7 +152,7 @@
                 android:textColor="@color/colorPrimary"
                 tools:ignore="MissingConstraints"
                 app:layout_constraintLeft_toRightOf="@+id/tvDisplayTextSignIn"
-                android:paddingStart="@dimen/margin_small"
+                android:layout_marginStart="@dimen/_5sdp"
                 android:paddingEnd="@dimen/margin_large"
                 android:paddingBottom="@dimen/margin_large"
                 android:paddingTop="@dimen/margin_normal_large"
