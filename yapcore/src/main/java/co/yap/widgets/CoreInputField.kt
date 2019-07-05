@@ -7,7 +7,9 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.text.*
+import android.text.InputFilter
+import android.text.InputType
+import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.*
 import android.view.View.OnClickListener
@@ -16,7 +18,6 @@ import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.core.text.color
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.InverseBindingListener
 import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
@@ -204,19 +205,6 @@ class CoreInputField @JvmOverloads constructor(
         }
     }
 
-    fun setListener(listener: InverseBindingListener?) {
-        if (listener != null) {
-            etInputField.addTextChangedListener(
-                object : TextWatcher {
-                    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-                    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-                    override fun afterTextChanged(editable: Editable) {
-                        listener.onChange()
-                    }
-                })
-        }
-    }
-
     fun setInputText(text: String) {
         etInputField.setText(text)
     }
@@ -273,19 +261,5 @@ class CoreInputField @JvmOverloads constructor(
         val dm = rootView.resources.displayMetrics
         val heightDiff = rootView.bottom - r.bottom
         return heightDiff > softKeyboardHeight * dm.density
-    }
-
-    private fun getEditTextWatcher(editTextValue: String) {
-
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-        })
     }
 }

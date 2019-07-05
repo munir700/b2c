@@ -2,19 +2,16 @@ package co.yap.yapcore.binders
 
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
-import co.yap.widgets.CoreInputField
 import androidx.databinding.InverseBindingAdapter
-import android.text.Editable
 import androidx.databinding.InverseBindingListener
-
-
-
+import co.yap.widgets.CoreInputField
 
 object CoreInputUiBinder {
 
@@ -38,7 +35,9 @@ object CoreInputUiBinder {
     @JvmStatic
     @BindingAdapter("realValue")
     fun setRealValue(view: CoreInputField, value: String) {
-        view.editText.setText(value)
+        if (value.equals(view.editText.text)) {
+            view.editText.setText(value)
+        }
     }
 
     @JvmStatic
@@ -48,9 +47,6 @@ object CoreInputUiBinder {
 
         return editText.getInputText()
     }
-
-
-
 
 
     @BindingAdapter("coreInputHint")
