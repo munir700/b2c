@@ -34,12 +34,20 @@
     <string name="screen_phone_number_display_text_error">You\’ve entered an invalid phone number. Please, try again.</string>
     <string name="screen_phone_number_button_send">Send</string>
 
+    <!-- Email Screen -->
+
+    <string name="screen_enter_email_b2c_display_text_title">What\'s your preferred email address?</string>
+    <string name="screen_enter_email_b2b_display_text_title">Let\'s get started</string>
+    <string name="screen_enter_email_b2b_display_text_sub_heading">Enter your business email to begin</string>
+    <string name="screen_enter_email_display_text_email_address">Email address</string>
+
+
     <!-- Name Screen -->
     <string name="screen_name_display_text_title">What\'s your name?</string>
     <string name="screen_name_display_text_first_name">First name</string>
     <string name="screen_name_display_text_last_name">Last name</string>
 
-     <!-- Onboarding -->
+    <!-- Onboarding -->
     <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
     <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to %1$s</string>
     <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
@@ -76,10 +84,6 @@
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
     <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID and Trade License at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
-
-
-
-
 
 
 </resources>
