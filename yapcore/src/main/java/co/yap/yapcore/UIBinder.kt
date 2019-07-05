@@ -2,13 +2,13 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.text.style.ForegroundColorSpan
 import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
@@ -22,10 +22,10 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
-import co.yap.widgets.CoreDialerPad
-
 import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreDialerPad
 import co.yap.widgets.CoreInputField
+import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.interfaces.IBindable
 import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
@@ -67,6 +67,30 @@ object UIBinder {
     @JvmStatic
     fun setText(view: TextView, textId: Int) {
         view.text = Translator.getString(view.context, textId)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textKey: String, concat: Array<String>) {
+        view.text = Translator.getString(view.context, textKey, *concat)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textId: Int, concat: Array<String>) {
+        view.text = Translator.getString(view.context, textId, *concat)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textKey: String, concat: String) {
+        view.text = Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textId: Int, concat: String) {
+        view.text = Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("text", "start", "end")
