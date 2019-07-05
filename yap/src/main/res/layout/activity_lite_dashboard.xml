@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/ivLogo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_yap"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tvName"
+            style="@style/ASmallGrey"
+            tools:text="Hassan Akhtar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogo"/>
+
+        <TextView
+            android:id="@+id/tvEmail"
+            style="@style/ASmallGrey"
+            tools:text="hassan@digitify.com"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName"
+            android:layout_marginTop="@dimen/margin_medium"/>
+
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:btn_round_radius="50dp"
+            app:btn_enable="true"
+            android:textColor="@color/colorWhite"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:minHeight="@dimen/_52sdp"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginRight="@dimen/margin_xxl"
+            app:btn_text_size="@dimen/text_size_h4"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            app:layout_constraintTop_toBottomOf="@+id/tvEmail"
+            android:drawablePadding="@dimen/_20sdp"
+            app:btn_shape_type="rectangle"
+            tools:ignore="MissingConstraints"/>
+
+        <Switch
+            android:text="Sign In with Touch ID   "
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/swTouchId"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnLogout"
+            android:layout_marginTop="@dimen/margin_large"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
