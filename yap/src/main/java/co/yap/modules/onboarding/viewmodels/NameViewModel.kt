@@ -12,6 +12,11 @@ class NameViewModel(application: Application) : OnboardingChildViewModel<IName.S
     override val state: NameState = NameState()
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
+    override fun onResume() {
+        super.onResume()
+        setProgress(60)
+    }
+
     override fun handlePressOnNext() {
         nextButtonPressEvent.postValue(true)
     }

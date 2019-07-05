@@ -1,5 +1,7 @@
 package co.yap.modules.onboarding.fragments
 
+import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -16,4 +18,16 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_phone_verification
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
+    }
+
+    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.nameFragment) }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
+    }
 }
