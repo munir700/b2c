@@ -38,7 +38,7 @@
         <co.yap.widgets.CoreInputField
             android:id="@+id/etFirstName"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_large"
@@ -54,7 +54,7 @@
         <co.yap.widgets.CoreInputField
             android:id="@+id/etLastName"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginEnd="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_medium"
