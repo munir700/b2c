@@ -15,15 +15,13 @@ import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.core.text.color
-import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.InverseBindingListener
 import androidx.databinding.ViewDataBinding
+import co.yap.yapcore.BR
+import co.yap.yapcore.CoreInPutVariable
 import co.yap.yapcore.R
-import kotlinx.android.synthetic.main.core_input_field.view.*
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
-import kotlinx.android.synthetic.main.custom_widget_edit_text.view.etInputField
-import kotlinx.android.synthetic.main.custom_widget_edit_text.view.tvError
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -53,10 +51,19 @@ class ComponentCoreInputField @JvmOverloads constructor(
     private lateinit var viewDataBinding: ViewDataBinding
 
     init {
+        viewDataBinding =
+            DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.custom_widget_edit_text, this, true)
+//        viewDataBinding.setVariable(BR.coreInputFieldWidget, String)
+        viewDataBinding.setVariable(BR.coreInPutVariable, CoreInPutVariable)
+
+        viewDataBinding.executePendingBindings()
 
 
-        LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
+//        LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
+
+
         editText = etInputField
+
 
         attrs?.let {
             typedArray = context.obtainStyledAttributes(it, R.styleable.ComponentCoreInputField, 0, 0)
@@ -68,7 +75,10 @@ class ComponentCoreInputField @JvmOverloads constructor(
 
 
             val error = resources.getText(
-                typedArray.getResourceId(R.styleable.ComponentCoreInputField_view_error_input_field, R.string.empty_string)
+                typedArray.getResourceId(
+                    R.styleable.ComponentCoreInputField_view_error_input_field,
+                    R.string.empty_string
+                )
             )
 
             if (null != typedArray.getString(R.styleable.ComponentCoreInputField_view_input_text)) {
@@ -267,4 +277,17 @@ class ComponentCoreInputField @JvmOverloads constructor(
         return heightDiff > softKeyboardHeight * dm.density
     }
 
+    private fun getEditTextWatcher(editTextValue: String) {
+
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+        })
+    }
 }
