@@ -117,7 +117,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         }
 
     @get:Bindable
-    override var handleBackPress: Int = 0
+    override var handleBackPress: Int = 5
         get() = field
         set(value) {
             field = value

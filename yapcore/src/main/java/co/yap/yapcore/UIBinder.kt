@@ -199,7 +199,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("disableKeyBack")
     fun disableKeyBack(view: ComponentCoreInputField, index: Int) {
-
+val lengthh:Int=view.editText.text.toString().length
         if (view.editText.text.toString().length == 5) {
             view.editText.setCursorVisible(false)
             /* disable backpress */
@@ -208,7 +208,7 @@ object UIBinder {
 
                 override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
                     if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        if (index <= 5) {
+                        if (lengthh <= 5) {
                             return true
                         }
                     }
@@ -222,7 +222,7 @@ object UIBinder {
             view.editText.setOnKeyListener(object : View.OnKeyListener {
                 override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
                     if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        if (index <= 5) {
+                        if (lengthh <= 5) {
                             return true
                         }
                     }
