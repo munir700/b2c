@@ -15,8 +15,6 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     }
 
     override fun handlePressOnNext() {
-        setProgress(30)
-        state.valid = false
 
     }
 }
