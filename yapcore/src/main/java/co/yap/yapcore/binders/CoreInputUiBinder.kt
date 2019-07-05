@@ -12,8 +12,7 @@ import co.yap.widgets.CoreInputField
 import androidx.databinding.InverseBindingAdapter
 import android.text.Editable
 import androidx.databinding.InverseBindingListener
-
-
+import co.yap.translation.Translator
 
 
 object CoreInputUiBinder {
@@ -50,13 +49,15 @@ object CoreInputUiBinder {
     }
 
 
-
-
-
-    @BindingAdapter("coreInputHint")
+    @BindingAdapter(value = ["coreInputHint", "translateHint"], requireAll = false)
     @JvmStatic
-    fun setHint(view: CoreInputField, hint: String) {
-        view.editText.setHint(hint)
+    fun setHint(view: CoreInputField, hint: String, translate: Boolean) {
+        if (translate) {
+            view.editText.setHint(Translator.getString(view.context, hint))
+        } else {
+
+            view.editText.setHint(hint)
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
