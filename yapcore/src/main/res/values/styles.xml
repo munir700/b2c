@@ -265,4 +265,10 @@
 
     </style>
 
+    <!-- Switch -->
+    <style name="CustomSwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
+
 </resources>

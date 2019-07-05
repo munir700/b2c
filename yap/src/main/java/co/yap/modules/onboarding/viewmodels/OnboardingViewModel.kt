@@ -10,10 +10,10 @@ class OnboardingViewModel(application: Application) : BaseViewModel<IOnboarding.
     override val state: OnboardingState = OnboardingState()
 
     override fun handlePressOnBackButton() {
-        state.currentProgress = state.currentProgress - 10
+
     }
 
     override fun handlePressOnTickButton() {
-        state.currentProgress = state.currentProgress + 10
+
     }
 }
