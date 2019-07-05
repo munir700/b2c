@@ -20,9 +20,6 @@ class EmailFragment : BaseBindingFragment<IEmail.ViewModel>() {
     override val viewModel: IEmail.ViewModel
         get() = ViewModelProviders.of(this).get(EmailViewModel::class.java)
 
-    override fun getString(resourceKey: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

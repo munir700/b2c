@@ -12,6 +12,13 @@ import co.yap.yapcore.BaseState
 import java.util.regex.Pattern
 
 class EmailState(application: Application) : BaseState(), IEmail.State {
+   @get:Bindable
+   override var twoWayTextWatcher: String = ""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.twoWayTextWatcher)
+        }
+
     val mContext = application.applicationContext
 
     @get:Bindable
@@ -150,6 +157,10 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         drawbleRight = null
     }
 
+
+//    fun settwoWayTextWatcher(): TextWatcher {}
+
+//    fun gettwoWayTextWatcher(): TextWatcher {}
 
     fun getTextWatcher(): TextWatcher {
 

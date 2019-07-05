@@ -22,5 +22,6 @@ interface IEmail {
         var refreshField: Boolean
         var setSelection: Int
         var handleBackPress: Int
+        var twoWayTextWatcher: String
     }
 }

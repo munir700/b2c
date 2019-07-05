@@ -7,9 +7,7 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.text.InputFilter
-import android.text.InputType
-import android.text.SpannableStringBuilder
+import android.text.*
 import android.util.AttributeSet
 import android.view.*
 import android.view.View.OnClickListener
@@ -17,8 +15,15 @@ import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
 import androidx.core.text.color
+import androidx.databinding.BindingAdapter
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.InverseBindingListener
+import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.R
+import kotlinx.android.synthetic.main.core_input_field.view.*
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
+import kotlinx.android.synthetic.main.custom_widget_edit_text.view.etInputField
+import kotlinx.android.synthetic.main.custom_widget_edit_text.view.tvError
 
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -44,9 +49,11 @@ class ComponentCoreInputField @JvmOverloads constructor(
     var PHONE_INPUT_TYPE: Int = 1
     var EMAIL_INPUT_TYPE: Int = 2
     var PHONE_NUMBER_LENGTH: Int = 16
-    lateinit var editText: EditText
+    var editText: EditText
+    private lateinit var viewDataBinding: ViewDataBinding
 
     init {
+
 
         LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
         editText = etInputField
@@ -189,12 +196,24 @@ class ComponentCoreInputField @JvmOverloads constructor(
         }
     }
 
-    fun setview_input_text(text: String) {
-        etInputField.setText(text)
-
+    fun setListener(listener: InverseBindingListener?) {
+        if (listener != null) {
+            etInputField.addTextChangedListener(
+                object : TextWatcher {
+                    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+                    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+                    override fun afterTextChanged(editable: Editable) {
+                        listener.onChange()
+                    }
+                })
+        }
     }
 
-    fun getview_input_text(): String? {
+    fun setInputText(text: String) {
+        etInputField.setText(text)
+    }
+
+    fun getInputText(): String {
         return etInputField.text.toString()
 
     }
