@@ -2,8 +2,6 @@ package co.yap.modules.onboarding.states
 
 import android.app.Application
 import android.graphics.drawable.Drawable
-import android.text.Editable
-import android.text.TextWatcher
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
@@ -12,12 +10,13 @@ import co.yap.yapcore.BaseState
 import java.util.regex.Pattern
 
 class EmailState(application: Application) : BaseState(), IEmail.State {
-   @get:Bindable
-   override var twoWayTextWatcher: String = ""
+    @get:Bindable
+    override var twoWayTextWatcher: String = ""
         set(value) {
-            field=value
+            field = value
+
             notifyPropertyChanged(BR.twoWayTextWatcher)
-//            settwoWayTextWatcher()
+            settwoWayTextWatcher()
         }
 
     val mContext = application.applicationContext
@@ -159,38 +158,13 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
     }
 
 
-    fun settwoWayTextWatcher()  {
+    fun settwoWayTextWatcher() {
+
         if (!twoWayTextWatcher.isNullOrEmpty() && twoWayTextWatcher.length >= 5) {
             if (validateEmail(twoWayTextWatcher.toString())) {
                 setSuccessUI()
             } else {
                 setDefaultUI()
-            }
-        }
-    }
-
-//    fun gettwoWayTextWatcher(): TextWatcher {}
-
-    fun getTextWatcher(): TextWatcher {
-
-        return object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                if (!p0.isNullOrEmpty() && p0.length >= 5) {
-                    if (validateEmail(p0.toString())) {
-                        setSuccessUI()
-                    } else {
-                        setDefaultUI()
-                    }
-                }
             }
         }
     }
