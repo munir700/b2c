@@ -148,7 +148,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
             setErrorUI()
             drawbleRight = null
-             return false
+            return false
         }
         setSuccessUI()
 
