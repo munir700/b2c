@@ -254,6 +254,7 @@
         <item name="android:paddingTop">@dimen/margin_small</item>
         <item name="android:paddingBottom">@dimen/margin_small</item>
         <item name="btn_round_radius">50dp</item>
+
     </style>
 
     <!-- Progress bar -->
