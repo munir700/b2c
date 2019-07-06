@@ -28,12 +28,12 @@ project.ext {
     ]
 
     // All libraries that any module can contain
+
     libraries = [
             // Android
             sdp                      : 'com.intuit.sdp:sdp-android:1.0.5',
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
-//            databindingCompiler      : "androidx.databinding:compiler:$kotlin_version",
             material                 : 'com.google.android.material:material:1.0.0',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
             otpView                  : 'com.github.aabhasr1:OtpView:1.0.6',
@@ -78,8 +78,14 @@ project.ext {
             coroutineCore            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1',
             coroutineAndroid         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1',
 
-    ]
+            // Animations
+            morphView                : 'com.akaita.android:morphview:1.0.0',
+            rxAnimation              : 'com.mikhaellopez:rxanimation:0.0.4',
+            choreographer            : 'zachinio.choreographer:choreographer:1.0.3',
+            androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
+            androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar'
 
+    ]
     // Test dependencies which need to be added in all modules
     testDependencies = [
             [configuration: "testImplementation", dependency: 'junit:junit:4.12'],
@@ -120,6 +126,11 @@ project.ext {
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.otpView],
+            [configuration: "implementation", dependency: libraries.morphView],
+            // [configuration: "implementation", dependency: libraries.rxAnimation],
+            [configuration: "implementation", dependency: libraries.choreographer],
+            [configuration: "implementation", dependency: libraries.androidanimations],
+            [configuration: "implementation", dependency: libraries.androidanimationseasing],
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
