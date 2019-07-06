@@ -1,44 +1,44 @@
 package co.yap.widgets
 
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
 import android.text.InputFilter
+import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.EditText
 import android.widget.LinearLayout
-import androidx.core.view.children
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.core_dialer_pad.view.*
-import kotlinx.android.synthetic.main.core_dialer_pad.view.tvError
-import kotlinx.android.synthetic.main.core_input_field.view.*
 
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@SuppressLint("Recycle")
 class CoreDialerPad @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyle: Int = 0,
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
+    var editText: EditText
 
-    init {
+   init {
         LayoutInflater.from(context).inflate(R.layout.core_dialer_pad, this, true)
         orientation = VERTICAL
+        editText=etPassCodeText
 
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreDialerPad, 0, 0)
-            val dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 1)
+            val dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 0)
             val dialerMaxLength = typedArray.getInt(R.styleable.CoreDialerPad_dialer_max_length, 6)
             etPassCodeText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(dialerMaxLength))
-            val dialerError = resources.getText(
-                typedArray.getResourceId(
-                    R.styleable.CoreDialerPad_dialer_error,
-                    R.string.empty_string
-                )
-            )
-            //  if (dialerType == 1) performDefaultPassCode() else performPassCode()
+           /* val error = resources.getText(
+                typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
+            )*/
+              if (dialerType == 1) performPassCode()
 
             button1.setOnClickListener {
                 etPassCodeText.append("1")
@@ -70,8 +70,8 @@ class CoreDialerPad @JvmOverloads constructor(
             button0.setOnClickListener {
                 etPassCodeText.append("0")
             }
-            if (dialerError.isNotEmpty()) settingUIForError(error = dialerError.toString()) else settingUIForNormal()
-            typedArray.recycle()
+           // if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
+//            typedArray.recycle()
         }
         buttonRemove.setOnClickListener {
             val length = etPassCodeText.length()
@@ -90,7 +90,10 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 
     fun settingUIForNormal() {
-        tvError.visibility = View.GONE
+        tvError.visibility = View.INVISIBLE
+    }
+    fun performPassCode(){
+        btnFingerPrint.setImageDrawable(resources.getDrawable(R.drawable.ic_fingerprint_purple,null))
     }
 }
 

@@ -43,11 +43,11 @@ object UIBinder {
         view.setImageResource(resId)
     }
 
-    @JvmStatic
+   /* @JvmStatic
     @BindingAdapter("CoreDialerError")
     fun setDialerErrorMessage(view: CoreDialerPad, error: String) {
         if (!error.isEmpty()) view.settingUIForError(error) else view.settingUIForNormal()
-    }
+    }*/
 
     @BindingAdapter("src")
     @JvmStatic
@@ -169,6 +169,17 @@ object UIBinder {
         }
     }
 
+    @JvmStatic
+    @BindingAdapter("componentDialerError")
+    fun setDialerError(view: CoreDialerPad, error: String) {
+        if (null != error && !error.isEmpty()) {
+            view.settingUIForError(error)
+        } else {
+            view.settingUIForNormal()
+        }
+
+    }
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("resetUI")
@@ -189,8 +200,8 @@ object UIBinder {
 
     @JvmStatic
     @BindingAdapter("passcodeTextWatcher")
-    fun setTextChangeListener(view: CoreDialerPad, watcher: TextWatcher) {
-        view.etPassCodeText.addTextChangedListener(watcher)
+    fun te132mp(view: CoreDialerPad, watcher: TextWatcher) {
+        view.editText.addTextChangedListener(watcher)
     }
 
 

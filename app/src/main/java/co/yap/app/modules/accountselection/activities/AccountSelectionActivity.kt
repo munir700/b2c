@@ -11,6 +11,7 @@ import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.app.constants.Constants
 import co.yap.app.di.BaseActivity
 import co.yap.app.modules.login.activities.SystemPermissionActivity
+import co.yap.app.modules.login.activities.VerifyPasscodeActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.defaults.DefaultActivity
@@ -39,7 +40,8 @@ class AccountSelectionActivity : DefaultActivity() {
 
         tvSignIn.setOnClickListener {
             //startActivity(LogInActivity.newIntent(this))
-            startActivity(CreatePasscodeActivity.newIntent(this))
+//            startActivity(CreatePasscodeActivity.newIntent(this))
+            startActivity(VerifyPasscodeActivity.newIntent(this))
 //            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
 
 //            startActivity(LogInActivity.newIntent(this))

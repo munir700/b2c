@@ -24,8 +24,10 @@
         android:id="@+id/tvError"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/error"
         android:gravity="center"
-        android:visibility="gone"
+        tools:text="snvkjsnd"
+
         android:textSize="12sp"/>
 
 
@@ -152,11 +154,13 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/btnFingerPrint"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
             android:layout_marginEnd="20dp"
             android:layout_marginStart="20dp"
+            android:background="@null"
             />
 
         <Button
@@ -171,16 +175,16 @@
             android:textColor="@drawable/bg_text_color"/>
 
 
-            <ImageView
-                android:id="@+id/buttonRemove"
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginEnd="20dp"
-                android:padding="@dimen/_14sdp"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center"
-                app:srcCompat="@drawable/ic_delete"
-                android:textColor="@drawable/bg_text_color"/>
+        <ImageView
+            android:id="@+id/buttonRemove"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_marginEnd="20dp"
+            android:padding="@dimen/_14sdp"
+            android:gravity="center_horizontal"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/ic_delete"
+            android:textColor="@drawable/bg_text_color"/>
 
 
     </LinearLayout>
