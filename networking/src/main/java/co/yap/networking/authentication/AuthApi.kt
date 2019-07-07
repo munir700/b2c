@@ -1,5 +1,6 @@
 package co.yap.networking.authentication
 
+import co.yap.networking.authentication.requestdtos.DemographicDataRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -9,4 +10,6 @@ interface AuthApi {
     suspend fun refreshJWTToken(token: String): RetroApiResponse<ApiResponse>
     suspend fun login(username: String, password: String): RetroApiResponse<LoginResponse>
     suspend fun logout(token: String): RetroApiResponse<ApiResponse>
+    suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
+    suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ApiResponse>
 }

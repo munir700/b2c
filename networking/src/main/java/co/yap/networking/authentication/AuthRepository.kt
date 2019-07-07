@@ -4,6 +4,7 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
+import co.yap.networking.authentication.requestdtos.DemographicDataRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -15,12 +16,14 @@ object AuthRepository : BaseRepository(), AuthApi {
     const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_REFRESH_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_LOGOUT = "/auth/oauth/oidc/revoke"
+    const val URL_POST_DEMOGRAPHIC_DATA = "/api/demographics"
+    const val URL_VALIDATE_DEMOGRAPHIC_DATA = "/api/demographics/validate/user-device/{device_id}"
     const val URL_SWITCH_USER_ACCOUNT = "/auth/oauth/oidc/switch-profile"
 
     private val api: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
 
     override suspend fun login(username: String, password: String): RetroApiResponse<LoginResponse> {
-        val response = executeSafely(call = { api.login("client_credentials", username, password)  })
+        val response = executeSafely(call = { api.login("client_credentials", username, password) })
         when (response) {
             is RetroApiResponse.Success -> CookiesManager.jwtToken = response.data.accessToken
         }
@@ -48,4 +51,12 @@ object AuthRepository : BaseRepository(), AuthApi {
 
     override suspend fun logout(token: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.logout(token) })
+
+
+    override suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.postDemographicData(demographicDataRequest) })
+
+    override suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.validateDemographicData(deviceId) })
+
 }
