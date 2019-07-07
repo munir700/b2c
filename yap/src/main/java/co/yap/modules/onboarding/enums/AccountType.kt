@@ -2,7 +2,7 @@ package co.yap.modules.onboarding.enums
 
 enum class AccountType {
 
-    B2C, B2B;
+    B2C_ACCOUNT, B2B_ACCOUNT;
 
 //    inline fun <reified T : Enum<T>> Intent.putExtra(victim: T): Intent =
 //        putExtra(T::class.qualifiedName, victim.ordinal)

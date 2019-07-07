@@ -23,15 +23,25 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     override fun handlePressOnNext() {
-        nextButtonPressEvent.postValue(true)
+        signUp()
     }
 
 
     private fun signUp() {
         launch {
-            when (val response = repository.signUp(SignUpRequest("", "", "", "", "", "", ""))) {
-                is RetroApiResponse.Success -> ""
-                is RetroApiResponse.Error -> ""
+            when (val response = repository.signUp(
+                SignUpRequest(
+                    parentViewModel!!.onboardingData.firstName,
+                    parentViewModel!!.onboardingData.lastName,
+                    parentViewModel!!.onboardingData.countryCode,
+                    parentViewModel!!.onboardingData.mobileNo,
+                    state.email,
+                    "5550",
+                    parentViewModel!!.onboardingData.accountType.toString()
+                )
+            )) {
+                is RetroApiResponse.Success -> nextButtonPressEvent.postValue(true)
+                is RetroApiResponse.Error -> state.error = response.error.message
             }
         }
     }
@@ -40,7 +50,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         launch {
             when (val response = repository.sendVerificationEmail(SendVerificationEmailRequest("", ""))) {
                 is RetroApiResponse.Success -> ""
-                is RetroApiResponse.Error -> ""
+                is RetroApiResponse.Error -> state.error = response.error.message
             }
         }
     }
