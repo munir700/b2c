@@ -86,7 +86,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:onClick="@{(v)-> viewModel.handlePressOnSignInButton()}"
             android:layout_marginBottom="@dimen/margin_normal"
             app:text="@{Strings.screen_verify_passcode_text_forgot_password}"
 
