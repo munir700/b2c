@@ -3,6 +3,7 @@ package co.yap.app.modules.login.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R
@@ -26,5 +27,16 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>() 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
+    }
+
+
+    private val signInButtonObserver = Observer<Boolean> {
+       showToast("Yoo")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.signInButtonPressEvent.removeObserver(signInButtonObserver)
     }
 }

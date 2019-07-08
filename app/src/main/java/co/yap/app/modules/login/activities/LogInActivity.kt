@@ -2,6 +2,8 @@ package co.yap.app.modules.login.activities
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
+import androidx.lifecycle.Observer
 
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
@@ -22,4 +24,17 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
     override val viewModel: ILogin.ViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
+    }
+
+    private val signInButtonObserver = Observer<Boolean> {
+        startActivity(VerifyPasscodeActivity.newIntent(this))
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.signInButtonPressEvent.removeObserver(signInButtonObserver)
+    }
 }
