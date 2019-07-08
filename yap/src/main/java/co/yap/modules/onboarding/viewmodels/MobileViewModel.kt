@@ -31,16 +31,23 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
             when (val response = repository.createOtp(
                 CreateOtpRequest(
                     state.countryCode.trim().replace("+", "00"),
-                    state.mobile,
+//                    state.mobile,
+                    "3180000012",
                     parentViewModel?.onboardingData?.accountType.toString()
                 )
             )) {
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.postValue(true)
                     parentViewModel!!.onboardingData.countryCode = state.countryCode.trim().replace("+", "00")
-                    parentViewModel!!.onboardingData.mobileNo = state.mobile
+//                    parentViewModel!!.onboardingData.mobileNo = state.mobile
+                    parentViewModel!!.onboardingData.mobileNo = "3180000012"
+
+
                 }
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.error = response.error.message
+                    state.mobileError=response.error.message
+                }
             }
         }
     }

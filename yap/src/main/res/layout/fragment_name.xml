@@ -69,11 +69,12 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             />
 
-        <co.yap.widgets.CoreButton
+        <co.yap.widgets.Core_Button
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:btn_round_radius="50dp"
+            app:btn_enable="false"
             android:textColor="@color/colorWhite"
             app:text="@{Strings.common_button_next}"
             android:paddingTop="@dimen/margin_medium_large"

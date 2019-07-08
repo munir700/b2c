@@ -81,18 +81,11 @@ class CoreButton : Button {
             resources.getColor(R.color.white)
         )
 
-//        pressedColor = typedArray.getColor(
-//            R.styleable.CoreButton_btn_pressed_color,
-//            resources.getColor(R.color.colorPrimary)
-//        )
-
         if (enableButton) {
             defaultStateColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_unpressed_color,
                 resources.getColor(R.color.colorPrimary)
             )
-
-            //
             pressedColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_pressed_color,
                 resources.getColor(R.color.colorPrimary)
@@ -235,12 +228,16 @@ class CoreButton : Button {
 
         if (!enable) {
             defaultStateColor = resources.getColor(R.color.greyLight)
+            pressedColor = resources.getColor(R.color.colorPrimary)
             paint.color = defaultStateColor
             invalidate()
         } else {
             defaultStateColor = resources.getColor(R.color.colorPrimary)
+            pressedColor = resources.getColor(R.color.colorPrimary)
             paint.color = defaultStateColor
             invalidate()
         }
+        this.setEnabled(enable)
+
     }
 }
