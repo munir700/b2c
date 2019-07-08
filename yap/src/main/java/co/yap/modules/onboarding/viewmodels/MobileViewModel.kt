@@ -13,7 +13,6 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     IMobile.ViewModel, IRepositoryHolder<ObnoardingRepository> {
     override val repository: ObnoardingRepository = ObnoardingRepository
 
-
     override val state: MobileState = MobileState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
@@ -27,26 +26,28 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     }
 
     private fun createOtp() {
+
+        var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
+        var countryCode: String = state.countryCode.trim().replace("+", "00")
+
         launch {
             when (val response = repository.createOtp(
                 CreateOtpRequest(
-                    state.countryCode.trim().replace("+", "00"),
-//                    state.mobile,
-                    "3180000012",
+                    countryCode,
+                    mobileNumber,
                     parentViewModel?.onboardingData?.accountType.toString()
                 )
             )) {
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.postValue(true)
-                    parentViewModel!!.onboardingData.countryCode = state.countryCode.trim().replace("+", "00")
-//                    parentViewModel!!.onboardingData.mobileNo = state.mobile
-                    parentViewModel!!.onboardingData.mobileNo = "3180000012"
+                    parentViewModel!!.onboardingData.countryCode = countryCode
+                    parentViewModel!!.onboardingData.mobileNo = mobileNumber
 
 
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message
-                    state.mobileError=response.error.message
+                    state.mobileError = response.error.message
                 }
             }
         }

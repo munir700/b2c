@@ -32,7 +32,7 @@ class PhoneVerificationViewModel(application: Application) :
 
     private fun verifyOtp() {
         launch {
-            when (val response = repository.verifyOtp(VerifyOtpRequest(parentViewModel!!.onboardingData.countryCode, parentViewModel!!.onboardingData.mobileNo, "0000"))) {
+            when (val response = repository.verifyOtp(VerifyOtpRequest(parentViewModel!!.onboardingData.countryCode, parentViewModel!!.onboardingData.mobileNo, state.otp))) {
                 is RetroApiResponse.Success -> { nextButtonPressEvent.postValue(true)}
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
