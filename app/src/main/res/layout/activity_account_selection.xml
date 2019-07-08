@@ -108,7 +108,6 @@
                 android:layout_weight=".5"
                 android:layout_height="wrap_content"
                 style="@style/RectangleBtnStyle"
-                android:enabled="false"
                 app:text="@{Strings.screen_home_button_business_text}"
                 android:textStyle="bold"
                 tools:ignore="MissingConstraints"

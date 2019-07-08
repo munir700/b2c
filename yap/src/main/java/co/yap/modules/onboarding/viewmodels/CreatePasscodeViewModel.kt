@@ -12,18 +12,14 @@ import co.yap.modules.onboarding.interfaces.ICreatePasscode
 import co.yap.modules.onboarding.states.CreatePasscodeState
 import co.yap.yapcore.BaseViewModel
 
-class CreatePasscodeViewModel(application: Application):BaseViewModel<ICreatePasscode.State>(application),ICreatePasscode.ViewModel {
-    override val state: ICreatePasscode.State
-        get() = CreatePasscodeState()
+class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreatePasscode.State>(application),
+    ICreatePasscode.ViewModel {
+    override fun handlePressOnCreatePasscodeButton() {
+//        state.dialerError="button clicked"
+        state.dialerError=state.passcode
 
-    /*@RequiresApi(Build.VERSION_CODES.M)
-    fun setSpannableString(text:String, start: Int, end: Int) :SpannableString{
+    }
 
-        val text=SpannableString(text)
+    override val state: CreatePasscodeState = CreatePasscodeState()
 
-        text.setSpan(ForegroundColorSpan(context.resources.getColor(R.color.colorPrimaryDark,null)),start,end,Spannable.SPAN_INCLUSIVE_INCLUSIVE)
-
-        return text
-
-    }*/
 }

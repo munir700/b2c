@@ -1,6 +1,7 @@
 package co.yap.widgets
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Paint
@@ -13,6 +14,7 @@ import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.*
 import android.view.View.OnClickListener
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.annotation.RequiresApi
@@ -110,7 +112,9 @@ class CoreInputField @JvmOverloads constructor(
             paintText.textAlign = Paint.Align.CENTER
             paintText.style = Paint.Style.FILL
 
+            etInputField.isFocusable
             onKeyBoardDismissal()
+            animteKeyboardDismissal()
         }
 
     }
@@ -243,6 +247,13 @@ class CoreInputField @JvmOverloads constructor(
                     return
                 }
             })
+    }
+
+    /* animate down keyboard */
+    fun animteKeyboardDismissal() {
+
+        val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(etInputField?.windowToken, 0)
     }
 
     private fun keyboardShown(rootView: View): Boolean {

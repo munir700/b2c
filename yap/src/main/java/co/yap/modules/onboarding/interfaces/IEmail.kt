@@ -25,5 +25,7 @@ interface IEmail {
         var setSelection: Int
         var handleBackPress: Int
         var twoWayTextWatcher: String
+        var emailTitle: String
+        var emailVerificationTitle: String
     }
 }
