@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.fragments
 
 import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
@@ -8,7 +9,9 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +23,11 @@ import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
 import co.yap.widgets.AnimatingProgressBar
 import co.yap.yapcore.helpers.AnimationUtils
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
+import ru.bullyboo.text_animation.TextCounter
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToLong
 
 
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
@@ -89,6 +97,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             AnimationUtils.outOfTheBoxAnimation(tvSubTitle).apply { startDelay = 100 }
         )
 
+        val counter = handleTextViewWithAnimatedValue(100, 30, tvSubTitle)
+
         val moveFromCenterToTop = AnimationUtils.runTogether(
             AnimationUtils.slideVertical(
                 view = tvTitle,
@@ -104,7 +114,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             ).apply { startDelay = 50 }
         )
 
-        return AnimationUtils.runSequentially(moveToCenter, appearance, moveFromCenterToTop)
+        return AnimationUtils.runSequentially(moveToCenter, appearance, counter, moveFromCenterToTop)
     }
 
     private fun toolbarAnimation(): AnimatorSet {
@@ -128,6 +138,40 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             )
         )
 
+    }
+
+    private fun handleTextViewWithAnimatedValue(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator =
+        ValueAnimator.ofInt(initialValue, finalValue).apply {
+            duration = 1500
+            addUpdateListener { animator -> textview.text = animator.animatedValue.toString() }
+        }
+
+
+    private fun handleTextView(initialValue: Int, finalValue: Int, targetTextview: TextView) {
+        val decelerateInterpolator = DecelerateInterpolator(1f)
+        val newInitialValue = min(initialValue, finalValue)
+        val newFinalValue = max(initialValue, finalValue)
+        val difference = abs(finalValue - initialValue)
+        val handler = Handler()
+        for (count in newInitialValue..newFinalValue) {
+            //Time to display the current value to the user.
+            val time =
+                (decelerateInterpolator.getInterpolation(count.toFloat() / difference) * 100).roundToLong() * count
+            val finalCount = if (initialValue > finalValue) initialValue - count else count
+            handler.postDelayed({ targetTextview.text = finalCount.toString() }, time.toLong())
+        }
+    }
+
+    private fun handleTextCounter(view: TextView) {
+        TextCounter.newBuilder()
+            .setTextView(view)
+            .setType(TextCounter.LONG)
+            // .setCustomAnimation(modeBuilder)
+            .setMode(TextCounter.ACCELERATION_DECELERATION_MODE)
+            .from(100L)
+            .to(1000L)
+            .build()
+            .start()
     }
 
 
