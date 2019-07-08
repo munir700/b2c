@@ -12,6 +12,9 @@ import android.view.animation.Interpolator
 import android.view.animation.OvershootInterpolator
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes
+import co.yap.yapcore.animations.animators.*
+import com.daimajia.easing.Glider
+import com.daimajia.easing.Skill
 
 object AnimationUtils {
 
@@ -24,29 +27,6 @@ object AnimationUtils {
      * Run a set of Animators in sequence
      */
     fun runSequentially(vararg animator: Animator): AnimatorSet = AnimatorSet().apply { playSequentially(*animator) }
-
-    fun fadeIn(view: View, duration: Long): ObjectAnimator {
-        return ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
-            this.duration = duration
-        }
-    }
-
-    fun translateY(view: View, duration: Long, from: Float, to: Float): ObjectAnimator =
-        ObjectAnimator.ofFloat(view, "y", from, to).apply {
-            this.duration = duration
-        }
-
-    fun scale(view: View, duration: Long, from: Float, to: Float): AnimatorSet {
-        val scaleX = ObjectAnimator.ofFloat(view, "scaleX", from, to).apply {
-            this.duration = duration
-        }
-
-        val scaleY = ObjectAnimator.ofFloat(view, "scaleY", from, to).apply {
-            this.duration = duration
-        }
-
-        return runTogether(scaleX, scaleY)
-    }
 
 
     /**
@@ -61,6 +41,14 @@ object AnimationUtils {
 
     fun loadAnimation(context: Context, @AnimRes resId: Int): Animation = AnimationUtils.loadAnimation(context, resId)
 
+
+    fun fadeIn(view: View, duration: Long? = 500): AnimatorSet = FadeInAnimator().with(view, duration)
+    fun fadeOut(view: View, duration: Long? = 500): AnimatorSet = FadeOutAnimator().with(view, duration)
+    fun scale(view: View, duration: Long? = 500, from: Float, to: Float): AnimatorSet = ScaleAnimator(from, to).with(view, duration)
+    fun bounce(view: View, duration: Long? = 500): AnimatorSet = BounceAnimator().with(view, duration)
+    fun translateY(view: View, duration: Long? = 500, from: Float, to: Float): AnimatorSet = TranslateAnimator("y", from, to).with(view, duration)
+    fun translateX(view: View, duration: Long? = 500, from: Float, to: Float): AnimatorSet = TranslateAnimator("x", from, to).with(view, duration)
+
     /**
      * Translate and FadeIn animation running in parallel on the view
      */
@@ -70,24 +58,15 @@ object AnimationUtils {
         from: Float? = view.y + 300,
         to: Float? = view.y,
         interpolator: Interpolator? = OvershootInterpolator()
-    ): AnimatorSet {
-        val fade = fadeIn(view, 200)
-
-        // TranslateY animation
-        val slide = translateY(view, duration!!, from!!, to!!).apply {
-            this.interpolator = interpolator
-        }
-
-        return runTogether(fade, slide)
-    }
+    ): AnimatorSet = runTogether(fadeIn(view, 200), translateY(view, duration!!, from!!, to!!).apply {
+        this.interpolator = interpolator
+    })
 
     /**
      * Translate and FadeIn animation running in parallel on the view
      */
-    fun enterScaleAnimation(view: View): AnimatorSet {
-        val fade = fadeIn(view, 150)
-        val slide = scale(view, 250, 0.2f, 1.0f)
-        return runTogether(fade, slide)
-    }
+    fun enterScaleAnimation(view: View): AnimatorSet = runTogether(fadeIn(view, 150), scale(view, 250, 0.2f, 1.0f))
+
+
 
 }
