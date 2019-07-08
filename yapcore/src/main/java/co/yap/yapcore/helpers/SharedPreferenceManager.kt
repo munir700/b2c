@@ -10,6 +10,9 @@ class SharedPreferenceManager(val context: Context) {
 
     companion object {
         const val KEY_APP_UUID = "KEY_APP_UUID"
+        const val KEY_PASSCODE: String = "PASSCODE"
+        const val KEY_USERNAME: String = "USEERNAME"
+        const val KEY_TOUCH_ID_ENABLED: String = "TOUCH_ID_ENABLED"
     }
 
 

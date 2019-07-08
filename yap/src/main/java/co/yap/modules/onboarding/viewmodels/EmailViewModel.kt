@@ -2,7 +2,6 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
-import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
@@ -52,11 +51,11 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             )) {
                 is RetroApiResponse.Success -> {
                     sharedPreferenceManager.save(
-                        Constants.KEY_PASSCODE,
+                        SharedPreferenceManager.KEY_PASSCODE,
                         EncryptionUtils.encrypt(context, parentViewModel!!.onboardingData.passcode)!!
                     )
                     sharedPreferenceManager.save(
-                        Constants.KEY_USERNAME,
+                        SharedPreferenceManager.KEY_USERNAME,
                         EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
                     )
                     sendVerificationEmail()

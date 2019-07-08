@@ -10,6 +10,7 @@ import co.yap.app.constants.Constants
 import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
 class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
@@ -45,7 +46,7 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == Constants.REQUEST_CODE_CREATE_PASSCODE) {
-            viewModel.setPasscode(data!!.getStringExtra(Constants.KEY_PASSCODE))
+            viewModel.setPasscode(data!!.getStringExtra(SharedPreferenceManager.KEY_PASSCODE))
             navigate(R.id.nameFragment)
         }
     }
