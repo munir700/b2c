@@ -44,6 +44,10 @@
     <!-- PADDING -->
     <dimen name="padding_onboarding_image">-110dp</dimen>
 
-
+    <!-- BIOMETRIC -->
+    <dimen name="biometric_bg_size">20dp</dimen>
+    <dimen name="biometric_logo_size">48dp</dimen>
+    <dimen name="biometric_bottom_sheet_padding">7dp</dimen>
+    <dimen name="biometric_fingerprint_image_size">60dp</dimen>
 
 </resources>

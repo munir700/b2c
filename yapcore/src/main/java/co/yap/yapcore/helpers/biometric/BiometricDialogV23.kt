@@ -5,7 +5,7 @@ import android.content.DialogInterface
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import co.yap.app.R
+import co.yap.yapcore.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class BiometricDialogV23 : BottomSheetDialog, View.OnClickListener {

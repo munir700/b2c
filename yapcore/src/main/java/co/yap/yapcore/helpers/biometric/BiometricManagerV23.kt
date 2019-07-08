@@ -8,7 +8,7 @@ import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
-import co.yap.app.R
+import co.yap.yapcore.R
 
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
