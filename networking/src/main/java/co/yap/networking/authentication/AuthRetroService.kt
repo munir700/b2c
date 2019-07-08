@@ -1,11 +1,10 @@
 package co.yap.networking.authentication
 
+import co.yap.networking.authentication.requestdtos.DemographicDataRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface AuthRetroService {
 
@@ -23,5 +22,13 @@ interface AuthRetroService {
     // Logout
     @POST(AuthRepository.URL_LOGOUT)
     suspend fun logout(@Query("id_token") idToken: String): Response<ApiResponse>
+
+    // Post demographic data
+    @POST(AuthRepository.URL_POST_DEMOGRAPHIC_DATA)
+    suspend fun postDemographicData(@Body demographicDataRequest: DemographicDataRequest): Response<ApiResponse>
+
+    // Validate demographic data
+    @POST(AuthRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
+    suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ApiResponse>
 
 }

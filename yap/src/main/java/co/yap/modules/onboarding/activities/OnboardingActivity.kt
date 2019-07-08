@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.activities
 
 import android.content.Context
 import android.content.Intent
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -25,6 +26,11 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.onboardingData.accountType = getAccountType()
+    }
+
     override val viewModel: IOnboarding.ViewModel
         get() = ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
 
@@ -34,5 +40,10 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_onboarding_navigation
+
+
+    private fun getAccountType(): AccountType {
+        return intent.getSerializableExtra(OnboardingActivity.ACCOUNT_TYPE) as AccountType
+    }
 
 }

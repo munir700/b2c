@@ -13,7 +13,7 @@ import co.yap.yapcore.BaseViewModel
 
 class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>(application), IWelcome.ViewModel {
 
-    override var accountType: AccountType = AccountType.B2C
+    override lateinit var accountType: AccountType
 
     override val state: IWelcome.State
         get() = WelcomeState()
@@ -21,7 +21,7 @@ class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>
     override fun handlePressOnGetStarted() {
     }
 
-    override fun getPages(): ArrayList<WelcomeContent> = if (accountType == AccountType.B2C) generateB2CPages() else generateB2BPages()
+    override fun getPages(): ArrayList<WelcomeContent> = if (accountType == AccountType.B2C_ACCOUNT) generateB2CPages() else generateB2BPages()
 
     fun generateB2BPages(): ArrayList<WelcomeContent> {
         val content1 = WelcomeContent(

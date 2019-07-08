@@ -26,11 +26,11 @@ class AccountSelectionActivity : DefaultActivity() {
 
         btnBusiness.setOnClickListener {
             //            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
-            startActivity(OnboardingActivity.newIntent(this, AccountType.B2B))
+            startActivity(OnboardingActivity.newIntent(this, AccountType.B2B_ACCOUNT))
         }
 
         btnPersonal.setOnClickListener {
-            startActivity(WelcomeActivity.newIntent(this, AccountType.B2C))
+            startActivity(WelcomeActivity.newIntent(this, AccountType.B2C_ACCOUNT))
         }
 
         tvSignIn.setOnClickListener {

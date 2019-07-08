@@ -13,6 +13,7 @@ import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
 import co.yap.modules.onboarding.viewmodels.MobileViewModel
 import co.yap.yapcore.BaseBindingFragment
+import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
 
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
@@ -29,6 +30,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.ibanNumber = "AE07 0331 2345 6789 01** ***"
+
+        btnCompleteVerification.setOnClickListener {
+            navigate(R.id.liteDashboardActivity)
+        }
         val options = navOptions {
             anim {
                 enter = R.anim.slide_in_right

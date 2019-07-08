@@ -118,6 +118,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.navigationFragment],
             [configuration: "implementation", dependency: libraries.navigationUI],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
+            [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.otpView],
     ]
 
