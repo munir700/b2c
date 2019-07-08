@@ -13,6 +13,7 @@ class SharedPreferenceManager(val context: Context) {
         const val KEY_PASSCODE: String = "PASSCODE"
         const val KEY_USERNAME: String = "USEERNAME"
         const val KEY_TOUCH_ID_ENABLED: String = "TOUCH_ID_ENABLED"
+        const val KEY_IS_USER_LOGGED_IN: String = "KEY_IS_USER_LOGGED_IN"
     }
 
 

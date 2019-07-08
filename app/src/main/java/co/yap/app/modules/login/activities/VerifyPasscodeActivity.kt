@@ -62,17 +62,13 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
             if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)) {
                 dialer.showFingerprintView()
-                mBiometricManager = BiometricManager.BiometricBuilder(this@VerifyPasscodeActivity)
-                    .setTitle(getString(R.string.biometric_title))
-                    .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
-                    .build()
-
-                mBiometricManager.authenticate(this@VerifyPasscodeActivity)
+                showFingerprintDialog()
             } else {
                 dialer.hideFingerprintView()
             }
 
         }
+
 
     }
 
@@ -84,13 +80,15 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     private val loginSuccessObserver = Observer<Boolean> {
+
+        sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
         sharedPreferenceManager.save(
             SharedPreferenceManager.KEY_PASSCODE,
             EncryptionUtils.encrypt(this, viewModel.state.passcode)!!
         )
         sharedPreferenceManager.save(
             SharedPreferenceManager.KEY_USERNAME,
-            EncryptionUtils.encrypt(this,  viewModel.state.username)!!
+            EncryptionUtils.encrypt(this, viewModel.state.username)!!
         )
         startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
     }
@@ -102,6 +100,16 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
     private fun setUsername() {
         viewModel.state.username = intent.getSerializableExtra(USERNAME) as String
+    }
+
+
+    private fun showFingerprintDialog() {
+        mBiometricManager = BiometricManager.BiometricBuilder(this@VerifyPasscodeActivity)
+            .setTitle(getString(R.string.biometric_title))
+            .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
+            .build()
+
+        mBiometricManager.authenticate(this@VerifyPasscodeActivity)
     }
 
 
@@ -130,8 +138,14 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationSuccessful() {
-        viewModel.state.passcode = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
-        viewModel.state.username = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+        viewModel.state.passcode = EncryptionUtils.decrypt(
+            this,
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
+        )!!
+        viewModel.state.username = EncryptionUtils.decrypt(
+            this,
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+        )!!
         viewModel.login()
     }
 
