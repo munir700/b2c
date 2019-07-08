@@ -15,6 +15,8 @@ import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
 
+
+
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 @SuppressLint("Recycle")
 class CoreDialerPad @JvmOverloads constructor(
@@ -93,6 +95,13 @@ class CoreDialerPad @JvmOverloads constructor(
         tvError.visibility = View.INVISIBLE
     }
     fun performPassCode(){
+        etPassCodeText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
+        etPassCodeText.textSize= resources.getDimension(R.dimen.text_size_h1) //R.dimen.margin_xxl.toFloat()
+
+//        etPassCodeText.inputType=InputType.TYPE_NUMBER_VARIATION_PASSWORD
+/*        etPassCodeText.inputType=InputType.TYPE_TEXT_VARIATION_PASSWORD
+        etPassCodeText.inputType=InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        etPassCodeText.inputType=InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD*/
         btnFingerPrint.setImageDrawable(resources.getDrawable(R.drawable.ic_fingerprint_purple,null))
     }
 }
