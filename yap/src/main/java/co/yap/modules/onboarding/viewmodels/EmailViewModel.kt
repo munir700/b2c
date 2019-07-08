@@ -32,7 +32,6 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     override fun handlePressOnNext() {
         signUp()
-
     }
 
 
