@@ -11,7 +11,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.onboarding.ObnoardingRepository
 import co.yap.networking.onboarding.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.onboarding.requestdtos.SignUpRequest
-import co.yap.networking.onboarding.responsedtos.SignUpResponse
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -30,6 +29,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     override fun handlePressOnNext() {
         signUp()
+
     }
 
 
@@ -46,7 +46,10 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-                is RetroApiResponse.Success -> { postDemographicData() }
+                is RetroApiResponse.Success -> {
+                    sendVerificationEmail()
+                    postDemographicData()
+                }
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
 
@@ -55,9 +58,14 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     }
 
-    private fun sendVerifiationEmail() {
+    private fun sendVerificationEmail() {
         launch {
-            when (val response = repository.sendVerificationEmail(SendVerificationEmailRequest("", ""))) {
+            when (val response = repository.sendVerificationEmail(
+                SendVerificationEmailRequest(
+                    state.twoWayTextWatcher,
+                    parentViewModel!!.onboardingData.accountType.toString()
+                )
+            )) {
                 is RetroApiResponse.Success -> ""
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
@@ -79,7 +87,19 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     "Android"
                 )
             )) {
-                is RetroApiResponse.Success -> nextButtonPressEvent.postValue(true)
+                is RetroApiResponse.Success -> getAccountInfo()
+                is RetroApiResponse.Error -> state.error = response.error.message
+            }
+        }
+    }
+
+    private fun getAccountInfo() {
+        launch {
+            when (val response = repository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
+                    nextButtonPressEvent.postValue(true)
+                }
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
         }
