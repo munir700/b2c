@@ -9,5 +9,6 @@ data class OnboardingData(
     var firstName: String,
     var lastName: String,
     var email: String,
-    var accountType: AccountType
+    var accountType: AccountType,
+    var ibanNumber: String
 )

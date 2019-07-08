@@ -2,15 +2,16 @@ package co.yap.modules.onboarding.activities
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.app.constants.Constants
 import co.yap.modules.onboarding.interfaces.ICreatePasscode
 import co.yap.modules.onboarding.viewmodels.CreatePasscodeViewModel
 import co.yap.yapcore.BaseBindingActivity
-import kotlinx.android.synthetic.main.screen_create_passcode.*
+
 
 class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() {
     override fun getBindingVariable(): Int = BR.createPasscodeViewModel
@@ -29,6 +30,14 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
 
+    }
+
+    private val nextButtonObserver = Observer<Boolean> {
+        val intent = Intent()
+        intent.putExtra(Constants.KEY_PASSCODE, viewModel.state.passcode)
+        setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
+        finish()
     }
 }
