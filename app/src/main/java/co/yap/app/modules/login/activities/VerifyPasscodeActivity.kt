@@ -11,6 +11,7 @@ import co.yap.app.R
 import co.yap.app.login.BiometricCallback
 import co.yap.app.login.BiometricManager
 import co.yap.app.login.BiometricUtil
+import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
@@ -50,6 +51,8 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         dialer.hideFingerprintView()
         sharedPreferenceManager = SharedPreferenceManager(this@VerifyPasscodeActivity)
+        viewModel.state.deviceId =
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID) as String
 
         if (BiometricUtil.isFingerprintSupported
             && BiometricUtil.isHardwareSupported(this@VerifyPasscodeActivity)
@@ -81,6 +84,14 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     private val loginSuccessObserver = Observer<Boolean> {
+        sharedPreferenceManager.save(
+            SharedPreferenceManager.KEY_PASSCODE,
+            EncryptionUtils.encrypt(this, viewModel.state.passcode)!!
+        )
+        sharedPreferenceManager.save(
+            SharedPreferenceManager.KEY_USERNAME,
+            EncryptionUtils.encrypt(this,  viewModel.state.username)!!
+        )
         startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
     }
 
@@ -119,7 +130,9 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationSuccessful() {
-        Toast.makeText(applicationContext, getString(R.string.biometric_success), Toast.LENGTH_LONG).show()
+        viewModel.state.passcode = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
+        viewModel.state.username = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+        viewModel.login()
     }
 
     override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence) {

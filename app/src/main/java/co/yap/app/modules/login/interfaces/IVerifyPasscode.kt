@@ -10,11 +10,13 @@ interface IVerifyPasscode {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnSignInButton()
         fun login()
+        fun validateDevice()
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
         val loginSuccess: SingleLiveEvent<Boolean>
     }
 
     interface State : IBase.State {
+        var deviceId: String
         var username: String
         var dialerError: String
         var passcode: String

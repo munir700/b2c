@@ -31,6 +31,20 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
         }
     }
 
+    override fun validateDevice() {
+        launch {
+            when (val response = repository.validateDemographicData(state.deviceId)) {
+                is RetroApiResponse.Success -> {
+                    loginSuccess.postValue(true)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+
+        }
+    }
+
     override fun handlePressOnSignInButton() {
 //        state.dialerError=state.passcode
         signInButtonPressEvent.postValue(true)
