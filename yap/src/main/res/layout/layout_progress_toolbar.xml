@@ -28,7 +28,7 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
-            android:id="@+id/imageView"/>
+            android:id="@+id/tbBtnBack"/>
 
         <ImageView
             app:srcCompat="@drawable/ic_tick_disabled"
@@ -39,8 +39,8 @@
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnTickButton()}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
-            android:id="@+id/imageView2"/>
+            app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
+            android:id="@+id/tbBtnCheck"/>
 
         <co.yap.widgets.AnimatingProgressBar
             style="@style/YAPProgressBar"
@@ -50,10 +50,10 @@
             android:max="@{viewModel.state.totalProgress}"
             android:progress="@{viewModel.state.currentProgress}"
             android:layout_gravity="center_horizontal"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintEnd_toStartOf="@+id/imageView2"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"/>
+            app:layout_constraintStart_toEndOf="@+id/tbBtnBack"
+            app:layout_constraintEnd_toStartOf="@+id/tbBtnCheck"
+            app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
+            app:layout_constraintBottom_toBottomOf="@+id/tbBtnBack"/>
 
 
 

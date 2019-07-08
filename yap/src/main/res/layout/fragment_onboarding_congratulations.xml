@@ -18,8 +18,9 @@
         android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/rootContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:background="@color/white"
             android:paddingLeft="@dimen/margin_medium"
@@ -36,8 +37,6 @@
                 tools:text="@string/screen_onboarding_congratulations_display_text_title"
                 android:layout_marginTop="@dimen/margin_extra_large"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/text"
-                tools:layout_editor_absoluteY="219dp"
                 tools:layout_editor_absoluteX="54dp"/>
 
             <TextView

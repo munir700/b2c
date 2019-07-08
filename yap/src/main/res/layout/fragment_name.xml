@@ -69,7 +69,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             />
 
-        <co.yap.widgets.Core_Button
+        <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
