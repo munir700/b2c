@@ -8,6 +8,15 @@ import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.yapcore.BaseState
 
 class VerifyPasscodeState : BaseState(), IVerifyPasscode.State {
+
+    @get:Bindable
+    override var username: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.username)
+
+        }
+
     @get:Bindable
     override var dialerError: String = ""
         set(value) {

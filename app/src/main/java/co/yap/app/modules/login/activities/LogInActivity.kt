@@ -30,7 +30,7 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signInButtonObserver = Observer<Boolean> {
-        startActivity(VerifyPasscodeActivity.newIntent(this))
+        startActivity(VerifyPasscodeActivity.newIntent(this, viewModel.state.twoWayTextWatcher))
     }
 
     override fun onDestroy() {
