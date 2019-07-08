@@ -47,8 +47,8 @@ object NetworkConnectionManager {
     }
 
     fun isNetworkAvailable(context: Context): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return connectivityManager.activeNetworkInfo.isConnected
+        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        return connectivityManager?.activeNetworkInfo?.isConnected!!
     }
 
     fun subscribe(listener: OnNetworkStateChangeListener) {

@@ -7,7 +7,6 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IName
 import co.yap.modules.onboarding.viewmodels.NameViewModel
-import co.yap.yapcore.BaseBindingFragment
 
 class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -17,12 +16,13 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     override val viewModel: IName.ViewModel
         get() = ViewModelProviders.of(this).get(NameViewModel::class.java)
 
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.emailFragment) }
+    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.action_nameFragment_to_emailFragment) }
 
     override fun onDestroyView() {
         super.onDestroyView()
