@@ -1,6 +1,7 @@
 package co.yap.networking.onboarding
 
 import co.yap.networking.BaseRepository
+import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -26,8 +27,13 @@ object ObnoardingRepository : BaseRepository(), OnboardingApi {
     override suspend fun verifyOtp(verifyOtpRequest: VerifyOtpRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.verifyOtp(verifyOtpRequest) })
 
-    override suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse> =
-        executeSafely(call = { api.signUp(signUpRequest) })
+    override suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse> {
+        val response = executeSafely(call = { api.signUp(signUpRequest) })
+        when (response) {
+            is RetroApiResponse.Success -> CookiesManager.jwtToken = response.data.data as String
+        }
+        return response
+    }
 
     override suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.sendVerificationEmail(verificationEmailRequest) })

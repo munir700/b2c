@@ -11,6 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.onboarding.ObnoardingRepository
 import co.yap.networking.onboarding.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.onboarding.requestdtos.SignUpRequest
+import co.yap.networking.onboarding.responsedtos.SignUpResponse
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -29,7 +30,6 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     override fun handlePressOnNext() {
         signUp()
-        postDemographicData()
     }
 
 
@@ -42,14 +42,17 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.countryCode,
                     parentViewModel!!.onboardingData.mobileNo,
                     state.twoWayTextWatcher,
-                    "5550",
+                    parentViewModel!!.onboardingData.passcode,
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-                is RetroApiResponse.Success -> nextButtonPressEvent.postValue(true)
+                is RetroApiResponse.Success -> { postDemographicData() }
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
+
         }
+
+
     }
 
     private fun sendVerifiationEmail() {
@@ -62,7 +65,8 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     private fun postDemographicData() {
-        val sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
+
+        val sharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             when (val response = authRepository.postDemographicData(
@@ -75,7 +79,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     "Android"
                 )
             )) {
-                is RetroApiResponse.Success -> ""
+                is RetroApiResponse.Success -> nextButtonPressEvent.postValue(true)
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
         }

@@ -16,8 +16,8 @@ object AuthRepository : BaseRepository(), AuthApi {
     const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_REFRESH_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_LOGOUT = "/auth/oauth/oidc/revoke"
-    const val URL_POST_DEMOGRAPHIC_DATA = "/api/demographics"
-    const val URL_VALIDATE_DEMOGRAPHIC_DATA = "/api/demographics/validate/user-device/{device_id}"
+    const val URL_POST_DEMOGRAPHIC_DATA = "/customers/api/demographics/"
+    const val URL_VALIDATE_DEMOGRAPHIC_DATA = "customers/api/demographics/validate/user-device/{device_id}"
     const val URL_SWITCH_USER_ACCOUNT = "/auth/oauth/oidc/switch-profile"
 
     private val api: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)

@@ -65,9 +65,10 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 
     override fun validationPasscode(passcodeText: String) {
 
-        if (passcodeText.equals("1234")) {
-            passcode = "length can not b in sequence"
-        }
+        /* if (passcodeText.equals("1234")) {
+             passcode = "length can not b in sequence"
+         }*/
+        passcode = passcodeText
     }
 
 
