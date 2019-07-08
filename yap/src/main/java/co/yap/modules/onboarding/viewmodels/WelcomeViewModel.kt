@@ -3,6 +3,7 @@ package co.yap.modules.onboarding.viewmodels
 import android.app.Application
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.models.WelcomeContent
@@ -12,7 +13,7 @@ import co.yap.yapcore.BaseViewModel
 
 class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>(application), IWelcome.ViewModel {
 
-    override var accountType: AccountType = AccountType.B2C
+    override lateinit var accountType: AccountType
 
     override val state: IWelcome.State
         get() = WelcomeState()
@@ -20,7 +21,7 @@ class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>
     override fun handlePressOnGetStarted() {
     }
 
-    override fun getPages(): ArrayList<WelcomeContent> = if (accountType == AccountType.B2C) generateB2CPages() else generateB2BPages()
+    override fun getPages(): ArrayList<WelcomeContent> = if (accountType == AccountType.B2C_ACCOUNT) generateB2CPages() else generateB2BPages()
 
     fun generateB2BPages(): ArrayList<WelcomeContent> {
         val content1 = WelcomeContent(

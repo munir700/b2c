@@ -1,38 +1,32 @@
 package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Button
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
 import co.yap.R
+import co.yap.modules.onboarding.interfaces.IEmail
+import co.yap.modules.onboarding.viewmodels.EmailViewModel
 
-class EmailFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        setHasOptionsMenu(true)
-        return inflater.inflate(R.layout.fragment_email, container, false)
+
+class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
+
+    override fun getBindingVariable(): Int = BR.emailViewModel
+    override fun getLayoutId(): Int = R.layout.fragment_email
+
+    override val viewModel: IEmail.ViewModel
+        get() = ViewModelProviders.of(this).get(EmailViewModel::class.java)
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.congratulationsFragment) }
 
-        val options = navOptions {
-            anim {
-                enter = R.anim.slide_in_right
-                exit = R.anim.slide_out_left
-                popEnter = R.anim.slide_in_left
-                popExit = R.anim.slide_out_right
-            }
-        }
-        view.findViewById<Button>(R.id.next_button)?.setOnClickListener {
-            findNavController().navigate(R.id.action_emailFragment_to_nameFragment, null, options)
-        }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
 }

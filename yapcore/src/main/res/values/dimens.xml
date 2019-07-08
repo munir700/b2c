@@ -2,13 +2,13 @@
 <resources>
 
     <!-- Headings -->
-    <dimen name="text_size_h1">@dimen/_12sdp</dimen>
-    <dimen name="text_size_h2">@dimen/_14sdp</dimen>
-    <dimen name="text_size_h3">@dimen/_16sdp</dimen>
-    <dimen name="text_size_h4">@dimen/_18sdp</dimen>
-    <dimen name="text_size_h5">@dimen/_21sdp</dimen>
-    <dimen name="text_size_h6">@dimen/_24sdp</dimen>
-    <dimen name="text_size_h7">@dimen/_28sdp</dimen>
+    <dimen name="text_size_h1">@dimen/_10sdp</dimen>
+    <dimen name="text_size_h2">@dimen/_12sdp</dimen>
+    <dimen name="text_size_h3">@dimen/_14sdp</dimen>
+    <dimen name="text_size_h4">@dimen/_16sdp</dimen>
+    <dimen name="text_size_h5">@dimen/_19sdp</dimen>
+    <dimen name="text_size_h6">@dimen/_22sdp</dimen>
+    <dimen name="text_size_h7">@dimen/_26sdp</dimen>
 
     <!-- Content -->
     <dimen name="text_size_c1">@dimen/_9sdp</dimen>
@@ -32,15 +32,16 @@
     <dimen name="margin_medium">@dimen/_16sdp</dimen>
     <dimen name="margin_medium_large">@dimen/_20sdp</dimen>
     <dimen name="margin_large">@dimen/_24sdp</dimen>
-    <dimen name="margin_xl">@dimen/_32sdp</dimen>
+    <dimen name="margin_extra_large">@dimen/_32sdp</dimen>
+    <dimen name="margin_xl">@dimen/_44sdp</dimen>
     <dimen name="margin_xxl">@dimen/_56sdp</dimen>
+    <dimen name="margin_heading_to_field">@dimen/_50sdp</dimen>
 
     <dimen name="text_content_margin">@dimen/_30sdp</dimen>
     <dimen name="btn_content_margin">@dimen/_15sdp</dimen>
     <dimen name="nav_drawer_width">@dimen/_300sdp</dimen>
 
     <!-- PADDING -->
-
     <dimen name="padding_onboarding_image">-110dp</dimen>
 
 

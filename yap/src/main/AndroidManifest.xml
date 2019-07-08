@@ -3,10 +3,18 @@
 
     <application>
         <activity android:name=".modules.onboarding.activities.WelcomeActivity"/>
-        <activity android:name=".modules.onboarding.activities.OnboardingActivity"
-                  android:label="@string/app_name"
-                  android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".modules.onboarding.activities.LiteDashboardActivity">
+        </activity>
+
+        <activity android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity">
+        </activity>
+        <activity
+            android:name=".modules.onboarding.activities.OnboardingActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/onboarding_navigation"/>
         </activity>
+        <activity android:name=".modules.onboarding.activities.CreatePasscodeActivity"/>
     </application>
 </manifest>

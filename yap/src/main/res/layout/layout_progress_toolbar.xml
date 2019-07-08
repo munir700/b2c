@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.onboarding.viewmodels.OnboardingViewModel"/>
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="@dimen/_8sdp"
+        android:layout_width="match_parent"
+        android:background="@color/white"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            app:srcCompat="@drawable/ic_back"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
+            android:id="@+id/tbBtnBack"/>
+
+        <ImageView
+            app:srcCompat="@drawable/ic_tick_disabled"
+            android:layout_width="@dimen/_32sdp"
+            android:layout_height="@dimen/_32sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> viewModel.handlePressOnTickButton()}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
+            android:id="@+id/tbBtnCheck"/>
+
+        <co.yap.widgets.AnimatingProgressBar
+            style="@style/YAPProgressBar"
+            android:id="@+id/progress_bar"
+            android:layout_width="258dp"
+            android:layout_height="6dp"
+            android:max="@{viewModel.state.totalProgress}"
+            android:progress="@{viewModel.state.currentProgress}"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintStart_toEndOf="@+id/tbBtnBack"
+            app:layout_constraintEnd_toStartOf="@+id/tbBtnCheck"
+            app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
+            app:layout_constraintBottom_toBottomOf="@+id/tbBtnBack"/>
+
+
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

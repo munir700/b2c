@@ -2,23 +2,19 @@ package co.yap.modules.onboarding.activities
 
 import android.content.Context
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.enums.AccountType
-import co.yap.yapcore.BaseActivity
-import co.yap.yapcore.IBase
-import co.yap.yapcore.helpers.Navigator
-import co.yap.yapcore.interfaces.INavigator
+import co.yap.modules.onboarding.interfaces.IOnboarding
+import co.yap.modules.onboarding.viewmodels.OnboardingViewModel
+import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.defaults.DefaultNavigator
+import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.interfaces.IBaseNavigator
 
-class OnboardingActivity : BaseActivity<IBase.ViewModel<IBase.State>>(), INavigator {
+class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INavigator {
     companion object {
 
         private val ACCOUNT_TYPE = "account_type"
@@ -29,18 +25,25 @@ class OnboardingActivity : BaseActivity<IBase.ViewModel<IBase.State>>(), INaviga
             return intent
         }
     }
-    override val viewModel: IBase.ViewModel<IBase.State>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
-
-    override val navigator: Navigator
-        get() = Navigator(this, R.id.my_nav_host_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_onboarding_navigation)
+        viewModel.onboardingData.accountType = getAccountType()
+    }
 
-        val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
+    override val viewModel: IOnboarding.ViewModel
+        get() = ViewModelProviders.of(this).get(OnboardingViewModel::class.java)
+
+    override val navigator: IBaseNavigator
+        get() = DefaultNavigator(this, R.id.my_nav_host_fragment)
+
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.activity_onboarding_navigation
+
+
+    private fun getAccountType(): AccountType {
+        return intent.getSerializableExtra(OnboardingActivity.ACCOUNT_TYPE) as AccountType
     }
 
 }

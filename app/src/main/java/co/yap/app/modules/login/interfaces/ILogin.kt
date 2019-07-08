@@ -7,12 +7,12 @@ interface ILogin {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun performLogin(email: String, password: String)
+        fun handlePressOnLogin()
     }
 
     interface State : IBase.State {
         var email: String
         var emailError: String
         var valid: Boolean
-        
     }
 }

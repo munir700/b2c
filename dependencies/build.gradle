@@ -12,7 +12,7 @@ project.ext {
     playServicesVersion = '16.0.0'
     supportLibraryVersion = "28.0.3"
     playServicesVersion = "16.0.0"
-    retrofitVersion = "2.5.0"
+    retrofitVersion = "2.6.0"
     daggerVersion = "2.16"
     okhttpVersion = "3.12.1"
     okhttpLoggerVersion = "3.10.0"
@@ -28,6 +28,7 @@ project.ext {
     ]
 
     // All libraries that any module can contain
+
     libraries = [
             // Android
             sdp                      : 'com.intuit.sdp:sdp-android:1.0.5',
@@ -75,10 +76,16 @@ project.ext {
 
             // kotlin coroutine
             coroutineCore            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1',
-            coroutineAndroid         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1',
+            coroutineAndroid         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1'
+
+            // Animations
+            // morphView                : 'com.akaita.android:morphview:1.0.0',
+            // rxAnimation              : 'com.mikhaellopez:rxanimation:0.0.4',
+            // choreographer            : 'zachinio.choreographer:choreographer:1.0.3',
+            // androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
+            // androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar'
 
     ]
-
     // Test dependencies which need to be added in all modules
     testDependencies = [
             [configuration: "testImplementation", dependency: 'junit:junit:4.12'],
@@ -117,7 +124,12 @@ project.ext {
             [configuration: "implementation", dependency: libraries.navigationFragment],
             [configuration: "implementation", dependency: libraries.navigationUI],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
-            [configuration: "implementation", dependency: libraries.otpView],
+            [configuration: "implementation", dependency: project(modules.networking)],
+
+//            [configuration: "implementation", dependency: libraries.morphView]
+//            [configuration: "implementation", dependency: libraries.choreographer],
+//            [configuration: "implementation", dependency: libraries.androidanimations],
+//            [configuration: "implementation", dependency: libraries.androidanimationseasing],
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
@@ -138,6 +150,7 @@ project.ext {
             [configuration: "api", dependency: libraries.coroutineAndroid],
             [configuration: "api", dependency: libraries.navigationFragmentKtx],
             [configuration: "api", dependency: libraries.navigationUItKtx],
+            [configuration: "api", dependency: libraries.otpView],
     ]
 
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
@@ -154,6 +167,8 @@ project.ext {
             [configuration: "api", dependency: libraries.retrofitConverterGson],
             [configuration: "api", dependency: libraries.okhttp],
             [configuration: "api", dependency: libraries.okhttp3LoggingInterceptor],
+            [configuration: "implementation", dependency: libraries.coroutineCore],
+            [configuration: "implementation", dependency: libraries.coroutineAndroid],
     ]
 
 

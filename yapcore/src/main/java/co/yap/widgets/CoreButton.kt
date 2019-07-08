@@ -25,6 +25,7 @@ class CoreButton : Button {
     private var shapeType: Int = 0
     private var DRAWABLE_RIGHT: Int = 1
     private var DRAWABLE_LEFT: Int = 0
+    private var enableButton: Boolean = true
 
     private var defaultDrawablePaddingLeft: Float = 9.5f
     private var defaultDrawablePaddingRight: Float = 1.2f
@@ -72,6 +73,7 @@ class CoreButton : Button {
             R.styleable.CoreButton_btn_drawable
         )
         drawablePositionType = typedArray.getInt(R.styleable.CoreButton_btn_drawable_position, 2)
+        enableButton = typedArray.getBoolean(R.styleable.CoreButton_btn_enable, enableButton)
 
 
         labelTextColor = typedArray.getColor(
@@ -79,18 +81,19 @@ class CoreButton : Button {
             resources.getColor(R.color.white)
         )
 
-        pressedColor = typedArray.getColor(
-            R.styleable.CoreButton_btn_pressed_color,
-            resources.getColor(R.color.colorPrimary)
-        )
-
-        if (this.isEnabled) {
+        if (enableButton) {
             defaultStateColor = typedArray.getColor(
                 R.styleable.CoreButton_btn_unpressed_color,
                 resources.getColor(R.color.colorPrimary)
             )
+            pressedColor = typedArray.getColor(
+                R.styleable.CoreButton_btn_pressed_color,
+                resources.getColor(R.color.colorPrimary)
+            )
+
         } else {
             defaultStateColor = resources.getColor(R.color.greyLight)
+            pressedColor = resources.getColor(R.color.greyLight)
         }
 
         shapeType = typedArray.getInt(R.styleable.CoreButton_btn_shape_type, 1)
@@ -180,21 +183,21 @@ class CoreButton : Button {
                 DRAWABLE_LEFT -> canvas.drawBitmap(
                     bitmapIcon,
                     (btnWeight / drawablePaddingLeft).toFloat(),    //position from left
-                    (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable left from top
+                    (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawableRight left from top
                     paintText
                 )
 
                 DRAWABLE_RIGHT -> canvas.drawBitmap(
                     bitmapIcon,
                     (btnWeight / drawablePaddingRight).toFloat(),       //position from left
-                    (btnHeight / drawablePaddingTop).toFloat(),         // set y-position of drawable right
+                    (btnHeight / drawablePaddingTop).toFloat(),         // set y-position of drawableRight right
                     paintText
                 )
                 else ->
                     canvas.drawBitmap(
                         bitmapIcon,
                         (btnWeight / drawablePaddingTop).toFloat(),     //position from left
-                        (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawable right
+                        (btnHeight / drawablePaddingTop).toFloat(),     // set y-position of drawableRight right
                         paintText
                     )
             }
@@ -219,5 +222,22 @@ class CoreButton : Button {
             }
         }
         return super.onTouchEvent(event)
+    }
+
+    fun enableButton(enable: Boolean) {
+
+        if (!enable) {
+            defaultStateColor = resources.getColor(R.color.greyLight)
+            pressedColor = resources.getColor(R.color.colorPrimary)
+            paint.color = defaultStateColor
+            invalidate()
+        } else {
+            defaultStateColor = resources.getColor(R.color.colorPrimary)
+            pressedColor = resources.getColor(R.color.colorPrimary)
+            paint.color = defaultStateColor
+            invalidate()
+        }
+        this.setEnabled(enable)
+
     }
 }
