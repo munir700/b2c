@@ -117,7 +117,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         }
 
     @get:Bindable
-    override var handleBackPress: Int = 0
+    override var handleBackPress: Int = 5
         get() = field
         set(value) {
             field = value
@@ -135,34 +135,22 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         )
     }
 
-    fun checkMobileNumberValidation(phoneNumber: String): Boolean? {
+    fun validateMobileNumber(phoneNumber: String): Boolean? {
         if (!phoneNumber.trim().equals("")) {
             val input = phoneNumber.trim().replace("+", "")
             val regex = "[0-9]+"
             if (input.length < 5 || !input.matches(regex.toRegex())) {
 
-                /* disable core input field
-                 set error UI*/
-                valid = false
-                refreshField = false
-                mobileError = mContext.getString(R.string.screen_phone_number_display_text_error)
-                return false
+                return setErrorUI()
             }
         }
         if (phoneNumber.trim().equals("")) {
 
-            /* disable core button
-             set error UI*/
-            refreshField = false
-            valid = false
+            setErrorUI()
             drawbleRight = null
-            mobileError = mContext.getString(R.string.screen_phone_number_display_text_error)
             return false
         }
-        refreshField = true
-        valid = true
-        mobileError = ""
-        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+        setSuccessUI()
 
         return true
     }
@@ -187,11 +175,9 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                         var phoneNumber: String = p0.toString().trim()
                         phoneNumber = phoneNumber.trim().replace(" ", "")
 
-                        checkMobileNumberValidation(phoneNumber)
+                        validateMobileNumber(phoneNumber)
                     } else {
-                        refreshField = true
-                        valid = false
-                        drawbleRight = null
+                        setDefaultUI()
                     }
 
                     if (p0.toString().toCharArray().size == 7 && p1 == 6) {
@@ -246,5 +232,27 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                 }
             }
         }
+    }
+
+    private fun setSuccessUI() {
+        refreshField = true
+        valid = true
+        mobileError = ""
+        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+    }
+
+    private fun setErrorUI(): Boolean {
+        /* disable core button
+                 set error UI*/
+        valid = false
+        refreshField = false
+        mobileError = mContext.getString(R.string.screen_phone_number_display_text_error)
+        return false
+    }
+
+    private fun setDefaultUI() {
+        refreshField = true
+        valid = false
+        drawbleRight = null
     }
 }

@@ -1,4 +1,9 @@
 <resources>
+    <!-- Common -->
+    <string name="common_display_text_retry">Retry</string>
+    <string name="common_button_next">Next</string>
+    <string name="common_display_text_error_no_internet">Internet connection appears to be offline</string>
+
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
     <string name="screen_home_display_text_account_selection">I want an account for</string>
@@ -25,14 +30,26 @@
 
 
     <!-- Phone Number Screen -->
-
     <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>
     <string name="screen_phone_number_display_text_error">You\’ve entered an invalid phone number. Please, try again.</string>
     <string name="screen_phone_number_button_send">Send</string>
 
-     <!-- Onboarding -->
+    <!-- Email Screen -->
+
+    <string name="screen_enter_email_b2c_display_text_title">What\'s your preferred email address?</string>
+    <string name="screen_enter_email_b2b_display_text_title">Let\'s get started</string>
+    <string name="screen_enter_email_b2b_display_text_sub_heading">Enter your business email to begin</string>
+    <string name="screen_enter_email_display_text_email_address">Email address</string>
+
+
+    <!-- Name Screen -->
+    <string name="screen_name_display_text_title">What\'s your name?</string>
+    <string name="screen_name_display_text_first_name">First name</string>
+    <string name="screen_name_display_text_last_name">Last name</string>
+
+    <!-- Onboarding -->
     <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
-    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to %1s</string>
+    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to %1$s</string>
     <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
     <string name="screen_verify_phone_number_button_send">Send</string>
 
@@ -40,7 +57,8 @@
     <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
     <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
     <string name="screen_sign_in_button_sign_in">Sign in</string>
-    <string name="screen_sign_in_display_text_sign_up">Create an account? Sign Up</string>
+    <string name="screen_sign_in_display_text_sign_up_prefix">Create an account?</string>
+    <string name="screen_sign_in_display_text_sign_up">Sign Up</string>
 
     <!-- Touch id permission screen -->
     <string name="screen_system_permission_text_title">Would you like to use Touch ID to log in to your account?</string>
@@ -61,8 +79,8 @@
 
 
     <!--  Onboarding congratulations screen -->
-    <string name="screen_onboarding_congratulations_display_text_title">Congrats, Nada!</string>
-    <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Business Account has been created for FZ LLC in less than 30 seconds!</string>
+    <string name="screen_onboarding_congratulations_display_text_title">Congrats, %1s!</string>
+    <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for %1s in less than %2s seconds!</string>
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
     <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID and Trade License at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
@@ -71,10 +89,6 @@
     <string name="screen_verify_passcode_display_text_title">Enter your passcode to access your account</string>
     <string name="screen_verify_passcode_button_sign_in">Sign In</string>
     <string name="screen_verify_passcode_text_forgot_password">Forgot password?</string>
-
-
-
-
 
 
 </resources>

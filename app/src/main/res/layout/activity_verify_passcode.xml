@@ -52,6 +52,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:dialer_pass_code="passcode"
+            app:componentDialerError='@{viewModel.state.dialerError}'
+            app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}"
             app:layout_constraintTop_toBottomOf="@id/tvVerifyPasscodeTitle"
             />
 
@@ -73,6 +75,9 @@
             android:paddingEnd="@dimen/_30sdp"
             android:paddingStart="@dimen/_30sdp"
             tools:ignore="MissingConstraints"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            android:onClick="@{(v)-> viewModel.handlePressOnSignInButton()}"
+
             app:layout_constraintVertical_bias="0.75"
             app:layout_constraintBottom_toTopOf="@+id/tvForgotPassword"
             />

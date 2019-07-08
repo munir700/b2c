@@ -17,17 +17,15 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:srcCompat="@drawable/bg_group_bubbles"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginTop="-450dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/bg_bubbles"
+            android:scaleType="fitXY"
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            >
+            android:fillViewport="true">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -68,11 +66,13 @@
                     android:layout_marginTop="@dimen/margin_xxl"
                     app:coreInputText="@{loginViewModel.state.email}"
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
+                    android:layout_marginStart="@dimen/margin_normal"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     app:layout_constraintTop_toBottomOf="@+id/tvSignIn"/>
 
                 <co.yap.widgets.CoreButton
                     android:id="@+id/btnLogIn"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/RectangleBtnStyle"
                     android:enabled="@{loginViewModel.state.valid}"
@@ -83,25 +83,53 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etEmailField"
                     android:paddingTop="8dp"
-                    app:layout_constraintBottom_toTopOf="@+id/tvSignUp"
+                    app:layout_constraintBottom_toTopOf="@+id/clSignUp"
                     android:paddingBottom="8dp"
+                    android:minHeight="@dimen/_52sdp"
                     android:gravity="center"
-                    android:paddingEnd="@dimen/_30sdp"
-                    android:paddingStart="@dimen/_30sdp"
+                    android:layout_marginLeft="@dimen/margin_xxl"
+                    android:layout_marginRight="@dimen/margin_xxl"
                     app:btn_drawable_position="left"
                     tools:ignore="MissingConstraints"
-                    app:layout_constraintVertical_bias="0.75"/>
+                    app:layout_constraintVertical_bias="0.75"
+                    app:btn_round_radius="50dp"
+                    app:btn_text_size="@dimen/text_size_h4"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:btn_shape_type="rectangle"/>
 
-                <TextView
-                    android:id="@+id/tvSignUp"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clSignUp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/margin_large"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="@string/screen_sign_in_display_text_sign_up"
-                    />
+                    android:layout_marginStart="8dp">
+
+
+                    <TextView
+                        android:id="@+id/tvSignUpPrefix"
+                        style="@style/SmallGrey"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/margin_large"
+                        android:text="@string/screen_sign_in_display_text_sign_up_prefix"/>
+
+                    <TextView
+                        android:id="@+id/tvSignUp"
+                        style="@style/SmallGrey"
+                        android:textColor="@color/colorPrimary"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginBottom="@dimen/margin_large"
+                        app:layout_constraintLeft_toRightOf="@+id/tvSignUpPrefix"
+                        android:text="@string/screen_sign_in_display_text_sign_up"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>

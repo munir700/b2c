@@ -246,10 +246,15 @@
 
 
     <style name="RectangleBtnStyle" parent="AppFontMedium">
-        <item name="btn_text_size">@dimen/text_size_h4</item>
+        <item name="btn_text_size">@dimen/text_size_h3</item>
         <item name="btn_shape_type">rectangle</item>
         <item name="android:enabled">true</item>
+        <item name="android:paddingLeft">@dimen/margin_extra_large</item>
+        <item name="android:paddingRight">@dimen/margin_extra_large</item>
+        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:paddingBottom">@dimen/margin_small</item>
         <item name="btn_round_radius">50dp</item>
+
     </style>
 
     <!-- Progress bar -->
@@ -259,5 +264,11 @@
         <item name="android:layout_height">@dimen/_6sdp</item>
 
     </style>
+
+    <!-- Switch -->
+    <style name="CustomSwitch" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorPrimary</item>
+    </style>
+
 
 </resources>

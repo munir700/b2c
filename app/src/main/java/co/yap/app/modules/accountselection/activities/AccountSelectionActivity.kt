@@ -5,13 +5,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.app.modules.login.activities.LogInActivity
-import co.yap.modules.onboarding.activities.OnboardingActivity
-import co.yap.app.constants.Constants
-import co.yap.app.di.BaseActivity
-import co.yap.app.modules.login.activities.SystemPermissionActivity
 import co.yap.app.modules.login.activities.VerifyPasscodeActivity
+import co.yap.modules.onboarding.activities.CreatePasscodeActivity
+import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.defaults.DefaultActivity
@@ -31,20 +28,17 @@ class AccountSelectionActivity : DefaultActivity() {
 
         btnBusiness.setOnClickListener {
             //            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
-            startActivity(OnboardingActivity.newIntent(this, AccountType.B2B))
+            startActivity(OnboardingActivity.newIntent(this, AccountType.B2B_ACCOUNT))
         }
 
         btnPersonal.setOnClickListener {
-            startActivity(WelcomeActivity.newIntent(this, AccountType.B2C))
+            startActivity(WelcomeActivity.newIntent(this, AccountType.B2C_ACCOUNT))
         }
 
         tvSignIn.setOnClickListener {
-            //startActivity(LogInActivity.newIntent(this))
-//            startActivity(CreatePasscodeActivity.newIntent(this))
+//            startActivity(LogInActivity.newIntent(this))
             startActivity(VerifyPasscodeActivity.newIntent(this))
 //            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
-
-//            startActivity(LogInActivity.newIntent(this))
         }
     }
 }

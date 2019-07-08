@@ -74,7 +74,7 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
                 // TODO: Use strings for these
                 "Settings"
             ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            .setActionTextColor(getResources().getColor(R.color.colorPrimary))
+            .setActionTextColor(resources.getColor(R.color.colorPrimary))
         snackbar!!.show()
     }
 
@@ -157,7 +157,7 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
 
     override fun getString(resourceKey: String): String = Translator.getString(this, resourceKey)
 
-    private val stateListener = object: Observable.OnPropertyChangedCallback() {
+    private val stateObserver = object: Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
                 showToast(viewModel.state.toast)
@@ -170,7 +170,7 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
             viewModel.registerLifecycleOwner(this)
         }
         if (viewModel.state is BaseState) {
-            (viewModel.state as BaseState).addOnPropertyChangedCallback(stateListener)
+            (viewModel.state as BaseState).addOnPropertyChangedCallback(stateObserver)
         }
     }
 
@@ -179,7 +179,7 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
             viewModel.unregisterLifecycleOwner(this)
         }
         if (viewModel.state is BaseState) {
-            (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateListener)
+            (viewModel.state as BaseState).removeOnPropertyChangedCallback(stateObserver)
         }
     }
 

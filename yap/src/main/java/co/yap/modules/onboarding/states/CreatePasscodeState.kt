@@ -79,21 +79,21 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 //                array.add(text.toInt())
 //                text.plus(p0.toString())
 
-             /*   if (array.size in 7 downTo 5) {
-                    for (i in 0 until array.count()) {
+                /*   if (array.size in 7 downTo 5) {
+                       for (i in 0 until array.count()) {
 
-                        if (array[i + 1] - array[i] != 1) {
-                            sequence = true
-                            passcode = "length can not b in sequence"
-                        }
+                           if (array[i + 1] - array[i] != 1) {
+                               sequence = true
+                               passcode = "length can not b in sequence"
+                           }
 
-                        if (array[i] != array[i + 1]) {
-                            similar = true
-                            passcode = "length can b in sequence"
-                        }
+                           if (array[i] != array[i + 1]) {
+                               similar = true
+                               passcode = "length can b in sequence"
+                           }
 
-                    }
-                }*/
+                       }
+                   }*/
 
 
 //                if () {

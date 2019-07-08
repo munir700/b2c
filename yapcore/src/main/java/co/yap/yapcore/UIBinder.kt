@@ -2,16 +2,13 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.graphics.drawable.Drawable
-import android.text.SpannableStringBuilder
 import android.text.TextWatcher
-import android.view.KeyEvent
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
@@ -22,12 +19,10 @@ import androidx.databinding.BindingAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import co.yap.translation.Translator
-import co.yap.widgets.CoreDialerPad
-
 import co.yap.widgets.CoreButton
-import co.yap.widgets.CoreInputField
+import co.yap.widgets.CoreDialerPad
+import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.interfaces.IBindable
-import kotlinx.android.synthetic.main.core_dialer_pad.view.*
 
 object UIBinder {
     @BindingAdapter("bitmap")
@@ -43,11 +38,11 @@ object UIBinder {
         view.setImageResource(resId)
     }
 
-   /* @JvmStatic
-    @BindingAdapter("CoreDialerError")
-    fun setDialerErrorMessage(view: CoreDialerPad, error: String) {
-        if (!error.isEmpty()) view.settingUIForError(error) else view.settingUIForNormal()
-    }*/
+    /* @JvmStatic
+     @BindingAdapter("CoreDialerError")
+     fun setDialerErrorMessage(view: CoreDialerPad, error: String) {
+         if (!error.isEmpty()) view.settingUIForError(error) else view.settingUIForNormal()
+     }*/
 
     @BindingAdapter("src")
     @JvmStatic
@@ -67,6 +62,30 @@ object UIBinder {
     @JvmStatic
     fun setText(view: TextView, textId: Int) {
         view.text = Translator.getString(view.context, textId)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textKey: String, concat: Array<String>) {
+        view.text = Translator.getString(view.context, textKey, *concat)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textId: Int, concat: Array<String>) {
+        view.text = Translator.getString(view.context, textId, *concat)
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textKey: String, concat: String) {
+        view.text = Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
+    }
+
+    @BindingAdapter("text", "concat")
+    @JvmStatic
+    fun setText(view: TextView, textId: Int, concat: String) {
+        view.text = Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("text", "start", "end")
@@ -124,48 +143,12 @@ object UIBinder {
         }
     }
 
-    /* core input text field */
-
-
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic
     @BindingAdapter("enableCoreButton")
     fun setEnable(view: CoreButton, enable: Boolean) {
         if (null != enable) {
             view.enableButton(enable)
-        }
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("coreInputText")
-    fun setText(view: CoreInputField, textValue: String) {
-        view.setview_input_text(textValue)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("coreInputDrawableLeft")
-    fun drawableLeft(view: CoreInputField, drawable: Drawable) {
-        view.setDrawableLeftIcon(drawable)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("coreInputDrawableRight")
-    fun drawableRight(view: CoreInputField, drawable: Drawable?) {
-        view.setDrawableRightIcon(drawable)
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("coreInputError")
-    fun setErrorMessage(view: CoreInputField, error: String) {
-        if (null != error && !error.isEmpty()) {
-            view.settingUIForError(error)
-        } else {
-            view.settingUIForNormal()
         }
     }
 
@@ -179,104 +162,13 @@ object UIBinder {
         }
 
     }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("resetUI")
-    fun resetUI(view: CoreInputField, refresh: Boolean) {
-        if (refresh) {
-            view.settingUIForNormal()
-
-        }
-    }
-
-    /* textwatcher */
-
-    @JvmStatic
-    @BindingAdapter("textWatcher")
-    fun setTextChangeListener(view: CoreInputField, watcher: TextWatcher) {
-        view.editText.addTextChangedListener(watcher)
-    }
-
     @JvmStatic
     @BindingAdapter("passcodeTextWatcher")
-    fun te132mp(view: CoreDialerPad, watcher: TextWatcher) {
+    fun te132mp(view:CoreDialerPad,watcher: TextWatcher){
         view.editText.addTextChangedListener(watcher)
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("cursorPlacement")
-    fun cursorPlacement(view: CoreInputField, placeCursor: Boolean) {
-        view.cursorPlacement()
-
-    }
-
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("inputText")
-    fun setInputText(view: CoreInputField, text: SpannableStringBuilder) {
-        view.editText.setText(text)
-        view.editText.setSelection(view.editText.text.length)
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("isCursorVisible")
-    fun isCursorVisible(view: CoreInputField, isVisible: Boolean) {
-        view.editText.setCursorVisible(isVisible)
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("selection")
-    fun selection(view: CoreInputField, selection: Int) {
-        view.editText.setSelection(selection)
-
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("disableKeyBack")
-    fun disableKeyBack(view: CoreInputField, index: Int) {
-
-        if (view.editText.text.toString().length == 5) {
-            view.editText.setCursorVisible(false)
-            /* disable backpress */
-            view.cursorPlacement()
-            view.editText.setOnKeyListener(object : View.OnKeyListener {
-
-                override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                    if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        if (index <= 5) {
-                            return true
-                        }
-                    }
-                    return false
-                }
-            })
-        } else {
-            /*enable backpress*/
-
-            view.cursorPlacement()
-            view.editText.setOnKeyListener(object : View.OnKeyListener {
-                override fun onKey(v: View, keyCode: Int, event: KeyEvent): Boolean {
-                    if (keyCode == KeyEvent.KEYCODE_DEL) {
-                        if (index <= 5) {
-                            return true
-                        }
-                    }
-                    return false
-                }
-            })
-        }
-    }
-
-    /* end region textwatcher */
 
 
     //    @BindingAdapter("progress")
