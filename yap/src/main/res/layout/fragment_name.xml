@@ -6,7 +6,9 @@
     <data>
 
         <import type="co.yap.translation.Strings"/>
+
         <import type="co.yap.translation.Translator"/>
+
         <import type="java.lang.reflect.Array"/>
 
         <variable
@@ -45,10 +47,11 @@
             app:coreInputHint="@{Strings.screen_name_display_text_first_name}"
             app:translateHint="@{true}"
             app:coreInputError="@{viewModel.state.firstNameError}"
-            app:coreInputText="@{viewModel.state.firstName}"
+            app:realValue="@={viewModel.state.firstName}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView3"
+            />
 
 
         <co.yap.widgets.CoreInputField
@@ -61,10 +64,11 @@
             app:translateHint="@{true}"
             app:coreInputHint="@{Strings.screen_name_display_text_last_name}"
             app:coreInputError="@{viewModel.state.lastNameError}"
-            app:coreInputText="@{viewModel.state.lastName}"
+            app:realValue="@={viewModel.state.lastName}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etFirstName"
+            android:layout_marginBottom="@dimen/margin_medium_large"
             />
 
         <co.yap.widgets.CoreButton
@@ -74,19 +78,22 @@
             app:btn_round_radius="50dp"
             android:textColor="@color/colorWhite"
             app:text="@{Strings.common_button_next}"
-            android:paddingTop="8dp"
+            android:paddingTop="@dimen/margin_medium_large"
             android:paddingBottom="8dp"
             android:minHeight="@dimen/_52sdp"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginRight="@dimen/margin_xxl"
             app:btn_text_size="@dimen/text_size_h4"
             app:layout_constraintBottom_toBottomOf="parent"
             app:btn_shape_type="rectangle"
             android:layout_marginBottom="@dimen/margin_medium_large"
             app:enableCoreButton="@{viewModel.state.valid}"
             android:onClick="@{(v) -> viewModel.handlePressOnNext()}"
-            />
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginRight="@dimen/margin_xxl"
+             app:layout_goneMarginTop="@dimen/margin_extra_large"
+            app:layout_constraintTop_toBottomOf="@+id/etLastName"
+            tools:layout_editor_absoluteX="34dp"
+            app:layout_constraintVertical_bias="0.988"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
