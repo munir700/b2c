@@ -52,15 +52,7 @@ class CoreInputField @JvmOverloads constructor(
     init {
         viewDataBinding =
             DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.custom_widget_edit_text, this, true)
-//        viewDataBinding.setVariable(BR.coreInputFieldWidget, String)
-//        viewDataBinding.setVariable(BR.coreInPutVariable, CoreInPutVariable)
-
         viewDataBinding.executePendingBindings()
-
-
-//        LayoutInflater.from(context).inflate(R.layout.custom_widget_edit_text, this, true)
-
-
         editText = etInputField
 
 

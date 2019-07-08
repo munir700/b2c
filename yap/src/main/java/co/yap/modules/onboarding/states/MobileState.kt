@@ -150,7 +150,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             drawbleRight = null
             return false
         }
-        setSuccessUI()
+        setSuccessUI(phoneNumber)
 
         return true
     }
@@ -234,11 +234,12 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         }
     }
 
-    private fun setSuccessUI() {
+    private fun setSuccessUI(phoneNumber: String) {
         refreshField = true
         valid = true
         mobileError = ""
         drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+        mobile = phoneNumber
     }
 
     private fun setErrorUI(): Boolean {

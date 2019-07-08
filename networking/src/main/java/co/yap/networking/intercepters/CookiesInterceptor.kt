@@ -53,9 +53,10 @@ internal class CookiesInterceptor : Interceptor {
                     cookie = cookie.replace(KEY_PATH_CARDS, KEY_EMPTY)
                     cookie = cookie.replace(KEY_PATH_EMPTY, KEY_EMPTY)
                     cookies.add(cookie)
+                    CookiesManager.cookieSet = cookies
                 }
             }
         }
-        CookiesManager.cookieSet = cookies
+
     }
 }

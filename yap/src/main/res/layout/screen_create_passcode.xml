@@ -31,6 +31,7 @@
             android:textAlignment="center"
             android:layout_marginTop="@dimen/margin_large"
             android:gravity="center"
+            tools:text="@string/screen_create_passcode_display_text_title"
             app:text="@{Strings.screen_create_passcode_display_text_title}"
             app:layout_constraintTop_toTopOf="parent"
             />
@@ -39,8 +40,8 @@
             android:id="@+id/dialer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            app:CoreDialerError="@{createPasscodeViewModel.state.dialerError}"
+            app:componentDialerError='@{createPasscodeViewModel.state.dialerError}'
+            app:passcodeTextWatcher="@{createPasscodeViewModel.state.getTextWatcher()}"
             android:layout_marginTop="@dimen/margin_normal"
             app:layout_constraintTop_toBottomOf="@id/tvPasscodeTitle"
             />
@@ -101,12 +102,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:paddingBottom="8dp"
             android:gravity="center"
+            android:onClick="@{(v)-> createPasscodeViewModel.handlePressOnCreatePasscodeButton()}"
             app:text="@{Strings.screen_create_passcode_button_create_passcode}"
             android:paddingEnd="@dimen/_30sdp"
             android:paddingStart="@dimen/_30sdp"
             tools:ignore="MissingConstraints"
             app:layout_constraintVertical_bias="0.75"
-            android:enabled="@{createPasscodeViewModel.state.valid}"
+            app:enableCoreButton="@{createPasscodeViewModel.state.valid}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

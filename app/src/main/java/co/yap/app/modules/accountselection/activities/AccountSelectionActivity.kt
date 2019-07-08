@@ -6,6 +6,8 @@ import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.activities.LogInActivity
+import co.yap.app.modules.login.activities.VerifyPasscodeActivity
+import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
@@ -34,11 +36,9 @@ class AccountSelectionActivity : DefaultActivity() {
         }
 
         tvSignIn.setOnClickListener {
-            startActivity(LogInActivity.newIntent(this))
-            //startActivity(CreatePasscodeActivity.newIntent(this))
-//            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
-
 //            startActivity(LogInActivity.newIntent(this))
+            startActivity(VerifyPasscodeActivity.newIntent(this))
+//            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
         }
     }
 }

@@ -56,15 +56,17 @@
         <action
             android:id="@+id/action_congratulationsFragment_to_liteDashboardActivity"
             app:destination="@id/liteDashboardActivity"
-            app:launchSingleTop="false"
-            app:popUpToInclusive="false"/>
+            app:popUpTo="@+id/onboarding_navigation"
+            app:popUpToInclusive="true"/>
     </fragment>
     <activity
         android:id="@+id/createPasscodeActivity2"
+        tools:layout="@layout/screen_create_passcode"
         android:name="co.yap.modules.onboarding.activities.CreatePasscodeActivity"
         android:label="CreatePasscodeActivity"/>
     <activity
         android:id="@+id/liteDashboardActivity"
+        tools:layout="@layout/activity_lite_dashboard"
         android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
         android:label="LiteDashboardActivity"/>
 </navigation>

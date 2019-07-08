@@ -50,6 +50,25 @@ object CoreInputUiBinder {
         return editText.getInputText()
     }
 
+ //
+    @JvmStatic
+    @BindingAdapter("coreInputText")
+    fun setCoreInputText(view: CoreInputField, value: String) {
+        if (value.equals(view.editText.text)) {
+            view.editText.setText(value)
+        }
+    }
+
+    @JvmStatic
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @InverseBindingAdapter(attribute = "coreInputText")
+    fun getCoreInputText(editText: CoreInputField): String {
+
+        return editText.getInputText()
+    }
+
+
+
     @BindingAdapter(value = ["coreInputHint", "translateHint"], requireAll = false)
     @JvmStatic
     fun setHint(view: CoreInputField, hint: String, translate: Boolean) {
@@ -59,13 +78,6 @@ object CoreInputUiBinder {
 
             view.editText.setHint(hint)
         }
-    }
-
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    @JvmStatic
-    @BindingAdapter("coreInputText")
-    fun setText(view: CoreInputField, textValue: String) {
-        view.editText.setText(textValue)
     }
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
