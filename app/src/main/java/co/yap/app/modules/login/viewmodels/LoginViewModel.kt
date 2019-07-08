@@ -8,10 +8,11 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleLiveEvent
 
 class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel,
     IRepositoryHolder<AuthRepository> {
-
+    override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: LoginState = LoginState()
 
     override val repository: AuthRepository = AuthRepository
@@ -33,8 +34,9 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     }
 
     override fun handlePressOnLogin() {
-        if (state.validate()) {
+       /* if (state.validate()) {
             performLogin(state.email, "Aaaaaa1@")
-        }
+        }*/
+        signInButtonPressEvent.postValue(true)
     }
 }
