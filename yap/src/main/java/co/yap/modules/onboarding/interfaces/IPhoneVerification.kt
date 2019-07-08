@@ -10,5 +10,7 @@ interface IPhoneVerification {
         fun handlePressOnSendButton()
         fun handlePressOnResendOTP()
     }
-    interface State : IBase.State
+    interface State : IBase.State{
+        var otp: String
+    }
 }

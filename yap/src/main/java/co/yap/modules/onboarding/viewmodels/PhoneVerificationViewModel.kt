@@ -23,7 +23,7 @@ class PhoneVerificationViewModel(application: Application) :
     }
 
     override fun handlePressOnSendButton() {
-        nextButtonPressEvent.postValue(true)
+       verifyOtp()
     }
 
     override fun handlePressOnResendOTP() {
@@ -32,9 +32,9 @@ class PhoneVerificationViewModel(application: Application) :
 
     private fun verifyOtp() {
         launch {
-            when (val response = repository.verifyOtp(VerifyOtpRequest("", "", ""))) {
-                is RetroApiResponse.Success -> ""
-                is RetroApiResponse.Error -> ""
+            when (val response = repository.verifyOtp(VerifyOtpRequest(parentViewModel!!.onboardingData.countryCode, parentViewModel!!.onboardingData.mobileNo, "0000"))) {
+                is RetroApiResponse.Success -> { nextButtonPressEvent.postValue(true)}
+                is RetroApiResponse.Error -> state.error = response.error.message
             }
         }
     }

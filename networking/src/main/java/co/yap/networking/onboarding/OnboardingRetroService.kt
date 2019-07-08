@@ -23,10 +23,10 @@ interface OnboardingRetroService {
 
     // User sign up request
     @POST(ObnoardingRepository.URL_SIGN_UP)
-    suspend fun signUp(signUpRequest: SignUpRequest): Response<SignUpResponse>
+    suspend fun signUp(@Body ignUpRequest: SignUpRequest): Response<SignUpResponse>
 
     // In onboarding send verification email to verify uer
     @POST(ObnoardingRepository.URL_SEND_VERIFICATION_EMAIL)
-    suspend fun sendVerificationEmail(sendVerificationEmailRequest: SendVerificationEmailRequest): Response<ApiResponse>
+    suspend fun sendVerificationEmail(@Body sendVerificationEmailRequest: SendVerificationEmailRequest): Response<ApiResponse>
 
 }

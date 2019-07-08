@@ -6,6 +6,14 @@ import android.content.SharedPreferences
 class SharedPreferenceManager(val context: Context) {
 
     private val PREFS_NAME = "YAPPref"
+
+
+    companion object {
+        const val KEY_APP_UUID = "KEY_APP_UUID"
+    }
+
+
+
     val sharedPref: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
 
     fun save(KEY_NAME: String, text: String) {
