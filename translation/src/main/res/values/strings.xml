@@ -85,5 +85,10 @@
     <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID and Trade License at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
 
+    <!-- Verify passcode screen -->
+    <string name="screen_verify_passcode_display_text_title">Enter your passcode to access your account</string>
+    <string name="screen_verify_passcode_button_sign_in">Sign In</string>
+    <string name="screen_verify_passcode_text_forgot_password">Forgot password?</string>
+
 
 </resources>

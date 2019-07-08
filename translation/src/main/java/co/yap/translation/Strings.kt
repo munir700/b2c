@@ -95,4 +95,9 @@ object Strings {
         "screen_onboarding_congratulations_button_complete_verification"
 
 
+    //Verify passcode screen
+    const val screen_verify_passcode_display_text_title: String ="screen_verify_passcode_display_text_title"
+    const val screen_verify_passcode_button_sign_in:String ="screen_verify_passcode_button_sign_in"
+    const val screen_verify_passcode_text_forgot_password:String ="screen_verify_passcode_text_forgot_password"
+
 }

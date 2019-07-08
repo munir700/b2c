@@ -1,14 +1,13 @@
-package co.yap.modules.onboarding.interfaces
+package co.yap.app.modules.login.interfaces
 
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.TextWatcher
 import co.yap.yapcore.IBase
 
-interface ICreatePasscode {
+interface IVerifyPasscode {
     interface View : IBase.View<ViewModel>
+
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnCreatePasscodeButton()
+        fun handlePressOnSignInButton()
     }
 
     interface State : IBase.State {

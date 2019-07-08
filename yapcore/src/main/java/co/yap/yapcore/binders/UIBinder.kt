@@ -1,5 +1,6 @@
 package co.yap.yapcore.binders
 
+
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
 import android.content.Context
@@ -8,6 +9,7 @@ import android.graphics.drawable.Drawable
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -152,6 +154,22 @@ object UIBinder {
         if (null != enable) {
             view.enableButton(enable)
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("componentDialerError")
+    fun setDialerError(view: CoreDialerPad, error: String) {
+        if (null != error && !error.isEmpty()) {
+            view.settingUIForError(error)
+        } else {
+            view.settingUIForNormal()
+        }
+
+    }
+    @JvmStatic
+    @BindingAdapter("passcodeTextWatcher")
+    fun te132mp(view:CoreDialerPad,watcher: TextWatcher){
+        view.editText.addTextChangedListener(watcher)
     }
 
     @JvmStatic
