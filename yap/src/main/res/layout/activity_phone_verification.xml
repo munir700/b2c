@@ -88,7 +88,7 @@
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="true"
+            android:enabled="false"
             android:layout_gravity="center_horizontal"
             style="@style/RectangleBtnStyle"
             android:textColor="@color/colorWhite"

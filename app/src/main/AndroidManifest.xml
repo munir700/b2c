@@ -14,6 +14,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+        <activity android:name=".modules.login.activities.VerifyPasscodeActivity">
+        </activity>
         <activity
             android:name=".modules.splash.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -23,7 +25,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity android:name=".modules.login.activities.SystemPermissionActivity">
         </activity>
         <activity
