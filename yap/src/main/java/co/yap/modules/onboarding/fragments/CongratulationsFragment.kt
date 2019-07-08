@@ -32,7 +32,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.ibanNumber = "AE07 0331 2345 6789 01** ***"
 
         btnCompleteVerification.setOnClickListener {
             navigate(R.id.action_congratulationsFragment_to_liteDashboardActivity)

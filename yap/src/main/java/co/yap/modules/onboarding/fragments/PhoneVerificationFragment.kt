@@ -1,16 +1,19 @@
 package co.yap.modules.onboarding.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.app.constants.Constants
+import co.yap.modules.onboarding.activities.CreatePasscodeActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
-import co.yap.yapcore.BaseBindingFragment
 
 
 class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
+
 
     override val viewModel: IPhoneVerification.ViewModel
         get() = ViewModelProviders.of(this).get(PhoneVerificationViewModel::class.java)
@@ -24,10 +27,27 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.nameFragment) }
+    private val nextButtonObserver = Observer<Boolean> {
+
+        startActivityForResult(
+            context?.let { CreatePasscodeActivity.newIntent(it) },
+            Constants.REQUEST_CODE_CREATE_PASSCODE
+        )
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == Constants.REQUEST_CODE_CREATE_PASSCODE) {
+            viewModel.setPasscode(data!!.getStringExtra(Constants.KEY_PASSCODE))
+            navigate(R.id.nameFragment)
+        }
+    }
+
 }

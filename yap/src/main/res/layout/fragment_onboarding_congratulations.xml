@@ -35,6 +35,7 @@
                 style="@style/ATitle3"
                 app:text="@{Strings.screen_onboarding_congratulations_display_text_title}"
                 tools:text="@string/screen_onboarding_congratulations_display_text_title"
+                app:concat="@{viewModel.state.nameList}"
                 android:layout_marginTop="@dimen/margin_extra_large"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:layout_editor_absoluteX="54dp"/>

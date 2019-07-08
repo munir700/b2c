@@ -5,9 +5,11 @@ import co.yap.networking.onboarding.requestdtos.CreateOtpRequest
 import co.yap.networking.onboarding.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.onboarding.requestdtos.SignUpRequest
 import co.yap.networking.onboarding.requestdtos.VerifyOtpRequest
+import co.yap.networking.onboarding.responsedtos.AccountInfoResponse
 import co.yap.networking.onboarding.responsedtos.SignUpResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 
@@ -29,4 +31,8 @@ interface OnboardingRetroService {
     @POST(ObnoardingRepository.URL_SEND_VERIFICATION_EMAIL)
     suspend fun sendVerificationEmail(@Body sendVerificationEmailRequest: SendVerificationEmailRequest): Response<ApiResponse>
 
+
+    // Get user account(s) Info
+    @GET(ObnoardingRepository.URL_ACCOUNT_INFO)
+    suspend fun getAccountInfo(): Response<AccountInfoResponse>
 }
