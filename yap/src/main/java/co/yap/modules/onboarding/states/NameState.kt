@@ -11,7 +11,6 @@ class NameState : BaseState(), IName.State {
     override var dummyStrings: Array<String> = arrayOf("0123")
 
 
-
     @get:Bindable
     override var firstName: String = ""
         set(value) {
@@ -51,6 +50,7 @@ class NameState : BaseState(), IName.State {
         get() = validate()
 
     private fun validate(): Boolean {
+
         return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()
     }
 
@@ -60,15 +60,13 @@ class NameState : BaseState(), IName.State {
         if (!value.isNullOrEmpty() && value.length >= 3) {
 
             if (StringUtils.validateName(value)) {
-                //set tick tru
-//                remov error
-                firstNameError = firstName
+                firstNameError = ""
                 notifyPropertyChanged(BR.firstNameError)
+
             } else {
-                //set tick faalse err
-//                set error
-                firstNameError = firstName
-                notifyPropertyChanged(BR.firstNameError)
+                valid = false
+                lastNameError = "error"
+                firstNameError = ""
 
             }
         }
@@ -79,15 +77,12 @@ class NameState : BaseState(), IName.State {
         if (!value.isNullOrEmpty() && value.length >= 3) {
 
             if (StringUtils.validateName(value)) {
-                //set tick tru
-//                remov error
-                lastNameError = lastName
+                valid = true
+                lastNameError = ""
                 notifyPropertyChanged(BR.lastNameError)
             } else {
-
-                //set tick faalse err
-//                set error
-                lastNameError = lastName
+                valid = false
+                lastNameError = "error"
                 notifyPropertyChanged(BR.lastNameError)
 
             }
