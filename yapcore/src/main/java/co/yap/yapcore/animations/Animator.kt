@@ -3,7 +3,7 @@ package co.yap.yapcore.animations
 import android.animation.Animator
 import android.animation.AnimatorSet
 
-abstract class CoreAnimator {
+abstract class Animator : IAnimator {
     /**
      * Run a set of Animators in Parallel
      */

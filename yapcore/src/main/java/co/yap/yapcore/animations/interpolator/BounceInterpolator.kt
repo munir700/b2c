@@ -1,4 +1,4 @@
-package co.yap.yapcore.animations
+package co.yap.yapcore.animations.interpolator
 
 import kotlin.math.cos
 import kotlin.math.pow

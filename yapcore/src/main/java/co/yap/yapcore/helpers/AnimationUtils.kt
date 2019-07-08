@@ -3,18 +3,13 @@ package co.yap.yapcore.helpers
 import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
 import android.content.Context
 import android.view.View
-import android.view.animation.Animation
+import android.view.animation.*
 import android.view.animation.AnimationUtils
-import android.view.animation.Interpolator
-import android.view.animation.OvershootInterpolator
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes
 import co.yap.yapcore.animations.animators.*
-import com.daimajia.easing.Glider
-import com.daimajia.easing.Skill
 
 object AnimationUtils {
 
@@ -43,30 +38,53 @@ object AnimationUtils {
 
 
     fun fadeIn(view: View, duration: Long? = 500): AnimatorSet = FadeInAnimator().with(view, duration)
+
     fun fadeOut(view: View, duration: Long? = 500): AnimatorSet = FadeOutAnimator().with(view, duration)
-    fun scale(view: View, duration: Long? = 500, from: Float, to: Float): AnimatorSet = ScaleAnimator(from, to).with(view, duration)
-    fun bounce(view: View, duration: Long? = 500): AnimatorSet = BounceAnimator().with(view, duration)
-    fun translateY(view: View, duration: Long? = 500, from: Float, to: Float): AnimatorSet = TranslateAnimator("y", from, to).with(view, duration)
-    fun translateX(view: View, duration: Long? = 500, from: Float, to: Float): AnimatorSet = TranslateAnimator("x", from, to).with(view, duration)
+
+    fun scale(
+        view: View,
+        duration: Long? = 500,
+        from: Float,
+        to: Float,
+        interpolator: Interpolator? = LinearInterpolator()
+    ): AnimatorSet =
+        ScaleAnimator(from, to, interpolator).with(view, duration)
+
+    fun pulse(view: View, duration: Long? = 500): AnimatorSet = PulseAnimator().with(view, duration)
+
+    fun bounce(view: View, duration: Long? = 500, from: Float, to: Float): AnimatorSet =
+        scale(view, duration, from, to, OvershootInterpolator())
+
+    fun slideVertical(
+        view: View,
+        duration: Long? = 500,
+        from: Float,
+        to: Float,
+        interpolator: Interpolator? = DecelerateInterpolator()
+    ): AnimatorSet = TranslateAnimator("y", from, to, interpolator).with(view, duration)
+
+    fun slideHorizontal(
+        view: View,
+        duration: Long? = 500,
+        from: Float,
+        to: Float,
+        interpolator: Interpolator? = DecelerateInterpolator()
+    ): AnimatorSet = TranslateAnimator("x", from, to, interpolator).with(view, duration)
 
     /**
      * Translate and FadeIn animation running in parallel on the view
      */
-    fun enterSlideAnimation(
+    fun jumpInAnimation(
         view: View,
         duration: Long? = 500,
         from: Float? = view.y + 300,
-        to: Float? = view.y,
-        interpolator: Interpolator? = OvershootInterpolator()
-    ): AnimatorSet = runTogether(fadeIn(view, 200), translateY(view, duration!!, from!!, to!!).apply {
-        this.interpolator = interpolator
-    })
+        to: Float? = view.y
+    ): AnimatorSet = runTogether(fadeIn(view, 200), slideVertical(view, duration!!, from!!, to!!, OvershootInterpolator()))
 
     /**
-     * Translate and FadeIn animation running in parallel on the view
+     * Bounce and FadeIn animation running in parallel on the view
      */
-    fun enterScaleAnimation(view: View): AnimatorSet = runTogether(fadeIn(view, 150), scale(view, 250, 0.2f, 1.0f))
-
+    fun outOfTheBoxAnimation(view: View): AnimatorSet = runTogether(fadeIn(view, 150), bounce(view, 300, 0.5f, 1f))
 
 
 }
