@@ -4,12 +4,25 @@ import org.json.JSONArray
 import java.util.regex.Pattern
 
 object StringUtils {
-    fun validateName(text: String): Boolean {
-        val expression = "^[a-zA-Z'. ]*$"
-        val pattern = Pattern.compile(expression)
-        return pattern.matcher(text).matches()
-    }
 
+
+    fun validateName(name: String): Boolean {
+
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression = "^[a-zA-Z'. ]*$"
+        inputStr = name
+        val pattern = Pattern.compile(expression)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches() && !name.isNullOrEmpty()) {
+            if (name.length >= 3) {
+                isValid = true
+            }
+        }
+
+        return isValid
+    }
 
     /**
      * Function takes a string value like "["hello", "world", "1"]"
