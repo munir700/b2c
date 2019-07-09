@@ -79,7 +79,7 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 //            predictedSequence == passcode
 //        }
 //
-        dialerError = "$passcode is sequence: $isSequenced"
+//        dialerError = "$passcode is sequence: $isSequenced"
 
     }
 

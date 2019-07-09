@@ -15,7 +15,7 @@ class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreateP
     override fun handlePressOnCreatePasscodeButton() {
         state.performAggressiveValidation()
         //if (!state.similar && !state.sequence) {
-            // nextButtonPressEvent.value = true
+             nextButtonPressEvent.value = true
        /* } else {
             state.dialerError
         }*/
