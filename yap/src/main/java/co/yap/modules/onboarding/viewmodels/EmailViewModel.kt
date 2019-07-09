@@ -29,7 +29,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     override fun handlePressOnNext() {
         signUp()
-        postDemographicData()
+
     }
 
 
@@ -42,19 +42,30 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.countryCode,
                     parentViewModel!!.onboardingData.mobileNo,
                     state.twoWayTextWatcher,
-                    "5550",
+                    parentViewModel!!.onboardingData.passcode,
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-                is RetroApiResponse.Success -> nextButtonPressEvent.postValue(true)
+                is RetroApiResponse.Success -> {
+                    sendVerificationEmail()
+                    postDemographicData()
+                }
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
+
         }
+
+
     }
 
-    private fun sendVerifiationEmail() {
+    private fun sendVerificationEmail() {
         launch {
-            when (val response = repository.sendVerificationEmail(SendVerificationEmailRequest("", ""))) {
+            when (val response = repository.sendVerificationEmail(
+                SendVerificationEmailRequest(
+                    state.twoWayTextWatcher,
+                    parentViewModel!!.onboardingData.accountType.toString()
+                )
+            )) {
                 is RetroApiResponse.Success -> ""
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
@@ -62,7 +73,8 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     private fun postDemographicData() {
-        val sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
+
+        val sharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             when (val response = authRepository.postDemographicData(
@@ -75,7 +87,19 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     "Android"
                 )
             )) {
-                is RetroApiResponse.Success -> ""
+                is RetroApiResponse.Success -> getAccountInfo()
+                is RetroApiResponse.Error -> state.error = response.error.message
+            }
+        }
+    }
+
+    private fun getAccountInfo() {
+        launch {
+            when (val response = repository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
+                    nextButtonPressEvent.postValue(true)
+                }
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
         }

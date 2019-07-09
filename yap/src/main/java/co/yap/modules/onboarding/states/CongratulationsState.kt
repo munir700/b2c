@@ -7,6 +7,8 @@ import co.yap.yapcore.BaseState
 
 class CongratulationsState : BaseState(), ICongratulations.State {
 
+    val nameList: Array<String?> = arrayOfNulls(1)
+
     @get:Bindable
     override var name: String = ""
         set(value) {

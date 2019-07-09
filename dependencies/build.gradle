@@ -37,7 +37,6 @@ project.ext {
             material                 : 'com.google.android.material:material:1.0.0',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
             otpView                  : 'com.github.aabhasr1:OtpView:1.0.6',
-            textCounter              : 'ru.bullyboo.animation:text_counter:1.0.2',
             ticker                   : 'com.robinhood.ticker:ticker:2.0.1',
 
             // Dagger
@@ -127,7 +126,6 @@ project.ext {
             [configuration: "implementation", dependency: libraries.navigationFragment],
             [configuration: "implementation", dependency: libraries.navigationUI],
             [configuration: "implementation", dependency: libraries.viewpagerDots],
-            [configuration: "implementation", dependency: libraries.textCounter],
             [configuration: "implementation", dependency: libraries.ticker]
     ]
 

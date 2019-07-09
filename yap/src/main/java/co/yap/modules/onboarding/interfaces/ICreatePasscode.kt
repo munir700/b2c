@@ -4,10 +4,12 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleLiveEvent
 
 interface ICreatePasscode {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
+        val nextButtonPressEvent: SingleLiveEvent<Boolean>
         fun handlePressOnCreatePasscodeButton()
     }
 

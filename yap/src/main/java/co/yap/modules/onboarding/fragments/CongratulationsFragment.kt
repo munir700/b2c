@@ -9,7 +9,6 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -20,14 +19,10 @@ import co.yap.R
 import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
+import co.yap.translation.Strings
 import co.yap.widgets.AnimatingProgressBar
 import co.yap.yapcore.helpers.AnimationUtils
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
-import ru.bullyboo.text_animation.TextCounter
-import kotlin.math.abs
-import kotlin.math.max
-import kotlin.math.min
-import kotlin.math.roundToLong
 
 
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
@@ -44,7 +39,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.ibanNumber = "AE07 0331 2345 6789 01** ***"
 
         btnCompleteVerification.setOnClickListener {
             navigate(R.id.action_congratulationsFragment_to_liteDashboardActivity)
@@ -143,36 +137,13 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     private fun handleTextViewWithAnimatedValue(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator =
         ValueAnimator.ofInt(initialValue, finalValue).apply {
             duration = 1500
-            addUpdateListener { animator -> textview.text = animator.animatedValue.toString() }
+            addUpdateListener { animator ->
+                textview.text = getString(
+                    Strings.screen_onboarding_congratulations_display_text_sub_title,
+                    animator.animatedValue.toString()
+                )
+            }
         }
-
-
-    private fun handleTextView(initialValue: Int, finalValue: Int, targetTextview: TextView) {
-        val decelerateInterpolator = DecelerateInterpolator(1f)
-        val newInitialValue = min(initialValue, finalValue)
-        val newFinalValue = max(initialValue, finalValue)
-        val difference = abs(finalValue - initialValue)
-        val handler = Handler()
-        for (count in newInitialValue..newFinalValue) {
-            //Time to display the current value to the user.
-            val time =
-                (decelerateInterpolator.getInterpolation(count.toFloat() / difference) * 100).roundToLong() * count
-            val finalCount = if (initialValue > finalValue) initialValue - count else count
-            handler.postDelayed({ targetTextview.text = finalCount.toString() }, time.toLong())
-        }
-    }
-
-    private fun handleTextCounter(view: TextView) {
-        TextCounter.newBuilder()
-            .setTextView(view)
-            .setType(TextCounter.LONG)
-            // .setCustomAnimation(modeBuilder)
-            .setMode(TextCounter.ACCELERATION_DECELERATION_MODE)
-            .from(100L)
-            .to(1000L)
-            .build()
-            .start()
-    }
 
 
 }
