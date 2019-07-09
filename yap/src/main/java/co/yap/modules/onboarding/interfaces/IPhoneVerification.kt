@@ -13,5 +13,6 @@ interface IPhoneVerification {
     }
     interface State : IBase.State{
         var otp: String
+        var valid: Boolean
     }
 }

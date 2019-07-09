@@ -2,19 +2,28 @@
           package="co.yap">
 
     <application>
-        <activity android:name=".modules.onboarding.activities.WelcomeActivity"/>
-        <activity android:name=".modules.onboarding.activities.LiteDashboardActivity">
+        <activity
+            android:name=".modules.onboarding.activities.WelcomeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.onboarding.activities.LiteDashboardActivity"
+            android:screenOrientation="portrait">
         </activity>
 
-        <activity android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity">
-        </activity>
+        <activity
+            android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.onboarding.activities.OnboardingActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/onboarding_navigation"/>
         </activity>
-        <activity android:name=".modules.onboarding.activities.CreatePasscodeActivity"/>
+        <activity
+            android:name=".modules.onboarding.activities.CreatePasscodeActivity"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

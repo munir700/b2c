@@ -69,6 +69,16 @@ object Strings {
     const val screen_enter_email_b2b_display_text_sub_heading: String =
         "screen_enter_email_b2b_display_text_sub_heading"
     const val screen_enter_email_display_text_email_address: String = "screen_enter_email_display_text_email_address"
+    /* Email verification Screen */
+
+    const val screen_email_verification_b2c_display_text_email_sent: String =
+        "screen_email_verification_b2c_display_text_email_sent"
+    const val screen_email_verification_b2c_display_text_email_confirmation: String =
+        "screen_email_verification_b2c_display_text_email_confirmation"
+    const val screen_email_verification_b2b_display_text_email_sent: String =
+        "screen_email_verification_b2b_display_text_email_sent"
+    const val screen_email_verification_b2b_display_text_email_confirmation: String =
+        "screen_email_verification_b2b_display_text_email_confirmation"
 
     //Create passcode screen
     const val screen_create_passcode_display_text_title: String = "screen_create_passcode_display_text_title"

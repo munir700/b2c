@@ -5,14 +5,18 @@ import android.os.Build
 import android.text.Editable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import co.yap.translation.Translator
 import co.yap.widgets.CoreInputField
+import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 
 
 object CoreInputUiBinder {
@@ -35,6 +39,41 @@ object CoreInputUiBinder {
     }
 
     @JvmStatic
+    @BindingAdapter("isActivated")
+    fun setIsActivated(view: CoreInputField, value: Boolean) {
+        if (!value) {
+            view.etInputField.isActivated = value
+
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("onEditorActionListener")
+    fun setOnEditorActionListener(view: CoreInputField, check:Boolean/*, onEditorActionListener: View.setOnEditorActionListener*/) {
+
+        view.etInputField.setOnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                println("IME_ACTION_DONE clickec")
+                Log.i("aactionzz","IME_ACTION_DONE clickec")
+                true
+            } else if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                Log.i("aactionzz","IME_ACTION_NEXT clickec")
+
+                true
+            } else {
+                println("else clickec")
+
+                false
+            }
+        }
+    }
+    @JvmStatic
+    @BindingAdapter("onEditorActionDoneListener")
+    fun setOnEditorActionDoneLitener(view: CoreInputField,listener: TextView.OnEditorActionListener  ) {
+        view.etInputField.setOnEditorActionListener(listener)
+    }
+
+    @JvmStatic
     @BindingAdapter("realValue")
     fun setRealValue(view: CoreInputField, value: String) {
         if (value.equals(view.editText.text)) {
@@ -50,7 +89,7 @@ object CoreInputUiBinder {
         return editText.getInputText()
     }
 
- //
+    //
     @JvmStatic
     @BindingAdapter("coreInputText")
     fun setCoreInputText(view: CoreInputField, value: String) {
@@ -66,7 +105,6 @@ object CoreInputUiBinder {
 
         return editText.getInputText()
     }
-
 
 
     @BindingAdapter(value = ["coreInputHint", "translateHint"], requireAll = false)
