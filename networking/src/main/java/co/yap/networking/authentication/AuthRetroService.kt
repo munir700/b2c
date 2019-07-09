@@ -1,7 +1,10 @@
 package co.yap.networking.authentication
 
+import co.yap.networking.authentication.requestdtos.CreateOtpRequest
 import co.yap.networking.authentication.requestdtos.DemographicDataRequest
+import co.yap.networking.authentication.requestdtos.VerifyOtpRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
+import co.yap.networking.authentication.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -24,11 +27,20 @@ interface AuthRetroService {
     suspend fun logout(@Query("id_token") idToken: String): Response<ApiResponse>
 
     // Post demographic data
-    @POST(AuthRepository.URL_POST_DEMOGRAPHIC_DATA)
+    @PUT(AuthRepository.URL_POST_DEMOGRAPHIC_DATA)
     suspend fun postDemographicData(@Body demographicDataRequest: DemographicDataRequest): Response<ApiResponse>
 
     // Validate demographic data
-    @POST(AuthRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
-    suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ApiResponse>
+    @GET(AuthRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
+    suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ValidateDeviceResponse>
+
+
+    // Create otp request
+    @POST(AuthRepository.URL_CREATE_OTP)
+    suspend fun createOtp(@Body createOtpRequest: CreateOtpRequest): Response<ApiResponse>
+
+    // Verify otp request
+    @PUT(AuthRepository.URL_VERIFY_OTP)
+    suspend fun verifyOtp(@Body verifyOtpRequest: VerifyOtpRequest): Response<ValidateDeviceResponse>
 
 }

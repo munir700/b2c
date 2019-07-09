@@ -2,10 +2,11 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
-import android.view.KeyEvent
+ import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
+import co.yap.app.login.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.authentication.AuthRepository
@@ -24,7 +25,9 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     override val state: EmailState = EmailState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: ObnoardingRepository = ObnoardingRepository
-    val authRepository: AuthRepository = AuthRepository
+    private val authRepository: AuthRepository = AuthRepository
+    private val sharedPreferenceManager = SharedPreferenceManager(context)
+
 
     override fun onResume() {
         super.onResume()
@@ -38,13 +41,18 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     override fun handlePressOnNext() {
-        signUp()
-        postDemographicData()
+        if (state.emailTitle.equals(getString(R.string.screen_email_verification_display_text_title))){
+            postDemographicData()
+        }
+        else{
+            signUp()
+        }
     }
 
 
     private fun signUp() {
         launch {
+            state.loading = true
             when (val response = repository.signUp(
                 SignUpRequest(
                     parentViewModel!!.onboardingData.firstName,
@@ -52,21 +60,30 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.countryCode,
                     parentViewModel!!.onboardingData.mobileNo,
                     state.twoWayTextWatcher,
-                    "5550",
+                    parentViewModel!!.onboardingData.passcode,
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
-                    setVerifictionLabel()
-//                    nextButtonPressEvent.postValue(true)
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_PASSCODE,
+                        EncryptionUtils.encrypt(context, parentViewModel!!.onboardingData.passcode)!!
+                    )
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_USERNAME,
+                        EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
+                    )
+                    state.loading=false
+                    sendVerificationEmail()
                 }
-                is RetroApiResponse.Error -> state.error = response.error.message
-            }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+             }
+            state.loading = false
         }
     }
 
-    private fun setVerifictionLabel() {
+     private fun setVerifictionLabel() {
+         state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
 
         val screen_email_verification_b2c_display_text_email_sent: String =
             getString(R.string.screen_email_verification_b2c_display_text_email_sent)
@@ -84,19 +101,29 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     }
 
-    private fun sendVerifiationEmail() {
-        launch {
-            when (val response = repository.sendVerificationEmail(SendVerificationEmailRequest("", ""))) {
-                is RetroApiResponse.Success -> ""
-                is RetroApiResponse.Error -> state.error = response.error.message
-            }
+    private fun sendVerificationEmail() {
+         launch {
+            state.loading = true
+            when (val response = repository.sendVerificationEmail(
+                SendVerificationEmailRequest(
+                    state.twoWayTextWatcher,
+                    parentViewModel!!.onboardingData.accountType.toString()
+                )
+            )) {
+                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Success -> {
+                    setVerifictionLabel()
+                    //                    postDemographicData() on click on second time next
+
+                }            }
+            state.loading = false
         }
     }
 
     private fun postDemographicData() {
-        val sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
+            state.loading = true
             when (val response = authRepository.postDemographicData(
                 DemographicDataRequest(
                     "LOGIN",
@@ -107,9 +134,25 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     "Android"
                 )
             )) {
-                is RetroApiResponse.Success -> ""
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Success -> getAccountInfo()
+                is RetroApiResponse.Error -> state.toast = response.error.message
             }
+            state.loading = false
+        }
+    }
+
+    private fun getAccountInfo() {
+        launch {
+            state.loading = true
+            when (val response = repository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
+                    nextButtonPressEvent.value = true
+
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
         }
     }
 

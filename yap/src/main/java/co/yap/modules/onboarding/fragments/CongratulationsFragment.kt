@@ -1,21 +1,26 @@
 package co.yap.modules.onboarding.fragments
 
 import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.graphics.Rect
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import android.view.animation.LinearInterpolator
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
+import co.yap.translation.Strings
+import co.yap.widgets.AnimatingProgressBar
 import co.yap.yapcore.helpers.AnimationUtils
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
@@ -28,16 +33,22 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     override val viewModel: ICongratulations.ViewModel
         get() = ViewModelProviders.of(this).get(CongratulationsViewModel::class.java)
 
+    private val windowSize: Rect = Rect() // to hold the size of the visible window
+
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.ibanNumber = "AE07 0331 2345 6789 01** ***"
 
         btnCompleteVerification.setOnClickListener {
             navigate(R.id.action_congratulationsFragment_to_liteDashboardActivity)
         }
-        hideAll()
+
+        val display = activity!!.windowManager.defaultDisplay
+        display.getRectSize(windowSize)
+
+        // hide all in the beginning
+        rootContainer.children.forEach { it.alpha = 0f }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -45,35 +56,93 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 500)
     }
 
-    private fun hideAll() {
-        rootContainer.children.forEach { it.alpha = 0f }
-    }
-
     private fun runAnimations() {
-
         AnimationUtils.runSequentially(
+            toolbarAnimation(),
             titleAnimation(),
             // Card Animation
-            AnimationUtils.enterScaleAnimation(ivCard),
+            AnimationUtils.outOfTheBoxAnimation(ivCard),
             // Bottom views animation
             AnimationUtils.runTogether(
-                AnimationUtils.enterSlideAnimation(tvIbanTitle),
-                AnimationUtils.enterSlideAnimation(tvIban).apply { startDelay = 100 },
-                AnimationUtils.enterSlideAnimation(tvMeetingNotes).apply { startDelay = 200 },
-                AnimationUtils.enterSlideAnimation(btnCompleteVerification).apply { startDelay = 300 }
+                AnimationUtils.jumpInAnimation(tvIbanTitle),
+                AnimationUtils.jumpInAnimation(tvIban).apply { startDelay = 100 },
+                AnimationUtils.jumpInAnimation(tvMeetingNotes).apply { startDelay = 200 },
+                AnimationUtils.jumpInAnimation(btnCompleteVerification).apply { startDelay = 300 }
             )
         ).start()
     }
 
-    private fun titleAnimation(): AnimatorSet = AnimationUtils.runTogether(
-        AnimationUtils.enterSlideAnimation(tvTitle, 500, tvTitle.y + 600, tvTitle.y, AccelerateInterpolator()),
-        AnimationUtils.enterSlideAnimation(
-            tvSubTitle,
-            500,
-            tvSubTitle.y + 600,
-            tvSubTitle.y,
-            AccelerateInterpolator()
-        ).apply { startDelay = 50 }
-    )
+    private fun titleAnimation(): AnimatorSet {
+        val titleOriginalPosition = tvTitle.y
+        val subTitleOriginalPosition = tvSubTitle.y
+        val titleMidScreenPosition = (windowSize.height() / 2 - (tvTitle.height)).toFloat()
+        val subTitleMidScreenPosition = (windowSize.height() / 2 + 40).toFloat()
+
+
+        // move to center position instantly without animation
+        val moveToCenter = AnimationUtils.runTogether(
+            AnimationUtils.slideVertical(tvTitle, 0, titleOriginalPosition, titleMidScreenPosition),
+            AnimationUtils.slideVertical(tvSubTitle, 0, subTitleOriginalPosition, subTitleMidScreenPosition)
+        )
+
+        // appear with alpha and scale animation
+        val appearance = AnimationUtils.runTogether(
+            AnimationUtils.outOfTheBoxAnimation(tvTitle),
+            AnimationUtils.outOfTheBoxAnimation(tvSubTitle).apply { startDelay = 100 }
+        )
+
+        val counter = counterAnimation(100, viewModel.elapsedOnboardingTime.toInt(), tvSubTitle)
+
+        val moveFromCenterToTop = AnimationUtils.runTogether(
+            AnimationUtils.slideVertical(
+                view = tvTitle,
+                from = titleMidScreenPosition,
+                to = titleOriginalPosition,
+                interpolator = AccelerateInterpolator()
+            ),
+            AnimationUtils.slideVertical(
+                view = tvSubTitle,
+                from = subTitleMidScreenPosition,
+                to = subTitleOriginalPosition,
+                interpolator = AccelerateInterpolator()
+            ).apply { startDelay = 50 }
+        )
+
+        return AnimationUtils.runSequentially(moveToCenter, appearance, counter, moveFromCenterToTop.apply { startDelay = 300 })
+    }
+
+    private fun toolbarAnimation(): AnimatorSet {
+        val checkButton = (activity as OnboardingActivity).findViewById<ImageView>(R.id.tbBtnCheck)
+        val backButton = (activity as OnboardingActivity).findViewById<ImageView>(R.id.tbBtnBack)
+        val progressbar = (activity as OnboardingActivity).findViewById<AnimatingProgressBar>(R.id.tbProgressBar)
+
+        val checkBtnEndPosition = (windowSize.width() / 2) - (checkButton.width / 2)
+
+        return AnimationUtils.runSequentially(
+            AnimationUtils.pulse(checkButton),
+            AnimationUtils.runTogether(
+                AnimationUtils.fadeOut(backButton, 200),
+                AnimationUtils.fadeOut(progressbar, 200)
+            ),
+            AnimationUtils.slideHorizontal(
+                view = checkButton,
+                from = checkButton.x,
+                to = checkBtnEndPosition.toFloat(),
+                duration = 500
+            )
+        )
+
+    }
+
+    private fun counterAnimation(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator =
+        AnimationUtils.valueCounter(initialValue, finalValue).apply {
+            addUpdateListener { animator ->
+                textview.text = getString(
+                    Strings.screen_onboarding_congratulations_display_text_sub_title,
+                    animator.animatedValue.toString()
+                )
+            }
+        }
+
 
 }

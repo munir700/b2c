@@ -1,6 +1,5 @@
 package co.yap.modules.onboarding.interfaces
 
-import android.widget.TextView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -8,13 +7,15 @@ interface IPhoneVerificationSignIn {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
         val nextButtonPressEvent: SingleLiveEvent<Boolean>
+        val verifyOtpResult: SingleLiveEvent<Boolean>
         fun handlePressOnSendButton()
         fun handlePressOnResendOTP()
-        fun onEditorActionListener(): TextView.OnEditorActionListener
+        fun verifyOtp()
     }
 
-    interface State : IBase.State {
+    interface State : IBase.State{
         var otp: String
-        var valid: Boolean
+        var passcode: String
+        var username: String
     }
 }

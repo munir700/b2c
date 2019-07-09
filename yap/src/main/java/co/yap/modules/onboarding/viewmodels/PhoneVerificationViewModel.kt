@@ -1,9 +1,6 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.states.PhoneVerificationState
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -35,6 +32,7 @@ class PhoneVerificationViewModel(application: Application) :
 
     private fun verifyOtp() {
         launch {
+            state.loading = true
             when (val response = repository.verifyOtp(
                 VerifyOtpRequest(
                     parentViewModel!!.onboardingData.countryCode,
@@ -43,23 +41,15 @@ class PhoneVerificationViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    nextButtonPressEvent.postValue(true)
+                    nextButtonPressEvent.value = true
                 }
                 is RetroApiResponse.Error -> state.error = response.error.message
             }
+            state.loading = false
         }
     }
 
-    override fun onEditorActionListener(): TextView.OnEditorActionListener {
-        return object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                   if (parentViewModel!!.onboardingData.countryCode.length==4){
-                       handlePressOnSendButton()
-                   }
-                }
-                return false
-            }
-        }
+    override fun setPasscode(passcode: String) {
+        parentViewModel!!.onboardingData.passcode = passcode
     }
 }

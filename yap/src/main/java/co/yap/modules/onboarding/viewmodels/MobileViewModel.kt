@@ -1,7 +1,6 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
-import android.util.Log
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -12,6 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.onboarding.ObnoardingRepository
 import co.yap.networking.onboarding.requestdtos.CreateOtpRequest
 import co.yap.yapcore.SingleLiveEvent
+import java.util.*
 
 class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobile.State>(application),
     IMobile.ViewModel, IRepositoryHolder<ObnoardingRepository> {
@@ -26,6 +26,10 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     }
 
     override fun handlePressOnNext() {
+        // Record the time
+        parentViewModel?.onboardingData?.startTime = Date()
+
+        // Send OTP request
         createOtp()
     }
 
@@ -42,10 +46,11 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
 
     private fun createOtp() {
 
-        var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
-        var countryCode: String = state.countryCode.trim().replace("+", "00")
+        val mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
+        val countryCode: String = state.countryCode.trim().replace("+", "00")
 
         launch {
+            state.loading = true
             when (val response = repository.createOtp(
                 CreateOtpRequest(
                     countryCode,
@@ -54,7 +59,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    nextButtonPressEvent.postValue(true)
+                    nextButtonPressEvent.value = true
                     parentViewModel!!.onboardingData.countryCode = countryCode
                     parentViewModel!!.onboardingData.mobileNo = mobileNumber
 
@@ -65,6 +70,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
                     state.mobileError = response.error.message
                 }
             }
+            state.loading = false
         }
     }
 }

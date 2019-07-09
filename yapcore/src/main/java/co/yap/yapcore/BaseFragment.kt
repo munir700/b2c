@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import co.yap.translation.Translator
 
 
-abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V> {
+abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,11 +52,11 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.Vi
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) {
-            fragmentManager?.let { progressDialogueFragment.show(it, "loading") }
-
+            if (!progressDialogueFragment.isAdded)
+                fragmentManager?.let { progressDialogueFragment.show(it, "loading") }
         } else {
-            progressDialogueFragment.dismiss()
-
+            if (progressDialogueFragment.isAdded)
+                progressDialogueFragment.dismiss()
         }
     }
 
@@ -101,17 +101,21 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.Vi
     }
 
     override fun getString(resourceKey: String): String = Translator.getString(context!!, resourceKey)
+    fun getString(resourceKey: String, vararg arg: String): String = Translator.getString(context!!, resourceKey, *arg)
 
 
-    private val stateObserver = object: Observable.OnPropertyChangedCallback() {
+    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
                 showToast(viewModel.state.toast)
             }
+            if (propertyId == BR.loading) {
+                showLoader(viewModel.state.loading)
+            }
         }
     }
 
-    private fun registerStateListeners () {
+    private fun registerStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }
@@ -120,7 +124,7 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.Vi
         }
     }
 
-    private fun unregisterStateListeners () {
+    private fun unregisterStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.unregisterLifecycleOwner(this)
         }
