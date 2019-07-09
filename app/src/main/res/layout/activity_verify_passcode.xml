@@ -52,6 +52,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:dialer_pass_code="passcode"
+            android:layout_marginTop="@dimen/margin_normal"
             app:componentDialerError='@{viewModel.state.dialerError}'
             app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}"
             app:layout_constraintTop_toBottomOf="@id/tvVerifyPasscodeTitle"
