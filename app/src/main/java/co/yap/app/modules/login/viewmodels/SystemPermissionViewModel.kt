@@ -2,17 +2,10 @@ package co.yap.app.modules.login.viewmodels
 
 import android.annotation.TargetApi
 import android.app.Application
-import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import android.opengl.Visibility
 import android.os.Build
-import android.view.View
 import co.yap.app.R
 import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.ISystemPermission
-import co.yap.app.modules.login.models.SystemPermissionsContent
 import co.yap.app.modules.login.states.SystemPermissionState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
