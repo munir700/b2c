@@ -29,5 +29,6 @@ interface IEmail {
         var twoWayTextWatcher: String
         var emailTitle: String
         var emailVerificationTitle: String
+        var emailBtnTitle: String
     }
 }

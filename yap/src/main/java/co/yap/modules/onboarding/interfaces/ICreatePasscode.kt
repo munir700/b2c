@@ -1,7 +1,5 @@
 package co.yap.modules.onboarding.interfaces
 
-import android.text.Spannable
-import android.text.SpannableString
 import android.text.TextWatcher
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
@@ -21,5 +19,6 @@ interface ICreatePasscode {
         fun validationPasscode(passcodeText: String)
         var sequence: Boolean
         var similar: Boolean
+        fun checkButtonValidation()
     }
 }

@@ -63,6 +63,7 @@ class NameState : BaseState(), IName.State {
                 firstNameError = ""
                 notifyPropertyChanged(BR.firstNameError)
 
+
             } else {
                 valid = false
                 lastNameError = "error"

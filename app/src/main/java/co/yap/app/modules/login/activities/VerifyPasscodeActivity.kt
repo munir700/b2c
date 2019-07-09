@@ -21,6 +21,7 @@ import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.modules.onboarding.activities.PhoneVerificationSignInActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingActivity
+import kotlinx.android.synthetic.main.activity_verify_passcode.*
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_verify_passcode.*
 

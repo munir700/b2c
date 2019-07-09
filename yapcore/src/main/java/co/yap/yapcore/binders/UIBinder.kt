@@ -128,6 +128,12 @@ object UIBinder {
         view.isPressed = selected
     }
 
+    @BindingAdapter("selected")
+    @JvmStatic
+    fun setSelected(view: TextView, selected: Boolean) {
+        view.isSelected = selected
+    }
+
     @BindingAdapter("entries", "layout")
     @JvmStatic
     fun <T : IBindable> setEntries(
