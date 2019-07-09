@@ -34,6 +34,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override fun verifyOtp() {
         launch {
+            state.loading = true
             when (val response =
                 repository.verifyOtp(VerifyOtpRequest(Constants.ACTION_DEVICE_VERIFICATION, state.otp))) {
                 is RetroApiResponse.Success -> {
@@ -55,7 +56,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
-
+            state.loading = false
         }
     }
 }
