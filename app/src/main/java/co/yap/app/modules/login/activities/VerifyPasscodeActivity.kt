@@ -8,6 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.constants.Constants
 import co.yap.app.login.BiometricCallback
 import co.yap.app.login.BiometricManager
 import co.yap.app.login.BiometricUtil
@@ -80,13 +81,21 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     private val signInButtonObserver = Observer<Boolean> {
         viewModel.isFingerprintLogin = false
         viewModel.state.passcode = dialer.getText()
-        setUsername()
+        if (!sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
+            setUsername()
+        } else {
+            viewModel.state.username = EncryptionUtils.decrypt(
+                this,
+                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+            ) as String
+        }
         viewModel.login()
     }
 
     private val loginSuccessObserver = Observer<Boolean> {
 
         if (viewModel.isFingerprintLogin) {
+            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
             startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
         } else {
             viewModel.validateDevice()
@@ -97,7 +106,27 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
     private val validateDeviceResultObserver = Observer<Boolean> {
         if (it) {
-            startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+            if (!sharedPreferenceManager.getValueBoolien(
+                    SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                    false
+                )
+            ) {
+
+                if (BiometricUtil.isFingerprintSupported
+                    && BiometricUtil.isHardwareSupported(this@VerifyPasscodeActivity)
+                    && BiometricUtil.isPermissionGranted(this@VerifyPasscodeActivity)
+                    && BiometricUtil.isFingerprintAvailable(this@VerifyPasscodeActivity)
+                ) {
+                    startActivity(SystemPermissionActivity.newIntent(this, Constants.TOUCH_ID_SCREEN_TYPE))
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
+                } else {
+                    startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+                }
+
+            } else {
+                startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+            }
         } else {
             viewModel.createOtp()
         }
