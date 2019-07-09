@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ATitle3"
+            style="@style/ALarge"
             android:textColor="@color/colorPrimaryDark"
             android:gravity="center_horizontal"
             tools:text="Verify your mobile number"
