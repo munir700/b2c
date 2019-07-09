@@ -40,4 +40,5 @@ class SplashActivity : BaseActivity<ISplash.ViewModel>(), ISplash.View {
             }
         })
     }
+
 }
