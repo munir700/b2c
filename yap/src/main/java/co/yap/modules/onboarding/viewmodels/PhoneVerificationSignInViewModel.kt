@@ -38,6 +38,9 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 repository.verifyOtp(VerifyOtpRequest(Constants.ACTION_DEVICE_VERIFICATION, state.otp))) {
                 is RetroApiResponse.Success -> {
                     val sharedPreferenceManager = SharedPreferenceManager(context)
+
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+
                     sharedPreferenceManager.save(
                         SharedPreferenceManager.KEY_PASSCODE,
                         EncryptionUtils.encrypt(context, state.passcode)!!

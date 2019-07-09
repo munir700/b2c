@@ -3,6 +3,7 @@ package co.yap.modules.onboarding.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.modules.onboarding.enums.AccountType
@@ -14,9 +15,13 @@ import kotlinx.android.synthetic.main.activity_lite_dashboard.*
 
 
 class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
+
+    private lateinit var sharedPreferenceManager : SharedPreferenceManager
+
     companion object {
 
         private val ACCOUNT_TYPE = "account_type"
+
 
         fun newIntent(context: Context, accountType: AccountType): Intent {
             val intent = Intent(context, LiteDashboardActivity::class.java)
@@ -32,7 +37,9 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPreferenceManager = SharedPreferenceManager(this@LiteDashboardActivity)
+        viewModel.logoutSuccess.observe(this, logoutSuccessObserver)
+
+         sharedPreferenceManager = SharedPreferenceManager(this@LiteDashboardActivity)
 
         val isTouchIdEnabled: Boolean =
             sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
@@ -49,6 +56,9 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
 
     }
 
+    private val logoutSuccessObserver = Observer<Boolean> {
+        sharedPreferenceManager.clearSharedPreference()
+    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 

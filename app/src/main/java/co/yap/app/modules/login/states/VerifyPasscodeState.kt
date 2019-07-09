@@ -9,7 +9,6 @@ import co.yap.yapcore.BaseState
 
 class VerifyPasscodeState : BaseState(), IVerifyPasscode.State {
 
-
     @get:Bindable
     override var deviceId: String = ""
         set(value) {
