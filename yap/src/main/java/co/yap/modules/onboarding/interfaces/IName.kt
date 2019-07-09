@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
+import android.widget.TextView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -10,6 +11,7 @@ interface IName {
     interface ViewModel : IBase.ViewModel<State> {
         val nextButtonPressEvent: SingleLiveEvent<Boolean>
         fun handlePressOnNext()
+        fun onEditorActionListener(): TextView.OnEditorActionListener
     }
 
     interface State : IBase.State {

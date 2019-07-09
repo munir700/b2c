@@ -2,6 +2,10 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
+ import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
+import co.yap.R
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
@@ -30,15 +34,27 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         setProgress(80)
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        state.emailTitle = getString(R.string.screen_enter_email_b2c_display_text_title)
+
+    }
+
     override fun handlePressOnNext() {
-        signUp()
+        if (state.emailTitle.equals(getString(R.string.screen_email_verification_display_text_title))){
+            postDemographicData()
+        }
+        else{
+//            signUp()
+            sendVerificationEmail()
+
+        }
     }
 
 
     private fun signUp() {
         launch {
-            state.loading = true
-            when (val response = repository.signUp(
+             when (val response = repository.signUp(
                 SignUpRequest(
                     parentViewModel!!.onboardingData.firstName,
                     parentViewModel!!.onboardingData.lastName,
@@ -58,17 +74,37 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                         SharedPreferenceManager.KEY_USERNAME,
                         EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
                     )
-                    sendVerificationEmail()
-                    postDemographicData()
+                    state.loading=false
+                    setVerifictionLabel()
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
-        }
+
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> state.emailError = response.error.message
+             }
+         }
+    }
+
+     private fun setVerifictionLabel() {
+         state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
+
+        val screen_email_verification_b2c_display_text_email_sent: String =
+            getString(R.string.screen_email_verification_b2c_display_text_email_sent)
+        val screen_email_verification_b2c_display_text_email_confirmation: String =
+            getString(R.string.screen_email_verification_b2c_display_text_email_confirmation)
+        val screen_email_verification_b2b_display_text_email_sent: String =
+            getString(R.string.screen_email_verification_b2b_display_text_email_sent)
+        val screen_email_verification_b2b_display_text_email_confirmation: String =
+            getString(R.string.screen_email_verification_b2b_display_text_email_confirmation)
+
+        val verificationText: String =
+            parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + "\n" + state.twoWayTextWatcher + "\n" + screen_email_verification_b2c_display_text_email_confirmation
+        state.emailVerificationTitle = verificationText
+
+
     }
 
     private fun sendVerificationEmail() {
-        launch {
+         launch {
             state.loading = true
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
@@ -76,9 +112,14 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> state.emailError = response.error.message
+                is RetroApiResponse.Success -> {
+                    signUp()
+
+                    //                    postDemographicData() on click on second time next
+
+                }            }
         }
     }
 
@@ -110,6 +151,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 is RetroApiResponse.Success -> {
                     parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
                     nextButtonPressEvent.value = true
+
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
@@ -117,4 +159,14 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         }
     }
 
+    override fun onEditorActionListener(): TextView.OnEditorActionListener {
+        return object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    handlePressOnNext()
+                }
+                return false
+            }
+        }
+    }
 }

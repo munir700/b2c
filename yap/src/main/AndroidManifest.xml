@@ -6,8 +6,9 @@
         <activity android:name=".modules.onboarding.activities.LiteDashboardActivity">
         </activity>
 
-        <activity android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity">
-        </activity>
+        <activity
+            android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".modules.onboarding.activities.OnboardingActivity"
             android:label="@string/app_name"
