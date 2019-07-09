@@ -145,6 +145,7 @@ class CoreDialerPad @JvmOverloads constructor(
 
     fun startAnimation() {
         llPasscode.startAnimation(animShake)
+        etPassCodeText.setText("")
     }
 
     fun settingUIForError(error: String) {
