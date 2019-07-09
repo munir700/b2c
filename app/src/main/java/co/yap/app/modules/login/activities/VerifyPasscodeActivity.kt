@@ -3,11 +3,13 @@ package co.yap.app.modules.login.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.constants.Constants
 import co.yap.app.login.BiometricCallback
 import co.yap.app.login.BiometricManager
 import co.yap.app.login.BiometricUtil
@@ -15,6 +17,7 @@ import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.modules.onboarding.activities.PhoneVerificationSignInActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -49,6 +52,9 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
         super.onCreate(savedInstanceState)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
+        viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
+        viewModel.createOtpResult.observe(this, createOtpObserver)
+
         dialer.hideFingerprintView()
         sharedPreferenceManager = SharedPreferenceManager(this@VerifyPasscodeActivity)
         viewModel.state.deviceId =
@@ -70,27 +76,78 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
         }
 
 
+        dialer.onButtonClickListener = View.OnClickListener {
+            if (it.id == R.id.btnFingerPrint)
+            showFingerprintDialog()
+        }
+
+
     }
 
 
     private val signInButtonObserver = Observer<Boolean> {
+        viewModel.isFingerprintLogin = false
         viewModel.state.passcode = dialer.getText()
-        setUsername()
+        if (!sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
+            setUsername()
+        } else {
+            viewModel.state.username = EncryptionUtils.decrypt(
+                this,
+                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+            ) as String
+        }
         viewModel.login()
     }
 
     private val loginSuccessObserver = Observer<Boolean> {
 
-        sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
-        sharedPreferenceManager.save(
-            SharedPreferenceManager.KEY_PASSCODE,
-            EncryptionUtils.encrypt(this, viewModel.state.passcode)!!
+        if (viewModel.isFingerprintLogin) {
+            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+            startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+        } else {
+            viewModel.validateDevice()
+        }
+
+    }
+
+
+    private val validateDeviceResultObserver = Observer<Boolean> {
+        if (it) {
+            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+            if (!sharedPreferenceManager.getValueBoolien(
+                    SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                    false
+                )
+            ) {
+
+                if (BiometricUtil.isFingerprintSupported
+                    && BiometricUtil.isHardwareSupported(this@VerifyPasscodeActivity)
+                    && BiometricUtil.isPermissionGranted(this@VerifyPasscodeActivity)
+                    && BiometricUtil.isFingerprintAvailable(this@VerifyPasscodeActivity)
+                ) {
+                    startActivity(SystemPermissionActivity.newIntent(this, Constants.TOUCH_ID_SCREEN_TYPE))
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
+                } else {
+                    startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+                }
+
+            } else {
+                startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+            }
+        } else {
+            viewModel.createOtp()
+        }
+
+    }
+
+    private val createOtpObserver = Observer<Boolean> {
+        startActivity(
+            PhoneVerificationSignInActivity.newIntent(
+                this,
+                viewModel.state.passcode,
+                viewModel.state.username
+            )
         )
-        sharedPreferenceManager.save(
-            SharedPreferenceManager.KEY_USERNAME,
-            EncryptionUtils.encrypt(this, viewModel.state.username)!!
-        )
-        startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
     }
 
     override fun onDestroy() {
@@ -138,6 +195,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationSuccessful() {
+        viewModel.isFingerprintLogin = false
         viewModel.state.passcode = EncryptionUtils.decrypt(
             this,
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
@@ -155,3 +213,4 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
 }
+
