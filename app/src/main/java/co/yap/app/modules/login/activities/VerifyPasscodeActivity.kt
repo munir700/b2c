@@ -104,11 +104,15 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
     private val loginSuccessObserver = Observer<Boolean> {
 
-        if (viewModel.isFingerprintLogin) {
-            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
-            startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
-        } else {
-            viewModel.validateDevice()
+        if (it) {
+            if (viewModel.isFingerprintLogin) {
+                sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+                startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+            } else {
+                viewModel.validateDevice()
+            }
+        }else{
+            dialer.startAnimation()
         }
 
     }
@@ -156,6 +160,9 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     override fun onDestroy() {
         super.onDestroy()
         viewModel.signInButtonPressEvent.removeObserver(signInButtonObserver)
+        viewModel.loginSuccess.removeObserver(loginSuccessObserver)
+        viewModel.validateDeviceResult.removeObserver(validateDeviceResultObserver)
+        viewModel.createOtpResult.removeObserver(createOtpObserver)
     }
 
     private fun setUsername() {
@@ -222,5 +229,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
     }
+
+
 }
 

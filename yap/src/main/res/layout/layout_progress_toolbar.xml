@@ -17,6 +17,7 @@
         android:layout_width="match_parent"
         android:gravity="center_vertical"
         android:background="@color/white"
+        android:layout_marginTop="@dimen/_5sdp"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -24,21 +25,23 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:foreground="?attr/selectableItemBackground"
-            android:layout_width="@dimen/_32sdp"
-            android:layout_height="@dimen/_32sdp"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
             android:clickable="true"
             android:focusable="true"
+            android:layout_marginStart="@dimen/_5sdp"
             android:layout_alignParentStart="true"
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
             android:id="@+id/tbBtnBack"/>
 
         <ImageView
             app:srcCompat="@drawable/ic_tick_disabled"
-            android:layout_width="@dimen/_32sdp"
-            android:layout_height="@dimen/_32sdp"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
             android:clickable="true"
             android:focusable="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_5sdp"
             android:onClick="@{(v) -> viewModel.handlePressOnTickButton()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
@@ -48,12 +51,12 @@
             style="@style/YAPProgressBar"
             android:id="@+id/tbProgressBar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_6sdp"
+            android:layout_height="@dimen/_5sdp"
             android:layout_centerVertical="true"
             android:layout_toEndOf="@id/tbBtnBack"
             android:layout_toStartOf="@id/tbBtnCheck"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_14sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
             android:max="@{viewModel.state.totalProgress}"
             android:progress="@{viewModel.state.currentProgress}"
             android:layout_gravity="center_horizontal"/>

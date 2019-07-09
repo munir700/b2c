@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.app.R
 import co.yap.app.di.BaseActivity
 import co.yap.app.modules.accountselection.activities.AccountSelectionActivity
+import co.yap.app.modules.login.activities.LogInActivity
 import co.yap.app.modules.login.activities.VerifyPasscodeActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -29,8 +30,15 @@ class SplashActivity : BaseActivity<ISplash.ViewModel>(), ISplash.View {
             if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
               startActivity(VerifyPasscodeActivity.newIntent(this, ""))
             } else {
-               startActivity(Intent(this, AccountSelectionActivity::class.java))
+                if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, true)) {
+                    startActivity(Intent(this, AccountSelectionActivity::class.java))
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
+                }else{
+                    startActivity(Intent(this, LogInActivity::class.java))
+                }
+
             }
         })
     }
+
 }

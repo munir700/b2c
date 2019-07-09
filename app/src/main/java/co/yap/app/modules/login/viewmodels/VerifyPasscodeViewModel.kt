@@ -30,7 +30,8 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                     loginSuccess.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                   // state.toast = response.error.message
+                    loginSuccess.postValue(false)
                 }
             }
             state.loading = false
