@@ -88,7 +88,7 @@ object AnimationUtils {
      */
     fun outOfTheBoxAnimation(view: View): AnimatorSet = runTogether(fadeIn(view, 150), bounce(view, 300, 0.5f, 1f))
 
-    fun valueCounter(inital: Int, final: Int, duration: Long? = 500) = ValueAnimator.ofInt(inital, final).apply {
+    fun valueCounter(initial: Int, final: Int, duration: Long? = 500): ValueAnimator = ValueAnimator.ofInt(initial, final).apply {
         this.duration = duration!!
     }
 
