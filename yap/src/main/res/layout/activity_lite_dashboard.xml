@@ -33,7 +33,8 @@
             <TextView
                 android:id="@+id/tvName"
                 style="@style/ASmallGrey"
-                android:text="Hassan Akhtar"
+                android:text="Lite Dashboard"
+                android:textSize="@dimen/_20sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -41,16 +42,6 @@
                 android:layout_marginTop="@dimen/margin_extra_large"
                 app:layout_constraintTop_toBottomOf="@+id/ivLogo"/>
 
-            <TextView
-                android:id="@+id/tvEmail"
-                style="@style/ASmallGrey"
-                android:text="hassan@digitify.com"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvName"
-                android:layout_marginTop="@dimen/margin_medium"/>
 
 
             <co.yap.widgets.CoreButton
@@ -70,7 +61,7 @@
                 android:layout_marginRight="@dimen/margin_xxl"
                 app:btn_text_size="@dimen/text_size_h4"
                 android:layout_marginTop="@dimen/margin_extra_large"
-                app:layout_constraintTop_toBottomOf="@+id/tvEmail"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
                 android:drawablePadding="@dimen/_20sdp"
                 app:btn_shape_type="rectangle"
                 tools:ignore="MissingConstraints"/>

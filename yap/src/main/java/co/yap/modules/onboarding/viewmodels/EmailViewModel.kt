@@ -37,6 +37,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     override fun onCreate() {
         super.onCreate()
         state.emailTitle = getString(R.string.screen_enter_email_b2c_display_text_title)
+        state.emailBtnTitle = getString(R.string.screen_phone_number_button_send)
 
     }
 
@@ -86,6 +87,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
      private fun setVerifictionLabel() {
          state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
+         state.emailBtnTitle = getString(R.string.common_button_next)
 
         val screen_email_verification_b2c_display_text_email_sent: String =
             getString(R.string.screen_email_verification_b2c_display_text_email_sent)

@@ -7,33 +7,37 @@ import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEmail
-import co.yap.translation.Strings.app_name
-import co.yap.translation.Strings.screen_enter_email_b2c_display_text_title
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import java.util.regex.Pattern
 
 class EmailState(application: Application) : BaseState(), IEmail.State {
-   @get:Bindable
-   override var emailVerificationTitle: String = ""
-       get() = field
+    @get:Bindable
+    override var emailBtnTitle: String = ""
+        get() = field
         set(value) {
-             field = value
-             notifyPropertyChanged(BR.emailVerificationTitle)
+            field = value
+            notifyPropertyChanged(BR.emailBtnTitle)
         }
-    val context:Context= application.applicationContext
+    @get:Bindable
+    override var emailVerificationTitle: String = ""
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.emailVerificationTitle)
+        }
+    val context: Context = application.applicationContext
     @get:Bindable
 
 
     override var emailTitle: String = ""
-        get() =field
+        get() = field
         set(value) {
             field = value
 //            field=Translator.getString(context,context.getString(R.string.screen_email_verification_display_text_title))//update screen_email_verification_display_text_title to great title on email header
 
 //            emailTitle= Translator.getString(application,screen_enter_email_b2c_display_text_title)
             notifyPropertyChanged(BR.emailTitle)
-         }
+        }
 
     @get:Bindable
     override var twoWayTextWatcher: String = ""
