@@ -6,6 +6,9 @@ import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.yapcore.BaseState
 
 class PhoneVerificationState : BaseState(), IPhoneVerification.State {
+
+    val mobileNumber: Array<String?> = arrayOfNulls(1)
+
     @get:Bindable
     override var otp: String = ""
         get() = field

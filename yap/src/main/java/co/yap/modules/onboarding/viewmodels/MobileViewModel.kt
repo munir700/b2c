@@ -47,6 +47,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     private fun createOtp() {
 
         val mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
+        val formattedMobileNumber: String = state.countryCode.trim()+" "+state.mobile.trim().replace(state.countryCode.trim(), "")
         val countryCode: String = state.countryCode.trim().replace("+", "00")
 
         launch {
@@ -62,6 +63,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
                     nextButtonPressEvent.value = true
                     parentViewModel!!.onboardingData.countryCode = countryCode
                     parentViewModel!!.onboardingData.mobileNo = mobileNumber
+                    parentViewModel!!.onboardingData.formattedMobileNumber = formattedMobileNumber
 
 
                 }
