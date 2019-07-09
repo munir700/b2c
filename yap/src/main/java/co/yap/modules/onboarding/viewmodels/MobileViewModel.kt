@@ -9,6 +9,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.onboarding.ObnoardingRepository
 import co.yap.networking.onboarding.requestdtos.CreateOtpRequest
 import co.yap.yapcore.SingleLiveEvent
+import java.util.*
 
 class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobile.State>(application),
     IMobile.ViewModel, IRepositoryHolder<ObnoardingRepository> {
@@ -23,6 +24,10 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     }
 
     override fun handlePressOnNext() {
+        // Record the time
+        parentViewModel?.onboardingData?.startTime = Date()
+
+        // Send OTP request
         createOtp()
     }
 

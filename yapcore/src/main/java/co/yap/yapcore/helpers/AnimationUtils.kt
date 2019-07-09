@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers
 import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
 import android.view.animation.*
@@ -79,12 +80,17 @@ object AnimationUtils {
         duration: Long? = 500,
         from: Float? = view.y + 300,
         to: Float? = view.y
-    ): AnimatorSet = runTogether(fadeIn(view, 200), slideVertical(view, duration!!, from!!, to!!, OvershootInterpolator()))
+    ): AnimatorSet =
+        runTogether(fadeIn(view, 200), slideVertical(view, duration!!, from!!, to!!, OvershootInterpolator()))
 
     /**
      * Bounce and FadeIn animation running in parallel on the view
      */
     fun outOfTheBoxAnimation(view: View): AnimatorSet = runTogether(fadeIn(view, 150), bounce(view, 300, 0.5f, 1f))
+
+    fun valueCounter(inital: Int, final: Int, duration: Long? = 500) = ValueAnimator.ofInt(inital, final).apply {
+        this.duration = duration!!
+    }
 
 
 }

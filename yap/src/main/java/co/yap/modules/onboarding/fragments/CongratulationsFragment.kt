@@ -91,7 +91,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             AnimationUtils.outOfTheBoxAnimation(tvSubTitle).apply { startDelay = 100 }
         )
 
-        val counter = handleTextViewWithAnimatedValue(100, 30, tvSubTitle)
+        val counter = counterAnimation(100, viewModel.elapsedOnboardingTime.toInt(), tvSubTitle)
 
         val moveFromCenterToTop = AnimationUtils.runTogether(
             AnimationUtils.slideVertical(
@@ -108,7 +108,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             ).apply { startDelay = 50 }
         )
 
-        return AnimationUtils.runSequentially(moveToCenter, appearance, counter, moveFromCenterToTop)
+        return AnimationUtils.runSequentially(moveToCenter, appearance, counter, moveFromCenterToTop.apply { startDelay = 300 })
     }
 
     private fun toolbarAnimation(): AnimatorSet {
@@ -134,9 +134,8 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     }
 
-    private fun handleTextViewWithAnimatedValue(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator =
-        ValueAnimator.ofInt(initialValue, finalValue).apply {
-            duration = 1500
+    private fun counterAnimation(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator =
+        AnimationUtils.valueCounter(initialValue, finalValue).apply {
             addUpdateListener { animator ->
                 textview.text = getString(
                     Strings.screen_onboarding_congratulations_display_text_sub_title,
