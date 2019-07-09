@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers
 
 import org.json.JSONArray
+import java.lang.StringBuilder
 import java.util.regex.Pattern
 
 object StringUtils {
@@ -46,4 +47,44 @@ object StringUtils {
      */
 
     fun toStringArray(text: String?): Array<String> = eval(text).requireNoNulls()
+
+    /**
+     * Checks if a string contains numbers in increasing or decreasing sequence
+     */
+    fun isSequenced(text: String): Boolean {
+        val sequenced = text.run {
+            val first = get(0).toString().toIntOrNull()
+            first?.let {
+                val low = first - (length - 1)
+                val high = first + (length - 1)
+
+                val lowSeq = (first..low).asReversedString()
+                val highSeq = (first..high).asString()
+
+                lowSeq == this || highSeq == this
+            }
+        }
+        return sequenced ?: false
+    }
+
+
+    inline fun IntRange.asString(): String = run {
+        val s = StringBuilder()
+        forEach { s.append(it.toString()) }
+        s.toString()
+    }
+
+    inline fun IntRange.asReversedString(): String = run {
+        asString().reversed()
+    }
+
+    /**
+     * Checks if a string contains all same chars like "0000"
+     */
+    fun hasAllSameChars(text: String): Boolean = text.run {
+        val first = get(0).toString()
+        replace(first, "").isEmpty()
+    }
+
+
 }
