@@ -27,8 +27,6 @@ class AccountSelectionActivity : DefaultActivity() {
         viewDataBinding.executePendingBindings()
 
         btnBusiness.setOnClickListener {
-            //            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
-            startActivity(OnboardingActivity.newIntent(this, AccountType.B2B_ACCOUNT))
         }
 
         btnPersonal.setOnClickListener {
@@ -36,9 +34,7 @@ class AccountSelectionActivity : DefaultActivity() {
         }
 
         tvSignIn.setOnClickListener {
-//            startActivity(LogInActivity.newIntent(this))
-            startActivity(CreatePasscodeActivity.newIntent(this))
-//            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
+            startActivity(LogInActivity.newIntent(this))
         }
     }
 }

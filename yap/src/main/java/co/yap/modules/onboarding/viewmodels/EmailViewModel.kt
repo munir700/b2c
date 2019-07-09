@@ -67,6 +67,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
                     sharedPreferenceManager.save(
                         SharedPreferenceManager.KEY_PASSCODE,
                         EncryptionUtils.encrypt(context, parentViewModel!!.onboardingData.passcode)!!

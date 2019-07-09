@@ -24,7 +24,7 @@ interface AuthRetroService {
 
     // Logout
     @POST(AuthRepository.URL_LOGOUT)
-    suspend fun logout(@Query("id_token") idToken: String): Response<ApiResponse>
+    suspend fun logout(): Response<ApiResponse>
 
     // Post demographic data
     @PUT(AuthRepository.URL_POST_DEMOGRAPHIC_DATA)
