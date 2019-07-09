@@ -24,6 +24,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     private var snackbar: Snackbar? = null
     private var DURATION_CODE = -2
+    private var checkConnectivity: Boolean = true
     private lateinit var permissionsManager: PermissionsManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +57,13 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {
-        showInternetSnack(!isConnected)
+        if(checkConnectivity && isConnected){
+            checkConnectivity=false
+
+        }else{
+            showInternetSnack(!isConnected)
+            checkConnectivity=false
+        }
     }
 
     override fun showInternetSnack(isVisible: Boolean) {
