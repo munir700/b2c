@@ -106,7 +106,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
-                    nextButtonPressEvent.postValue(true)
+                    nextButtonPressEvent.value = true
                 }
                 is RetroApiResponse.Error -> state.error = response.error.message
             }

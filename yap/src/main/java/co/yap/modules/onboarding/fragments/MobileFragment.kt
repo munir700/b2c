@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -22,7 +23,9 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.phoneVerificationFragment) }
+    private val nextButtonObserver = Observer<Boolean> {
+        navigate(R.id.phoneVerificationFragment)
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

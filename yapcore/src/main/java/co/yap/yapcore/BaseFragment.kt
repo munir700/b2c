@@ -109,6 +109,9 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.Vi
             if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
                 showToast(viewModel.state.toast)
             }
+            if (propertyId == BR.loading) {
+                showLoader(viewModel.state.loading)
+            }
         }
     }
 

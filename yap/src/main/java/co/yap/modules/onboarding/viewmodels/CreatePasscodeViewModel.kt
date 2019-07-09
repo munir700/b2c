@@ -13,7 +13,7 @@ class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreateP
 
 
     override fun handlePressOnCreatePasscodeButton() {
-        nextButtonPressEvent.postValue(true)
+        nextButtonPressEvent.value = true
     }
 
     override val state: CreatePasscodeState = CreatePasscodeState()

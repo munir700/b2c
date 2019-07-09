@@ -21,7 +21,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
         launch {
             when (val response = repository.login(state.username, state.passcode)) {
                 is RetroApiResponse.Success -> {
-                    loginSuccess.postValue(true)
+                    loginSuccess.value = true
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -35,7 +35,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
         launch {
             when (val response = repository.validateDemographicData(state.deviceId)) {
                 is RetroApiResponse.Success -> {
-                    loginSuccess.postValue(true)
+                    loginSuccess.value = true
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -47,6 +47,6 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
     override fun handlePressOnSignInButton() {
 //        state.dialerError=state.passcode
-        signInButtonPressEvent.postValue(true)
+        signInButtonPressEvent.value = true
     }
 }
