@@ -194,7 +194,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationSuccessful() {
-        viewModel.isFingerprintLogin = false
+        viewModel.isFingerprintLogin = true
         viewModel.state.passcode = EncryptionUtils.decrypt(
             this,
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
