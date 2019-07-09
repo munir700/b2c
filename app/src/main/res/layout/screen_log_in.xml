@@ -32,11 +32,11 @@
                 android:layout_height="wrap_content"
                 tools:context="co.yap.app.modules.login.activities.LogInActivity">
 
-                <include
-                    android:id="@+id/toolbar"
-                    layout="@layout/view_tool_bar"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnLogIn"
-                    tools:layout_editor_absoluteX="0dp"/>
+                <!--<include-->
+                    <!--android:id="@+id/toolbar"-->
+                    <!--layout="@layout/view_tool_bar"-->
+                    <!--app:layout_constraintBottom_toBottomOf="@+id/btnLogIn"-->
+                    <!--tools:layout_editor_absoluteX="0dp"/>-->
 
                 <ImageView
                     android:id="@+id/ivYap"
