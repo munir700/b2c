@@ -26,10 +26,45 @@ class LoginState : BaseState(), ILogin.State {
 
     @get:Bindable
     override var valid: Boolean = false
-        get() = validate()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
 
 
     fun validate(): Boolean {
         return (email.length > 5 && emailError.isEmpty())
     }
+
+    @get:Bindable
+    override var twoWayTextWatcher: String = ""
+        set(value) {
+            field = value
+
+            notifyPropertyChanged(BR.twoWayTextWatcher)
+            setTwoWayTextWatcher()
+        }
+
+    private fun setTwoWayTextWatcher() {
+
+        if (!twoWayTextWatcher.isEmpty() && twoWayTextWatcher.length >= 6) {
+            setSuccessUI()
+        } else {
+            setDefaultUI()
+        }
+    }
+
+    private fun setDefaultUI() {
+//        refreshField = true
+        valid = false
+//        drawbleRight = null
+    }
+
+    private fun setSuccessUI() {
+//        refreshField = true
+        valid = true
+//        emailError = ""
+//        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+    }
+
 }

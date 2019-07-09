@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
+import co.yap.app.login.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.authentication.AuthRepository
@@ -20,7 +21,9 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     override val state: EmailState = EmailState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: ObnoardingRepository = ObnoardingRepository
-    val authRepository: AuthRepository = AuthRepository
+    private val authRepository: AuthRepository = AuthRepository
+    private val sharedPreferenceManager = SharedPreferenceManager(context)
+
 
     override fun onResume() {
         super.onResume()
@@ -29,7 +32,6 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     override fun handlePressOnNext() {
         signUp()
-
     }
 
 
@@ -47,6 +49,14 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_PASSCODE,
+                        EncryptionUtils.encrypt(context, parentViewModel!!.onboardingData.passcode)!!
+                    )
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_USERNAME,
+                        EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
+                    )
                     sendVerificationEmail()
                     postDemographicData()
                 }
@@ -73,8 +83,6 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     private fun postDemographicData() {
-
-        val sharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             when (val response = authRepository.postDemographicData(

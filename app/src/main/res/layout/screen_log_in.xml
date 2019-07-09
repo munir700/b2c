@@ -65,6 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_xxl"
                     app:coreInputText="@{loginViewModel.state.email}"
+                    app:realValue="@={loginViewModel.state.twoWayTextWatcher}"
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
@@ -75,7 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/RectangleBtnStyle"
-                    android:enabled="@{loginViewModel.state.valid}"
+                    app:enableCoreButton="@{loginViewModel.state.valid}"
                     android:textColor="@color/colorWhite"
                     android:text="@string/screen_sign_in_button_sign_in"
                     android:onClick="@{(v) -> loginViewModel.handlePressOnLogin()}"
@@ -93,6 +94,7 @@
                     tools:ignore="MissingConstraints"
                     app:layout_constraintVertical_bias="0.75"
                     app:btn_round_radius="50dp"
+
                     app:btn_text_size="@dimen/text_size_h4"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:btn_shape_type="rectangle"/>

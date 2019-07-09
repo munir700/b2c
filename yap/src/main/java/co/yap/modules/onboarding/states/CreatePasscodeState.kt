@@ -49,7 +49,6 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 
     fun validate(text: String) {
         if (text.length in 7 downTo 4) {
-            // dialerError = "Lenght is less than 4"
             validationPasscode(text)
             valid = true
 
@@ -59,9 +58,6 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 
         }
     }
-
-    //  var array:ArrayList<Int>=  Array<Int>(5)
-    //val array = ArrayList<Int>(5)
 
     override fun validationPasscode(passcodeText: String) {
 
@@ -75,37 +71,6 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
     override fun getTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-//                    val text = arrayOf(.toString())toString
-//                val text = p0.toString().takeLast(1)
-//                array.add(text.toInt())
-//                text.plus(p0.toString())
-
-                /*   if (array.size in 7 downTo 5) {
-                       for (i in 0 until array.count()) {
-
-                           if (array[i + 1] - array[i] != 1) {
-                               sequence = true
-                               passcode = "length can not b in sequence"
-                           }
-
-                           if (array[i] != array[i + 1]) {
-                               similar = true
-                               passcode = "length can b in sequence"
-                           }
-
-                       }
-                   }*/
-
-
-//                if () {
-//
-//                }
-
-                /* if (p0.toString() == "1234") {
-                    passcode = "length can not b in sequence"
-                } else {
-                    passcode = ""
-                }*/
 
             }
 

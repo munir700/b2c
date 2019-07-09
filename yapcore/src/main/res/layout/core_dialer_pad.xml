@@ -26,8 +26,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/error"
         android:gravity="center"
-        tools:text="snvkjsnd"
-
+        tools:text="Error"
         android:textSize="12sp"/>
 
 

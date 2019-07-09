@@ -25,20 +25,20 @@ class CoreDialerPad @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
     var editText: EditText
 
-   init {
+    init {
         LayoutInflater.from(context).inflate(R.layout.core_dialer_pad, this, true)
         orientation = VERTICAL
-        editText=etPassCodeText
+        editText = etPassCodeText
 
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreDialerPad, 0, 0)
             val dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 0)
             val dialerMaxLength = typedArray.getInt(R.styleable.CoreDialerPad_dialer_max_length, 6)
             etPassCodeText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(dialerMaxLength))
-           /* val error = resources.getText(
-                typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
-            )*/
-              if (dialerType == 1) performPassCode()
+            /* val error = resources.getText(
+                 typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
+             )*/
+            if (dialerType == 1) performPassCode()
 
             button1.setOnClickListener {
                 etPassCodeText.append("1")
@@ -70,7 +70,7 @@ class CoreDialerPad @JvmOverloads constructor(
             button0.setOnClickListener {
                 etPassCodeText.append("0")
             }
-           // if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
+            // if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
 //            typedArray.recycle()
         }
         buttonRemove.setOnClickListener {
@@ -89,11 +89,28 @@ class CoreDialerPad @JvmOverloads constructor(
         tvError.text = error
     }
 
+    fun showFingerprintView() {
+        btnFingerPrint.visibility = View.VISIBLE
+    }
+
+    fun hideFingerprintView() {
+        btnFingerPrint.visibility = View.INVISIBLE
+    }
+
+
     fun settingUIForNormal() {
         tvError.visibility = View.INVISIBLE
     }
-    fun performPassCode(){
-        btnFingerPrint.setImageDrawable(resources.getDrawable(R.drawable.ic_fingerprint_purple,null))
+
+    fun performPassCode() {
+        etPassCodeText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
+        etPassCodeText.textSize = resources.getDimension(R.dimen.text_size_h1) //R.dimen.margin_xxl.toFloat()
+
+//        etPassCodeText.inputType=InputType.TYPE_NUMBER_VARIATION_PASSWORD
+/*        etPassCodeText.inputType=InputType.TYPE_TEXT_VARIATION_PASSWORD
+        etPassCodeText.inputType=InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+        etPassCodeText.inputType=InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD*/
+        btnFingerPrint.setImageDrawable(resources.getDrawable(R.drawable.ic_fingerprint_purple, null))
     }
 }
 
