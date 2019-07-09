@@ -1,7 +1,6 @@
 package co.yap.widgets
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Paint
@@ -14,6 +13,7 @@ import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.*
 import android.view.View.OnClickListener
+import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.RelativeLayout
@@ -45,10 +45,13 @@ class CoreInputField @JvmOverloads constructor(
     public var countryCode: String = "+971 "
     lateinit var typedArray: TypedArray
     var inputType: Int = 0
+    var imeiActionType: Int = 1
+    var IME_NEXT: Int = 2
     var PHONE_INPUT_TYPE: Int = 1
     var EMAIL_INPUT_TYPE: Int = 2
     var PHONE_NUMBER_LENGTH: Int = 16
     var editText: EditText
+    var checkFocusChange: Boolean = false
     private lateinit var viewDataBinding: ViewDataBinding
 
     init {
@@ -64,8 +67,10 @@ class CoreInputField @JvmOverloads constructor(
                 typedArray
                     .getResourceId(R.styleable.CoreInputField_view_hint_input_field, R.string.empty_string)
             )
-            inputType = typedArray.getInt(R.styleable.CoreInputField_view_input_type, inputType)
 
+            inputType = typedArray.getInt(R.styleable.CoreInputField_view_input_type, inputType)
+            checkFocusChange = typedArray.getBoolean(R.styleable.CoreInputField_view_focusable, checkFocusChange)
+            imeiActionType = typedArray.getInt(R.styleable.CoreInputField_view_input_text_imei_actions, imeiActionType)
 
             val error = resources.getText(
                 typedArray.getResourceId(
@@ -103,6 +108,7 @@ class CoreInputField @JvmOverloads constructor(
 
             etInputField.hint = title
             setViewInputType()
+            setImeiActionsType()
             if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
             typedArray.recycle()
 
@@ -113,7 +119,7 @@ class CoreInputField @JvmOverloads constructor(
             paintText.style = Paint.Style.FILL
 
             etInputField.isFocusable
-            onKeyBoardDismissal()
+            onKeyBoardDismissal(true)
             animteKeyboardDismissal()
         }
 
@@ -128,6 +134,56 @@ class CoreInputField @JvmOverloads constructor(
 
             EMAIL_INPUT_TYPE -> {
                 etInputField.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            }
+        }
+    }
+
+    private fun setImeiActionsType() {
+        when (imeiActionType) {
+            IME_NEXT -> {
+                etInputField.imeOptions = EditorInfo.IME_ACTION_NEXT
+                checkFocusChange = true
+
+//                   etInputField.setOnEditorActionListener( { textView, action, event ->
+//                        var handled = false
+//                        if (action == EditorInfo.IME_ACTION_NEXT) {
+//                            var listener = object : OnFocusChangeListener {
+//                                //            internal var layout_nama_pp = findViewById<View>(co.yap.yapcore.R.id.layout_nama_pp) as LinearLayout
+//                                override fun onFocusChange(v: View, hasFocus: Boolean) {
+//                                    if (!hasFocus) {
+//                                        etInputField.isActivated = false
+//                                    } else {
+////                    editText.isActivated = true
+//                                        etInputField.getViewTreeObserver().addOnGlobalLayoutListener(
+//                                            object : ViewTreeObserver.OnGlobalLayoutListener {
+//                                                override fun onGlobalLayout() {
+////                    if (etInputField.isFocused()) {
+//                                                    if (!keyboardShown(etInputField.getRootView())) {
+//                                                        etInputField.requestFocus()
+//                                                        etInputField.isActivated = false
+//                                                    } else {
+//                                                        etInputField.isActivated = true
+//                                                    }
+////                    }
+//                                                    return
+//                                                }
+//                                            })
+//                                    }
+//                                }
+//                            }
+//
+//                            etInputField.setOnFocusChangeListener(listener)
+//                            handled = true
+//                        }
+//                        handled
+//                    })
+
+
+            }
+            else -> {
+                etInputField.imeOptions = EditorInfo.IME_ACTION_DONE
+                onKeyBoardDismissal(true)
+
             }
         }
     }
@@ -232,31 +288,49 @@ class CoreInputField @JvmOverloads constructor(
 
 
     /* handle keyboard dismissal event */
-    fun onKeyBoardDismissal() {
+    fun onKeyBoardDismissal(check: Boolean) {
 
-        etInputField.getViewTreeObserver().addOnGlobalLayoutListener(
-            object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    if (etInputField.isFocused()) {
-                        if (!keyboardShown(etInputField.getRootView())) {
-                            editText.isActivated = false
-                        } else {
-                            editText.isActivated = true
-                        }
+        if (checkFocusChange) {
+            var listener = object : OnFocusChangeListener {
+                override fun onFocusChange(v: View, hasFocus: Boolean) {
+                    if (!hasFocus) {
+                        etInputField.isActivated = false
+                    } else {
+                        etInputField.isActivated = true
                     }
-                    return
                 }
-            })
+            }
+
+            etInputField.setOnFocusChangeListener(listener)
+        } else {
+
+            etInputField.getViewTreeObserver().addOnGlobalLayoutListener(
+                object : ViewTreeObserver.OnGlobalLayoutListener {
+                    override fun onGlobalLayout() {
+                        if (etInputField.isFocused()) {
+                            if (!keyboardShown(etInputField.getRootView())) {
+                                editText.isActivated = false
+                            } else {
+                                editText.isActivated = true
+                            }
+                        }
+                        return
+                    }
+                })
+        }
     }
 
     /* animate down keyboard */
     fun animteKeyboardDismissal() {
 
-        val inputMethodManager = context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(etInputField?.windowToken, 0)
+        val view = this.editText
+        view?.let { v ->
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.let { it.hideSoftInputFromWindow(v.windowToken, 0) }
+        }
     }
 
-    private fun keyboardShown(rootView: View): Boolean {
+    fun keyboardShown(rootView: View): Boolean {
 
         val softKeyboardHeight = 100
         val r = Rect()

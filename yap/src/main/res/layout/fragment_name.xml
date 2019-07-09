@@ -49,7 +49,9 @@
             app:realValue="@={viewModel.state.firstName}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:view_input_text_imei_actions="IME_ACTION_NEXT"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
+
             />
 
 
@@ -67,7 +69,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etFirstName"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            />
+            app:view_input_text_imei_actions="IME_ACTION_DONE"
+            app:view_focusable="true"
+             />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
@@ -90,6 +94,7 @@
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
             app:layout_goneMarginTop="@dimen/margin_extra_large"
+            app:view_focusable="true"
             app:layout_constraintTop_toBottomOf="@+id/etLastName"
             tools:layout_editor_absoluteX="34dp"
             app:layout_constraintVertical_bias="0.988"/>
