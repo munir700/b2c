@@ -10,6 +10,7 @@ import co.yap.app.R
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
 import co.yap.yapcore.BaseBindingActivity
+import kotlinx.android.synthetic.main.activity_verify_passcode.*
 
 class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>() {
 
@@ -32,7 +33,9 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>() 
 
 
     private val signInButtonObserver = Observer<Boolean> {
-       showToast("Yoo")
+        showToast("Yoo")
+        //shake animation
+        dialer.startAnimation()
     }
 
     override fun onDestroy() {

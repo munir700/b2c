@@ -48,6 +48,7 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 
 
     fun validate(text: String) {
+
         if (text.length in 7 downTo 4) {
             validationPasscode(text)
             valid = true
@@ -64,6 +65,11 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
         /* if (passcodeText.equals("1234")) {
              passcode = "length can not b in sequence"
          }*/
+        if (sequence){
+            dialerError="length can not be in sequence"
+        }else if (similar){
+            dialerError="Passcode can not be same digity"
+        }
         passcode = passcodeText
     }
 

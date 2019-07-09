@@ -13,7 +13,11 @@ class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreateP
 
 
     override fun handlePressOnCreatePasscodeButton() {
+        if (!state.similar&&!state.sequence){
         nextButtonPressEvent.postValue(true)
+        }else{
+            state.dialerError
+        }
     }
 
     override val state: CreatePasscodeState = CreatePasscodeState()
