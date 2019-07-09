@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.BR
 import co.yap.app.login.BiometricUtil
 import co.yap.modules.onboarding.enums.AccountType
@@ -27,6 +28,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
 
         fun newIntent(context: Context, accountType: AccountType): Intent {
             val intent = Intent(context, LiteDashboardActivity::class.java)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             intent.putExtra(ACCOUNT_TYPE, accountType)
             return intent
         }
