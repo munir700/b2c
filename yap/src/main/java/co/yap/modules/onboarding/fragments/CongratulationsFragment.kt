@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.fragments
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.graphics.Rect
@@ -78,7 +79,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         val titleMidScreenPosition = (windowSize.height() / 2 - (tvTitle.height)).toFloat()
         val subTitleMidScreenPosition = (windowSize.height() / 2 + 40).toFloat()
 
-
         // move to center position instantly without animation
         val moveToCenter = AnimationUtils.runTogether(
             AnimationUtils.slideVertical(tvTitle, 0, titleOriginalPosition, titleMidScreenPosition),
@@ -108,7 +108,14 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             ).apply { startDelay = 50 }
         )
 
-        return AnimationUtils.runSequentially(moveToCenter, appearance, counter, moveFromCenterToTop.apply { startDelay = 300 })
+        val animationStack: ArrayList<Animator> = arrayListOf()
+        animationStack.add(moveToCenter)
+        animationStack.add(appearance)
+        if (viewModel.elapsedOnboardingTime <= 60) animationStack.add(counter)
+        animationStack.add(moveFromCenterToTop.apply { startDelay = 300 })
+        val array = arrayOfNulls<Animator>(animationStack.size)
+        animationStack.toArray(array)
+        return AnimationUtils.runSequentially(*array.requireNoNulls())
     }
 
     private fun toolbarAnimation(): AnimatorSet {
@@ -145,4 +152,5 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         }
 
 
+    override fun onBackPressed(): Boolean = run {(activity as? OnboardingActivity)?.finish().let { true }}
 }
