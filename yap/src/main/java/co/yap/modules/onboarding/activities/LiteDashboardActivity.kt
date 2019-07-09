@@ -3,9 +3,11 @@ package co.yap.modules.onboarding.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
+import co.yap.app.login.BiometricUtil
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
@@ -16,7 +18,7 @@ import kotlinx.android.synthetic.main.activity_lite_dashboard.*
 
 class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
 
-    private lateinit var sharedPreferenceManager : SharedPreferenceManager
+    private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
     companion object {
 
@@ -38,21 +40,30 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
         super.onCreate(savedInstanceState)
 
         viewModel.logoutSuccess.observe(this, logoutSuccessObserver)
+        sharedPreferenceManager = SharedPreferenceManager(this@LiteDashboardActivity)
 
-         sharedPreferenceManager = SharedPreferenceManager(this@LiteDashboardActivity)
+        if (BiometricUtil.isFingerprintSupported
+            && BiometricUtil.isHardwareSupported(this@LiteDashboardActivity)
+            && BiometricUtil.isPermissionGranted(this@LiteDashboardActivity)
+            && BiometricUtil.isFingerprintAvailable(this@LiteDashboardActivity)
+        ) {
+            val isTouchIdEnabled: Boolean =
+                sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
+            swTouchId.isChecked = isTouchIdEnabled
+            swTouchId.visibility = View.VISIBLE
 
-        val isTouchIdEnabled: Boolean =
-            sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
-
-        swTouchId.isChecked = isTouchIdEnabled
-
-        swTouchId.setOnCheckedChangeListener { buttonView, isChecked ->
-            if (isChecked) {
-                sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
-            } else {
-                sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
+            swTouchId.setOnCheckedChangeListener { buttonView, isChecked ->
+                if (isChecked) {
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
+                } else {
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
+                }
             }
+
+        } else {
+            swTouchId.visibility = View.INVISIBLE
         }
+
 
     }
 

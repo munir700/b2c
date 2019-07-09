@@ -24,6 +24,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
     override fun login() {
         launch {
+            state.loading = true
             when (val response = repository.login(state.username, state.passcode)) {
                 is RetroApiResponse.Success -> {
                     loginSuccess.postValue(true)
@@ -32,12 +33,13 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                     state.toast = response.error.message
                 }
             }
-
+            state.loading = false
         }
     }
 
     override fun validateDevice() {
         launch {
+            state.loading = true
             when (val response = repository.validateDemographicData(state.deviceId)) {
                 is RetroApiResponse.Success -> {
                     validateDeviceResult.postValue(response.data.data)
@@ -46,13 +48,14 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                     state.toast = response.error.message
                 }
             }
-
+            state.loading = false
         }
     }
 
 
     override fun createOtp() {
         launch {
+            state.loading = true
             when (val response = repository.createOtp(CreateOtpRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
                 is RetroApiResponse.Success -> {
                     createOtpResult.postValue(true)
@@ -61,7 +64,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                     state.toast = response.error.message
                 }
             }
-
+            state.loading = false
         }
     }
 

@@ -187,7 +187,6 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationFailed() {
-        Toast.makeText(applicationContext, getString(R.string.biometric_failed), Toast.LENGTH_LONG).show()
     }
 
     override fun onAuthenticationCancelled() {
@@ -195,7 +194,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationSuccessful() {
-        viewModel.isFingerprintLogin = false
+        viewModel.isFingerprintLogin = true
         viewModel.state.passcode = EncryptionUtils.decrypt(
             this,
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
