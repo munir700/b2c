@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
+import android.graphics.drawable.Drawable
 import android.widget.TextView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
@@ -21,5 +22,8 @@ interface IName {
         var lastName: String
         var lastNameError: String
         var valid: Boolean
+        var drawbleRight: Drawable?
+        var drawbleRightLastName: Drawable?
+
     }
 }
