@@ -11,6 +11,9 @@ import co.yap.networking.authentication.requestdtos.DemographicDataRequest
 import co.yap.networking.authentication.requestdtos.VerifyOtpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.onboarding.ObnoardingRepository
+import co.yap.networking.onboarding.OnboardingApi
+import co.yap.networking.onboarding.requestdtos.CreateOtpRequest
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -20,7 +23,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     IRepositoryHolder<AuthRepository> {
 
     override val repository: AuthRepository = AuthRepository
-
+    val onboardingRepository: ObnoardingRepository = ObnoardingRepository
     override val state: PhoneVerificationSignInState = PhoneVerificationSignInState()
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -31,11 +34,11 @@ class PhoneVerificationSignInViewModel(application: Application) :
         nextButtonPressEvent.postValue(true)
     }
 
-    override fun handlePressOnResendOTP() {
-
+    override fun onCreate() {
+        super.onCreate()
+        state.reverseTimer(10)
+       // state.valid=false
     }
-
-
 
     override fun verifyOtp() {
         launch {
@@ -65,20 +68,38 @@ class PhoneVerificationSignInViewModel(application: Application) :
         }
     }
 
+    override fun handlePressOnResend() {
+        launch {
+            state.loading = true
+            when (val response =
+                onboardingRepository.createOtp(CreateOtpRequest("", "", ""))) {
+                is RetroApiResponse.Success -> {
+                    state.reverseTimer(10)
+                    state.valid=false
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
     override fun postDemographicData() {
         val sharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response =
-                repository.postDemographicData(  DemographicDataRequest(
-                    "LOGIN",
-                    Build.VERSION.RELEASE,
-                    deviceId.toString(),
-                    Build.BRAND,
-                    Build.MODEL,
-                    "Android"
-                )
+                repository.postDemographicData(
+                    DemographicDataRequest(
+                        "LOGIN",
+                        Build.VERSION.RELEASE,
+                        deviceId.toString(),
+                        Build.BRAND,
+                        Build.MODEL,
+                        "Android"
+                    )
                 )) {
                 is RetroApiResponse.Success -> {
                     postDemographicDataResult.value = true
