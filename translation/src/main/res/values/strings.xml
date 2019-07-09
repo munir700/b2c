@@ -41,6 +41,13 @@
     <string name="screen_enter_email_b2b_display_text_sub_heading">Enter your business email to begin</string>
     <string name="screen_enter_email_display_text_email_address">Email address</string>
 
+   <!-- Email Verification Screen-->
+    <string name="screen_email_verification_display_text_title">Great!</string>
+    <string name="screen_email_verification_b2c_display_text_email_sent">we have just sent an email to</string>
+    <string name="screen_email_verification_b2c_display_text_email_confirmation">Please validate your email address after signing up and we promise not to spam you.</string>
+    <string name="screen_email_verification_b2b_display_text_email_sent">We\'ve just sent a verification email to</string>
+    <string name="screen_email_verification_b2b_display_text_email_confirmation">Please check your email to confirm that we got it right.</string>
+
 
     <!-- Name Screen -->
     <string name="screen_name_display_text_title">What\'s your name?</string>

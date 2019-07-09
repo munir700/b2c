@@ -35,6 +35,7 @@
     <dimen name="margin_extra_large">@dimen/_32sdp</dimen>
     <dimen name="margin_xl">@dimen/_44sdp</dimen>
     <dimen name="margin_xxl">@dimen/_56sdp</dimen>
+    <dimen name="margin_btn_side_paddings">@dimen/_50sdp</dimen>
     <dimen name="margin_heading_to_field">@dimen/_50sdp</dimen>
 
     <dimen name="text_content_margin">@dimen/_30sdp</dimen>

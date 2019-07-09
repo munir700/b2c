@@ -37,7 +37,11 @@
         <attr name="view_drawable_left" format="reference"/>
         <attr name="view_focusable" format="boolean" />
         <attr name="view_input_text" format="string" />
-        <!--<attr name="view_input_type" format="reference" />-->
+
+        <attr name="view_input_text_imei_actions" format="enum">
+            <enum name="IME_ACTION_DONE" value="1"/>
+            <enum name="IME_ACTION_NEXT" value="2"/>
+         </attr>
 
         <attr name="view_input_type" format="enum">
             <enum name="phone" value="1"/>

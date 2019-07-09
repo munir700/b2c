@@ -19,6 +19,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="@dimen/margin_medium"
+        android:paddingRight="@dimen/margin_medium"
         tools:context=".modules.onboarding.fragments.NameFragment">
 
         <TextView
@@ -41,15 +43,15 @@
             android:id="@+id/etFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_large"
             app:coreInputHint="@{Strings.screen_name_display_text_first_name}"
             app:translateHint="@{true}"
             app:realValue="@={viewModel.state.firstName}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:view_input_text_imei_actions="IME_ACTION_NEXT"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
+
             />
 
 
@@ -57,8 +59,6 @@
             android:id="@+id/etLastName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_medium"
             app:translateHint="@{true}"
             app:coreInputHint="@{Strings.screen_name_display_text_last_name}"
@@ -67,29 +67,26 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etFirstName"
             android:layout_marginBottom="@dimen/margin_medium_large"
+            app:view_input_text_imei_actions="IME_ACTION_DONE"
+            app:view_focusable="true"
+            app:onEditorActionDoneListener="@{viewModel.onEditorActionListener()}"
             />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:btn_round_radius="50dp"
-            app:btn_enable="false"
-            android:textColor="@color/colorWhite"
+            style="@style/FragmentsBtnStyle"
             app:text="@{Strings.common_button_next}"
-            android:paddingTop="@dimen/margin_medium_large"
-            android:paddingBottom="8dp"
-            android:minHeight="@dimen/_52sdp"
-            app:btn_text_size="@dimen/text_size_h4"
+            android:layout_marginTop="@dimen/margin_medium_large"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:btn_shape_type="rectangle"
             android:layout_marginBottom="@dimen/margin_medium_large"
             app:enableCoreButton="@{viewModel.state.valid}"
             android:onClick="@{(v) -> viewModel.handlePressOnNext()}"
-            android:gravity="center"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
             app:layout_goneMarginTop="@dimen/margin_extra_large"
+            app:view_focusable="true"
             app:layout_constraintTop_toBottomOf="@+id/etLastName"
             tools:layout_editor_absoluteX="34dp"
             app:layout_constraintVertical_bias="0.988"/>

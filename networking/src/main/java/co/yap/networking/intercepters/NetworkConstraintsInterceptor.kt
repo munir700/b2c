@@ -30,8 +30,13 @@ internal abstract class NetworkConstraintsInterceptor(val context: Context) : In
     }
 
     private fun isInternetAvailable(): Boolean {
-        val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        return connectivityManager.activeNetworkInfo.isConnected
+         val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager?
+        if (connectivityManager!=null){
+            if (connectivityManager.activeNetworkInfo!=null){
+                return connectivityManager.activeNetworkInfo.isConnected
+            }
+        }
+        return false
     }
 
 }
