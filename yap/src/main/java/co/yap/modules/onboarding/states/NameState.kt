@@ -1,15 +1,19 @@
 package co.yap.modules.onboarding.states
 
+import android.app.Application
+import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.onboarding.interfaces.IName
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils
 
-class NameState : BaseState(), IName.State {
+class NameState(application: Application) : BaseState(), IName.State {
 
     override var dummyStrings: Array<String> = arrayOf("0123")
 
+    val context: Context = application.applicationContext
 
     @get:Bindable
     override var firstName: String = ""
@@ -45,6 +49,29 @@ class NameState : BaseState(), IName.State {
             notifyPropertyChanged(BR.valid)
         }
 
+
+    @get:Bindable
+    override var drawbleRight: Drawable? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.drawbleRight)
+
+        }
+        get() {
+            return field
+        }
+
+    @get:Bindable
+    override var drawbleRightLastName: Drawable? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.drawbleRightLastName)
+
+        }
+        get() {
+            return field
+        }
+
     @get:Bindable
     override var valid: Boolean = false
         get() = validate()
@@ -62,14 +89,20 @@ class NameState : BaseState(), IName.State {
             if (StringUtils.validateName(value)) {
                 firstNameError = ""
                 notifyPropertyChanged(BR.firstNameError)
+                drawbleRight = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
 
 
             } else {
                 valid = false
                 lastNameError = "error"
                 firstNameError = ""
+                drawbleRight = null
+
 
             }
+        }else{
+            drawbleRight = null
+
         }
     }
 
@@ -81,12 +114,18 @@ class NameState : BaseState(), IName.State {
                 valid = true
                 lastNameError = ""
                 notifyPropertyChanged(BR.lastNameError)
+                drawbleRightLastName = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+
             } else {
                 valid = false
                 lastNameError = "error"
                 notifyPropertyChanged(BR.lastNameError)
+                drawbleRightLastName =null
 
             }
+        }else{
+            drawbleRightLastName = null
+
         }
     }
 }

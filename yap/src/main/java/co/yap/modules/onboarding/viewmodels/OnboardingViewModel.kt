@@ -11,7 +11,7 @@ import co.yap.yapcore.SingleLiveEvent
 class OnboardingViewModel(application: Application) : BaseViewModel<IOnboarding.State>(application),
     IOnboarding.ViewModel {
 
-    override var onboardingData: OnboardingData = OnboardingData("", "", "", "", "", "", AccountType.B2C_ACCOUNT,"")
+    override var onboardingData: OnboardingData = OnboardingData("", "", "", "", "", "", AccountType.B2C_ACCOUNT,"","")
     override val state: OnboardingState = OnboardingState()
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
