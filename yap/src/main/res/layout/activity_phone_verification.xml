@@ -19,15 +19,13 @@
         android:padding="@dimen/_24sdp"
         tools:context=".modules.onboarding.activities.PhoneVerificationSignInActivity">
 
-        <TextView
-            android:id="@+id/tvTitle"
+        <ImageView
+            android:id="@+id/ivLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ATitle3"
-            android:textColor="@color/colorPrimaryDark"
+            app:srcCompat="@drawable/logo"
             android:gravity="center_horizontal"
-            tools:text="Verify your mobile number"
-            app:text="@{Strings.screen_verify_phone_number_display_text_title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -37,12 +35,13 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="We&apos;ve sent a verification code to +971 56 204 7636"
-            app:text="@{Strings.screen_verify_phone_number_display_text_sub_title}"
-            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            android:gravity="center"
+            tools:text="@string/screen_sign_in_display_text_sub_title"
+            app:text="@{Strings.screen_sign_in_display_text_sub_title}"
+            app:layout_constraintTop_toBottomOf="@+id/ivLogo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/_8sdp"/>
+            android:layout_marginTop="@dimen/margin_extra_large"/>
 
         <in.aabhasjindal.otptextview.OtpTextView
             android:id="@+id/vOtp"
