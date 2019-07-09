@@ -26,6 +26,7 @@
     <color name="colorSecondaryBlue">#478df4</color>
     <color name="colorSecondaryMagenta">#f44774</color>
 
+    <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
 
 </resources>

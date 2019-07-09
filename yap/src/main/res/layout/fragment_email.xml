@@ -31,6 +31,7 @@
             android:layout_marginTop="@dimen/margin_extra_large"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="219dp"
+            android:text="@{emailViewModel.state.emailTitle}"
             tools:layout_editor_absoluteX="54dp"
             app:text="@{Strings.screen_enter_email_b2c_display_text_title}"
             />
@@ -57,16 +58,17 @@
             app:cursorPlacement="@{emailViewModel.state.cursorPlacement}"
             app:layout_constraintHorizontal_bias="0.487"
             app:realValue="@={emailViewModel.state.twoWayTextWatcher}"
+            app:onEditorActionDoneListener="@{emailViewModel.onEditorActionListener()}"
 
             />
-        <!--app:realValue="@={emailViewModel.state.twoWayTextWatcher}"-->
+
         <TextView
             android:id="@+id/tvSuccess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ASmallGrey"
             android:textSize="12sp"
-            android:visibility="gone"
+            android:visibility="visible"
             android:gravity="center"
             android:paddingStart="@dimen/margin_extra_small"
             android:layout_below="@+id/etInputField"
@@ -74,31 +76,24 @@
             app:layout_constraintBottom_toTopOf="@+id/next_button"
             android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{emailViewModel.state.emailVerificationTitle}"
             android:layout_marginStart="8dp"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/_40sdp"
             app:layout_constraintTop_toBottomOf="@+id/inputEmailAddress"
             app:layout_constraintHorizontal_bias="0.487"
-            app:layout_constraintVertical_bias="0.0"/>
+            app:layout_constraintVertical_bias="0.0"
+            />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/next_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:btn_round_radius="50dp"
-            app:btn_enable="false"
-            android:textColor="@color/colorWhite"
+            style="@style/FragmentsBtnStyle"
             android:text="@string/screen_phone_number_button_send"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"
-            android:minHeight="@dimen/_52sdp"
-            android:gravity="center"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
-            app:btn_text_size="@dimen/text_size_h4"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:drawablePadding="@dimen/_20sdp"
-            app:btn_shape_type="rectangle"
             tools:ignore="MissingConstraints"
             android:layout_marginBottom="@dimen/margin_medium_large"
             tools:layout_editor_absoluteX="44dp"
