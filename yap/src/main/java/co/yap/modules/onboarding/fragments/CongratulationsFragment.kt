@@ -8,11 +8,17 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.animation.AccelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.text.set
+import androidx.core.text.toSpannable
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -23,6 +29,7 @@ import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
 import co.yap.translation.Strings
 import co.yap.widgets.AnimatingProgressBar
 import co.yap.yapcore.helpers.AnimationUtils
+import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
 
@@ -141,16 +148,27 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     }
 
-    private fun counterAnimation(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator =
-        AnimationUtils.valueCounter(initialValue, finalValue).apply {
+    private fun counterAnimation(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator {
+        val text = getString(Strings.screen_onboarding_congratulations_display_text_sub_title)
+        val parts = text.split("%1s")
+
+        return AnimationUtils.valueCounter(initialValue, finalValue, 1500).apply {
             addUpdateListener { animator ->
-                textview.text = getString(
-                    Strings.screen_onboarding_congratulations_display_text_sub_title,
-                    animator.animatedValue.toString()
-                )
+                textview.text = SpannableStringBuilder().run {
+                    append(parts[0])
+                    val counterText = animator.animatedValue.toString() + parts[1]
+                    append(counterText.toSpannable().apply {
+                        setSpan(
+                            ForegroundColorSpan(Utils.getColor(requireContext(), R.color.colorPrimaryDark)),
+                            0, counterText.length,
+                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                        )
+                    })
+                }.toSpannable()
             }
         }
+    }
 
 
-    override fun onBackPressed(): Boolean = run {(activity as? OnboardingActivity)?.finish().let { true }}
+    override fun onBackPressed(): Boolean = run { (activity as? OnboardingActivity)?.finish().let { true } }
 }

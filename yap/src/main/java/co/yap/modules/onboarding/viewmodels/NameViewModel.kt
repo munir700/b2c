@@ -10,7 +10,7 @@ import co.yap.yapcore.SingleLiveEvent
 
 class NameViewModel(application: Application) : OnboardingChildViewModel<IName.State>(application), IName.ViewModel {
 
-    override val state: NameState = NameState()
+    override val state: NameState = NameState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     override fun onResume() {

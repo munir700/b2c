@@ -8,6 +8,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.onboarding.ObnoardingRepository
 import co.yap.networking.onboarding.requestdtos.VerifyOtpRequest
 import co.yap.yapcore.SingleLiveEvent
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
@@ -20,6 +22,12 @@ class PhoneVerificationViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setProgress(40)
+    }
+
+
+    override fun onCreate() {
+        super.onCreate()
+        state.mobileNumber[0] = parentViewModel!!.onboardingData.formattedMobileNumber
     }
 
     override fun handlePressOnSendButton() {

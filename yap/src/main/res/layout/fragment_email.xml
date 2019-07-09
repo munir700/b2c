@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/FragmentsBtnStyle"
-            android:text="@string/screen_phone_number_button_send"
+            android:text="@{emailViewModel.state.emailBtnTitle}"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
             app:layout_constraintBottom_toBottomOf="parent"
