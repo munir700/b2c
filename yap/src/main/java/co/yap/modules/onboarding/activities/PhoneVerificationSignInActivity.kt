@@ -31,6 +31,7 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
         super.onCreate(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
+        viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
 
         setUsername()
         setPasscode()
@@ -40,9 +41,14 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
         get() = ViewModelProviders.of(this).get(PhoneVerificationSignInViewModel::class.java)
 
     private val nextButtonObserver = Observer<Boolean> {
-        viewModel.verifyOtp() }
+        viewModel.verifyOtp()
+    }
 
     private val verifyOtpResultObserver = Observer<Boolean> {
+        viewModel.postDemographicData()
+    }
+
+    private val postDemographicDataObserver = Observer<Boolean> {
         startActivity(LiteDashboardActivity.newIntent(this@PhoneVerificationSignInActivity, AccountType.B2C_ACCOUNT))
     }
 
