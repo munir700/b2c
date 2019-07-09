@@ -3,6 +3,7 @@ package co.yap.app.modules.login.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -22,6 +23,7 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_verify_passcode.*
+
 
 class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(), BiometricCallback {
 
@@ -78,7 +80,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
         dialer.onButtonClickListener = View.OnClickListener {
             if (it.id == R.id.btnFingerPrint)
-            showFingerprintDialog()
+                showFingerprintDialog()
         }
 
 
@@ -161,12 +163,20 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
 
     private fun showFingerprintDialog() {
-        mBiometricManager = BiometricManager.BiometricBuilder(this@VerifyPasscodeActivity)
-            .setTitle(getString(R.string.biometric_title))
-            .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
-            .build()
 
-        mBiometricManager.authenticate(this@VerifyPasscodeActivity)
+
+        Handler().postDelayed(
+            {
+                mBiometricManager = BiometricManager.BiometricBuilder(this@VerifyPasscodeActivity)
+                    .setTitle(getString(R.string.biometric_title))
+                    .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
+                    .build()
+
+                mBiometricManager.authenticate(this@VerifyPasscodeActivity)
+            }, 500
+        )
+
+
     }
 
 
