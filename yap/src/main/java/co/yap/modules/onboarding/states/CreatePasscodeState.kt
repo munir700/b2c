@@ -9,6 +9,18 @@ import co.yap.modules.onboarding.interfaces.ICreatePasscode
 import co.yap.yapcore.BaseState
 
 class CreatePasscodeState : BaseState(), ICreatePasscode.State {
+    val list: ArrayList<Int> = ArrayList(6)
+    override fun checkButtonValidation() {
+        /*if(list.size>3){
+            for(i in 0..list.size){
+                if(list[i].plus(1).minus(list[i])==1){
+                    sequence=true
+                }else if(list[i]==list[i+1]){
+                    similar=true
+                }
+            }
+        }*/
+    }
 
     @get:Bindable
     override var sequence: Boolean = false
@@ -48,7 +60,6 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 
 
     fun validate(text: String) {
-
         if (text.length in 7 downTo 4) {
             validationPasscode(text)
             valid = true
@@ -65,11 +76,11 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
         /* if (passcodeText.equals("1234")) {
              passcode = "length can not b in sequence"
          }*/
-        if (sequence){
+        /*if (sequence){
             dialerError="length can not be in sequence"
         }else if (similar){
             dialerError="Passcode can not be same digity"
-        }
+        }*/
         passcode = passcodeText
     }
 
@@ -77,7 +88,12 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
     override fun getTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-
+             /*   if (list.size>0){
+                    list.add(list[list.lastIndex])
+                }
+                else{
+                    list.add(p0.toString().toInt())
+                }*/
             }
 
             override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
@@ -89,5 +105,6 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
             }
         }
     }
+
 }
 

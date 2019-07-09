@@ -32,16 +32,67 @@ class CoreDialerPad @JvmOverloads constructor(
     var onButtonClickListener: View.OnClickListener? = null
 
     private val onClickListener: View.OnClickListener = OnClickListener {
-        if (it.id == R.id.button1) etPassCodeText.append("1")
-        if (it.id == R.id.button2) etPassCodeText.append("2")
-        if (it.id == R.id.button3) etPassCodeText.append("3")
-        if (it.id == R.id.button4) etPassCodeText.append("4")
-        if (it.id == R.id.button5) etPassCodeText.append("5")
-        if (it.id == R.id.button6) etPassCodeText.append("6")
-        if (it.id == R.id.button7) etPassCodeText.append("7")
-        if (it.id == R.id.button8) etPassCodeText.append("8")
-        if (it.id == R.id.button9) etPassCodeText.append("9")
-        if (it.id == R.id.button0) etPassCodeText.append("0")
+        if (it.id == R.id.button1) {
+            etPassCodeText.append("1")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+
+        if (it.id == R.id.button2) {
+            etPassCodeText.append("2")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+        if (it.id == R.id.button3) {
+            etPassCodeText.append("3")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+        if (it.id == R.id.button4) {
+            etPassCodeText.append("4")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+        if (it.id == R.id.button5) {
+            etPassCodeText.append("5")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+        if (it.id == R.id.button6) {
+            etPassCodeText.append("6")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+        if (it.id == R.id.button7) {
+            etPassCodeText.append("7")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+        if (it.id == R.id.button8) {
+            etPassCodeText.append("8")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+        if (it.id == R.id.button9) {
+            etPassCodeText.append("9")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
+        if (it.id == R.id.button0) {
+            etPassCodeText.append("0")
+            if (dialerType == 1) {
+                addListSizeForPasscode()
+            }
+        }
         // if (it.id == R.id.btnFingerPrint) etPassCodeText.append("0")
 
         onButtonClickListener?.onClick(it)
@@ -156,7 +207,7 @@ class CoreDialerPad @JvmOverloads constructor(
         }
     }
 
-    fun removePasscodeFromList() {
+    private fun removePasscodeFromList() {
         list.remove(1)
         if (list.size == 0) {
             ivOne.visibility = View.GONE
