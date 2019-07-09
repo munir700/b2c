@@ -19,7 +19,7 @@ import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
-abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IFragmentHolder, IBase.View<V>,
+abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
 
     private var snackbar: Snackbar? = null
@@ -87,14 +87,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IFrag
         )
         snackbarConnected.show()
         snackbar?.dismiss()
-    }
-
-    override fun onFragmentAttached() {
-
-    }
-
-    override fun onFragmentDetached(tag: String) {
-
     }
 
     override fun showLoader(isVisible: Boolean) {

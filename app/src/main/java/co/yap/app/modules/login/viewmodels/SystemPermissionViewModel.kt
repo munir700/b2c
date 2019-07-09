@@ -9,16 +9,29 @@ import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.states.SystemPermissionState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleLiveEvent
 
 class SystemPermissionViewModel(application: Application) : BaseViewModel<ISystemPermission.State>(application),
     ISystemPermission.ViewModel {
 
+    override val permissionGrantedPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val permissionNotGrantedPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var screenType: String = ""
 
     override fun onCreate() {
         super.onCreate()
         setupViews()
     }
+
+
+    override fun permissonGranted() {
+        permissionGrantedPressEvent.value = true
+    }
+
+    override fun permissonNotGranted() {
+        permissionNotGrantedPressEvent.value = true
+    }
+
 
     fun setupViews() {
         if (screenType == Constants.TOUCH_ID_SCREEN_TYPE) touchIdViews() else notificationViews()
