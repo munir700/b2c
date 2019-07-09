@@ -15,8 +15,14 @@ import co.yap.yapcore.BaseBindingActivity
 class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSignIn.ViewModel>() {
 
     companion object {
-        fun newIntent(context: Context): Intent {
+
+        private val PASSCODE = "passcode"
+        private val USERNAME = "username"
+
+        fun newIntent(context: Context, passcode: String, username: String): Intent {
             val intent = Intent(context, PhoneVerificationSignInActivity::class.java)
+            intent.putExtra(PASSCODE, passcode)
+            intent.putExtra(USERNAME, username)
             return intent
         }
     }
@@ -24,12 +30,27 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
+        viewModel.verifyOtpResult.observe(this, verifyOtpResultObserver)
+        viewModel.postDemographicDataResult.observe(this, postDemographicDataObserver)
+
+        setUsername()
+        setPasscode()
     }
 
     override val viewModel: IPhoneVerificationSignIn.ViewModel
         get() = ViewModelProviders.of(this).get(PhoneVerificationSignInViewModel::class.java)
 
-    private val nextButtonObserver = Observer<Boolean> { showToast("Send pressed") }
+    private val nextButtonObserver = Observer<Boolean> {
+        viewModel.verifyOtp()
+    }
+
+    private val verifyOtpResultObserver = Observer<Boolean> {
+        viewModel.postDemographicData()
+    }
+
+    private val postDemographicDataObserver = Observer<Boolean> {
+        startActivity(LiteDashboardActivity.newIntent(this@PhoneVerificationSignInActivity, AccountType.B2C_ACCOUNT))
+    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -41,4 +62,11 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
         viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
 
+    private fun setUsername() {
+        viewModel.state.username = intent.getSerializableExtra(USERNAME) as String
+    }
+
+    private fun setPasscode() {
+        viewModel.state.passcode = intent.getSerializableExtra(PASSCODE) as String
+    }
 }

@@ -59,6 +59,7 @@
     <string name="screen_sign_in_button_sign_in">Sign in</string>
     <string name="screen_sign_in_display_text_sign_up_prefix">Create an account?</string>
     <string name="screen_sign_in_display_text_sign_up">Sign Up</string>
+    <string name="screen_sign_in_display_text_sub_title">Enter the OTP sent to your registered mobile number to complete login</string>
 
     <!-- Touch id permission screen -->
     <string name="screen_system_permission_text_title">Would you like to use Touch ID to log in to your account?</string>
@@ -80,7 +81,8 @@
 
     <!--  Onboarding congratulations screen -->
     <string name="screen_onboarding_congratulations_display_text_title">Congrats, %1s!</string>
-    <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for you in less than 30 seconds!</string>
+    <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for you in less than %1s seconds!</string>
+    <string name="screen_onboarding_congratulations_display_text_sub_title_no_interval">A YAP Personal Account has been created for you</string>
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
     <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID and Trade License at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>

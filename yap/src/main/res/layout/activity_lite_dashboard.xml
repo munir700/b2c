@@ -65,6 +65,7 @@
                 android:minHeight="@dimen/_52sdp"
                 android:gravity="center"
                 android:text="Logout"
+                android:onClick="@{(v)-> viewModel.handlePressOnLogout()}"
                 android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginRight="@dimen/margin_xxl"
                 app:btn_text_size="@dimen/text_size_h4"

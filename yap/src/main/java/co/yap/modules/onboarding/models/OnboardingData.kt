@@ -1,6 +1,7 @@
 package co.yap.modules.onboarding.models
 
 import co.yap.modules.onboarding.enums.AccountType
+import java.util.*
 
 data class OnboardingData(
     var countryCode: String,
@@ -11,4 +12,6 @@ data class OnboardingData(
     var email: String,
     var accountType: AccountType,
     var ibanNumber: String
-)
+) {
+    var startTime: Date? = null
+}

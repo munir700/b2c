@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
+import co.yap.app.login.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.authentication.AuthRepository
@@ -20,7 +21,9 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     override val state: EmailState = EmailState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: ObnoardingRepository = ObnoardingRepository
-    val authRepository: AuthRepository = AuthRepository
+    private val authRepository: AuthRepository = AuthRepository
+    private val sharedPreferenceManager = SharedPreferenceManager(context)
+
 
     override fun onResume() {
         super.onResume()
@@ -34,6 +37,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     private fun signUp() {
         launch {
+            state.loading = true
             when (val response = repository.signUp(
                 SignUpRequest(
                     parentViewModel!!.onboardingData.firstName,
@@ -46,36 +50,42 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_PASSCODE,
+                        EncryptionUtils.encrypt(context, parentViewModel!!.onboardingData.passcode)!!
+                    )
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_USERNAME,
+                        EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
+                    )
                     sendVerificationEmail()
                     postDemographicData()
                 }
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Error -> state.toast = response.error.message
             }
-
+            state.loading = false
         }
-
-
     }
 
     private fun sendVerificationEmail() {
         launch {
+            state.loading = true
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-                is RetroApiResponse.Success -> ""
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Error -> state.toast = response.error.message
             }
+            state.loading = false
         }
     }
 
     private fun postDemographicData() {
-
-        val sharedPreferenceManager = SharedPreferenceManager(context)
         val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
+            state.loading = true
             when (val response = authRepository.postDemographicData(
                 DemographicDataRequest(
                     "LOGIN",
@@ -87,20 +97,23 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> getAccountInfo()
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Error -> state.toast = response.error.message
             }
+            state.loading = false
         }
     }
 
     private fun getAccountInfo() {
         launch {
+            state.loading = true
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
-                    nextButtonPressEvent.postValue(true)
+                    nextButtonPressEvent.value = true
                 }
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Error -> state.toast = response.error.message
             }
+            state.loading = false
         }
     }
 

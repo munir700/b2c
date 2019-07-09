@@ -3,15 +3,14 @@ package co.yap.yapcore.helpers
 import android.animation.Animator
 import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
 import android.content.Context
 import android.view.View
-import android.view.animation.Animation
+import android.view.animation.*
 import android.view.animation.AnimationUtils
-import android.view.animation.Interpolator
-import android.view.animation.OvershootInterpolator
 import androidx.annotation.AnimRes
 import androidx.annotation.AnimatorRes
+import co.yap.yapcore.animations.animators.*
 
 object AnimationUtils {
 
@@ -24,29 +23,6 @@ object AnimationUtils {
      * Run a set of Animators in sequence
      */
     fun runSequentially(vararg animator: Animator): AnimatorSet = AnimatorSet().apply { playSequentially(*animator) }
-
-    fun fadeIn(view: View, duration: Long): ObjectAnimator {
-        return ObjectAnimator.ofFloat(view, "alpha", 0f, 1f).apply {
-            this.duration = duration
-        }
-    }
-
-    fun translateY(view: View, duration: Long, from: Float, to: Float): ObjectAnimator =
-        ObjectAnimator.ofFloat(view, "y", from, to).apply {
-            this.duration = duration
-        }
-
-    fun scale(view: View, duration: Long, from: Float, to: Float): AnimatorSet {
-        val scaleX = ObjectAnimator.ofFloat(view, "scaleX", from, to).apply {
-            this.duration = duration
-        }
-
-        val scaleY = ObjectAnimator.ofFloat(view, "scaleY", from, to).apply {
-            this.duration = duration
-        }
-
-        return runTogether(scaleX, scaleY)
-    }
 
 
     /**
@@ -61,33 +37,60 @@ object AnimationUtils {
 
     fun loadAnimation(context: Context, @AnimRes resId: Int): Animation = AnimationUtils.loadAnimation(context, resId)
 
+
+    fun fadeIn(view: View, duration: Long? = 500): AnimatorSet = FadeInAnimator().with(view, duration)
+
+    fun fadeOut(view: View, duration: Long? = 500): AnimatorSet = FadeOutAnimator().with(view, duration)
+
+    fun scale(
+        view: View,
+        duration: Long? = 500,
+        from: Float,
+        to: Float,
+        interpolator: Interpolator? = LinearInterpolator()
+    ): AnimatorSet =
+        ScaleAnimator(from, to, interpolator).with(view, duration)
+
+    fun pulse(view: View, duration: Long? = 500): AnimatorSet = PulseAnimator().with(view, duration)
+
+    fun bounce(view: View, duration: Long? = 500, from: Float, to: Float): AnimatorSet =
+        scale(view, duration, from, to, OvershootInterpolator())
+
+    fun slideVertical(
+        view: View,
+        duration: Long? = 500,
+        from: Float,
+        to: Float,
+        interpolator: Interpolator? = DecelerateInterpolator()
+    ): AnimatorSet = TranslateAnimator("y", from, to, interpolator).with(view, duration)
+
+    fun slideHorizontal(
+        view: View,
+        duration: Long? = 500,
+        from: Float,
+        to: Float,
+        interpolator: Interpolator? = DecelerateInterpolator()
+    ): AnimatorSet = TranslateAnimator("x", from, to, interpolator).with(view, duration)
+
     /**
      * Translate and FadeIn animation running in parallel on the view
      */
-    fun enterSlideAnimation(
+    fun jumpInAnimation(
         view: View,
         duration: Long? = 500,
         from: Float? = view.y + 300,
-        to: Float? = view.y,
-        interpolator: Interpolator? = OvershootInterpolator()
-    ): AnimatorSet {
-        val fade = fadeIn(view, 200)
-
-        // TranslateY animation
-        val slide = translateY(view, duration!!, from!!, to!!).apply {
-            this.interpolator = interpolator
-        }
-
-        return runTogether(fade, slide)
-    }
+        to: Float? = view.y
+    ): AnimatorSet =
+        runTogether(fadeIn(view, 200), slideVertical(view, duration!!, from!!, to!!, OvershootInterpolator()))
 
     /**
-     * Translate and FadeIn animation running in parallel on the view
+     * Bounce and FadeIn animation running in parallel on the view
      */
-    fun enterScaleAnimation(view: View): AnimatorSet {
-        val fade = fadeIn(view, 150)
-        val slide = scale(view, 250, 0.2f, 1.0f)
-        return runTogether(fade, slide)
+    fun outOfTheBoxAnimation(view: View): AnimatorSet = runTogether(fadeIn(view, 150), bounce(view, 300, 0.5f, 1f))
+
+    fun valueCounter(initial: Int, final: Int, duration: Long? = 500): ValueAnimator = ValueAnimator.ofInt(initial, final).apply {
+        this.duration = duration!!
     }
+
 
 }

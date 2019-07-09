@@ -12,9 +12,10 @@
             type="co.yap.modules.onboarding.viewmodels.OnboardingViewModel"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:padding="@dimen/_8sdp"
         android:layout_width="match_parent"
+        android:gravity="center_vertical"
         android:background="@color/white"
         android:layout_height="wrap_content">
 
@@ -27,6 +28,7 @@
             android:layout_height="@dimen/_32sdp"
             android:clickable="true"
             android:focusable="true"
+            android:layout_alignParentStart="true"
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
             android:id="@+id/tbBtnBack"/>
 
@@ -36,7 +38,7 @@
             android:layout_height="@dimen/_32sdp"
             android:clickable="true"
             android:focusable="true"
-            android:foreground="?attr/selectableItemBackground"
+            android:layout_alignParentEnd="true"
             android:onClick="@{(v) -> viewModel.handlePressOnTickButton()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
@@ -44,22 +46,18 @@
 
         <co.yap.widgets.AnimatingProgressBar
             style="@style/YAPProgressBar"
-            android:id="@+id/progress_bar"
-            android:layout_width="258dp"
-            android:layout_height="6dp"
+            android:id="@+id/tbProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_6sdp"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@id/tbBtnBack"
+            android:layout_toStartOf="@id/tbBtnCheck"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
             android:max="@{viewModel.state.totalProgress}"
             android:progress="@{viewModel.state.currentProgress}"
-            android:layout_gravity="center_horizontal"
-            app:layout_constraintStart_toEndOf="@+id/tbBtnBack"
-            app:layout_constraintEnd_toStartOf="@+id/tbBtnCheck"
-            app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
-            app:layout_constraintBottom_toBottomOf="@+id/tbBtnBack"/>
+            android:layout_gravity="center_horizontal"/>
 
-
-
-
-
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </layout>

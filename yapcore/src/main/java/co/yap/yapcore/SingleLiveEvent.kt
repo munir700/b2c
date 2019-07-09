@@ -1,5 +1,7 @@
 package co.yap.yapcore
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
@@ -9,6 +11,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
+    private val debounceDelay: Long = 500L
     private val mPending = AtomicBoolean(false)
 
     @MainThread
@@ -19,16 +22,28 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
 
         // Observe the internal MutableLiveData
         super.observe(owner, Observer { t ->
-            if (mPending.compareAndSet(true, false)) {
+            if (mPending.get()) {
                 observer.onChanged(t)
+                Handler(Looper.getMainLooper()).postDelayed({ mPending.set(false) }, debounceDelay)
             }
+//            if (mPending.compareAndSet(true, false)) {
+//                observer.onChanged(t)
+//            }
         })
+    }
+
+    override fun postValue(value: T) {
+        if (!mPending.get()) {
+            super.postValue(value)
+        }
     }
 
     @MainThread
     override fun setValue(t: T?) {
-        mPending.set(true)
-        super.setValue(t)
+        if (!mPending.get()) {
+            mPending.set(true)
+            super.setValue(t)
+        }
     }
 
     /**

@@ -11,6 +11,7 @@ import co.yap.app.constants.Constants
 import co.yap.modules.onboarding.interfaces.ICreatePasscode
 import co.yap.modules.onboarding.viewmodels.CreatePasscodeViewModel
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
 class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() {
@@ -36,7 +37,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() 
 
     private val nextButtonObserver = Observer<Boolean> {
         val intent = Intent()
-        intent.putExtra(Constants.KEY_PASSCODE, viewModel.state.passcode)
+        intent.putExtra(SharedPreferenceManager.KEY_PASSCODE, viewModel.state.passcode)
         setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
     }

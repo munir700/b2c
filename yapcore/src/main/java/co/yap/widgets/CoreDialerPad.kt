@@ -8,6 +8,7 @@ import android.text.InputFilter
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
@@ -28,6 +29,23 @@ class CoreDialerPad @JvmOverloads constructor(
     var list: ArrayList<Int> = ArrayList()
     var dialerType = 0
     val animShake = AnimationUtils.loadAnimation(context, R.anim.shake)
+    var onButtonClickListener: View.OnClickListener? = null
+
+    private val onClickListener: View.OnClickListener = OnClickListener {
+        if (it.id == R.id.button1) etPassCodeText.append("1")
+        if (it.id == R.id.button2) etPassCodeText.append("2")
+        if (it.id == R.id.button3) etPassCodeText.append("3")
+        if (it.id == R.id.button4) etPassCodeText.append("4")
+        if (it.id == R.id.button5) etPassCodeText.append("5")
+        if (it.id == R.id.button6) etPassCodeText.append("6")
+        if (it.id == R.id.button7) etPassCodeText.append("7")
+        if (it.id == R.id.button8) etPassCodeText.append("8")
+        if (it.id == R.id.button9) etPassCodeText.append("9")
+        if (it.id == R.id.button0) etPassCodeText.append("0")
+        // if (it.id == R.id.btnFingerPrint) etPassCodeText.append("0")
+
+        onButtonClickListener?.onClick(it)
+    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.core_dialer_pad, this, true)
@@ -44,67 +62,17 @@ class CoreDialerPad @JvmOverloads constructor(
              )*/
             if (dialerType == 1) performPassCode()
 
-            button1.setOnClickListener {
-                etPassCodeText.append("1")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-
-            }
-            button2.setOnClickListener {
-                etPassCodeText.append("2")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
-            button3.setOnClickListener {
-                etPassCodeText.append("3")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
-            button4.setOnClickListener {
-                etPassCodeText.append("4")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
-            button5.setOnClickListener {
-                etPassCodeText.append("5")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
-            button6.setOnClickListener {
-                etPassCodeText.append("6")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
-            button7.setOnClickListener {
-                etPassCodeText.append("7")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
-            button8.setOnClickListener {
-                etPassCodeText.append("8")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
-            button9.setOnClickListener {
-                etPassCodeText.append("9")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
-            button0.setOnClickListener {
-                etPassCodeText.append("0")
-                if (dialerType == 1) {
-                    addListSizeForPasscode()
-                }
-            }
+            button1.setOnClickListener(onClickListener)
+            button2.setOnClickListener(onClickListener)
+            button3.setOnClickListener(onClickListener)
+            button4.setOnClickListener(onClickListener)
+            button5.setOnClickListener(onClickListener)
+            button6.setOnClickListener(onClickListener)
+            button7.setOnClickListener(onClickListener)
+            button8.setOnClickListener(onClickListener)
+            button9.setOnClickListener(onClickListener)
+            button0.setOnClickListener(onClickListener)
+            btnFingerPrint.setOnClickListener(onClickListener)
             // if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
 //            typedArray.recycle()
 
@@ -132,6 +100,15 @@ class CoreDialerPad @JvmOverloads constructor(
         tvError.visibility = View.VISIBLE
         tvError.text = error
     }
+
+    fun showFingerprintView() {
+        btnFingerPrint.visibility = View.VISIBLE
+    }
+
+    fun hideFingerprintView() {
+        btnFingerPrint.visibility = View.INVISIBLE
+    }
+
 
     fun settingUIForNormal() {
         tvError.visibility = View.INVISIBLE
@@ -234,6 +211,7 @@ class CoreDialerPad @JvmOverloads constructor(
 
     }
 }
+
 
 
 

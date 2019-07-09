@@ -45,6 +45,7 @@ object Strings {
     const val screen_sign_in_input_text_email_hint: String = "screen_sign_in_input_text_email_hint"
     const val screen_sign_in_button_sign_in: String = "screen_sign_in_button_sign_in"
     const val screen_sign_in_display_text_sign_up: String = "screen_sign_in_display_text_sign_up"
+    const val screen_sign_in_display_text_sub_title: String = "screen_sign_in_display_text_sub_title"
 
     /* Touch id permission screen */
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
@@ -87,6 +88,9 @@ object Strings {
         "screen_onboarding_congratulations_display_text_title"
     const val screen_onboarding_congratulations_display_text_sub_title: String =
         "screen_onboarding_congratulations_display_text_sub_title"
+    const val screen_onboarding_congratulations_display_text_sub_title_no_interval: String =
+        "screen_onboarding_congratulations_display_text_sub_title_no_interval"
+
     const val screen_onboarding_congratulations_display_text_iban: String =
         "screen_onboarding_congratulations_display_text_iban"
     const val screen_onboarding_congratulations_display_text_meeting_note: String =
@@ -96,8 +100,8 @@ object Strings {
 
 
     //Verify passcode screen
-    const val screen_verify_passcode_display_text_title: String ="screen_verify_passcode_display_text_title"
-    const val screen_verify_passcode_button_sign_in:String ="screen_verify_passcode_button_sign_in"
-    const val screen_verify_passcode_text_forgot_password:String ="screen_verify_passcode_text_forgot_password"
+    const val screen_verify_passcode_display_text_title: String = "screen_verify_passcode_display_text_title"
+    const val screen_verify_passcode_button_sign_in: String = "screen_verify_passcode_button_sign_in"
+    const val screen_verify_passcode_text_forgot_password: String = "screen_verify_passcode_text_forgot_password"
 
 }

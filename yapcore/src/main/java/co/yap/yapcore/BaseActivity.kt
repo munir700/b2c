@@ -19,7 +19,7 @@ import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
-abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragmentHolder, IBase.View<V>,
+abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
 
     private var snackbar: Snackbar? = null
@@ -89,20 +89,11 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
         snackbar?.dismiss()
     }
 
-    override fun onFragmentAttached() {
-
-    }
-
-    override fun onFragmentDetached(tag: String) {
-
-    }
-
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) {
-            progressDialogueFragment.show(supportFragmentManager, "loading")
+            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(supportFragmentManager, "loading")
         } else {
-            progressDialogueFragment.dismiss()
-
+            if (progressDialogueFragment.isVisible) progressDialogueFragment.dismiss()
         }
     }
 
@@ -157,15 +148,18 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
 
     override fun getString(resourceKey: String): String = Translator.getString(this, resourceKey)
 
-    private val stateObserver = object: Observable.OnPropertyChangedCallback() {
+    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
                 showToast(viewModel.state.toast)
             }
+            if (propertyId == BR.loading) {
+                showLoader(viewModel.state.loading)
+            }
         }
     }
 
-    private fun registerStateListeners () {
+    private fun registerStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }
@@ -174,7 +168,7 @@ abstract class BaseActivity<V: IBase.ViewModel<*>> : AppCompatActivity(), IFragm
         }
     }
 
-    private fun unregisterStateListeners () {
+    private fun unregisterStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.unregisterLifecycleOwner(this)
         }

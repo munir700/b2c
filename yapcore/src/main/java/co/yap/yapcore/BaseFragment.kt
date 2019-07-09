@@ -4,17 +4,26 @@ import android.content.Context
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.databinding.Observable
 import androidx.fragment.app.Fragment
 import co.yap.translation.Translator
+import co.yap.yapcore.interfaces.OnBackPressedListener
 
 
-abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V> {
+abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>, OnBackPressedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+         // This callback will only be called when MyFragment is at least Started.
+//        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+//            override fun handleOnBackPressed() {
+//                onBackPressed()
+//            }
+//        })
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -52,20 +61,17 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.Vi
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) {
-            fragmentManager?.let { progressDialogueFragment.show(it, "loading") }
-
+            if (!progressDialogueFragment.isAdded)
+                fragmentManager?.let { progressDialogueFragment.show(it, "loading") }
         } else {
-            progressDialogueFragment.dismiss()
-
+            if (progressDialogueFragment.isAdded)
+                progressDialogueFragment.dismiss()
         }
     }
 
     override fun showToast(msg: String) {
-        Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
-    }
-
-    override fun onBackPressed() {
-        getBaseView()?.onBackPressed()
+        // Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
+        getBaseView()?.showToast(msg)
     }
 
     private fun getFragmentHolder(): IFragmentHolder? {
@@ -101,17 +107,22 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.Vi
     }
 
     override fun getString(resourceKey: String): String = Translator.getString(context!!, resourceKey)
+    fun getString(resourceKey: String, vararg arg: String): String = Translator.getString(context!!, resourceKey, *arg)
 
+    override fun onBackPressed(): Boolean = false
 
-    private val stateObserver = object: Observable.OnPropertyChangedCallback() {
+    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (propertyId == BR.toast && viewModel.state.toast.isNotBlank()) {
                 showToast(viewModel.state.toast)
             }
+            if (propertyId == BR.loading) {
+                showLoader(viewModel.state.loading)
+            }
         }
     }
 
-    private fun registerStateListeners () {
+    private fun registerStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.registerLifecycleOwner(this)
         }
@@ -120,7 +131,7 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.Vi
         }
     }
 
-    private fun unregisterStateListeners () {
+    private fun unregisterStateListeners() {
         if (viewModel is BaseViewModel<*>) {
             viewModel.unregisterLifecycleOwner(this)
         }

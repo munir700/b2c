@@ -10,7 +10,6 @@ interface IBase {
         val viewModel: V
         fun showLoader(isVisible: Boolean)
         fun showToast(msg: String)
-        fun onBackPressed()
         fun showInternetSnack(isVisible: Boolean)
         fun isPermissionGranted(permission: String): Boolean
         fun requestPermissions()
