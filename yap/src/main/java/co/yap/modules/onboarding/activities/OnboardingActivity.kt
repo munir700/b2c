@@ -43,7 +43,7 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
 
 
     private fun getAccountType(): AccountType {
-        return intent.getSerializableExtra(OnboardingActivity.ACCOUNT_TYPE) as AccountType
+        return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }
 
 }

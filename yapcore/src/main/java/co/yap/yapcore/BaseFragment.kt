@@ -101,6 +101,7 @@ abstract class BaseFragment<V: IBase.ViewModel<*>> : BaseNavFragment(), IBase.Vi
     }
 
     override fun getString(resourceKey: String): String = Translator.getString(context!!, resourceKey)
+    fun getString(resourceKey: String, vararg arg: String): String = Translator.getString(context!!, resourceKey, *arg)
 
 
     private val stateObserver = object: Observable.OnPropertyChangedCallback() {

@@ -10,6 +10,10 @@ class CongratulationsViewModel(application: Application) :
 
     override val state: CongratulationsState = CongratulationsState()
 
+    override fun onResume() {
+        super.onResume()
+        setProgress(100)
+    }
 
     override fun handlePressOnCompleteVerification() {
 
