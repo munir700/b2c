@@ -1,9 +1,11 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
+import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.authentication.requestdtos.CreateOtpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -16,12 +18,15 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
     override val state: VerifyPasscodeState = VerifyPasscodeState()
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val loginSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val validateDeviceResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val createOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override var isFingerprintLogin: Boolean = false
 
     override fun login() {
         launch {
             when (val response = repository.login(state.username, state.passcode)) {
                 is RetroApiResponse.Success -> {
-                    loginSuccess.value = true
+                    loginSuccess.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -35,7 +40,22 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
         launch {
             when (val response = repository.validateDemographicData(state.deviceId)) {
                 is RetroApiResponse.Success -> {
-                    loginSuccess.value = true
+                    validateDeviceResult.postValue(response.data.data)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+
+        }
+    }
+
+
+    override fun createOtp() {
+        launch {
+            when (val response = repository.createOtp(CreateOtpRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
+                is RetroApiResponse.Success -> {
+                    createOtpResult.postValue(true)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -47,6 +67,6 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
     override fun handlePressOnSignInButton() {
 //        state.dialerError=state.passcode
-        signInButtonPressEvent.value = true
+        signInButtonPressEvent.postValue(true)
     }
 }

@@ -45,6 +45,7 @@ object Strings {
     const val screen_sign_in_input_text_email_hint: String = "screen_sign_in_input_text_email_hint"
     const val screen_sign_in_button_sign_in: String = "screen_sign_in_button_sign_in"
     const val screen_sign_in_display_text_sign_up: String = "screen_sign_in_display_text_sign_up"
+    const val screen_sign_in_display_text_sub_title: String = "screen_sign_in_display_text_sub_title"
 
     /* Touch id permission screen */
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
