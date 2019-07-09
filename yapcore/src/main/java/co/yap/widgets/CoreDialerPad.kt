@@ -9,6 +9,7 @@ import android.text.InputType
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.OnClickListener
 import android.widget.EditText
 import android.widget.LinearLayout
 import co.yap.yapcore.R
@@ -24,6 +25,23 @@ class CoreDialerPad @JvmOverloads constructor(
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
     var editText: EditText
+    var onButtonClickListener: View.OnClickListener? = null
+
+    private val onClickListener: View.OnClickListener = OnClickListener {
+        if (it.id == R.id.button1) etPassCodeText.append("1")
+        if (it.id == R.id.button2) etPassCodeText.append("2")
+        if (it.id == R.id.button3) etPassCodeText.append("3")
+        if (it.id == R.id.button4) etPassCodeText.append("4")
+        if (it.id == R.id.button5) etPassCodeText.append("5")
+        if (it.id == R.id.button6) etPassCodeText.append("6")
+        if (it.id == R.id.button7) etPassCodeText.append("7")
+        if (it.id == R.id.button8) etPassCodeText.append("8")
+        if (it.id == R.id.button9) etPassCodeText.append("9")
+        if (it.id == R.id.button0) etPassCodeText.append("0")
+        // if (it.id == R.id.btnFingerPrint) etPassCodeText.append("0")
+
+        onButtonClickListener?.onClick(it)
+    }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.core_dialer_pad, this, true)
@@ -40,36 +58,17 @@ class CoreDialerPad @JvmOverloads constructor(
              )*/
             if (dialerType == 1) performPassCode()
 
-            button1.setOnClickListener {
-                etPassCodeText.append("1")
-            }
-            button2.setOnClickListener {
-                etPassCodeText.append("2")
-            }
-            button3.setOnClickListener {
-                etPassCodeText.append("3")
-            }
-            button4.setOnClickListener {
-                etPassCodeText.append("4")
-            }
-            button5.setOnClickListener {
-                etPassCodeText.append("5")
-            }
-            button6.setOnClickListener {
-                etPassCodeText.append("6")
-            }
-            button7.setOnClickListener {
-                etPassCodeText.append("7")
-            }
-            button8.setOnClickListener {
-                etPassCodeText.append("8")
-            }
-            button9.setOnClickListener {
-                etPassCodeText.append("9")
-            }
-            button0.setOnClickListener {
-                etPassCodeText.append("0")
-            }
+            button1.setOnClickListener(onClickListener)
+            button2.setOnClickListener(onClickListener)
+            button3.setOnClickListener(onClickListener)
+            button4.setOnClickListener(onClickListener)
+            button5.setOnClickListener(onClickListener)
+            button6.setOnClickListener(onClickListener)
+            button7.setOnClickListener(onClickListener)
+            button8.setOnClickListener(onClickListener)
+            button9.setOnClickListener(onClickListener)
+            button0.setOnClickListener(onClickListener)
+            btnFingerPrint.setOnClickListener(onClickListener)
             // if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
 //            typedArray.recycle()
         }
@@ -113,6 +112,7 @@ class CoreDialerPad @JvmOverloads constructor(
         btnFingerPrint.setImageDrawable(resources.getDrawable(R.drawable.ic_fingerprint_purple, null))
     }
 }
+
 
 
 

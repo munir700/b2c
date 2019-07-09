@@ -3,6 +3,7 @@ package co.yap.app.modules.login.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -72,6 +73,12 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
                 dialer.hideFingerprintView()
             }
 
+        }
+
+
+        dialer.onButtonClickListener = View.OnClickListener {
+            if (it.id == R.id.btnFingerPrint)
+            showFingerprintDialog()
         }
 
 
