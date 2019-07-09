@@ -99,7 +99,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IFrag
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) {
-            if (!progressDialogueFragment.isVisible) progressDialogueFragment.show(supportFragmentManager, "loading")
+            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(supportFragmentManager, "loading")
         } else {
             if (progressDialogueFragment.isVisible) progressDialogueFragment.dismiss()
         }
