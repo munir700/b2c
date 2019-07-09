@@ -2,6 +2,9 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
@@ -110,4 +113,14 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         }
     }
 
+    override fun onEditorActionListener(): TextView.OnEditorActionListener {
+        return object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    handlePressOnNext()
+                }
+                return false
+            }
+        }
+    }
 }

@@ -155,7 +155,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         return true
     }
 
-
     fun getTextWatcher(): TextWatcher {
 
         return object : TextWatcher {

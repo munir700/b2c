@@ -2,6 +2,9 @@ package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
 import android.util.Log
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
 import co.yap.networking.authentication.AuthRepository
@@ -35,6 +38,17 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override fun handlePressOnLogin() {
         if (state.validate()) {
             performLogin(state.email, "Aaaaaa1@")
+        }
+    }
+
+    override fun onEditorActionListener(): TextView.OnEditorActionListener {
+        return object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    handlePressOnLogin()
+                }
+                return false
+            }
         }
     }
 }

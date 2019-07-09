@@ -257,6 +257,17 @@
 
     </style>
 
+    <style name="FragmentsBtnStyle" parent="AppFontMedium">
+        <item name="btn_text_size">@dimen/text_size_h4</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="btn_enable">false</item>
+        <item name="btn_round_radius">50dp</item>
+        <item name="android:minHeight">@dimen/_48sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
     <!-- Progress bar -->
     <style name="YAPProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:minWidth">@dimen/_200sdp</item>
