@@ -187,7 +187,6 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationFailed() {
-        Toast.makeText(applicationContext, getString(R.string.biometric_failed), Toast.LENGTH_LONG).show()
     }
 
     override fun onAuthenticationCancelled() {
