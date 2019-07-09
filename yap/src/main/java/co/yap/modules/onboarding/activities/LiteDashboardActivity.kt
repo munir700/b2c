@@ -70,7 +70,13 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     }
 
     private val logoutSuccessObserver = Observer<Boolean> {
+
+        val ACTION = "co.yap.app.OPEN_LOGIN"
+        val intent = Intent()
+        intent.action = ACTION
+        startActivity(intent)
         sharedPreferenceManager.clearSharedPreference()
+        finish()
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
