@@ -41,7 +41,7 @@
     <string name="screen_enter_email_b2b_display_text_sub_heading">Enter your business email to begin</string>
     <string name="screen_enter_email_display_text_email_address">Email address</string>
 
-   <!-- Email Verification Screen-->
+    <!-- Email Verification Screen-->
     <string name="screen_email_verification_display_text_title">Great!</string>
     <string name="screen_email_verification_b2c_display_text_email_sent">we have just sent an email to</string>
     <string name="screen_email_verification_b2c_display_text_email_confirmation">Please validate your email address after signing up and we promise not to spam you.</string>
@@ -99,5 +99,7 @@
     <string name="screen_verify_passcode_button_sign_in">Sign In</string>
     <string name="screen_verify_passcode_text_forgot_password">Forgot password?</string>
 
+    <!-- Otp screen -->
+    <string name="screen_otp_timer">%1s:%2s</string>
 
 </resources>
