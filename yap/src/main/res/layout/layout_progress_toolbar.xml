@@ -39,7 +39,6 @@
             android:clickable="true"
             android:focusable="true"
             android:layout_alignParentEnd="true"
-            android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnTickButton()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
