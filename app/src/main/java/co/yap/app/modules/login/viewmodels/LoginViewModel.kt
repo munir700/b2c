@@ -11,6 +11,6 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override val state: LoginState = LoginState()
 
     override fun handlePressOnLogin() {
-        signInButtonPressEvent.postValue(true)
+        signInButtonPressEvent.value = true
     }
 }

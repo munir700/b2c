@@ -29,4 +29,5 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         super.onDestroyView()
         viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
+
 }
