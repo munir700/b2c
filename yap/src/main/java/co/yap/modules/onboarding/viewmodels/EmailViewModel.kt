@@ -45,15 +45,16 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             postDemographicData()
         }
         else{
-            signUp()
+//            signUp()
+            sendVerificationEmail()
+
         }
     }
 
 
     private fun signUp() {
         launch {
-            state.loading = true
-            when (val response = repository.signUp(
+             when (val response = repository.signUp(
                 SignUpRequest(
                     parentViewModel!!.onboardingData.firstName,
                     parentViewModel!!.onboardingData.lastName,
@@ -74,12 +75,13 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                         EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
                     )
                     state.loading=false
-                    sendVerificationEmail()
+                    setVerifictionLabel()
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> state.emailError = response.error.message
              }
-            state.loading = false
-        }
+         }
     }
 
      private fun setVerifictionLabel() {
@@ -110,13 +112,14 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-                is RetroApiResponse.Error -> state.toast = response.error.message
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> state.emailError = response.error.message
                 is RetroApiResponse.Success -> {
-                    setVerifictionLabel()
+                    signUp()
+
                     //                    postDemographicData() on click on second time next
 
                 }            }
-            state.loading = false
         }
     }
 
