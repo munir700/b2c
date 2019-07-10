@@ -104,7 +104,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             getString(R.string.screen_email_verification_b2b_display_text_email_confirmation)
 
         val verificationText: String =
-            parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + "\n" + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
+            parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + " " + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
         state.emailVerificationTitle = verificationText
 
 
@@ -119,7 +119,11 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-                is RetroApiResponse.Error -> state.emailError = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.emailError = response.error.message
+                    state.loading = false
+
+                }
                 is RetroApiResponse.Success -> {
                     signUp()
                 }
@@ -142,7 +146,10 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> getAccountInfo()
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error ->{
+                    state.loading = false
+                    state.toast = response.error.message
+                }
             }
             state.loading = false
         }

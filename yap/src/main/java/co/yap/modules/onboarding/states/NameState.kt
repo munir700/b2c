@@ -84,7 +84,7 @@ class NameState(application: Application) : BaseState(), IName.State {
 
     fun setFirstNameTextWatcher(value: String) {
 
-        if (!value.isNullOrEmpty() && value.length >= 3) {
+        if (!value.isNullOrEmpty() && value.length >= 2) {
 
             if (StringUtils.validateName(value)) {
                 firstNameError = ""
@@ -108,7 +108,7 @@ class NameState(application: Application) : BaseState(), IName.State {
 
     fun setLastNameTextWatcher(value: String) {
 
-        if (!value.isNullOrEmpty() && value.length >= 3) {
+        if (!value.isNullOrEmpty() && value.length >= 2) {
 
             if (StringUtils.validateName(value)) {
                 valid = true

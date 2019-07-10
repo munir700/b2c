@@ -37,6 +37,7 @@
         <attr name="view_drawable_left" format="reference"/>
         <attr name="view_focusable" format="boolean" />
         <attr name="view_input_text" format="string" />
+        <attr name="view_max_length" format="integer" />
 
         <attr name="view_input_text_imei_actions" format="enum">
             <enum name="IME_ACTION_DONE" value="1"/>

@@ -17,7 +17,7 @@ object StringUtils {
         val matcher = pattern.matcher(inputStr)
 
         if (matcher.matches() && !name.isNullOrEmpty()) {
-            if (name.length >= 3) {
+            if (name.length >= 2) {
                 isValid = true
             }
         }
