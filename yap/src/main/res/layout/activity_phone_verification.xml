@@ -75,13 +75,12 @@
             android:text="@{viewModel.state.timer}"
             />
 
-        <Button
-            android:id="@+id/btnResendOtp"
+        <TextView
+            android:id="@+id/tvResendOtp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ARegular"
-            android:textColor="@color/colorPrimary"
-            android:background="@null"
+           app:textColor="@{viewModel.state.color}"
             android:gravity="center"
             tools:text="Resend code"
             app:text="@{Strings.screen_verify_phone_number_button_resend_otp}"

@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.activities
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,6 +12,7 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.yapcore.BaseBindingActivity
+import kotlinx.android.synthetic.main.activity_phone_verification.*
 
 class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSignIn.ViewModel>() {
 
@@ -69,4 +71,21 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
     private fun setPasscode() {
         viewModel.state.passcode = intent.getSerializableExtra(PASSCODE) as String
     }
+
+    /*fun changeResendColor(disable:Boolean) {
+        if (disable){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                tvResendOtp.setTextColor(resources.getColor(R.color.greyDark, null))
+            } else {
+                tvResendOtp.setTextColor(resources.getColor(R.color.greyDark))
+            }
+        }else if (!disable){
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                tvResendOtp.setTextColor(resources.getColor(R.color.colorPrimary, null))
+            } else {
+                tvResendOtp.setTextColor(resources.getColor(R.color.colorPrimary))
+            }
+        }
+
+    }*/
 }

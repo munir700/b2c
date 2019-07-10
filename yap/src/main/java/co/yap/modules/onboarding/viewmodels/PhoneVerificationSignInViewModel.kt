@@ -4,6 +4,7 @@ import android.app.Application
 import android.os.Build
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
+import co.yap.modules.onboarding.activities.PhoneVerificationSignInActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.states.PhoneVerificationSignInState
 import co.yap.networking.authentication.AuthRepository
@@ -37,7 +38,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.reverseTimer(10)
-       // state.valid=false
+        //state.valid=false
     }
 
     override fun verifyOtp() {
@@ -75,7 +76,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 onboardingRepository.createOtp(CreateOtpRequest("", "", ""))) {
                 is RetroApiResponse.Success -> {
                     state.reverseTimer(10)
-                    state.valid=false
+                   // state.valid=false
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
