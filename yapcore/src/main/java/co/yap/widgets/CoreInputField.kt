@@ -25,6 +25,8 @@ import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 
 
+
+
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @SuppressLint("CustomViewStyleable")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -47,6 +49,7 @@ class CoreInputField @JvmOverloads constructor(
     var inputType: Int = 0
     var imeiActionType: Int = 1
     var IME_NEXT: Int = 2
+    var maxLength: Int = 0
     var PHONE_INPUT_TYPE: Int = 1
     var EMAIL_INPUT_TYPE: Int = 2
     var PHONE_NUMBER_LENGTH: Int = 16
@@ -69,6 +72,7 @@ class CoreInputField @JvmOverloads constructor(
             )
 
             inputType = typedArray.getInt(R.styleable.CoreInputField_view_input_type, inputType)
+            maxLength = typedArray.getInt(R.styleable.CoreInputField_view_max_length, maxLength)
             checkFocusChange = typedArray.getBoolean(R.styleable.CoreInputField_view_focusable, checkFocusChange)
             imeiActionType = typedArray.getInt(R.styleable.CoreInputField_view_input_text_imei_actions, imeiActionType)
 
@@ -121,6 +125,11 @@ class CoreInputField @JvmOverloads constructor(
             etInputField.isFocusable
             onKeyBoardDismissal(true)
             animteKeyboardDismissal()
+
+            if (maxLength>0){
+                 editText.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength)))
+
+            }
         }
 
     }
@@ -143,41 +152,6 @@ class CoreInputField @JvmOverloads constructor(
             IME_NEXT -> {
                 etInputField.imeOptions = EditorInfo.IME_ACTION_NEXT
                 checkFocusChange = true
-
-//                   etInputField.setOnEditorActionListener( { textView, action, event ->
-//                        var handled = false
-//                        if (action == EditorInfo.IME_ACTION_NEXT) {
-//                            var listener = object : OnFocusChangeListener {
-//                                //            internal var layout_nama_pp = findViewById<View>(co.yap.yapcore.R.id.layout_nama_pp) as LinearLayout
-//                                override fun onFocusChange(v: View, hasFocus: Boolean) {
-//                                    if (!hasFocus) {
-//                                        etInputField.isActivated = false
-//                                    } else {
-////                    editText.isActivated = true
-//                                        etInputField.getViewTreeObserver().addOnGlobalLayoutListener(
-//                                            object : ViewTreeObserver.OnGlobalLayoutListener {
-//                                                override fun onGlobalLayout() {
-////                    if (etInputField.isFocused()) {
-//                                                    if (!keyboardShown(etInputField.getRootView())) {
-//                                                        etInputField.requestFocus()
-//                                                        etInputField.isActivated = false
-//                                                    } else {
-//                                                        etInputField.isActivated = true
-//                                                    }
-////                    }
-//                                                    return
-//                                                }
-//                                            })
-//                                    }
-//                                }
-//                            }
-//
-//                            etInputField.setOnFocusChangeListener(listener)
-//                            handled = true
-//                        }
-//                        handled
-//                    })
-
 
             }
             else -> {
