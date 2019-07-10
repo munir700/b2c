@@ -15,7 +15,7 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
     val mContext = application.applicationContext
 
     @get:Bindable
-     override var color: Int = mContext.resources.getColor(R.color.warning)
+     override var color: Int = mContext.resources.getColor(R.color.disabled)
         get() =field
         set(value) {
             field = value
@@ -57,18 +57,23 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
         }
 
     override fun reverseTimer(Seconds: Int) {
+        color = mContext.resources.getColor(R.color.disabled)
         object : CountDownTimer((Seconds * 1000 + 1000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 var seconds = (millisUntilFinished / 1000).toInt()
                 val minutes = seconds / 60
                 seconds %= 60
                 val timerMsg: String
-                timerMsg = "00:$seconds"
+                if (seconds==10) {
+                    timerMsg = "00:$seconds"
+                } else {
+                    timerMsg = "00:0$seconds"
+                }
                 timer = timerMsg
             }
             override fun onFinish() {
                 valid = true
-              //  color = R.color.colorPrimarySoft
+               color = mContext.resources.getColor(R.color.colorPrimary)
                 timer = ""
             }
         }.start()

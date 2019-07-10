@@ -84,11 +84,24 @@
             app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintVertical_bias="0.137"/>
 
+
+        <TextView
+            android:id="@+id/tvTimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/margin_small"
+            app:layout_constraintTop_toBottomOf="@+id/otp_view"
+            android:text="@{viewModel.state.timer}"
+            />
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ARegular"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@{viewModel.state.color}"
             android:background="@null"
             android:lineSpacingExtra="1sp"
             android:gravity="center"
@@ -100,9 +113,9 @@
             android:textAllCaps="false"
             android:onClick="@{(v) -> viewModel.handlePressOnResendOTP()}"
             android:id="@+id/button10"
-            android:enabled="@{viewModel.state.valid}"
+            android:enabled="@{viewModel.state.validResend}"
             android:layout_marginBottom="@dimen/margin_medium"
-            app:layout_constraintTop_toBottomOf="@+id/otp_view"
+            app:layout_constraintTop_toBottomOf="@+id/tvTimer"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             />

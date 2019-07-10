@@ -4,17 +4,14 @@ import android.app.Application
 import android.os.Build
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
-import co.yap.modules.onboarding.activities.PhoneVerificationSignInActivity
 import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.states.PhoneVerificationSignInState
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.authentication.requestdtos.CreateOtpRequest
 import co.yap.networking.authentication.requestdtos.DemographicDataRequest
 import co.yap.networking.authentication.requestdtos.VerifyOtpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.onboarding.ObnoardingRepository
-import co.yap.networking.onboarding.OnboardingApi
-import co.yap.networking.onboarding.requestdtos.CreateOtpRequest
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -24,7 +21,6 @@ class PhoneVerificationSignInViewModel(application: Application) :
     IRepositoryHolder<AuthRepository> {
 
     override val repository: AuthRepository = AuthRepository
-    val onboardingRepository: ObnoardingRepository = ObnoardingRepository
     override val state: PhoneVerificationSignInState = PhoneVerificationSignInState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -38,7 +34,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.reverseTimer(10)
-        //state.valid=false
+        state.valid=false
     }
 
     override fun verifyOtp() {
@@ -73,10 +69,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                onboardingRepository.createOtp(CreateOtpRequest("", "", ""))) {
+                repository.createOtp(CreateOtpRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
                 is RetroApiResponse.Success -> {
                     state.reverseTimer(10)
-                   // state.valid=false
+                    state.valid=false
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

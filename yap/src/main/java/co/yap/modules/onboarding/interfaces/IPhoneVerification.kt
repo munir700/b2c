@@ -15,6 +15,9 @@ interface IPhoneVerification {
     interface State : IBase.State {
         var otp: String
         var valid: Boolean
-        var validOtp: Boolean
+        var timer: String
+        var validResend: Boolean
+        fun reverseTimer(Seconds: Int)
+        var color:Int
     }
 }
