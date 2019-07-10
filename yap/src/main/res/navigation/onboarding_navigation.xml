@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/mobileFragment"
+            android:id="@+id/onboarding_navigation"
             app:startDestination="@id/mobileFragment">
     <fragment
         android:id="@+id/emailFragment"
@@ -46,6 +46,7 @@
             app:destination="@id/createPasscodeActivity2"/>
         <action
             android:id="@+id/action_phoneVerificationFragment_to_nameFragment"
+            app:popUpTo="@id/mobileFragment"
             app:destination="@id/nameFragment"/>
     </fragment>
     <fragment
@@ -56,8 +57,7 @@
         <action
             android:id="@+id/action_congratulationsFragment_to_liteDashboardActivity"
             app:destination="@id/liteDashboardActivity"
-            app:popUpTo="@+id/onboarding_navigation"
-            app:popUpToInclusive="true"/>
+            />
     </fragment>
     <activity
         android:id="@+id/createPasscodeActivity2"
