@@ -83,7 +83,7 @@
 
         <TextView
             android:id="@+id/tvIban"
-            style="@style/ALarge"
+            style="@style/ARegular"
             android:textColor="@color/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
