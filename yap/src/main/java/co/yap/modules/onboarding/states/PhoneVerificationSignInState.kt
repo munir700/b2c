@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.states
 
+import android.app.Application
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.CountDownTimer
@@ -10,9 +11,12 @@ import co.yap.R
 import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
 import co.yap.yapcore.BaseState
 
-class PhoneVerificationSignInState : BaseState(), IPhoneVerificationSignIn.State {
+class PhoneVerificationSignInState(application: Application) : BaseState(), IPhoneVerificationSignIn.State {
+    val mContext = application.applicationContext
+
     @get:Bindable
-    override var color: Int = R.color.warning
+     override var color: Int = mContext.resources.getColor(R.color.warning)
+        get() =field
         set(value) {
             field = value
             notifyPropertyChanged(BR.color)
