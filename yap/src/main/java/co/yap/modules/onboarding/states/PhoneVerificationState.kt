@@ -1,12 +1,16 @@
 package co.yap.modules.onboarding.states
 
+import android.app.Application
+import android.os.CountDownTimer
 import androidx.databinding.Bindable
 import co.yap.BR
+import co.yap.R
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.yapcore.BaseState
 
-class PhoneVerificationState : BaseState(), IPhoneVerification.State {
+class PhoneVerificationState(application: Application) : BaseState(), IPhoneVerification.State {
 
+    val mContext = application.applicationContext
     val mobileNumber: Array<String?> = arrayOfNulls(1)
 
     @get:Bindable
@@ -25,7 +29,31 @@ class PhoneVerificationState : BaseState(), IPhoneVerification.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
+        }
 
+    @get:Bindable
+    override var validResend: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.validResend)
+        }
+
+    @get:Bindable
+    override var timer: String = ""
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.timer)
+            validate()
+        }
+
+
+    @get:Bindable
+    override var color: Int =  mContext.resources.getColor(R.color.disabled)
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.color)
         }
 
     private fun validate(): Boolean {
@@ -33,9 +61,30 @@ class PhoneVerificationState : BaseState(), IPhoneVerification.State {
          if (!otp.isNullOrEmpty() && otp.length == 4) {
             vlidateOtp = true
             valid=true
-
         }
         return vlidateOtp
+    }
 
+    override fun reverseTimer(Seconds: Int) {
+        color = mContext.resources.getColor(R.color.disabled)
+        object : CountDownTimer((Seconds * 1000 + 1000).toLong(), 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                var seconds = (millisUntilFinished / 1000).toInt()
+                val minutes = seconds / 60
+                seconds %= 60
+                val timerMsg: String
+                if (seconds==10) {
+                    timerMsg = "00:$seconds"
+                } else {
+                    timerMsg = "00:0$seconds"
+                }
+                timer = timerMsg
+            }
+            override fun onFinish() {
+                validResend = true
+                color =  mContext.resources.getColor(R.color.colorPrimary)
+                timer = ""
+            }
+        }.start()
     }
 }

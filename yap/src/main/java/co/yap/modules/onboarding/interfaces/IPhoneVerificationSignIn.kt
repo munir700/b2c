@@ -1,5 +1,7 @@
 package co.yap.modules.onboarding.interfaces
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -21,6 +23,8 @@ interface IPhoneVerificationSignIn {
         var username: String
         var timer: String
         var valid: Boolean
+        var validateBtn: Boolean
         fun reverseTimer(Seconds: Int)
+        var color:Int
     }
 }

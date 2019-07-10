@@ -20,6 +20,7 @@
     <color name="success">#44d389</color>
     <color name="warning">#ffc430</color>
     <color name="transparent">#00000000</color>
+    <color name="disabled">#4D7C4DFF</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>
     <color name="colorSecondaryOrange">#f57f17</color>

@@ -9,10 +9,15 @@ interface IPhoneVerification {
         val nextButtonPressEvent: SingleLiveEvent<Boolean>
         fun handlePressOnSendButton()
         fun handlePressOnResendOTP()
-        fun setPasscode(passcode : String)
+        fun setPasscode(passcode: String)
     }
-    interface State : IBase.State{
+
+    interface State : IBase.State {
         var otp: String
         var valid: Boolean
+        var timer: String
+        var validResend: Boolean
+        fun reverseTimer(Seconds: Int)
+        var color:Int
     }
 }

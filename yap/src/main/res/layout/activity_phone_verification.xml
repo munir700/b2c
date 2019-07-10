@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+    >
 
     <data>
 
@@ -11,43 +14,55 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+
+        android:id="@+id/layout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/_24sdp"
-        tools:context=".modules.onboarding.activities.PhoneVerificationSignInActivity">
+        android:paddingTop="@dimen/_24sdp"
+        android:paddingBottom="@dimen/_24sdp"
+        android:paddingLeft="@dimen/margin_medium"
+        android:paddingRight="@dimen/margin_medium">
+
 
         <ImageView
             android:id="@+id/ivLogo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/ATitle3"
             app:srcCompat="@drawable/logo"
             android:gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:paddingTop="@dimen/margin_extra_large"
+            app:layout_constraintBottom_toTopOf="@+id/layout2"
+            tools:layout_editor_absoluteY="219dp"
+            tools:layout_editor_absoluteX="54dp"
+
+            />
 
         <TextView
-            android:id="@+id/tvSubTitle"
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            tools:text="@string/screen_sign_in_display_text_sub_title"
-            app:text="@{Strings.screen_sign_in_display_text_sub_title}"
             app:layout_constraintTop_toBottomOf="@+id/ivLogo"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/margin_extra_large"/>
+            android:layout_marginTop="@dimen/_8sdp"
+            android:id="@+id/tvSubTitle"
+            app:layout_constraintBottom_toTopOf="@+id/layout2"
+            app:layout_constraintVertical_bias="0.0"
+            android:gravity="center"
+            tools:text="@string/screen_sign_in_display_text_sub_title"
+            app:text="@{Strings.screen_sign_in_display_text_sub_title}"
+            />
 
         <in.aabhasjindal.otptextview.OtpTextView
             android:id="@+id/vOtp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryDark"
-            app:height="@dimen/_65sdp"
+            app:height="@dimen/_55sdp"
             app:width="@dimen/_45sdp"
             app:bar_enabled="false"
             app:bar_height="@dimen/_2sdp"
@@ -63,7 +78,11 @@
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="@dimen/_8sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/_24sdp"/>
+            android:layout_marginTop="32dp"
+            app:requestKeyboard="@{true}"
+            app:layout_constraintBottom_toTopOf="@+id/layout2"
+            app:layout_constraintVertical_bias="0.137"/>
+
 
         <TextView
             android:id="@+id/tvTimer"
@@ -71,42 +90,53 @@
             android:layout_height="wrap_content"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/margin_small"
             app:layout_constraintTop_toBottomOf="@+id/vOtp"
             android:text="@{viewModel.state.timer}"
             />
 
-        <Button
-            android:id="@+id/btnResendOtp"
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ARegular"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@{viewModel.state.color}"
             android:background="@null"
+            android:lineSpacingExtra="1sp"
             android:gravity="center"
             tools:text="Resend code"
-            app:text="@{Strings.screen_verify_phone_number_button_resend_otp}"
             android:layout_marginTop="8dp"
-            android:onClick="@{(v) -> viewModel.handlePressOnResend()}"
-            app:layout_constraintTop_toBottomOf="@+id/tvTimer"
+            app:text="@{Strings.screen_verify_phone_number_button_resend_otp}"
             android:layout_marginStart="8dp"
-            android:enabled="@{viewModel.state.valid}"
-            app:layout_constraintStart_toStartOf="parent"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:textAllCaps="false"
+            android:onClick="@{(v) -> viewModel.handlePressOnResend()}"
+            android:id="@+id/button10"
+            android:enabled="@{viewModel.state.valid}"
+            android:layout_marginBottom="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@+id/tvTimer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/done"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/FragmentsBtnStyle"
-            app:text="@{Strings.screen_verify_phone_number_button_send}"
-            android:layout_marginEnd="@dimen/margin_xl"
-            android:layout_marginStart="@dimen/margin_xl"
-            app:layout_constraintStart_toStartOf="parent"
-            android:onClick="@{(v)->viewModel.handlePressOnSendButton()}"
+            android:text="@string/screen_phone_number_button_send"
+            tools:ignore="MissingConstraints"
+            app:enableCoreButton="@{viewModel.state.validateBtn}"
+            android:onClick="@{(v) -> viewModel.handlePressOnSendButton()}"
+            app:layout_constraintTop_toBottomOf="@+id/button10"
+            android:layout_marginTop="@dimen/margin_medium"
+            app:layout_constraintVertical_bias="1.0"
+            android:layout_marginEnd="@dimen/margin_xxl"
+            android:layout_marginStart="@dimen/margin_xxl"
+            tools:layout_editor_absoluteX="44dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

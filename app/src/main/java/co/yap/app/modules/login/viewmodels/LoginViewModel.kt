@@ -8,6 +8,7 @@ import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
+import java.util.regex.Pattern
 
 class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel {
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -15,6 +16,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override val state: LoginState = LoginState()
 
     override fun handlePressOnLogin() {
+        state.twoWayTextWatcher = verifyUsername(state.twoWayTextWatcher.trim())
         signInButtonPressEvent.value = true
     }
 
@@ -31,5 +33,42 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
                 return false
             }
         }
+    }
+
+    private fun verifyUsername(enteredUsername: String): String {
+        var username = enteredUsername
+        if (isUsernameNumeric(username)) {
+            if (username.startsWith("+")) {
+                username = username.replace("+", "00")
+                return username
+            } else if (username.startsWith("00")) {
+                return username
+            } else if (username.startsWith("0")) {
+                username = username.substring(1, username.length)
+                return username
+            } else {
+                return username
+            }
+
+        } else {
+            return username
+        }
+    }
+
+
+    fun isUsernameNumeric(username: String): Boolean {
+        var inputStr: CharSequence
+        var isValid = false
+        val expression = "^[0-9+]*\$"
+
+        inputStr = username
+        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches()) {
+            isValid = true
+        }
+
+        return isValid
     }
 }
