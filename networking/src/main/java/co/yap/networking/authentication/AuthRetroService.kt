@@ -5,6 +5,7 @@ import co.yap.networking.authentication.requestdtos.DemographicDataRequest
 import co.yap.networking.authentication.requestdtos.VerifyOtpRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.authentication.responsedtos.ValidateDeviceResponse
+import co.yap.networking.authentication.responsedtos.VerifyUsernameResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -42,5 +43,9 @@ interface AuthRetroService {
     // Verify otp request
     @PUT(AuthRepository.URL_VERIFY_OTP)
     suspend fun verifyOtp(@Body verifyOtpRequest: VerifyOtpRequest): Response<ValidateDeviceResponse>
+
+    // Verify username
+    @POST(AuthRepository.URL_VERIFY_USERNAME)
+    suspend fun verifyUsername(@Query("username") username: String): Response<VerifyUsernameResponse>
 
 }

@@ -9,6 +9,7 @@ import co.yap.networking.authentication.requestdtos.DemographicDataRequest
 import co.yap.networking.authentication.requestdtos.VerifyOtpRequest
 import co.yap.networking.authentication.responsedtos.LoginResponse
 import co.yap.networking.authentication.responsedtos.ValidateDeviceResponse
+import co.yap.networking.authentication.responsedtos.VerifyUsernameResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -23,6 +24,7 @@ object AuthRepository : BaseRepository(), AuthApi {
     const val URL_VALIDATE_DEMOGRAPHIC_DATA = "customers/api/demographics/validate/user-device/{device_id}"
     const val URL_CREATE_OTP = "/messages/api/otp"
     const val URL_VERIFY_OTP = "/messages/api/otp"
+    const val URL_VERIFY_USERNAME = "/admin/api/verify-user"
 
     private val api: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
 
@@ -69,5 +71,8 @@ object AuthRepository : BaseRepository(), AuthApi {
 
     override suspend fun verifyOtp(verifyOtpRequest: VerifyOtpRequest): RetroApiResponse<ValidateDeviceResponse> =
         executeSafely(call = { api.verifyOtp(verifyOtpRequest) })
+
+    override suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse> =
+        executeSafely(call = { api.verifyUsername(username) })
 
 }

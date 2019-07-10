@@ -6,23 +6,29 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
+import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import java.util.regex.Pattern
 
-class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel {
+class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel,
+    IRepositoryHolder<AuthRepository> {
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: LoginState = LoginState()
+    override val repository: AuthRepository = AuthRepository
 
     override fun handlePressOnLogin() {
         state.twoWayTextWatcher = verifyUsername(state.twoWayTextWatcher.trim())
-        signInButtonPressEvent.value = true
+        validateUsername()
     }
 
     override fun handlePressOnSignUp() {
         signUpButtonPressEvent.value = true
     }
+
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return object : TextView.OnEditorActionListener {
@@ -32,6 +38,21 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
                 }
                 return false
             }
+        }
+    }
+
+    private fun validateUsername() {
+        launch {
+            state.loading = true
+            when (val response = repository.verifyUsername(state.twoWayTextWatcher)) {
+                is RetroApiResponse.Success -> {
+                    signInButtonPressEvent.value = response.data.data
+                }
+                is RetroApiResponse.Error -> {
+                    state.error = response.error.message
+                }
+            }
+            state.loading = false
         }
     }
 
