@@ -22,8 +22,8 @@ class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreateP
     private fun validateAggressively(): Boolean {
         val isSame = StringUtils.hasAllSameChars(state.passcode)
         val isSequenced = StringUtils.isSequenced(state.passcode)
-        if (isSame) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_sequence)
-        if (isSequenced) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_same_digits)
+        if (isSequenced) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_sequence)
+        if (isSame) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_same_digits)
         return !isSame && !isSequenced
     }
 

@@ -159,11 +159,11 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onDestroy() {
+        viewModel.signInButtonPressEvent.removeObservers(this)
+        viewModel.loginSuccess.removeObservers(this)
+        viewModel.validateDeviceResult.removeObservers(this)
+        viewModel.createOtpResult.removeObservers(this)
         super.onDestroy()
-        viewModel.signInButtonPressEvent.removeObserver(signInButtonObserver)
-        viewModel.loginSuccess.removeObserver(loginSuccessObserver)
-        viewModel.validateDeviceResult.removeObserver(validateDeviceResultObserver)
-        viewModel.createOtpResult.removeObserver(createOtpObserver)
     }
 
     private fun setUsername() {

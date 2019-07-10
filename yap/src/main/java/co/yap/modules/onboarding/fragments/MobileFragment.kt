@@ -20,16 +20,14 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
-    }
-
-    private val nextButtonObserver = Observer<Boolean> {
-        navigate(R.id.phoneVerificationFragment)
+        viewModel.nextButtonPressEvent.observe(this, Observer {
+            navigate(R.id.phoneVerificationFragment)
+        })
     }
 
     override fun onDestroyView() {
+        viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroyView()
-        viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
 
 }

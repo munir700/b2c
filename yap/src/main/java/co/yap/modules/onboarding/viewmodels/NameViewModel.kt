@@ -25,13 +25,11 @@ class NameViewModel(application: Application) : OnboardingChildViewModel<IName.S
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
-        return object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    handlePressOnNext()
-                }
-                return false
+        return TextView.OnEditorActionListener { v, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                handlePressOnNext()
             }
+            false
         }
     }
 }

@@ -14,7 +14,6 @@ import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_lite_dashboard.*
-import java.util.*
 
 
 class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
@@ -28,7 +27,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
 
         fun newIntent(context: Context, accountType: AccountType): Intent {
             val intent = Intent(context, LiteDashboardActivity::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
             intent.putExtra(ACCOUNT_TYPE, accountType)
             return intent
         }
@@ -56,6 +55,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
 
             swTouchId.setOnCheckedChangeListener { buttonView, isChecked ->
                 if (isChecked) {
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
                 } else {
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
@@ -87,8 +87,8 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     override fun getLayoutId(): Int = co.yap.R.layout.activity_lite_dashboard
 
     override fun onDestroy() {
+        viewModel.logoutSuccess.removeObservers(this)
         super.onDestroy()
-        viewModel.logoutSuccess.removeObserver(logoutSuccessObserver)
     }
 
 }
