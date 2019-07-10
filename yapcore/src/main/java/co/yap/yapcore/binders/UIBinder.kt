@@ -12,7 +12,10 @@ import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -207,12 +210,23 @@ object UIBinder {
     }
 
     @JvmStatic
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @InverseBindingAdapter(attribute = "otp")
-    fun getOtp(view: OtpTextView): String {
+    fun getOtp(view: OtpTextView): String = view.otp
 
-        return view.otp
+    @JvmStatic
+    @BindingAdapter(value = ["requestKeyboard", "forceKeyboard"], requireAll = false)
+    fun setRequestKeyboard(view: View, request: Boolean, forced: Boolean) {
+        view.requestFocus()
+        if (forced) {
+            (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+                InputMethodManager.SHOW_FORCED, HIDE_IMPLICIT_ONLY
+            )
+        } else if (request) {
+            (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+                InputMethodManager.SHOW_IMPLICIT, HIDE_IMPLICIT_ONLY
+            )
+        }
+
     }
-
 
 }
