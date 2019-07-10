@@ -12,6 +12,7 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.viewmodels.WelcomeViewModel
 import co.yap.yapcore.BaseBindingActivity
+import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View {
@@ -44,8 +45,7 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View
             layout = R.layout.content_onboarding_welcome
         )
 
-        val wormDotsIndicator = findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)
-        wormDotsIndicator.setViewPager(pager)
+        findViewById<WormDotsIndicator>(R.id.worm_dots_indicator).setViewPager(pager)
     }
 
     private fun getAccountType(): AccountType {
