@@ -137,6 +137,12 @@ object UIBinder {
         view.isSelected = selected
     }
 
+    @BindingAdapter("enabled")
+    @JvmStatic
+    fun setEnabled(view: View, enabled: Boolean) {
+        view.isEnabled = enabled
+    }
+
     @BindingAdapter("entries", "layout")
     @JvmStatic
     fun <T : IBindable> setEntries(

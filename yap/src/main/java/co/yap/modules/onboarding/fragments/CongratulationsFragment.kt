@@ -132,6 +132,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
         val checkBtnEndPosition = (windowSize.width() / 2) - (checkButton.width / 2)
 
+        checkButton.isEnabled = true
         return AnimationUtils.runSequentially(
             AnimationUtils.pulse(checkButton),
             AnimationUtils.runTogether(
