@@ -32,7 +32,7 @@
     <!-- Phone Number Screen -->
     <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>
     <string name="screen_phone_number_display_text_error">You\’ve entered an invalid phone number. Please, try again.</string>
-    <string name="screen_phone_number_button_send">Send</string>
+    <string name="screen_phone_number_button_send">Next</string>
 
     <!-- Email Screen -->
 
@@ -58,7 +58,7 @@
     <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
     <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to %1$s</string>
     <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
-    <string name="screen_verify_phone_number_button_send">Send</string>
+    <string name="screen_verify_phone_number_button_send">Next</string>
 
     <!--  Login screen -->
     <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
