@@ -4,6 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
 import co.yap.BR
 import co.yap.R
 import co.yap.app.constants.Constants
@@ -47,7 +50,11 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
 
         if (requestCode == Constants.REQUEST_CODE_CREATE_PASSCODE) {
             viewModel.setPasscode(data!!.getStringExtra(SharedPreferenceManager.KEY_PASSCODE))
-            navigate(R.id.nameFragment)
+
+            // navigate(destinationId = R.id.action_phoneVerificationFragment_to_nameFragment)
+
+            findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+
         }
     }
 
