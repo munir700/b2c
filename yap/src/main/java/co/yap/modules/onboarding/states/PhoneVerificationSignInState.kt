@@ -28,6 +28,13 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
             field = value
             notifyPropertyChanged(BR.valid)
         }
+
+    @get:Bindable
+    override var validateBtn: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.validateBtn)
+        }
     @get:Bindable
     override var timer: String = ""
         set(value) {
@@ -39,6 +46,7 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
         set(value) {
             field = value
             notifyPropertyChanged(BR.otp)
+            validate()
         }
 
     @get:Bindable
@@ -77,5 +85,16 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
                 timer = ""
             }
         }.start()
+    }
+
+    private fun validate(): Boolean {
+        var vlidateOtp: Boolean = false
+        if (!otp.isNullOrEmpty() && otp.length == 4) {
+            vlidateOtp = true
+            validateBtn=true
+
+        }
+        return vlidateOtp
+
     }
 }

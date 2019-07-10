@@ -23,6 +23,7 @@ interface IPhoneVerificationSignIn {
         var username: String
         var timer: String
         var valid: Boolean
+        var validateBtn: Boolean
         fun reverseTimer(Seconds: Int)
         var color:Int
     }
