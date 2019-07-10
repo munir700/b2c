@@ -119,7 +119,11 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-                is RetroApiResponse.Error -> state.emailError = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.emailError = response.error.message
+                    state.loading = false
+
+                }
                 is RetroApiResponse.Success -> {
                     signUp()
                 }
@@ -142,7 +146,10 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> getAccountInfo()
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error ->{
+                    state.loading = false
+                    state.toast = response.error.message
+                }
             }
             state.loading = false
         }
