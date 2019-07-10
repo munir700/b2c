@@ -71,7 +71,14 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
             if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)) {
                 dialer.showFingerprintView()
-                showFingerprintDialog()
+
+                Handler().postDelayed(
+                    {
+                        showFingerprintDialog()
+                    }, 500
+                )
+
+
             } else {
                 dialer.hideFingerprintView()
             }
@@ -172,18 +179,12 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
 
     private fun showFingerprintDialog() {
-
-
-        Handler().postDelayed(
-            {
                 mBiometricManager = BiometricManager.BiometricBuilder(this@VerifyPasscodeActivity)
                     .setTitle(getString(R.string.biometric_title))
                     .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
                     .build()
-
                 mBiometricManager.authenticate(this@VerifyPasscodeActivity)
-            }, 500
-        )
+
 
 
     }
