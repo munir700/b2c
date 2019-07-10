@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import co.yap.BR
 import co.yap.app.login.BiometricUtil
 import co.yap.modules.onboarding.enums.AccountType
@@ -82,5 +81,10 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = co.yap.R.layout.activity_lite_dashboard
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.logoutSuccess.removeObserver(logoutSuccessObserver)
+    }
 
 }

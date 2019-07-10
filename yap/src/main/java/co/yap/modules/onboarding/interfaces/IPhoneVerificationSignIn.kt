@@ -10,14 +10,17 @@ interface IPhoneVerificationSignIn {
         val verifyOtpResult: SingleLiveEvent<Boolean>
         val postDemographicDataResult: SingleLiveEvent<Boolean>
         fun postDemographicData()
+        fun handlePressOnResend()
         fun handlePressOnSendButton()
-        fun handlePressOnResendOTP()
         fun verifyOtp()
     }
 
-    interface State : IBase.State{
+    interface State : IBase.State {
         var otp: String
         var passcode: String
         var username: String
+        var timer: String
+        var valid: Boolean
+        fun reverseTimer(Seconds: Int)
     }
 }

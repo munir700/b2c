@@ -52,7 +52,7 @@
                     android:id="@+id/tvSignIn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/LargeGrey"
+                    style="@style/RegularGrey"
                     android:text="@string/screen_sign_in_display_text_heading_text"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -120,6 +120,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/margin_large"
+                        android:onClick="@{(v) -> loginViewModel.handlePressOnSignUp()}"
                         app:layout_constraintLeft_toRightOf="@+id/tvSignUpPrefix"
                         android:text="@string/screen_sign_in_display_text_sign_up"/>
 

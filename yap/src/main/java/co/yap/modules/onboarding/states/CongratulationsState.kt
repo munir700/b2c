@@ -6,7 +6,6 @@ import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.yapcore.BaseState
 
 class CongratulationsState : BaseState(), ICongratulations.State {
-
     val nameList: Array<String?> = arrayOfNulls(1)
 
     @get:Bindable
