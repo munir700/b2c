@@ -30,8 +30,8 @@
                 android:drawablePadding="@dimen/margin_small"
                 android:textColor="@color/colorPrimaryDark"
                 android:paddingEnd="20dp"
-                android:longClickable="false"
-                android:textIsSelectable="false"
+                android:textIsSelectable="true"
+                android:focusableInTouchMode="true"
                 android:textSize="@dimen/_15sdp"
                 />
 
