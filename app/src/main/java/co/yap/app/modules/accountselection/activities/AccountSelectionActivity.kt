@@ -6,10 +6,6 @@ import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.activities.LogInActivity
-import co.yap.app.modules.login.activities.VerifyPasscodeActivity
-import co.yap.modules.onboarding.activities.CreatePasscodeActivity
-import co.yap.modules.onboarding.activities.OnboardingActivity
-import co.yap.modules.onboarding.activities.PhoneVerificationSignInActivity
 import co.yap.modules.onboarding.activities.WelcomeActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.defaults.DefaultActivity
@@ -28,8 +24,6 @@ class AccountSelectionActivity : DefaultActivity() {
         viewDataBinding.executePendingBindings()
 
         btnBusiness.setOnClickListener {
-            //            startActivity(WelcomeActivity.newIntent(this, AccountType.B2B))
-            startActivity(OnboardingActivity.newIntent(this, AccountType.B2B_ACCOUNT))
         }
 
         btnPersonal.setOnClickListener {
@@ -37,9 +31,7 @@ class AccountSelectionActivity : DefaultActivity() {
         }
 
         tvSignIn.setOnClickListener {
-//            startActivity(LogInActivity.newIntent(this))
-            startActivity(PhoneVerificationSignInActivity.newIntent(this,"",""))
-//            startActivity(BiometricPermissionActivity.newIntent(this,"Touchid"))
+            startActivity(LogInActivity.newIntent(this))
         }
     }
 }

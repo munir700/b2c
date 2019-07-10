@@ -22,7 +22,7 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.action_nameFragment_to_emailFragment) }
+    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.emailFragment) }
 
     override fun onDestroyView() {
         super.onDestroyView()

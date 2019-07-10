@@ -49,15 +49,18 @@ object CoreInputUiBinder {
 
     @JvmStatic
     @BindingAdapter("onEditorActionListener")
-    fun setOnEditorActionListener(view: CoreInputField, check:Boolean/*, onEditorActionListener: View.setOnEditorActionListener*/) {
+    fun setOnEditorActionListener(
+        view: CoreInputField,
+        check: Boolean/*, onEditorActionListener: View.setOnEditorActionListener*/
+    ) {
 
         view.etInputField.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 println("IME_ACTION_DONE clickec")
-                Log.i("aactionzz","IME_ACTION_DONE clickec")
+                Log.i("aactionzz", "IME_ACTION_DONE clickec")
                 true
             } else if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                Log.i("aactionzz","IME_ACTION_NEXT clickec")
+                Log.i("aactionzz", "IME_ACTION_NEXT clickec")
 
                 true
             } else {
@@ -67,9 +70,10 @@ object CoreInputUiBinder {
             }
         }
     }
+
     @JvmStatic
     @BindingAdapter("onEditorActionDoneListener")
-    fun setOnEditorActionDoneLitener(view: CoreInputField,listener: TextView.OnEditorActionListener  ) {
+    fun setOnEditorActionDoneLitener(view: CoreInputField, listener: TextView.OnEditorActionListener) {
         view.etInputField.setOnEditorActionListener(listener)
     }
 
@@ -237,6 +241,18 @@ object CoreInputUiBinder {
             })
         }
     }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("deactivateEditText")
+    fun deactivateEditText(view: CoreInputField, activate: Boolean) {
+        view.editText.isActivated = activate
+        view.editText.isEnabled = activate
+        view.editText.isFocusable = activate
+
+    }
+
 
     /* end region textwatcher */
 

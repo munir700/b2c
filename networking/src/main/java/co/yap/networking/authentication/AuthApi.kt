@@ -11,7 +11,7 @@ interface AuthApi {
     suspend fun getCSRFToken(): RetroApiResponse<ApiResponse>
     suspend fun refreshJWTToken(token: String): RetroApiResponse<ApiResponse>
     suspend fun login(username: String, password: String): RetroApiResponse<LoginResponse>
-    suspend fun logout(token: String): RetroApiResponse<ApiResponse>
+    suspend fun logout(): RetroApiResponse<ApiResponse>
     suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
     suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ApiResponse>
     suspend fun createOtp(createOtpRequest: CreateOtpRequest): RetroApiResponse<ApiResponse>

@@ -10,6 +10,7 @@ interface ILiteDashboard {
     interface ViewModel : IBase.ViewModel<State> {
         val logoutSuccess: SingleLiveEvent<Boolean>
         fun handlePressOnLogout()
+        fun logout()
     }
 
     interface State : IBase.State {

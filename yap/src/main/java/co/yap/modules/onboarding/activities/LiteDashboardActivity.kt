@@ -14,6 +14,7 @@ import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_lite_dashboard.*
+import java.util.*
 
 
 class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
@@ -70,11 +71,14 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
 
     private val logoutSuccessObserver = Observer<Boolean> {
 
+
+        val uuid : String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         val ACTION = "co.yap.app.OPEN_LOGIN"
         val intent = Intent()
         intent.action = ACTION
         startActivity(intent)
         sharedPreferenceManager.clearSharedPreference()
+        sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())
         finish()
     }
 

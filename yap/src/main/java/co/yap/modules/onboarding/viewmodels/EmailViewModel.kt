@@ -45,7 +45,6 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         if (state.emailTitle.equals(getString(R.string.screen_email_verification_display_text_title))) {
             postDemographicData()
         } else {
-//            signUp()
             sendVerificationEmail()
 
         }
@@ -66,6 +65,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> {
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
                     sharedPreferenceManager.save(
                         SharedPreferenceManager.KEY_PASSCODE,
                         EncryptionUtils.encrypt(context, parentViewModel!!.onboardingData.passcode)!!
@@ -78,13 +78,18 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     setVerifictionLabel()
                 }
 
-//                is RetroApiResponse.Error -> state.toast = response.error.message
-                is RetroApiResponse.Error -> state.emailError = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.emailError = response.error.message
+                }
             }
         }
     }
 
     private fun setVerifictionLabel() {
+        state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
+        state.emailBtnTitle = getString(R.string.common_button_next)
+        state.deactivateField = false
         setProgress(90)
         state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
         state.emailBtnTitle = getString(R.string.common_button_next)
@@ -99,7 +104,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             getString(R.string.screen_email_verification_b2b_display_text_email_confirmation)
 
         val verificationText: String =
-            parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + "\n" + state.twoWayTextWatcher + "\n" + screen_email_verification_b2c_display_text_email_confirmation
+            parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + "\n" + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
         state.emailVerificationTitle = verificationText
 
 
@@ -117,9 +122,6 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 is RetroApiResponse.Error -> state.emailError = response.error.message
                 is RetroApiResponse.Success -> {
                     signUp()
-
-                    //                    postDemographicData() on click on second time next
-
                 }
             }
         }
