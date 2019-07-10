@@ -18,7 +18,7 @@
         android:id="@+id/layout2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="@dimen/_24sdp"
+        android:paddingTop="@dimen/margin_normal"
         android:paddingBottom="@dimen/_24sdp"
         android:paddingLeft="@dimen/margin_medium"
         android:paddingRight="@dimen/margin_medium"
