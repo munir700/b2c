@@ -87,8 +87,8 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     override fun getLayoutId(): Int = co.yap.R.layout.activity_lite_dashboard
 
     override fun onDestroy() {
+        viewModel.logoutSuccess.removeObservers(this)
         super.onDestroy()
-        viewModel.logoutSuccess.removeObserver(logoutSuccessObserver)
     }
 
 }

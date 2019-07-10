@@ -60,8 +60,8 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
 
 
     override fun onDestroy() {
+        viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroy()
-        viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
 
     private fun setUsername() {

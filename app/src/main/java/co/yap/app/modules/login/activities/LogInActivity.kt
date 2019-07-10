@@ -41,8 +41,8 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
     }
 
     override fun onDestroy() {
+        viewModel.signInButtonPressEvent.removeObservers(this)
+        viewModel.signUpButtonPressEvent.removeObservers(this)
         super.onDestroy()
-        viewModel.signInButtonPressEvent.removeObserver(signInButtonObserver)
-        viewModel.signUpButtonPressEvent.removeObserver(signUpButtonObserver)
     }
 }

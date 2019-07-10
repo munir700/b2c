@@ -76,8 +76,8 @@ class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.permissionGrantedPressEvent.removeObserver( permissionGrantedObserver)
-        viewModel.permissionNotGrantedPressEvent.removeObserver(permissionNotGrantedObserver)
+        viewModel.permissionGrantedPressEvent.removeObservers( this)
+        viewModel.permissionNotGrantedPressEvent.removeObservers(this)
     }
 
 }
