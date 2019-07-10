@@ -18,6 +18,5 @@ interface ICreatePasscode {
         fun getTextWatcher(): TextWatcher
         var sequence: Boolean
         var similar: Boolean
-        fun performAggressiveValidation()
     }
 }

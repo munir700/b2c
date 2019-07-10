@@ -58,7 +58,7 @@ object StringUtils {
                 val low = first - (length - 1)
                 val high = first + (length - 1)
 
-                val lowSeq = (first..low).asReversedString()
+                val lowSeq = (low..first).asReversedString()
                 val highSeq = (first..high).asString()
 
                 lowSeq == this || highSeq == this

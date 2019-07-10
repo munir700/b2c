@@ -59,30 +59,6 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
         }
     }
 
-    // Same digit
-    // No sequence
-
-    override fun performAggressiveValidation() {
-        val isSame = StringUtils.hasAllSameChars(passcode)
-        val isSequenced = StringUtils.isSequenced(passcode)
-
-
-
-//        val isSequence = passcode.run {
-//            val first = get(0).toString().toInt()
-//            val last = get(length - 1).toString().toInt()
-//            val predictedSequence = (first..last).run {
-//                val stringRange = StringBuilder()
-//                forEach { stringRange.append(it.toString()) }
-//                stringRange.toString()
-//            }
-//            predictedSequence == passcode
-//        }
-//
-//        dialerError = "$passcode is sequence: $isSequenced"
-
-    }
-
     override fun getTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
