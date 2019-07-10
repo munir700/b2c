@@ -89,6 +89,10 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
         state.emailBtnTitle = getString(R.string.common_button_next)
         state.deactivateField = false
+        setProgress(90)
+        state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
+        state.emailBtnTitle = getString(R.string.common_button_next)
+
         val screen_email_verification_b2c_display_text_email_sent: String =
             getString(R.string.screen_email_verification_b2c_display_text_email_sent)
         val screen_email_verification_b2c_display_text_email_confirmation: String =

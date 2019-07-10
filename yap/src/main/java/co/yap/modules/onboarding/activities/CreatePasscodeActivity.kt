@@ -43,8 +43,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() 
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
-
+        super.onDestroy()
     }
 }

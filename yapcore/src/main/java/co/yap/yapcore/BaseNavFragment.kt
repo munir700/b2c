@@ -9,7 +9,7 @@ import androidx.navigation.navOptions
 
 abstract class BaseNavFragment : Fragment() {
 
-    val options = navOptions {
+    private val options = navOptions {
         anim {
             enter = R.anim.slide_in_right
             exit = R.anim.slide_out_left
