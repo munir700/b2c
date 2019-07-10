@@ -104,7 +104,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             getString(R.string.screen_email_verification_b2b_display_text_email_confirmation)
 
         val verificationText: String =
-            parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + "\n" + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
+            parentViewModel!!.onboardingData.firstName + ", " + screen_email_verification_b2c_display_text_email_sent + " " + state.twoWayTextWatcher + "\n" + "\n" + screen_email_verification_b2c_display_text_email_confirmation
         state.emailVerificationTitle = verificationText
 
 
