@@ -52,9 +52,7 @@
             app:view_input_text_imei_actions="IME_ACTION_NEXT"
             app:layout_constraintTop_toBottomOf="@+id/textView3"
             app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
-
-
-            />
+            app:requestKeyboard="@{true}"/>
 
 
         <co.yap.widgets.CoreInputField

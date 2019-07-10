@@ -17,7 +17,6 @@ import co.yap.translation.Translator
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
 import com.google.android.material.snackbar.Snackbar
-import java.util.*
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
@@ -42,6 +41,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private val progressDialogueFragment: ProgressDialogueFragment =
         ProgressDialogueFragment()
 
+
     fun hideKeyboard() {
         val view = this.currentFocus
         if (view != null) {
@@ -57,12 +57,12 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     }
 
     override fun onNetworkStateChanged(isConnected: Boolean) {
-        if(checkConnectivity && isConnected){
-            checkConnectivity=false
+        if (checkConnectivity && isConnected) {
+            checkConnectivity = false
 
-        }else{
+        } else {
             showInternetSnack(!isConnected)
-            checkConnectivity=false
+            checkConnectivity = false
         }
     }
 
@@ -98,7 +98,10 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) {
-            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(supportFragmentManager, "loading")
+            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(
+                supportFragmentManager,
+                "loading"
+            )
         } else {
             if (progressDialogueFragment.isVisible) progressDialogueFragment.dismiss()
         }
