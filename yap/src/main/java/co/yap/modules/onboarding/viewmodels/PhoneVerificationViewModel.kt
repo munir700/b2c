@@ -77,7 +77,7 @@ class PhoneVerificationViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.value = true
                 }
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
         }
