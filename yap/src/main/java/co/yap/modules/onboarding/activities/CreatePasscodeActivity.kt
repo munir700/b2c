@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.app.constants.Constants
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ICreatePasscode
 import co.yap.modules.onboarding.viewmodels.CreatePasscodeViewModel
 import co.yap.yapcore.BaseBindingActivity

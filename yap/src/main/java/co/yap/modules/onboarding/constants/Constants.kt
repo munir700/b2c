@@ -1,4 +1,4 @@
-package co.yap.app.constants
+package co.yap.modules.onboarding.constants
 
 object Constants {
     const val REQUEST_CODE_CREATE_PASSCODE: Int = 127

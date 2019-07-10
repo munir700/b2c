@@ -2,8 +2,8 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
-import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.states.PhoneVerificationSignInState
 import co.yap.networking.authentication.AuthRepository

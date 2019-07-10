@@ -4,13 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import co.yap.BR
 import co.yap.R
-import co.yap.app.constants.Constants
 import co.yap.modules.onboarding.activities.CreatePasscodeActivity
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.helpers.SharedPreferenceManager
