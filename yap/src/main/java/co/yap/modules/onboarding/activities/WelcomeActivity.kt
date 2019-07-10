@@ -55,5 +55,6 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View
     override fun onPressGetStarted(view: View) {
         viewModel.handlePressOnGetStarted()
         startActivity(OnboardingActivity.newIntent(this, getAccountType()))
+        finish()
     }
 }
