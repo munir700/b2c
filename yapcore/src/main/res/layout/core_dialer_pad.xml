@@ -81,6 +81,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:text="6854"
+
+        android:letterSpacing="0.2"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="0dp"
         app:layout_constraintVertical_bias="0.186"
@@ -88,7 +90,7 @@
         android:background="@color/white"
         android:gravity="center_horizontal"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="@dimen/text_size_h7"/>
+        android:textSize="@dimen/text_size_h6"/>
 
     <TextView
         android:id="@+id/tvError"

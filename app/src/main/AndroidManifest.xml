@@ -6,8 +6,8 @@
         android:name=".YAPApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
@@ -32,8 +32,8 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="co.yap.app.OPEN_LOGIN" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <action android:name="co.yap.app.OPEN_LOGIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
         <activity

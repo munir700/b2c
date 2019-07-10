@@ -2,7 +2,7 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
- import android.view.KeyEvent
+import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
@@ -42,10 +42,9 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     override fun handlePressOnNext() {
-        if (state.emailTitle.equals(getString(R.string.screen_email_verification_display_text_title))){
+        if (state.emailTitle.equals(getString(R.string.screen_email_verification_display_text_title))) {
             postDemographicData()
-        }
-        else{
+        } else {
 //            signUp()
             sendVerificationEmail()
 
@@ -55,7 +54,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     private fun signUp() {
         launch {
-             when (val response = repository.signUp(
+            when (val response = repository.signUp(
                 SignUpRequest(
                     parentViewModel!!.onboardingData.firstName,
                     parentViewModel!!.onboardingData.lastName,
@@ -75,19 +74,20 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                         SharedPreferenceManager.KEY_USERNAME,
                         EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
                     )
-                    state.loading=false
+                    state.loading = false
                     setVerifictionLabel()
                 }
 
 //                is RetroApiResponse.Error -> state.toast = response.error.message
                 is RetroApiResponse.Error -> state.emailError = response.error.message
-             }
-         }
+            }
+        }
     }
 
-     private fun setVerifictionLabel() {
-         state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
-         state.emailBtnTitle = getString(R.string.common_button_next)
+    private fun setVerifictionLabel() {
+        setProgress(90)
+        state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
+        state.emailBtnTitle = getString(R.string.common_button_next)
 
         val screen_email_verification_b2c_display_text_email_sent: String =
             getString(R.string.screen_email_verification_b2c_display_text_email_sent)
@@ -106,7 +106,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     private fun sendVerificationEmail() {
-         launch {
+        launch {
             state.loading = true
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
@@ -114,14 +114,14 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                     parentViewModel!!.onboardingData.accountType.toString()
                 )
             )) {
-//                is RetroApiResponse.Error -> state.toast = response.error.message
                 is RetroApiResponse.Error -> state.emailError = response.error.message
                 is RetroApiResponse.Success -> {
                     signUp()
 
                     //                    postDemographicData() on click on second time next
 
-                }            }
+                }
+            }
         }
     }
 

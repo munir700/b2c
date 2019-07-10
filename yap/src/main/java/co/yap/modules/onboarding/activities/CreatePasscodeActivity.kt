@@ -41,4 +41,9 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() 
         setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
     }
+
+    override fun onDestroy() {
+        viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
+        super.onDestroy()
+    }
 }

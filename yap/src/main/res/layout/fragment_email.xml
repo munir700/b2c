@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            style="@style/ATitle3"
+            style="@style/ALarge"
             tools:text="@string/screen_enter_email_b2c_display_text_title"
             android:layout_marginTop="@dimen/margin_extra_large"
             app:layout_constraintTop_toTopOf="parent"
@@ -59,7 +59,7 @@
             app:layout_constraintHorizontal_bias="0.487"
             app:realValue="@={emailViewModel.state.twoWayTextWatcher}"
             app:onEditorActionDoneListener="@{emailViewModel.onEditorActionListener()}"
-
+            app:requestKeyboard="@{true}"
             />
 
         <TextView
@@ -67,7 +67,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/ASmallGrey"
-            android:textSize="12sp"
             android:visibility="visible"
             android:gravity="center"
             android:paddingStart="@dimen/margin_extra_small"

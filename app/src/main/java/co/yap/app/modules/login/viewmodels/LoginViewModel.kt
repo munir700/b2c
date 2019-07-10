@@ -11,10 +11,15 @@ import co.yap.yapcore.SingleLiveEvent
 
 class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel {
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: LoginState = LoginState()
 
     override fun handlePressOnLogin() {
         signInButtonPressEvent.value = true
+    }
+
+    override fun handlePressOnSignUp() {
+        signUpButtonPressEvent.value = true
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {

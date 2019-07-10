@@ -9,7 +9,9 @@ interface ILogin {
 
     interface ViewModel : IBase.ViewModel<State> {
         val signInButtonPressEvent: SingleLiveEvent<Boolean>
+        val signUpButtonPressEvent: SingleLiveEvent<Boolean>
         fun handlePressOnLogin()
+        fun handlePressOnSignUp()
         fun onEditorActionListener(): TextView.OnEditorActionListener
     }
 

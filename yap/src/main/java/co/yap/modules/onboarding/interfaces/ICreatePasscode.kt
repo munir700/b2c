@@ -16,9 +16,7 @@ interface ICreatePasscode {
         var passcode: String
         var valid: Boolean
         fun getTextWatcher(): TextWatcher
-        fun validationPasscode(passcodeText: String)
         var sequence: Boolean
         var similar: Boolean
-        fun checkButtonValidation()
     }
 }
