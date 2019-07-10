@@ -14,7 +14,6 @@ import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_lite_dashboard.*
-import java.util.*
 
 
 class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
