@@ -248,10 +248,9 @@ object CoreInputUiBinder {
     @BindingAdapter("deactivateEditText")
     fun deactivateEditText(view: CoreInputField, activate: Boolean) {
         view.editText.isActivated = activate
-        view.editText.isEnabled = activate
+//        view.editText.isEnabled = activate
         view.editText.isFocusable = activate
-
-    }
+     }
 
 
     /* end region textwatcher */
