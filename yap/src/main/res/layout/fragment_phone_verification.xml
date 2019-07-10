@@ -84,7 +84,7 @@
             app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintVertical_bias="0.137"/>
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ARegular"
@@ -93,12 +93,14 @@
             android:lineSpacingExtra="1sp"
             android:gravity="center"
             tools:text="Resend code"
+            android:layout_marginTop="8dp"
             app:text="@{Strings.screen_verify_phone_number_button_resend_otp}"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:textAllCaps="false"
             android:onClick="@{(v) -> viewModel.handlePressOnResendOTP()}"
             android:id="@+id/button10"
+            android:enabled="@{viewModel.state.valid}"
             android:layout_marginBottom="@dimen/margin_medium"
             app:layout_constraintTop_toBottomOf="@+id/otp_view"
             app:layout_constraintStart_toStartOf="parent"
