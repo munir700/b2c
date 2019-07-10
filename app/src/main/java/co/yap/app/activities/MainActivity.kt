@@ -4,15 +4,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import co.yap.app.R
-import co.yap.app.di.BaseActivity
-import co.yap.translation.Translator
-import co.yap.translation.Strings
-import co.yap.yapcore.IBase
+import co.yap.yapcore.defaults.DefaultActivity
 
-class MainActivity : BaseActivity<IBase.ViewModel<IBase.State>>() {
+class MainActivity : DefaultActivity() {
 
-    override val viewModel: IBase.ViewModel<IBase.State>
-        get() = TODO("not implemented") //To change initializer of created properties use File | Settings | File Templates.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
