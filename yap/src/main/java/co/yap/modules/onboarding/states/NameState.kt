@@ -100,7 +100,7 @@ class NameState(application: Application) : BaseState(), IName.State {
 
 
             }
-        }else{
+        } else {
             drawbleRight = null
 
         }
@@ -120,10 +120,10 @@ class NameState(application: Application) : BaseState(), IName.State {
                 valid = false
                 lastNameError = "error"
                 notifyPropertyChanged(BR.lastNameError)
-                drawbleRightLastName =null
+                drawbleRightLastName = null
 
             }
-        }else{
+        } else {
             drawbleRightLastName = null
 
         }

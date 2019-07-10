@@ -11,6 +11,16 @@ import co.yap.yapcore.BaseState
 import java.util.regex.Pattern
 
 class EmailState(application: Application) : BaseState(), IEmail.State {
+
+    @get:Bindable
+    override var deactivateField: Boolean = true
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.deactivateField)
+        }
+
+
     @get:Bindable
     override var emailBtnTitle: String = ""
         get() = field
