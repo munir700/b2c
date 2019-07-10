@@ -56,7 +56,7 @@
 
     <!-- Onboarding -->
     <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
-    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to %1$s</string>
+    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to \n %1$s</string>
     <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
     <string name="screen_verify_phone_number_button_send">Send</string>
 
@@ -100,6 +100,6 @@
     <string name="screen_verify_passcode_text_forgot_password">Forgot password?</string>
 
     <!-- Otp screen -->
-    <string name="screen_otp_timer">%1s:%2s</string>
+    <string name="screen_verify_phone_number_display_text_resend_otp_success">New OTP has been generated successfully</string>
 
 </resources>
