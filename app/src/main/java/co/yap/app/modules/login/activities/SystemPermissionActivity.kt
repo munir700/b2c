@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.constants.Constants
 import co.yap.app.constants.Constants.SCREEN_TYPE
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
@@ -22,7 +23,7 @@ class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel
 
     companion object {
         fun newIntent(context: Context, type: String): Intent {
-            val intent = Intent(context, SystemPermissionActivity::class.java);
+            val intent = Intent(context, SystemPermissionActivity::class.java)
             intent.putExtra(SCREEN_TYPE, type)
             return intent
         }
@@ -37,13 +38,23 @@ class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel
 
 
     private val permissionGrantedObserver = Observer<Boolean> {
-        sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
-        startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+        if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
+            sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
+            startActivity(newIntent(this, Constants.NOTIFICATION_SCREEN_TYPE))
+            finish()
+        } else {
+            startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+        }
     }
 
     private val permissionNotGrantedObserver = Observer<Boolean> {
-        sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
-        startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+        if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
+            sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
+            startActivity(newIntent(this, Constants.NOTIFICATION_SCREEN_TYPE))
+            finish()
+        } else {
+            startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +71,13 @@ class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel
 
     private fun getScreenType(): String {
         return intent.getStringExtra(SCREEN_TYPE)
+    }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.permissionGrantedPressEvent.removeObserver( permissionGrantedObserver)
+        viewModel.permissionNotGrantedPressEvent.removeObserver(permissionNotGrantedObserver)
     }
 
 }

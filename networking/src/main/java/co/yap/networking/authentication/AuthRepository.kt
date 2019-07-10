@@ -18,7 +18,7 @@ object AuthRepository : BaseRepository(), AuthApi {
     const val URL_GET_CSRF_TOKEN = "/auth/login"
     const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_REFRESH_JWT_TOKEN = "/auth/oauth/oidc/token"
-    const val URL_LOGOUT = "/auth/oauth/oidc/revoke"
+    const val URL_LOGOUT = "/auth/oauth/oidc/logout"
     const val URL_POST_DEMOGRAPHIC_DATA = "/customers/api/demographics/"
     const val URL_VALIDATE_DEMOGRAPHIC_DATA = "customers/api/demographics/validate/user-device/{device_id}"
     const val URL_CREATE_OTP = "/messages/api/otp"
@@ -53,8 +53,8 @@ object AuthRepository : BaseRepository(), AuthApi {
     override suspend fun refreshJWTToken(token: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.refreshJWTToken("refresh", token) })
 
-    override suspend fun logout(token: String): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.logout(token) })
+    override suspend fun logout(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.logout() })
 
 
     override suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =

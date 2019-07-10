@@ -35,7 +35,7 @@
             android:id="@+id/tbBtnBack"/>
 
         <ImageView
-            app:srcCompat="@drawable/ic_tick_disabled"
+            app:srcCompat="@drawable/ic_tick"
             android:layout_width="@dimen/_28sdp"
             android:layout_height="@dimen/_28sdp"
             android:clickable="true"
@@ -45,6 +45,7 @@
             android:onClick="@{(v) -> viewModel.handlePressOnTickButton()}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
+            app:enabled="@{false}"
             android:id="@+id/tbBtnCheck"/>
 
         <co.yap.widgets.AnimatingProgressBar

@@ -30,5 +30,6 @@ interface IEmail {
         var emailTitle: String
         var emailVerificationTitle: String
         var emailBtnTitle: String
+        var deactivateField: Boolean
     }
 }

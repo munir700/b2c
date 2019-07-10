@@ -135,7 +135,8 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
                     startActivity(SystemPermissionActivity.newIntent(this, Constants.TOUCH_ID_SCREEN_TYPE))
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
                 } else {
-                    startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+                   // startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+                    startActivity(SystemPermissionActivity.newIntent(this, Constants.NOTIFICATION_SCREEN_TYPE))
                 }
 
             } else {

@@ -59,6 +59,7 @@
             app:layout_constraintHorizontal_bias="0.487"
             app:realValue="@={emailViewModel.state.twoWayTextWatcher}"
             app:onEditorActionDoneListener="@{emailViewModel.onEditorActionListener()}"
+            app:deactivateEditText="@{emailViewModel.state.deactivateField}"
             app:requestKeyboard="@{true}"
             />
 
