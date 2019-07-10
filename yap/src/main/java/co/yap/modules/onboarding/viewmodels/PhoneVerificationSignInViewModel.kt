@@ -25,7 +25,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override val repository: AuthRepository = AuthRepository
     val onboardingRepository: ObnoardingRepository = ObnoardingRepository
-    override val state: PhoneVerificationSignInState = PhoneVerificationSignInState()
+    override val state: PhoneVerificationSignInState = PhoneVerificationSignInState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
