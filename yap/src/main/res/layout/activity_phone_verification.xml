@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ARegular"
-           app:textColor="@{viewModel.state.color}"
+            app:textColor="@{viewModel.state.color}"
             android:gravity="center"
             tools:text="Resend code"
             app:text="@{Strings.screen_verify_phone_number_button_resend_otp}"

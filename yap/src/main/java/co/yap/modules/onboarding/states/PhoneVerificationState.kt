@@ -6,6 +6,11 @@ import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.yapcore.BaseState
 
 class PhoneVerificationState : BaseState(), IPhoneVerification.State {
+    override var validOtp: Boolean=false
+        set(value) {
+            field=value
+            //notifyPropertyChanged(BR.validOtp)
+        }
 
     val mobileNumber: Array<String?> = arrayOfNulls(1)
 
@@ -25,7 +30,6 @@ class PhoneVerificationState : BaseState(), IPhoneVerification.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
-
         }
 
     private fun validate(): Boolean {
@@ -33,9 +37,7 @@ class PhoneVerificationState : BaseState(), IPhoneVerification.State {
          if (!otp.isNullOrEmpty() && otp.length == 4) {
             vlidateOtp = true
             valid=true
-
         }
         return vlidateOtp
-
     }
 }
