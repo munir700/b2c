@@ -71,8 +71,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     }
 
     private val logoutSuccessObserver = Observer<Boolean> {
-
-
+        val isFingerprintPermissionShown: Boolean = sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,false)
         val uuid: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         val ACTION = "co.yap.app.OPEN_LOGIN"
         val intent = Intent()
@@ -80,6 +79,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
         startActivity(intent)
         sharedPreferenceManager.clearSharedPreference()
         sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())
+        sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, isFingerprintPermissionShown)
         finish()
     }
 
