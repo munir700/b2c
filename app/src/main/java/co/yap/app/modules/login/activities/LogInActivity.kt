@@ -19,7 +19,7 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
         fun newIntent(context: Context): Intent = Intent(context, LogInActivity::class.java)
     }
 
-    override fun getBindingVariable(): Int = BR.loginViewModel
+    override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.screen_log_in
 
     override val viewModel: ILogin.ViewModel
@@ -35,7 +35,7 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
         if (it) {
             startActivity(VerifyPasscodeActivity.newIntent(this, viewModel.state.twoWayTextWatcher))
         } else {
-            showToast("That's not the right username. Please try again")
+            viewModel.state.emailError = "That's not the right username. Please try again"
         }
     }
 

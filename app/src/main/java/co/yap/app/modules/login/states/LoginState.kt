@@ -1,5 +1,6 @@
 package co.yap.app.modules.login.states
 
+import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.app.modules.login.interfaces.ILogin
@@ -45,6 +46,28 @@ class LoginState : BaseState(), ILogin.State {
             setTwoWayTextWatcher()
         }
 
+
+    @get:Bindable
+    override var drawbleRight: Drawable? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.drawbleRight)
+
+        }
+        get() {
+            return field
+        }
+
+    @get:Bindable
+    override var refreshField: Boolean = false
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.refreshField)
+
+        }
+
+
     private fun setTwoWayTextWatcher() {
 
         if (!twoWayTextWatcher.isEmpty() && twoWayTextWatcher.length >= 6) {
@@ -55,15 +78,15 @@ class LoginState : BaseState(), ILogin.State {
     }
 
     private fun setDefaultUI() {
-//        refreshField = true
+        refreshField = true
         valid = false
-//        drawbleRight = null
+        drawbleRight = null
     }
 
     private fun setSuccessUI() {
-//        refreshField = true
+        refreshField = true
         valid = true
-//        emailError = ""
+        emailError = ""
 //        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
     }
 
