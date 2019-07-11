@@ -5,6 +5,7 @@ import android.os.Build
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat.getSystemService
 import co.yap.yapcore.R
 
 object Utils {
@@ -27,5 +28,12 @@ object Utils {
             )
         }
 
+    }
+
+    fun hideKeyboard(view: View) {
+        view.let { v ->
+            val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            imm?.hideSoftInputFromWindow(v.windowToken, 0)
+        }
     }
 }
