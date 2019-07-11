@@ -6,7 +6,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
@@ -33,7 +32,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var DURATION_CODE = -2
     private var checkConnectivity: Boolean = true
     private lateinit var permissionsManager: PermissionsManager
-    private val progressDialogueFragment: ProgressDialogueFragment = ProgressDialogueFragment()
+    // private val progressDialogueFragment: ProgressDialogueFragment = ProgressDialogueFragment()
     private var progress: Dialog? = null
 
 
@@ -156,6 +155,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onDestroy() {
         NetworkConnectionManager.unsubscribe(this)
         unregisterStateListeners()
+        progress?.let {
+            it.dismiss()
+        }
         super.onDestroy()
     }
 
