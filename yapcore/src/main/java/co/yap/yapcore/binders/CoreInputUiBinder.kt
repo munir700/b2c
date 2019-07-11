@@ -16,7 +16,6 @@ import androidx.databinding.InverseBindingAdapter
 import androidx.databinding.InverseBindingListener
 import co.yap.translation.Translator
 import co.yap.widgets.CoreInputField
-import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 
 
 object CoreInputUiBinder {
@@ -250,7 +249,7 @@ object CoreInputUiBinder {
         view.editText.isActivated = activate
 //        view.editText.isEnabled = activate
         view.editText.isFocusable = activate
-     }
+    }
 
 
     /* end region textwatcher */

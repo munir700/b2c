@@ -50,6 +50,7 @@ class CoreInputField @JvmOverloads constructor(
     var imeiActionType: Int = 1
     var IME_NEXT: Int = 2
     var maxLength: Int = 0
+    var view_id: Int = 0
     var PHONE_INPUT_TYPE: Int = 1
     var EMAIL_INPUT_TYPE: Int = 2
     var PHONE_NUMBER_LENGTH: Int = 16
@@ -64,6 +65,8 @@ class CoreInputField @JvmOverloads constructor(
         editText = findViewWithTag("input")
 
 
+
+
         attrs?.let {
             typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
             val title = resources.getText(
@@ -75,6 +78,15 @@ class CoreInputField @JvmOverloads constructor(
             maxLength = typedArray.getInt(R.styleable.CoreInputField_view_max_length, maxLength)
             checkFocusChange = typedArray.getBoolean(R.styleable.CoreInputField_view_focusable, checkFocusChange)
             imeiActionType = typedArray.getInt(R.styleable.CoreInputField_view_input_text_imei_actions, imeiActionType)
+
+           if (null!=typedArray.getInt(R.styleable.CoreInputField_view_id, view_id)){
+               view_id = typedArray.getInt(R.styleable.CoreInputField_view_id, view_id)
+               if (view_id>0) {
+
+                   editText.id=view_id
+               }
+           }
+
 
             val error = resources.getText(
                 typedArray.getResourceId(
