@@ -21,6 +21,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
     var twoDigitStr: String = ""
     var threeDigitStr: String = ""
+    var fourDigitStr: String = ""
 
     @get:Bindable
     override var drawbleRight: Drawable? = null
@@ -169,15 +170,16 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 if (!p0.isNullOrEmpty() && p0.length >= 5) {
-                    if (p0.toString().length == PHONE_NUMBER_LENGTH) {
-                        refreshField = true
-                        var phoneNumber: String = p0.toString().trim()
-                        phoneNumber = phoneNumber.trim().replace(" ", "")
-
-                        validateMobileNumber(phoneNumber)
-                    } else {
-                        setDefaultUI()
-                    }
+//                    if (p0.toString().length == PHONE_NUMBER_LENGTH) {
+//                        refreshField = true
+//
+//                        var phoneNumber: String = p0.toString().trim()
+//                        phoneNumber = phoneNumber.trim().replace(" ", "")
+//
+//                        validateMobileNumber(phoneNumber)
+//                    } else {
+//                        setDefaultUI()
+//                    }
 
                     if (p0.toString().toCharArray().size == 7 && p1 == 6) {
 
@@ -214,10 +216,72 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
                             builder.append(twoDigitStr)
                             builder.append(threeDigitStr)
-                            inputText = builder.append(" ")
+                            builder.append(" ")
+                            if (p1==16){
+
+
+                                fourDigitStr=p0.toString().substring(11)
+                                builder.append(fourDigitStr)
+                            }
+                            inputText = builder
                             setSelection = builder.toString().length
                         }
                     }
+                    //....
+                    if (p0.toString().toCharArray().size == 11 && p1 == 10) {
+
+                        var charArray = p0.toString().toCharArray()
+                        if (charArray.get(charArray.lastIndex).isDigit()) {
+
+                            threeDigitStr = p0.toString().substring(7)
+                            val colored = countryCode
+                            val builder = SpannableStringBuilder()
+
+                            builder.append(
+                                colored
+                            )
+                            setColoredString(builder, colored).toString()
+
+                            builder.append(twoDigitStr)
+                            builder.append(threeDigitStr)
+                            builder.append(" ")
+//                            if (p1==16){
+//
+//
+//                                fourDigitStr=p0.toString().substring(11)
+//                                builder.append(fourDigitStr)
+//                            }
+                            inputText = builder
+                            setSelection = builder.toString().length
+                        }
+                    }
+                    //
+
+
+                    if (p0.toString().length == PHONE_NUMBER_LENGTH) {
+                        fourDigitStr = p0.toString().substring(11)
+                        val colored = countryCode
+                        val builder = SpannableStringBuilder()
+
+                        builder.append(
+                            colored
+                        )
+                        setColoredString(builder, colored).toString()
+
+                        builder.append(twoDigitStr)
+                        builder.append(threeDigitStr)
+                        builder.append(fourDigitStr)
+inputText= builder
+                        refreshField = true
+
+                        var phoneNumber: String = p0.toString().trim()
+                        phoneNumber = phoneNumber.trim().replace(" ", "")
+
+                        validateMobileNumber(phoneNumber)
+                    } else {
+                        setDefaultUI()
+                    }
+                    //
 
                     if (p0.toString().length == 5) {
                         /*disable backpress*/
