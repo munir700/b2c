@@ -60,9 +60,10 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.loading = false
                 }
             }
-            state.loading = false
+
         }
     }
 
