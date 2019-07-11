@@ -16,85 +16,97 @@
             type="co.yap.modules.onboarding.viewmodels.NameViewModel"/>
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium"
-        tools:context=".modules.onboarding.fragments.NameFragment">
+        android:fillViewport="true"
+        tools:ignore="MissingConstraints">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/ALarge"
-            android:layout_marginTop="@dimen/margin_large"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_normal"
-            android:textColor="@color/colorPrimaryDark"
-            android:gravity="center_horizontal"
-            tools:text="@string/screen_name_display_text_title"
-            app:text="@{Strings.screen_name_display_text_title}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:id="@+id/textView3"/>
-
-        <co.yap.widgets.CoreInputField
-            android:id="@+id/etFirstName"
-            app:view_id="222"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_large"
-            app:coreInputHint="@{Strings.screen_name_display_text_first_name}"
-            app:translateHint="@{true}"
-            app:realValue="@={viewModel.state.firstName}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:view_input_text_imei_actions="IME_ACTION_NEXT"
-            app:layout_constraintTop_toBottomOf="@+id/textView3"
-            app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
-            app:requestKeyboard="@{true}"
-            app:view_max_length="40"/>
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            tools:context=".modules.onboarding.fragments.NameFragment">
 
 
-        <co.yap.widgets.CoreInputField
-            android:id="@+id/etLastName"
-            app:view_id="333"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            app:translateHint="@{true}"
-            app:coreInputHint="@{Strings.screen_name_display_text_last_name}"
-            app:realValue="@={viewModel.state.lastName}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etFirstName"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            app:view_input_text_imei_actions="IME_ACTION_DONE"
-            app:view_focusable="true"
-            app:coreInputDrawableRight="@{viewModel.state.drawbleRightLastName}"
-            app:onEditorActionDoneListener="@{viewModel.onEditorActionListener()}"
-            app:view_max_length="40"
-            />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ALarge"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:textColor="@color/colorPrimaryDark"
+                android:gravity="center_horizontal"
+                tools:text="@string/screen_name_display_text_title"
+                app:text="@{Strings.screen_name_display_text_title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:id="@+id/textView3"/>
 
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnNext"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            style="@style/FragmentsBtnStyle"
-            app:text="@{Strings.common_button_next}"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            app:enableCoreButton="@{viewModel.state.valid}"
-            android:onClick="@{(v) -> viewModel.handlePressOnNext()}"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginRight="@dimen/margin_xxl"
-            app:layout_goneMarginTop="@dimen/margin_extra_large"
-            app:view_focusable="true"
-            app:layout_constraintTop_toBottomOf="@+id/etLastName"
-            tools:layout_editor_absoluteX="34dp"
-            app:layout_constraintVertical_bias="0.988"/>
+            <co.yap.widgets.CoreInputField
+                android:id="@+id/etFirstName"
+                app:view_id="222"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                app:coreInputHint="@{Strings.screen_name_display_text_first_name}"
+                app:translateHint="@{true}"
+                app:realValue="@={viewModel.state.firstName}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:view_input_text_imei_actions="IME_ACTION_NEXT"
+                app:layout_constraintTop_toBottomOf="@+id/textView3"
+                app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
+                app:requestKeyboard="@{true}"
+                app:view_max_length="40"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <co.yap.widgets.CoreInputField
+                android:id="@+id/etLastName"
+                app:view_id="333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:translateHint="@{true}"
+                app:coreInputHint="@{Strings.screen_name_display_text_last_name}"
+                app:realValue="@={viewModel.state.lastName}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etFirstName"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                app:view_input_text_imei_actions="IME_ACTION_DONE"
+                app:view_focusable="true"
+                app:coreInputDrawableRight="@{viewModel.state.drawbleRightLastName}"
+                app:onEditorActionDoneListener="@{viewModel.onEditorActionListener()}"
+                app:view_max_length="40"
+                />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/FragmentsBtnStyle"
+                app:text="@{Strings.common_button_next}"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                app:enableCoreButton="@{viewModel.state.valid}"
+                android:onClick="@{(v) -> viewModel.handlePressOnNext()}"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginRight="@dimen/margin_xxl"
+                app:layout_goneMarginTop="@dimen/margin_extra_large"
+                app:view_focusable="true"
+                app:layout_constraintTop_toBottomOf="@+id/etLastName"
+                tools:layout_editor_absoluteX="34dp"
+                app:layout_constraintVertical_bias="0.988"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
 </layout>
+
