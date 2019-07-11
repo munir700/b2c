@@ -41,7 +41,7 @@ object CoreInputUiBinder {
     @BindingAdapter("isActivated")
     fun setIsActivated(view: CoreInputField, value: Boolean) {
         if (!value) {
-            view.etInputField.isActivated = value
+            view.editText.isActivated = value
 
         }
     }
@@ -53,7 +53,7 @@ object CoreInputUiBinder {
         check: Boolean/*, onEditorActionListener: View.setOnEditorActionListener*/
     ) {
 
-        view.etInputField.setOnEditorActionListener { v, actionId, event ->
+        view.editText.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 println("IME_ACTION_DONE clickec")
                 Log.i("aactionzz", "IME_ACTION_DONE clickec")
@@ -73,7 +73,7 @@ object CoreInputUiBinder {
     @JvmStatic
     @BindingAdapter("onEditorActionDoneListener")
     fun setOnEditorActionDoneLitener(view: CoreInputField, listener: TextView.OnEditorActionListener) {
-        view.etInputField.setOnEditorActionListener(listener)
+        view.editText.setOnEditorActionListener(listener)
     }
 
     @JvmStatic
