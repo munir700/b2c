@@ -31,6 +31,8 @@
             android:layout_marginTop="@dimen/margin_extra_large"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="219dp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:text="@{emailViewModel.state.emailTitle}"
             tools:layout_editor_absoluteX="54dp"
             app:text="@{Strings.screen_enter_email_b2c_display_text_title}"
