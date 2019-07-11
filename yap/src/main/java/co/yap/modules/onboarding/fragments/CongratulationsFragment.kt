@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.Spannable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
@@ -17,7 +16,6 @@ import android.view.animation.AccelerateInterpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
-import androidx.core.text.set
 import androidx.core.text.toSpannable
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
@@ -98,7 +96,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             AnimationUtils.outOfTheBoxAnimation(tvSubTitle).apply { startDelay = 100 }
         )
 
-        val counter = counterAnimation(100, viewModel.elapsedOnboardingTime.toInt(), tvSubTitle)
+        val counter = counterAnimation(1, viewModel.elapsedOnboardingTime.toInt(), tvSubTitle)
 
         val moveFromCenterToTop = AnimationUtils.runTogether(
             AnimationUtils.slideVertical(

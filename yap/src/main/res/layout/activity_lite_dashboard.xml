@@ -68,7 +68,7 @@
 
             <Switch
                 android:id="@+id/swTouchId"
-                android:text="Sign In with Touch ID   "
+                android:text="Sign In with fingerprint   "
                 style="@style/ASmallGrey"
                 android:theme="@style/CustomSwitch"
                 android:layout_width="wrap_content"
