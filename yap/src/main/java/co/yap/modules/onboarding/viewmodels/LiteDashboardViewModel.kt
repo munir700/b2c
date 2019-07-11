@@ -1,6 +1,8 @@
 package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AlertDialog
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.states.LiteDashboardState
@@ -17,11 +19,9 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
     override val logoutSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: AuthRepository = AuthRepository
 
-
     override fun handlePressOnLogout() {
         logout()
     }
-
 
     override fun logout() {
         launch {
@@ -34,7 +34,11 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
+
+            // Set a little delay in case of no in
+            // TODO: Fix this delay issue. It should not be written with a delay
+            Handler(Looper.getMainLooper()).postDelayed({state.loading = false}, 500)
+
         }
     }
 

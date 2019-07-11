@@ -11,7 +11,7 @@ import retrofit2.Response
 
 const val MALFORMED_JSON_EXCEPTION_CODE = 0
 
-open class BaseRepository : IRepository {
+abstract class BaseRepository : IRepository {
 
     override suspend fun <T : ApiResponse> executeSafely(call: suspend () -> Response<T>): RetroApiResponse<T> {
         try {
@@ -34,6 +34,12 @@ open class BaseRepository : IRepository {
             return ApiError(response.code(), fetchErrorFromBody(response.errorBody()!!.string()))
         }
 
+        if (response.code() == 504) {
+            // It is no internet connect error
+            // TODO: take default error message from repo to show here
+            return ApiError(response.code(), "")
+        }
+
         // hmm.. may be server error or network error
         return ApiError(response.code(), response.errorBody()!!.string())
     }
@@ -48,7 +54,7 @@ open class BaseRepository : IRepository {
                 }
 
             } catch (e: JSONException) {
-                return "Malformed JSON Response from API"
+                return "Server sent some malformed data :o"
             }
         }
 
