@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="loginViewModel"
+            name="viewModel"
             type="co.yap.app.modules.login.viewmodels.LoginViewModel"/>
     </data>
 
@@ -64,12 +64,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_xl"
-                    app:coreInputText="@{loginViewModel.state.email}"
-                    app:realValue="@={loginViewModel.state.twoWayTextWatcher}"
+                    app:coreInputText="@{viewModel.state.email}"
+                    app:resetUI="@{viewModel.state.refreshField}"
+                    app:realValue="@={viewModel.state.twoWayTextWatcher}"
                     app:view_hint_input_field="@string/screen_sign_in_input_text_email_hint"
                     android:layout_marginStart="@dimen/margin_normal"
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_marginBottom="@dimen/margin_small"
+                    app:coreInputError="@{viewModel.state.emailError}"
+                    app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
+
                     app:layout_constraintTop_toBottomOf="@+id/tvSignIn"/>
 
                 <co.yap.widgets.CoreButton
@@ -77,9 +81,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     style="@style/FragmentsBtnStyle"
-                    app:enableCoreButton="@{loginViewModel.state.valid}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
                     android:text="@string/screen_sign_in_button_sign_in"
-                    android:onClick="@{(v) -> loginViewModel.handlePressOnLogin()}"
+                    android:onClick="@{(v) -> viewModel.handlePressOnLogin()}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/clSignUp"
@@ -120,7 +124,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         android:layout_marginStart="@dimen/_5sdp"
                         android:layout_marginBottom="@dimen/margin_large"
-                        android:onClick="@{(v) -> loginViewModel.handlePressOnSignUp()}"
+                        android:onClick="@{(v) -> viewModel.handlePressOnSignUp()}"
                         app:layout_constraintLeft_toRightOf="@+id/tvSignUpPrefix"
                         android:text="@string/screen_sign_in_display_text_sign_up"/>
 

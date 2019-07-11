@@ -1,5 +1,6 @@
 package co.yap.app.modules.login.interfaces
 
+import android.graphics.drawable.Drawable
 import android.widget.TextView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
@@ -20,5 +21,7 @@ interface ILogin {
         var emailError: String
         var valid: Boolean
         var twoWayTextWatcher: String
+        var drawbleRight: Drawable?
+        var refreshField: Boolean
     }
 }
