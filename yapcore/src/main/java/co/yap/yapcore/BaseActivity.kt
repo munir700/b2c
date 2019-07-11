@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
 import android.view.View
 import android.view.WindowManager
@@ -13,9 +15,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
+import co.yap.yapcore.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
@@ -73,16 +77,15 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun showNoInternetSnackBar() {
         snackbar = setSnackBar(
             this,
-            // TODO: Use strings for these
-            "No internet connection",
+            getString(Strings.common_display_text_error_no_internet),
             Snackbar.LENGTH_INDEFINITE
         )
             .setAction(
                 // TODO: Use strings for these
                 "Settings"
             ) { startActivity(Intent(Settings.ACTION_WIFI_SETTINGS).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)) }
-            .setActionTextColor(resources.getColor(R.color.colorPrimary))
-        snackbar!!.show()
+            .setActionTextColor(Utils.getColor(this, R.color.colorDarkGreen))
+        snackbar?.show()
     }
 
     private fun showInternetConnectedSnackBar() {

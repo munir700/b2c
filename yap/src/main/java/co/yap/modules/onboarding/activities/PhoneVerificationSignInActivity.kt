@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -12,6 +14,7 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.viewmodels.PhoneVerificationSignInViewModel
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.activity_phone_verification.*
 
 class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSignIn.ViewModel>() {
@@ -60,8 +63,8 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
 
 
     override fun onDestroy() {
+        viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroy()
-        viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
 
     private fun setUsername() {

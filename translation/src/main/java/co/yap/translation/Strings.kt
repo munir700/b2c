@@ -115,7 +115,7 @@ object Strings {
     const val screen_verify_passcode_text_forgot_password: String = "screen_verify_passcode_text_forgot_password"
 
     //Otp screen
-    const val screen_otp_timer: String = "screen_otp_timer"
+    const val screen_verify_phone_number_display_text_resend_otp_success: String = "screen_verify_phone_number_display_text_resend_otp_success"
 
 
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -53,7 +54,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
             swTouchId.isChecked = isTouchIdEnabled
             swTouchId.visibility = View.VISIBLE
 
-            swTouchId.setOnCheckedChangeListener { buttonView, isChecked ->
+            swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
@@ -72,7 +73,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     private val logoutSuccessObserver = Observer<Boolean> {
 
 
-        val uuid : String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        val uuid: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         val ACTION = "co.yap.app.OPEN_LOGIN"
         val intent = Intent()
         intent.action = ACTION
@@ -88,8 +89,25 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     override fun getLayoutId(): Int = co.yap.R.layout.activity_lite_dashboard
 
     override fun onDestroy() {
+        viewModel.logoutSuccess.removeObservers(this)
         super.onDestroy()
-        viewModel.logoutSuccess.removeObserver(logoutSuccessObserver)
+    }
+
+    override fun onBackPressed() {
+        showLogoutDialog()
+    }
+
+    fun showLogoutDialog() {
+        AlertDialog.Builder(this@LiteDashboardActivity)
+            .setTitle("Exit")
+            .setMessage("Are you sure you want to exit?")
+            .setPositiveButton("CONFIRM") { dialog, which ->
+                finish()
+            }
+            .setNegativeButton("CANCEL") { dialog, which ->
+
+            }
+            .show()
     }
 
 }

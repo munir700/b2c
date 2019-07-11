@@ -12,6 +12,7 @@ import co.yap.networking.authentication.requestdtos.DemographicDataRequest
 import co.yap.networking.authentication.requestdtos.VerifyOtpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -71,6 +72,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
             when (val response =
                 repository.createOtp(CreateOtpRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
                 is RetroApiResponse.Success -> {
+                    state.toast = getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
                     state.valid=false
                 }

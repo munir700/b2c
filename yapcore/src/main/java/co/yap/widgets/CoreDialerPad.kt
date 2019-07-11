@@ -128,12 +128,9 @@ class CoreDialerPad @JvmOverloads constructor(
 //            typedArray.recycle()
 
             buttonRemove.setOnClickListener {
-                if (dialerType == 1) {
                     removePasscodeFromList()
-                } else {
                     val length = etPassCodeText.length()
                     if (length > 0) etPassCodeText.text.delete(length - 1, length)
-                }
             }
         }
 
@@ -145,7 +142,7 @@ class CoreDialerPad @JvmOverloads constructor(
 
     fun startAnimation() {
         llPasscode.startAnimation(animShake)
-        etPassCodeText.setText("")
+       // etPassCodeText.setText("")
     }
 
     fun settingUIForError(error: String) {
@@ -209,58 +206,59 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 
     private fun removePasscodeFromList() {
-        list.remove(1)
-        if (list.size == 0) {
-            ivOne.visibility = View.GONE
-            ivTwo.visibility = View.GONE
-            ivThree.visibility = View.GONE
-            ivFour.visibility = View.GONE
-            ivFive.visibility = View.GONE
-            ivSix.visibility = View.GONE
-        } else if (list.size == 1) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.GONE
-            ivThree.visibility = View.GONE
-            ivFour.visibility = View.GONE
-            ivFive.visibility = View.GONE
-            ivSix.visibility = View.GONE
-        } else if (list.size == 2) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.GONE
-            ivFour.visibility = View.GONE
-            ivFive.visibility = View.GONE
-            ivSix.visibility = View.GONE
-        } else if (list.size == 3) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.VISIBLE
-            ivFour.visibility = View.GONE
-            ivFive.visibility = View.GONE
-            ivSix.visibility = View.GONE
-        } else if (list.size == 4) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.VISIBLE
-            ivFour.visibility = View.VISIBLE
-            ivFive.visibility = View.GONE
-            ivSix.visibility = View.GONE
-        } else if (list.size == 5) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.VISIBLE
-            ivFour.visibility = View.VISIBLE
-            ivFive.visibility = View.VISIBLE
-            ivSix.visibility = View.GONE
-        } else if (list.size == 6) {
-            ivOne.visibility = View.VISIBLE
-            ivTwo.visibility = View.VISIBLE
-            ivThree.visibility = View.VISIBLE
-            ivFour.visibility = View.VISIBLE
-            ivFive.visibility = View.VISIBLE
-            ivSix.visibility = View.VISIBLE
+        if (dialerType == 1) {
+            list.remove(1)
+            if (list.size == 0) {
+                ivOne.visibility = View.GONE
+                ivTwo.visibility = View.GONE
+                ivThree.visibility = View.GONE
+                ivFour.visibility = View.GONE
+                ivFive.visibility = View.GONE
+                ivSix.visibility = View.GONE
+            } else if (list.size == 1) {
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.GONE
+                ivThree.visibility = View.GONE
+                ivFour.visibility = View.GONE
+                ivFive.visibility = View.GONE
+                ivSix.visibility = View.GONE
+            } else if (list.size == 2) {
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.GONE
+                ivFour.visibility = View.GONE
+                ivFive.visibility = View.GONE
+                ivSix.visibility = View.GONE
+            } else if (list.size == 3) {
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.GONE
+                ivFive.visibility = View.GONE
+                ivSix.visibility = View.GONE
+            } else if (list.size == 4) {
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+                ivFive.visibility = View.GONE
+                ivSix.visibility = View.GONE
+            } else if (list.size == 5) {
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+                ivFive.visibility = View.VISIBLE
+                ivSix.visibility = View.GONE
+            } else if (list.size == 6) {
+                ivOne.visibility = View.VISIBLE
+                ivTwo.visibility = View.VISIBLE
+                ivThree.visibility = View.VISIBLE
+                ivFour.visibility = View.VISIBLE
+                ivFive.visibility = View.VISIBLE
+                ivSix.visibility = View.VISIBLE
+            }
         }
-
     }
 }
 

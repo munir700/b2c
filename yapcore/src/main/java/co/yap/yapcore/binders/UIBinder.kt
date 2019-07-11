@@ -27,6 +27,7 @@ import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.StringUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBindable
 
 
@@ -222,17 +223,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter(value = ["requestKeyboard", "forceKeyboard"], requireAll = false)
     fun setRequestKeyboard(view: View, request: Boolean, forced: Boolean) {
-        view.requestFocus()
-        if (forced) {
-            (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-                InputMethodManager.SHOW_FORCED, HIDE_IMPLICIT_ONLY
-            )
-        } else if (request) {
-            (view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-                InputMethodManager.SHOW_IMPLICIT, HIDE_IMPLICIT_ONLY
-            )
-        }
-
+        Utils.requestKeyboard(view, request, forced)
     }
 
 }

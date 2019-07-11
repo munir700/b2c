@@ -23,11 +23,13 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    private val nextButtonObserver = Observer<Boolean> { navigate(R.id.congratulationsFragment) }
+    private val nextButtonObserver = Observer<Boolean> {
+        navigate(R.id.congratulationsFragment)
+    }
 
     override fun onDestroyView() {
+        viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroyView()
-        viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
 
 }

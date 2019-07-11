@@ -49,7 +49,7 @@ class PhoneVerificationState(application: Application) : BaseState(), IPhoneVeri
 
 
     @get:Bindable
-    override var color: Int =  mContext.resources.getColor(R.color.disabled)
+    override var color: Int = mContext.resources.getColor(R.color.disabled)
         get() = field
         set(value) {
             field = value
@@ -58,9 +58,9 @@ class PhoneVerificationState(application: Application) : BaseState(), IPhoneVeri
 
     private fun validate(): Boolean {
         var vlidateOtp: Boolean = false
-         if (!otp.isNullOrEmpty() && otp.length == 4) {
+        if (!otp.isNullOrEmpty() && otp.length == 4) {
             vlidateOtp = true
-            valid=true
+            valid = true
         }
         return vlidateOtp
     }
@@ -73,17 +73,18 @@ class PhoneVerificationState(application: Application) : BaseState(), IPhoneVeri
                 val minutes = seconds / 60
                 seconds %= 60
                 val timerMsg: String
-                if (seconds==10) {
+                if (seconds == 10) {
                     timerMsg = "00:$seconds"
                 } else {
                     timerMsg = "00:0$seconds"
                 }
                 timer = timerMsg
             }
+
             override fun onFinish() {
                 validResend = true
-                color =  mContext.resources.getColor(R.color.colorPrimary)
-                timer = ""
+                color = mContext.resources.getColor(R.color.colorPrimary)
+                timer = "00:00"
             }
         }.start()
     }

@@ -82,7 +82,7 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
             override fun onFinish() {
                 valid = true
                color = mContext.resources.getColor(R.color.colorPrimary)
-                timer = ""
+                timer = "00:00"
             }
         }.start()
     }

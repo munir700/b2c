@@ -54,7 +54,7 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
     override fun onDestroy() {
-        viewModel.backButtonPressEvent.removeObserver(backButtonObserver)
+        viewModel.backButtonPressEvent.removeObservers(this)
         super.onDestroy()
     }
 

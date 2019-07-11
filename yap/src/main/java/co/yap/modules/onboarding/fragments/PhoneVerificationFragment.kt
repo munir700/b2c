@@ -39,8 +39,8 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
     }
 
     override fun onDestroyView() {
+        viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroyView()
-        viewModel.nextButtonPressEvent.removeObserver(nextButtonObserver)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

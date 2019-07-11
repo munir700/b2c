@@ -1,6 +1,8 @@
 package co.yap.app.modules.splash
 
 import android.app.Application
+import android.os.Handler
+import android.os.Looper
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -24,8 +26,9 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
         launch {
             when (val response = repository.getCSRFToken()) {
                 is RetroApiResponse.Success -> splashComplete.value = true
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Error -> state.toast = if(response.error.statusCode == 504) "" else response.error.message
             }
         }
     }
+
 }

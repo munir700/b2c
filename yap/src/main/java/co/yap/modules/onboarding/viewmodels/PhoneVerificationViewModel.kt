@@ -8,6 +8,8 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.onboarding.ObnoardingRepository
 import co.yap.networking.onboarding.requestdtos.CreateOtpRequest
 import co.yap.networking.onboarding.requestdtos.VerifyOtpRequest
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.SingleLiveEvent
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -31,7 +33,7 @@ class PhoneVerificationViewModel(application: Application) :
         super.onCreate()
         state.mobileNumber[0] = parentViewModel!!.onboardingData.formattedMobileNumber
         state.reverseTimer(10)
-        state.validResend=false
+        state.validResend = false
     }
 
     override fun handlePressOnSendButton() {
@@ -42,10 +44,17 @@ class PhoneVerificationViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                onboardingRepository.createOtp(CreateOtpRequest( parentViewModel!!.onboardingData.countryCode, parentViewModel!!.onboardingData.mobileNo, parentViewModel!!.onboardingData.accountType.toString()))) {
+                onboardingRepository.createOtp(
+                    CreateOtpRequest(
+                        parentViewModel!!.onboardingData.countryCode,
+                        parentViewModel!!.onboardingData.mobileNo,
+                        parentViewModel!!.onboardingData.accountType.toString()
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
+                    state.toast = getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
-                    state.validResend=false
+                    state.validResend = false
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -68,7 +77,7 @@ class PhoneVerificationViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.value = true
                 }
-                is RetroApiResponse.Error -> state.error = response.error.message
+                is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
         }
