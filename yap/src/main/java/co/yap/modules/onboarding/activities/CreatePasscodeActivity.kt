@@ -46,4 +46,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() 
         viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroy()
     }
+
+    override fun onBackPressed() {
+    }
 }
