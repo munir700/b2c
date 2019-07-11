@@ -18,7 +18,7 @@
             >
 
             <EditText
-                android:tag="input"
+                android:id="@+id/etInputField"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
                 android:background="@drawable/bg_round_edit_text"
