@@ -10,6 +10,7 @@ interface IEmail {
 
     interface ViewModel : IBase.ViewModel<State> {
         val nextButtonPressEvent: SingleLiveEvent<Boolean>
+        val animationStartEvent: SingleLiveEvent<Boolean>
         fun handlePressOnNext()
         fun onEditorActionListener(): TextView.OnEditorActionListener
     }
@@ -31,5 +32,7 @@ interface IEmail {
         var emailVerificationTitle: String
         var emailBtnTitle: String
         var deactivateField: Boolean
+
+        var verificationCompleted: Boolean
     }
 }

@@ -12,6 +12,13 @@ import java.util.regex.Pattern
 
 class EmailState(application: Application) : BaseState(), IEmail.State {
 
+    override var verificationCompleted: Boolean = false
+
+    override fun reset() {
+        super.reset()
+        verificationCompleted = false
+    }
+
     @get:Bindable
     override var deactivateField: Boolean = true
         get() = field

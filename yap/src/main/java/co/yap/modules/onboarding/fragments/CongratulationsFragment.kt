@@ -64,7 +64,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
 
     private fun runAnimations() {
         AnimationUtils.runSequentially(
-            toolbarAnimation(),
             titleAnimation(),
             // Card Animation
             AnimationUtils.outOfTheBoxAnimation(ivCard),
@@ -121,30 +120,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         val array = arrayOfNulls<Animator>(animationStack.size)
         animationStack.toArray(array)
         return AnimationUtils.runSequentially(*array.requireNoNulls())
-    }
-
-    private fun toolbarAnimation(): AnimatorSet {
-        val checkButton = (activity as OnboardingActivity).findViewById<ImageView>(R.id.tbBtnCheck)
-        val backButton = (activity as OnboardingActivity).findViewById<ImageView>(R.id.tbBtnBack)
-        val progressbar = (activity as OnboardingActivity).findViewById<AnimatingProgressBar>(R.id.tbProgressBar)
-
-        val checkBtnEndPosition = (windowSize.width() / 2) - (checkButton.width / 2)
-
-        checkButton.isEnabled = true
-        return AnimationUtils.runSequentially(
-            AnimationUtils.pulse(checkButton),
-            AnimationUtils.runTogether(
-                AnimationUtils.fadeOut(backButton, 200),
-                AnimationUtils.fadeOut(progressbar, 200)
-            ),
-            AnimationUtils.slideHorizontal(
-                view = checkButton,
-                from = checkButton.x,
-                to = checkBtnEndPosition.toFloat(),
-                duration = 500
-            )
-        )
-
     }
 
     private fun counterAnimation(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator {
