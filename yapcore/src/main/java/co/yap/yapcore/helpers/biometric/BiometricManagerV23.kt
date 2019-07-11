@@ -1,13 +1,14 @@
 package co.yap.app.login
 
 import android.annotation.TargetApi
+import android.app.AlertDialog
 import android.content.Context
-import android.hardware.biometrics.BiometricPrompt.*
+import android.hardware.biometrics.BiometricPrompt.BIOMETRIC_ERROR_CANCELED
+import android.hardware.biometrics.BiometricPrompt.BIOMETRIC_ERROR_LOCKOUT
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
-import android.widget.Toast
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import co.yap.yapcore.R
@@ -53,6 +54,10 @@ open class BiometricManagerV23 {
                         super.onAuthenticationError(errMsgId, errString)
 
                         when (errMsgId) {
+                            BIOMETRIC_ERROR_LOCKOUT -> {
+                                showErrorLockoutDialog()
+                                dismissDialog()
+                            }
                             BIOMETRIC_ERROR_CANCELED -> updateStatus("Touch the fingerprint sensor")
                             else -> updateStatus(errString.toString())
                         }
@@ -183,6 +188,18 @@ open class BiometricManagerV23 {
         }
 
     }
+
+    fun showErrorLockoutDialog() {
+        AlertDialog.Builder(context)
+            .setTitle("Sign in failed")
+            .setMessage("Too many attempts. Try again later.")
+            .setCancelable(false)
+            .setPositiveButton("Use passcode instead") { dialog, which ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
 
     companion object {
 
