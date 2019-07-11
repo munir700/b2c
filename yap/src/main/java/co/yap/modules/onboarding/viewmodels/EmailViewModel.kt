@@ -24,6 +24,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
 
     override val state: EmailState = EmailState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: ObnoardingRepository = ObnoardingRepository
     private val authRepository: AuthRepository = AuthRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
@@ -75,7 +76,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                         EncryptionUtils.encrypt(context, state.twoWayTextWatcher)!!
                     )
                     state.loading = false
-                    setVerifictionLabel()
+                    setVerificationLabel()
                 }
 
                 is RetroApiResponse.Error -> {
@@ -86,13 +87,10 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         }
     }
 
-    private fun setVerifictionLabel() {
+    private fun setVerificationLabel() {
         state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
         state.emailBtnTitle = getString(R.string.common_button_next)
         state.deactivateField = false
-        setProgress(90)
-        state.emailTitle = getString(R.string.screen_email_verification_display_text_title)
-        state.emailBtnTitle = getString(R.string.common_button_next)
 
         val screen_email_verification_b2c_display_text_email_sent: String =
             getString(R.string.screen_email_verification_b2c_display_text_email_sent)
@@ -108,6 +106,10 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         state.emailVerificationTitle = verificationText
 
 
+        // mark that we have completed all verification stuff to handle proper back navigation
+        state.verificationCompleted = true
+        setProgress(100)
+        animationStartEvent.value = true
     }
 
     private fun sendVerificationEmail() {
