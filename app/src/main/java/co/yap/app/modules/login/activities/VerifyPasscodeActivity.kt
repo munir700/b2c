@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
@@ -21,7 +20,6 @@ import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.modules.onboarding.activities.PhoneVerificationSignInActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingActivity
-import kotlinx.android.synthetic.main.activity_verify_passcode.*
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.activity_verify_passcode.*
 
@@ -118,7 +116,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
             } else {
                 viewModel.validateDevice()
             }
-        }else{
+        } else {
             dialer.startAnimation()
         }
 
@@ -142,7 +140,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
                     startActivity(SystemPermissionActivity.newIntent(this, Constants.TOUCH_ID_SCREEN_TYPE))
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
                 } else {
-                   // startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+                    // startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
                     startActivity(SystemPermissionActivity.newIntent(this, Constants.NOTIFICATION_SCREEN_TYPE))
                 }
 
@@ -179,12 +177,11 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
 
     private fun showFingerprintDialog() {
-                mBiometricManager = BiometricManager.BiometricBuilder(this@VerifyPasscodeActivity)
-                    .setTitle(getString(R.string.biometric_title))
-                    .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
-                    .build()
-                mBiometricManager.authenticate(this@VerifyPasscodeActivity)
-
+        mBiometricManager = BiometricManager.BiometricBuilder(this@VerifyPasscodeActivity)
+            .setTitle(getString(R.string.biometric_title))
+            .setNegativeButtonText(getString(R.string.biometric_negative_button_text))
+            .build()
+        mBiometricManager.authenticate(this@VerifyPasscodeActivity)
 
 
     }
@@ -203,7 +200,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onBiometricAuthenticationInternalError(error: String) {
-        Toast.makeText(applicationContext, error, Toast.LENGTH_LONG).show()
+        showToast(error)
     }
 
     override fun onAuthenticationFailed() {
