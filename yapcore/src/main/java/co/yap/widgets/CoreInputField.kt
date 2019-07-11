@@ -61,7 +61,7 @@ class CoreInputField @JvmOverloads constructor(
         viewDataBinding =
             DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.custom_widget_edit_text, this, true)
         viewDataBinding.executePendingBindings()
-        editText = etInputField
+        editText = findViewWithTag("input")
 
 
         attrs?.let {
@@ -91,7 +91,7 @@ class CoreInputField @JvmOverloads constructor(
 
             if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)) {
                 drawableRight = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)
-                etInputField.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+                editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
             } else {
                 drawableRight = null
             }
@@ -99,18 +99,18 @@ class CoreInputField @JvmOverloads constructor(
             if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_left)) {
                 drawableLeft = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_left)
 
-                etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
+                editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
             }
 
             if (null != drawableRight && null != drawableLeft) {
-                etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+                editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
             }
 
             if (!textInput.isEmpty()) {
-                etInputField.setText(textInput)
+                editText.setText(textInput)
             }
 
-            etInputField.hint = title
+            editText.hint = title
             setViewInputType()
             setImeiActionsType()
             if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
@@ -122,7 +122,7 @@ class CoreInputField @JvmOverloads constructor(
             paintText.textAlign = Paint.Align.CENTER
             paintText.style = Paint.Style.FILL
 
-            etInputField.isFocusable
+            editText.isFocusable
             onKeyBoardDismissal(true)
             animteKeyboardDismissal()
 
@@ -137,12 +137,12 @@ class CoreInputField @JvmOverloads constructor(
     private fun setViewInputType() {
         when (inputType) {
             PHONE_INPUT_TYPE -> {
-                etInputField.inputType = InputType.TYPE_CLASS_NUMBER
+                editText.inputType = InputType.TYPE_CLASS_NUMBER
                 setPhoneNumberField()
             }
 
             EMAIL_INPUT_TYPE -> {
-                etInputField.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                editText.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             }
         }
     }
@@ -150,12 +150,12 @@ class CoreInputField @JvmOverloads constructor(
     private fun setImeiActionsType() {
         when (imeiActionType) {
             IME_NEXT -> {
-                etInputField.imeOptions = EditorInfo.IME_ACTION_NEXT
+                editText.imeOptions = EditorInfo.IME_ACTION_NEXT
                 checkFocusChange = true
 
             }
             else -> {
-                etInputField.imeOptions = EditorInfo.IME_ACTION_DONE
+                editText.imeOptions = EditorInfo.IME_ACTION_DONE
                 onKeyBoardDismissal(true)
 
             }
@@ -163,32 +163,32 @@ class CoreInputField @JvmOverloads constructor(
     }
 
     private fun setPhoneNumberField() {
-        etInputField.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(PHONE_NUMBER_LENGTH)))
+        editText.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(PHONE_NUMBER_LENGTH)))
 
         val builder = SpannableStringBuilder("")
         builder.color(color = R.color.greySoft) {
             append(countryCode)
         }
 
-        etInputField.setText(builder)
-        etInputField.setSelection(etInputField.text.length)
+        editText.setText(builder)
+        editText.setSelection(editText.text.length)
         disableTextSelection()
 
-        etInputField.setCursorVisible(false)
+        editText.setCursorVisible(false)
 
-        etInputField.setOnClickListener(OnClickListener { etInputField.setSelection(etInputField.getText().toString().length) })
+        editText.setOnClickListener(OnClickListener { editText.setSelection(editText.getText().toString().length) })
 
-        etInputField.setCursorVisible(true)
+        editText.setCursorVisible(true)
     }
 
     fun cursorPlacement() {
-        etInputField.setOnClickListener(OnClickListener { etInputField.setSelection(etInputField.getText().toString().length) })
-        etInputField.setCursorVisible(true)
+        editText.setOnClickListener(OnClickListener { editText.setSelection(editText.getText().toString().length) })
+        editText.setCursorVisible(true)
     }
 
     private fun disableTextSelection() {
-        etInputField.isLongClickable = false
-        etInputField.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
+        editText.isLongClickable = false
+        editText.setCustomSelectionActionModeCallback(object : ActionMode.Callback {
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
                 return false
             }
@@ -211,10 +211,10 @@ class CoreInputField @JvmOverloads constructor(
         drawableRight = drawable
 
         if (null != drawableLeft) {
-            etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+            editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
 
         } else {
-            etInputField.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
+            editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
         }
 
     }
@@ -223,24 +223,24 @@ class CoreInputField @JvmOverloads constructor(
         drawableLeft = drawable
 
         if (null != drawableRight) {
-            etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+            editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
 
         } else {
-            etInputField.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
+            editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
         }
     }
 
     fun setInputText(text: String) {
-        etInputField.setText(text)
+        editText.setText(text)
     }
 
     fun getInputText(): String {
-        return etInputField.text.toString()
+        return editText.text.toString()
 
     }
 
     fun settingUIForError(error: String) {
-        etInputField.setBackgroundResource(R.drawable.bg_round_error_layout)
+        editText.setBackgroundResource(R.drawable.bg_round_error_layout)
         tvError.text = error
         tvError.visibility = View.VISIBLE
         setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
@@ -248,7 +248,7 @@ class CoreInputField @JvmOverloads constructor(
     }
 
     fun settingUIForNormal() {
-        etInputField.setBackgroundResource(R.drawable.bg_round_edit_text)
+        editText.setBackgroundResource(R.drawable.bg_round_edit_text)
         tvError.text = ""
         tvError.visibility = View.GONE
     }
@@ -267,21 +267,21 @@ class CoreInputField @JvmOverloads constructor(
             var listener = object : OnFocusChangeListener {
                 override fun onFocusChange(v: View, hasFocus: Boolean) {
                     if (!hasFocus) {
-                        etInputField.isActivated = false
+                        editText.isActivated = false
                     } else {
-                        etInputField.isActivated = true
+                        editText.isActivated = true
                     }
                 }
             }
 
-            etInputField.setOnFocusChangeListener(listener)
+            editText.setOnFocusChangeListener(listener)
         } else {
 
-            etInputField.getViewTreeObserver().addOnGlobalLayoutListener(
+            editText.getViewTreeObserver().addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
-                        if (etInputField.isFocused()) {
-                            if (!keyboardShown(etInputField.getRootView())) {
+                        if (editText.isFocused()) {
+                            if (!keyboardShown(editText.getRootView())) {
                                 editText.isActivated = false
                             } else {
                                 editText.isActivated = true

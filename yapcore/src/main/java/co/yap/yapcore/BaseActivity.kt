@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.Observable
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.PermissionsManager
@@ -73,8 +74,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private fun showNoInternetSnackBar() {
         snackbar = setSnackBar(
             this,
-            // TODO: Use strings for these
-            "No internet connection",
+            getString(Strings.common_display_text_error_no_internet),
             Snackbar.LENGTH_INDEFINITE
         )
             .setAction(
