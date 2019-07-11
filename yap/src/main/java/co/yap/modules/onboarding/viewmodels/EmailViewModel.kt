@@ -137,7 +137,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             state.loading = true
             when (val response = authRepository.postDemographicData(
                 DemographicDataRequest(
-                    "LOGIN",
+                    "SIGNUP",
                     Build.VERSION.RELEASE,
                     deviceId.toString(),
                     Build.BRAND,

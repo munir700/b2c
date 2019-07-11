@@ -43,7 +43,7 @@
 
     <!-- Email Verification Screen-->
     <string name="screen_email_verification_display_text_title">Great!</string>
-    <string name="screen_email_verification_b2c_display_text_email_sent">we have just sent an email to</string>
+    <string name="screen_email_verification_b2c_display_text_email_sent">we\'ve just sent an email to</string>
     <string name="screen_email_verification_b2c_display_text_email_confirmation">Please validate your email address after signing up and we promise not to spam you.</string>
     <string name="screen_email_verification_b2b_display_text_email_sent">We\'ve just sent a verification email to</string>
     <string name="screen_email_verification_b2b_display_text_email_confirmation">Please check your email to confirm that we got it right.</string>
@@ -89,7 +89,7 @@
     <!--  Onboarding congratulations screen -->
     <string name="screen_onboarding_congratulations_display_text_title">Congrats, %1s!</string>
     <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for you in less than %1s seconds!</string>
-    <string name="screen_onboarding_congratulations_display_text_sub_title_no_interval">A YAP Personal Account has been created for you</string>
+    <string name="screen_onboarding_congratulations_display_text_sub_title_no_interval">A YAP Personal Account has been created for you!</string>
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
     <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>

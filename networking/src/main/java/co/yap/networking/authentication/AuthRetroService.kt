@@ -25,7 +25,7 @@ interface AuthRetroService {
 
     // Logout
     @POST(AuthRepository.URL_LOGOUT)
-    suspend fun logout(): Response<ApiResponse>
+    suspend fun logout(@Query("uuid") uuid: String): Response<ApiResponse>
 
     // Post demographic data
     @PUT(AuthRepository.URL_POST_DEMOGRAPHIC_DATA)
@@ -34,7 +34,6 @@ interface AuthRetroService {
     // Validate demographic data
     @GET(AuthRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
     suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ValidateDeviceResponse>
-
 
     // Create otp request
     @POST(AuthRepository.URL_CREATE_OTP)

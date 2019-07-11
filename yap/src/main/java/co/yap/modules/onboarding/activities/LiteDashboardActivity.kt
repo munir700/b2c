@@ -54,7 +54,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
             swTouchId.isChecked = isTouchIdEnabled
             swTouchId.visibility = View.VISIBLE
 
-            swTouchId.setOnCheckedChangeListener { buttonView, isChecked ->
+            swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
@@ -82,6 +82,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
         sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())
         finish()
     }
+
 
     override fun getBindingVariable(): Int = BR.viewModel
 
