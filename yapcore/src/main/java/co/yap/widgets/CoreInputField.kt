@@ -191,6 +191,7 @@ class CoreInputField @JvmOverloads constructor(
         editText.setOnClickListener(OnClickListener { editText.setSelection(editText.getText().toString().length) })
 
         editText.setCursorVisible(true)
+        editText.requestFocus()
     }
 
     fun cursorPlacement() {
