@@ -83,6 +83,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
         finish()
     }
 
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = co.yap.R.layout.activity_lite_dashboard

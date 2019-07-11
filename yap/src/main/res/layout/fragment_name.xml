@@ -41,6 +41,7 @@
 
         <co.yap.widgets.CoreInputField
             android:id="@+id/etFirstName"
+            app:view_id="222"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_large"
@@ -58,6 +59,7 @@
 
         <co.yap.widgets.CoreInputField
             android:id="@+id/etLastName"
+            app:view_id="333"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
@@ -72,7 +74,8 @@
             app:view_focusable="true"
             app:coreInputDrawableRight="@{viewModel.state.drawbleRightLastName}"
             app:onEditorActionDoneListener="@{viewModel.onEditorActionListener()}"
-            app:view_max_length="40"/>
+            app:view_max_length="40"
+            />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnNext"
