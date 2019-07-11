@@ -56,8 +56,7 @@
             app:resetUI="@{mobileViewModel.state.refreshField}"
             app:disableKeyBack="@{mobileViewModel.state.handleBackPress}"
             app:inputText="@{mobileViewModel.state.inputText}"
-            app:selection="@{mobileViewModel.state.setSelection}"
-            app:cursorPlacement="@{mobileViewModel.state.cursorPlacement}"
+             app:cursorPlacement="@{mobileViewModel.state.cursorPlacement}"
             app:onEditorActionDoneListener="@{mobileViewModel.onEditorActionListener()}"
 
             />

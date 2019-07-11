@@ -183,8 +183,11 @@ object CoreInputUiBinder {
     @JvmStatic
     @BindingAdapter("inputText")
     fun setSpannableInputText(view: CoreInputField, text: SpannableStringBuilder) {
-        view.editText.setText(text)
-        view.editText.setSelection(view.editText.text.length)
+        if (! view.editText.text.contains(text.toString())){
+
+            view.editText.setText(text)
+            view.editText.setSelection(view.editText.text.length)
+        }
 
     }
 

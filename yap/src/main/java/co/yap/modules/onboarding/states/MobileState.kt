@@ -217,10 +217,10 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                             builder.append(twoDigitStr)
                             builder.append(threeDigitStr)
                             builder.append(" ")
-                            if (p1==16){
+                            if (p1 == 16) {
 
 
-                                fourDigitStr=p0.toString().substring(11)
+                                fourDigitStr = p0.toString().substring(11)
                                 builder.append(fourDigitStr)
                             }
                             inputText = builder
@@ -271,7 +271,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                         builder.append(twoDigitStr)
                         builder.append(threeDigitStr)
                         builder.append(fourDigitStr)
-inputText= builder
+                        inputText = builder
                         refreshField = true
 
                         var phoneNumber: String = p0.toString().trim()
