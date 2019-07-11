@@ -1,16 +1,19 @@
 package co.yap.yapcore
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.provider.Settings
 import android.view.View
+import android.view.Window
 import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +25,7 @@ import co.yap.yapcore.helpers.PermissionsManager
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 
+
 abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase.View<V>,
     NetworkConnectionManager.OnNetworkStateChangeListener, PermissionsManager.OnPermissionGrantedListener {
 
@@ -29,6 +33,9 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var DURATION_CODE = -2
     private var checkConnectivity: Boolean = true
     private lateinit var permissionsManager: PermissionsManager
+    private val progressDialogueFragment: ProgressDialogueFragment = ProgressDialogueFragment()
+    private var progress: Dialog? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,10 +47,25 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         permissionsManager = PermissionsManager(this, this, this)
         registerStateListeners()
 
+        createProgressDialog()
     }
 
-    private val progressDialogueFragment: ProgressDialogueFragment =
-        ProgressDialogueFragment()
+    private fun createProgressDialog() {
+        val view = layoutInflater.inflate(R.layout.progress_dialogue_fragment, null)
+        view.findViewById<ProgressBar>(R.id.progressBar2).indeterminateDrawable.setColorFilter(
+            Utils.getColor(
+                this@BaseActivity,
+                R.color.colorPrimaryDark
+            ), android.graphics.PorterDuff.Mode.SRC_IN
+        )
+        progress = AlertDialog.Builder(this).run {
+            setView(view)
+            setCancelable(false)
+            create()
+        }
+        progress?.window?.setBackgroundDrawableResource(android.R.color.transparent)
+        progress?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+    }
 
 
     fun hideKeyboard() {
@@ -100,14 +122,17 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     }
 
     override fun showLoader(isVisible: Boolean) {
-        if (isVisible) {
-            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(
-                supportFragmentManager,
-                "loading"
-            )
-        } else {
-            if (progressDialogueFragment.isVisible) progressDialogueFragment.dismiss()
-        }
+        if (isVisible) progress?.show() else progress?.dismiss()
+
+//        if (isVisible) {
+//
+//            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(
+//                supportFragmentManager,
+//                "loading"
+//            )
+//        } else {
+//            if (progressDialogueFragment.isVisible) progressDialogueFragment.dismiss()
+//        }
     }
 
     private fun setSnackBar(activity: Activity, message: String, duration: Int): Snackbar {

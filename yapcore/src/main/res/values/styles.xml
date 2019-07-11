@@ -276,6 +276,20 @@
 
     </style>
 
+    <style name="YAPProgressBarIndeterminate" parent="@style/Widget.AppCompat.ProgressBar">
+        <item name="android:color">@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="DialogTheme" parent="android:Theme.Dialog">
+
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <!-- No backgrounds, titles or window float -->
+        <item name="android:windowBackground">@color/semiBack</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
     <!-- Switch -->
     <style name="CustomSwitch" parent="Theme.AppCompat.Light">
         <item name="colorControlActivated">@color/colorPrimary</item>
