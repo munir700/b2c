@@ -22,6 +22,7 @@ class NameState(application: Application) : BaseState(), IName.State {
             notifyPropertyChanged(BR.firstName)
             notifyPropertyChanged(BR.valid)
             setFirstNameTextWatcher(firstName)
+            validate()
         }
 
     @get:Bindable
@@ -75,9 +76,15 @@ class NameState(application: Application) : BaseState(), IName.State {
     @get:Bindable
     override var valid: Boolean = false
         get() = validate()
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.valid)
+//
+//        }
 
     private fun validate(): Boolean {
-
+        val chexk: Boolean = firstNameError.isNullOrEmpty()
+        val chexkz: Boolean = lastNameError.isNullOrEmpty()
         return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()
     }
 
@@ -87,16 +94,19 @@ class NameState(application: Application) : BaseState(), IName.State {
         if (!value.isNullOrEmpty() && value.length >= 2) {
 
             if (StringUtils.validateName(value)) {
+                valid = true
                 firstNameError = ""
+                lastNameError = ""
                 notifyPropertyChanged(BR.firstNameError)
                 drawbleRight = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
-
+                validate()
 
             } else {
                 valid = false
                 lastNameError = "error"
-                firstNameError = ""
                 drawbleRight = null
+                notifyPropertyChanged(BR.firstNameError)
+                notifyPropertyChanged(BR.valid)
 
 
             }
