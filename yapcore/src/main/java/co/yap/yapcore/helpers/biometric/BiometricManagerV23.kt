@@ -94,23 +94,26 @@ open class BiometricManagerV23 {
 
     private fun displayBiometricDialog(biometricCallback: BiometricCallback) {
 
-        biometricDialogV23 = BiometricDialogV23(context!!, biometricCallback)
-        biometricDialogV23!!.updateStatus("Touch the fingerprint sensor")
-        biometricDialogV23!!.setTitle(title!!)
-        biometricDialogV23!!.setButtonText(negativeButtonText!!)
-        biometricDialogV23!!.show()
+        biometricDialogV23 = BiometricDialogV23(context!!, biometricCallback )
+        biometricDialogV23?.updateStatus("Touch the fingerprint sensor")
+        biometricDialogV23?.setTitle(title!!)
+        biometricDialogV23?.setButtonText(negativeButtonText!!)
+        biometricDialogV23?.show()
+        biometricDialogV23?.setOnDismissListener {
+            mCancellationSignalV23.cancel()
+        }
     }
 
 
     private fun dismissDialog() {
         if (biometricDialogV23 != null) {
-            biometricDialogV23!!.dismiss()
+            biometricDialogV23?.dismiss()
         }
     }
 
     private fun updateStatus(status: String) {
         if (biometricDialogV23 != null) {
-            biometricDialogV23!!.updateStatus(status)
+            biometricDialogV23?.updateStatus(status)
         }
     }
 
@@ -118,10 +121,10 @@ open class BiometricManagerV23 {
         try {
 
             keyStore = KeyStore.getInstance("AndroidKeyStore")
-            keyStore!!.load(null)
+            keyStore?.load(null)
 
             keyGenerator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore")
-            keyGenerator!!.init(
+            keyGenerator?.init(
                 KeyGenParameterSpec.Builder(KEY_NAME, KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                     .setUserAuthenticationRequired(true)
@@ -129,7 +132,7 @@ open class BiometricManagerV23 {
                     .build()
             )
 
-            keyGenerator!!.generateKey()
+            keyGenerator?.generateKey()
 
         } catch (exc: KeyStoreException) {
             exc.printStackTrace()
@@ -163,9 +166,9 @@ open class BiometricManagerV23 {
         }
 
         try {
-            keyStore!!.load(null)
-            val key = keyStore!!.getKey(KEY_NAME, null) as SecretKey
-            cipher!!.init(Cipher.ENCRYPT_MODE, key)
+            keyStore?.load(null)
+            val key = keyStore?.getKey(KEY_NAME, null) as SecretKey
+            cipher?.init(Cipher.ENCRYPT_MODE, key)
             return true
 
 
@@ -199,7 +202,6 @@ open class BiometricManagerV23 {
             }
             .show()
     }
-
 
     companion object {
 
