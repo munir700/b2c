@@ -146,7 +146,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> getAccountInfo()
-                is RetroApiResponse.Error ->{
+                is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
                 }
@@ -174,7 +174,9 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         return object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    handlePressOnNext()
+                    if (state.valid) {
+                        handlePressOnNext()
+                    }
                 }
                 return false
             }

@@ -37,7 +37,9 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
         return object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    handlePressOnNext()
+                    if (state.valid){
+                        handlePressOnNext()
+                    }
                 }
                 return false
             }

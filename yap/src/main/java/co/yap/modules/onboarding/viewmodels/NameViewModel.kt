@@ -27,7 +27,9 @@ class NameViewModel(application: Application) : OnboardingChildViewModel<IName.S
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return TextView.OnEditorActionListener { v, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                handlePressOnNext()
+                if (state.valid) {
+                    handlePressOnNext()
+                }
             }
             false
         }
