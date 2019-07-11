@@ -155,6 +155,8 @@ class CoreInputField @JvmOverloads constructor(
 
             EMAIL_INPUT_TYPE -> {
                 editText.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+                editText.requestFocus()
+
             }
         }
     }
