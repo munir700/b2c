@@ -2,22 +2,23 @@ package co.yap.app.login
 
 import android.annotation.TargetApi
 import android.content.Context
+import android.hardware.biometrics.BiometricPrompt.*
 import android.os.Build
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
+import android.widget.Toast
 import androidx.core.hardware.fingerprint.FingerprintManagerCompat
 import androidx.core.os.CancellationSignal
 import co.yap.yapcore.R
-
+import java.io.IOException
+import java.security.*
+import java.security.cert.CertificateException
+import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.NoSuchPaddingException
 import javax.crypto.SecretKey
-import java.io.IOException
-import java.security.*
-import java.security.cert.CertificateException
-import java.util.UUID
 
 
 @TargetApi(Build.VERSION_CODES.M)
@@ -50,7 +51,12 @@ open class BiometricManagerV23 {
                 object : FingerprintManagerCompat.AuthenticationCallback() {
                     override fun onAuthenticationError(errMsgId: Int, errString: CharSequence?) {
                         super.onAuthenticationError(errMsgId, errString)
-                        updateStatus(errString.toString())
+
+                        when (errMsgId) {
+                            BIOMETRIC_ERROR_CANCELED -> updateStatus("Touch the fingerprint sensor")
+                            else -> updateStatus(errString.toString())
+                        }
+
                         biometricCallback.onAuthenticationError(errMsgId, errString!!)
                     }
 

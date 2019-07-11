@@ -32,7 +32,11 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signInButtonObserver = Observer<Boolean> {
-        startActivity(VerifyPasscodeActivity.newIntent(this, viewModel.state.twoWayTextWatcher))
+        if (it) {
+            startActivity(VerifyPasscodeActivity.newIntent(this, viewModel.state.twoWayTextWatcher))
+        } else {
+            showToast("That's not the right username. Please try again")
+        }
     }
 
     private val signUpButtonObserver = Observer<Boolean> {

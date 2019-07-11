@@ -47,11 +47,10 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == Constants.REQUEST_CODE_CREATE_PASSCODE) {
-            viewModel.setPasscode(data!!.getStringExtra(SharedPreferenceManager.KEY_PASSCODE))
-
-            // navigate(destinationId = R.id.action_phoneVerificationFragment_to_nameFragment)
-
-            findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+            if (null != data) {
+                viewModel.setPasscode(data.getStringExtra(SharedPreferenceManager.KEY_PASSCODE))
+                findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+            }
 
         }
     }
