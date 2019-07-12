@@ -93,6 +93,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
 
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) progress?.show() else progress?.dismiss()
+        Utils.hideKeyboard(this.window.decorView)
 
 //        if (isVisible) {
 //            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(
