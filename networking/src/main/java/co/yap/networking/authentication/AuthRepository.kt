@@ -55,8 +55,16 @@ object AuthRepository : BaseRepository(), AuthApi {
     override suspend fun refreshJWTToken(token: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.refreshJWTToken("refresh", token) })
 
-    override suspend fun logout(uuid: String): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.logout(uuid) })
+    override suspend fun logout(uuid: String): RetroApiResponse<ApiResponse> {
+        val response = executeSafely(call = { api.logout(uuid) })
+        when (response) {
+            is RetroApiResponse.Success -> {
+                CookiesManager.jwtToken = ""
+                CookiesManager.isLoggedIn = false
+            }
+        }
+        return response
+    }
 
 
     override suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse> =
