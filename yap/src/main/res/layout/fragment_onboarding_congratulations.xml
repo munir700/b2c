@@ -38,7 +38,6 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             app:selected="@{true}"
-
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
@@ -46,9 +45,11 @@
         <TextView
             android:id="@+id/tvSubTitle"
             style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             app:text="@{Strings.screen_onboarding_congratulations_display_text_sub_title_no_interval}"
             tools:text="@string/screen_onboarding_congratulations_display_text_sub_title_no_interval"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
@@ -102,9 +103,11 @@
         <TextView
             android:id="@+id/tvMeetingNotes"
             style="@style/MicroGrey"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_normal"
             app:text="@{Strings.screen_onboarding_congratulations_display_text_meeting_note}"
             tools:text="@string/screen_onboarding_congratulations_display_text_meeting_note"
             app:layout_constraintStart_toStartOf="parent"
