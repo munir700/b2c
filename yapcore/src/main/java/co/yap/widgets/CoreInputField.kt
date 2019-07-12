@@ -151,11 +151,13 @@ class CoreInputField @JvmOverloads constructor(
             PHONE_INPUT_TYPE -> {
                 editText.inputType = InputType.TYPE_CLASS_NUMBER
                 setPhoneNumberField()
+                requestKeyboard()
             }
 
             EMAIL_INPUT_TYPE -> {
                 editText.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-                editText.requestFocus()
+//                editText.requestFocus()
+                requestKeyboard()
 
             }
         }
@@ -193,7 +195,7 @@ class CoreInputField @JvmOverloads constructor(
         editText.setOnClickListener(OnClickListener { editText.setSelection(editText.getText().toString().length) })
 
         editText.setCursorVisible(true)
-        editText.requestFocus()
+//        editText.requestFocus()
     }
 
     fun cursorPlacement() {
@@ -326,5 +328,17 @@ class CoreInputField @JvmOverloads constructor(
         val dm = rootView.resources.displayMetrics
         val heightDiff = rootView.bottom - r.bottom
         return heightDiff > softKeyboardHeight * dm.density
+    }
+    fun requestKeyboard() {
+        editText.requestFocus()
+//             (editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+//                InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY
+//            )
+//        } else if (request) {
+            (editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+                InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
+            )
+//        }
+
     }
 }

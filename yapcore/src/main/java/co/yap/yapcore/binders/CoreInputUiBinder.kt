@@ -249,9 +249,11 @@ object CoreInputUiBinder {
     @JvmStatic
     @BindingAdapter("deactivateEditText")
     fun deactivateEditText(view: CoreInputField, activate: Boolean) {
+        if (activate){
+            view.requestKeyboard()
+        }
         view.editText.isActivated = activate
-//        view.editText.isEnabled = activate
-        view.editText.isFocusable = activate
+         view.editText.isFocusable = activate
     }
 
 

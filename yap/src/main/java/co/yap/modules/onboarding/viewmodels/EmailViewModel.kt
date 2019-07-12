@@ -39,6 +39,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         super.onCreate()
         state.emailTitle = getString(R.string.screen_enter_email_b2c_display_text_title)
         state.emailBtnTitle = getString(R.string.screen_phone_number_button_send)
+        state.deactivateField = true
 
     }
 
