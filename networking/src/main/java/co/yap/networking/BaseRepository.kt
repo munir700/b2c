@@ -28,12 +28,7 @@ abstract class BaseRepository : IRepository {
         }
     }
 
-    private fun <T : ApiResponse> detectError(response: Response<T>) :ApiError {
-        if (response.code() == 400) {
-            // get the errors from response
-            return ApiError(response.code(), fetchErrorFromBody(response.errorBody()!!.string()))
-        }
-
+    private fun <T : ApiResponse> detectError(response: Response<T>): ApiError {
         if (response.code() == 504) {
             // It is no internet connect error
             // TODO: take default error message from repo to show here
@@ -41,23 +36,27 @@ abstract class BaseRepository : IRepository {
         }
 
         // hmm.. may be server error or network error
-        return ApiError(response.code(), response.errorBody()!!.string())
+        val error: String? = response.errorBody()!!.string()
+        return ApiError(response.code(), fetchErrorFromBody(error) ?: error ?: "Something went wrong")
     }
 
-    private fun fetchErrorFromBody(response: String): String {
-        if (response.isNotBlank()) {
-            try {
-                val obj = JSONObject(response)
-                val errors = obj.getJSONArray("errors")
-                if (errors.length() > 0) {
-                    return errors.getJSONObject(0).getString("message")
-                }
+    private fun fetchErrorFromBody(response: String?): String? {
+        response?.let {
+            if (it.isNotBlank()) {
+                try {
+                    val obj = JSONObject(it)
+                    val errors = obj.getJSONArray("errors")
+                    if (errors.length() > 0) {
+                        return errors.getJSONObject(0).getString("message")
+                    }
 
-            } catch (e: JSONException) {
-                return "Server sent some malformed data :o"
+                } catch (e: JSONException) {
+                    // return "Server sent some malformed data :o"
+                }
             }
+
         }
 
-        return "Blank message from server :("
+        return null
     }
 }
