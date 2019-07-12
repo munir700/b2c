@@ -32,6 +32,7 @@ class AccountSelectionActivity : DefaultActivity() {
 
         tvSignIn.setOnClickListener {
             startActivity(LogInActivity.newIntent(this))
+            finish()
         }
     }
 }
