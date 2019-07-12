@@ -2,12 +2,10 @@ package co.yap.yapcore
 
 import android.content.Context
 import android.os.Bundle
-import android.view.*
-import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
+import android.view.View
 import androidx.databinding.Observable
-import androidx.fragment.app.Fragment
 import co.yap.translation.Translator
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnBackPressedListener
 
 
@@ -16,7 +14,7 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
-         // This callback will only be called when MyFragment is at least Started.
+        // This callback will only be called when MyFragment is at least Started.
 //        requireActivity().onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
 //            override fun handleOnBackPressed() {
 //                onBackPressed()
@@ -24,10 +22,10 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 //        })
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerStateListeners()
+        // progress = Utils.createProgressDialog(requireContext())
     }
 
     override fun onDestroyView() {
@@ -55,18 +53,12 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         }
     }
 
-    private val progressDialogueFragment: ProgressDialogueFragment =
-        ProgressDialogueFragment()
-
 
     override fun showLoader(isVisible: Boolean) {
-        if (isVisible) {
-            if (!progressDialogueFragment.isAdded)
-                fragmentManager?.let { progressDialogueFragment.show(it, "loading") }
-        } else {
-            if (progressDialogueFragment.isAdded)
-                progressDialogueFragment.dismiss()
-        }
+        getBaseView()?.showLoader(isVisible)
+
+        // Always hide keyboard
+        Utils.hideKeyboard(this.view)
     }
 
     override fun showToast(msg: String) {

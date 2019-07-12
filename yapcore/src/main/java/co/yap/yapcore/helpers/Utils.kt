@@ -1,11 +1,14 @@
 package co.yap.yapcore.helpers
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
+import android.view.LayoutInflater
 import android.view.View
+import android.view.Window
 import android.view.inputmethod.InputMethodManager
+import android.widget.ProgressBar
 import androidx.annotation.ColorRes
-import androidx.core.content.ContextCompat.getSystemService
 import co.yap.yapcore.R
 
 object Utils {
@@ -30,10 +33,29 @@ object Utils {
 
     }
 
-    fun hideKeyboard(view: View) {
-        view.let { v ->
+    fun hideKeyboard(view: View?) {
+        view?.let { v ->
             val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(v.windowToken, 0)
+        }
+    }
+
+    fun createProgressDialog(context: Context): AlertDialog {
+        val layoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = layoutInflater.inflate(R.layout.progress_dialogue_fragment, null)
+        view.findViewById<ProgressBar>(R.id.progressBar2).indeterminateDrawable.setColorFilter(
+            getColor(
+                context,
+                R.color.colorPrimaryDark
+            ), android.graphics.PorterDuff.Mode.SRC_IN
+        )
+        return AlertDialog.Builder(context).run {
+            setView(view)
+            setCancelable(false)
+            create()
+        }.apply {
+            window?.setBackgroundDrawableResource(android.R.color.transparent)
+            requestWindowFeature(Window.FEATURE_NO_TITLE)
         }
     }
 }

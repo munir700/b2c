@@ -1,18 +1,13 @@
 package co.yap.yapcore
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.provider.Settings
 import android.view.View
-import android.view.Window
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -32,7 +27,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     private var DURATION_CODE = -2
     private var checkConnectivity: Boolean = true
     private lateinit var permissionsManager: PermissionsManager
-    // private val progressDialogueFragment: ProgressDialogueFragment = ProgressDialogueFragment()
     private var progress: Dialog? = null
 
 
@@ -46,34 +40,11 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         permissionsManager = PermissionsManager(this, this, this)
         registerStateListeners()
 
-        createProgressDialog()
-    }
-
-    private fun createProgressDialog() {
-        val view = layoutInflater.inflate(R.layout.progress_dialogue_fragment, null)
-        view.findViewById<ProgressBar>(R.id.progressBar2).indeterminateDrawable.setColorFilter(
-            Utils.getColor(
-                this@BaseActivity,
-                R.color.colorPrimaryDark
-            ), android.graphics.PorterDuff.Mode.SRC_IN
-        )
-        progress = AlertDialog.Builder(this).run {
-            setView(view)
-            setCancelable(false)
-            create()
-        }
-        progress?.window?.setBackgroundDrawableResource(android.R.color.transparent)
-        progress?.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        progress = Utils.createProgressDialog(this)
     }
 
 
-    fun hideKeyboard() {
-        val view = this.currentFocus
-        if (view != null) {
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
-        }
-    }
+    fun hideKeyboard() = Utils.hideKeyboard(this.currentFocus)
 
     override fun showToast(msg: String) {
         if ("" != msg.trim { it <= ' ' }) {
@@ -124,7 +95,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
         if (isVisible) progress?.show() else progress?.dismiss()
 
 //        if (isVisible) {
-//
 //            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(
 //                supportFragmentManager,
 //                "loading"
