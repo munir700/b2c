@@ -96,7 +96,7 @@
                 app:text="@{Strings.screen_home_button_personal_text}"
                 android:paddingEnd="@dimen/margin_extra_large"
                 tools:ignore="MissingConstraints"
-                android:layout_marginRight="@dimen/_6sdp"
+                android:layout_marginEnd="@dimen/_6sdp"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:textStyle="bold"
                 android:paddingTop="@dimen/margin_normal_large"
