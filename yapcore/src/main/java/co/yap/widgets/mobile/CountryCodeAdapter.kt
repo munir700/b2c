@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,13 +25,14 @@ internal class CountryCodeAdapter(
     var textView_noResult: TextView,
     var dialog: Dialog,
     var imgClearQuery: ImageView
+//    var edittextRegisteredcarriernumber: EditText
 ) :
     RecyclerView.Adapter<CountryCodeAdapter.CountryCodeViewHolder>(), SectionTitleProvider {
     var filteredCountries: List<CCPCountry>? = null
     var masterCountries: List<CCPCountry>? = null
     var inflater: LayoutInflater
     var preferredCountriesCount = 0
-
+//   val et: EditText=  edittextRegisteredcarriernumber
     init {
         this.masterCountries = countries
         this.inflater = LayoutInflater.from(context)
@@ -149,7 +149,9 @@ internal class CountryCodeAdapter(
         if (filteredCountries!!.size > i && filteredCountries!![i] != null) {
             countryCodeViewHolder.mainView.setOnClickListener { view ->
                 if (filteredCountries != null && filteredCountries!!.size > i) {
+
                     codePicker.onUserTappedCountry(filteredCountries!![i])
+//                    codePicker.onUserTappedCountry(filteredCountries!![i],et)
                 }
                 if (view != null && filteredCountries != null && filteredCountries!!.size > i && filteredCountries!![i] != null) {
                     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

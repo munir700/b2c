@@ -46,7 +46,7 @@
 
                     <co.yap.widgets.mobile.CountryCodePicker
                         android:id="@+id/ccp_loadFullNumber"
-                        android:layout_width="wrap_content"
+                        android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         app:ccp_hintExampleNumber="true"
                         app:ccp_countryPreference="us,in"/>

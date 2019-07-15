@@ -33,23 +33,24 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     private fun registerCarrierEditText() {
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(this!!.context!!)
-//        ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
+        ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
+//        CountryCodePicker.registerCarrierNumberEditText(editText_loadCarrierNumber)
 //        ccpLoadNumber.registerCarrierNumberEditText(editTextGetCarrierNumber)
-//        ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
-//            CountryCodePicker.PhoneNumberValidityChangeListener {
-//            override fun onValidityChanged(isValidNumber: Boolean) {
-//                if (isValidNumber) {
-//                    Log.i("tvValidity","Valid Number")
-////                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_turned_in_black_24dp))
-////                    tvValidity.setText("Valid Number")
-//                } else {
-//                    Log.i("tvValidity","Invalid Number")
-//
-////                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_late_black_24dp))
-////                    tvValidity.setText("Invalid Number")
-//                }
-//            }
-//        })
+        ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
+            CountryCodePicker.PhoneNumberValidityChangeListener {
+            override fun onValidityChanged(isValidNumber: Boolean) {
+                if (isValidNumber) {
+                    Log.i("tvValidity","Valid Number")
+//                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_turned_in_black_24dp))
+//                    tvValidity.setText("Valid Number")
+                } else {
+                    Log.i("tvValidity","Invalid Number")
+
+//                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_late_black_24dp))
+//                    tvValidity.setText("Invalid Number")
+                }
+            }
+        })
 //
 //        ccpLoadNumber.registerCarrierNumberEditText(editTextLoadCarrierNumber)
     }

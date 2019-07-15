@@ -66,7 +66,9 @@ internal object CountryCodeDialog {
     }
 
     @JvmOverloads
-    fun openCountryCodeDialog(codePicker: CountryCodePicker, countryNameCode: String? = null) {
+    fun openCountryCodeDialog(
+        codePicker: CountryCodePicker,
+        countryNameCode: String? = null) {
         context = codePicker.context
         dialog = Dialog(context!!)
         codePicker.refreshCustomMasterList()
@@ -180,6 +182,7 @@ internal object CountryCodeDialog {
                 textView_noResult,
                 dialog!!,
                 imgClearQuery
+//                imgClearQuery,edittextRegisteredcarriernumber
             )
         }
         recyclerView_countryDialog.layoutManager = LinearLayoutManager(context)

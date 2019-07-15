@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.SharedPreferences
-import android.content.res.TypedArray
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Build
@@ -25,17 +24,13 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.TextView
 import android.widget.Toast
-import co.yap.widgets.mobile.CCPCountry
 import co.yap.widgets.mobile.CCPCountry.Companion.getCountryForCode
-import co.yap.widgets.mobile.CountryCodeDialog
-import co.yap.widgets.mobile.InternationalPhoneTextWatcher
 import co.yap.yapcore.R
 
 
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.ArrayList
-import java.util.Locale
 
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
@@ -68,6 +63,7 @@ class CountryCodePicker : RelativeLayout {
     private lateinit var phoneUtil: PhoneNumberUtil
     var showNameCode = true
     private var showPhoneCode = true
+   lateinit var editTextReferenceName:EditText
     /**
      * To show/hide phone code from country selection dialog
      *
@@ -248,6 +244,8 @@ class CountryCodePicker : RelativeLayout {
                 if (isDialogInitialScrollToSelectionEnabled) {
                     launchCountrySelectionDialog(selectedCountryNameCode)
                 } else {
+//                            editTextReferenceName=editText_registeredCarrierNumber
+
                     launchCountrySelectionDialog()
                 }
             }
@@ -1273,7 +1271,26 @@ class CountryCodePicker : RelativeLayout {
     }
 
     private fun updateFormattingTextWatcher() {
-        if (editText_registeredCarrierNumber != null && selectedCCPCountry != null) {
+
+        if(! :: selectedCCPCountry.isInitialized) {
+
+//        if (selectedCCPCountry!= null){
+//            if(! :: selectedCountry.isInitialized) {
+            if (! :: defaultCountry.isInitialized) {
+                defaultCountry = CCPCountry.getCountryForNameCodeFromEnglishList("IN")!!
+//                if (selectedCountry == null) {
+//                    selectedCountry = defaultCountry
+//                }
+                selectedCCPCountry= this!!.defaultCountry!!
+
+            }
+        }
+        if(! :: editText_registeredCarrierNumber.isInitialized) {
+//            editText_registeredCarrierNumber=
+            setEditText_registeredCarrierNumber(editText_registeredCarrierNumber)
+//            editText_registeredCarrierNumber
+        }
+            if (editText_registeredCarrierNumber != null && selectedCCPCountry != null) {
             val enteredValue = getEditText_registeredCarrierNumber()!!.text.toString()
             val digitsValue = PhoneNumberUtil.normalizeDigitsOnly(enteredValue)
 
@@ -1347,8 +1364,8 @@ class CountryCodePicker : RelativeLayout {
      *
      * @param editText_registeredCarrierNumber
      */
-    private fun setEditText_registeredCarrierNumber(editText_registeredCarrierNumber: EditText) {
-        this.editText_registeredCarrierNumber = editText_registeredCarrierNumber
+    private fun setEditText_registeredCarrierNumber(et: EditText) {
+      editText_registeredCarrierNumber = et
         //        Log.d(TAG, "setEditText_registeredCarrierNumber: carrierEditTextAttached " + selectionMemoryTag);
         updateValidityTextWatcher()
         updateFormattingTextWatcher()
@@ -1364,7 +1381,9 @@ class CountryCodePicker : RelativeLayout {
      */
     private fun updateValidityTextWatcher() {
         try {
+            if (!:: validityTextWatcher.isInitialized){
             editText_registeredCarrierNumber!!.removeTextChangedListener(validityTextWatcher)
+            }
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -1442,7 +1461,7 @@ class CountryCodePicker : RelativeLayout {
                     nameCode
                 )
                 if (ccpCountry != null) {
-                    if (!isAlreadyInList(ccpCountry, localCCPCountryList)) { //to avoid duplicate entry of country
+                    if (!isAlreadyInList(ccpCountry, localCCPCountryList as List<CCPCountry>?)) { //to avoid duplicate entry of country
                         localCCPCountryList.add(ccpCountry)
                     }
                 }
@@ -2045,6 +2064,9 @@ class CountryCodePicker : RelativeLayout {
      */
     @JvmOverloads
     fun launchCountrySelectionDialog(countryNameCode: String? = null) {
+        //save edit text refernce here frist
+//        editTextReferenceName=editText_registeredCarrierNumber
+//        CountryCodeDialog.openCountryCodeDialog(codePicker, countryNameCode,editText_registeredCarrierNumber)
         CountryCodeDialog.openCountryCodeDialog(codePicker, countryNameCode)
     }
 
@@ -2198,7 +2220,33 @@ class CountryCodePicker : RelativeLayout {
         this.selectedAutoDetectionPref = selectedAutoDetectionPref
     }
 
-    fun onUserTappedCountry(CCPCountry: CCPCountry) {
+    private val PREFS_NAME = "kotlincodes"
+    val sharedPref: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+//
+//    fun save(KEY_NAME: EditText, status: Boolean) {
+//
+//        val editor: SharedPreferences.Editor = sharedPref.edit()
+//
+//        editor.putString(KEY_NAME, status!!)
+//
+//        editor.commit()
+//    }
+    public fun onUserTappedCountry(
+    CCPCountry: CCPCountry) {
+        //set et here
+
+//    if (et != null) {
+//        this.editText_registeredCarrierNumber=et
+//    }
+
+
+
+
+
+
+
+        //
         if (codePicker.rememberLastSelection) {
             codePicker.storeSelectedCountryNameCode(CCPCountry.nameCode)
         }
