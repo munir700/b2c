@@ -28,16 +28,23 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent">
 
-                <com.hbb20.CircularImageView
-                    app:civ_border_color="@color/defaultContentColor"
-                    app:civ_border_width="2dp"
-
+                <ImageView
                     android:id="@+id/image_flag"
                     android:layout_width="wrap_content"
                     android:layout_height="18dp"
                     android:layout_margin="0.5dp"
 
                     android:src="@drawable/flag_uae" />
+                <!--<com.hbb20.CircularImageView-->
+                    <!--app:civ_border_color="@color/warning"-->
+                    <!--app:civ_border_width="2dp"-->
+
+                    <!--android:id="@+id/image_flag"-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="18dp"-->
+                    <!--android:layout_margin="0.5dp"-->
+
+                    <!--android:src="@drawable/flag_uae" />-->
             </LinearLayout>
         </LinearLayout>
 

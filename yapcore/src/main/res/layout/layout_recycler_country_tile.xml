@@ -15,15 +15,24 @@
         android:gravity="center"
         android:visibility="gone">
 
-        <com.hbb20.CircularImageView
-            app:civ_border_color="@android:color/secondary_text_light"
-            app:civ_border_width="2dp"
+        <ImageView
+
             android:id="@+id/image_flag"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:src="@drawable/flag_uae"
             />
+        <!---->
+        <!--<com.hbb20.CircularImageView-->
+            <!--app:civ_border_color="@android:color/secondary_text_light"-->
+            <!--app:civ_border_width="2dp"-->
+            <!--android:id="@+id/image_flag"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:adjustViewBounds="true"-->
+            <!--android:src="@drawable/flag_uae"-->
+            <!--/>-->
     </LinearLayout>
 
     <TextView

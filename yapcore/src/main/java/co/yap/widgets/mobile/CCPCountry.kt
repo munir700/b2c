@@ -49,6 +49,8 @@ class CCPCountry : Comparable<CCPCountry> {
         return nameCode.toUpperCase() + " +" + phoneCode + "(" + name + ")"
     }
 
+
+
     /**
      * If country have query word in name or name code or phone code, this will return true.
      *
@@ -68,6 +70,8 @@ class CCPCountry : Comparable<CCPCountry> {
     }
 
     companion object {
+//        var getCCPCountry:CCPCountry?=getCountryForCode()
+
         internal var DEFAULT_FLAG_RES = -99
         internal var TAG = "Class Country"
         internal var loadedLibraryMasterListLanguage: CountryCodePicker.Language? = null
@@ -102,6 +106,52 @@ class CCPCountry : Comparable<CCPCountry> {
 
         //countries with +44
         private val ISLE_OF_MAN = "1624"
+
+        /**
+         * Search a country which matches @param code.
+         *
+         * @param context
+         * @param preferredCountries list of country with priority,
+         * @param code               phone code. i.e 91 or 1
+         * @return Country that has phone code as @param code.
+         * or returns null if no country matches given code.
+         */
+        public fun getCountryForCode(
+            context: Context,
+            language: CountryCodePicker.Language,
+            preferredCountries: List<CCPCountry>,
+            code: Int
+        ): CCPCountry? {
+            return getCountryForCode(context, language, preferredCountries, code.toString() + "")
+        }
+
+         public fun getCountryForCode(
+            context: Context,
+            language: CountryCodePicker.Language,
+            preferredCountries: List<CCPCountry>?,
+            code: String
+        ): CCPCountry? {
+
+            /**
+             * check in preferred countries
+             */
+            if (preferredCountries != null && !preferredCountries.isEmpty()) {
+                for (CCPCountry in preferredCountries) {
+                    if (CCPCountry.phoneCode == code) {
+                        return CCPCountry
+                    }
+                }
+            }
+
+            for (CCPCountry in getLibraryMasterCountryList(context, language)!!) {
+                if (CCPCountry.phoneCode == code) {
+                    return CCPCountry
+                }
+            }
+            return null
+        }
+
+
 
         /**
          * This function parses the raw/countries.xml file, and get list of all the countries.
@@ -217,31 +267,6 @@ class CCPCountry : Comparable<CCPCountry> {
          * or returns null if no country matches given code.
          * if same code (e.g. +1) available for more than one country ( US, canada) , this function will return preferred country.
          */
-        fun getCountryForCode(
-            context: Context,
-            language: CountryCodePicker.Language,
-            preferredCountries: List<CCPCountry>?,
-            code: String
-        ): CCPCountry? {
-
-            /**
-             * check in preferred countries
-             */
-            if (preferredCountries != null && !preferredCountries.isEmpty()) {
-                for (CCPCountry in preferredCountries) {
-                    if (CCPCountry.phoneCode == code) {
-                        return CCPCountry
-                    }
-                }
-            }
-
-            for (CCPCountry in getLibraryMasterCountryList(context, language)!!) {
-                if (CCPCountry.phoneCode == code) {
-                    return CCPCountry
-                }
-            }
-            return null
-        }
 
         /**
          * @param code phone code. i.e "91" or "1"
@@ -339,23 +364,7 @@ class CCPCountry : Comparable<CCPCountry> {
             return null
         }
 
-        /**
-         * Search a country which matches @param code.
-         *
-         * @param context
-         * @param preferredCountries list of country with priority,
-         * @param code               phone code. i.e 91 or 1
-         * @return Country that has phone code as @param code.
-         * or returns null if no country matches given code.
-         */
-        internal fun getCountryForCode(
-            context: Context,
-            language: CountryCodePicker.Language,
-            preferredCountries: List<CCPCountry>,
-            code: Int
-        ): CCPCountry? {
-            return getCountryForCode(context, language, preferredCountries, code.toString() + "")
-        }
+
 
         /**
          * Finds country code by matching substring from left to right from full number.

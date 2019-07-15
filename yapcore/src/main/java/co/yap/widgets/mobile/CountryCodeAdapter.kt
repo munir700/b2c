@@ -226,25 +226,25 @@ internal class CountryCodeAdapter(
 
                 var countryName = ""
 
-                if (codePicker.getCcpDialogShowFlag() && codePicker.ccpUseEmoji) {
+                if (codePicker.ccpDialogShowFlag && codePicker.ccpUseEmoji) {
                     //extra space is just for alignment purpose
                     countryName += CCPCountry.getFlagEmoji(ccpCountry) + "   "
                 }
 
-                countryName += ccpCountry.getName()
+                countryName += ccpCountry.name
 
-                if (codePicker.getCcpDialogShowNameCode()) {
-                    countryName += " (" + ccpCountry.getNameCode().toUpperCase() + ")"
+                if (codePicker.ccpDialogShowNameCode) {
+                    countryName += " (" + ccpCountry.nameCode.toUpperCase() + ")"
                 }
 
                 textView_name.text = countryName
-                textView_code.text = "+" + ccpCountry.getPhoneCode()
+                textView_code.text = "+" + ccpCountry.phoneCode
 
-                if (!codePicker.getCcpDialogShowFlag() || codePicker.ccpUseEmoji) {
+                if (!codePicker.ccpDialogShowFlag || codePicker.ccpUseEmoji) {
                     linearFlagHolder.visibility = View.GONE
                 } else {
                     linearFlagHolder.visibility = View.VISIBLE
-                    imageViewFlag.setImageResource(ccpCountry.getFlagID())
+                    imageViewFlag.setImageResource(ccpCountry.flagID)
 
                     //                    Picasso.get()
                     //                            .load(ccpCountry.getFlagID())

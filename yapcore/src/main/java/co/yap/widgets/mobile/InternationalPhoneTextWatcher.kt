@@ -45,7 +45,7 @@ class InternationalPhoneTextWatcher
         mFormatter!!.clear()
         if (lastFormatted != null) {
             needUpdateForCountryChange = true
-            val onlyDigits = phoneNumberUtil.normalizeDigitsOnly(lastFormatted!!)
+            val onlyDigits = PhoneNumberUtil.normalizeDigitsOnly(lastFormatted!!)
              lastFormatted!!.replace(0, lastFormatted!!.length, onlyDigits, 0, onlyDigits.length)
             needUpdateForCountryChange = false
         }
