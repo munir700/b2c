@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -36,21 +37,34 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
         ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
 //        CountryCodePicker.registerCarrierNumberEditText(editText_loadCarrierNumber)
 //        ccpLoadNumber.registerCarrierNumberEditText(editTextGetCarrierNumber)
+
+        ccpLoadNumber.setNotifyEditTextListener(object :
+            CountryCodePicker.NotifyEditTextListener {
+            override fun onClickedListener() {
+                ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
+//                return editText_loadCarrierNumber
+                Log.i("tvValidity", "ccpLoadNumber")
+
+            }
+        })
+
         ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
             CountryCodePicker.PhoneNumberValidityChangeListener {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
-                    Log.i("tvValidity","Valid Number")
+                    Log.i("tvValidity", "Valid Number")
 //                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_turned_in_black_24dp))
 //                    tvValidity.setText("Valid Number")
                 } else {
-                    Log.i("tvValidity","Invalid Number")
+                    Log.i("tvValidity", "Invalid Number")
 
 //                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_late_black_24dp))
 //                    tvValidity.setText("Invalid Number")
                 }
             }
         })
+
+
 //
 //        ccpLoadNumber.registerCarrierNumberEditText(editTextLoadCarrierNumber)
     }

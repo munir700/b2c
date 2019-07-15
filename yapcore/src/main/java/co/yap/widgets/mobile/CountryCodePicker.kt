@@ -80,34 +80,13 @@ class CountryCodePicker : RelativeLayout {
      */
     var isShowFastScroller = true
         set
-    /**
-     * To show/hide name code from country selection dialog
-     */
-    /**
-     * To show/hide title from country selection dialog
-     *
-     * @param ccpDialogShowTitle
-     */
+
     var ccpDialogShowTitle = true
-    /**
-     * To show/hide flag from country selection dialog
-     */
-    /**
-     * To show/hide flag from country selection dialog
-     *
-     * @param ccpDialogShowFlag
-     */
+
+
     var ccpDialogShowFlag = true
-    /**
-     * SelectionDialogSearch is the facility to search through the list of country while selecting.
-     *
-     * @return true if search is set allowed
-     */
-    /**
-     * SelectionDialogSearch is the facility to search through the list of country while selecting.
-     *
-     * @param searchAllowed true will allow search and false will hide search box
-     */
+
+
     var isSearchAllowed = true
     private var showArrow = true
     var isShowCloseIcon = false
@@ -184,6 +163,7 @@ class CountryCodePicker : RelativeLayout {
     private var countryChangedDueToAreaCode = false
     private var onCountryChangeListener: OnCountryChangeListener? = null
     private var phoneNumberValidityChangeListener: PhoneNumberValidityChangeListener? = null
+    private var notifyEditTextListener: NotifyEditTextListener? = null
     private var failureListener: FailureListener? = null
     /**
      * @return registered dialog event listener
@@ -305,20 +285,6 @@ class CountryCodePicker : RelativeLayout {
             return null
         }
 
-    private//force disable area code country detection
-    //as soon as country is selected, textView should be updated
-    // add flag if required
-    //                android studio preview shows huge space if 0 width space is not added.
-    //show chequered flag if dummy preview is expected.
-    // add full name to if required
-    // adds name code if required
-    // hide phone code if required
-    //avoid blank state of ccp
-    //        Log.d(TAG, "Setting selected country:" + selectedCountry.logString());
-    //notify to registered validity listener
-    //once updates are done, this will release lock
-    //if the country was auto detected based on area code, this will correct the cursor position.
-    //update country group
     var selectedCountry: CCPCountry?
         get() {
             if (selectedCCPCountry == null) {
@@ -823,7 +789,7 @@ class CountryCodePicker : RelativeLayout {
         }
 
         textView_selectedCountry = holderView.findViewById<View>(R.id.textView_selectedCountry) as TextView
-        holder = holderView.findViewById<View>(R.id.countryCodeHolder) as RelativeLayout
+         holder = holderView.findViewById<View>(R.id.countryCodeHolder) as RelativeLayout
         imageViewArrow = holderView.findViewById<View>(R.id.imageView_arrow) as ImageView
         imageViewFlag = holderView.findViewById<View>(R.id.image_flag) as ImageView
         linearFlagHolder = holderView.findViewById<View>(R.id.linear_flag_holder) as LinearLayout
@@ -1287,7 +1253,10 @@ class CountryCodePicker : RelativeLayout {
         }
         if(! :: editText_registeredCarrierNumber.isInitialized) {
 //            editText_registeredCarrierNumber=
-            setEditText_registeredCarrierNumber(editText_registeredCarrierNumber)
+//            editText_registeredCarrierNumber=notifyEditTextListener!!.onClickedListener()
+           notifyEditTextListener!!.onClickedListener()
+
+//            setEditText_registeredCarrierNumber(editText_registeredCarrierNumber)
 //            editText_registeredCarrierNumber
         }
             if (editText_registeredCarrierNumber != null && selectedCCPCountry != null) {
@@ -2039,6 +2008,13 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
+    fun setNotifyEditTextListener(phoneNumberValidityChangeListener: NotifyEditTextListener) {
+        this.notifyEditTextListener = phoneNumberValidityChangeListener
+//        if (editText_registeredCarrierNumber != null) {
+        notifyEditTextListener!!.onClickedListener()
+//        }
+    }
+
     /**
      * Sets failure listener.
      *
@@ -2241,9 +2217,17 @@ class CountryCodePicker : RelativeLayout {
 //    }
 
 
+//    if (editText_registeredCarrierNumber != null && phoneNumberValidityChangeListener != null) {
+    if (notifyEditTextListener != null ) {
 
+//        editText_registeredCarrierNumber=notifyEditTextListener!!.onClickedListener()
+       notifyEditTextListener!!.onClickedListener()
+    }
 
-
+//      create some interface here
+//    implement in mobile fragment
+//    and then
+//    notify > set edit text again
 
 
         //
@@ -2433,6 +2417,14 @@ class CountryCodePicker : RelativeLayout {
      */
     interface PhoneNumberValidityChangeListener {
         fun onValidityChanged(isValidNumber: Boolean)
+    }
+
+    /**
+     * Interface to check phone number validity change listener
+     */
+    interface NotifyEditTextListener {
+        fun onClickedListener()
+//        fun onClickedListener():EditText
     }
 
     interface DialogEventsListener {
