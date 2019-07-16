@@ -37,16 +37,16 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
         ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
 //        CountryCodePicker.registerCarrierNumberEditText(editText_loadCarrierNumber)
 //        ccpLoadNumber.registerCarrierNumberEditText(editTextGetCarrierNumber)
-
-        ccpLoadNumber.setNotifyEditTextListener(object :
-            CountryCodePicker.NotifyEditTextListener {
-            override fun onClickedListener() {
-                ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
-//                return editText_loadCarrierNumber
-                Log.i("tvValidity", "ccpLoadNumber")
-
-            }
-        })
+//
+//        ccpLoadNumber.setNotifyEditTextListener(object :
+//            CountryCodePicker.NotifyEditTextListener {
+//            override fun onClickedListener() {
+//                ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
+////                return editText_loadCarrierNumber
+//                Log.i("tvValidity", "ccpLoadNumber")
+//
+//            }
+//        })
 
         ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
             CountryCodePicker.PhoneNumberValidityChangeListener {
