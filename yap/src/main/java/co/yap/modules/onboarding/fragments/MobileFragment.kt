@@ -2,7 +2,6 @@ package co.yap.modules.onboarding.fragments
 
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -17,7 +16,6 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.mobileViewModel
     override fun getLayoutId(): Int = R.layout.fragment_mobile
-//    override fun getLayoutId(): Int = R.layout.fragment_mobile
 
     override val viewModel: IMobile.ViewModel
         get() = ViewModelProviders.of(this).get(MobileViewModel::class.java)
@@ -35,18 +33,6 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     private fun registerCarrierEditText() {
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(this!!.context!!)
         ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
-//        CountryCodePicker.registerCarrierNumberEditText(editText_loadCarrierNumber)
-//        ccpLoadNumber.registerCarrierNumberEditText(editTextGetCarrierNumber)
-//
-//        ccpLoadNumber.setNotifyEditTextListener(object :
-//            CountryCodePicker.NotifyEditTextListener {
-//            override fun onClickedListener() {
-//                ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
-////                return editText_loadCarrierNumber
-//                Log.i("tvValidity", "ccpLoadNumber")
-//
-//            }
-//        })
 
         ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
             CountryCodePicker.PhoneNumberValidityChangeListener {
@@ -63,15 +49,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
                 }
             }
         })
-
-
-//
-//        ccpLoadNumber.registerCarrierNumberEditText(editTextLoadCarrierNumber)
     }
-
-//    private fun CountryCodePicker(): CountryCodePicker {
-//        return
-//    }
 
     override fun onDestroyView() {
         viewModel.nextButtonPressEvent.removeObservers(this)

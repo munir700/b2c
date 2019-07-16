@@ -11,14 +11,6 @@ class CCPCountryGroup private constructor(
     private val nameCodeToAreaCodesMap: HashMap<String, String>
 ) {
 
-    /**
-     * Go though nameCodeToAreaCodesMap entries to find name code of country.
-     *
-     * @param context
-     * @param language
-     * @param areaCode for which we are looking for country
-     * @return country that matches areaCode. If no country matched, returns default country.
-     */
     fun getCountryForAreaCode(context: Context, language: CountryCodePicker.Language, areaCode: String): CCPCountry {
         var nameCode = defaultNameCode
         for ((key, value) in nameCodeToAreaCodesMap) {

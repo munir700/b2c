@@ -25,15 +25,13 @@ internal class CountryCodeAdapter(
     var textView_noResult: TextView,
     var dialog: Dialog,
     var imgClearQuery: ImageView
-//    var edittextRegisteredcarriernumber: EditText
-) :
+  ) :
     RecyclerView.Adapter<CountryCodeAdapter.CountryCodeViewHolder>(), SectionTitleProvider {
     var filteredCountries: List<CCPCountry>? = null
     var masterCountries: List<CCPCountry>? = null
     var inflater: LayoutInflater
     var preferredCountriesCount = 0
-//   val et: EditText=  edittextRegisteredcarriernumber
-    init {
+     init {
         this.masterCountries = countries
         this.inflater = LayoutInflater.from(context)
         this.filteredCountries = getFilteredCountries("")
@@ -53,10 +51,6 @@ internal class CountryCodeAdapter(
     private fun setQueryClearListener() {
         imgClearQuery.setOnClickListener { editText_search!!.setText("") }
     }
-
-    /**
-     * add textChangeListener, to apply new query each time editText get text changed.
-     */
     private fun setTextWatcher() {
         if (this.editText_search != null) {
             this.editText_search!!.addTextChangedListener(object : TextWatcher {
@@ -87,12 +81,6 @@ internal class CountryCodeAdapter(
         }
     }
 
-    /**
-     * Filter country list for given keyWord / query.
-     * Lists all countries that contains @param query in country's name, name code or phone code.
-     *
-     * @param query : text to match against country name, name code or phone code
-     */
     private fun applyQuery(query: String) {
         var query = query
 
@@ -151,8 +139,7 @@ internal class CountryCodeAdapter(
                 if (filteredCountries != null && filteredCountries!!.size > i) {
 
                     codePicker.onUserTappedCountry(filteredCountries!![i])
-//                    codePicker.onUserTappedCountry(filteredCountries!![i],et)
-                }
+                 }
                 if (view != null && filteredCountries != null && filteredCountries!!.size > i && filteredCountries!![i] != null) {
                     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.hideSoftInputFromWindow(view.windowToken, 0)

@@ -27,9 +27,7 @@ import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.*
 
-/**
- * Created by hbb20 on 11/1/16.
- */
+
 class CountryCodePicker : RelativeLayout {
     private var CCP_PREF_FILE = "CCP_PREF_FILE"
     private var defaultCountryCode: Int = 0
@@ -57,64 +55,27 @@ class CountryCodePicker : RelativeLayout {
     private var phoneUtil: PhoneNumberUtil? = null
     private var showNameCode = true
     private var showPhoneCode = true
-    /**
-     * To show/hide phone code from country selection dialog
-     *
-     * @param ccpDialogShowPhoneCode
-     */
+
+
     var isCcpDialogShowPhoneCode = true
         set
     private var showFlag = true
     private var showFullName = false
-    /**
-     * Set visibility of fast scroller.
-     *
-     * @param showFastScroller
-     */
+
     var isShowFastScroller = true
         set
-    /**
-     * To show/hide name code from country selection dialog
-     */
-    /**
-     * To show/hide title from country selection dialog
-     *
-     * @param ccpDialogShowTitle
-     */
+
     var ccpDialogShowTitle = true
-    /**
-     * To show/hide flag from country selection dialog
-     */
-    /**
-     * To show/hide flag from country selection dialog
-     *
-     * @param ccpDialogShowFlag
-     */
+
     var ccpDialogShowFlag = true
-    /**
-     * SelectionDialogSearch is the facility to search through the list of country while selecting.
-     *
-     * @return true if search is set allowed
-     */
-    /**
-     * SelectionDialogSearch is the facility to search through the list of country while selecting.
-     *
-     * @param searchAllowed true will allow search and false will hide search box
-     */
+
     var isSearchAllowed = true
     private var showArrow = true
     var isShowCloseIcon = false
         private set
     private var rememberLastSelection = false
     private var detectCountryWithAreaCode = true
-    /**
-     * To show/hide name code from country selection dialog
-     */
-    /**
-     * To show/hide name code from country selection dialog
-     *
-     * @param ccpDialogShowNameCode
-     */
+
     var ccpDialogShowNameCode = true
     var isDialogInitialScrollToSelectionEnabled = false
         private set
@@ -133,31 +94,17 @@ class CountryCodePicker : RelativeLayout {
     private var ccpTextgGravity = TEXT_GRAVITY_CENTER
     //this will be "AU,IN,US"
     private var countryPreference: String? = null
-    /**
-     * Sets bubble color for fast scroller
-     *
-     * @param fastScrollerBubbleColor
-     */
+
     var fastScrollerBubbleColor = 0
         set
-    /**
-     * @param customMasterCountriesList is list of countries that we need as custom master list
-     */
+
     var customMasterCountriesList: List<CCPCountry>? = null
-    //this will be "AU,IN,US"
-    /**
-     * @return comma separated custom master countries' name code. i.e "gb,us,nz,in,pk"
-     */
+
     private var customMasterCountriesParam: String? = null
     private var excludedCountriesParam: String? = null
     private var customDefaultLanguage = Language.ENGLISH
     private var languageToApply = Language.ENGLISH
-    /**
-     * By default, keyboard pops up every time ccp is clicked and selection dialog is opened.
-     *
-     * @param dialogKeyboardAutoPopup true: to open keyboard automatically when selection dialog is opened
-     * false: to avoid auto pop of keyboard
-     */
+
     var isDialogKeyboardAutoPopup = true
         set
     private var ccpClickable = true
@@ -177,55 +124,23 @@ class CountryCodePicker : RelativeLayout {
     private var onCountryChangeListener: OnCountryChangeListener? = null
     private var phoneNumberValidityChangeListener: PhoneNumberValidityChangeListener? = null
     private var failureListener: FailureListener? = null
-    /**
-     * @return registered dialog event listener
-     */
-    /**
-     * Dialog events listener will give call backs on various dialog events
-     *
-     * @param dialogEventsListener
-     */
+
     var dialogEventsListener: DialogEventsListener? = null
         set
     private var customDialogTextProvider: CustomDialogTextProvider? = null
-    /**
-     * This should be the color for fast scroller handle.
-     *
-     * @param fastScrollerHandleColor
-     */
+
     var fastScrollerHandleColor = 0
         set
-    /**
-     * This will be color of dialog background
-     *
-     * @param dialogBackgroundColor
-     */
+
     var dialogBackgroundColor: Int = 0
         set
-    /**
-     * This color will be applied to
-     * Title of dialog
-     * Name of country
-     * Phone code of country
-     * "X" button to clear query
-     * preferred country divider if preferred countries defined (semi transparent)
-     *
-     * @param dialogTextColor
-     */
+
     var dialogTextColor: Int = 0
         set
-    /**
-     * If device is running above or equal LOLLIPOP version, this will change tint of search edittext background.
-     *
-     * @param dialogSearchEditTextTintColor
-     */
+
     var dialogSearchEditTextTintColor: Int = 0
         set
-    /**
-     * This sets text appearance for fast scroller index character
-     *
-     * @param fastScrollerBubbleTextAppearance should be reference id of textappereance style. i.e. R.style.myBubbleTextAppearance
-     */
+
     var fastScrollerBubbleTextAppearance = 0
         set
     private var currentCountryGroup: CCPCountryGroup? = null
@@ -246,11 +161,7 @@ class CountryCodePicker : RelativeLayout {
         }
     }
         private set
-    /**
-     * This will set boolean for numberAutoFormattingEnabled and refresh formattingTextWatcher
-     *
-     * @param numberAutoFormattingEnabled
-     */
+
     private var isNumberAutoFormattingEnabled: Boolean
         get() {
             return numberAutoFormattingEnabled
@@ -261,11 +172,7 @@ class CountryCodePicker : RelativeLayout {
                 updateFormattingTextWatcher()
             }
         }
-    /**
-     * To show/hide phone code from ccp view
-     *
-     * @param showPhoneCode
-     */
+
     private var isShowPhoneCode: Boolean
         get() {
             return showPhoneCode
@@ -298,21 +205,7 @@ class CountryCodePicker : RelativeLayout {
             }
             return null
         }
-    private//force disable area code country detection
-    //as soon as country is selected, textView should be updated
-    // add flag if required
-    // android studio preview shows huge space if 0 width space is not added.
-    //show chequered flag if dummy preview is expected.
-    // add full name to if required
-    // adds name code if required
-    // hide phone code if required
-    //avoid blank state of ccp
-    // Log.d(TAG, "Setting selected country:" + selectedCountry.logString());
-    //notify to registered validity listener
-    //once updates are done, this will release lock
-    //if the country was auto detected based on area code, this will correct the cursor position.
-    //update country group
-    var selectedCountry: CCPCountry
+    private var selectedCountry: CCPCountry
         get() {
             if (selectedCCPCountry == null) {
                 selectedCountry = defaultCountry!!
@@ -386,11 +279,7 @@ class CountryCodePicker : RelativeLayout {
             }
             updateCountryGroup()
         }
-    /**
-     * this function maps CountryCodePicker.PhoneNumberType to PhoneNumberUtil.PhoneNumberType.
-     *
-     * @return respective PhoneNumberUtil.PhoneNumberType based on selected CountryCodePicker.PhoneNumberType.
-     */
+
     private val selectedHintNumberType: PhoneNumberUtil.PhoneNumberType
         get() {
             when (hintExampleNumberType) {
@@ -410,13 +299,8 @@ class CountryCodePicker : RelativeLayout {
                 else -> return PhoneNumberUtil.PhoneNumberType.MOBILE
             }
         }
-    /**
-     * This updates country dynamically as user types in area code
-     *
-     * @return
-     */
-    private//possible countries
-    val countryDetectorTextWatcher: TextWatcher
+
+    private val countryDetectorTextWatcher: TextWatcher
         get() {
             if (editText_registeredCarrierNumber != null) {
                 if (areaCodeCountryDetectorTextWatcher == null) {
@@ -462,14 +346,7 @@ class CountryCodePicker : RelativeLayout {
             }
             return this!!.areaCodeCountryDetectorTextWatcher!!
         }
-    /**
-     * @return true if ccp is enabled for click
-     */
-    /**
-     * Allow click and open dialog
-     *
-     * @param ccpClickable
-     */
+
     private var isCcpClickable: Boolean
         get() {
             return ccpClickable
@@ -486,9 +363,7 @@ class CountryCodePicker : RelativeLayout {
                 relativeClickConsumer!!.setEnabled(true)
             }
         }
-    /**
-     * @return If custom text provider is registered, it will return value from provider else default.
-     */
+
     val dialogTitle: String
         get() {
             val defaultTitle = CCPCountry.getDialogTitle(mCntext, getLanguageToApply())
@@ -498,9 +373,7 @@ class CountryCodePicker : RelativeLayout {
                 return defaultTitle!!
             }
         }
-    /**
-     * @return If custom text provider is registered, it will return value from provider else default.
-     */
+
     val searchHintText: String
         get() {
             val defaultHint = CCPCountry.getSearchHintMessage(mCntext, getLanguageToApply())
@@ -510,9 +383,7 @@ class CountryCodePicker : RelativeLayout {
                 return defaultHint!!
             }
         }
-    /**
-     * @return If custom text provider is registered, it will return value from provider else default.
-     */
+
     val noResultACK: String
         get() {
             val defaultNoResultACK = CCPCountry.getNoResultFoundAckMessage(mCntext, getLanguageToApply())
@@ -522,13 +393,7 @@ class CountryCodePicker : RelativeLayout {
                 return defaultNoResultACK!!
             }
         }
-    /**
-     * * To get code of default country as Integer.
-     *
-     * @return integer value of default country code in CCP
-     * i.e if default country is IN +91(India) returns: 91
-     * if default country is JP +81(Japan) returns: 81
-     */
+
     val defaultCountryCodeAsInt: Int
         get() {
             var code = 0
@@ -539,57 +404,28 @@ class CountryCodePicker : RelativeLayout {
             }
             return code
         }
-    /**
-     * To get code of default country with prefix "+".
-     *
-     * @return String value of default country code in CCP with prefix "+"
-     * i.e if default country is IN +91(India) returns: "+91"
-     * if default country is JP +81(Japan) returns: "+81"
-     */
+
     val defaultCountryCodeWithPlus: String
         get() {
             return "+" + getDefaultCountryCode()
         }
-    /**
-     * To get name of default country.
-     *
-     * @return String value of country name, default in CCP
-     * i.e if default country is IN +91(India) returns: "India"
-     * if default country is JP +81(Japan) returns: "Japan"
-     */
+
+
     val defaultCountryName: String
         get() {
             return defaultCountry!!.name
         }
-    /**
-     * To get code of selected country.
-     *
-     * @return String value of selected country code in CCP
-     * i.e if selected country is IN +91(India) returns: "91"
-     * if selected country is JP +81(Japan) returns: "81"
-     */
+
     val selectedCountryCode: String
         get() {
             return selectedCountry.phoneCode
         }
-    /**
-     * To get code of selected country with prefix "+".
-     *
-     * @return String value of selected country code in CCP with prefix "+"
-     * i.e if selected country is IN +91(India) returns: "+91"
-     * if selected country is JP +81(Japan) returns: "+81"
-     */
+
     val selectedCountryCodeWithPlus: String
         get() {
             return "+" + selectedCountryCode
         }
-    /**
-     * * To get code of selected country as Integer.
-     *
-     * @return integer value of selected country code in CCP
-     * i.e if selected country is IN +91(India) returns: 91
-     * if selected country is JP +81(Japan) returns: 81
-     */
+
     val selectedCountryCodeAsInt: Int
         get() {
             var code = 0
@@ -600,35 +436,17 @@ class CountryCodePicker : RelativeLayout {
             }
             return code
         }
-    /**
-     * To get name of selected country.
-     *
-     * @return String value of country name, selected in CCP
-     * i.e if selected country is IN +91(India) returns: "India"
-     * if selected country is JP +81(Japan) returns: "Japan"
-     */
+
     val selectedCountryName: String
         get() {
             return selectedCountry.name
         }
-    /**
-     * To get name of selected country in English.
-     *
-     * @return String value of country name in English language, selected in CCP
-     * i.e if selected country is IN +91(India) returns: "India" no matter what language is currently selected.
-     * if selected country is JP +81(Japan) returns: "Japan"
-     */
+
     val selectedCountryEnglishName: String
         get() {
             return selectedCountry.englishName
         }
-    /**
-     * To get name code of selected country.
-     *
-     * @return String value of country name, selected in CCP
-     * i.e if selected country is IN +91(India) returns: "IN"
-     * if selected country is JP +81(Japan) returns: "JP"
-     */
+
     val selectedCountryNameCode: String
         get() {
             return selectedCountry.nameCode.toUpperCase()
@@ -643,18 +461,7 @@ class CountryCodePicker : RelativeLayout {
             }
             return getPhoneUtil().parse(carrierNumber, selectedCountryNameCode)
         }
-    /**
-     * This function combines selected country code from CCP and carrier number from @param editTextCarrierNumber
-     *
-     * @return Full number is countryCode + carrierNumber i.e countryCode= 91 and carrier number= 8866667722, this will return "918866667722"
-     */
-    /**
-     * Separate out country code and carrier number from fullNumber.
-     * Sets country of separated country code in CCP and carrier number as text of editTextCarrierNumber
-     * If no valid country code is found from full number, CCP will be set to default country code and full number will be set as carrier number to editTextCarrierNumber.
-     *
-     * @param fullNumber is combination of country code and carrier number, (country_code+carrier_number) for example if country is India (+91) and carrier/mobile number is 8866667722 then full number will be 9188666667722 or +918866667722. "+" in starting of number is optional.
-     */
+
     var fullNumber: String
         get() {
             try {
@@ -682,12 +489,7 @@ class CountryCodePicker : RelativeLayout {
                 )
             }
         }
-    /**
-     * This function combines selected country code from CCP and carrier number from @param editTextCarrierNumber
-     * This will return formatted number.
-     *
-     * @return Full number is countryCode + carrierNumber i.e countryCode= 91 and carrier number= 8866667722, this will return "918866667722"
-     */
+
     val formattedFullNumber: String
         get() {
             try {
@@ -701,11 +503,7 @@ class CountryCodePicker : RelativeLayout {
                 return selectedCountryCode
             }
         }
-    /**
-     * This function combines selected country code from CCP and carrier number from @param editTextCarrierNumber and prefix "+"
-     *
-     * @return Full number is countryCode + carrierNumber i.e countryCode= 91 and carrier number= 8866667722, this will return "+918866667722"
-     */
+
     val fullNumberWithPlus: String
         get() {
             try {
@@ -716,13 +514,7 @@ class CountryCodePicker : RelativeLayout {
                 return selectedCountryCode
             }
         }
-    /**
-     * This function will check the validity of entered number.
-     * It will use PhoneNumberUtil to check validity
-     *
-     * @return true if entered carrier number is valid else false
-     */
-    // when number could not be parsed, its not valid
+
     val isValidFullNumber: Boolean
         get() {
             try {
@@ -743,10 +535,6 @@ class CountryCodePicker : RelativeLayout {
             }
         }
 
-    //    constructor(context:Context) : super(context) {
-//        this.mCntext = context
-//        init(null)
-//    }
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
@@ -759,11 +547,6 @@ class CountryCodePicker : RelativeLayout {
         init(attrs)
     }
 
-    /**
-     * This will set boolean for internationalFormattingOnly and refresh formattingTextWatcher
-     *
-     * @param internationalFormattingOnly
-     */
     fun setInternationalFormattingOnly(internationalFormattingOnly: Boolean) {
         this.isInternationalFormattingOnlyEnabled = internationalFormattingOnly
         if (editText_registeredCarrierNumber != null) {
@@ -798,7 +581,6 @@ class CountryCodePicker : RelativeLayout {
     }
 
     private fun applyCustomProperty(attrs: AttributeSet) {
-        // Log.d(TAG, "Applying custom property");
         val a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CountryCodePicker, 0, 0)
         //default country code
         try {
@@ -1029,11 +811,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * this will read last selected country name code from the shared pref.
-     * if that name code is not null, load that country in the CCP
-     * else leaves as it is.(when used for the first time)
-     */
     private fun loadLastSelectedCountryInCCP() {
         //get the shared pref
         val sharedPref = context.getSharedPreferences(
@@ -1047,21 +824,12 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * This will store the selected name code in the preferences
-     *
-     * @param selectedCountryNameCode name code of the selected country
-     */
     private fun storeSelectedCountryNameCode(selectedCountryNameCode: String) {
-        //get the shared pref
         val sharedPref = context.getSharedPreferences(
             CCP_PREF_FILE, Context.MODE_PRIVATE
         )
-        //we want to write in shared pref, so lets get editor for it
         val editor = sharedPref.edit()
-        // add our last selection country name code in pref
         editor.putString(selectionMemoryTag, selectedCountryNameCode)
-        //finally save it...
         editor.apply()
     }
 
@@ -1069,11 +837,6 @@ class CountryCodePicker : RelativeLayout {
         return currentTextGravity
     }
 
-    /**
-     * When width is set "match_parent", this gravity will set placement of text (Between flag and down arrow).
-     *
-     * @param textGravity expected placement
-     */
     fun setCurrentTextGravity(textGravity: TextGravity) {
         this.currentTextGravity = textGravity
         applyTextGravity(textGravity.enumIndex)
@@ -1089,16 +852,7 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * which language to show is decided based on
-     * autoDetectLanguage flag
-     * if autoDetectLanguage is true, then it should check language based on locale, if no language is found based on locale, customDefault language will returned
-     * else autoDetectLanguage is false, then customDefaultLanguage will be returned.
-     *
-     * @return
-     */
     private fun updateLanguageToApply() {
-        //when in edit mode, it will return default language only
         if (isInEditMode()) {
             if (customDefaultLanguage != null) {
                 languageToApply = customDefaultLanguage
@@ -1127,23 +881,16 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * update country group
-     */
     private fun updateCountryGroup() {
         currentCountryGroup = CCPCountryGroup.getCountryGroupForPhoneCode(selectedCountryCodeAsInt)
     }
 
-    /**
-     * updates hint
-     */
     private fun updateHint() {
         if (editText_registeredCarrierNumber != null && hintExampleNumberEnabled) {
             var formattedNumber = ""
             val exampleNumber = getPhoneUtil().getExampleNumberForType(selectedCountryNameCode, selectedHintNumberType)
             if (exampleNumber != null) {
                 formattedNumber = exampleNumber.getNationalNumber().toString() + ""
-                // Log.d(TAG, "updateHint: " + formattedNumber);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     formattedNumber = PhoneNumberUtils.formatNumber(
                         selectedCountryCodeWithPlus + formattedNumber,
@@ -1153,7 +900,6 @@ class CountryCodePicker : RelativeLayout {
                     formattedNumber = PhoneNumberUtils.formatNumber(selectedCountryCodeWithPlus + formattedNumber)
                 }
                 formattedNumber = formattedNumber.substring(selectedCountryCodeWithPlus.length).trim({ it <= ' ' })
-                // Log.d(TAG, "updateHint: after format " + formattedNumber + " " + selectionMemoryTag);
             } else {
                 // Log.w(TAG, "updateHint: No example number found for this country (" + getSelectedCountryNameCode() + ") or this type (" + hintExampleNumberType.name() + ").");
             }
@@ -1191,12 +937,10 @@ class CountryCodePicker : RelativeLayout {
                 )
                 editText_registeredCarrierNumber!!.addTextChangedListener(formattingTextWatcher)
             }
-            //if country detection from area code is enabled, then it will add areaCodeCountryDetectorTextWatcher
             if (detectCountryWithAreaCode) {
                 areaCodeCountryDetectorTextWatcher = countryDetectorTextWatcher
                 editText_registeredCarrierNumber!!.addTextChangedListener(areaCodeCountryDetectorTextWatcher)
             }
-            //text watcher stops working when it finds non digit character in previous phone code. This will reset its function
             editText_registeredCarrierNumber!!.setText("")
             editText_registeredCarrierNumber!!.setText(digitsValue)
             editText_registeredCarrierNumber!!.setSelection(editText_registeredCarrierNumber!!.getText().length)
@@ -1224,11 +968,6 @@ class CountryCodePicker : RelativeLayout {
             )!!
     }
 
-    /**
-     * if true, this will give explicit close icon in CCP dialog
-     *
-     * @param showCloseIcon
-     */
     fun showCloseIcon(showCloseIcon: Boolean) {
         this.isShowCloseIcon = showCloseIcon
     }
@@ -1238,11 +977,6 @@ class CountryCodePicker : RelativeLayout {
         return this!!.editText_registeredCarrierNumber!!
     }
 
-    /**
-     * this will register editText and will apply required text watchers
-     *
-     * @param editText_registeredCarrierNumber
-     */
     private fun setEditText_registeredCarrierNumber(editText_registeredCarrierNumber: EditText) {
         this.editText_registeredCarrierNumber = editText_registeredCarrierNumber
         // Log.d(TAG, "setEditText_registeredCarrierNumber: carrierEditTextAttached " + selectionMemoryTag);
@@ -1251,20 +985,12 @@ class CountryCodePicker : RelativeLayout {
         updateHint()
     }
 
-    /**
-     * This function will
-     * - remove existing, if any, validityTextWatcher
-     * - prepare new validityTextWatcher
-     * - attach validityTextWatcher
-     * - do initial reporting to watcher
-     */
     private fun updateValidityTextWatcher() {
         try {
             editText_registeredCarrierNumber!!.removeTextChangedListener(validityTextWatcher)
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        //initial REPORTING
         reportedValidity = isValidFullNumber
         if (phoneNumberValidityChangeListener != null) {
             phoneNumberValidityChangeListener!!.onValidityChanged(reportedValidity)
@@ -1294,18 +1020,10 @@ class CountryCodePicker : RelativeLayout {
         return this!!.mInflater!!
     }
 
-    /**
-     * Publicly available functions from library
-     */
     fun getDialogTypeFace(): Typeface {
         return this!!.dialogTypeFace!!
     }
 
-    /**
-     * To change font of ccp views
-     *
-     * @param typeFace
-     */
     fun setDialogTypeFace(typeFace: Typeface) {
         try {
             dialogTypeFace = typeFace
@@ -1315,9 +1033,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * this will load preferredCountries based on countryPreference
-     */
     fun refreshPreferredCountries() {
         if (countryPreference == null || countryPreference!!.length == 0) {
             preferredCountries = null
@@ -1343,7 +1058,6 @@ class CountryCodePicker : RelativeLayout {
             }
         }
         if (preferredCountries != null) {
-            // Log.d("preference list", preferredCountries.size() + " countries");
             for (CCPCountry in preferredCountries!!) {
                 CCPCountry.log()
             }
@@ -1352,9 +1066,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * this will load preferredCountries based on countryPreference
-     */
     fun refreshCustomMasterList() {
         //if no custom list specified then check for exclude list
         if (customMasterCountriesParam == null || customMasterCountriesParam!!.length == 0) {
@@ -1405,39 +1116,15 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * To provide definite set of countries when selection dialog is opened.
-     * Only custom master countries, if defined, will be there is selection dialog to select from.
-     * To set any country in preference, it must be included in custom master countries, if defined
-     * When not defined or null or blank is set, it will use library's default master list
-     * Custom master list will only limit the visibility of irrelevant country from selection dialog. But all other functions like setCountryForCodeName() or setFullNumber() will consider all the countries.
-     *
-     * @param customMasterCountriesParam is country name codes separated by comma. e.g. "us,in,nz"
-     * if null or "" , will remove custom countries and library default will be used.
-     */
     fun setCustomMasterCountries(customMasterCountriesParam: String) {
         this.customMasterCountriesParam = customMasterCountriesParam
     }
 
-    /**
-     * This can be used to remove certain countries from the list by keeping all the others.
-     * This will be ignored if you have specified your own country master list.
-     *
-     * @param excludedCountries is country name codes separated by comma. e.g. "us,in,nz"
-     * null or "" means no country is excluded.
-     */
     fun setExcludedCountries(excludedCountries: String) {
         this.excludedCountriesParam = excludedCountries
         refreshCustomMasterList()
     }
 
-    /**
-     * This will match name code of all countries of list against the country's name code.
-     *
-     * @param CCPCountry
-     * @param CCPCountryList list of countries against which country will be checked.
-     * @return if country name code is found in list, returns true else return false
-     */
     private fun isAlreadyInList(CCPCountry: CCPCountry, CCPCountryList: List<CCPCountry>): Boolean {
         if (CCPCountry != null && CCPCountryList != null) {
             for (iterationCCPCountry in CCPCountryList) {
@@ -1449,12 +1136,6 @@ class CountryCodePicker : RelativeLayout {
         return false
     }
 
-    /**
-     * This function removes possible country code from fullNumber and set rest of the number as carrier number.
-     *
-     * @param fullNumber combination of country code and carrier number.
-     * @param CCPCountry selected country in CCP to detect country code part.
-     */
     private fun detectCarrierNumber(fullNumber: String, CCPCountry: CCPCountry): String {
         val carrierNumber: String
         if (CCPCountry == null || fullNumber == null || fullNumber.isEmpty()) {
@@ -1470,10 +1151,6 @@ class CountryCodePicker : RelativeLayout {
         return carrierNumber
     }
 
-    /**
-     * Related to selected country
-     */
-    //add entry here
     private fun getLanguageEnum(index: Int): Language {
         if (index < Language.values().size) {
             return Language.values()[index]
@@ -1482,20 +1159,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * This method is not encouraged because this might set some other country which have same country code as of yours. e.g 1 is common for US and canada.
-     * If you are trying to set US ( and countryPreference is not set) and you pass 1 as @param defaultCountryCode, it will set canada (prior in list due to alphabetical order)
-     * Rather use @function setDefaultCountryUsingNameCode("us"); or setDefaultCountryUsingNameCode("US");
-     * <p>
-     * Default country code defines your default country.
-     * Whenever invalid / improper number is found in setCountryForPhoneCode() / setFullNumber(), it CCP will set to default country.
-     * This function will not set default country as selected in CCP. To set default country in CCP call resetToDefaultCountry() right after this call.
-     * If invalid defaultCountryCode is applied, it won't be changed.
-     *
-     * @param defaultCountryCode code of your default country
-     * if you want to set IN +91(India) as default country, defaultCountryCode = 91
-     * if you want to set JP +81(Japan) as default country, defaultCountryCode = 81
-     */
     @Deprecated("")
     fun setDefaultCountryUsingPhoneCode(defaultCountryCode: Int) {
         val defaultCCPCountry = CCPCountry.getCountryForCode(
@@ -1510,16 +1173,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * Default country name code defines your default country.
-     * Whenever invalid / improper name code is found in setCountryForNameCode(), CCP will set to default country.
-     * This function will not set default country as selected in CCP. To set default country in CCP call resetToDefaultCountry() right after this call.
-     * If invalid defaultCountryCode is applied, it won't be changed.
-     *
-     * @param defaultCountryNameCode code of your default country
-     * if you want to set IN +91(India) as default country, defaultCountryCode = "IN" or "in"
-     * if you want to set JP +81(Japan) as default country, defaultCountryCode = "JP" or "jp"
-     */
     fun setDefaultCountryUsingNameCode(defaultCountryNameCode: String) {
         val defaultCCPCountry = CCPCountry.getCountryForNameCodeFromLibraryMasterList(
             getContext(),
@@ -1534,29 +1187,14 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * @return: Country Code of default country
-     * i.e if default country is IN +91(India) returns: "91"
-     * if default country is JP +81(Japan) returns: "81"
-     */
     fun getDefaultCountryCode(): String {
         return defaultCountry!!.phoneCode
     }
 
-    /**
-     * To get name code of default country.
-     *
-     * @return String value of country name, default in CCP
-     * i.e if default country is IN +91(India) returns: "IN"
-     * if default country is JP +81(Japan) returns: "JP"
-     */
     fun getDefaultCountryNameCode(): String {
         return defaultCountry!!.nameCode.toUpperCase()
     }
 
-    /**
-     * reset the default country as selected country.
-     */
     fun resetToDefaultCountry() {
         defaultCountry = CCPCountry.getCountryForNameCodeFromLibraryMasterList(
             getContext(),
@@ -1566,13 +1204,6 @@ class CountryCodePicker : RelativeLayout {
         selectedCountry = defaultCountry!!
     }
 
-    /**
-     * This will set country with @param countryCode as country code, in CCP
-     *
-     * @param countryCode a valid country code.
-     * If you want to set IN +91(India), countryCode= 91
-     * If you want to set JP +81(Japan), countryCode= 81
-     */
     fun setCountryForPhoneCode(countryCode: Int) {
         val ccpCountry = CCPCountry.getCountryForCode(
             getContext(), getLanguageToApply(),
@@ -1591,13 +1222,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * This will set country with @param countryNameCode as country name code, in CCP
-     *
-     * @param countryNameCode a valid country name code.
-     * If you want to set IN +91(India), countryCode= IN
-     * If you want to set JP +81(Japan), countryCode= JP
-     */
     fun setCountryForNameCode(countryNameCode: String) {
         val country = CCPCountry.getCountryForNameCodeFromLibraryMasterList(
             getContext(),
@@ -1619,20 +1243,10 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * All functions that work with fullNumber need an editText to write and read carrier number of full number.
-     * An editText for carrier number must be registered in order to use functions like setFullNumber() and getFullNumber().
-     *
-     * @param editTextCarrierNumber - an editText where user types carrier number ( the part of full number other than country code).
-     */
     fun registerCarrierNumberEditText(editTextCarrierNumber: EditText) {
         setEditText_registeredCarrierNumber(editTextCarrierNumber)
     }
 
-    /**
-     * If edittext was already registered, this will remove attached textwatchers and set
-     * editText to null
-     */
     fun deregisterCarrierNumberEditText() {
         if (editText_registeredCarrierNumber != null) {
             // remove validity listener
@@ -1650,18 +1264,10 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * @return content color of CCP's text and small downward arrow.
-     */
     fun getContentColor(): Int {
         return contentColor
     }
 
-    /**
-     * Sets text and small down arrow color of CCP.
-     *
-     * @param contentColor color to apply to text and down arrow
-     */
     fun setContentColor(contentColor: Int) {
         this.contentColor = contentColor
         textView_selectedCountry!!.setTextColor(this.contentColor)
@@ -1671,11 +1277,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * set small down arrow color of CCP.
-     *
-     * @param arrowColor color to apply to text and down arrow
-     */
     fun setArrowColor(arrowColor: Int) {
         this.arrowColor = arrowColor
         if (this.arrowColor == DEFAULT_UNSET) {
@@ -1687,21 +1288,11 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * Sets flag border color of CCP.
-     *
-     * @param borderFlagColor color to apply to flag border
-     */
     fun setFlagBorderColor(borderFlagColor: Int) {
         this.borderFlagColor = borderFlagColor
         linearFlagBorder!!.setBackgroundColor(this.borderFlagColor)
     }
 
-    /**
-     * Modifies size of text in side CCP view.
-     *
-     * @param textSize size of text in pixels
-     */
     fun setTextSize(textSize: Int) {
         if (textSize > 0) {
             textView_selectedCountry!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
@@ -1710,11 +1301,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * Modifies size of downArrow in CCP view
-     *
-     * @param arrowSize size in pixels
-     */
     fun setArrowSize(arrowSize: Int) {
         if (arrowSize > 0) {
             val params = imageViewArrow!!.getLayoutParams() as LayoutParams
@@ -1724,54 +1310,24 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * If nameCode of country in CCP view is not required use this to show/hide country name code of ccp view.
-     *
-     * @param showNameCode true will show country name code in ccp view, it will result " (IN) +91 "
-     * false will remove country name code from ccp view, it will result " +91 "
-     */
     fun showNameCode(showNameCode: Boolean) {
         this.showNameCode = showNameCode
         selectedCountry = selectedCCPCountry!!
     }
 
-    /**
-     * This can change visility of arrow.
-     *
-     * @param showArrow true will show arrow and false will hide arrow from there.
-     */
     fun showArrow(showArrow: Boolean) {
         this.showArrow = showArrow
         refreshArrowViewVisibility()
     }
 
-    /**
-     * This will set preferred countries using their name code. Prior preferred countries will be replaced by these countries.
-     * Preferred countries will be at top of country selection box.
-     * If more than one countries have same country code, country in preferred list will have higher priory than others. e.g. Canada and US have +1 as their country code. If "us" is set as preferred country then US will be selected whenever setCountryForPhoneCode(1); or setFullNumber("+1xxxxxxxxx"); is called.
-     *
-     * @param countryPreference is country name codes separated by comma. e.g. "us,in,nz"
-     */
     fun setCountryPreference(countryPreference: String) {
         this.countryPreference = countryPreference
     }
 
-    /**
-     * Language will be applied to country select dialog
-     * If autoDetectCountry is true, ccp will try to detect language from locale.
-     * Detected language is supported If no language is detected or detected language is not supported by ccp, it will set default language as set.
-     *
-     * @param language
-     */
     fun changeDefaultLanguage(language: Language) {
         setCustomDefaultLanguage(language)
     }
 
-    /**
-     * To change font of ccp views
-     *
-     * @param typeFace
-     */
     fun setTypeFace(typeFace: Typeface) {
         try {
             textView_selectedCountry!!.setTypeface(typeFace)
@@ -1781,12 +1337,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * To change font of ccp views along with style.
-     *
-     * @param typeFace
-     * @param style
-     */
     fun setDialogTypeFace(typeFace: Typeface, style: Int) {
         try {
             var style: Int = style
@@ -1799,12 +1349,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * To change font of ccp views along with style.
-     *
-     * @param typeFace
-     * @param style
-     */
     fun setTypeFace(typeFace: Typeface, style: Int) {
         try {
             textView_selectedCountry!!.setTypeface(typeFace, style)
@@ -1814,20 +1358,10 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * To get call back on country selection a onCountryChangeListener must be registered.
-     *
-     * @param onCountryChangeListener
-     */
     fun setOnCountryChangeListener(onCountryChangeListener: OnCountryChangeListener) {
         this.onCountryChangeListener = onCountryChangeListener
     }
 
-    /**
-     * Modifies size of flag in CCP view
-     *
-     * @param flagSize size in pixels
-     */
     fun setFlagSize(flagSize: Int) {
         imageViewFlag!!.getLayoutParams().height = flagSize
         imageViewFlag!!.requestLayout()
@@ -1863,12 +1397,6 @@ class CountryCodePicker : RelativeLayout {
         selectedCountry = selectedCCPCountry!!
     }
 
-    /**
-     * Sets validity change listener.
-     * First call back will be sent right away.
-     *
-     * @param phoneNumberValidityChangeListener
-     */
     fun setPhoneNumberValidityChangeListener(phoneNumberValidityChangeListener: PhoneNumberValidityChangeListener) {
         this.phoneNumberValidityChangeListener = phoneNumberValidityChangeListener
         if (editText_registeredCarrierNumber != null) {
@@ -1877,29 +1405,14 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * Sets failure listener.
-     *
-     * @param failureListener
-     */
     fun setAutoDetectionFailureListener(failureListener: FailureListener) {
         this.failureListener = failureListener
     }
 
-    /**
-     * If developer wants to change CCP Dialog's Title, Search Hint text or no result ACK,
-     * a custom dialog text provider should be set.
-     *
-     * @param customDialogTextProvider
-     */
     fun setCustomDialogTextProvider(customDialogTextProvider: CustomDialogTextProvider) {
         this.customDialogTextProvider = customDialogTextProvider
     }
 
-    /**
-     * Manually trigger selection dialog and set
-     * scroll position to specified country.
-     */
     @JvmOverloads
     fun launchCountrySelectionDialog(countryNameCode: String? = null) {
         CountryCodeDialog.openCountryCodeDialog(this!!.codePicker!!, countryNameCode)
@@ -1912,13 +1425,6 @@ class CountryCodePicker : RelativeLayout {
         return this!!.phoneUtil!!
     }
 
-    /**
-     * loads current country in ccp using locale and telephony manager
-     * this will follow specified order in countryAutoDetectionPref
-     *
-     * @param loadDefaultWhenFails: if all of pref methods fail to detect country then should this
-     * function load default country or not is decided with this flag
-     */
     fun setAutoDetectedCountry(loadDefaultWhenFails: Boolean) {
         try {
             var successfullyDetected = false
@@ -1948,13 +1454,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * This will detect country from SIM info and then load it into CCP.
-     *
-     * @param loadDefaultWhenFails true if want to reset to default country when sim country cannot be detected. if false, then it
-     * will not change currently selected country
-     * @return true if it successfully sets country, false otherwise
-     */
     fun detectSIMCountry(loadDefaultWhenFails: Boolean): Boolean {
         try {
             val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -1981,13 +1480,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * This will detect country from NETWORK info and then load it into CCP.
-     *
-     * @param loadDefaultWhenFails true if want to reset to default country when network country cannot be detected. if false, then it
-     * will not change currently selected country
-     * @return true if it successfully sets country, false otherwise
-     */
     fun detectNetworkCountry(loadDefaultWhenFails: Boolean): Boolean {
         try {
             val telephonyManager = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -2013,13 +1505,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * This will detect country from LOCALE info and then load it into CCP.
-     *
-     * @param loadDefaultWhenFails true if want to reset to default country when locale country cannot be detected. if false, then it
-     * will not change currently selected country
-     * @return true if it successfully sets country, false otherwise
-     */
     fun detectLocaleCountry(loadDefaultWhenFails: Boolean): Boolean {
         try {
             val localeCountryISO = context.getResources().getConfiguration().locale.getCountry()
@@ -2044,12 +1529,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-    /**
-     * This will update the pref for country auto detection.
-     * Remeber, this will not call setAutoDetectedCountry() to update country. This must be called separately.
-     *
-     * @param selectedAutoDetectionPref new detection pref
-     */
     fun setCountryAutoDetectionPref(selectedAutoDetectionPref: AutoDetectionPref) {
         this.selectedAutoDetectionPref = selectedAutoDetectionPref
     }
@@ -2076,35 +1555,14 @@ class CountryCodePicker : RelativeLayout {
         updateHint()
     }
 
-    /**
-     * This will decide initial scroll position of countries list in dialog.
-     *
-     * @param initialScrollToSelection : false -> show list without any scroll
-     * true -> will scroll to the position of the selected country.
-     * Note: if selected country is a preferred country,
-     * then it will not scroll and show full preferred countries list.
-     */
     fun enableDialogInitialScrollToSelection(initialScrollToSelection: Boolean) {
         this.isDialogInitialScrollToSelectionEnabled = isDialogInitialScrollToSelectionEnabled
     }
 
-    /**
-     * To listen to the click handle action manually,
-     * a custom clicklistener must be set.
-     * This will override the default click listener which opens the selection dialog.
-     *
-     * @param clickListener will start receiving click callbacks. If null then default click listener
-     * will receive callback and selection dialog will be prompted.
-     */
     fun overrideClickListener(clickListener: View.OnClickListener) {
         customClickListener = clickListener
     }
 
-    /**
-     * Update every time new language is supported #languageSupport
-     */
-    //add an entry for your language in attrs.xml's <attr name="language" format="enum"> enum.
-    //add here so that language can be set programmatically
     enum class Language {
         AFRIKAANS("af"),
         ARABIC("ar"),
@@ -2281,8 +1739,3 @@ class CountryCodePicker : RelativeLayout {
         private val ANDROID_NAME_SPACE = "http://schemas.android.com/apk/res/android"
     }
 }
-/**
- * Opens country selection dialog.
- * By default this is called from ccp click.
- * Developer can use this to trigger manually.
- */
