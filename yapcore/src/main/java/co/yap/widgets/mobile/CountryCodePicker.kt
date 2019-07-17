@@ -20,6 +20,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.*
 import co.yap.yapcore.R
+import com.google.gson.Gson
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.android.Phonenumber
@@ -48,9 +49,7 @@ class CountryCodePicker : RelativeLayout {
 
     internal var defaultCCPCountry: CCPCountry? = null
 
-    private// Log.d(TAG, "Setting default country:" + defaultCountry.logString());
-//    var defaultCountry: CCPCountry? = null
-      var relativeClickConsumer: RelativeLayout? = null
+    private var relativeClickConsumer: RelativeLayout? = null
     private var codePicker: CountryCodePicker? = null
     private lateinit var currentTextGravity: TextGravity
     // see attr.xml to see corresponding values for pref
@@ -88,11 +87,12 @@ class CountryCodePicker : RelativeLayout {
         private set
     private var hintExampleNumberType = PhoneNumberType.MOBILE
     private var selectionMemoryTag = "ccp_last_selection"
+    private var selectedCountryTag = "selectedCountry"
     private var contentColor = DEFAULT_UNSET
     private var arrowColor = DEFAULT_UNSET
     private var borderFlagColor: Int = 0
     private var dialogTypeFace: Typeface? = null
-//    var dialogTypeFaceStyle: Int = 0
+    //    var dialogTypeFaceStyle: Int = 0
     var preferredCountries: List<CCPCountry>? = null
     private var ccpTextgGravity = TEXT_GRAVITY_CENTER
     //this will be "AU,IN,US"
@@ -208,7 +208,7 @@ class CountryCodePicker : RelativeLayout {
             }
             return null
         }
-    private var selectedCountry: CCPCountry ?= null
+    private var selectedCountry: CCPCountry? = null
         //        get() {
 //            if (selectedCCPCountry == null) {
 //                selectedCountry = defaultCountry!!
@@ -525,8 +525,8 @@ class CountryCodePicker : RelativeLayout {
             try {
                 if (getEditText_registeredCarrierNumber() != null && getEditText_registeredCarrierNumber().getText().length !== 0) {
                     val phoneNumber = getPhoneUtil().parse(
-                        "+" + selectedCCPCountry!!.phoneCode + getEditText_registeredCarrierNumber().getText().toString(),
-                        selectedCCPCountry!!.nameCode
+                        "+" + getSelectedCountry()!!.phoneCode + getEditText_registeredCarrierNumber().getText().toString(),
+                        getSelectedCountry()!!.nameCode
                     )
                     return getPhoneUtil().isValidNumber(phoneNumber)
                 } else if (getEditText_registeredCarrierNumber() == null) {
@@ -700,6 +700,13 @@ class CountryCodePicker : RelativeLayout {
                         setUsingNameCode = true
                         defaultCCPCountry = CCPCountry.getCountryForNameCodeFromEnglishList(defaultCountryNameCode!!)
                         selectedCountry = this!!.defaultCCPCountry!!
+
+                        setDefaultCountry(
+                            CCPCountry!!.getCountryForNameCodeFromLibraryMasterList(
+                                context, getLanguageToApply()!!, defaultCountryNameCode!!
+                            )!!
+                        )
+                        setSelectedCountry(defaultCCPCountry)
                     }
                 }
                 //when it was not set means something was wrong with name code
@@ -707,6 +714,12 @@ class CountryCodePicker : RelativeLayout {
                     defaultCCPCountry = CCPCountry.getCountryForNameCodeFromEnglishList("IN")
                     selectedCountry = this!!.defaultCCPCountry!!
                     setUsingNameCode = true
+                    setDefaultCountry(
+                        CCPCountry!!.getCountryForNameCodeFromLibraryMasterList(
+                            context, getLanguageToApply()!!, defaultCountryNameCode!!
+                        )!!
+                    )
+                    setSelectedCountry(defaultCCPCountry)
                 }
             }
             //if default country is not set using name code.
@@ -723,6 +736,7 @@ class CountryCodePicker : RelativeLayout {
                     }
                     setDefaultCountryUsingPhoneCode(defaultCountryCode)
                     selectedCountry = defaultCCPCountry!!
+
                 } else {
                     //when it is in edit mode, we will check in english list only.
                     var defaultCountry = CCPCountry.getCountryForCodeFromEnglishList(defaultCountryCode.toString() + "")
@@ -730,8 +744,15 @@ class CountryCodePicker : RelativeLayout {
                         defaultCountry =
                             CCPCountry.getCountryForCodeFromEnglishList(LIB_DEFAULT_COUNTRY_CODE.toString() + "")
                     }
-                    defaultCCPCountry = defaultCountry
-                    selectedCountry = defaultCountry!!
+                    setDefaultCountry(
+                        CCPCountry!!.getCountryForNameCodeFromLibraryMasterList(
+                            context, getLanguageToApply()!!, defaultCountryNameCode!!
+                        )!!
+                    )
+                    setSelectedCountry(defaultCCPCountry)
+
+//                    defaultCCPCountry = defaultCountry
+//                    selectedCountry = defaultCountry!!
                 }
             }
             //if default country is not set using nameCode or phone code, let's set library default as default
@@ -796,10 +817,7 @@ class CountryCodePicker : RelativeLayout {
             }
             isSearchAllowed = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_allowSearch, true)
             isCcpClickable = a.getBoolean(R.styleable.CountryCodePicker_ccp_clickable, true)
-        }
-
-
-        catch (e: Exception) {
+        } catch (e: Exception) {
             val sw = StringWriter()
             val pw = PrintWriter(sw)
             e.printStackTrace(pw)
@@ -1029,18 +1047,6 @@ class CountryCodePicker : RelativeLayout {
         return this!!.mInflater!!
     }
 
-//    fun getDialogTypeFace(): Typeface {
-//        return this!!.dialogTypeFace!!
-//    }
-
-//    fun setDialogTypeFace(typeFace: Typeface) {
-//        try {
-//            dialogTypeFace = typeFace
-//            dialogTypeFaceStyle = DEFAULT_UNSET
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
 
     fun refreshPreferredCountries() {
         if (countryPreference == null || countryPreference!!.length == 0) {
@@ -1346,27 +1352,6 @@ class CountryCodePicker : RelativeLayout {
         }
     }
 
-//    fun setDialogTypeFace(typeFace: Typeface, style: Int) {
-//        try {
-//            var style: Int = style
-//            dialogTypeFace = typeFace
-//            if (dialogTypeFace == null) {
-//                style = DEFAULT_UNSET
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-//
-//    fun setTypeFace(typeFace: Typeface, style: Int) {
-//        try {
-//            textView_selectedCountry!!.setTypeface(typeFace, style)
-//            setDialogTypeFace(typeFace, style)
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
-//    }
-
     fun setOnCountryChangeListener(onCountryChangeListener: OnCountryChangeListener) {
         this.onCountryChangeListener = onCountryChangeListener
     }
@@ -1544,26 +1529,11 @@ class CountryCodePicker : RelativeLayout {
 
 
     fun onUserTappedCountry(CCPCountry: CCPCountry) {
-        if (codePicker!!.rememberLastSelection) {
-            codePicker!!.storeSelectedCountryNameCode(CCPCountry.nameCode)
-        }
+//        if (codePicker!!.rememberLastSelection) {
+        codePicker!!.storeSelectedCountryNameCode(CCPCountry.nameCode)
+//        }
         setSelectedCountry(CCPCountry)
     }
-
-
-
-//    fun onUserTappedCountry(CCPCountry: CCPCountry) {
-//        if (codePicker!!.rememberLastSelection) {
-//            codePicker!!.storeSelectedCountryNameCode(CCPCountry.nameCode)
-//        }
-////        selectedCountry = CCPCountry
-////
-////    }
-//
-//
-//
-//    return selectedCCPCountry
-//}
 
 
     private fun getDefaultCountry(): CCPCountry? {
@@ -1576,117 +1546,171 @@ class CountryCodePicker : RelativeLayout {
     }
 
 
-private fun getSelectedCountry(): CCPCountry? {
-    if (selectedCCPCountry == null) {
-        setSelectedCountry(getDefaultCountry())
-    }
-    return selectedCCPCountry
-}
-internal fun setSelectedCountry(selectedCCPCountry: CCPCountry?) {
-    var selectedCCPCountry = selectedCCPCountry
-
-    //force disable area code country detection
-    countryDetectionBasedOnAreaAllowed = false
-    lastCheckedAreaCode = ""
-
-    //as soon as country is selected, textView should be updated
-    if (selectedCCPCountry == null) {
-        selectedCCPCountry =
-            CCPCountry.getCountryForCode(getContext(), getLanguageToApply(),
-                this!!.preferredCountries!!, defaultCountryCode)
+    private fun getSelectedCountry(): CCPCountry? {
+        retrieveSelectedCountry()
         if (selectedCCPCountry == null) {
-            return
+            setSelectedCountry(getDefaultCountry())
+//            if(loadLastSelectedCountryInCCP)
+//            loadLastSelectedCountryInCCP()
         }
+
+        return selectedCCPCountry
     }
 
-    this.selectedCCPCountry = selectedCCPCountry
+    internal fun setSelectedCountry(selectedCCPCountry: CCPCountry?) {
+        var selectedCCPCountry = selectedCCPCountry
 
-    var displayText = ""
+        //force disable area code country detection
+        countryDetectionBasedOnAreaAllowed = false
+        lastCheckedAreaCode = ""
 
-    // add flag if required
-    if (showFlag && ccpUseEmoji) {
-        if (isInEditMode()) {
-            //                android studio preview shows huge space if 0 width space is not added.
-            if (ccpUseDummyEmojiForPreview) {
-                //show chequered flag if dummy preview is expected.
-                displayText += "\uD83C\uDFC1\u200B "
+        //as soon as country is selected, textView should be updated
+        if (selectedCCPCountry == null) {
+            selectedCCPCountry =
+                CCPCountry.getCountryForCode(
+                    getContext(), getLanguageToApply(),
+                    this!!.preferredCountries!!, defaultCountryCode
+                )
+            if (selectedCCPCountry == null) {
+                return
+            }
+        }
+
+        this.selectedCCPCountry = selectedCCPCountry
+
+        var displayText = ""
+
+        // add flag if required
+        if (showFlag && ccpUseEmoji) {
+            if (isInEditMode()) {
+                //                android studio preview shows huge space if 0 width space is not added.
+                if (ccpUseDummyEmojiForPreview) {
+                    //show chequered flag if dummy preview is expected.
+                    displayText += "\uD83C\uDFC1\u200B "
+                } else {
+                    displayText += CCPCountry.getFlagEmoji(selectedCCPCountry) + "\u200B "
+                }
+
             } else {
-                displayText += CCPCountry.getFlagEmoji(selectedCCPCountry) + "\u200B "
+                displayText += CCPCountry.getFlagEmoji(selectedCCPCountry) + "  "
+            }
+        }
+
+        // add full name to if required
+        if (showFullName) {
+            displayText = displayText + selectedCCPCountry.name
+        }
+
+        // adds name code if required
+        if (showNameCode) {
+            if (showFullName) {
+                displayText += " (" + selectedCCPCountry.name.toUpperCase() + ")"
+            } else {
+                displayText += " " + selectedCCPCountry.name.toUpperCase()
+            }
+        }
+
+        // hide phone code if required
+        if (showPhoneCode) {
+            if (displayText.length > 0) {
+                displayText += "  "
+            }
+            displayText += "+" + selectedCCPCountry.phoneCode
+        }
+
+        textView_selectedCountry!!.setText(displayText)
+
+        //avoid blank state of ccp
+        if (showFlag == false && displayText.length == 0) {
+            displayText += "+" + selectedCCPCountry.phoneCode
+            textView_selectedCountry!!.setText(displayText)
+        }
+
+        if (onCountryChangeListener != null) {
+            onCountryChangeListener!!.onCountrySelected()
+        }
+
+        imageViewFlag!!.setImageResource(selectedCCPCountry.flagID)
+        //        Log.d(TAG, "Setting selected country:" + selectedCountry.logString());
+
+        updateFormattingTextWatcher()
+
+        updateHint()
+
+        //notify to registered validity listener
+        if (editText_registeredCarrierNumber != null && phoneNumberValidityChangeListener != null) {
+            reportedValidity = isValidFullNumber
+            phoneNumberValidityChangeListener!!.onValidityChanged(reportedValidity)
+        }
+
+        //once updates are done, this will release lock
+        countryDetectionBasedOnAreaAllowed = true
+
+        //if the country was auto detected based on area code, this will correct the cursor position.
+        if (countryChangedDueToAreaCode) {
+            try {
+                editText_registeredCarrierNumber!!.setSelection(lastCursorPosition)
+                countryChangedDueToAreaCode = false
+            } catch (e: Exception) {
+                e.printStackTrace()
             }
 
-        } else {
-            displayText += CCPCountry.getFlagEmoji(selectedCCPCountry) + "  "
+        }
+        saveSelectedCountry()
+        //update country group
+        updateCountryGroup()
+//        codePicker!!.storeSelectedCountryNameCode(selectedCCPCountry.nameCode)
+
+    }
+
+
+    fun setSelectedCountry() {
+//        selectedCCPCountry
+//        SharedPreferences.Editor prefsEditor = mPrefs.edit();
+//        Gson gson = new Gson();
+//        String json = gson.toJson(selectedCCPCountry); // myObject - instance of MyObject
+//        prefsEditor.putString(selectedCountryTag, json);
+//        prefsEditor.commit();
+
+        //
+//var gson:Gson=Gson()
+//        var json:String = gson.toJson(selectedCCPCountry); // myObject - instance of MyObject
+
+
+    }
+
+    private fun saveSelectedCountry() {
+        val sharedPref = context.getSharedPreferences(
+            CCP_PREF_FILE, Context.MODE_PRIVATE
+        )
+        val editor = sharedPref.edit()
+
+        var gson: Gson = Gson()
+        var json: String = gson.toJson(selectedCCPCountry);
+
+        editor.putString(selectedCountryTag, json)
+        editor.apply()
+    }
+
+    private fun retrieveSelectedCountry() {
+
+        val sharedPref = context.getSharedPreferences(
+            CCP_PREF_FILE, Context.MODE_PRIVATE
+        )
+        // read last selection value
+//        val lastSelectedCountryNameCode = sharedPref.getString(selectionMemoryTag, null)
+
+
+        var gson: Gson = Gson()
+        var json: String = sharedPref.getString(selectedCountryTag, "")
+
+//
+//        var testModel = gson.fromJson(jsonString, TestModel::class.java)
+        if (!json.isNullOrEmpty()) {
+            selectedCCPCountry = gson.fromJson(json, CCPCountry::class.java)
+
         }
     }
-
-    // add full name to if required
-    if (showFullName) {
-        displayText = displayText + selectedCCPCountry.name
-    }
-
-    // adds name code if required
-    if (showNameCode) {
-        if (showFullName) {
-            displayText += " (" + selectedCCPCountry.name.toUpperCase() + ")"
-        } else {
-            displayText += " " + selectedCCPCountry.name.toUpperCase()
-        }
-    }
-
-    // hide phone code if required
-    if (showPhoneCode) {
-        if (displayText.length > 0) {
-            displayText += "  "
-        }
-        displayText += "+" + selectedCCPCountry.phoneCode
-    }
-
-    textView_selectedCountry!!.setText(displayText)
-
-    //avoid blank state of ccp
-    if (showFlag == false && displayText.length == 0) {
-        displayText += "+" + selectedCCPCountry.phoneCode
-        textView_selectedCountry!!.setText(displayText)
-    }
-
-    if (onCountryChangeListener != null) {
-        onCountryChangeListener!!.onCountrySelected()
-    }
-
-    imageViewFlag!!.setImageResource(selectedCCPCountry.flagID)
-    //        Log.d(TAG, "Setting selected country:" + selectedCountry.logString());
-
-    updateFormattingTextWatcher()
-
-    updateHint()
-
-    //notify to registered validity listener
-    if (editText_registeredCarrierNumber != null && phoneNumberValidityChangeListener != null) {
-        reportedValidity = isValidFullNumber
-        phoneNumberValidityChangeListener!!.onValidityChanged(reportedValidity)
-    }
-
-    //once updates are done, this will release lock
-    countryDetectionBasedOnAreaAllowed = true
-
-    //if the country was auto detected based on area code, this will correct the cursor position.
-    if (countryChangedDueToAreaCode) {
-        try {
-            editText_registeredCarrierNumber!!.setSelection(lastCursorPosition)
-            countryChangedDueToAreaCode = false
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-    }
-
-    //update country group
-    updateCountryGroup()
-}
-
-
-
-
 
     fun setDetectCountryWithAreaCode(detectCountryWithAreaCode: Boolean) {
         this.detectCountryWithAreaCode = detectCountryWithAreaCode
@@ -1824,9 +1848,6 @@ internal fun setSelectedCountry(selectedCCPCountry: CCPCountry?) {
         }
     }
 
-    /**
-     * When width is "match_parent", this gravity will decide the placement of text.
-     */
     enum class TextGravity private constructor(i: Int) {
         LEFT(-1), CENTER(0), RIGHT(1);
 
@@ -1837,24 +1858,15 @@ internal fun setSelectedCountry(selectedCCPCountry: CCPCountry?) {
         }
     }
 
-    /**
-     * interface to set change listener
-     */
     interface OnCountryChangeListener {
         fun onCountrySelected()
     }
 
-    /**
-     * interface to listen to failure events
-     */
     interface FailureListener {
         //when country auto detection failed.
         fun onCountryAutoDetectionFailed()
     }
 
-    /**
-     * Interface to check phone number validity change listener
-     */
     interface PhoneNumberValidityChangeListener {
         fun onValidityChanged(isValidNumber: Boolean)
     }

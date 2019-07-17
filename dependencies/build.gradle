@@ -40,7 +40,7 @@ project.ext {
             ticker                   : 'com.robinhood.ticker:ticker:2.0.1',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.10.13',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
-
+            gson                     : 'com.google.code.gson:gson:2.8.5',
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
             daggerAndroid            : "com.google.dagger:dagger-android:$daggerVersion",
@@ -153,7 +153,8 @@ project.ext {
             [configuration: "api", dependency: libraries.androidanimations],
             [configuration: "api", dependency: libraries.androidanimationseasing],
             [configuration: "implementation", dependency: libraries.numberFomater],
-            [configuration: "implementation", dependency: libraries.recyclerfastscroll]
+            [configuration: "implementation", dependency: libraries.recyclerfastscroll],
+            [configuration: "implementation", dependency: libraries.gson]
 
     ]
 

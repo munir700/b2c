@@ -41,10 +41,8 @@ internal class CountryCodeAdapter(
     var rlQueryHolder: RelativeLayout
     var imgClearQuery: ImageView
     var preferredCountriesCount = 0
-    //    val itemCount: Int
-//        get() {
-//            return filteredCountries.size
-//        }
+
+
     override fun getItemCount(): Int {
         return filteredCountries!!.size
     }
@@ -81,9 +79,7 @@ internal class CountryCodeAdapter(
         })
     }
 
-    /**
-     * add textChangeListener, to apply new query each time editText get text changed.
-     */
+
     private fun setTextWatcher() {
         if (this.editText_search != null) {
             this.editText_search.addTextChangedListener(object : TextWatcher {
@@ -112,7 +108,7 @@ internal class CountryCodeAdapter(
     }
 
     private fun applyQuery(query: String) {
-        var query: String=query
+        var query: String = query
         textView_noResult.setVisibility(View.GONE)
         query = query.toLowerCase()
         //if query started from "+" ignore it
@@ -136,8 +132,8 @@ internal class CountryCodeAdapter(
                     preferredCountriesCount++
                 }
             }
-            if (tempCCPCountryList.size > 0) { //means at least one preferred country is added.
-                val divider: CCPCountry ?= null
+            if (tempCCPCountryList.size > 0) {
+                val divider: CCPCountry? = null
                 tempCCPCountryList.add(divider!!)
                 preferredCountriesCount++
             }
@@ -164,7 +160,10 @@ internal class CountryCodeAdapter(
                     if (filteredCountries != null && filteredCountries!!.size > i) {
                         codePicker.onUserTappedCountry(filteredCountries!!.get(i))
                     }
-                    if (view != null && filteredCountries != null && filteredCountries!!.size > i && filteredCountries!!.get(i) != null) {
+                    if (view != null && filteredCountries != null && filteredCountries!!.size > i && filteredCountries!!.get(
+                            i
+                        ) != null
+                    ) {
                         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                         imm.hideSoftInputFromWindow(view.getWindowToken(), 0)
                         dialog.dismiss()
@@ -207,19 +206,7 @@ internal class CountryCodeAdapter(
                 textView_code.setTextColor(codePicker.dialogTextColor)
                 divider.setBackgroundColor(codePicker.dialogTextColor)
             }
-//            try {
-//                if (codePicker.getDialogTypeFace() != null) {
-//                    if (codePicker.dialogTypeFaceStyle !== CountryCodePicker.DEFAULT_UNSET) {
-//                        textView_code.setTypeface(codePicker.getDialogTypeFace(), codePicker.dialogTypeFaceStyle!!)
-//                        textView_name.setTypeface(codePicker.getDialogTypeFace(), codePicker.dialogTypeFaceStyle!!)
-//                    } else {
-//                        textView_code.setTypeface(codePicker.getDialogTypeFace())
-//                        textView_name.setTypeface(codePicker.getDialogTypeFace())
-//                    }
-//                }
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
+
         }
 
         fun setCountry(ccpCountry: CCPCountry) {
