@@ -1471,4 +1471,13 @@ class CCPCountry : Comparable<CCPCountry> {
                 return countries
             }
     }
+
+    public fun getCountryForCode(
+        context: Context,
+        language: CountryCodePicker.Language,
+        preferredCountries: List<CCPCountry>,
+        code: Int
+    ): CCPCountry? {
+        return getCountryForCode(context, language, preferredCountries, code.toString() + "")
+    }
 }

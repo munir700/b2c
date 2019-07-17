@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.fragments
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import androidx.lifecycle.Observer
@@ -33,6 +34,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     private fun registerCarrierEditText() {
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(this!!.context!!)
         ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
+//         ccpLoadNumber.setTypeFace()
 
         ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
             CountryCodePicker.PhoneNumberValidityChangeListener {
