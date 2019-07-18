@@ -9,6 +9,8 @@ import co.yap.app.di.BaseActivity
 import co.yap.app.modules.accountselection.activities.AccountSelectionActivity
 import co.yap.app.modules.login.activities.LogInActivity
 import co.yap.app.modules.login.activities.VerifyPasscodeActivity
+import co.yap.modules.onboarding.activities.OnboardingActivity
+import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class SplashActivity : BaseActivity<ISplash.ViewModel>(), ISplash.View {
@@ -34,7 +36,8 @@ class SplashActivity : BaseActivity<ISplash.ViewModel>(), ISplash.View {
                     startActivity(Intent(this, AccountSelectionActivity::class.java))
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
                 }else{
-                    startActivity(Intent(this, LogInActivity::class.java))
+                    startActivity(OnboardingActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+//                    startActivity(Intent(this, LogInActivity::class.java))
                 }
 
             }

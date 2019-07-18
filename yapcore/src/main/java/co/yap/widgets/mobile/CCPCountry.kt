@@ -95,9 +95,6 @@ class CCPCountry : Comparable<CCPCountry> {
         private val BRITISH_VIRGIN_ISLANDS_AREA_CODES = "284"
         private val US_VIRGIN_ISLANDS_AREA_CODES = "340"
 
-        //countries with +44
-        private val ISLE_OF_MAN = "1624"
-
 
         public fun getCountryForCode(
             context: Context,
@@ -108,7 +105,7 @@ class CCPCountry : Comparable<CCPCountry> {
             return getCountryForCode(context, language, preferredCountries, code.toString() + "")
         }
 
-         public fun getCountryForCode(
+        public fun getCountryForCode(
             context: Context,
             language: CountryCodePicker.Language,
             preferredCountries: List<CCPCountry>?,
@@ -157,7 +154,7 @@ class CCPCountry : Comparable<CCPCountry> {
                             val ccpCountry = CCPCountry()
                             ccpCountry.nameCode = xmlPullParser.getAttributeValue(null, "name_code").toUpperCase()
                             ccpCountry.phoneCode = xmlPullParser.getAttributeValue(null, "phone_code")
-                             Companion.setEnglishName(ccpCountry, xmlPullParser.getAttributeValue(null, "english_name"))
+                            Companion.setEnglishName(ccpCountry, xmlPullParser.getAttributeValue(null, "english_name"))
 
                             ccpCountry.name = xmlPullParser.getAttributeValue(null, "name")
                             countries.add(ccpCountry)
@@ -182,7 +179,7 @@ class CCPCountry : Comparable<CCPCountry> {
 
             }
 
-             if (countries.size == 0) {
+            if (countries.size == 0) {
                 loadedLibraryMasterListLanguage = CountryCodePicker.Language.ENGLISH
                 countries = libraryMasterCountriesEnglish
             }
@@ -1362,15 +1359,15 @@ class CCPCountry : Comparable<CCPCountry> {
         fun setEnglishName(ccpCountry: CCPCountry, ename: String) {
             ccpCountry.englishName = ename
         }
+
         fun getEnglishName(ccpCountry: CCPCountry): String {
-            if (null==ccpCountry.englishName){
+            if (null == ccpCountry.englishName) {
                 return " "
             }
             return ccpCountry.englishName!!
         }
 
     }
-
 
     public fun getCountryForCode(
         context: Context,

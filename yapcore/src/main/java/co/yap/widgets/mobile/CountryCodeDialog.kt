@@ -27,18 +27,18 @@ import java.lang.reflect.Field
 
 @SuppressLint("StaticFieldLeak")
 internal object CountryCodeDialog {
-    private val sEditorField: Field ?= null
-    private val sCursorDrawableField: Field ?= null
-    private var sCursorDrawableResourceField: Field ?= null
-    private var dialog: Dialog?=null
+    private val sEditorField: Field? = null
+    private val sCursorDrawableField: Field? = null
+    private var sCursorDrawableResourceField: Field? = null
+    private var dialog: Dialog? = null
 
 
     lateinit var mContext: Context
 
     init {
-        var editorField: Field ?= null
-        var cursorDrawableField: Field ?= null
-        var cursorDrawableResourceField: Field ?= null
+        var editorField: Field? = null
+        var cursorDrawableField: Field? = null
+        var cursorDrawableResourceField: Field? = null
         var exceptionThrown = false
         try {
             cursorDrawableResourceField = TextView::class.java!!.getDeclaredField("mCursorDrawableRes")
@@ -58,58 +58,36 @@ internal object CountryCodeDialog {
         }
         if (exceptionThrown) {
             exceptionThrown = true
-//            sEditorField = null
-//            sCursorDrawableField = null
-//            sCursorDrawableResourceField = null
         } else {
             exceptionThrown = true
-//            sEditorField = editorField
-//            sCursorDrawableField = cursorDrawableField
-//            sCursorDrawableResourceField = cursorDrawableResourceField
         }
     }
 
     @JvmOverloads
-    fun openCountryCodeDialog(codePicker: CountryCodePicker, countryNameCode: String? ) {
+    fun openCountryCodeDialog(codePicker: CountryCodePicker, countryNameCode: String?) {
         mContext = codePicker.getContext()
         dialog = Dialog(mContext)
         codePicker.refreshCustomMasterList()
         codePicker.refreshPreferredCountries()
         val masterCountries = CCPCountry.getCustomMasterCountryList(mContext, codePicker)
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
-         dialog!!.getWindow().setContentView(R.layout.layout_picker_dialog)
+        dialog!!.getWindow().setContentView(R.layout.layout_picker_dialog)
         //keyboard
-        if (codePicker.isSearchAllowed && codePicker.isDialogKeyboardAutoPopup) {
-             dialog!!.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        if (codePicker.isSearchAllowed && codePicker.dialogKeyboardAutoPopup) {
+            dialog!!.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         } else {
-             dialog!!.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+            dialog!!.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
         }
         //dialog views
-        val recyclerView_countryDialog =  dialog!!.findViewById(R.id.recycler_countryDialog) as RecyclerView
-        val textViewTitle =  dialog!!.findViewById(R.id.textView_title) as TextView
-        val rlQueryHolder =  dialog!!.findViewById(R.id.rl_query_holder) as RelativeLayout
-        val imgClearQuery =  dialog!!.findViewById(R.id.img_clear_query) as ImageView
-        val editText_search =  dialog!!.findViewById(R.id.editText_search) as EditText
-        val textView_noResult =  dialog!!.findViewById(R.id.textView_noresult) as TextView
-        val rlHolder =  dialog!!.findViewById(R.id.rl_holder) as RelativeLayout
-        val imgDismiss =  dialog!!.findViewById(R.id.img_dismiss) as ImageView
-        // type faces
-        //set type faces
- //        try {
-//            if (codePicker.getDialogTypeFace() != null) {
-//                if (codePicker.dialogTypeFaceStyle !== CountryCodePicker.DEFAULT_UNSET) {
-//                    textView_noResult.setTypeface(codePicker.getDialogTypeFace(), codePicker.dialogTypeFaceStyle!!)
-//                    editText_search.setTypeface(codePicker.getDialogTypeFace(), codePicker.dialogTypeFaceStyle!!)
-//                    textViewTitle.setTypeface(codePicker.getDialogTypeFace(), codePicker.dialogTypeFaceStyle!!)
-//                } else {
-//                    textView_noResult.setTypeface(codePicker.getDialogTypeFace())
-//                    editText_search.setTypeface(codePicker.getDialogTypeFace())
-//                    textViewTitle.setTypeface(codePicker.getDialogTypeFace())
-//                }
-//            }
-//        } catch (e: Exception) {
-//            e.printStackTrace()
-//        }
+        val recyclerView_countryDialog = dialog!!.findViewById(R.id.recycler_countryDialog) as RecyclerView
+        val textViewTitle = dialog!!.findViewById(R.id.textView_title) as TextView
+        val rlQueryHolder = dialog!!.findViewById(R.id.rl_query_holder) as RelativeLayout
+        val imgClearQuery = dialog!!.findViewById(R.id.img_clear_query) as ImageView
+        val editText_search = dialog!!.findViewById(R.id.editText_search) as EditText
+        val textView_noResult = dialog!!.findViewById(R.id.textView_noresult) as TextView
+        val rlHolder = dialog!!.findViewById(R.id.rl_holder) as RelativeLayout
+        val imgDismiss = dialog!!.findViewById(R.id.img_dismiss) as ImageView
+
         //dialog background color
         if (codePicker.dialogBackgroundColor !== 0) {
             rlHolder.setBackgroundColor(codePicker.dialogBackgroundColor)
@@ -119,7 +97,7 @@ internal object CountryCodeDialog {
             imgDismiss.setVisibility(View.VISIBLE)
             imgDismiss.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(view: View) {
-                     dialog!!.dismiss()
+                    dialog!!.dismiss()
                 }
             })
         } else {
@@ -176,16 +154,16 @@ internal object CountryCodeDialog {
         recyclerView_countryDialog.setLayoutManager(LinearLayoutManager(mContext))
         recyclerView_countryDialog.setAdapter(cca)
         //fast scroller
-        val fastScroller =  dialog!!.findViewById(R.id.fastscroll) as FastScroller
+        val fastScroller = dialog!!.findViewById(R.id.fastscroll) as FastScroller
         fastScroller.setRecyclerView(recyclerView_countryDialog)
         if (codePicker.isShowFastScroller) {
             if (codePicker.fastScrollerBubbleColor !== 0) {
                 fastScroller.setBubbleColor(codePicker.fastScrollerBubbleColor)
             }
-            if (codePicker.fastScrollerHandleColor!== 0) {
+            if (codePicker.fastScrollerHandleColor !== 0) {
                 fastScroller.setHandleColor(codePicker.fastScrollerHandleColor)
             }
-            if (codePicker.fastScrollerBubbleTextAppearance!== 0) {
+            if (codePicker.fastScrollerBubbleTextAppearance !== 0) {
                 try {
                     fastScroller.setBubbleTextAppearance(codePicker.fastScrollerBubbleTextAppearance)
                 } catch (e: Exception) {
@@ -195,7 +173,7 @@ internal object CountryCodeDialog {
         } else {
             fastScroller.setVisibility(View.GONE)
         }
-         dialog!!.setOnDismissListener(object : DialogInterface.OnDismissListener {
+        dialog!!.setOnDismissListener(object : DialogInterface.OnDismissListener {
             override fun onDismiss(dialogInterface: DialogInterface) {
                 hideKeyboard(mContext!!)
                 if (codePicker.dialogEventsListener != null) {
@@ -203,7 +181,7 @@ internal object CountryCodeDialog {
                 }
             }
         })
-         dialog!!.setOnCancelListener(object : DialogInterface.OnCancelListener {
+        dialog!!.setOnCancelListener(object : DialogInterface.OnCancelListener {
             override fun onCancel(dialogInterface: DialogInterface) {
                 hideKeyboard(mContext)
                 if (codePicker.dialogEventsListener != null) {
@@ -235,7 +213,7 @@ internal object CountryCodeDialog {
                 }
             }
         }
-         dialog!!.show()
+        dialog!!.show()
         if (codePicker.dialogEventsListener != null) {
             codePicker.dialogEventsListener!!.onCcpDialogOpen(dialog!!)
         }
@@ -277,10 +255,8 @@ internal object CountryCodeDialog {
 
     fun clear() {
         if (dialog != null) {
-             dialog!!.dismiss()
+            dialog!!.dismiss()
         }
-//        dialog = null
-//        mContext = null
     }
 
     private fun getDrawable(mContext: Context, id: Int): Drawable {
