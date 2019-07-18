@@ -449,7 +449,7 @@ class CountryCodePicker : RelativeLayout {
 
     val selectedCountryEnglishName: String
         get() {
-            return selectedCountry!!.englishName
+            return selectedCountry!!.englishName!!
         }
 
     val selectedCountryNameCode: String

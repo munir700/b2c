@@ -14,7 +14,7 @@ class CCPCountry : Comparable<CCPCountry> {
     lateinit var nameCode: String
     lateinit var phoneCode: String
     lateinit var name: String
-    lateinit var englishName: String
+    var englishName: String? = null
     internal var flagResID = DEFAULT_FLAG_RES
 
     val flagID: Int
@@ -49,20 +49,12 @@ class CCPCountry : Comparable<CCPCountry> {
         return nameCode.toUpperCase() + " +" + phoneCode + "(" + name + ")"
     }
 
-
-
-    /**
-     * If country have query word in name or name code or phone code, this will return true.
-     *
-     * @param query
-     * @return
-     */
     internal fun isEligibleForQuery(query: String): Boolean {
         var query = query
         query = query.toLowerCase()
         return name.toLowerCase().contains(query) || nameCode.toLowerCase().contains(query) || phoneCode.toLowerCase().contains(
             query
-        ) || englishName.toLowerCase().contains(query)
+        ) || getEnglishName(this)!!.toLowerCase().contains(query)
     }
 
     override fun compareTo(o: CCPCountry): Int {
@@ -70,7 +62,6 @@ class CCPCountry : Comparable<CCPCountry> {
     }
 
     companion object {
-//        var getCCPCountry:CCPCountry?=getCountryForCode()
 
         internal var DEFAULT_FLAG_RES = -99
         internal var TAG = "Class Country"
@@ -107,15 +98,7 @@ class CCPCountry : Comparable<CCPCountry> {
         //countries with +44
         private val ISLE_OF_MAN = "1624"
 
-        /**
-         * Search a country which matches @param code.
-         *
-         * @param context
-         * @param preferredCountries list of country with priority,
-         * @param code               phone code. i.e 91 or 1
-         * @return Country that has phone code as @param code.
-         * or returns null if no country matches given code.
-         */
+
         public fun getCountryForCode(
             context: Context,
             language: CountryCodePicker.Language,
@@ -132,9 +115,6 @@ class CCPCountry : Comparable<CCPCountry> {
             code: String
         ): CCPCountry? {
 
-            /**
-             * check in preferred countries
-             */
             if (preferredCountries != null && !preferredCountries.isEmpty()) {
                 for (CCPCountry in preferredCountries) {
                     if (CCPCountry.phoneCode == code) {
@@ -151,14 +131,6 @@ class CCPCountry : Comparable<CCPCountry> {
             return null
         }
 
-
-
-        /**
-         * This function parses the raw/countries.xml file, and get list of all the countries.
-         *
-         * @param context: required to access application resources (where country.xml is).
-         * @return List of all the countries available in xml file.
-         */
         internal fun loadDataFromXML(context: Context, language: CountryCodePicker.Language) {
             var countries: MutableList<CCPCountry> = ArrayList()
             var tempDialogTitle = ""
@@ -185,7 +157,8 @@ class CCPCountry : Comparable<CCPCountry> {
                             val ccpCountry = CCPCountry()
                             ccpCountry.nameCode = xmlPullParser.getAttributeValue(null, "name_code").toUpperCase()
                             ccpCountry.phoneCode = xmlPullParser.getAttributeValue(null, "phone_code")
-                            ccpCountry.englishName = xmlPullParser.getAttributeValue(null, "english_name")
+                             Companion.setEnglishName(ccpCountry, xmlPullParser.getAttributeValue(null, "english_name"))
+
                             ccpCountry.name = xmlPullParser.getAttributeValue(null, "name")
                             countries.add(ccpCountry)
                         } else if (name == "ccp_dialog_title") {
@@ -209,8 +182,7 @@ class CCPCountry : Comparable<CCPCountry> {
 
             }
 
-            //if anything went wrong, countries will be loaded for english language
-            if (countries.size == 0) {
+             if (countries.size == 0) {
                 loadedLibraryMasterListLanguage = CountryCodePicker.Language.ENGLISH
                 countries = libraryMasterCountriesEnglish
             }
@@ -257,24 +229,6 @@ class CCPCountry : Comparable<CCPCountry> {
             CCPCountry.noResultFoundAckMessage = noResultFoundAckMessage
         }
 
-        /**
-         * Search a country which matches @param code.
-         *
-         * @param context
-         * @param preferredCountries is list of preference countries.
-         * @param code               phone code. i.e "91" or "1"
-         * @return Country that has phone code as @param code.
-         * or returns null if no country matches given code.
-         * if same code (e.g. +1) available for more than one country ( US, canada) , this function will return preferred country.
-         */
-
-        /**
-         * @param code phone code. i.e "91" or "1"
-         * @return Country that has phone code as @param code.
-         * or returns null if no country matches given code.
-         * if same code (e.g. +1) available for more than one country ( US, canada) , this function will return preferred country.
-         * @avoid Search a country which matches @param code. This method is just to support correct preview
-         */
         internal fun getCountryForCodeFromEnglishList(code: String): CCPCountry? {
 
             val countries: List<CCPCountry>
@@ -297,13 +251,7 @@ class CCPCountry : Comparable<CCPCountry> {
             }
         }
 
-        /**
-         * Search a country which matches @param nameCode.
-         *
-         * @param context
-         * @param customMasterCountriesList
-         * @param nameCode                  country name code. i.e US or us or Au. See countries.xml for all code names.  @return Country that has phone code as @param code.
-         */
+
         internal fun getCountryForNameCodeFromCustomMasterList(
             context: Context,
             customMasterCountriesList: List<CCPCountry>?,
@@ -322,14 +270,7 @@ class CCPCountry : Comparable<CCPCountry> {
             return null
         }
 
-        /**
-         * Search a country which matches @param nameCode.
-         *
-         * @param context
-         * @param nameCode country name code. i.e US or us or Au. See countries.xml for all code names.
-         * @return Country that has phone code as @param code.
-         * or returns null if no country matches given code.
-         */
+
         fun getCountryForNameCodeFromLibraryMasterList(
             context: Context,
             language: CountryCodePicker.Language,
@@ -345,14 +286,6 @@ class CCPCountry : Comparable<CCPCountry> {
             return null
         }
 
-        /**
-         * Search a country which matches @param nameCode.
-         * This searches through local english name list. This should be used only for the preview purpose.
-         *
-         * @param nameCode country name code. i.e US or us or Au. See countries.xml for all code names.
-         * @return Country that has phone code as @param code.
-         * or returns null if no country matches given code.
-         */
         internal fun getCountryForNameCodeFromEnglishList(nameCode: String): CCPCountry? {
             val countries: List<CCPCountry>
             countries = libraryMasterCountriesEnglish
@@ -364,22 +297,6 @@ class CCPCountry : Comparable<CCPCountry> {
             return null
         }
 
-
-
-        /**
-         * Finds country code by matching substring from left to right from full number.
-         * For example. if full number is +819017901357
-         * function will ignore "+" and try to find match for first character "8"
-         * if any country found for code "8", will return that country. If not, then it will
-         * try to find country for "81". and so on till first 3 characters ( maximum number of characters in country code is 3).
-         *
-         * @param context
-         * @param preferredCountries countries of preference
-         * @param fullNumber         full number ( "+" (optional)+ country code + carrier number) i.e. +819017901357 / 819017901357 / 918866667722
-         * @return Country JP +81(Japan) for +819017901357 or 819017901357
-         * Country IN +91(India) for  918866667722
-         * null for 2956635321 ( as neither of "2", "29" and "295" matches any country code)
-         */
         internal fun getCountryForNumber(
             context: Context,
             language: CountryCodePicker.Language,
@@ -430,19 +347,6 @@ class CCPCountry : Comparable<CCPCountry> {
             return null
         }
 
-        /**
-         * Finds country code by matching substring from left to right from full number.
-         * For example. if full number is +819017901357
-         * function will ignore "+" and try to find match for first character "8"
-         * if any country found for code "8", will return that country. If not, then it will
-         * try to find country for "81". and so on till first 3 characters ( maximum number of characters in country code is 3).
-         *
-         * @param context
-         * @param fullNumber full number ( "+" (optional)+ country code + carrier number) i.e. +819017901357 / 819017901357 / 918866667722
-         * @return Country JP +81(Japan) for +819017901357 or 819017901357
-         * Country IN +91(India) for  918866667722
-         * null for 2956635321 ( as neither of "2", "29" and "295" matches any country code)
-         */
         fun getCountryForNumber(
             context: Context,
             language: CountryCodePicker.Language,
@@ -451,12 +355,6 @@ class CCPCountry : Comparable<CCPCountry> {
             return getCountryForNumber(context, language, null, fullNumber)
         }
 
-        /**
-         * Returns image res based on country name code
-         *
-         * @param CCPCountry
-         * @return
-         */
         internal fun getFlagMasterResID(CCPCountry: CCPCountry): Int {
             when (CCPCountry.nameCode.toLowerCase()) {
                 //this should be sorted based on country name code.
@@ -948,12 +846,6 @@ class CCPCountry : Comparable<CCPCountry> {
         }
 
 
-        /**
-         * Returns image res based on country name code
-         *
-         * @param CCPCountry
-         * @return
-         */
         internal fun getFlagEmoji(CCPCountry: CCPCountry): String {
             when (CCPCountry.nameCode.toLowerCase()) {
                 //this should be sorted based on country name code.
@@ -1211,12 +1103,7 @@ class CCPCountry : Comparable<CCPCountry> {
             }
         }
 
-        /**
-         * This will return all the countries. No preference is manages.
-         * Anytime new country need to be added, add it
-         *
-         * @return
-         */
+
         fun getLibraryMasterCountryList(context: Context, language: CountryCodePicker.Language): List<CCPCountry>? {
             if (loadedLibraryMasterListLanguage == null || language !== loadedLibraryMasterListLanguage || loadedLibraryMaterList == null || loadedLibraryMaterList!!.size == 0) { //when it is required to load country in country list
                 loadDataFromXML(context, language)
@@ -1228,7 +1115,8 @@ class CCPCountry : Comparable<CCPCountry> {
             get() {
                 val countries = ArrayList<CCPCountry>()
                 countries.add(CCPCountry("ad", "376", "Andorra", DEFAULT_FLAG_RES))
-                countries.add(CCPCountry("ae", "971", "United Arab Emirates (UAE)", DEFAULT_FLAG_RES))
+                countries.add(CCPCountry("ae", "971", "UAE", DEFAULT_FLAG_RES))
+//                countries.add(CCPCountry("ae", "971", "United Arab Emirates (UAE)", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("af", "93", "Afghanistan", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("ag", "1", "Antigua and Barbuda", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("ai", "1", "Anguilla", DEFAULT_FLAG_RES))
@@ -1470,7 +1358,19 @@ class CCPCountry : Comparable<CCPCountry> {
                 countries.add(CCPCountry("zw", "263", "Zimbabwe", DEFAULT_FLAG_RES))
                 return countries
             }
+
+        fun setEnglishName(ccpCountry: CCPCountry, ename: String) {
+            ccpCountry.englishName = ename
+        }
+        fun getEnglishName(ccpCountry: CCPCountry): String {
+            if (null==ccpCountry.englishName){
+                return " "
+            }
+            return ccpCountry.englishName!!
+        }
+
     }
+
 
     public fun getCountryForCode(
         context: Context,
@@ -1480,4 +1380,5 @@ class CCPCountry : Comparable<CCPCountry> {
     ): CCPCountry? {
         return getCountryForCode(context, language, preferredCountries, code.toString() + "")
     }
+
 }
