@@ -1,8 +1,8 @@
-package co.yap.app.modules.splash
+package co.yap.app.modules.startup.viewmodels
 
 import android.app.Application
-import android.os.Handler
-import android.os.Looper
+import co.yap.app.modules.startup.interfaces.ISplash
+import co.yap.app.modules.startup.states.SplashState
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse

@@ -17,6 +17,8 @@ import co.yap.yapcore.BaseBindingActivity
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
+// TODO: Remove this activity
+@Deprecated("User WelcomeFragment instead")
 class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>() {
     companion object {
 

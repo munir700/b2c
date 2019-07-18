@@ -1,4 +1,4 @@
-package co.yap.app.modules.accountselection.activities
+package co.yap.app.modules.startup.activities
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
@@ -11,7 +11,8 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.defaults.DefaultActivity
 import kotlinx.android.synthetic.main.activity_account_selection.*
 
-
+// TODO: Remove this activity
+@Deprecated("Use AccountSelectionFragment instead")
 class AccountSelectionActivity : DefaultActivity() {
 
     private lateinit var viewDataBinding: ViewDataBinding

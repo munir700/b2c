@@ -1,4 +1,4 @@
-package co.yap.app.modules.splash
+package co.yap.app.modules.startup.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
