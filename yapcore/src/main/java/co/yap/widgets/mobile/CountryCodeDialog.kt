@@ -80,13 +80,13 @@ internal object CountryCodeDialog {
         }
         //dialog views
         val recyclerView_countryDialog = dialog!!.findViewById(R.id.recycler_countryDialog) as RecyclerView
-        val textViewTitle = dialog!!.findViewById(R.id.textView_title) as TextView
+        val textViewTitle = dialog!!.findViewById(R.id.tvTitle) as TextView
         val rlQueryHolder = dialog!!.findViewById(R.id.rl_query_holder) as RelativeLayout
         val imgClearQuery = dialog!!.findViewById(R.id.img_clear_query) as ImageView
         val editText_search = dialog!!.findViewById(R.id.editText_search) as EditText
-        val textView_noResult = dialog!!.findViewById(R.id.textView_noresult) as TextView
-        val rlHolder = dialog!!.findViewById(R.id.rl_holder) as RelativeLayout
-        val imgDismiss = dialog!!.findViewById(R.id.img_dismiss) as ImageView
+        val textView_noResult = dialog!!.findViewById(R.id.tvNoresult) as TextView
+        val rlHolder = dialog!!.findViewById(R.id.rlHolder) as RelativeLayout
+        val imgDismiss = dialog!!.findViewById(R.id.ivClear) as ImageView
 
         //dialog background color
         if (codePicker.dialogBackgroundColor !== 0) {

@@ -503,16 +503,16 @@ class CountryCodePicker : RelativeLayout {
 
         LayoutInflater.from(mCntext).inflate(R.layout.layout_code_picker, this, true)
 
-        textView_selectedCountry = findViewById(R.id.textView_selectedCountry)
+        textView_selectedCountry = findViewById(R.id.tvSelectedCountry)
 
         holder = findViewById(R.id.countryCodeHolder)
-        imageViewFlag = findViewById(R.id.image_flag)
+        imageViewFlag = findViewById(R.id.ivFlag)
         textView_selectedCountry!!.setText("+971")
         imageViewFlag!!.setImageResource(R.drawable.flag_uae)
 
-        linearFlagHolder = findViewById(R.id.linear_flag_holder)
-        linearFlagBorder = findViewById(R.id.linear_flag_border)
-        relativeClickConsumer = findViewById(R.id.rlClickConsumer)
+        linearFlagHolder = findViewById(R.id.llFlagHolder)
+        linearFlagBorder = findViewById(R.id.llFlag)
+        relativeClickConsumer = findViewById(R.id.rlContainer)
 
         relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
     }
@@ -642,7 +642,7 @@ class CountryCodePicker : RelativeLayout {
                 }
 
                 if (!setUsingNameCode) {
-                    defaultCCPCountry = CCPCountry.getCountryForNameCodeFromEnglishList("IN")
+                    defaultCCPCountry = CCPCountry.getCountryForNameCodeFromEnglishList("AE")
                     selectedCountry = this!!.defaultCCPCountry!!
                     setUsingNameCode = true
                     setDefaultCountry(
@@ -685,7 +685,7 @@ class CountryCodePicker : RelativeLayout {
                 }
             }
             if (defaultCCPCountry == null) {
-                defaultCCPCountry = CCPCountry.getCountryForNameCodeFromEnglishList("IN")
+                defaultCCPCountry = CCPCountry.getCountryForNameCodeFromEnglishList("AE")
                 if (selectedCountry == null) {
                     selectedCountry = defaultCCPCountry!!
                 }
@@ -745,7 +745,7 @@ class CountryCodePicker : RelativeLayout {
             e.printStackTrace(pw)
             textView_selectedCountry!!.setMaxLines(25)
             textView_selectedCountry!!.setTextSize(10F)
-//            textView_selectedCountry!!.setText(sw.toString())
+//            tvSelectedCountry!!.setText(sw.toString())
         } finally {
             a.recycle()
         }

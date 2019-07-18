@@ -5,35 +5,27 @@
                 android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:id="@+id/rlClickConsumer"
+        android:id="@+id/rlContainer"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/_52sdp"
         android:background="@drawable/component_selectable_bg"
         android:padding="8dp">
 
         <LinearLayout
-            android:id="@+id/linear_flag_holder"
+            android:id="@+id/llFlagHolder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:layout_marginRight="@dimen/margin_small">
+            android:layout_gravity="center_vertical">
 
             <LinearLayout
-                android:id="@+id/linear_flag_border"
+                android:id="@+id/llFlag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent">
 
-                <!--<ImageView-->
-                <!--android:id="@+id/image_flag"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="18dp"-->
-                <!--android:layout_margin="0.5dp"/>-->
                 <co.yap.widgets.CircularImageView
-
-                    android:id="@+id/image_flag"
+                    android:id="@+id/ivFlag"
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/_24sdp"
                     android:layout_margin="0.5dp"
@@ -41,14 +33,13 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!--</LinearLayout>-->
         <TextView
-            android:id="@+id/textView_selectedCountry"
+            android:id="@+id/tvSelectedCountry"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toEndOf="@+id/linear_flag_holder"
-            android:layout_toRightOf="@+id/linear_flag_holder"
+            android:layout_toEndOf="@+id/llFlagHolder"
+            android:layout_toRightOf="@+id/llFlagHolder"
             android:singleLine="true"
             android:textColor="@color/black"
             android:visibility="visible"

@@ -3,32 +3,21 @@ package co.yap.widgets
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.res.TypedArray
-import android.graphics.Bitmap
-import android.graphics.BitmapShader
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.ColorFilter
-import android.graphics.Matrix
-import android.graphics.Outline
-import android.graphics.Paint
-import android.graphics.Rect
-import android.graphics.RectF
-import android.graphics.Shader
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
-import androidx.annotation.ColorInt
-import androidx.annotation.ColorRes
-import androidx.annotation.DrawableRes
-import androidx.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewOutlineProvider
 import android.widget.ImageView
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
+import androidx.annotation.DrawableRes
+import androidx.annotation.RequiresApi
 import co.yap.yapcore.R
 
 class CircularImageView : androidx.appcompat.widget.AppCompatImageView {
@@ -379,15 +368,6 @@ class CircularImageView : androidx.appcompat.widget.AppCompatImageView {
             mBorderRect.roundOut(bounds)
             outline.setRoundRect(bounds, bounds.width() / 2.0f)
         }
-    }
-
-    override fun setOnClickListener(l: View.OnClickListener?) {
-//        super.setOnClickListener(object : DebounceClickListener() {
-//            fun onDebouncedClick(v: View) {
-//                assert(l != null)
-//                l!!.onClick(v)
-//            }
-//        })
     }
 
     companion object {

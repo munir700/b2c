@@ -196,10 +196,10 @@ internal class CountryCodeAdapter(
 
         init {
             mainView = itemView as RelativeLayout
-            textView_name = mainView.findViewById(R.id.textView_countryName) as TextView
-            textView_code = mainView.findViewById(R.id.textView_code) as TextView
-            imageViewFlag = mainView.findViewById(R.id.image_flag) as ImageView
-            linearFlagHolder = mainView.findViewById(R.id.linear_flag_holder) as LinearLayout
+            textView_name = mainView.findViewById(R.id.tvCountryName) as TextView
+            textView_code = mainView.findViewById(R.id.tvCode) as TextView
+            imageViewFlag = mainView.findViewById(R.id.ivFlag) as ImageView
+            linearFlagHolder = mainView.findViewById(R.id.llFlagHolder) as LinearLayout
             divider = mainView.findViewById(R.id.preferenceDivider)
             if (codePicker.dialogTextColor !== 0) {
                 textView_name.setTextColor(codePicker.dialogTextColor)
