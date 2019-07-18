@@ -7,7 +7,7 @@
     <RelativeLayout
         android:id="@+id/rlClickConsumer"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_52sdp"
         android:background="@drawable/component_selectable_bg"
         android:padding="8dp">
 
@@ -26,21 +26,18 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent">
 
-                <ImageView
-                    android:id="@+id/image_flag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="18dp"
-                    android:layout_margin="0.5dp"/>
-                <!--<com.hbb20.CircularImageView-->
-                <!--app:civ_border_color="@color/warning"-->
-                <!--app:civ_border_width="2dp"-->
-
+                <!--<ImageView-->
                 <!--android:id="@+id/image_flag"-->
                 <!--android:layout_width="wrap_content"-->
                 <!--android:layout_height="18dp"-->
-                <!--android:layout_margin="0.5dp"-->
+                <!--android:layout_margin="0.5dp"/>-->
+                <co.yap.widgets.CircularImageView
 
-                <!--android:src="@drawable/flag_uae" />-->
+                    android:id="@+id/image_flag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_margin="0.5dp"
+                    />
             </LinearLayout>
         </LinearLayout>
 
@@ -57,7 +54,6 @@
             android:visibility="visible"
             android:paddingStart="@dimen/margin_small"
             android:drawablePadding="@dimen/margin_small"
-            android:paddingEnd="@dimen/margin_small"
             android:textSize="@dimen/_15sdp"
             />
 
