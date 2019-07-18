@@ -195,7 +195,7 @@
         </attr>
     </declare-styleable>
 
-    <declare-styleable name="CircularImageView">
+    <declare-styleable name="CoreCircularImageView">
         <attr name="civ_border_width" format="dimension" />
         <attr name="civ_border_color" format="color" />
         <attr name="civ_border_overlay" format="boolean" />

@@ -73,11 +73,11 @@ internal object CountryCodeDialog {
         dialog!!.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog!!.getWindow().setContentView(R.layout.layout_picker_dialog)
         //keyboard
-        if (codePicker.isSearchAllowed && codePicker.dialogKeyboardAutoPopup) {
-            dialog!!.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        } else {
-            dialog!!.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
-        }
+//        if (codePicker.isSearchAllowed && codePicker.dialogKeyboardAutoPopup) {
+//            dialog!!.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+//        } else {
+        dialog!!.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN)
+//        }
         //dialog views
         val recyclerView_countryDialog = dialog!!.findViewById(R.id.recycler_countryDialog) as RecyclerView
         val textViewTitle = dialog!!.findViewById(R.id.tvTitle) as TextView

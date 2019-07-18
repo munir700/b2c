@@ -20,7 +20,7 @@ import androidx.annotation.DrawableRes
 import androidx.annotation.RequiresApi
 import co.yap.yapcore.R
 
-class CircularImageView : androidx.appcompat.widget.AppCompatImageView {
+class CoreCircularImageView :ImageView {
 
     private val mDrawableRect = RectF()
     private val mBorderRect = RectF()
@@ -111,13 +111,13 @@ class CircularImageView : androidx.appcompat.widget.AppCompatImageView {
     @JvmOverloads
     constructor(context: Context, attrs: AttributeSet, defStyle: Int = 0) : super(context, attrs, defStyle) {
 
-        val a = context.obtainStyledAttributes(attrs, R.styleable.CircularImageView, defStyle, 0)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.CoreCircularImageView, defStyle, 0)
 
-        mBorderWidth = a.getDimensionPixelSize(R.styleable.CircularImageView_civ_border_width, DEFAULT_BORDER_WIDTH)
-        mBorderColor = a.getColor(R.styleable.CircularImageView_civ_border_color, DEFAULT_BORDER_COLOR)
-        mBorderOverlay = a.getBoolean(R.styleable.CircularImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY)
+        mBorderWidth = a.getDimensionPixelSize(R.styleable.CoreCircularImageView_civ_border_width, DEFAULT_BORDER_WIDTH)
+        mBorderColor = a.getColor(R.styleable.CoreCircularImageView_civ_border_color, DEFAULT_BORDER_COLOR)
+        mBorderOverlay = a.getBoolean(R.styleable.CoreCircularImageView_civ_border_overlay, DEFAULT_BORDER_OVERLAY)
         mCircleBackgroundColor =
-            a.getColor(R.styleable.CircularImageView_civ_circle_background_color, DEFAULT_CIRCLE_BACKGROUND_COLOR)
+            a.getColor(R.styleable.CoreCircularImageView_civ_circle_background_color, DEFAULT_CIRCLE_BACKGROUND_COLOR)
 
         a.recycle()
 
@@ -372,7 +372,7 @@ class CircularImageView : androidx.appcompat.widget.AppCompatImageView {
 
     companion object {
 
-        private val SCALE_TYPE = ImageView.ScaleType.CENTER_CROP
+        private val SCALE_TYPE = ScaleType.FIT_XY
 
         private val BITMAP_CONFIG = Bitmap.Config.ARGB_8888
         private val COLORDRAWABLE_DIMENSION = 2

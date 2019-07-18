@@ -697,6 +697,7 @@ class CountryCodePicker : RelativeLayout {
             if (rememberLastSelection && !isInEditMode()) {
                 loadLastSelectedCountryInCCP()
             }
+
             val arrowColor: Int
             arrowColor = a.getColor(R.styleable.CountryCodePicker_ccp_arrowColor, DEFAULT_UNSET)
             val contentColor: Int
@@ -742,9 +743,7 @@ class CountryCodePicker : RelativeLayout {
         } catch (e: Exception) {
             val sw = StringWriter()
             val pw = PrintWriter(sw)
-            e.printStackTrace(pw)
-            textView_selectedCountry!!.setMaxLines(25)
-            textView_selectedCountry!!.setTextSize(10F)
+            e.printStackTrace(pw) 
 //            tvSelectedCountry!!.setText(sw.toString())
         } finally {
             a.recycle()
@@ -1406,13 +1405,13 @@ class CountryCodePicker : RelativeLayout {
         }
 
         // adds name code if required
-        if (showNameCode) {
-            if (showFullName) {
-                displayText += " (" + selectedCCPCountry.name.toUpperCase() + ")"
-            } else {
-                displayText += " " + selectedCCPCountry.name.toUpperCase()
-            }
-        }
+//        if (showNameCode) {
+//            if (showFullName) {
+//                displayText += " (" + selectedCCPCountry.name.toUpperCase() + ")"
+//            } else {
+//                displayText += " " + selectedCCPCountry.name.toUpperCase()
+//            }
+//        }
 
         // hide phone code if required
         if (showPhoneCode) {

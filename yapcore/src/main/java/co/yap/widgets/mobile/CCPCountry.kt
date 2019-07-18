@@ -1111,10 +1111,8 @@ class CCPCountry : Comparable<CCPCountry> {
         val libraryMasterCountriesEnglish: MutableList<CCPCountry>
             get() {
                 val countries = ArrayList<CCPCountry>()
-                countries.add(CCPCountry("ad", "376", "Andorra", DEFAULT_FLAG_RES))
-                countries.add(CCPCountry("ae", "971", "UAE", DEFAULT_FLAG_RES))
-//                countries.add(CCPCountry("ae", "971", "United Arab Emirates (UAE)", DEFAULT_FLAG_RES))
-                countries.add(CCPCountry("af", "93", "Afghanistan", DEFAULT_FLAG_RES))
+                 countries.add(CCPCountry("ae", "971", "UAE", DEFAULT_FLAG_RES))
+                 countries.add(CCPCountry("af", "93", "Afghanistan", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("ag", "1", "Antigua and Barbuda", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("ai", "1", "Anguilla", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("al", "355", "Albania", DEFAULT_FLAG_RES))
