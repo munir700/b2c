@@ -109,4 +109,10 @@
     <string name="screen_meeting_confirmation_display_text_emirates_id">Emirates ID</string>
     <string name="screen_meeting_confirmation_button_go_to_dashboard">Go to dashboard</string>
 
+    <!--TODO refactor these strings-->
+    <!-- Country not allowed screen -->
+    <string name="screen_country_not_allowed_display_text_title">Looks like you\'re from the United States</string>
+    <string name="screen_country_not_allowed_display_text_guide">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
+    <string name="screen_country_not_allowed_button_go_to_dashboard">Go to dashboard</string>
+
 </resources>
