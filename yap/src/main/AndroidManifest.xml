@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".modules.onboarding.activities.WelcomeActivity"
+            android:name=".app.modules.startup.activities.WelcomeActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"

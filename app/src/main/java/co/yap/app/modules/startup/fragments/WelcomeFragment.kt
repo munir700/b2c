@@ -1,13 +1,12 @@
-package co.yap.modules.onboarding.fragments
+package co.yap.app.modules.startup.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
-import co.yap.R
-import co.yap.modules.onboarding.activities.OnboardingActivity
-import co.yap.modules.onboarding.adapters.WelcomePagerAdapter
+import co.yap.app.R
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.viewmodels.WelcomeViewModel
@@ -28,7 +27,7 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
 
         viewModel.accountType = getAccountType()
         val pager = view?.findViewById<ViewPager>(R.id.welcome_pager)
-        pager?.adapter = WelcomePagerAdapter(
+        pager?.adapter = co.yap.app.modules.startup.adapters.WelcomePagerAdapter(
             context = requireContext(),
             contents = viewModel.getPages(),
             layout = R.layout.content_onboarding_welcome
@@ -42,8 +41,7 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
         arguments?.getSerializable(getString(R.string.arg_account_type)) as AccountType
 
     private val getStartedButtonObserver = Observer<Boolean> {
-        startActivity(OnboardingActivity.newIntent(requireContext(), getAccountType()))
-        // finish()
+        findNavController().navigate(R.id.action_welcomeFragment_to_onboardingActivity, arguments)
     }
 
     override fun onDestroyView() {

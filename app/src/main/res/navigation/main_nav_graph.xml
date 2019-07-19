@@ -56,11 +56,23 @@
     <fragment
         android:id="@+id/welcomeFragment"
         tools:layout="@layout/screen_onboarding_welcome"
-        android:name="co.yap.modules.onboarding.fragments.WelcomeFragment"
+        android:name="co.yap.app.modules.startup.fragments.WelcomeFragment"
         android:label="WelcomeFragment">
         <argument
             android:name="@string/arg_account_type"
-            app:argType="co.yap.modules.onboarding.enums.AccountType"
-            />
+            app:argType="co.yap.modules.onboarding.enums.AccountType"/>
+        <action
+            android:id="@+id/action_welcomeFragment_to_onboardingActivity"
+            app:popUpTo="@id/accountSelectionFragment"
+            app:destination="@id/onboardingActivity"/>
     </fragment>
+    <activity
+        android:id="@+id/onboardingActivity"
+        tools:layout="@layout/activity_onboarding_navigation"
+        android:name="co.yap.modules.onboarding.activities.OnboardingActivity"
+        android:label="OnboardingActivity">
+        <argument
+            android:name="@string/arg_account_type"
+            app:argType="co.yap.modules.onboarding.enums.AccountType"/>
+    </activity>
 </navigation>

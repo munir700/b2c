@@ -11,8 +11,7 @@
         android:label="EmailFragment">
         <action
             android:id="@+id/action_emailFragment_to_congratulationsFragment"
-            app:destination="@id/congratulationsFragment"
-            />
+            app:destination="@id/congratulationsFragment"/>
     </fragment>
 
     <fragment
@@ -22,8 +21,7 @@
         android:label="NameFragment">
         <action
             android:id="@+id/action_nameFragment_to_emailFragment"
-            app:destination="@id/emailFragment"
-            />
+            app:destination="@id/emailFragment"/>
     </fragment>
 
     <fragment
@@ -56,8 +54,7 @@
         android:label="CongratulationsFragment">
         <action
             android:id="@+id/action_congratulationsFragment_to_liteDashboardActivity"
-            app:destination="@id/liteDashboardActivity"
-            />
+            app:destination="@id/liteDashboardActivity"/>
     </fragment>
     <activity
         android:id="@+id/createPasscodeActivity2"

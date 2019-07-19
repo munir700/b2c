@@ -1,4 +1,4 @@
-package co.yap.modules.onboarding.adapters
+package co.yap.app.modules.startup.adapters
 
 import android.content.Context
 import android.view.LayoutInflater

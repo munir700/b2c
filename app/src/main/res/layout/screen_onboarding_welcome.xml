@@ -48,7 +48,6 @@
             android:layout_gravity="center_horizontal"
             style="@style/RectangleBtnStyle"
             android:textColor="@color/colorWhite"
-
             android:onClick="@{(v)->viewModel.handlePressOnGetStarted()}"
             app:text="@{Strings.screen_welcom_button_get_started}"
             android:layout_margin="24dp"
