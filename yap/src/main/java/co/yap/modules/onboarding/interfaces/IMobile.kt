@@ -26,5 +26,6 @@ interface IMobile {
         var setSelection: Int
         var handleBackPress: Int
         var inputText: SpannableStringBuilder
+        var errorVisibility: String
     }
 }

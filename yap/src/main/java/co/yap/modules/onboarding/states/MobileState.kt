@@ -15,6 +15,7 @@ import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.yapcore.BaseState
 
 class MobileState(application: Application) : BaseState(), IMobile.State {
+
     val mContext = application.applicationContext
     var countryCode: String = "+971 "
     var PHONE_NUMBER_LENGTH: Int = 16
@@ -22,6 +23,15 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     var twoDigitStr: String = ""
     var threeDigitStr: String = ""
     var fourDigitStr: String = ""
+
+    @get:Bindable
+    override var errorVisibility: String = "gone"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.errorVisibility)
+        }
+        get() = field
+
 
     @get:Bindable
     override var drawbleRight: Drawable? = null

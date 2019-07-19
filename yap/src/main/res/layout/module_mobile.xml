@@ -20,50 +20,50 @@
         android:layout_height="match_parent"
         >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:background="#e5e5e5"
-            android:padding="8dp">
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="16dp"-->
+            <!--android:layout_marginLeft="16dp"-->
+            <!--android:layout_marginRight="16dp"-->
+            <!--android:background="#e5e5e5"-->
+            <!--android:padding="8dp">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="vertical">-->
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Phone number"
-                    android:textSize="18sp"/>
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="Phone number"-->
+                    <!--android:textSize="18sp"/>-->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                <!--<LinearLayout-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center_vertical">-->
 
-                    <co.yap.widgets.mobile.CountryCodePicker
-                        android:id="@+id/ccpSelector"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:ccp_hintExampleNumber="true"
-                        app:ccp_countryPreference="us,in"/>
+                    <!--<co.yap.widgets.mobile.CountryCodePicker-->
+                        <!--android:id="@+id/ccpSelector"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--app:ccp_hintExampleNumber="true"-->
+                        <!--app:ccp_countryPreference="us,in"/>-->
 
-                    <EditText
-                        android:id="@+id/etMobileNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:editable="false"
-                        android:hint="phone"
-                        android:inputType="phone"
-                        android:singleLine="true"
-                        android:textColor="@android:color/black"/>
-                </LinearLayout>
+                    <!--<EditText-->
+                        <!--android:id="@+id/etMobileNumber"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:editable="false"-->
+                        <!--android:hint="phone"-->
+                        <!--android:inputType="phone"-->
+                        <!--android:singleLine="true"-->
+                        <!--android:textColor="@android:color/black"/>-->
+                <!--</LinearLayout>-->
 
-            </LinearLayout>
-        </RelativeLayout>
+            <!--</LinearLayout>-->
+        <!--</RelativeLayout>-->
     </LinearLayout>
 </layout>

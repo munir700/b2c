@@ -15,7 +15,7 @@ import kotlinx.android.synthetic.main.fragment_mobile.*
 
 class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
-    override fun getBindingVariable(): Int = BR.mobileViewModel
+    override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_mobile
 
     override val viewModel: IMobile.ViewModel
@@ -54,9 +54,6 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
                     ccpContainer.setBackgroundResource(R.drawable.bg_round_error_layout)
 
                     etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.invalid_name, 0)
-//                    etMobileNumber.setCompoundDrawables(l,t,r,b)
-//                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_late_black_24dp))
-//                    tvValidity
                     tvMobileError.setText("Invalid Number")
                     tvMobileError.visibility = View.VISIBLE
                 }
