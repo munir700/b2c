@@ -3,10 +3,20 @@ package co.yap.modules.onboarding.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
 import co.yap.R
+import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
+import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
+import co.yap.yapcore.BaseBindingActivity
 
-class MeetingConfirmationActivity : AppCompatActivity() {
+class MeetingConfirmationActivity : BaseBindingActivity<IMeetingConfirmation.viewModel>() {
+    override fun getBindingVariable(): Int = BR.viewModel
+    override fun getLayoutId(): Int = R.layout.activity_meeting_confirmation
+
+    override val viewModel: IMeetingConfirmation.viewModel
+        get() = ViewModelProviders.of(this).get(MeetingConfirmationViewModel::class.java)
 
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, MeetingConfirmationActivity::class.java)
@@ -14,7 +24,11 @@ class MeetingConfirmationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_meeting_confirmation)
+        viewModel.goToDashboardButtonPressEvent.observe(this,gotoDashboardPressEvent)
+
+    }
+    private val gotoDashboardPressEvent=Observer<Boolean>{
+
     }
 
 }
