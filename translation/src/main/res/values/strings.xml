@@ -102,4 +102,11 @@
     <!-- Otp screen -->
     <string name="screen_verify_phone_number_display_text_resend_otp_success">New OTP has been generated successfully</string>
 
+
+    <!-- Meeting confirmation screen -->
+    <string name="screen_meeting_confirmation_display_text_title">Your card is on it\'s way!</string>
+    <string name="screen_meeting_confirmation_display_text_guide">Make sure you have your Emirates ID on you at the time of delivery</string>
+    <string name="screen_meeting_confirmation_display_text_emirates_id">Emirates ID</string>
+    <string name="screen_meeting_confirmation_button_go_to_dashboard">Go to dashboard</string>
+
 </resources>

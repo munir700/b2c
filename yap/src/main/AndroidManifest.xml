@@ -25,5 +25,9 @@
         <activity
             android:name=".modules.onboarding.activities.CreatePasscodeActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.onboarding.activities.MeetingConfirmationActivity"
+            android:screenOrientation="portrait"
+            />
     </application>
 </manifest>
