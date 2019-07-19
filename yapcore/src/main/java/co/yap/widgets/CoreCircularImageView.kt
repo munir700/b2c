@@ -372,7 +372,7 @@ class CoreCircularImageView :ImageView {
 
     companion object {
 
-        private val SCALE_TYPE = ScaleType.FIT_XY
+        private val SCALE_TYPE = ScaleType.CENTER_CROP
 
         private val BITMAP_CONFIG = Bitmap.Config.ARGB_8888
         private val COLORDRAWABLE_DIMENSION = 2

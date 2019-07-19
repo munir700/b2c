@@ -733,7 +733,7 @@ class CountryCodePicker : RelativeLayout {
             val textSize = a.getDimensionPixelSize(R.styleable.CountryCodePicker_ccp_textSize, 0)
             if (textSize > 0) {
                 textView_selectedCountry!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
-                setFlagSize(textSize)
+//                setFlagSize(textSize)
             }
             //if arrow size is explicitly defined
             val arrowSize = a.getDimensionPixelSize(R.styleable.CountryCodePicker_ccp_arrowSize, 0)
@@ -1139,7 +1139,7 @@ class CountryCodePicker : RelativeLayout {
     fun setTextSize(textSize: Int) {
         if (textSize > 0) {
             textView_selectedCountry!!.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize.toFloat())
-            setFlagSize(textSize)
+//            setFlagSize(textSize)
         }
     }
 
@@ -1163,8 +1163,8 @@ class CountryCodePicker : RelativeLayout {
     }
 
     fun setFlagSize(flagSize: Int) {
-        imageViewFlag!!.getLayoutParams().height = flagSize
-        imageViewFlag!!.requestLayout()
+//        imageViewFlag!!.getLayoutParams().height = flagSize
+//        imageViewFlag!!.requestLayout()
     }
 
     fun showFlag(showFlag: Boolean) {

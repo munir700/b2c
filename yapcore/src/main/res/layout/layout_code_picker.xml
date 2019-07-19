@@ -27,10 +27,9 @@
 
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/ivFlag"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/_24sdp"
                     android:layout_height="@dimen/_24sdp"
                     android:layout_margin="0.5dp"
-                    android:scaleType="fitXY"
                     />
             </LinearLayout>
         </LinearLayout>
@@ -43,8 +42,7 @@
             android:layout_toRightOf="@+id/llFlagHolder"
             android:singleLine="true"
             android:paddingStart="@dimen/margin_small"
-            style="@style/RegularGrey"
-            />
+            style="@style/RegularGrey"/>
 
     </RelativeLayout>
 </RelativeLayout>

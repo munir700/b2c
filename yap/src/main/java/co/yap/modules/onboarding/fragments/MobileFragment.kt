@@ -1,8 +1,8 @@
 package co.yap.modules.onboarding.fragments
 
-import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -33,7 +33,7 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     private fun registerCarrierEditText() {
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(this!!.context!!)
-        ccpLoadNumber!!.registerCarrierNumberEditText(editText_loadCarrierNumber)
+        ccpLoadNumber!!.registerCarrierNumberEditText(etMobileNumber)
 //         ccpLoadNumber.setTypeFace()
 
         ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
@@ -43,11 +43,22 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
                     Log.i("tvValidity", "Valid Number")
 //                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_turned_in_black_24dp))
 //                    tvValidity.setText("Valid Number")
+                    ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
+                    etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.path, 0)
+                    tvMobileError.visibility = View.GONE
+
+//                    ccpContainer.isActivated=false
                 } else {
                     Log.i("tvValidity", "Invalid Number")
 
+                    ccpContainer.setBackgroundResource(R.drawable.bg_round_error_layout)
+
+                    etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.invalid_name, 0)
+//                    etMobileNumber.setCompoundDrawables(l,t,r,b)
 //                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_late_black_24dp))
-//                    tvValidity.setText("Invalid Number")
+//                    tvValidity
+                    tvMobileError.setText("Invalid Number")
+                    tvMobileError.visibility = View.VISIBLE
                 }
             }
         })

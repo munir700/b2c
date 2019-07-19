@@ -46,14 +46,14 @@
                     android:gravity="center_vertical">
 
                     <co.yap.widgets.mobile.CountryCodePicker
-                        android:id="@+id/ccp_loadFullNumber"
+                        android:id="@+id/ccpSelector"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         app:ccp_hintExampleNumber="true"
                         app:ccp_countryPreference="us,in"/>
 
                     <EditText
-                        android:id="@+id/editText_loadCarrierNumber"
+                        android:id="@+id/etMobileNumber"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:editable="false"
