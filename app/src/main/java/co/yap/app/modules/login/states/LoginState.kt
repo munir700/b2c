@@ -87,7 +87,7 @@ class LoginState : BaseState(), ILogin.State {
         refreshField = true
         valid = true
         emailError = ""
-//        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+        drawbleRight = null
     }
 
 }

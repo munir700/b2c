@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.viewpager.widget.ViewPager
+import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.adapters.WelcomePagerAdapter
 import co.yap.modules.onboarding.enums.AccountType
@@ -15,7 +17,7 @@ import co.yap.yapcore.BaseBindingActivity
 import com.tbuonomo.viewpagerdotsindicator.DotsIndicator
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
-class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View {
+class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>() {
     companion object {
 
         private val ACCOUNT_TYPE = "account_type"
@@ -27,7 +29,7 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View
         }
     }
 
-    override fun getBindingVariable(): Int = 0
+    override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.screen_onboarding_welcome
 
@@ -46,15 +48,20 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>(), IWelcome.View
         )
 
         findViewById<WormDotsIndicator>(R.id.worm_dots_indicator).setViewPager(pager)
+        viewModel.onGetStartedPressEvent.observe(this,getStartedButtonObserver)
     }
 
     private fun getAccountType(): AccountType {
         return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }
 
-    override fun onPressGetStarted(view: View) {
-        viewModel.handlePressOnGetStarted()
+    private val getStartedButtonObserver = Observer<Boolean> {
         startActivity(OnboardingActivity.newIntent(this, getAccountType()))
         finish()
+    }
+
+    override fun onDestroy() {
+        viewModel.onGetStartedPressEvent.removeObservers(this)
+        super.onDestroy()
     }
 }

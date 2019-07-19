@@ -10,8 +10,10 @@ import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.modules.onboarding.states.WelcomeState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleLiveEvent
 
 class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>(application), IWelcome.ViewModel {
+    override var onGetStartedPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     override lateinit var accountType: AccountType
 
@@ -19,9 +21,11 @@ class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>
         get() = WelcomeState()
 
     override fun handlePressOnGetStarted() {
+        onGetStartedPressEvent.value = true
     }
 
-    override fun getPages(): ArrayList<WelcomeContent> = if (accountType == AccountType.B2C_ACCOUNT) generateB2CPages() else generateB2BPages()
+    override fun getPages(): ArrayList<WelcomeContent> =
+        if (accountType == AccountType.B2C_ACCOUNT) generateB2CPages() else generateB2BPages()
 
     fun generateB2BPages(): ArrayList<WelcomeContent> {
         val content1 = WelcomeContent(

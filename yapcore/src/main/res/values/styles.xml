@@ -15,7 +15,7 @@
     <style name="CustomDialog">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowBackground">@color/semiBack</item>
         <item name="android:windowAnimationStyle">@null</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowNoTitle">true</item>
