@@ -6,9 +6,7 @@ import androidx.databinding.ViewDataBinding
 import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.modules.login.activities.LogInActivity
-import co.yap.modules.onboarding.activities.CountryNotAllowedActivity
-import co.yap.modules.onboarding.activities.WelcomeActivity
-import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.onboarding.activities.InvalidCountryActivity
 import co.yap.yapcore.defaults.DefaultActivity
 import kotlinx.android.synthetic.main.activity_account_selection.*
 
@@ -29,7 +27,7 @@ class AccountSelectionActivity : DefaultActivity() {
 
         btnPersonal.setOnClickListener {
             //    startActivity(WelcomeActivity.newIntent(this, AccountType.B2C_ACCOUNT))
-            startActivity(CountryNotAllowedActivity.newIntent(context = this))
+            startActivity(InvalidCountryActivity.newIntent(context = this))
         }
 
         tvSignIn.setOnClickListener {

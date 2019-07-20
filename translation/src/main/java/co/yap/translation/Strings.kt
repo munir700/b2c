@@ -127,8 +127,8 @@ object Strings {
         "screen_meeting_confirmation_button_go_to_dashboard"
 
     //country not allowed screen
-    const val screen_country_not_allowed_display_text_title: String = "screen_country_not_allowed_display_text_title"
-    const val screen_country_not_allowed_display_text_guide: String = "screen_country_not_allowed_display_text_guide"
-    const val screen_country_not_allowed_button_go_to_dashboard: String = "screen_country_not_allowed_button_go_to_dashboard"
+    const val screen_kyc_invalid_country_display_text_title: String = "screen_kyc_invalid_country_display_text_title"
+    const val screen_kyc_invalid_country_display_text_explaination: String = "screen_kyc_invalid_country_display_text_explaination"
+    const val screen_kyc_invalid_country_button_go_to_dashboard: String = "screen_kyc_invalid_country_button_go_to_dashboard"
 
 }
