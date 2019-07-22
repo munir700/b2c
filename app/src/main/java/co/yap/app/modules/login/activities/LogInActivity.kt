@@ -13,6 +13,8 @@ import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.yapcore.BaseBindingActivity
 
+// TODO: Remove this file once all references are invalid
+@Deprecated("Use LoginFragment instead")
 class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
 
     companion object {

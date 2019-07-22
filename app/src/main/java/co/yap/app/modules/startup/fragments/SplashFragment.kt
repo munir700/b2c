@@ -35,7 +35,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(),
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
                     findNavController().navigate(R.id.action_splashFragment_to_accountSelectionFragment)
                 } else {
-                    findNavController().navigate(R.id.action_splashFragment_to_logInActivity)
+                    findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
                 }
             }
         })

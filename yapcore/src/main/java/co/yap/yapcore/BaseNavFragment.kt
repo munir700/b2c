@@ -23,16 +23,15 @@ abstract class BaseNavFragment : Fragment() {
 
     }
 
-//    protected fun navigate(destinationId: Int, args: Bundle? = null, optionsBuilder: NavOptions.Builder.() -> Unit?) {
-//        findNavController().navigate(destinationId, args, NavOptions.Builder().apply {
-//            setEnterAnim(defaultAnimation.enter)
-//            setExitAnim(defaultAnimation.exit)
-//            setPopEnterAnim(defaultAnimation.popEnter)
-//            setPopExitAnim(defaultAnimation.popExit)
-//        }.let{
-//            optionsBuilder
-//        }.build())
-//    }
+    protected fun navigate(destinationId: Int, args: Bundle? = null, optionsBuilder: NavOptions.Builder.() -> Unit?) {
+        findNavController().navigate(destinationId, args, NavOptions.Builder().apply {
+            setEnterAnim(defaultAnimation.enter)
+            setExitAnim(defaultAnimation.exit)
+            setPopEnterAnim(defaultAnimation.popEnter)
+            setPopExitAnim(defaultAnimation.popExit)
+            optionsBuilder
+        }.build())
+    }
 
     protected fun navigateBack(destinationId: Int = -1, inclusive: Boolean = false) {
         if (destinationId != -1) {

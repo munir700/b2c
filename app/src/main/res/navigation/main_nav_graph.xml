@@ -16,15 +16,15 @@
             app:popUpTo="@id/main_nav_graph"
             app:popUpToInclusive="true"/>
         <action
-            android:id="@+id/action_splashFragment_to_logInActivity"
-            app:destination="@id/logInActivity"
-            app:popUpTo="@id/main_nav_graph"
-            app:popUpToInclusive="true"/>
-        <action
             android:id="@+id/action_splashFragment_to_verifyPasscodeActivity"
             app:destination="@id/verifyPasscodeActivity"
             app:popUpTo="@id/main_nav_graph"
             app:popUpToInclusive="true"/>
+        <action
+            android:id="@+id/action_splashFragment_to_loginFragment"
+            app:popUpTo="@id/main_nav_graph"
+            app:popUpToInclusive="true"
+            app:destination="@id/loginFragment"/>
     </fragment>
     <fragment
         android:id="@+id/accountSelectionFragment"
@@ -32,17 +32,14 @@
         tools:layout="@layout/activity_account_selection"
         android:label="AccountSelectionFragment">
         <action
-            android:id="@+id/action_accountSelectionFragment_to_logInActivity"
-            app:destination="@id/logInActivity"/>
-        <action
             android:id="@+id/action_accountSelectionFragment_to_welcomeFragment"
             app:destination="@id/welcomeFragment"/>
+        <action
+            android:id="@+id/action_accountSelectionFragment_to_loginFragment"
+            app:popUpToInclusive="true"
+            app:popUpTo="@id/accountSelectionFragment"
+            app:destination="@id/loginFragment"/>
     </fragment>
-    <activity
-        android:id="@+id/logInActivity"
-        tools:layout="@layout/screen_log_in"
-        android:name="co.yap.app.modules.login.activities.LogInActivity"
-        android:label="LogInActivity"/>
     <activity
         android:id="@+id/verifyPasscodeActivity"
         tools:layout="@layout/activity_verify_passcode"
@@ -75,4 +72,15 @@
             android:name="@string/arg_account_type"
             app:argType="co.yap.modules.onboarding.enums.AccountType"/>
     </activity>
+    <fragment
+        android:id="@+id/loginFragment"
+        tools:layout="@layout/screen_log_in"
+        android:name="co.yap.app.modules.login.fragments.LoginFragment"
+        android:label="LoginFragment">
+        <action
+            android:id="@+id/action_loginFragment_to_accountSelectionFragment"
+            app:popUpTo="@id/loginFragment"
+            app:popUpToInclusive="true"
+            app:destination="@id/accountSelectionFragment"/>
+    </fragment>
 </navigation>
