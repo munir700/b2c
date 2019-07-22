@@ -44,11 +44,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_16sdp"
             android:orientation="vertical">
+            <!--android:background="@drawable/bg_round_edit_text"-->
 
             <LinearLayout
                 android:id="@+id/ccpContainer"
                 android:layout_width="match_parent"
-                android:background="@drawable/bg_round_edit_text"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:layout_height="@dimen/_52sdp"

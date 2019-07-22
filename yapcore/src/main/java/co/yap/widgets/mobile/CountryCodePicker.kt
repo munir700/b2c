@@ -109,7 +109,7 @@ class CountryCodePicker : RelativeLayout {
     private var isAutoDetectLanguageEnabled = false
     private var isAutoDetectCountryEnabled = false
     private var numberAutoFormattingEnabled = true
-     private var hintExampleNumberEnabled = false
+    private var hintExampleNumberEnabled = false
     private var xmlWidth = "notSet"
     private var validityTextWatcher: TextWatcher? = null
     private var formattingTextWatcher: InternationalPhoneTextWatcher? = null
@@ -449,8 +449,8 @@ class CountryCodePicker : RelativeLayout {
             return selectedCountry!!.englishName!!
         }
 
-    val selectedCountryNameCode: String?=null
-//        get() {
+    val selectedCountryNameCode: String? = null
+    //        get() {
 //            return getSelectedCountry()!!.getnameCode().toUpperCase()
 //        }
     private val enteredPhoneNumber: Phonenumber.PhoneNumber
@@ -539,7 +539,9 @@ class CountryCodePicker : RelativeLayout {
     fun isValidFullNumber(): Boolean {
         try {
             if (getEditText_registeredCarrierNumber() != null && getEditText_registeredCarrierNumber().text.length != 0) {
-                val phoneNumber = getPhoneUtil().parse("+" + getSelectedCountry()!!.getphoneCode() + getEditText_registeredCarrierNumber().text.toString(), getSelectedCountry()!!.getnameCode()
+                val phoneNumber = getPhoneUtil().parse(
+                    "+" + getSelectedCountry()!!.getphoneCode() + getEditText_registeredCarrierNumber().text.toString(),
+                    getSelectedCountry()!!.getnameCode()
                 )
                 return getPhoneUtil().isValidNumber(phoneNumber)
             } else if (getEditText_registeredCarrierNumber() == null) {
@@ -609,7 +611,7 @@ class CountryCodePicker : RelativeLayout {
         relativeClickConsumer = findViewById(R.id.rlContainer)
 
         relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
-        detectCountryWithAreaCode=true
+        detectCountryWithAreaCode = true
         updateFormattingTextWatcher()
     }
 
@@ -1001,6 +1003,7 @@ class CountryCodePicker : RelativeLayout {
 
         return code
     }
+
     private fun getselectedCountryCode(): String {
         return getSelectedCountry()!!.phoneCode
     }
@@ -1474,7 +1477,7 @@ class CountryCodePicker : RelativeLayout {
             if (selectedCCPCountry == null) {
 
                 setSelectedCountry(getDefaultCountry())
-        }
+            }
         }
 
         return selectedCCPCountry
@@ -1523,16 +1526,6 @@ class CountryCodePicker : RelativeLayout {
         if (showFullName) {
             displayText = displayText + selectedCCPCountry.name
         }
-
-        // adds name code if required
-//        if (showNameCode) {
-//            if (showFullName) {
-//                displayText += " (" + selectedCCPCountry.name.toUpperCase() + ")"
-//            } else {
-//                displayText += " " + selectedCCPCountry.name.toUpperCase()
-//            }
-//        }
-
         // hide phone code if required
         if (showPhoneCode) {
             if (displayText.length > 0) {

@@ -14,7 +14,6 @@ import kotlinx.android.synthetic.main.fragment_mobile.*
 
 
 class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
-
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_mobile
 
@@ -34,18 +33,23 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
     private fun registerCarrierEditText() {
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(this!!.context!!)
         ccpLoadNumber!!.registerCarrierNumberEditText(etMobileNumber)
-//         ccpLoadNumber.setTypeFace()
 
         ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
             CountryCodePicker.PhoneNumberValidityChangeListener {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
                     Log.i("tvValidity", "Valid Number")
-
+                    ccpContainer.isActivated = true
+                    ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
                     etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.path, 0)
                     tvMobileError.visibility = View.GONE
-                    ccpContainer.isActivated=true
-                    ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
+                    ccpContainer.setPadding(
+                        resources.getDimensionPixelSize(R.dimen.margin_medium),
+                        0,
+                        resources.getDimensionPixelSize(R.dimen.margin_medium),
+                        0
+                    )
+
                 } else {
                     Log.i("tvValidity", "Invalid Number")
 
