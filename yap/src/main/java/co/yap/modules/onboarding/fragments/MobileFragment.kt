@@ -38,29 +38,96 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
             CountryCodePicker.PhoneNumberValidityChangeListener {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
+                    if (etMobileNumber.getText().trim().length >= 7) {
+                        setErrorLayout()
+//                        ccpContainer.setBackgroundResource(R.drawable.bg_round_error_layout)
+//
+//                        etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.invalid_name, 0)
+//                        tvMobileError.setText("Invalid Number")
+                    } else if (etMobileNumber.text.length == 11) {
+                        etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.path, 0)
+                        //enable btn blue
+                        setNormalUI()
+
+                    } else {
+                        etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                        //disable btn grey
+                    }
                     Log.i("tvValidity", "Valid Number")
-                    ccpContainer.isActivated = true
-                    ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
-                    etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.path, 0)
-                    tvMobileError.visibility = View.GONE
-                    ccpContainer.setPadding(
-                        resources.getDimensionPixelSize(R.dimen.margin_medium),
-                        0,
-                        resources.getDimensionPixelSize(R.dimen.margin_medium),
-                        0
-                    )
+
+//                    ccpContainer.isActivated = true
+//                    ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
+//                    tvMobileError.visibility = View.GONE
+//                    ccpContainer.setPadding(
+//                        resources.getDimensionPixelSize(R.dimen.margin_medium),
+//                        0,
+//                        resources.getDimensionPixelSize(R.dimen.margin_medium),
+//                        0
+//                    )
+                    setNormalUI()
 
                 } else {
-                    Log.i("tvValidity", "Invalid Number")
+//                    ccpContainer.isActivated = true
+//                    ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
+//                    ccpContainer.setPadding(
+//                        resources.getDimensionPixelSize(R.dimen.margin_medium),
+//                        0,
+//                        resources.getDimensionPixelSize(R.dimen.margin_medium),
+//                        0
+//                    )
+//                    etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+                    setNormalUI()
+                    Log.i("tvValidity", "Invalid Number" + etMobileNumber.text.trim().length.toString())
 
-                    ccpContainer.setBackgroundResource(R.drawable.bg_round_error_layout)
+                    if (etMobileNumber.getText().trim().length >= 7) {
+                        Log.i("tvValidity", "Invalid")
+                        Log.i(
+                            "tvValidity",
+                            etMobileNumber.text.trim().toString() + "   " + etMobileNumber.text.trim().length.toString()
+                        )
+                        Log.i(
+                            "tvValidity",
+                            etMobileNumber.text.toString() + "   " + etMobileNumber.text.length.toString()
+                        )
 
-                    etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.invalid_name, 0)
-                    tvMobileError.setText("Invalid Number")
-                    tvMobileError.visibility = View.VISIBLE
+                        setErrorLayout()
+                    } else {
+                        etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
+
+                        Log.i(
+                            "tvValidity",
+                            "else" + etMobileNumber.text.trim().toString() + "   " + etMobileNumber.text.trim().length.toString()
+                        )
+                        //
+
+                        setNormalUI()
+                    }
+
                 }
             }
         })
+    }
+
+    private fun setErrorLayout() {
+        ccpContainer.isActivated = true
+        ccpContainer.setBackgroundResource(R.drawable.bg_round_error_layout)
+
+        etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.invalid_name, 0)
+        tvMobileError.setText("Invalid Number")
+        tvMobileError.visibility = View.VISIBLE
+    }
+
+    private fun setNormalUI() {
+        tvMobileError.visibility = View.GONE
+        ccpContainer.isActivated = true
+        ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
+        ccpContainer.setPadding(
+            resources.getDimensionPixelSize(R.dimen.margin_medium),
+            0,
+            resources.getDimensionPixelSize(R.dimen.margin_medium),
+            0
+        )
+        etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
     }
 
     override fun onDestroyView() {

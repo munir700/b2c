@@ -51,8 +51,9 @@
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:layout_height="@dimen/_52sdp"
+                android:layout_height="wrap_content"
                 android:weightSum="1"
+                android:minHeight="52dp"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium">
 
@@ -63,7 +64,8 @@
                     android:layout_weight=".01"
                     app:ccp_hintExampleNumber="true"
                     app:ccp_countryPreference="us,ae"
-                    android:visibility="visible"/>
+                    android:visibility="visible"
+                    android:clickable="false"/>
 
                 <EditText
                     android:id="@+id/etMobileNumber"

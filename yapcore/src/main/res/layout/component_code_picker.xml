@@ -8,9 +8,7 @@
         android:id="@+id/rlContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="@dimen/_52sdp"
-        android:background="@drawable/component_selectable_bg"
-        android:padding="8dp">
+          android:paddingRight="8dp">
 
         <LinearLayout
             android:id="@+id/llFlagHolder"
@@ -23,14 +21,16 @@
                 android:id="@+id/llFlag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent">
+                android:background="@android:color/transparent"
+                android:layout_marginRight="@dimen/margin_small"
+                >
 
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/ivFlag"
                     android:layout_width="@dimen/_24sdp"
                     android:layout_height="@dimen/_24sdp"
                     android:layout_margin="0.5dp"
-                    />
+                     />
             </LinearLayout>
         </LinearLayout>
 
@@ -41,8 +41,7 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/llFlagHolder"
             android:singleLine="true"
-            android:paddingStart="@dimen/margin_small"
-            style="@style/RegularGrey"/>
+             style="@style/RegularGrey"/>
 
     </RelativeLayout>
 </RelativeLayout>

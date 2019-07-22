@@ -158,18 +158,6 @@ class CountryCodePicker : RelativeLayout {
             }
         }
     }
-        private set
-
-//    private var isNumberAutoFormattingEnabled: Boolean
-//        get() {
-//            return numberAutoFormattingEnabled
-//        }
-//        set(numberAutoFormattingEnabled) {
-//            this.numberAutoFormattingEnabled = numberAutoFormattingEnabled
-//            if (editText_registeredCarrierNumber != null) {
-//                updateFormattingTextWatcher()
-//            }
-//        }
 
     private fun isNumberAutoFormattingEnabled(): Boolean {
         return numberAutoFormattingEnabled
@@ -242,54 +230,6 @@ class CountryCodePicker : RelativeLayout {
                 else -> return PhoneNumberUtil.PhoneNumberType.MOBILE
             }
         }
-
-//    private val countryDetectorTextWatcher: TextWatcher
-//        get() {
-//            if (editText_registeredCarrierNumber != null) {
-//                if (areaCodeCountryDetectorTextWatcher == null) {
-//                    areaCodeCountryDetectorTextWatcher = object : TextWatcher {
-//                        private var lastCheckedNumber: String? = null
-//                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-//                        }
-//
-//                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//                            var selectedCountry = selectedCountry
-//                            if (selectedCountry != null && (lastCheckedNumber == null || lastCheckedNumber != s.toString()) && countryDetectionBasedOnAreaAllowed) {
-//                                if (currentCountryGroup != null) {
-//                                    val enteredValue = getEditText_registeredCarrierNumber().getText().toString()
-//                                    if (enteredValue.length >= currentCountryGroup!!.areaCodeLength) {
-//                                        val digitsValue = PhoneNumberUtil.normalizeDigitsOnly(enteredValue)
-//                                        if (digitsValue.length >= currentCountryGroup!!.areaCodeLength) {
-//                                            val currentAreaCode =
-//                                                digitsValue.substring(0, currentCountryGroup!!.areaCodeLength)
-//                                            if (currentAreaCode != lastCheckedAreaCode) {
-//                                                val detectedCountry = currentCountryGroup!!.getCountryForAreaCode(
-//                                                    mCntext,
-//                                                    getLanguageToApply(),
-//                                                    currentAreaCode
-//                                                )
-//                                                if (!detectedCountry.equals(selectedCountry)) {
-//                                                    countryChangedDueToAreaCode = true
-//                                                    lastCursorPosition = Selection.getSelectionEnd(s)
-//                                                    selectedCountry = detectedCountry
-//                                                }
-//                                                lastCheckedAreaCode = currentAreaCode
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                                lastCheckedNumber = s.toString()
-//                            }
-//                        }
-//
-//                        override fun afterTextChanged(s: Editable) {
-//                        }
-//                    }
-//                }
-//            }
-//            return this!!.areaCodeCountryDetectorTextWatcher!!
-//        }
-
 
     /**
      * This updates country dynamically as user types in area code
@@ -450,9 +390,8 @@ class CountryCodePicker : RelativeLayout {
         }
 
     val selectedCountryNameCode: String? = null
-    //        get() {
-//            return getSelectedCountry()!!.getnameCode().toUpperCase()
-//        }
+
+
     private val enteredPhoneNumber: Phonenumber.PhoneNumber
         @Throws(NumberParseException::class)
         get() {
@@ -517,25 +456,6 @@ class CountryCodePicker : RelativeLayout {
             }
         }
 
-    //    val isValidFullNumber: Boolean
-//        get() {
-//            try {
-//                if (getEditText_registeredCarrierNumber() != null && getEditText_registeredCarrierNumber().getText().length !== 0) {
-//                    val phoneNumber = getPhoneUtil().parse(
-//                        "+" + getSelectedCountry()!!.phoneCode + getEditText_registeredCarrierNumber().getText().toString(),
-//                        getSelectedCountry()!!.nameCode
-//                    )
-//                    return getPhoneUtil().isValidNumber(phoneNumber)
-//                } else if (getEditText_registeredCarrierNumber() == null) {
-//                    Toast.makeText(mCntext, "No editText for Carrier number found.", Toast.LENGTH_SHORT).show()
-//                    return false
-//                } else {
-//                    return false
-//                }
-//            } catch (e: NumberParseException) {
-//                return false
-//            }
-//        }
     fun isValidFullNumber(): Boolean {
         try {
             if (getEditText_registeredCarrierNumber() != null && getEditText_registeredCarrierNumber().text.length != 0) {
@@ -560,7 +480,6 @@ class CountryCodePicker : RelativeLayout {
 
     constructor(context: Context) : super(context) {
         this.mCntext = context
-//        init(null)
         assignViews(null)
     }
 
@@ -573,25 +492,15 @@ class CountryCodePicker : RelativeLayout {
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr) {
         this.mCntext = context
-//        assignViews(attrs)
         init(attrs)
     }
 
     private fun init(attrs: AttributeSet?) {
-//        mInflater = LayoutInflater.from(context)
-
-//        mInflater = LayoutInflater.from(context)
-
         assignViews(attrs)
-//        removeAllViewsInLayout()
-//        if (attrs != null) {
-//            xmlWidth = attrs.getAttributeValue(ANDROID_NAME_SPACE, "layout_width")
-//        }
         codePicker = this
         if (attrs != null) {
             applyCustomProperty(attrs)
         }
-//        relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
     }
 
     private fun assignViews(attrs: AttributeSet?) {
@@ -1605,7 +1514,6 @@ class CountryCodePicker : RelativeLayout {
     }
 
     fun setDetectCountryWithAreaCode(detectCountryWithAreaCode: Boolean) {
-//        this.detectCountryWithAreaCode = detectCountryWithAreaCode
         updateValidityTextWatcher()
 
         updateFormattingTextWatcher()
