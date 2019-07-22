@@ -41,13 +41,11 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
                     Log.i("tvValidity", "Valid Number")
-//                    imgValidity.setImageDrawable(resources.getDrawable(R.drawable.ic_assignment_turned_in_black_24dp))
-//                    tvValidity.setText("Valid Number")
-                    ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
+
                     etMobileNumber.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.path, 0)
                     tvMobileError.visibility = View.GONE
-
-//                    ccpContainer.isActivated=false
+                    ccpContainer.isActivated=true
+                    ccpContainer.setBackgroundResource(R.drawable.bg_round_edit_text)
                 } else {
                     Log.i("tvValidity", "Invalid Number")
 

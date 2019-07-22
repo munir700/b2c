@@ -29,6 +29,23 @@ class CCPCountry : Comparable<CCPCountry> {
 
     }
 
+    fun getphoneCode(): String {
+        return phoneCode
+        var name: String = "971"
+        if (null != phoneCode && ::phoneCode.isInitialized) {
+            name = phoneCode
+        }
+        return name
+    }
+
+    fun getnameCode(): String {
+        var name: String = "ae"
+        if (null != nameCode && ::nameCode.isInitialized) {
+            name = nameCode
+        }
+        return name
+    }
+
     constructor(nameCode: String, phoneCode: String, name: String, flagResID: Int) {
         this.nameCode = nameCode.toUpperCase(Locale.ROOT)
         this.phoneCode = phoneCode
@@ -1111,8 +1128,8 @@ class CCPCountry : Comparable<CCPCountry> {
         val libraryMasterCountriesEnglish: MutableList<CCPCountry>
             get() {
                 val countries = ArrayList<CCPCountry>()
-                 countries.add(CCPCountry("ae", "971", "UAE", DEFAULT_FLAG_RES))
-                 countries.add(CCPCountry("af", "93", "Afghanistan", DEFAULT_FLAG_RES))
+                countries.add(CCPCountry("ae", "971", "UAE", DEFAULT_FLAG_RES))
+                countries.add(CCPCountry("af", "93", "Afghanistan", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("ag", "1", "Antigua and Barbuda", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("ai", "1", "Anguilla", DEFAULT_FLAG_RES))
                 countries.add(CCPCountry("al", "355", "Albania", DEFAULT_FLAG_RES))

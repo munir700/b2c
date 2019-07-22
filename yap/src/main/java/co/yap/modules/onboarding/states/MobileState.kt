@@ -8,11 +8,15 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.util.Log
+import android.view.View
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IMobile
+import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
+import kotlinx.android.synthetic.main.fragment_mobile.*
 
 class MobileState(application: Application) : BaseState(), IMobile.State {
 
@@ -329,4 +333,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         valid = false
         drawbleRight = null
     }
+
+
 }

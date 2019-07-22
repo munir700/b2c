@@ -109,7 +109,7 @@ class CountryCodePicker : RelativeLayout {
     private var isAutoDetectLanguageEnabled = false
     private var isAutoDetectCountryEnabled = false
     private var numberAutoFormattingEnabled = true
-    private var hintExampleNumberEnabled = false
+     private var hintExampleNumberEnabled = false
     private var xmlWidth = "notSet"
     private var validityTextWatcher: TextWatcher? = null
     private var formattingTextWatcher: InternationalPhoneTextWatcher? = null
@@ -160,16 +160,32 @@ class CountryCodePicker : RelativeLayout {
     }
         private set
 
-    private var isNumberAutoFormattingEnabled: Boolean
-        get() {
-            return numberAutoFormattingEnabled
+//    private var isNumberAutoFormattingEnabled: Boolean
+//        get() {
+//            return numberAutoFormattingEnabled
+//        }
+//        set(numberAutoFormattingEnabled) {
+//            this.numberAutoFormattingEnabled = numberAutoFormattingEnabled
+//            if (editText_registeredCarrierNumber != null) {
+//                updateFormattingTextWatcher()
+//            }
+//        }
+
+    private fun isNumberAutoFormattingEnabled(): Boolean {
+        return numberAutoFormattingEnabled
+    }
+
+    /**
+     * This will set boolean for numberAutoFormattingEnabled and refresh formattingTextWatcher
+     *
+     * @param numberAutoFormattingEnabled
+     */
+    fun setNumberAutoFormattingEnabled(numberAutoFormattingEnabled: Boolean) {
+        this.numberAutoFormattingEnabled = numberAutoFormattingEnabled
+        if (editText_registeredCarrierNumber != null) {
+            updateFormattingTextWatcher()
         }
-        set(numberAutoFormattingEnabled) {
-            this.numberAutoFormattingEnabled = numberAutoFormattingEnabled
-            if (editText_registeredCarrierNumber != null) {
-                updateFormattingTextWatcher()
-            }
-        }
+    }
 
     private var isShowPhoneCode: Boolean
         get() {
@@ -227,52 +243,111 @@ class CountryCodePicker : RelativeLayout {
             }
         }
 
-    private val countryDetectorTextWatcher: TextWatcher
-        get() {
-            if (editText_registeredCarrierNumber != null) {
-                if (areaCodeCountryDetectorTextWatcher == null) {
-                    areaCodeCountryDetectorTextWatcher = object : TextWatcher {
-                        private var lastCheckedNumber: String? = null
-                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                        }
+//    private val countryDetectorTextWatcher: TextWatcher
+//        get() {
+//            if (editText_registeredCarrierNumber != null) {
+//                if (areaCodeCountryDetectorTextWatcher == null) {
+//                    areaCodeCountryDetectorTextWatcher = object : TextWatcher {
+//                        private var lastCheckedNumber: String? = null
+//                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+//                        }
+//
+//                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+//                            var selectedCountry = selectedCountry
+//                            if (selectedCountry != null && (lastCheckedNumber == null || lastCheckedNumber != s.toString()) && countryDetectionBasedOnAreaAllowed) {
+//                                if (currentCountryGroup != null) {
+//                                    val enteredValue = getEditText_registeredCarrierNumber().getText().toString()
+//                                    if (enteredValue.length >= currentCountryGroup!!.areaCodeLength) {
+//                                        val digitsValue = PhoneNumberUtil.normalizeDigitsOnly(enteredValue)
+//                                        if (digitsValue.length >= currentCountryGroup!!.areaCodeLength) {
+//                                            val currentAreaCode =
+//                                                digitsValue.substring(0, currentCountryGroup!!.areaCodeLength)
+//                                            if (currentAreaCode != lastCheckedAreaCode) {
+//                                                val detectedCountry = currentCountryGroup!!.getCountryForAreaCode(
+//                                                    mCntext,
+//                                                    getLanguageToApply(),
+//                                                    currentAreaCode
+//                                                )
+//                                                if (!detectedCountry.equals(selectedCountry)) {
+//                                                    countryChangedDueToAreaCode = true
+//                                                    lastCursorPosition = Selection.getSelectionEnd(s)
+//                                                    selectedCountry = detectedCountry
+//                                                }
+//                                                lastCheckedAreaCode = currentAreaCode
+//                                            }
+//                                        }
+//                                    }
+//                                }
+//                                lastCheckedNumber = s.toString()
+//                            }
+//                        }
+//
+//                        override fun afterTextChanged(s: Editable) {
+//                        }
+//                    }
+//                }
+//            }
+//            return this!!.areaCodeCountryDetectorTextWatcher!!
+//        }
 
-                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                            var selectedCountry = selectedCountry
-                            if (selectedCountry != null && (lastCheckedNumber == null || lastCheckedNumber != s.toString()) && countryDetectionBasedOnAreaAllowed) {
-                                if (currentCountryGroup != null) {
-                                    val enteredValue = getEditText_registeredCarrierNumber().getText().toString()
-                                    if (enteredValue.length >= currentCountryGroup!!.areaCodeLength) {
-                                        val digitsValue = PhoneNumberUtil.normalizeDigitsOnly(enteredValue)
-                                        if (digitsValue.length >= currentCountryGroup!!.areaCodeLength) {
-                                            val currentAreaCode =
-                                                digitsValue.substring(0, currentCountryGroup!!.areaCodeLength)
-                                            if (currentAreaCode != lastCheckedAreaCode) {
-                                                val detectedCountry = currentCountryGroup!!.getCountryForAreaCode(
-                                                    mCntext,
-                                                    getLanguageToApply(),
-                                                    currentAreaCode
-                                                )
-                                                if (!detectedCountry.equals(selectedCountry)) {
-                                                    countryChangedDueToAreaCode = true
-                                                    lastCursorPosition = Selection.getSelectionEnd(s)
-                                                    selectedCountry = detectedCountry
-                                                }
-                                                lastCheckedAreaCode = currentAreaCode
+
+    /**
+     * This updates country dynamically as user types in area code
+     *
+     * @return
+     */
+    private fun countryDetectorTextWatcher(): TextWatcher {
+
+        if (editText_registeredCarrierNumber != null) {
+            if (areaCodeCountryDetectorTextWatcher == null) {
+                areaCodeCountryDetectorTextWatcher = object : TextWatcher {
+                    internal var lastCheckedNumber: String? = null
+
+
+                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
+
+                    }
+
+                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        val selectedCountry = getSelectedCountry()
+                        if (selectedCountry != null && (lastCheckedNumber == null || lastCheckedNumber != s.toString()) && countryDetectionBasedOnAreaAllowed) {
+                            //possible countries
+                            if (currentCountryGroup != null) {
+                                val enteredValue = getEditText_registeredCarrierNumber().text.toString()
+                                if (enteredValue.length >= currentCountryGroup!!.areaCodeLength) {
+                                    val digitsValue = PhoneNumberUtil.normalizeDigitsOnly(enteredValue)
+                                    if (digitsValue.length >= currentCountryGroup!!.areaCodeLength) {
+                                        val currentAreaCode =
+                                            digitsValue.substring(0, currentCountryGroup!!.areaCodeLength)
+                                        if (currentAreaCode != lastCheckedAreaCode) {
+                                            val detectedCountry = currentCountryGroup!!.getCountryForAreaCode(
+                                                context,
+                                                getLanguageToApply(),
+                                                currentAreaCode
+                                            )
+                                            if (!detectedCountry.equals(selectedCountry)) {
+                                                countryChangedDueToAreaCode = true
+                                                lastCursorPosition = Selection.getSelectionEnd(s)
+                                                setSelectedCountry(detectedCountry)
                                             }
+                                            lastCheckedAreaCode = currentAreaCode
                                         }
                                     }
                                 }
-                                lastCheckedNumber = s.toString()
                             }
+                            lastCheckedNumber = s.toString()
                         }
+                    }
 
-                        override fun afterTextChanged(s: Editable) {
-                        }
+                    override fun afterTextChanged(s: Editable) {
+
+
                     }
                 }
             }
-            return this!!.areaCodeCountryDetectorTextWatcher!!
         }
+        return this!!.areaCodeCountryDetectorTextWatcher!!
+    }
 
     private var isCcpClickable: Boolean
         get() {
@@ -374,10 +449,10 @@ class CountryCodePicker : RelativeLayout {
             return selectedCountry!!.englishName!!
         }
 
-    val selectedCountryNameCode: String
-        get() {
-            return selectedCountry!!.nameCode.toUpperCase()
-        }
+    val selectedCountryNameCode: String?=null
+//        get() {
+//            return getSelectedCountry()!!.getnameCode().toUpperCase()
+//        }
     private val enteredPhoneNumber: Phonenumber.PhoneNumber
         @Throws(NumberParseException::class)
         get() {
@@ -442,25 +517,44 @@ class CountryCodePicker : RelativeLayout {
             }
         }
 
-    val isValidFullNumber: Boolean
-        get() {
-            try {
-                if (getEditText_registeredCarrierNumber() != null && getEditText_registeredCarrierNumber().getText().length !== 0) {
-                    val phoneNumber = getPhoneUtil().parse(
-                        "+" + getSelectedCountry()!!.phoneCode + getEditText_registeredCarrierNumber().getText().toString(),
-                        getSelectedCountry()!!.nameCode
-                    )
-                    return getPhoneUtil().isValidNumber(phoneNumber)
-                } else if (getEditText_registeredCarrierNumber() == null) {
-                    Toast.makeText(mCntext, "No editText for Carrier number found.", Toast.LENGTH_SHORT).show()
-                    return false
-                } else {
-                    return false
-                }
-            } catch (e: NumberParseException) {
+    //    val isValidFullNumber: Boolean
+//        get() {
+//            try {
+//                if (getEditText_registeredCarrierNumber() != null && getEditText_registeredCarrierNumber().getText().length !== 0) {
+//                    val phoneNumber = getPhoneUtil().parse(
+//                        "+" + getSelectedCountry()!!.phoneCode + getEditText_registeredCarrierNumber().getText().toString(),
+//                        getSelectedCountry()!!.nameCode
+//                    )
+//                    return getPhoneUtil().isValidNumber(phoneNumber)
+//                } else if (getEditText_registeredCarrierNumber() == null) {
+//                    Toast.makeText(mCntext, "No editText for Carrier number found.", Toast.LENGTH_SHORT).show()
+//                    return false
+//                } else {
+//                    return false
+//                }
+//            } catch (e: NumberParseException) {
+//                return false
+//            }
+//        }
+    fun isValidFullNumber(): Boolean {
+        try {
+            if (getEditText_registeredCarrierNumber() != null && getEditText_registeredCarrierNumber().text.length != 0) {
+                val phoneNumber = getPhoneUtil().parse("+" + getSelectedCountry()!!.getphoneCode() + getEditText_registeredCarrierNumber().text.toString(), getSelectedCountry()!!.getnameCode()
+                )
+                return getPhoneUtil().isValidNumber(phoneNumber)
+            } else if (getEditText_registeredCarrierNumber() == null) {
+                Toast.makeText(context, "No editText for Carrier number found.", Toast.LENGTH_SHORT).show()
+                return false
+            } else {
                 return false
             }
+        } catch (e: NumberParseException) {
+            //            when number could not be parsed, its not valid
+            return false
         }
+
+    }
+
 
     constructor(context: Context) : super(context) {
         this.mCntext = context
@@ -501,7 +595,7 @@ class CountryCodePicker : RelativeLayout {
     private fun assignViews(attrs: AttributeSet?) {
         var holderView: View? = null
 
-        LayoutInflater.from(mCntext).inflate(R.layout.layout_code_picker, this, true)
+        LayoutInflater.from(mCntext).inflate(R.layout.component_code_picker, this, true)
 
         textView_selectedCountry = findViewById(R.id.tvSelectedCountry)
 
@@ -515,6 +609,8 @@ class CountryCodePicker : RelativeLayout {
         relativeClickConsumer = findViewById(R.id.rlContainer)
 
         relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
+        detectCountryWithAreaCode=true
+        updateFormattingTextWatcher()
     }
 
     private fun applyCustomProperty(attrs: AttributeSet) {
@@ -743,7 +839,7 @@ class CountryCodePicker : RelativeLayout {
         } catch (e: Exception) {
             val sw = StringWriter()
             val pw = PrintWriter(sw)
-            e.printStackTrace(pw) 
+            e.printStackTrace(pw)
 //            tvSelectedCountry!!.setText(sw.toString())
         } finally {
             a.recycle()
@@ -862,14 +958,17 @@ class CountryCodePicker : RelativeLayout {
             if (numberAutoFormattingEnabled) {
                 formattingTextWatcher = InternationalPhoneTextWatcher(
                     context,
-                    selectedCountryNameCode,
-                    selectedCountryCodeAsInt,
+//                    selectedCountryNameCode,
+//                    selectedCountryCodeAsInt,
+//                    getSelectedCountry()!!.getnameCode().toUpperCase(),
+//                    getSelectedCountry()!!.getphoneCode(),
+                    getselectedCountryNameCode(), getselectedCountryCodeAsInt(),
                     isInternationalFormattingOnlyEnabled
                 )
                 editText_registeredCarrierNumber!!.addTextChangedListener(formattingTextWatcher)
             }
             if (detectCountryWithAreaCode) {
-                areaCodeCountryDetectorTextWatcher = countryDetectorTextWatcher
+                areaCodeCountryDetectorTextWatcher = countryDetectorTextWatcher()
                 editText_registeredCarrierNumber!!.addTextChangedListener(areaCodeCountryDetectorTextWatcher)
             }
             editText_registeredCarrierNumber!!.setText("")
@@ -886,6 +985,24 @@ class CountryCodePicker : RelativeLayout {
 
     private fun getCustomDefaultLanguage(): Language {
         return customDefaultLanguage
+    }
+
+    fun getselectedCountryNameCode(): String {
+        return getSelectedCountry()!!.getnameCode().toUpperCase()
+    }
+
+    fun getselectedCountryCodeAsInt(): Int {
+        var code = 0
+        try {
+            code = Integer.parseInt(getselectedCountryCode())
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return code
+    }
+    private fun getselectedCountryCode(): String {
+        return getSelectedCountry()!!.phoneCode
     }
 
     private fun setCustomDefaultLanguage(customDefaultLanguage: Language) {
@@ -920,7 +1037,7 @@ class CountryCodePicker : RelativeLayout {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        reportedValidity = isValidFullNumber
+        reportedValidity = isValidFullNumber()
         if (phoneNumberValidityChangeListener != null) {
             phoneNumberValidityChangeListener!!.onValidityChanged(reportedValidity)
         }
@@ -934,7 +1051,7 @@ class CountryCodePicker : RelativeLayout {
             override fun afterTextChanged(s: Editable) {
                 if (phoneNumberValidityChangeListener != null) {
                     val currentValidity: Boolean
-                    currentValidity = isValidFullNumber
+                    currentValidity = isValidFullNumber()
                     if (currentValidity != reportedValidity) {
                         reportedValidity = currentValidity
                         phoneNumberValidityChangeListener!!.onValidityChanged(reportedValidity)
@@ -1200,7 +1317,7 @@ class CountryCodePicker : RelativeLayout {
     fun setPhoneNumberValidityChangeListener(phoneNumberValidityChangeListener: PhoneNumberValidityChangeListener) {
         this.phoneNumberValidityChangeListener = phoneNumberValidityChangeListener
         if (editText_registeredCarrierNumber != null) {
-            reportedValidity = isValidFullNumber
+            reportedValidity = isValidFullNumber()
             phoneNumberValidityChangeListener.onValidityChanged(reportedValidity)
         }
     }
@@ -1352,9 +1469,12 @@ class CountryCodePicker : RelativeLayout {
 
 
     private fun getSelectedCountry(): CCPCountry? {
-        retrieveSelectedCountry()
         if (selectedCCPCountry == null) {
-            setSelectedCountry(getDefaultCountry())
+            retrieveSelectedCountry()
+            if (selectedCCPCountry == null) {
+
+                setSelectedCountry(getDefaultCountry())
+        }
         }
 
         return selectedCCPCountry
@@ -1441,7 +1561,7 @@ class CountryCodePicker : RelativeLayout {
 
         //notify to registered validity listener
         if (editText_registeredCarrierNumber != null && phoneNumberValidityChangeListener != null) {
-            reportedValidity = isValidFullNumber
+            reportedValidity = isValidFullNumber()
             phoneNumberValidityChangeListener!!.onValidityChanged(reportedValidity)
         }
 
@@ -1488,10 +1608,13 @@ class CountryCodePicker : RelativeLayout {
             selectedCCPCountry = gson.fromJson(json, CCPCountry::class.java)
 
         }
+        setDetectCountryWithAreaCode(true)
     }
 
     fun setDetectCountryWithAreaCode(detectCountryWithAreaCode: Boolean) {
-        this.detectCountryWithAreaCode = detectCountryWithAreaCode
+//        this.detectCountryWithAreaCode = detectCountryWithAreaCode
+        updateValidityTextWatcher()
+
         updateFormattingTextWatcher()
     }
 

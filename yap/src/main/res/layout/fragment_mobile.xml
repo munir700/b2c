@@ -37,14 +37,6 @@
             app:text="@{Strings.screen_phone_number_display_text_title}"
             />
 
-        <!--<include-->
-        <!--android:id="@+id/viewPhoneNumber"-->
-        <!--layout="@layout/layout_mobile"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"-->
-        <!--android:layout_marginTop="@dimen/_16sdp" />-->
-
         <LinearLayout
             android:id="@+id/viewPhoneNumber"
             android:layout_width="match_parent"
@@ -75,14 +67,15 @@
 
                 <EditText
                     android:id="@+id/etMobileNumber"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".9"
+                    android:layout_weight=".99"
                     android:editable="false"
                     android:inputType="phone"
                     android:singleLine="true"
+                    android:paddingEnd="@dimen/margin_medium"
                     android:background="@null"
-                    android:drawablePadding="@dimen/margin_medium"
+                    android:maxLength="11"
                     android:textSize="@dimen/_15sdp"
                     android:textColor="@android:color/black"/>
 
