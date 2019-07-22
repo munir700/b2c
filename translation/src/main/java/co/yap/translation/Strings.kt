@@ -128,7 +128,32 @@ object Strings {
 
     //country not allowed screen
     const val screen_kyc_invalid_country_display_text_title: String = "screen_kyc_invalid_country_display_text_title"
-    const val screen_kyc_invalid_country_display_text_explaination: String = "screen_kyc_invalid_country_display_text_explaination"
-    const val screen_kyc_invalid_country_button_go_to_dashboard: String = "screen_kyc_invalid_country_button_go_to_dashboard"
+    const val screen_kyc_invalid_country_display_text_explaination: String =
+        "screen_kyc_invalid_country_display_text_explaination"
+    const val screen_kyc_invalid_country_button_go_to_dashboard: String =
+        "screen_kyc_invalid_country_button_go_to_dashboard"
 
+
+    //Eid Info Review screen
+    const val screen_b2c_eid_info_review_display_text_title: String = "screen_b2c_eid_info_review_display_text_title"
+    const val screen_b2c_eid_info_review_display_text_sub_title: String =
+        "screen_b2c_eid_info_review_display_text_sub_title"
+    const val screen_b2c_eid_info_review_display_text_emirates_id_heading: String =
+        "screen_b2c_eid_info_review_display_text_emirates_id_heading"
+    const val screen_b2c_eid_info_review_display_text_emirates_id_sub_heading: String =
+        "screen_b2c_eid_info_review_display_text_emirates_id_sub_heading"
+    const val screen_b2c_eid_info_review_display_text_name_heading: String =
+        "screen_b2c_eid_info_review_display_text_name_heading"
+    const val screen_b2c_eid_info_review_display_text_nationality_heading: String =
+        "screen_b2c_eid_info_review_display_text_nationality_heading"
+    const val screen_b2c_eid_info_review_display_text_dob_heading: String =
+        "screen_b2c_eid_info_review_display_text_dob_heading"
+    const val screen_b2c_eid_info_review_display_text_gender_heading: String =
+        "screen_b2c_eid_info_review_display_text_gender_heading"
+    const val screen_b2c_eid_info_review_display_text_expiry_date_heading: String =
+        "screen_b2c_eid_info_review_display_text_expiry_date_heading"
+    const val screen_b2c_eid_info_review_button_title_confirm: String =
+        "screen_b2c_eid_info_review_button_title_confirm"
+    const val screen_b2c_eid_info_review_button_title_rescan_eid: String =
+        "screen_b2c_eid_info_review_button_title_rescan_eid"
 }

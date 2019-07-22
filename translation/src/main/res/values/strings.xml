@@ -114,4 +114,18 @@
     <string name="screen_kyc_invalid_country_display_text_explaination">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
     <string name="screen_kyc_invalid_country_button_go_to_dashboard">Go to dashboard</string>
 
+    <!-- Eid details review screen -->
+    <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
+    <string name="screen_b2c_eid_info_review_display_text_sub_title">Thanks Nada! Verify your details so we can send you your YAP card</string>
+    <string name="screen_b2c_eid_info_review_display_text_emirates_id_heading">Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_display_text_emirates_id_sub_heading">Pending confirmation</string>
+    <string name="screen_b2c_eid_info_review_display_text_name_heading">Name</string>
+    <string name="screen_b2c_eid_info_review_display_text_nationality_heading">Nationality</string>
+    <string name="screen_b2c_eid_info_review_display_text_dob_heading">Date of birth</string>
+    <string name="screen_b2c_eid_info_review_display_text_gender_heading">Gender</string>
+    <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
+    <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
+    <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+
+
 </resources>
