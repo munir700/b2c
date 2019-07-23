@@ -3,7 +3,7 @@
 
     <application>
         <activity
-            android:name=".modules.onboarding.activities.WelcomeActivity"
+            android:name=".app.modules.startup.activities.WelcomeActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
@@ -24,6 +24,15 @@
         </activity>
         <activity
             android:name=".modules.onboarding.activities.CreatePasscodeActivity"
+            android:screenOrientation="portrait"/>
+
+        <!--TODO convert these two activities into fragments-->
+        <activity
+            android:name=".modules.onboarding.activities.MeetingConfirmationActivity"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".modules.onboarding.activities.InformationErrorActivity"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

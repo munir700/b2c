@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/onboarding_navigation"
-            app:startDestination="@id/mobileFragment">
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboarding_navigation"
+    app:startDestination="@id/mobileFragment">
     <fragment
         android:id="@+id/emailFragment"
         android:name="co.yap.modules.onboarding.fragments.EmailFragment"
@@ -11,8 +12,7 @@
         android:label="EmailFragment">
         <action
             android:id="@+id/action_emailFragment_to_congratulationsFragment"
-            app:destination="@id/congratulationsFragment"
-            />
+            app:destination="@id/congratulationsFragment"/>
     </fragment>
 
     <fragment
@@ -22,8 +22,7 @@
         android:label="NameFragment">
         <action
             android:id="@+id/action_nameFragment_to_emailFragment"
-            app:destination="@id/emailFragment"
-            />
+            app:destination="@id/emailFragment"/>
     </fragment>
 
     <fragment
@@ -56,8 +55,12 @@
         android:label="CongratulationsFragment">
         <action
             android:id="@+id/action_congratulationsFragment_to_liteDashboardActivity"
-            app:destination="@id/liteDashboardActivity"
-            />
+            app:destination="@id/liteDashboardActivity"/>
+        <action
+            android:id="@+id/action_congratulationsFragment_to_documentsDashboardActivity"
+            app:destination="@id/documentsDashboardActivity"
+            app:popUpToInclusive="true"
+            app:popUpTo="@+id/onboarding_navigation"/>
     </fragment>
     <activity
         android:id="@+id/createPasscodeActivity2"
@@ -69,4 +72,9 @@
         tools:layout="@layout/activity_lite_dashboard"
         android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
         android:label="LiteDashboardActivity"/>
+    <activity
+        android:id="@+id/documentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard"
+        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
+        android:label="DocumentsDashboardActivity"/>
 </navigation>

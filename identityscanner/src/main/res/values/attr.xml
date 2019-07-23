@@ -1,0 +1,29 @@
+<resources>
+    <declare-styleable name="CircleProgressBar">
+        <attr name="min" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="progress" format="integer" />
+        <attr name="progressbarColor" format="color" />
+        <attr name="progressBarThickness" format="dimension" />
+
+    </declare-styleable>
+
+    <declare-styleable name="CircleImageView">
+        <attr name="ci_color" format="color" />
+        <attr name="ci_pressedRingWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="RecordButton">
+
+    </declare-styleable>
+
+    <declare-styleable name="TransparentCardView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="cardCorners" format="dimension" />
+        <attr name="cardMarginTop" format="dimension" />
+        <attr name="cardMarginHorizontal" format="dimension" />
+        <attr name="cardBorderColor" format="color" />
+        <attr name="cardBorderWidth" format="dimension" />
+    </declare-styleable>
+
+</resources>
