@@ -127,8 +127,20 @@ object Strings {
         "screen_meeting_confirmation_button_go_to_dashboard"
 
     //country not allowed screen
-    const val screen_kyc_invalid_country_display_text_title: String = "screen_kyc_invalid_country_display_text_title"
-    const val screen_kyc_invalid_country_display_text_explaination: String = "screen_kyc_invalid_country_display_text_explaination"
-    const val screen_kyc_invalid_country_button_go_to_dashboard: String = "screen_kyc_invalid_country_button_go_to_dashboard"
+    const val screen_kyc_information_error_display_text_title_from_usa: String =
+        "screen_kyc_information_error_display_text_title_from_usa"
+    const val screen_kyc_information_error_display_text_explanation_from_usa: String =
+        "screen_kyc_information_error_display_text_explanation_from_usa"
+    const val screen_kyc_information_error_display_text_title_under_age: String =
+        "screen_kyc_information_error_display_text_title_under_age"
+    const val screen_kyc_information_error_display_text_explanation_under_age: String =
+        "screen_kyc_information_error_display_text_explanation_under_age"
+    const val screen_kyc_information_error_display_text_title_expired_card: String =
+        "screen_kyc_information_error_display_text_title_expired_card"
+    const val screen_kyc_information_error_display_text_explanation_expired_card: String =
+        "screen_kyc_information_error_display_text_explanation_expired_card"
+    const val screen_kyc_information_error_button_go_to_dashboard: String =
+        "screen_kyc_information_error_button_go_to_dashboard"
+
 
 }
