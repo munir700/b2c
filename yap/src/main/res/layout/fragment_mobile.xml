@@ -65,7 +65,8 @@
                     app:ccp_hintExampleNumber="true"
                     app:ccp_countryPreference="us,ae"
                     android:visibility="visible"
-                    android:clickable="false"/>
+                    android:clickable="false"
+                    app:ccp_onFlagClick="false"/>
 
                 <EditText
                     android:id="@+id/etMobileNumber"
@@ -75,6 +76,7 @@
                     android:editable="false"
                     android:inputType="phone"
                     android:singleLine="true"
+                    android:digits="1234567890 "
                     android:paddingEnd="@dimen/margin_medium"
                     android:background="@null"
                     android:maxLength="11"

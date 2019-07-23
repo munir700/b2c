@@ -67,6 +67,7 @@ class CountryCodePicker : RelativeLayout {
     var ccpDialogShowTitle = true
 
     var ccpDialogShowFlag = true
+    var ccp_onFlagClick = true
 
     var isSearchAllowed = true
     private var showArrow = true
@@ -276,7 +277,11 @@ class CountryCodePicker : RelativeLayout {
                                 }
                             }
                             lastCheckedNumber = s.toString()
+                        } else {
+                            phoneNumberValidityChangeListener!!.onValidityChanged(reportedValidity)
+
                         }
+
                     }
 
                     override fun afterTextChanged(s: Editable) {
@@ -518,8 +523,10 @@ class CountryCodePicker : RelativeLayout {
         linearFlagHolder = findViewById(R.id.llFlagHolder)
         linearFlagBorder = findViewById(R.id.llFlag)
         relativeClickConsumer = findViewById(R.id.rlContainer)
+        if (ccp_onFlagClick) {
+            relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
 
-        relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
+        }
         detectCountryWithAreaCode = true
         updateFormattingTextWatcher()
     }
@@ -530,6 +537,7 @@ class CountryCodePicker : RelativeLayout {
         try {
             //hide nameCode. If someone wants only phone code to avoid name collision for same country phone code.
             showNameCode = a.getBoolean(R.styleable.CountryCodePicker_ccp_showNameCode, true)
+            ccp_onFlagClick = a.getBoolean(R.styleable.CountryCodePicker_ccp_onFlagClick, false)
             //number auto formatting
             numberAutoFormattingEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_autoFormatNumber, true)
             //show phone code.
@@ -869,10 +877,6 @@ class CountryCodePicker : RelativeLayout {
             if (numberAutoFormattingEnabled) {
                 formattingTextWatcher = InternationalPhoneTextWatcher(
                     context,
-//                    selectedCountryNameCode,
-//                    selectedCountryCodeAsInt,
-//                    getSelectedCountry()!!.getnameCode().toUpperCase(),
-//                    getSelectedCountry()!!.getphoneCode(),
                     getselectedCountryNameCode(), getselectedCountryCodeAsInt(),
                     isInternationalFormattingOnlyEnabled
                 )

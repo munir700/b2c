@@ -28,7 +28,6 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
     }
 
-
     private fun registerCarrierEditText() {
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(this!!.context!!)
         ccpLoadNumber!!.registerCarrierNumberEditText(etMobileNumber)
@@ -45,9 +44,10 @@ class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
 
                     } else {
                         setNormalUI()
+
                         //disable btn grey
                     }
-                    setNormalUI()
+//                    setNormalUI()
                 } else {
                     setNormalUI()
                     if (etMobileNumber.getText().toString().replace(" ", "").trim().length >= 9) {
