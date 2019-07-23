@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="co.yap.app">
 
     <application
@@ -10,19 +11,27 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name=".modules.login.activities.VerifyPasscodeActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".modules.splash.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
+            android:name=".activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".modules.login.activities.VerifyPasscodeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="co.yap.app.modules.startup.activities.SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
+
         </activity>
         <activity
             android:name=".modules.login.activities.SystemPermissionActivity"
@@ -40,12 +49,7 @@
             android:name=".login.BiometricActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".modules.accountselection.activities.AccountSelectionActivity"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name=".activities.MainActivity"
+            android:name="co.yap.app.modules.startup.activities.AccountSelectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>

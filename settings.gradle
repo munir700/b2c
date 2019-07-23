@@ -1,1 +1,1 @@
-include ':app', ':yapcore', ':networking', ':authentication', ':translation', ':yap'
+include ':app', ':yapcore', ':networking', ':authentication', ':translation', ':yap', ':opencv_face401', ':identityscanner'

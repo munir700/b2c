@@ -25,7 +25,6 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         registerStateListeners()
-        // progress = Utils.createProgressDialog(requireContext())
     }
 
     override fun onDestroyView() {
@@ -62,7 +61,6 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
     }
 
     override fun showToast(msg: String) {
-        // Toast.makeText(activity, msg, Toast.LENGTH_LONG).show()
         getBaseView()?.showToast(msg)
     }
 

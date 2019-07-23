@@ -37,7 +37,7 @@ project.ext {
             material                 : 'com.google.android.material:material:1.0.0',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
             otpView                  : 'com.github.aabhasr1:OtpView:1.0.6',
-            ticker                   : 'com.robinhood.ticker:ticker:2.0.1',
+            // ticker                   : 'com.robinhood.ticker:ticker:2.0.1',
 
             // Dagger
             dagger                   : "com.google.dagger:dagger:$daggerVersion",
@@ -83,8 +83,8 @@ project.ext {
             // easing                   : 'com.daasuu:EasingInterpolator:1.3.0',
             // morphView                : 'com.akaita.android:morphview:1.0.0',
             // choreographer            : 'zachinio.choreographer:choreographer:1.0.3',
-            androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
-            androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar'
+            // androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
+            // androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar'
 
     ]
     // Test dependencies which need to be added in all modules
@@ -115,7 +115,8 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.yapcore)],
             [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.networking)],
-            [configuration: "implementation", dependency: libraries.biometric]
+            [configuration: "implementation", dependency: libraries.biometric],
+            [configuration: "implementation", dependency: libraries.viewpagerDots]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -125,8 +126,7 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.navigationFragment],
             [configuration: "implementation", dependency: libraries.navigationUI],
-            [configuration: "implementation", dependency: libraries.viewpagerDots],
-            [configuration: "implementation", dependency: libraries.ticker]
+            // [configuration: "implementation", dependency: libraries.ticker]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
@@ -148,8 +148,8 @@ project.ext {
             [configuration: "api", dependency: libraries.navigationFragmentKtx],
             [configuration: "api", dependency: libraries.navigationUItKtx],
             [configuration: "api", dependency: libraries.otpView],
-            [configuration: "api", dependency: libraries.androidanimations],
-            [configuration: "api", dependency: libraries.androidanimationseasing],
+            // [configuration: "api", dependency: libraries.androidanimations],
+            // [configuration: "api", dependency: libraries.androidanimationseasing],
     ]
 
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
