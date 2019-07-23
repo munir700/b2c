@@ -54,6 +54,8 @@
                 android:layout_height="wrap_content"
                 android:weightSum="1"
                 android:minHeight="52dp"
+                app:setBackGroundRes="@{viewModel.state.background}"
+                app:isCCpActivated="@{viewModel.state.activeFieldValue}"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium">
 
@@ -66,7 +68,8 @@
                     app:ccp_countryPreference="us,ae"
                     android:visibility="visible"
                     android:clickable="false"
-                    app:ccp_onFlagClick="false"/>
+                    app:ccp_onFlagClick="false"
+                    />
 
                 <EditText
                     android:id="@+id/etMobileNumber"
@@ -79,6 +82,8 @@
                     android:digits="1234567890 "
                     android:paddingEnd="@dimen/margin_medium"
                     android:background="@null"
+                    android:drawableRight="@{viewModel.state.drawbleRight}"
+                    android:text="@={viewModel.state.mobile}"
                     android:maxLength="11"
                     android:textSize="@dimen/_15sdp"
                     android:textColor="@android:color/black"/>
@@ -91,6 +96,8 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/margin_medium"
                 android:textSize="12sp"
+                android:text="@{viewModel.state.mobileError}"
+                android:visibility="@{viewModel.state.errorVisibility}"
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_below="@+id/etMobileNumber"/>
         </LinearLayout>
@@ -111,3 +118,4 @@
             android:onClick="@{() -> viewModel.handlePressOnNext()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+

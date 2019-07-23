@@ -14,12 +14,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.view.inputmethod.InputMethodManager.HIDE_IMPLICIT_ONLY
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.databinding.*
 import co.yap.translation.Translator
@@ -224,6 +219,25 @@ object UIBinder {
     @BindingAdapter(value = ["requestKeyboard", "forceKeyboard"], requireAll = false)
     fun setRequestKeyboard(view: View, request: Boolean, forced: Boolean) {
         Utils.requestKeyboard(view, request, forced)
+    }
+
+    //mobile Component
+    @BindingAdapter("isCCpActivated")
+    @JvmStatic
+    fun isActivated(view: LinearLayout, isActive: Boolean) {
+        view.isActivated = isActive
+    }
+
+    @BindingAdapter("setBackGroundRes")
+    @JvmStatic
+    fun setBgRes(view: LinearLayout, drawable: Drawable?) {
+        view.background = drawable
+        view.setPadding(
+            view.context.resources.getDimensionPixelSize(R.dimen.margin_medium),
+            0,
+            view.context.resources.getDimensionPixelSize(R.dimen.margin_medium),
+            0
+        )
     }
 
 }
