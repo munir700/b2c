@@ -25,6 +25,8 @@ abstract class BaseRepository : IRepository {
 
         } catch (exception: MalformedJsonException) {
             return RetroApiResponse.Error(ApiError(MALFORMED_JSON_EXCEPTION_CODE, exception.localizedMessage))
+        }catch (exception: Exception) {
+            return RetroApiResponse.Error(ApiError(0, exception.localizedMessage))
         }
     }
 
