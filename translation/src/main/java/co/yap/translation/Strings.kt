@@ -117,5 +117,11 @@ object Strings {
     //Otp screen
     const val screen_verify_phone_number_display_text_resend_otp_success: String = "screen_verify_phone_number_display_text_resend_otp_success"
 
+    // KYC Home Screen
+    const val screen_b2c_kyc_home_display_text_screen_title: String = "screen_b2c_kyc_home_display_text_screen_title"
+    const val screen_b2c_kyc_home_display_text_sub_heading: String = "screen_b2c_kyc_home_display_text_sub_heading"
+    const val screen_b2c_kyc_home_button_skip: String = "screen_b2c_kyc_home_button_skip"
+    const val screen_b2c_kyc_home_emirates_id_scan: String = "screen_b2c_kyc_home_emirates_id_scan"
+
 
 }
