@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.InvalidCountryViewModel"/>
+            type="co.yap.modules.onboarding.viewmodels.InformationErrorViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
     </data>
@@ -16,7 +16,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".modules.onboarding.activities.InvalidCountryActivity">
+        tools:context=".modules.onboarding.activities.InformationErrorActivity">
 
 
         <TextView
@@ -31,8 +31,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:gravity="center"
-            tools:text="@string/screen_kyc_invalid_country_display_text_title"
-            app:text="@{Strings.screen_kyc_invalid_country_display_text_title}"
+            tools:text="@string/screen_kyc_information_error_display_text_title_from_usa"
+            app:text="@{Strings.screen_kyc_information_error_display_text_title_from_usa}"
             />
 
         <ImageView
@@ -58,8 +58,8 @@
             android:layout_marginStart="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:gravity="center"
-            tools:text="@string/screen_kyc_invalid_country_display_text_explaination"
-            app:text="@{Strings.screen_kyc_invalid_country_display_text_explaination}"
+            tools:text="@string/screen_kyc_information_error_display_text_explanation_from_usa"
+            app:text="@{Strings.screen_kyc_information_error_display_text_explanation_from_usa}"
             android:layout_marginTop="@dimen/margin_extra_large"
             />
 
@@ -70,8 +70,8 @@
             android:layout_height="wrap_content"
             style="@style/RectangleBtnStyle"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="@string/screen_kyc_invalid_country_button_go_to_dashboard"
-            app:text="@{Strings.screen_kyc_invalid_country_button_go_to_dashboard}"
+            tools:text="@string/screen_kyc_information_error_button_go_to_dashboard"
+            app:text="@{Strings.screen_kyc_information_error_button_go_to_dashboard}"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handlePressOnGoToDashboard()}"
             android:layout_marginBottom="@dimen/margin_medium_large"

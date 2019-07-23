@@ -7,20 +7,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.interfaces.IInvalidCountry
-import co.yap.modules.onboarding.viewmodels.InvalidCountryViewModel
+import co.yap.modules.onboarding.interfaces.IInformationError
+import co.yap.modules.onboarding.viewmodels.InformationErrorViewModel
 import co.yap.yapcore.BaseBindingActivity
 
-class InvalidCountryActivity : BaseBindingActivity<IInvalidCountry.ViewModel>() {
+class InformationErrorActivity : BaseBindingActivity<IInformationError.ViewModel>() {
     companion object {
-        fun newIntent(context: Context): Intent = Intent(context, InvalidCountryActivity::class.java)
+        fun newIntent(context: Context): Intent = Intent(context, InformationErrorActivity::class.java)
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_invalid_country
-    override val viewModel: IInvalidCountry.ViewModel
-        get() = ViewModelProviders.of(this).get(InvalidCountryViewModel::class.java)
+    override fun getLayoutId(): Int = R.layout.activity_information_error
+    override val viewModel: IInformationError.ViewModel
+        get() = ViewModelProviders.of(this).get(InformationErrorViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +28,6 @@ class InvalidCountryActivity : BaseBindingActivity<IInvalidCountry.ViewModel>() 
     }
 
     private val gotoDashboardpressEventObserver = Observer<Boolean> {
-        //startActivity(LiteDashboardActivity.newIntent(this@InvalidCountryActivity)
+        //startActivity(LiteDashboardActivity.newIntent(this@InformationErrorActivity)
     }
 }

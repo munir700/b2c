@@ -32,7 +32,7 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".modules.onboarding.activities.InvalidCountryActivity"
+            android:name=".modules.onboarding.activities.InformationErrorActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.onboarding.activities.EidInfoReviewActivity"
