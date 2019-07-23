@@ -33,6 +33,7 @@
             android:gravity="center"
             tools:text="@string/screen_kyc_information_error_display_text_title_from_usa"
             app:text="@{Strings.screen_kyc_information_error_display_text_title_from_usa}"
+
             />
 
         <ImageView
@@ -60,6 +61,7 @@
             android:gravity="center"
             tools:text="@string/screen_kyc_information_error_display_text_explanation_from_usa"
             app:text="@{Strings.screen_kyc_information_error_display_text_explanation_from_usa}"
+
             android:layout_marginTop="@dimen/margin_extra_large"
             />
 

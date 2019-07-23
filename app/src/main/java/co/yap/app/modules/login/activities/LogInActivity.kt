@@ -8,11 +8,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.app.modules.accountselection.activities.AccountSelectionActivity
+import co.yap.app.modules.startup.activities.AccountSelectionActivity
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
 import co.yap.yapcore.BaseBindingActivity
 
+// TODO: Remove this file once all references are invalid
+@Deprecated("Use LoginFragment instead")
 class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
 
     companion object {
