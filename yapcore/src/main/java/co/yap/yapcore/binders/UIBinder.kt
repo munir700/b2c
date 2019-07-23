@@ -235,7 +235,7 @@ object UIBinder {
         view.setPadding(
             view.context.resources.getDimensionPixelSize(R.dimen.margin_medium),
             0,
-            view.context.resources.getDimensionPixelSize(R.dimen.margin_medium),
+            view.context.resources.getDimensionPixelSize(R.dimen.margin_small),
             0
         )
     }

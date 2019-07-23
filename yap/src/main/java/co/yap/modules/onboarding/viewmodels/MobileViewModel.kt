@@ -32,6 +32,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
         editText.requestFocus()
         state.etMobileNumber = editText
         state.etMobileNumber!!.requestFocus()
+        state.etMobileNumber!!.setOnEditorActionListener(onEditorActionListener())
 
     }
 
