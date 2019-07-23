@@ -886,9 +886,9 @@ class CountryCodePicker : RelativeLayout {
                 areaCodeCountryDetectorTextWatcher = countryDetectorTextWatcher()
                 editText_registeredCarrierNumber!!.addTextChangedListener(areaCodeCountryDetectorTextWatcher)
             }
-            editText_registeredCarrierNumber!!.setText("")
-            editText_registeredCarrierNumber!!.setText(digitsValue)
-            editText_registeredCarrierNumber!!.setSelection(editText_registeredCarrierNumber!!.getText().length)
+//            editText_registeredCarrierNumber!!.setText("")
+//            editText_registeredCarrierNumber!!.setText(digitsValue)
+//            editText_registeredCarrierNumber!!.setSelection(editText_registeredCarrierNumber!!.getText().length)
         } else {
             if (editText_registeredCarrierNumber == null) {
                 Log.v(TAG, "EditTextStatus: EditText not registered " + selectionMemoryTag)

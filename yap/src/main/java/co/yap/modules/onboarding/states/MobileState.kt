@@ -145,7 +145,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         background = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_edit_text)
         activeFieldValue = true
         mobileError = ""
-        errorVisibility = GONE
+//        errorVisibility = GONE
         valid = false
 
     }

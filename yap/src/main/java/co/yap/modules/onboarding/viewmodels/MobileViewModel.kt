@@ -11,7 +11,6 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.onboarding.ObnoardingRepository
 import co.yap.networking.onboarding.requestdtos.CreateOtpRequest
-import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.SingleLiveEvent
 import java.util.*
 
@@ -57,7 +56,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     private fun createOtp() {
 
         var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
-          mobileNumber = state.mobile.trim().replace(" ", "")
+        mobileNumber = state.mobile.trim().replace(" ", "")
         val formattedMobileNumber: String =
             state.countryCode.trim() + " " + state.mobile.trim().replace(state.countryCode.trim(), "")
         val countryCode: String = state.countryCode.trim().replace("+", "00")
