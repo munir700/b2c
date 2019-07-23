@@ -8,7 +8,6 @@ import android.view.ViewTreeObserver
 import android.widget.EditText
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.R
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
@@ -60,6 +59,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.mobileError)
+            setErrorResponseLayout()
 
         }
         get() {
@@ -164,11 +164,18 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     }
 
     private fun setErrorLayout() {
-        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.invalid_name)
-        background = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_error_layout)
-        mobileError = mContext.getString(R.string.screen_phone_number_display_text_error)
-        errorVisibility = VISIBLE
         valid = false
+
+    }
+
+    private fun setErrorResponseLayout() {
+        if (!mobileError.isNullOrEmpty()) {
+
+            drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.invalid_name)
+            background = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_error_layout)
+             errorVisibility = VISIBLE
+            valid = false
+        }
 
     }
 
@@ -177,7 +184,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         background = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_edit_text)
         activeFieldValue = true
         mobileError = ""
-//        errorVisibility = GONE
         valid = false
 
     }
