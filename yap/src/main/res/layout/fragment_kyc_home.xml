@@ -9,6 +9,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.kyc.viewmodels.KYCHomeViewModel"/>
+        <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -23,7 +24,6 @@
             android:gravity="center"
             style="@style/ATitle3"
             app:text="@{Strings.screen_b2c_kyc_home_display_text_screen_title}"
-            app:concat="@{viewModel.state.nameList}"
             tools:text="@string/screen_b2c_kyc_home_display_text_screen_title"
             android:layout_marginTop="@dimen/margin_extra_small"
             app:layout_constraintTop_toTopOf="parent"
