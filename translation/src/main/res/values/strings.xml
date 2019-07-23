@@ -108,5 +108,19 @@
     <string name="screen_b2c_kyc_home_button_skip">Skip and go to dashboard</string>
     <string name="screen_b2c_kyc_home_emirates_id_scan">Tap to scan your Emirates ID</string>
 
+    <!-- Meeting confirmation screen -->
+    <string name="screen_meeting_confirmation_display_text_title">Your card is on it\'s way!</string>
+    <string name="screen_meeting_confirmation_display_text_guide">Make sure you have your Emirates ID on you at the time of delivery</string>
+    <string name="screen_meeting_confirmation_display_text_emirates_id">Emirates ID</string>
+    <string name="screen_meeting_confirmation_button_go_to_dashboard">Go to dashboard</string>
+
+    <!-- Country not allowed screen -->
+    <string name="screen_kyc_information_error_display_text_title_from_usa">Looks like you\'re from the United States</string>
+    <string name="screen_kyc_information_error_display_text_explanation_from_usa">Sorry, we\'re unable to activate your YAP account at this time. We\'re working on it and we will let you know once resolved.</string>
+    <string name="screen_kyc_information_error_display_text_title_under_age">18 birthdays for a YAP account</string>
+    <string name="screen_kyc_information_error_display_text_explanation_under_age">Currently, you can only have an account with YAP if you\'re over 18 years of age. You can always continue signing up via our dashboard once you\'ve turned 18</string>
+    <string name="screen_kyc_information_error_display_text_title_expired_card">YAP works best with a valid Emirates ID</string>
+    <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
+    <string name="screen_kyc_information_error_button_go_to_dashboard">Go to dashboard</string>
 
 </resources>

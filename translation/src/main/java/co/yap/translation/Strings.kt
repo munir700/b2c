@@ -115,7 +115,32 @@ object Strings {
     const val screen_verify_passcode_text_forgot_password: String = "screen_verify_passcode_text_forgot_password"
 
     //Otp screen
-    const val screen_verify_phone_number_display_text_resend_otp_success: String = "screen_verify_phone_number_display_text_resend_otp_success"
+    const val screen_verify_phone_number_display_text_resend_otp_success: String =
+        "screen_verify_phone_number_display_text_resend_otp_success"
+
+    // Meeting confirmation screen
+    const val screen_meeting_confirmation_display_text_title: String = "screen_meeting_confirmation_display_text_title"
+    const val screen_meeting_confirmation_display_text_guide: String = "screen_meeting_confirmation_display_text_guide"
+    const val screen_meeting_confirmation_display_text_emirates_id: String =
+        "screen_meeting_confirmation_display_text_emirates_id"
+    const val screen_meeting_confirmation_button_go_to_dashboard: String =
+        "screen_meeting_confirmation_button_go_to_dashboard"
+
+    //country not allowed screen
+    const val screen_kyc_information_error_display_text_title_from_usa: String =
+        "screen_kyc_information_error_display_text_title_from_usa"
+    const val screen_kyc_information_error_display_text_explanation_from_usa: String =
+        "screen_kyc_information_error_display_text_explanation_from_usa"
+    const val screen_kyc_information_error_display_text_title_under_age: String =
+        "screen_kyc_information_error_display_text_title_under_age"
+    const val screen_kyc_information_error_display_text_explanation_under_age: String =
+        "screen_kyc_information_error_display_text_explanation_under_age"
+    const val screen_kyc_information_error_display_text_title_expired_card: String =
+        "screen_kyc_information_error_display_text_title_expired_card"
+    const val screen_kyc_information_error_display_text_explanation_expired_card: String =
+        "screen_kyc_information_error_display_text_explanation_expired_card"
+    const val screen_kyc_information_error_button_go_to_dashboard: String =
+        "screen_kyc_information_error_button_go_to_dashboard"
 
     // KYC Home Screen
     const val screen_b2c_kyc_home_display_text_screen_title: String = "screen_b2c_kyc_home_display_text_screen_title"
