@@ -56,7 +56,8 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
 
     private fun createOtp() {
 
-        val mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
+        var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
+          mobileNumber = state.mobile.trim().replace(" ", "")
         val formattedMobileNumber: String =
             state.countryCode.trim() + " " + state.mobile.trim().replace(state.countryCode.trim(), "")
         val countryCode: String = state.countryCode.trim().replace("+", "00")
