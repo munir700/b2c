@@ -36,8 +36,7 @@ class SplashActivity : BaseActivity<ISplash.ViewModel>(), ISplash.View {
                     startActivity(Intent(this, AccountSelectionActivity::class.java))
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
                 }else{
-                    startActivity(OnboardingActivity.newIntent(this, AccountType.B2C_ACCOUNT))
-//                    startActivity(Intent(this, LogInActivity::class.java))
+                    startActivity(Intent(this, LogInActivity::class.java))
                 }
 
             }

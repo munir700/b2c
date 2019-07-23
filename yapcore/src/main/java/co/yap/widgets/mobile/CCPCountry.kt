@@ -375,7 +375,8 @@ class CCPCountry : Comparable<CCPCountry> {
                 "ad" //andorra
                 -> return R.drawable.flag_andorra
                 "ae" //united arab emirates
-                -> return R.drawable.flag_uae
+                -> return R.drawable.bitmap
+//                -> return R.drawable.flag_uae
                 "af" //afghanistan
                 -> return R.drawable.flag_afghanistan
                 "ag" //antigua & barbuda

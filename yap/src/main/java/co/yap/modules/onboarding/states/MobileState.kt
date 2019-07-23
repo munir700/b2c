@@ -1,7 +1,10 @@
 package co.yap.modules.onboarding.states
 
 import android.app.Application
+import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.view.View
+import android.view.ViewTreeObserver
 import android.widget.EditText
 import androidx.databinding.Bindable
 import co.yap.BR
@@ -12,8 +15,8 @@ import co.yap.yapcore.BaseState
 
 class MobileState(application: Application) : BaseState(), IMobile.State {
 
-    val VISIBLE :Int = 0x00000000
-    val GONE :Int = 0x00000008
+    val VISIBLE: Int = 0x00000000
+    val GONE: Int = 0x00000008
 
     val mContext = application.applicationContext
     var countryCode: String = "+971 "
@@ -95,9 +98,8 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.etMobileNumber)
-            etMobileNumber!!.requestFocus()
+            findKeyBoardFocus()
             registerCarrierEditText()
-            etMobileNumber!!.requestFocus()
 
         }
 
@@ -132,6 +134,33 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                 }
             }
         })
+    }
+
+    private fun findKeyBoardFocus() {
+
+        etMobileNumber!!.getViewTreeObserver().addOnGlobalLayoutListener(
+            object : ViewTreeObserver.OnGlobalLayoutListener {
+                override fun onGlobalLayout() {
+                    if (etMobileNumber!!.isFocused()) {
+                        if (!keyboardShown(etMobileNumber!!.getRootView())) {
+                            activeFieldValue = false
+                        } else {
+                            activeFieldValue = true
+                        }
+                    }
+                    return
+                }
+            })
+    }
+
+    fun keyboardShown(rootView: View): Boolean {
+
+        val softKeyboardHeight = 100
+        val r = Rect()
+        rootView.getWindowVisibleDisplayFrame(r)
+        val dm = rootView.resources.displayMetrics
+        val heightDiff = rootView.bottom - r.bottom
+        return heightDiff > softKeyboardHeight * dm.density
     }
 
     private fun setErrorLayout() {

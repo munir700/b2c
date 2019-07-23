@@ -68,7 +68,7 @@ class CountryCodePicker : RelativeLayout {
     var ccpDialogShowTitle = true
 
     var ccpDialogShowFlag = true
-    var ccp_onFlagClick = true
+    var ccp_onFlagClick = false
 
     var isSearchAllowed = true
     private var showArrow = true
@@ -165,11 +165,16 @@ class CountryCodePicker : RelativeLayout {
         return numberAutoFormattingEnabled
     }
 
+    fun setDefaultCountryUae() {
+        defaultCCPCountry= CCPCountry("ae", "971", "UAE", CCPCountry.DEFAULT_FLAG_RES)
+        selectedCCPCountry=defaultCCPCountry
+    }
     /**
      * This will set boolean for numberAutoFormattingEnabled and refresh formattingTextWatcher
      *
      * @param numberAutoFormattingEnabled
      */
+
     fun setNumberAutoFormattingEnabled(numberAutoFormattingEnabled: Boolean) {
         this.numberAutoFormattingEnabled = numberAutoFormattingEnabled
         if (editText_registeredCarrierNumber != null) {
@@ -519,17 +524,18 @@ class CountryCodePicker : RelativeLayout {
         holder = findViewById(R.id.countryCodeHolder)
         imageViewFlag = findViewById(R.id.ivFlag)
         textView_selectedCountry!!.setText("+971")
-        imageViewFlag!!.setImageResource(R.drawable.flag_uae)
+        imageViewFlag!!.setImageResource(R.drawable.bitmap)
 
         linearFlagHolder = findViewById(R.id.llFlagHolder)
         linearFlagBorder = findViewById(R.id.llFlag)
         relativeClickConsumer = findViewById(R.id.rlContainer)
-        if (ccp_onFlagClick) {
+        if (ccp_onFlagClick) {// force disable click to open dialogue list of countries
             relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
 
         }
         detectCountryWithAreaCode = true
         updateFormattingTextWatcher()
+        setDefaultCountryUae()
     }
 
     private fun applyCustomProperty(attrs: AttributeSet) {
