@@ -29,7 +29,10 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     }
 
     override fun getCcp(editText: EditText) {
+        editText.requestFocus()
         state.etMobileNumber = editText
+        state.etMobileNumber!!.requestFocus()
+
     }
 
     override fun handlePressOnNext() {

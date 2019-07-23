@@ -17,6 +17,7 @@ import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import co.yap.yapcore.R
 import com.google.gson.Gson
@@ -945,6 +946,14 @@ class CountryCodePicker : RelativeLayout {
         updateValidityTextWatcher()
         updateFormattingTextWatcher()
         updateHint()
+        requestKeyboard()
+    }
+
+    private fun requestKeyboard() {
+        editText_registeredCarrierNumber!!.requestFocus()
+        (editText_registeredCarrierNumber!!.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+            InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
+        )
     }
 
     private fun updateValidityTextWatcher() {

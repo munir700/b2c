@@ -95,7 +95,10 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.etMobileNumber)
+            etMobileNumber!!.requestFocus()
             registerCarrierEditText()
+            etMobileNumber!!.requestFocus()
+
         }
 
     private fun registerCarrierEditText() {
