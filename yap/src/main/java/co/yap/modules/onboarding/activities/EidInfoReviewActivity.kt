@@ -4,15 +4,25 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.modules.onboarding.interfaces.IEidInfoReview
+import co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel
+import co.yap.yapcore.BaseBindingActivity
 
-class EidInfoReviewActivity : AppCompatActivity() {
+class EidInfoReviewActivity : BaseBindingActivity<IEidInfoReview.ViewModel>() {
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, EidInfoReviewActivity::class.java)
     }
 
+    override fun getBindingVariable(): Int = 0
+
+    override fun getLayoutId(): Int = R.layout.activity_eid_info_review
+
+    override val viewModel: IEidInfoReview.ViewModel
+        get() = ViewModelProviders.of(this).get(EidInfoReviewViewModel::class.java)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_eid_info_review)
     }
 }
