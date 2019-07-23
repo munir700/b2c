@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel
@@ -15,7 +16,7 @@ class EidInfoReviewActivity : BaseBindingActivity<IEidInfoReview.ViewModel>() {
         fun newIntent(context: Context): Intent = Intent(context, EidInfoReviewActivity::class.java)
     }
 
-    override fun getBindingVariable(): Int = 0
+    override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_eid_info_review
 
