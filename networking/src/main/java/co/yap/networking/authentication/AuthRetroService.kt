@@ -1,10 +1,11 @@
 package co.yap.networking.authentication
 
 import co.yap.networking.authentication.responsedtos.LoginResponse
-import co.yap.networking.authentication.responsedtos.VerifyUsernameResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface AuthRetroService {
 
@@ -22,9 +23,4 @@ interface AuthRetroService {
     // Logout
     @POST(AuthRepository.URL_LOGOUT)
     suspend fun logout(@Query("uuid") uuid: String): Response<ApiResponse>
-
-    // Verify username
-    @POST(AuthRepository.URL_VERIFY_USERNAME)
-    suspend fun verifyUsername(@Query("username") username: String): Response<VerifyUsernameResponse>
-
 }

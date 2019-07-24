@@ -5,7 +5,7 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.responsedtos.LoginResponse
-import co.yap.networking.authentication.responsedtos.VerifyUsernameResponse
+import co.yap.networking.admin.responsedtos.VerifyUsernameResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -16,7 +16,6 @@ object AuthRepository : BaseRepository(), AuthApi {
     const val URL_GET_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_REFRESH_JWT_TOKEN = "/auth/oauth/oidc/token"
     const val URL_LOGOUT = "/auth/oauth/oidc/logout"
-    const val URL_VERIFY_USERNAME = "/admin/api/verify-user"
 
     private val API: AuthRetroService = RetroNetwork.createService(AuthRetroService::class.java)
 
@@ -57,8 +56,4 @@ object AuthRepository : BaseRepository(), AuthApi {
         }
         return response
     }
-
-    override suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse> =
-        executeSafely(call = { API.verifyUsername(username) })
-
 }
