@@ -4,6 +4,7 @@ import android.app.Application
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
+import co.yap.R
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
 import co.yap.yapcore.BaseViewModel
@@ -22,6 +23,10 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override fun handlePressOnSelectLocation() {
         state.headingTitle="test"
     }
+
+      fun handlePressOnChangeLocation() {
+        state.locationBtnText=getString(R.string.screen_meeting_location_button_change_location)
+     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return object : TextView.OnEditorActionListener {
@@ -42,7 +47,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 //        clickListener.value = id
 //    }
 //
-//    override fun handlePressOnScanCard(id: Int) {
+//    override fun handlePressOnChangeLocation(id: Int) {
 //        clickListener.value = id
 //    }
 //

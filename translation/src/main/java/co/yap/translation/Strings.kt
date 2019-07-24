@@ -161,6 +161,8 @@ object Strings {
         "screen_meeting_location_input_text_landmark_title"
     const val screen_meeting_location_input_text_landmark_hint: String =
         "screen_meeting_location_input_text_landmark_hint"
+    const val screen_meeting_location_button_change_location: String =
+        "screen_meeting_location_button_change_location"
 
     //Eid Info Review screen
     const val screen_b2c_eid_info_review_display_text_title: String = "screen_b2c_eid_info_review_display_text_title"

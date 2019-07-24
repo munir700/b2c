@@ -127,6 +127,7 @@
     <string name="screen_meeting_location_display_text_title">Your card is ready to be delivered!</string>
     <string name="screen_meeting_location_display_text_subtitle">Choose your location on the map below</string>
     <string name="screen_meeting_location_button_confirm_location">Tap map to confirm location</string>
+    <string name="screen_meeting_location_button_change_location">Tap map to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
     <string name="screen_meeting_location_input_text_address_hint">Enter your address</string>
     <string name="screen_meeting_location_input_text_landmark_title">Landmark (optional)</string>
