@@ -76,16 +76,9 @@ class NameState(application: Application) : BaseState(), IName.State {
     @get:Bindable
     override var valid: Boolean = false
         get() = validate()
-//        set(value) {
-//            field = value
-//            notifyPropertyChanged(BR.valid)
-//
-//        }
 
     private fun validate(): Boolean {
-        val chexk: Boolean = firstNameError.isNullOrEmpty()
-        val chexkz: Boolean = lastNameError.isNullOrEmpty()
-        return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()
+         return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()
     }
 
 
