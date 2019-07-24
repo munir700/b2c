@@ -5,7 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.app.BR
+import co.yap.BR
 import co.yap.app.R
 import co.yap.app.modules.login.activities.VerifyPasscodeActivity
 import co.yap.app.modules.login.interfaces.ILogin
@@ -41,7 +41,8 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signUpButtonObserver = Observer<Boolean> {
-         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+         // findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+         findNavController().navigate(R.id.action_loginFragment_to_documentsDashboardActivity2)
     }
 
 

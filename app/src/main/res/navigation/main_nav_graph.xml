@@ -82,5 +82,12 @@
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"
             app:destination="@id/accountSelectionFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_documentsDashboardActivity2"
+            app:destination="@id/documentsDashboardActivity2"/>
     </fragment>
+    <activity
+        android:id="@+id/documentsDashboardActivity2"
+        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
+        android:label="DocumentsDashboardActivity"/>
 </navigation>

@@ -8,8 +8,13 @@ import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
+import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
+import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
+
+private const val SCAN_EID = 12
 
 class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View {
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_kyc_home
@@ -21,15 +26,9 @@ class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View
         super.onActivityCreated(savedInstanceState)
         viewModel.clickListener.observe(this, Observer {
             when (it) {
-                R.id.cvCard -> {
-
-                }
-                R.id.btnNext -> {
-
-                }
-                R.id.tvSkip -> {
-
-                }
+                R.id.cvCard -> openCardScanner()
+                R.id.btnNext -> {}
+                R.id.tvSkip -> {}
             }
         })
     }
@@ -37,6 +36,17 @@ class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View
     override fun onDestroyView() {
         viewModel.clickListener.removeObservers(this)
         super.onDestroyView()
+    }
+
+    private fun openCardScanner() {
+        startActivityForResult(
+            IdentityScannerActivity.getLaunchIntent(
+                requireContext(),
+                DocumentType.EID,
+                IdentityScannerActivity.SCAN_FROM_CAMERA
+            ),
+            SCAN_EID
+        )
     }
 
 }
