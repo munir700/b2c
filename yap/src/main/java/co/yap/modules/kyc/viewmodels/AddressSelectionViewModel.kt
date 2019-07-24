@@ -20,7 +20,8 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
     override fun handlePressOnSelectLocation() {
-     }
+        state.headingTitle="test"
+    }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return object : TextView.OnEditorActionListener {

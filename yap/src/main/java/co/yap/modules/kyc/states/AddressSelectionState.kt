@@ -16,27 +16,21 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
     val mContext: Context = application.applicationContext
 
     @get:Bindable
-    override var headingTitle: String = ""
+    override var headingTitle: String =
+        Translator.getString(application, R.string.screen_meeting_location_display_text_title)
         get() = field
         set(value) {
-//            field = value
-//            notifyPropertyChanged(BR.headingTitle)
 
-//            field = value
-            field =
-                Translator.getString(mContext, mContext.getString(R.string.screen_meeting_location_display_text_title))
+            field = value
             notifyPropertyChanged(BR.headingTitle)
         }
 
     @get:Bindable
-    override var subHeadingTitle: String = ""
+    override var subHeadingTitle: String =
+        Translator.getString(application, R.string.screen_meeting_location_display_text_subtitle)
         get() = field
         set(value) {
-//            field = value
-            field = Translator.getString(
-                mContext,
-                mContext.getString(R.string.screen_meeting_location_display_text_subtitle)
-            )
+            field = value
             notifyPropertyChanged(BR.subHeadingTitle)
         }
 
@@ -64,7 +58,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             notifyPropertyChanged(BR.locationBtnText)
         }
     @get:Bindable
-    override var valid: Boolean = false
+    override var valid: Boolean = true
         get() = validate()
 
     //        set(value) {
