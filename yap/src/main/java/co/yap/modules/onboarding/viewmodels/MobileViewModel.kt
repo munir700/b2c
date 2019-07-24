@@ -3,6 +3,7 @@ package co.yap.modules.onboarding.viewmodels
 import android.app.Application
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.states.MobileState
@@ -15,6 +16,8 @@ import java.util.*
 
 class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobile.State>(application),
     IMobile.ViewModel, IRepositoryHolder<ObnoardingRepository> {
+
+
     override val repository: ObnoardingRepository = ObnoardingRepository
 
     override val state: MobileState = MobileState(application)
@@ -23,6 +26,14 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     override fun onResume() {
         super.onResume()
         setProgress(20)
+    }
+
+    override fun getCcp(editText: EditText) {
+        editText.requestFocus()
+        state.etMobileNumber = editText
+        state.etMobileNumber!!.requestFocus()
+        state.etMobileNumber!!.setOnEditorActionListener(onEditorActionListener())
+
     }
 
     override fun handlePressOnNext() {
@@ -37,7 +48,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
         return object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (state.valid){
+                    if (state.valid) {
                         handlePressOnNext()
                     }
                 }
@@ -48,8 +59,10 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
 
     private fun createOtp() {
 
-        val mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
-        val formattedMobileNumber: String = state.countryCode.trim()+" "+state.mobile.trim().replace(state.countryCode.trim(), "")
+        var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
+        mobileNumber = state.mobile.trim().replace(" ", "")
+        val formattedMobileNumber: String =
+            state.countryCode.trim() + " " + state.mobile.trim().replace(state.countryCode.trim(), "")
         val countryCode: String = state.countryCode.trim().replace("+", "00")
 
         launch {
