@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import co.yap.app.R
+import co.yap.modules.onboarding.activities.EidInfoReviewActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.defaults.DefaultViewModel
@@ -22,11 +24,15 @@ class AccountSelectionFragment : BaseBindingFragment<IDefault.ViewModel>(), IDef
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnBusiness.setOnClickListener { }
-        btnPersonal.setOnClickListener(
-            Navigation.createNavigateOnClickListener(
-                R.id.action_accountSelectionFragment_to_welcomeFragment,
-                Bundle().apply { putSerializable(getString(R.string.arg_account_type), AccountType.B2C_ACCOUNT) })
-        )
+        btnPersonal.setOnClickListener {
+            //startActivity(context?.let { it1 -> EidInfoReviewActivity.newIntent(context = it1) })
+            findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+            /* Navigation.createNavigateOnClickListener(
+                    R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)*/
+            /*           Navigation.createNavigateOnClickListener(
+                           R.id.action_accountSelectionFragment_to_welcomeFragment,
+                           Bundle().apply { putSerializable(getString(R.string.arg_account_type), AccountType.B2C_ACCOUNT) })*/
+        }
         tvSignIn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountSelectionFragment_to_loginFragment))
     }
 }

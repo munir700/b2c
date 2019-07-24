@@ -9,5 +9,14 @@
         android:id="@+id/KYCHomeFragment"
         tools:layout="@layout/fragment_kyc_home"
         android:name="co.yap.modules.kyc.fragments.KYCHomeFragment"
-        android:label="KYCHomeFragment"/>
+        android:label="KYCHomeFragment">
+        <action
+            android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"
+            app:destination="@id/eidInfoReviewFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/eidInfoReviewFragment"
+        android:name="co.yap.modules.kyc.fragments.EidInfoReviewFragment"
+        android:label="EidInfoReviewFragment"/>
+
 </navigation>

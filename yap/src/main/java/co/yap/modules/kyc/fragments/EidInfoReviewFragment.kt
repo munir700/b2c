@@ -1,18 +1,17 @@
-package co.yap.modules.onboarding.activities
+package co.yap.modules.kyc.fragments
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.onboarding.activities.EidInfoReviewActivity
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingFragment
 
-@Deprecated("Use EidInfoReviewFragment")
-class EidInfoReviewActivity : BaseBindingActivity<IEidInfoReview.ViewModel>() {
+class EidInfoReviewFragment :BaseBindingFragment<IEidInfoReview.ViewModel>() {
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, EidInfoReviewActivity::class.java)
     }
@@ -26,7 +25,7 @@ class EidInfoReviewActivity : BaseBindingActivity<IEidInfoReview.ViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-       // viewModel.state.expiryDate="25/07/2020"
+        // viewModel.state.expiryDate="25/07/2020"
         viewModel.state.dateOfBirth="25/07/2002"
     }
 }
