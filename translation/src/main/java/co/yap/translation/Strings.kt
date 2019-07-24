@@ -148,5 +148,17 @@ object Strings {
     const val screen_b2c_kyc_home_button_skip: String = "screen_b2c_kyc_home_button_skip"
     const val screen_b2c_kyc_home_emirates_id_scan: String = "screen_b2c_kyc_home_emirates_id_scan"
 
-
+    // Meeting location selection screen
+    const val screen_meeting_location_display_text_title: String = "screen_meeting_location_display_text_title"
+    const val screen_meeting_location_display_text_subtitle: String = "screen_meeting_location_display_text_subtitle"
+    const val screen_meeting_location_button_confirm_location: String =
+        "screen_meeting_location_button_confirm_location"
+    const val screen_meeting_location_input_text_address_title: String =
+        "screen_meeting_location_input_text_address_title"
+    const val screen_meeting_location_input_text_address_hint: String =
+        "screen_meeting_location_input_text_address_hint"
+    const val screen_meeting_location_input_text_landmark_title: String =
+        "screen_meeting_location_input_text_landmark_title"
+    const val screen_meeting_location_input_text_landmark_hint: String =
+        "screen_meeting_location_input_text_landmark_hint"
 }
