@@ -119,4 +119,18 @@
     <string name="screen_kyc_information_error_display_text_explanation_expired_card">Once you\'ve renewed or received your Emirates ID, re-scan it via our dashboard to continue opening your account with YAP.</string>
     <string name="screen_kyc_information_error_button_go_to_dashboard">Go to dashboard</string>
 
+    <!-- Eid details review screen -->
+    <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
+    <string name="screen_b2c_eid_info_review_display_text_sub_title">Thanks Nada! Verify your details so we can send you your YAP card</string>
+    <string name="screen_b2c_eid_info_review_display_text_emirates_id_heading">Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_display_text_emirates_id_sub_heading">Pending confirmation</string>
+    <string name="screen_b2c_eid_info_review_display_text_name_heading">Name</string>
+    <string name="screen_b2c_eid_info_review_display_text_nationality_heading">Nationality</string>
+    <string name="screen_b2c_eid_info_review_display_text_dob_heading">Date of birth</string>
+    <string name="screen_b2c_eid_info_review_display_text_gender_heading">Gender</string>
+    <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
+    <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
+    <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+
+
 </resources>

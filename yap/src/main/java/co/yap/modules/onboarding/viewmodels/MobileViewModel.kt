@@ -3,6 +3,7 @@ package co.yap.modules.onboarding.viewmodels
 import android.app.Application
 import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
+import android.widget.EditText
 import android.widget.TextView
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.states.MobileState
@@ -23,6 +24,14 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     override fun onResume() {
         super.onResume()
         setProgress(20)
+    }
+
+    override fun getCcp(editText: EditText) {
+        editText.requestFocus()
+        state.etMobileNumber = editText
+        state.etMobileNumber!!.requestFocus()
+        state.etMobileNumber!!.setOnEditorActionListener(onEditorActionListener())
+
     }
 
     override fun handlePressOnNext() {
@@ -48,8 +57,10 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
 
     private fun createOtp() {
 
-        val mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
-        val formattedMobileNumber: String = state.countryCode.trim()+" "+state.mobile.trim().replace(state.countryCode.trim(), "")
+        var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
+        mobileNumber = state.mobile.trim().replace(" ", "")
+        val formattedMobileNumber: String =
+            state.countryCode.trim() + " " + state.mobile.trim().replace(state.countryCode.trim(), "")
         val countryCode: String = state.countryCode.trim().replace("+", "00")
 
         launch {

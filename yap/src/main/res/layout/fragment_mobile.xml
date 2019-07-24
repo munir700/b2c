@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="mobileViewModel"
+            name="viewModel"
             type="co.yap.modules.onboarding.viewmodels.MobileViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
@@ -28,37 +28,79 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             style="@style/ALarge"
-            tools:text="@string/screen_phone_number_display_text_title"
             android:layout_marginTop="@dimen/margin_extra_large"
+            tools:text="@string/screen_phone_number_display_text_title"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteY="219dp"
+            android:layout_marginBottom="@dimen/margin_heading_to_field"
             tools:layout_editor_absoluteX="54dp"
             app:text="@{Strings.screen_phone_number_display_text_title}"
             />
 
-        <co.yap.widgets.CoreInputField
-            android:id="@+id/inputMobileNumber"
+        <LinearLayout
+            android:id="@+id/viewPhoneNumber"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_marginTop="@dimen/margin_heading_to_field"
             app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"
-            app:layout_constraintStart_toStartOf="parent"
-            app:view_drawable_left="@drawable/bitmap"
-            android:layout_marginStart="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:view_input_type="phone"
-            android:layout_marginEnd="8dp"
-            app:coreInputError="@{mobileViewModel.state.mobileError}"
-            app:textWatcher="@{mobileViewModel.state.getTextWatcher()}"
-            app:coreInputDrawableRight="@{mobileViewModel.state.drawbleRight}"
-            app:resetUI="@{mobileViewModel.state.refreshField}"
-            app:disableKeyBack="@{mobileViewModel.state.handleBackPress}"
-            app:inputText="@{mobileViewModel.state.inputText}"
-             app:cursorPlacement="@{mobileViewModel.state.cursorPlacement}"
-            app:onEditorActionDoneListener="@{mobileViewModel.onEditorActionListener()}"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_heading_to_field"
+            android:orientation="vertical">
 
-            />
+            <LinearLayout
+                android:id="@+id/ccpContainer"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:minHeight="52dp"
+                app:setBackGroundRes="@{viewModel.state.background}"
+                app:isCCpActivated="@{viewModel.state.activeFieldValue}"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium">
+
+                <co.yap.widgets.mobile.CountryCodePicker
+                    android:id="@+id/ccpSelector"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".01"
+                    app:ccp_hintExampleNumber="true"
+                    app:ccp_countryPreference="us,ae"
+                    android:visibility="visible"
+                    android:clickable="false"
+                    app:ccp_onFlagClick="false"
+                    />
+
+                <EditText
+                    android:id="@+id/etMobileNumber"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".99"
+                    android:editable="false"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:digits="1234567890 "
+                    android:paddingEnd="@dimen/margin_normal"
+                    android:background="@null"
+                    android:drawableRight="@{viewModel.state.drawbleRight}"
+                    android:text="@={viewModel.state.mobile}"
+                    android:maxLength="11"
+                    android:imeOptions="actionDone"
+                    android:textSize="@dimen/_15sdp"
+                    android:textColor="@android:color/black"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvMobileError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/margin_medium"
+                android:textSize="12sp"
+                android:text="@{viewModel.state.mobileError}"
+                android:visibility="@{viewModel.state.errorVisibility}"
+                android:layout_marginTop="@dimen/margin_small"
+                android:layout_below="@+id/etMobileNumber"/>
+        </LinearLayout>
 
         <co.yap.widgets.CoreButton
             android:id="@+id/next_button"
@@ -72,7 +114,8 @@
             tools:ignore="MissingConstraints"
             android:layout_marginBottom="@dimen/margin_medium_large"
             tools:layout_editor_absoluteX="44dp"
-            app:enableCoreButton="@{mobileViewModel.state.valid}"
-            android:onClick="@{() -> mobileViewModel.handlePressOnNext()}"/>
+            app:enableCoreButton="@{viewModel.state.valid}"
+            android:onClick="@{() -> viewModel.handlePressOnNext()}"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+
