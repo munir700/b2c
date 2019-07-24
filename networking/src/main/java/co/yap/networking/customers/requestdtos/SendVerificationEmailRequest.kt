@@ -1,4 +1,4 @@
-package co.yap.networking.onboarding.requestdtos
+package co.yap.networking.customers.requestdtos
 
 import com.google.gson.annotations.SerializedName
 

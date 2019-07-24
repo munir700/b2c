@@ -5,8 +5,10 @@ import co.yap.app.constants.Constants
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.states.VerifyPasscodeState
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.authentication.requestdtos.CreateOtpRequest
+import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
@@ -21,6 +23,8 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
     override val validateDeviceResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val createOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var isFingerprintLogin: Boolean = false
+    private val customersRepository: CustomersRepository = CustomersRepository
+    private val messagesRepository: MessagesRepository = MessagesRepository
 
     override fun login() {
         launch {
@@ -40,7 +44,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
     override fun validateDevice() {
         launch {
-            when (val response = repository.validateDemographicData(state.deviceId)) {
+            when (val response = customersRepository.validateDemographicData(state.deviceId)) {
                 is RetroApiResponse.Success -> {
                     validateDeviceResult.postValue(response.data.data)
                 }
@@ -55,7 +59,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
     override fun createOtp() {
         launch {
-            when (val response = repository.createOtp(CreateOtpRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
+            when (val response = messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
                 is RetroApiResponse.Success -> {
                     createOtpResult.postValue(true)
                 }

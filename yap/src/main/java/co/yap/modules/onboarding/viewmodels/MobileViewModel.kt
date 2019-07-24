@@ -7,15 +7,15 @@ import android.widget.TextView
 import co.yap.modules.onboarding.interfaces.IMobile
 import co.yap.modules.onboarding.states.MobileState
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.onboarding.ObnoardingRepository
-import co.yap.networking.onboarding.requestdtos.CreateOtpRequest
 import co.yap.yapcore.SingleLiveEvent
 import java.util.*
 
 class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobile.State>(application),
-    IMobile.ViewModel, IRepositoryHolder<ObnoardingRepository> {
-    override val repository: ObnoardingRepository = ObnoardingRepository
+    IMobile.ViewModel, IRepositoryHolder<MessagesRepository> {
+    override val repository: MessagesRepository = MessagesRepository
 
     override val state: MobileState = MobileState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -54,8 +54,8 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
 
         launch {
             state.loading = true
-            when (val response = repository.createOtp(
-                CreateOtpRequest(
+            when (val response = repository.createOtpOnboarding(
+                CreateOtpOnboardingRequest(
                     countryCode,
                     mobileNumber,
                     parentViewModel?.onboardingData?.accountType.toString()

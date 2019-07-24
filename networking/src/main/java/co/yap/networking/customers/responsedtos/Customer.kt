@@ -1,4 +1,4 @@
-package co.yap.networking.onboarding.responsedtos
+package co.yap.networking.customers.responsedtos
 
 class Customer(
     val uuid: String,
