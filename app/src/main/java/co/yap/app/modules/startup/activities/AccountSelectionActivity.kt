@@ -29,7 +29,7 @@ class AccountSelectionActivity : DefaultActivity() {
 
         btnPersonal.setOnClickListener {
             //    startActivity(WelcomeActivity.newIntent(this, AccountType.B2C_ACCOUNT))
-            startActivity(EidInfoReviewActivity.newIntent(context = this))
+           // startActivity(EidInfoReviewActivity.newIntent(context = this))
         }
 
         tvSignIn.setOnClickListener {

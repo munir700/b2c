@@ -26,15 +26,11 @@ class AccountSelectionFragment : BaseBindingFragment<IDefault.ViewModel>(), IDef
         super.onViewCreated(view, savedInstanceState)
         btnBusiness.setOnClickListener { }
         btnPersonal.setOnClickListener {
-            //startActivity(context?.let { it1 -> EidInfoReviewActivity.newIntent(context = it1) })
-            findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-            /* Navigation.createNavigateOnClickListener(
-                    R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)*/
-            /*           Navigation.createNavigateOnClickListener(
+                       Navigation.createNavigateOnClickListener(
                            R.id.action_accountSelectionFragment_to_welcomeFragment,
-                           Bundle().apply { putSerializable(getString(R.string.arg_account_type), AccountType.B2C_ACCOUNT) })*/
+                           Bundle().apply { putSerializable(getString(R.string.arg_account_type), AccountType.B2C_ACCOUNT) })
         }
-        btnPersonal.setOnClickListener{
+      /*  btnPersonal.setOnClickListener{
             startActivity(
                 activity?.let { it1 ->
                     DocumentsDashboardActivity.newIntent(
@@ -42,7 +38,7 @@ class AccountSelectionFragment : BaseBindingFragment<IDefault.ViewModel>(), IDef
                     )
                 }
             )
-         }
+         }*/
 //        (
 //            Navigation.createNavigateOnClickListener(
 //                R.id.action_accountSelectionFragment_to_welcomeFragment,
