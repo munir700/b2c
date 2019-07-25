@@ -150,6 +150,20 @@ object Strings {
     const val screen_kyc_information_error_button_go_to_dashboard: String =
         "screen_kyc_information_error_button_go_to_dashboard"
 
+    // Meeting location selection screen
+    const val screen_meeting_location_display_text_title: String = "screen_meeting_location_display_text_title"
+    const val screen_meeting_location_display_text_subtitle: String = "screen_meeting_location_display_text_subtitle"
+    const val screen_meeting_location_button_confirm_location: String =
+        "screen_meeting_location_button_confirm_location"
+    const val screen_meeting_location_input_text_address_title: String =
+        "screen_meeting_location_input_text_address_title"
+    const val screen_meeting_location_input_text_address_hint: String =
+        "screen_meeting_location_input_text_address_hint"
+    const val screen_meeting_location_input_text_landmark_title: String =
+        "screen_meeting_location_input_text_landmark_title"
+    const val screen_meeting_location_input_text_landmark_hint: String =
+        "screen_meeting_location_input_text_landmark_hint"
+
     //Eid Info Review screen
     const val screen_b2c_eid_info_review_display_text_title: String = "screen_b2c_eid_info_review_display_text_title"
     const val screen_b2c_eid_info_review_display_text_sub_title: String =
