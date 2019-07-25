@@ -17,6 +17,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override val state: AddressSelectionState = AddressSelectionState(application)
 
     fun onLocatioenSelected() {
+        // aalso visible faade in location button
         state.headingTitle = Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_title)
         state.subHeadingTitle =
             Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_selected_subtitle)
@@ -34,10 +35,8 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun handlePressOnNext(id: Int) {
         clickEvent.setValue(id)
-        if (state.valid) {
-//            onLocatioenSelected()
-//staart new fragment in sequeence
-        }
+        //            onLocatioenSelected()
+//           start new fragment in sequeence
     }
 
     fun handlePressOnChangeLocation() {
@@ -48,9 +47,9 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         return object : TextView.OnEditorActionListener {
             override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    if (state.valid) {
-//                        handlePressOnNext()
-//                    }
+                    if (state.valid) {
+//           start new fragment in sequeence
+                    }
                 }
                 return false
             }

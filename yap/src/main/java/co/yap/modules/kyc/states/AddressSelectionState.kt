@@ -8,7 +8,6 @@ import co.yap.R
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.helpers.StringUtils
 
 
 class AddressSelectionState(application: Application) : BaseState(), IAddressSelection.State {
@@ -35,7 +34,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var addressField: String = ""
+    override var addressField: String = "subHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitle"
         get() = field
         set(value) {
             field = value
@@ -51,7 +50,8 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var locationBtnText: String = Translator.getString(application, R.string.screen_meeting_location_button_confirm_location)
+    override var locationBtnText: String =
+        Translator.getString(application, R.string.screen_meeting_location_button_confirm_location)
         get() = field
         set(value) {
             field = value
@@ -59,16 +59,16 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
     @get:Bindable
     override var valid: Boolean = true
-        get() = validate()
+        get() = validateAddress()
 
-    //        set(value) {
-//            field = value
-//            notifyPropertyChanged(BR.valid)
-//
-//        }
-    private fun validate(): Boolean {
-        return StringUtils.validateName(addressField) && StringUtils.validateName(landmarkField)
+    private fun validateAddress(): Boolean {
+        if (!addressField.isNullOrEmpty() && addressField.length >= 2 /*&& addressField.length <= 100*/) {
 
+            return true
+        } else {
+            return false
+
+        }
     }
 
 }
