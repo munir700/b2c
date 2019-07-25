@@ -12,30 +12,55 @@
     <string name="screen_home_display_text_sign_in_action">Sign In</string>
     <string name="screen_home_display_text_sign_in_title">Already have an account?</string>
 
-
     <!-- Welcome Screen -->
-    <string name="screen_welcom_b2c_display_text_page1_title">Real-time banking</string>
-    <string name="screen_welcom_b2c_display_text_page2_title">Real-time perks</string>
-    <string name="screen_welcom_b2c_display_text_page3_title">Real-time benefits</string>
-    <string name="screen_welcom_b2c_display_text_page1_details">Current account with no\nhidden fees</string>
-    <string name="screen_welcom_b2c_display_text_page2_details">A free MasterCard debit card</string>
-    <string name="screen_welcom_b2c_display_text_page3_details">Built-in budgeting at your\nfingertips</string>
-    <string name="screen_welcom_b2b_display_text_page1_title">Real-time analytics</string>
-    <string name="screen_welcom_b2b_display_text_page2_title">Real-time management</string>
-    <string name="screen_welcom_b2b_display_text_page3_title">Real-time visibility</string>
-    <string name="screen_welcom_b2b_display_text_page1_details">Built-in budgeting at your\nfingertips</string>
-    <string name="screen_welcom_b2b_display_text_page2_details">Simplified expense and\npayroll processes</string>
-    <string name="screen_welcom_b2b_display_text_page3_details">Full overview of business\nspending</string>
-    <string name="screen_welcom_button_get_started">Get started</string>
+    <string name="screen_welcome_b2c_display_text_page1_title">Real-time banking</string>
+    <string name="screen_welcome_b2c_display_text_page2_title">Real-time perks</string>
+    <string name="screen_welcome_b2c_display_text_page3_title">Real-time benefits</string>
+    <string name="screen_welcome_b2c_display_text_page1_details">Current account with no\nhidden fees</string>
+    <string name="screen_welcome_b2c_display_text_page2_details">A free MasterCard debit card</string>
+    <string name="screen_welcome_b2c_display_text_page3_details">Built-in budgeting at your\nfingertips</string>
+    <string name="screen_welcome_b2b_display_text_page1_title">Real-time analytics</string>
+    <string name="screen_welcome_b2b_display_text_page2_title">Real-time management</string>
+    <string name="screen_welcome_b2b_display_text_page3_title">Real-time visibility</string>
+    <string name="screen_welcome_b2b_display_text_page1_details">Built-in budgeting at your\nfingertips</string>
+    <string name="screen_welcome_b2b_display_text_page2_details">Simplified expense and\npayroll processes</string>
+    <string name="screen_welcome_b2b_display_text_page3_details">Full overview of business\nspending</string>
+    <string name="screen_welcome_button_get_started">Get started</string>
 
+    <!--  Sign in screen -->
+    <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
+    <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
+    <string name="screen_sign_in_button_sign_in">Sign in</string>
+    <string name="screen_sign_in_display_text_sign_up_prefix">Create an account?</string>
+    <string name="screen_sign_in_display_text_sign_up">Sign Up</string>
+    <string name="screen_sign_in_display_text_sub_title">Enter the OTP sent to your registered mobile number to complete login</string>
+    <string name="screen_sign_in_display_text_error_text">That\'s not the right username. Please try again</string>
 
     <!-- Phone Number Screen -->
     <string name="screen_phone_number_display_text_title">What\'s your mobile number?</string>
     <string name="screen_phone_number_display_text_error">You\’ve entered an invalid phone number. Please, try again.</string>
     <string name="screen_phone_number_button_send">Next</string>
 
-    <!-- Email Screen -->
+    <!-- Phone number verification screen -->
+    <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
+    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to \n %1$s</string>
+    <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
+    <string name="screen_verify_phone_number_button_send">Next</string>
 
+    <!-- Create passcode screen -->
+    <string name="screen_create_passcode_display_text_title">Create a 4 to 6 digit passcode to access your account</string>
+    <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
+    <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="screen_create_passcode_button_create_passcode">Create passcode</string>
+    <string name="screen_create_passcode_display_text_error_sequence">Passcode cannot be a straight sequence</string>
+    <string name="screen_create_passcode_display_text_error_same_digits">Passcode cannot be of same digits</string>
+
+    <!-- Name Screen -->
+    <string name="screen_name_display_text_title">What\'s your name?</string>
+    <string name="screen_name_display_text_first_name">First name</string>
+    <string name="screen_name_display_text_last_name">Last name</string>
+
+    <!-- Email Screen -->
     <string name="screen_enter_email_b2c_display_text_title">What\'s your preferred email address?</string>
     <string name="screen_enter_email_b2b_display_text_title">Let\'s get started</string>
     <string name="screen_enter_email_b2b_display_text_sub_heading">Enter your business email to begin</string>
@@ -48,44 +73,6 @@
     <string name="screen_email_verification_b2b_display_text_email_sent">We\'ve just sent a verification email to</string>
     <string name="screen_email_verification_b2b_display_text_email_confirmation">Please check your email to confirm that we got it right.</string>
 
-
-    <!-- Name Screen -->
-    <string name="screen_name_display_text_title">What\'s your name?</string>
-    <string name="screen_name_display_text_first_name">First name</string>
-    <string name="screen_name_display_text_last_name">Last name</string>
-
-    <!-- Onboarding -->
-    <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
-    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to \n %1$s</string>
-    <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
-    <string name="screen_verify_phone_number_button_send">Next</string>
-
-    <!--  Login screen -->
-    <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
-    <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
-    <string name="screen_sign_in_button_sign_in">Sign in</string>
-    <string name="screen_sign_in_display_text_sign_up_prefix">Create an account?</string>
-    <string name="screen_sign_in_display_text_sign_up">Sign Up</string>
-    <string name="screen_sign_in_display_text_sub_title">Enter the OTP sent to your registered mobile number to complete login</string>
-
-    <!-- Touch id permission screen -->
-    <string name="screen_system_permission_text_title">Would you like to use Touch ID to log in to your account?</string>
-    <string name="screen_notification_permission_text_title">Would you like to give YAP access to send  you notifications?</string>
-    <string name="screen_system_permission_text_title_terms_and_conditions">By clicking “Use Touch ID” you agree to our</string>
-    <string name="screen_system_permission_text_terms_and_conditions">Terms &amp; Conditions</string>
-    <string name="screen_system_permission_button_touch_id">Use Touch ID</string>
-    <string name="screen_system_permission_text_denied">No, thanks</string>
-    <string name="screen_notification_permission_button_title">Yes, keep me up to date</string>
-
-    <!-- Create passcode screen -->
-    <string name="screen_create_passcode_display_text_title">Create a 4 to 6 digit passcode to access your account</string>
-    <string name="screen_create_passcode_display_title_terms_and_conditions">By creating a passcode you agree to our</string>
-    <string name="screen_create_passcode_display_text_terms_and_conditions">Terms &amp; Conditions</string>
-    <string name="screen_create_passcode_button_create_passcode">Create passcode</string>
-    <string name="screen_create_passcode_display_text_error_sequence">Passcode cannot be a straight sequence</string>
-    <string name="screen_create_passcode_display_text_error_same_digits">Passcode cannot be of same digits</string>
-
-
     <!--  Onboarding congratulations screen -->
     <string name="screen_onboarding_congratulations_display_text_title">Congrats, %1s!</string>
     <string name="screen_onboarding_congratulations_display_text_sub_title">A YAP Personal Account has been created for you in less than %1s seconds!</string>
@@ -93,6 +80,15 @@
     <string name="screen_onboarding_congratulations_display_text_iban">Here\'s your IBAN</string>
     <string name="screen_onboarding_congratulations_display_text_meeting_note">Make sure you have your Emirates ID at hand before we proceed</string>
     <string name="screen_onboarding_congratulations_button_complete_verification">Complete verification</string>
+
+    <!-- System permission screen -->
+    <string name="screen_system_permission_text_title">Would you like to use Touch ID to log in to your account?</string>
+    <string name="screen_notification_permission_text_title">Would you like to give YAP access to send  you notifications?</string>
+    <string name="screen_system_permission_text_title_terms_and_conditions">By clicking “Use Touch ID” you agree to our</string>
+    <string name="screen_system_permission_text_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="screen_system_permission_button_touch_id">Use Touch ID</string>
+    <string name="screen_system_permission_text_denied">No, thanks</string>
+    <string name="screen_notification_permission_button_title">Yes, keep me up to date</string>
 
     <!-- Verify passcode screen -->
     <string name="screen_verify_passcode_display_text_title">Enter your passcode to access your account</string>
@@ -102,7 +98,7 @@
     <!-- Otp screen -->
     <string name="screen_verify_phone_number_display_text_resend_otp_success">New OTP has been generated successfully</string>
 
-    <!-- KYC HOME Screen-->
+    <!-- KYC home Screen-->
     <string name="screen_b2c_kyc_home_display_text_screen_title">Complete verification</string>
     <string name="screen_b2c_kyc_home_display_text_sub_heading">Please scan your Emirates ID</string>
     <string name="screen_b2c_kyc_home_button_skip">Skip and go to dashboard</string>
