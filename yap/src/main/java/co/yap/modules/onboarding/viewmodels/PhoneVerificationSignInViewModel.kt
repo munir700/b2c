@@ -7,10 +7,13 @@ import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.states.PhoneVerificationSignInState
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.authentication.requestdtos.CreateOtpRequest
-import co.yap.networking.authentication.requestdtos.DemographicDataRequest
-import co.yap.networking.authentication.requestdtos.VerifyOtpRequest
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
+import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
+import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
@@ -26,7 +29,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
-
+    private val customersRepository: CustomersRepository = CustomersRepository;
+    private val messagesRepository: MessagesRepository = MessagesRepository;
 
     override fun handlePressOnSendButton() {
         nextButtonPressEvent.postValue(true)
@@ -35,14 +39,18 @@ class PhoneVerificationSignInViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.reverseTimer(10)
-        state.valid=false
+        state.valid = false
     }
 
     override fun verifyOtp() {
         launch {
             state.loading = true
             when (val response =
-                repository.verifyOtp(VerifyOtpRequest(Constants.ACTION_DEVICE_VERIFICATION, state.otp))) {
+                messagesRepository.verifyOtpGeneric(
+                    VerifyOtpGenericRequest(
+                        Constants.ACTION_DEVICE_VERIFICATION,
+                        state.otp)
+                )) {
                 is RetroApiResponse.Success -> {
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
@@ -71,11 +79,11 @@ class PhoneVerificationSignInViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.createOtp(CreateOtpRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
+                messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
                 is RetroApiResponse.Success -> {
                     state.toast = getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
-                    state.valid=false
+                    state.valid = false
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -91,7 +99,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.postDemographicData(
+                customersRepository.postDemographicData(
                     DemographicDataRequest(
                         "LOGIN",
                         Build.VERSION.RELEASE,

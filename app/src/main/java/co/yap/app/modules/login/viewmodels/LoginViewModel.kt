@@ -6,6 +6,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.states.LoginState
+import co.yap.networking.admin.AdminRepository
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -19,6 +20,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: LoginState = LoginState()
     override val repository: AuthRepository = AuthRepository
+    private val adminRepository: AdminRepository = AdminRepository
 
     override fun handlePressOnLogin() {
         state.twoWayTextWatcher = verifyUsername(state.twoWayTextWatcher.trim())
@@ -44,7 +46,7 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     private fun validateUsername() {
         launch {
             state.loading = true
-            when (val response = repository.verifyUsername(state.twoWayTextWatcher)) {
+            when (val response = adminRepository.verifyUsername(state.twoWayTextWatcher)) {
                 is RetroApiResponse.Success -> {
                     signInButtonPressEvent.value = response.data.data
                 }

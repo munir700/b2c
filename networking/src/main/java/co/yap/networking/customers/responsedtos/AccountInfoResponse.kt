@@ -1,4 +1,4 @@
-package co.yap.networking.onboarding.responsedtos
+package co.yap.networking.customers.responsedtos
 
 import co.yap.networking.models.ApiResponse
 
