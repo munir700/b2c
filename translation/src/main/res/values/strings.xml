@@ -13,19 +13,19 @@
     <string name="screen_home_display_text_sign_in_title">Already have an account?</string>
 
     <!-- Welcome Screen -->
-    <string name="screen_welcom_b2c_display_text_page1_title">Real-time banking</string>
-    <string name="screen_welcom_b2c_display_text_page2_title">Real-time perks</string>
-    <string name="screen_welcom_b2c_display_text_page3_title">Real-time benefits</string>
-    <string name="screen_welcom_b2c_display_text_page1_details">Current account with no\nhidden fees</string>
-    <string name="screen_welcom_b2c_display_text_page2_details">A free MasterCard debit card</string>
-    <string name="screen_welcom_b2c_display_text_page3_details">Built-in budgeting at your\nfingertips</string>
-    <string name="screen_welcom_b2b_display_text_page1_title">Real-time analytics</string>
-    <string name="screen_welcom_b2b_display_text_page2_title">Real-time management</string>
-    <string name="screen_welcom_b2b_display_text_page3_title">Real-time visibility</string>
-    <string name="screen_welcom_b2b_display_text_page1_details">Built-in budgeting at your\nfingertips</string>
-    <string name="screen_welcom_b2b_display_text_page2_details">Simplified expense and\npayroll processes</string>
-    <string name="screen_welcom_b2b_display_text_page3_details">Full overview of business\nspending</string>
-    <string name="screen_welcom_button_get_started">Get started</string>
+    <string name="screen_welcome_b2c_display_text_page1_title">Real-time banking</string>
+    <string name="screen_welcome_b2c_display_text_page2_title">Real-time perks</string>
+    <string name="screen_welcome_b2c_display_text_page3_title">Real-time benefits</string>
+    <string name="screen_welcome_b2c_display_text_page1_details">Current account with no\nhidden fees</string>
+    <string name="screen_welcome_b2c_display_text_page2_details">A free MasterCard debit card</string>
+    <string name="screen_welcome_b2c_display_text_page3_details">Built-in budgeting at your\nfingertips</string>
+    <string name="screen_welcome_b2b_display_text_page1_title">Real-time analytics</string>
+    <string name="screen_welcome_b2b_display_text_page2_title">Real-time management</string>
+    <string name="screen_welcome_b2b_display_text_page3_title">Real-time visibility</string>
+    <string name="screen_welcome_b2b_display_text_page1_details">Built-in budgeting at your\nfingertips</string>
+    <string name="screen_welcome_b2b_display_text_page2_details">Simplified expense and\npayroll processes</string>
+    <string name="screen_welcome_b2b_display_text_page3_details">Full overview of business\nspending</string>
+    <string name="screen_welcome_button_get_started">Get started</string>
 
     <!--  Sign in screen -->
     <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
