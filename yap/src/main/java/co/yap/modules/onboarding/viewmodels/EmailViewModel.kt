@@ -9,24 +9,22 @@ import co.yap.R
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.modules.onboarding.states.EmailState
-import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.authentication.requestdtos.DemographicDataRequest
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.DemographicDataRequest
+import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
+import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.onboarding.ObnoardingRepository
-import co.yap.networking.onboarding.requestdtos.SendVerificationEmailRequest
-import co.yap.networking.onboarding.requestdtos.SignUpRequest
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
-    IRepositoryHolder<ObnoardingRepository> {
+    IRepositoryHolder<CustomersRepository> {
 
     override val state: EmailState = EmailState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val repository: ObnoardingRepository = ObnoardingRepository
-    private val authRepository: AuthRepository = AuthRepository
+    override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
 
 
@@ -138,7 +136,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.loading = true
-            when (val response = authRepository.postDemographicData(
+            when (val response = repository.postDemographicData(
                 DemographicDataRequest(
                     "SIGNUP",
                     Build.VERSION.RELEASE,

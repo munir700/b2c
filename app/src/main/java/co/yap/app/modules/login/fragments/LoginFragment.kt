@@ -7,9 +7,12 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
+import co.yap.app.activities.MainActivity
 import co.yap.app.modules.login.activities.VerifyPasscodeActivity
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
@@ -36,7 +39,8 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         if (it) {
             startActivity(VerifyPasscodeActivity.newIntent(requireContext(), viewModel.state.twoWayTextWatcher))
         } else {
-            viewModel.state.emailError = "That's not the right username. Please try again"
+            viewModel.state.emailError =
+                Translator.getString(activity as MainActivity, Strings.screen_sign_in_display_text_error_text)
         }
     }
 
