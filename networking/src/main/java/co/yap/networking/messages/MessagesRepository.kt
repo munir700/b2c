@@ -13,7 +13,6 @@ import co.yap.networking.models.RetroApiResponse
 
 object MessagesRepository : BaseRepository(), MessagesApi {
 
-
     const val URL_CREATE_OTP_ONBOARDING = "/messages/api/otp/sign-up/mobile-no"
     const val URL_VERIFY_OTP_ONBOARDING = "/messages/api/otp/sign-up/verify"
     const val URL_CREATE_OTP_GENERIC = "/messages/api/otp"

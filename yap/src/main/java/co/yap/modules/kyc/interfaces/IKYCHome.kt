@@ -5,6 +5,7 @@ import co.yap.yapcore.IBase
 
 interface IKYCHome {
     interface State : IBase.State
+
     interface ViewModel : IBase.ViewModel<State> {
         val clickListener: MutableLiveData<Int>
         fun handlePressOnScanCard(id: Int)

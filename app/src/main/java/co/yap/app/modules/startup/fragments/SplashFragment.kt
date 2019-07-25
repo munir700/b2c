@@ -13,8 +13,8 @@ import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
-class SplashFragment : BaseFragment<ISplash.ViewModel>(),
-    ISplash.View {
+class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
+
     override val viewModel: ISplash.ViewModel
         get() = ViewModelProviders.of(this).get(SplashViewModel::class.java)
 

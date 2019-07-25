@@ -16,7 +16,6 @@ class AccountSelectionActivity : DefaultActivity() {
 
     private lateinit var viewDataBinding: ViewDataBinding
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewDataBinding = DataBindingUtil.setContentView(this, R.layout.activity_account_selection)
@@ -27,7 +26,6 @@ class AccountSelectionActivity : DefaultActivity() {
         }
 
         btnPersonal.setOnClickListener {
-            //    startActivity(WelcomeActivity.newIntent(this, AccountType.B2C_ACCOUNT))
             startActivity(InformationErrorActivity.newIntent(context = this))
         }
 

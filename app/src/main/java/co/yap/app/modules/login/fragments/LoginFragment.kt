@@ -17,11 +17,12 @@ import co.yap.yapcore.BaseBindingFragment
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.screen_log_in
+
     override val viewModel: ILogin.ViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-
-    override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.screen_log_in
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

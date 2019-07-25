@@ -11,6 +11,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class DocumentsDashboardActivity : BaseActivity<IDocumentsDashboard.ViewModel>(), INavigator {
+
     override val viewModel: IDocumentsDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(DocumentsDashboardViewModel::class.java)
 

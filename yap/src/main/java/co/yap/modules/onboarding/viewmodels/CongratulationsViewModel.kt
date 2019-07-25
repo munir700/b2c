@@ -12,6 +12,7 @@ class CongratulationsViewModel(application: Application) :
 
     override val state: CongratulationsState = CongratulationsState()
     override var elapsedOnboardingTime: Long = 0
+
     override fun onCreate() {
         super.onCreate()
         // calculate elapsed time for onboarding
@@ -19,7 +20,6 @@ class CongratulationsViewModel(application: Application) :
             TimeUnit.MILLISECONDS.toSeconds(
                 Date().time - (parentViewModel?.onboardingData?.startTime?.time ?: Date().time)
             )
-
         state.nameList[0] = parentViewModel!!.onboardingData.firstName
         state.ibanNumber = maskIbanNumber(parentViewModel!!.onboardingData.ibanNumber.trim())
     }

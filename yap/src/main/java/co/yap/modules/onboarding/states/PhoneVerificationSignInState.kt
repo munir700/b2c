@@ -12,11 +12,11 @@ import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
 import co.yap.yapcore.BaseState
 
 class PhoneVerificationSignInState(application: Application) : BaseState(), IPhoneVerificationSignIn.State {
+
     val mContext = application.applicationContext
 
     @get:Bindable
      override var color: Int = mContext.resources.getColor(R.color.disabled)
-        get() =field
         set(value) {
             field = value
             notifyPropertyChanged(BR.color)
@@ -35,12 +35,14 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
             field = value
             notifyPropertyChanged(BR.validateBtn)
         }
+
     @get:Bindable
     override var timer: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.timer)
         }
+
     @get:Bindable
     override var otp: String = ""
         set(value) {
@@ -55,7 +57,6 @@ class PhoneVerificationSignInState(application: Application) : BaseState(), IPho
             field = value
             notifyPropertyChanged(BR.passcode)
         }
-
 
     @get:Bindable
     override var username: String = ""

@@ -15,12 +15,6 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
 class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() {
-    override fun getBindingVariable(): Int = BR.createPasscodeViewModel
-
-    override fun getLayoutId(): Int = R.layout.screen_create_passcode
-
-    override val viewModel: ICreatePasscode.ViewModel
-        get() = ViewModelProviders.of(this).get(CreatePasscodeViewModel::class.java)
 
     companion object {
         fun newIntent(context: Context): Intent {
@@ -29,10 +23,23 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() 
         }
     }
 
+    override fun getBindingVariable(): Int = BR.createPasscodeViewModel
+
+    override fun getLayoutId(): Int = R.layout.screen_create_passcode
+
+    override val viewModel: ICreatePasscode.ViewModel
+        get() = ViewModelProviders.of(this).get(CreatePasscodeViewModel::class.java)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
 
+    }
+
+    override fun onDestroy() {
+        viewModel.nextButtonPressEvent.removeObservers(this)
+        super.onDestroy()
     }
 
     private val nextButtonObserver = Observer<Boolean> {
@@ -40,11 +47,6 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() 
         intent.putExtra(SharedPreferenceManager.KEY_PASSCODE, viewModel.state.passcode)
         setResult(Constants.REQUEST_CODE_CREATE_PASSCODE, intent)
         finish()
-    }
-
-    override fun onDestroy() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
-        super.onDestroy()
     }
 
     override fun onBackPressed() {

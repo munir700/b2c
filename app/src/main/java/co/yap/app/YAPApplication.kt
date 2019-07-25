@@ -17,7 +17,7 @@ class YAPApplication : Application() {
     }
 
 
-    fun setAppUniqueId(context: Context) {
+    private fun setAppUniqueId(context: Context) {
         var uuid: String?
         val sharedPrefs = SharedPreferenceManager(context)
         uuid = sharedPrefs.getValueString(SharedPreferenceManager.KEY_APP_UUID)

@@ -33,14 +33,14 @@ import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
 
+    private val windowSize: Rect = Rect() // to hold the size of the visible window
+
     override fun getBindingVariable(): Int = BR.viewModel
+
     override fun getLayoutId(): Int = R.layout.fragment_onboarding_congratulations
 
     override val viewModel: ICongratulations.ViewModel
         get() = ViewModelProviders.of(this).get(CongratulationsViewModel::class.java)
-
-    private val windowSize: Rect = Rect() // to hold the size of the visible window
-
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -142,7 +142,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             }
         }
     }
-
 
     override fun onBackPressed(): Boolean = run { (activity as? OnboardingActivity)?.finish().let { true } }
 }

@@ -12,6 +12,7 @@ import co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel
 import co.yap.yapcore.BaseBindingActivity
 
 class EidInfoReviewActivity : BaseBindingActivity<IEidInfoReview.ViewModel>() {
+
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, EidInfoReviewActivity::class.java)
     }

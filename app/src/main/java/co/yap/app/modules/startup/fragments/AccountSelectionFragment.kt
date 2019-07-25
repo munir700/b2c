@@ -12,12 +12,13 @@ import co.yap.yapcore.defaults.IDefault
 import kotlinx.android.synthetic.main.activity_account_selection.*
 
 class AccountSelectionFragment : BaseBindingFragment<IDefault.ViewModel>(), IDefault.View {
-    override val viewModel: IDefault.ViewModel
-        get() = ViewModelProviders.of(this).get(DefaultViewModel::class.java)
 
     override fun getBindingVariable(): Int = 0
 
     override fun getLayoutId(): Int = R.layout.activity_account_selection
+
+    override val viewModel: IDefault.ViewModel
+        get() = ViewModelProviders.of(this).get(DefaultViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -9,6 +9,7 @@ import co.yap.modules.onboarding.interfaces.IName
 import co.yap.modules.onboarding.viewmodels.NameViewModel
 
 class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_name
@@ -22,12 +23,12 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    private val nextButtonObserver = Observer<Boolean> {
-        navigate(R.id.emailFragment)
-    }
-
     override fun onDestroyView() {
         viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroyView()
+    }
+
+    private val nextButtonObserver = Observer<Boolean> {
+        navigate(R.id.emailFragment)
     }
 }

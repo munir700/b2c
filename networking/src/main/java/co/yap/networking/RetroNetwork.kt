@@ -47,7 +47,6 @@ object RetroNetwork : Network {
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(buildOkHttpClient(context)).build()
         }
-
         return retro!!
     }
 
@@ -70,7 +69,6 @@ object RetroNetwork : Network {
                 override fun onCacheUnavailable() {
                     networkConstraintsListener?.onCacheUnavailable()
                 }
-
             })
             .addInterceptor(object : SessionValidator() {
                 override fun invalidate() {

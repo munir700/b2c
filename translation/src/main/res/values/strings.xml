@@ -1,4 +1,5 @@
 <resources>
+
     <!-- Common -->
     <string name="common_display_text_retry">Retry</string>
     <string name="common_button_next">Next</string>
@@ -131,6 +132,5 @@
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
-
 
 </resources>
