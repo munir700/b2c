@@ -1,6 +1,7 @@
 package co.yap.networking.interfaces
 
 interface NetworkConstraintsListener {
+
     fun onInternetUnavailable()
     fun onCacheUnavailable()
     fun onSessionInvalid()

@@ -31,7 +31,7 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.screen_onboarding_welcome
+    override fun getLayoutId(): Int = R.layout.fragment_onboarding_welcome
 
     override val viewModel: IWelcome.ViewModel
         get() = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)
@@ -48,11 +48,12 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>() {
         )
 
         findViewById<WormDotsIndicator>(R.id.worm_dots_indicator).setViewPager(pager)
-        viewModel.onGetStartedPressEvent.observe(this,getStartedButtonObserver)
+        viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
     }
 
-    private fun getAccountType(): AccountType {
-        return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
+    override fun onDestroy() {
+        viewModel.onGetStartedPressEvent.removeObservers(this)
+        super.onDestroy()
     }
 
     private val getStartedButtonObserver = Observer<Boolean> {
@@ -65,8 +66,7 @@ class WelcomeActivity : BaseBindingActivity<IWelcome.ViewModel>() {
         finish()
     }
 
-    override fun onDestroy() {
-        viewModel.onGetStartedPressEvent.removeObservers(this)
-        super.onDestroy()
+    private fun getAccountType(): AccountType {
+        return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }
 }

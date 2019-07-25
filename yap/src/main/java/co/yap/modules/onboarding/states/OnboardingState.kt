@@ -6,8 +6,6 @@ import co.yap.modules.onboarding.interfaces.IOnboarding
 import co.yap.yapcore.BaseState
 import android.animation.ObjectAnimator
 
-
-
 class OnboardingState : BaseState(), IOnboarding.State {
 
     @get:Bindable

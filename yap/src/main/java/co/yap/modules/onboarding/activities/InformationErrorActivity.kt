@@ -12,6 +12,7 @@ import co.yap.modules.onboarding.viewmodels.InformationErrorViewModel
 import co.yap.yapcore.BaseBindingActivity
 
 class InformationErrorActivity : BaseBindingActivity<IInformationError.ViewModel>() {
+
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, InformationErrorActivity::class.java)
     }
@@ -19,15 +20,16 @@ class InformationErrorActivity : BaseBindingActivity<IInformationError.ViewModel
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_information_error
+
     override val viewModel: IInformationError.ViewModel
         get() = ViewModelProviders.of(this).get(InformationErrorViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.gotoDashboardPressEvent.observe(this, gotoDashboardpressEventObserver)
+        viewModel.gotoDashboardPressEvent.observe(this, gotoDashboardPressEventObserver)
     }
 
-    private val gotoDashboardpressEventObserver = Observer<Boolean> {
+    private val gotoDashboardPressEventObserver = Observer<Boolean> {
         //startActivity(LiteDashboardActivity.newIntent(this@InformationErrorActivity)
     }
 }

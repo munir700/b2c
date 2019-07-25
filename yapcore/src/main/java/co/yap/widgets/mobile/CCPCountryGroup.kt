@@ -8,6 +8,7 @@ class CCPCountryGroup private constructor(defaultNameCode:String, areaCodeLength
     internal var defaultNameCode:String
     internal var areaCodeLength:Int = 0
     private val nameCodeToAreaCodesMap:HashMap<String, String>
+
     init{
         this.defaultNameCode = defaultNameCode
         this.areaCodeLength = areaCodeLength

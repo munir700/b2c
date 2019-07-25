@@ -8,6 +8,7 @@ import co.yap.yapcore.SingleLiveEvent
 
 class InformationErrorViewModel(application: Application) : BaseViewModel<IInformationError.State>(application),
     IInformationError.ViewModel {
+
     override val state: InformationErrorState = InformationErrorState()
     override var gotoDashboardPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 

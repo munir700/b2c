@@ -8,12 +8,12 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
-import co.yap.app.login.BiometricUtil
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.biometric.BiometricUtil
 import kotlinx.android.synthetic.main.activity_lite_dashboard.*
 
 
@@ -22,10 +22,7 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
     companion object {
-
         private val ACCOUNT_TYPE = "account_type"
-
-
         fun newIntent(context: Context, accountType: AccountType): Intent {
             val intent = Intent(context, LiteDashboardActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -34,13 +31,16 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
         }
     }
 
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = co.yap.R.layout.activity_lite_dashboard
+
     override val viewModel: ILiteDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(LiteDashboardViewModel::class.java)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewModel.logoutSuccess.observe(this, logoutSuccessObserver)
         sharedPreferenceManager = SharedPreferenceManager(this@LiteDashboardActivity)
 
@@ -62,17 +62,21 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
                 }
             }
-
         } else {
             swTouchId.visibility = View.INVISIBLE
         }
+    }
 
-
+    override fun onDestroy() {
+        viewModel.logoutSuccess.removeObservers(this)
+        super.onDestroy()
     }
 
     private val logoutSuccessObserver = Observer<Boolean> {
-        val isFirstTimeUser: Boolean = sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER,false)
-        val isFingerprintPermissionShown: Boolean = sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,false)
+        val isFirstTimeUser: Boolean =
+            sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
+        val isFingerprintPermissionShown: Boolean =
+            sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, false)
         val uuid: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         val ACTION = "co.yap.app.OPEN_LOGIN"
         val intent = Intent()
@@ -80,23 +84,12 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
         startActivity(intent)
         sharedPreferenceManager.clearSharedPreference()
         sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())
-        sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, isFingerprintPermissionShown)
+        sharedPreferenceManager.save(
+            SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+            isFingerprintPermissionShown
+        )
         sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, isFirstTimeUser)
         finish()
-    }
-
-
-    override fun getBindingVariable(): Int = BR.viewModel
-
-    override fun getLayoutId(): Int = co.yap.R.layout.activity_lite_dashboard
-
-    override fun onDestroy() {
-        viewModel.logoutSuccess.removeObservers(this)
-        super.onDestroy()
-    }
-
-    override fun onBackPressed() {
-        showLogoutDialog()
     }
 
     fun showLogoutDialog() {
@@ -110,6 +103,10 @@ class LiteDashboardActivity : BaseBindingActivity<ILiteDashboard.ViewModel>() {
 
             }
             .show()
+    }
+
+    override fun onBackPressed() {
+        showLogoutDialog()
     }
 
 }

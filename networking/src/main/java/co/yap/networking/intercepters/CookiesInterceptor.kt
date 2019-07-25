@@ -57,6 +57,5 @@ internal class CookiesInterceptor : Interceptor {
                 }
             }
         }
-
     }
 }

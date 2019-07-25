@@ -8,6 +8,7 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 
 abstract class OnboardingChildFragment<V : IBase.ViewModel<*>> : BaseBindingFragment<V>() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         if (viewModel is OnboardingChildViewModel<*>) {

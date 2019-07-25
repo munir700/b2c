@@ -12,23 +12,25 @@ import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
 import co.yap.yapcore.BaseBindingActivity
 
 class MeetingConfirmationActivity : BaseBindingActivity<IMeetingConfirmation.viewModel>() {
-    override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.activity_meeting_confirmation
-
-    override val viewModel: IMeetingConfirmation.viewModel
-        get() = ViewModelProviders.of(this).get(MeetingConfirmationViewModel::class.java)
 
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, MeetingConfirmationActivity::class.java)
     }
 
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.activity_meeting_confirmation
+
+    override val viewModel: IMeetingConfirmation.viewModel
+        get() = ViewModelProviders.of(this).get(MeetingConfirmationViewModel::class.java)
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.goToDashboardButtonPressEvent.observe(this,gotoDashboardPressEvent)
-
+        viewModel.goToDashboardButtonPressEvent.observe(this, gotoDashboardPressEvent)
     }
-    private val gotoDashboardPressEvent=Observer<Boolean>{
 
+    private val gotoDashboardPressEvent = Observer<Boolean> {
     }
 
 }

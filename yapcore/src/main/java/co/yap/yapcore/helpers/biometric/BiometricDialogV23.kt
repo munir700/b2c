@@ -1,4 +1,4 @@
-package co.yap.app.login
+package co.yap.yapcore.helpers.biometric
 
 import android.content.Context
 import android.content.DialogInterface
@@ -9,7 +9,6 @@ import co.yap.yapcore.R
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class BiometricDialogV23 : BottomSheetDialog, View.OnClickListener {
-
 
     private var btnCancel: Button? = null
     private var itemTitle: TextView? = null

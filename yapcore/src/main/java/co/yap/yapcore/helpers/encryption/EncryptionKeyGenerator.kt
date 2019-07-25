@@ -17,10 +17,10 @@ import javax.crypto.KeyGenerator
 import javax.security.auth.x500.X500Principal
 
 object EncryptionKeyGenerator {
-    val ANDROID_KEY_STORE = "AndroidKeyStore"
-    val KEY_ALIAS = "KEY_ALIAS"
-    private val KEY_STORE_FILE_NAME = "KEY_STORE"
-    private val KEY_STORE_PASSWORD = "KEY_STORE_PASSWORD"
+    const val ANDROID_KEY_STORE = "AndroidKeyStore"
+    const val KEY_ALIAS = "KEY_ALIAS"
+    private const val KEY_STORE_FILE_NAME = "KEY_STORE"
+    private const val KEY_STORE_PASSWORD = "KEY_STORE_PASSWORD"
 
     @TargetApi(Build.VERSION_CODES.M)
     internal fun generateSecretKey(keyStore: KeyStore): SecurityKey? {
