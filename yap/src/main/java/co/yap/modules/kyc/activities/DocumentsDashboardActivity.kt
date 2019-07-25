@@ -15,23 +15,6 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
-//class DocumentsDashboardActivity : BaseActivity<IDocumentsDashboard.ViewModel>(), INavigator {
-//
-//    companion object {
-//        fun newIntent(context: Context): Intent = Intent(context, DocumentsDashboardActivity::class.java)
-//    }
-//
-//    override val viewModel: IDocumentsDashboard.ViewModel
-//        get() = ViewModelProviders.of(this).get(DocumentsDashboardViewModel::class.java)
-//
-//    override val navigator: IBaseNavigator
-//        get() = DefaultNavigator(this, R.id.kyc_host_fragment)
-//
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_documents_dashboard)
-//    }
-//}
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator, IFragmentHolder {
     companion object {
 

@@ -41,8 +41,8 @@
             android:theme="@style/Base.Theme.AppCompat" />
     </application>
 
-    <meta-data
-        android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-        android:value="face" />
+    <!--<meta-data-->
+        <!--android:name="com.google.firebase.ml.vision.DEPENDENCIES"-->
+        <!--android:value="face" />-->
 
 </manifest>

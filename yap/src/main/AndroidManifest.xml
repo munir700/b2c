@@ -3,13 +3,14 @@
 
     <application>
         <activity
-            android:name=".app.modules.startup.activities.WelcomeActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
             android:screenOrientation="portrait">
         </activity>
 
+        <activity
+            android:name=".modules.kyc.activities.DocumentsDashboardActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity"
             android:windowSoftInputMode="adjustResize"

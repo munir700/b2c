@@ -4,8 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.digitify.identityscanner.models.Error;
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class IdentityValidatorResult implements Parcelable {
 
@@ -81,19 +85,24 @@ public class IdentityValidatorResult implements Parcelable {
         dest.writeParcelable(this.error, flags);
     }
 
-    protected IdentityValidatorResult(Parcel in) {
-        this.validations = (HashMap<String, Boolean>) in.readSerializable();
+    @SuppressWarnings("unchecked")
+    protected IdentityValidatorResult(@NotNull Parcel in) {
+        this.validations = (HashMap<String, Boolean>)(in.readSerializable());
         this.videoPath = in.readString();
         this.comparison = in.readParcelable(ComparisonResult.class.getClassLoader());
         this.error = in.readParcelable(Error.class.getClassLoader());
     }
 
     public static final Creator<IdentityValidatorResult> CREATOR = new Creator<IdentityValidatorResult>() {
+        @NotNull
+        @Contract("_ -> new")
         @Override
         public IdentityValidatorResult createFromParcel(Parcel source) {
             return new IdentityValidatorResult(source);
         }
 
+        @NotNull
+        @Contract(value = "_ -> new", pure = true)
         @Override
         public IdentityValidatorResult[] newArray(int size) {
             return new IdentityValidatorResult[size];
