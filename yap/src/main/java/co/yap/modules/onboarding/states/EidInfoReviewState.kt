@@ -53,7 +53,4 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             field = if (cal.time < date) "expiry date is valid" else "expiry date is not valid"
         }
 
-
-
-
 }

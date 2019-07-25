@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/kyc_navigation"
-            app:startDestination="@id/KYCHomeFragment">
+            app:startDestination="@id/eidInfoReviewFragment">
 
     <fragment
         android:id="@+id/KYCHomeFragment"
@@ -19,4 +19,14 @@
         android:name="co.yap.modules.kyc.fragments.EidInfoReviewFragment"
         android:label="EidInfoReviewFragment"/>
 
+
+    <fragment
+        android:id="@+id/AddressSelectionFragment"
+        tools:layout="@layout/fragment_address_selection"
+        android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
+        android:label="AddressSelectionFragment">
+        <action
+            android:id="@+id/action_AddressSelectionFragment_to_KYCHomeFragment"
+            app:destination="@id/KYCHomeFragment"/>
+    </fragment>
 </navigation>

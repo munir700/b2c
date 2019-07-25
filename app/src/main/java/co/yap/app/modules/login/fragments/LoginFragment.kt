@@ -41,7 +41,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signUpButtonObserver = Observer<Boolean> {
-        findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
     }
 
 

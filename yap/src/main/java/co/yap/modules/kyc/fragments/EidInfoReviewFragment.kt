@@ -12,9 +12,9 @@ import co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel
 import co.yap.yapcore.BaseBindingFragment
 
 class EidInfoReviewFragment :BaseBindingFragment<IEidInfoReview.ViewModel>() {
-    companion object {
+   /* companion object {
         fun newIntent(context: Context): Intent = Intent(context, EidInfoReviewActivity::class.java)
-    }
+    }*/
 
     override fun getBindingVariable(): Int = BR.viewModel
 
