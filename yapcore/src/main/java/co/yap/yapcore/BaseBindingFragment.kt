@@ -31,7 +31,7 @@ abstract class BaseBindingFragment<V: IBase.ViewModel<*>> : BaseFragment<V>() {
         viewDataBinding.executePendingBindings()
     }
 
-    /**
+    /**MV
      * Override for set binding variable
      *
      * @return variable id

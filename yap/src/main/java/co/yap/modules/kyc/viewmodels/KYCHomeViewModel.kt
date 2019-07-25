@@ -9,7 +9,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
 
-class KYCHomeViewModel(application: Application) : BaseViewModel<IKYCHome.State>(application), IKYCHome.ViewModel {
+class KYCHomeViewModel(application: Application) : BaseViewModel<IKYCHome.State>(application), IKYCHome.ViewModel { 
 
     override val state: KYCHomeState = KYCHomeState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
