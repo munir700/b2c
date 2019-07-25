@@ -9,6 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
+@Deprecated("Use SingleClickEvent Instead")
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val debounceDelay: Long = 500L
@@ -26,9 +27,6 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
                 observer.onChanged(t)
                 Handler(Looper.getMainLooper()).postDelayed({ mPending.set(false) }, debounceDelay)
             }
-//            if (mPending.compareAndSet(true, false)) {
-//                observer.onChanged(t)
-//            }
         })
     }
 
