@@ -4,7 +4,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import co.yap.app.R
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.defaults.DefaultViewModel

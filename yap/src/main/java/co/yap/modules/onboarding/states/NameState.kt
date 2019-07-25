@@ -77,9 +77,7 @@ class NameState(application: Application) : BaseState(), IName.State {
 
 
     private fun validate(): Boolean {
-        val chexk: Boolean = firstNameError.isNullOrEmpty()
-        val chexkz: Boolean = lastNameError.isNullOrEmpty()
-        return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()
+         return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()
     }
 
 

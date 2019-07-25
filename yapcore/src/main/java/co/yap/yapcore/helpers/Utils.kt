@@ -10,6 +10,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 object Utils {
     fun getColor(context: Context, @ColorRes color: Int) =
@@ -57,5 +60,32 @@ object Utils {
             window?.setBackgroundDrawableResource(android.R.color.transparent)
             requestWindowFeature(Window.FEATURE_NO_TITLE)
         }
+    }
+
+
+    fun stringToDate(date: String): Date? {
+        val format = SimpleDateFormat("dd-mm-yyyy", Locale.UK)
+        var convertedDate: Date? = null
+        try {
+            convertedDate = format.parse(date)
+            println(date)
+        } catch (e: ParseException) {
+            e.printStackTrace()
+        }
+        return convertedDate
+    }
+
+    fun getAgeFromDate(year: Int, month: Int, day: Int): Int {
+        val dob = Calendar.getInstance()
+        val today = Calendar.getInstance()
+
+        dob.set(year, month, day)
+
+        var age = today.get(Calendar.YEAR) - dob.get(Calendar.YEAR)
+
+        if (today.get(Calendar.DAY_OF_YEAR) < dob.get(Calendar.DAY_OF_YEAR)) {
+            age--
+        }
+        return age
     }
 }
