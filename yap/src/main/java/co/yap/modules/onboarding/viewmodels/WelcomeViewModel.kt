@@ -29,18 +29,18 @@ class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>
 
     fun generateB2BPages(): ArrayList<WelcomeContent> {
         val content1 = WelcomeContent(
-            getString(Strings.screen_welcom_b2b_display_text_page1_title),
-            getString(Strings.screen_welcom_b2b_display_text_page1_details),
+            getString(Strings.screen_welcome_b2b_display_text_page1_title),
+            getString(Strings.screen_welcome_b2b_display_text_page1_details),
             R.drawable.ic_real_time_banking
         )
         val content2 = WelcomeContent(
-            getString(Strings.screen_welcom_b2b_display_text_page2_title),
-            getString(Strings.screen_welcom_b2b_display_text_page2_details),
+            getString(Strings.screen_welcome_b2b_display_text_page2_title),
+            getString(Strings.screen_welcome_b2b_display_text_page2_details),
             R.drawable.ic_real_time_perks
         )
         val content3 = WelcomeContent(
-            getString(Strings.screen_welcom_b2b_display_text_page3_title),
-            getString(Strings.screen_welcom_b2b_display_text_page3_details),
+            getString(Strings.screen_welcome_b2b_display_text_page3_title),
+            getString(Strings.screen_welcome_b2b_display_text_page3_details),
             R.drawable.ic_real_time_benefits
         )
         return arrayListOf(content1, content2, content3)
@@ -48,18 +48,18 @@ class WelcomeViewModel(application: Application) : BaseViewModel<IWelcome.State>
 
     fun generateB2CPages(): ArrayList<WelcomeContent> {
         val content1 = WelcomeContent(
-            getString(Strings.screen_welcom_b2c_display_text_page1_title),
-            getString(Strings.screen_welcom_b2c_display_text_page1_details),
+            getString(Strings.screen_welcome_b2c_display_text_page1_title),
+            getString(Strings.screen_welcome_b2c_display_text_page1_details),
             R.drawable.ic_real_time_banking
         )
         val content2 = WelcomeContent(
-            getString(Strings.screen_welcom_b2c_display_text_page2_title),
-            getString(Strings.screen_welcom_b2c_display_text_page2_details),
+            getString(Strings.screen_welcome_b2c_display_text_page2_title),
+            getString(Strings.screen_welcome_b2c_display_text_page2_details),
             R.drawable.ic_real_time_perks
         )
         val content3 = WelcomeContent(
-            getString(Strings.screen_welcom_b2c_display_text_page3_title),
-            getString(Strings.screen_welcom_b2c_display_text_page3_details),
+            getString(Strings.screen_welcome_b2c_display_text_page3_title),
+            getString(Strings.screen_welcome_b2c_display_text_page3_details),
             R.drawable.ic_real_time_benefits
         )
         return arrayListOf(content1, content2, content3)
