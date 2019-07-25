@@ -31,7 +31,7 @@ class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.screen_biometric_permission
+    override fun getLayoutId(): Int = R.layout.activity_biometric_permission
 
     override val viewModel: ISystemPermission.ViewModel
         get() = ViewModelProviders.of(this).get(SystemPermissionViewModel::class.java)

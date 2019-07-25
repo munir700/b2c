@@ -17,7 +17,7 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.screen_onboarding_welcome
+    override fun getLayoutId(): Int = R.layout.fragment_onboarding_welcome
 
     override val viewModel: IWelcome.ViewModel
         get() = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)

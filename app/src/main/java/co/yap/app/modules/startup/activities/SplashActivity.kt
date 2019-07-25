@@ -23,7 +23,7 @@ class SplashActivity : BaseActivity<ISplash.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(R.layout.fragment_splash)
 
         viewModel.splashComplete.observe(this, Observer {
             finish()

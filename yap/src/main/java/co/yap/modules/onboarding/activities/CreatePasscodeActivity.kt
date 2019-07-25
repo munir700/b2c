@@ -25,7 +25,7 @@ class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>() 
 
     override fun getBindingVariable(): Int = BR.createPasscodeViewModel
 
-    override fun getLayoutId(): Int = R.layout.screen_create_passcode
+    override fun getLayoutId(): Int = R.layout.activity_create_passcode
 
     override val viewModel: ICreatePasscode.ViewModel
         get() = ViewModelProviders.of(this).get(CreatePasscodeViewModel::class.java)

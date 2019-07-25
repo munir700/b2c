@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="co.yap.app.modules.startup.fragments.SplashFragment"
-        tools:layout="@layout/activity_splash"
+        tools:layout="@layout/fragment_splash"
         android:label="SplashFragment">
         <action
             android:id="@+id/action_splashFragment_to_accountSelectionFragment"
@@ -16,20 +16,18 @@
             app:popUpTo="@id/main_nav_graph"
             app:popUpToInclusive="true"/>
         <action
-            android:id="@+id/action_splashFragment_to_verifyPasscodeActivity"
-            app:destination="@id/verifyPasscodeActivity"
-            app:popUpTo="@id/main_nav_graph"
-            app:popUpToInclusive="true"/>
-        <action
             android:id="@+id/action_splashFragment_to_loginFragment"
             app:popUpTo="@id/main_nav_graph"
             app:popUpToInclusive="true"
             app:destination="@id/loginFragment"/>
+        <action
+            android:id="@+id/action_splashFragment_to_verifyPasscodeFragment"
+            app:destination="@id/verifyPasscodeFragment"/>
     </fragment>
     <fragment
         android:id="@+id/accountSelectionFragment"
         android:name="co.yap.app.modules.startup.fragments.AccountSelectionFragment"
-        tools:layout="@layout/activity_account_selection"
+        tools:layout="@layout/fragment_account_selection"
         android:label="AccountSelectionFragment">
         <action
             android:id="@+id/action_accountSelectionFragment_to_welcomeFragment"
@@ -40,19 +38,9 @@
             app:popUpTo="@id/accountSelectionFragment"
             app:destination="@id/loginFragment"/>
     </fragment>
-    <activity
-        android:id="@+id/verifyPasscodeActivity"
-        tools:layout="@layout/activity_verify_passcode"
-        android:name="co.yap.app.modules.login.activities.VerifyPasscodeActivity"
-        android:label="VerifyPasscodeActivity">
-        <argument
-            android:name="@string/arg_username"
-            app:nullable="false"
-            app:argType="string"/>
-    </activity>
     <fragment
         android:id="@+id/welcomeFragment"
-        tools:layout="@layout/screen_onboarding_welcome"
+        tools:layout="@layout/fragment_onboarding_welcome"
         android:name="co.yap.app.modules.startup.fragments.WelcomeFragment"
         android:label="WelcomeFragment">
         <argument
@@ -74,7 +62,7 @@
     </activity>
     <fragment
         android:id="@+id/loginFragment"
-        tools:layout="@layout/screen_log_in"
+        tools:layout="@layout/fragment_log_in"
         android:name="co.yap.app.modules.login.fragments.LoginFragment"
         android:label="LoginFragment">
         <action
@@ -82,5 +70,16 @@
             app:popUpTo="@id/loginFragment"
             app:popUpToInclusive="true"
             app:destination="@id/accountSelectionFragment"/>
+        <action
+            android:id="@+id/action_loginFragment_to_verifyPasscodeFragment"
+            app:destination="@id/verifyPasscodeFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/verifyPasscodeFragment"
+        android:name="co.yap.app.modules.login.fragments.VerifyPasscodeFragment"
+        android:label="VerifyPasscodeFragment">
+        <argument
+            android:name="username"
+            app:argType="string"/>
     </fragment>
 </navigation>
