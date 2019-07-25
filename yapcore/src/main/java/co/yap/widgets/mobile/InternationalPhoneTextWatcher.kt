@@ -86,7 +86,6 @@ class InternationalPhoneTextWatcher
             return
         }
 
-        //calculate few things that will be helpful later
         val selectionEnd = Selection.getSelectionEnd(s)
         val isCursorAtEnd = selectionEnd == s.length
 

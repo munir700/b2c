@@ -187,7 +187,4 @@ object Strings {
     const val screen_b2c_eid_info_review_button_title_rescan_eid: String =
         "screen_b2c_eid_info_review_button_title_rescan_eid"
 
-
-
-
 }
