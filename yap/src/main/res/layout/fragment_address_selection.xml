@@ -60,7 +60,7 @@
             android:background="@color/warning">
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/button"
+                android:id="@+id/btnLocation"
                 style="@style/AddressBtnStyle"
                 app:btn_has_bold_text="true"
                 android:layout_width="@dimen/_200sdp"
@@ -77,10 +77,11 @@
                 android:text="@{viewModel.state.locationBtnText}"
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:layout_marginLeft="@dimen/margin_medium"
-                android:onClick="@{() -> viewModel.handlePressOnSelectLocation()}"
                 app:btn_drawable_padding_left="15.5"
                 app:btn_drawable_padding_top="4.5"
                 app:btn_text_alignment_from_left="1.9"
+                android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}"
+
                 />
 
         </FrameLayout>
@@ -176,7 +177,8 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             tools:layout_editor_absoluteX="44dp"
             app:enableCoreButton="@{viewModel.state.valid}"
-            android:onClick="@{() -> viewModel.handlePressOnNext()}"/>
+            android:onClick="@{(v) -> viewModel.handlePressOnNext(v.id)}"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -9,15 +9,12 @@ import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel {
 
     override val state: AddressSelectionState = AddressSelectionState(application)
-
-    override fun handlePressOnNext() {
-        onLocatioenSelected()
-    }
 
     fun onLocatioenSelected() {
         state.headingTitle = Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_title)
@@ -27,8 +24,20 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
             Translator.getString(getApplication(), R.string.screen_meeting_location_button_change_location)
     }
 
-    override fun handlePressOnSelectLocation() {
-         onLocatioenSelected()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
+
+
+    override fun handlePressOnSelectLocation(id: Int) {
+        clickEvent.setValue(id)
+        onLocatioenSelected()
+    }
+
+    override fun handlePressOnNext(id: Int) {
+        clickEvent.setValue(id)
+        if (state.valid) {
+//            onLocatioenSelected()
+//staart new fragment in sequeence
+        }
     }
 
     fun handlePressOnChangeLocation() {

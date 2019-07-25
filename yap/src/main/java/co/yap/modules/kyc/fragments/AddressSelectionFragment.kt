@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.fragments
 
 import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.kyc.interfaces.IAddressSelection
@@ -18,23 +19,19 @@ class AddressSelectionFragment : BaseBindingFragment<IAddressSelection.ViewModel
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        viewModel.clickListener.observe(this, Observer {
-//            when (it) {
-//                R.id.cvCard -> {
-//
-//                }
-//                R.id.btnNext -> {
-//
-//                }
-//                R.id.tvSkip -> {
-//
-//                }
-//            }
-//        })
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.btnLocation -> {
+
+                }
+                R.id.next_button -> {
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {
-//        viewModel.clickListener.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()
     }
 

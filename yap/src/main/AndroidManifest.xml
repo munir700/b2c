@@ -8,10 +8,6 @@
         </activity>
 
         <activity
-            android:name=".modules.kyc.activities.DocumentsDashboardActivity"
-            android:screenOrientation="portrait"
-            />
-        <activity
             android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity"
             android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait"/>

@@ -2,16 +2,16 @@ package co.yap.modules.kyc.interfaces
 
 import android.widget.TextView
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.SingleClickEvent
 
 interface IAddressSelection {
 
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
-//        val nextButtonPressEvent: SingleLiveEvent<Boolean>
-        fun handlePressOnNext()
-        fun handlePressOnSelectLocation()
+        val clickEvent: SingleClickEvent
+        fun handlePressOnNext(id: Int)
+        fun handlePressOnSelectLocation(id: Int)
         fun onEditorActionListener(): TextView.OnEditorActionListener
     }
 
