@@ -28,10 +28,13 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             style="@style/ATitle3"
+            android:textSize="@dimen/_18sdp"
             android:layout_marginTop="40dp"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:lineSpacingExtra="0sp"
             tools:text="@string/screen_meeting_location_display_text_title"
             app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="21dp"
             android:text="@{viewModel.state.headingTitle}"
             />
 
@@ -52,33 +55,34 @@
             app:layout_constraintTop_toBottomOf="@+id/tvAddressSelectionHeading"
             android:layout_height="wrap_content"
             android:minHeight="@dimen/_140sdp"
-            android:layout_marginTop="@dimen/margin_heading_to_field"
+            android:layout_marginTop="@dimen/margin_xl"
             android:orientation="vertical"
             android:background="@color/warning">
 
-
             <co.yap.widgets.CoreButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/ASmall"
                 android:id="@+id/button"
+                style="@style/AddressBtnStyle"
+                app:btn_has_bold_text="true"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:textSize="@dimen/_11sdp"
+                app:btn_text_size="@dimen/_11sdp"
                 android:layout_gravity="bottom|left"
                 android:gravity="center"
                 app:btn_drawable_position="left"
-                app:btn_drawable="@drawable/location"
-                android:drawableTint="@color/white"
-                android:textColor="@color/white"
-                android:drawablePadding="@dimen/margin_normal"
-                android:paddingLeft="@dimen/margin_medium"
+                app:btn_drawable="@drawable/location_group"
                 android:textAllCaps="false"
-                android:paddingRight="@dimen/margin_medium"
+                android:paddingLeft="@dimen/margin_extra_large"
                 tools:text="@string/screen_meeting_location_button_confirm_location"
                 android:text="@{viewModel.state.locationBtnText}"
-                app:text="@{Strings.screen_meeting_location_button_confirm_location}"
                 android:layout_marginBottom="@dimen/margin_normal"
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:onClick="@{() -> viewModel.handlePressOnSelectLocation()}"
+                app:btn_drawable_padding_left="15.5"
+                app:btn_drawable_padding_top="4.5"
+                app:btn_text_alignment_from_left="1.9"
                 />
+
         </FrameLayout>
 
         <TextView
@@ -91,9 +95,9 @@
             tools:ignore="MissingConstraints"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/viewMapFragment"
-            android:layout_marginTop="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginStart="@dimen/margin_medium"
-            android:textSize="@dimen/text_size_h3"
+            android:textSize="@dimen/text_size_h2"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/tvAddressHeading"/>
 
@@ -115,6 +119,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginTop="4dp"
             android:maxLength="100"
+            android:textSize="@dimen/text_size_h3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -128,10 +133,9 @@
             tools:ignore="MissingConstraints"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etAddressField"
-            android:layout_marginTop="@dimen/margin_large"
-            android:text="@={viewModel.state.addressField}"
+            android:layout_marginTop="@dimen/margin_medium_large"
             android:layout_marginStart="@dimen/margin_medium"
-            android:textSize="@dimen/text_size_h3"
+            android:textSize="@dimen/text_size_h2"
             app:layout_constraintStart_toStartOf="parent"
             android:id="@+id/tvLandMark"/>
 
@@ -153,6 +157,7 @@
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginTop="4dp"
             android:maxLength="100"
+            android:textSize="@dimen/text_size_h3"
             android:text="@={viewModel.state.landmarkField}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
