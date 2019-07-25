@@ -1,5 +1,6 @@
 package co.yap.app.modules.startup.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -25,11 +26,14 @@ class AccountSelectionFragment : BaseBindingFragment<IDefault.ViewModel>(), IDef
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnBusiness.setOnClickListener { }
-        btnPersonal.setOnClickListener(
+        btnPersonal.setOnClickListener {
+            startActivity(Intent(context, DocumentsDashboardActivity::class.java))
+        }
+        /*btnPersonal.setOnClickListener(
             Navigation.createNavigateOnClickListener(
                 R.id.action_accountSelectionFragment_to_welcomeFragment,
                 Bundle().apply { putSerializable(getString(R.string.arg_account_type), AccountType.B2C_ACCOUNT) })
-        )
+        )*/
         tvSignIn.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.action_accountSelectionFragment_to_loginFragment))
     }
 }

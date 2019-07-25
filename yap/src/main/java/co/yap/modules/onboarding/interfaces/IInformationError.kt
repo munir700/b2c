@@ -1,5 +1,6 @@
 package co.yap.modules.onboarding.interfaces
 
+import android.graphics.drawable.Drawable
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
@@ -11,5 +12,10 @@ interface IInformationError {
 
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var errorTitle: String
+        var errorImage: Drawable
+        var errorGuide: String
+        var buttonTitle: String
+    }
 }
