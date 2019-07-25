@@ -7,6 +7,7 @@ import android.widget.TextView
 import co.yap.R
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
@@ -14,19 +15,25 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override val state: AddressSelectionState = AddressSelectionState(application)
 
-//    override val nextButtonPressEvent: SingleLiveEvent<Boolean>
-//        get() =
     override fun handlePressOnNext() {
-        state.headingTitle="test"
+        onLocatioenSelected()
+    }
+
+    fun onLocatioenSelected() {
+        state.headingTitle = Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_title)
+        state.subHeadingTitle =
+            Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_selected_subtitle)
+        state.locationBtnText =
+            Translator.getString(getApplication(), R.string.screen_meeting_location_button_change_location)
     }
 
     override fun handlePressOnSelectLocation() {
-        state.headingTitle="test"
+         onLocatioenSelected()
     }
 
-      fun handlePressOnChangeLocation() {
-        state.locationBtnText=getString(R.string.screen_meeting_location_button_change_location)
-     }
+    fun handlePressOnChangeLocation() {
+        state.locationBtnText = getString(R.string.screen_meeting_location_button_change_location)
+    }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return object : TextView.OnEditorActionListener {
@@ -41,17 +48,4 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         }
     }
 
-//    val clickListener: MutableLiveData<Int> = MutableLiveData()
-
-//    override fun handlePressOnNextButton(id: Int) {
-//        clickListener.value = id
-//    }
-//
-//    override fun handlePressOnChangeLocation(id: Int) {
-//        clickListener.value = id
-//    }
-//
-//    override fun handlePressOnSkipButton(id: Int) {
-//        clickListener.value = id
-//    }
 }

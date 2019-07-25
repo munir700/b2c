@@ -51,7 +51,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var locationBtnText: String = ""
+    override var locationBtnText: String = Translator.getString(application, R.string.screen_meeting_location_button_confirm_location)
         get() = field
         set(value) {
             field = value
