@@ -2,7 +2,7 @@ package co.yap.modules.kyc.states
 
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.modules.kyc.fragments.DocScanStatus
+import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.yapcore.BaseState
 

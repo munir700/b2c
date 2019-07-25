@@ -14,7 +14,7 @@
 
         <import type="android.view.View"/>
 
-        <import type="co.yap.modules.kyc.fragments.DocScanStatus"/>
+        <import type="co.yap.modules.kyc.enums.DocScanStatus"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

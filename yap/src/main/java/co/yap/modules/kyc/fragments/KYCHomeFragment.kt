@@ -12,7 +12,6 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
 
 private const val SCAN_EID_CAM = 12
 
@@ -27,7 +26,7 @@ class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.clickListener.observe(this, Observer {
+        viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
@@ -39,7 +38,7 @@ class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View
     }
 
     override fun onDestroyView() {
-        viewModel.clickListener.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()
     }
 

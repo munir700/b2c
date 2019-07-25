@@ -1,8 +1,8 @@
 package co.yap.modules.kyc.interfaces
 
-import androidx.lifecycle.MutableLiveData
-import co.yap.modules.kyc.fragments.DocScanStatus
+import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
 
 interface IKYCHome {
@@ -12,7 +12,7 @@ interface IKYCHome {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val clickListener: MutableLiveData<Int>
+        val clickEvent: SingleClickEvent
         fun handlePressOnScanCard(id: Int)
         fun handlePressOnNextButton(id: Int)
         fun handlePressOnSkipButton(id: Int)
