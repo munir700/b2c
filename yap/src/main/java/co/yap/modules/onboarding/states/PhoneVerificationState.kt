@@ -9,6 +9,18 @@ import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.yapcore.BaseState
 
 class PhoneVerificationState(application: Application) : BaseState(), IPhoneVerification.State {
+    @get:Bindable
+    override var verificationTitle: String="I am your title"
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.verificationTitle)
+        }
+    @get:Bindable
+    override var verificationDescription: String=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.verificationDescription)
+        }
 
     val mContext = application.applicationContext
     val mobileNumber: Array<String?> = arrayOfNulls(1)

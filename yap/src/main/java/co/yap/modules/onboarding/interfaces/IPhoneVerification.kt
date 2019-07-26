@@ -15,6 +15,11 @@ interface IPhoneVerification {
     }
 
     interface State : IBase.State {
+        //views
+        var verificationTitle:String
+        var verificationDescription:String
+
+        //properties
         var otp: String
         var valid: Boolean
         var timer: String
