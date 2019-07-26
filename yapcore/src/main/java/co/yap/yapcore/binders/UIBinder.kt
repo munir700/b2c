@@ -161,9 +161,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("enableCoreButton")
     fun setEnable(view: CoreButton, enable: Boolean) {
-        if (null != enable) {
-            view.enableButton(enable)
-        }
+        if (view != null) view.enableButton(enable)
     }
 
     @JvmStatic

@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
-        <import type="android.view.View" />
+        <import type="android.view.View"/>
 
-        <import type="android.text.TextUtils" />
+        <import type="android.text.TextUtils"/>
 
         <variable
             name="model"
-            type="com.digitify.identityscanner.modules.docscanner.viewmodels.CameraViewModel" />
+            type="com.digitify.identityscanner.modules.docscanner.viewmodels.CameraViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".modules.docscanner.fragments.CameraFragment">
+        tools:context=".modules.docscanner.fragments.YapCameraFragment">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,12 +35,12 @@
                 android:layout_height="match_parent"
                 android:visibility="visible"
                 app:camera_id="any"
-                app:show_fps="false" />
+                app:show_fps="false"/>
 
             <com.digitify.identityscanner.modules.docscanner.components.Overlay
                 android:id="@+id/drawView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <com.digitify.identityscanner.components.TransparentCardView
                 android:id="@+id/cardOverlay"
@@ -50,57 +50,9 @@
                 app:cardBorderColor="@color/white"
                 app:cardBorderWidth="2dp"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
         </RelativeLayout>
-
-
-        <ImageView
-            android:id="@+id/quick_doc_preview"
-            android:layout_width="100dp"
-            android:layout_height="80dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/semi_black"
-            android:padding="4dp"
-            android:visibility="@{model.debugging ? View.VISIBLE : View.GONE}"
-            app:bitmap="@{model.state.cardPreview}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
-        <ImageView
-            android:id="@+id/quick_mrz_preview_debug"
-            android:layout_width="200dp"
-            android:layout_height="80dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/semi_black"
-            android:padding="4dp"
-            android:visibility="@{model.debugging ? View.VISIBLE : View.GONE}"
-            app:bitmap="@{model.state.mrzPreview}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cam_inst" />
-
-
-        <TextView
-            android:id="@+id/cam_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="center"
-            android:padding="4dp"
-            android:text="@{model.state.title}"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.62" />
 
         <TextView
             android:id="@+id/cam_inst"
@@ -118,38 +70,59 @@
             android:visibility="@{TextUtils.isEmpty(model.state.instructions) ? View.GONE : View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
-        <TextView
-            android:id="@+id/extra_info"
+        <LinearLayout
             android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="@color/semi_white_80"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:gravity="center"
-            android:text="@string/scan_info"
-            android:textSize="13sp"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cam_title" />
+            app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/camFab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_marginStart="8dp"
-            android:clickable="@{!model.state.capturing}"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@android:drawable/ic_menu_camera" />
+            <TextView
+                android:id="@+id/cam_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                style="@style/ARegularGrey"
+                android:text="@{model.state.stepInstructions}"
+                tools:text="Step 1 of 2"/>
+
+            <TextView
+                android:id="@+id/cam_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                style="@style/ALarge"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@{model.state.title}"
+                tools:text="Scan Front side"
+                android:textColor="@color/black"/>
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/camFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="150dp"
+                android:layout_gravity="center"
+                android:text="@{model.state.submitButtonTitle}"
+                android:layout_margin="24dp"
+                style="@style/RectangleBtnStyle"
+                tools:text="Scan"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:padding="8dp"
+                android:clickable="@{!model.state.capturing}"/>
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

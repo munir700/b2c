@@ -8,10 +8,7 @@ import android.widget.FrameLayout;
 import com.digitify.identityscanner.R;
 import com.digitify.identityscanner.activities.PermissionAwareFragmentActivity;
 import com.digitify.identityscanner.modules.docscanner.enums.DocumentType;
-import com.digitify.identityscanner.modules.docscanner.fragments.CameraFragment;
-import com.digitify.identityscanner.modules.docscanner.fragments.DocReviewFragment;
-import com.digitify.identityscanner.modules.docscanner.fragments.GalleryFragment;
-import com.digitify.identityscanner.modules.docscanner.fragments.ScanResultsFragment;
+import com.digitify.identityscanner.modules.docscanner.fragments.*;
 import com.digitify.identityscanner.modules.docscanner.interfaces.IIdentityScanner;
 import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult;
 import com.digitify.identityscanner.modules.docscanner.viewmodels.IdentityScannerViewModel;
@@ -19,6 +16,10 @@ import com.digitify.identityscanner.modules.docscanner.viewmodels.IdentityScanne
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Vector;
 
 public class IdentityScannerActivity extends PermissionAwareFragmentActivity implements IIdentityScanner.IView {
 
@@ -43,9 +44,12 @@ public class IdentityScannerActivity extends PermissionAwareFragmentActivity imp
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identity_scanner_frag);
+        // Setup toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setTitle("Scan Identity");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_cross);
+        setTitle("");
 
         init();
     }
@@ -86,7 +90,7 @@ public class IdentityScannerActivity extends PermissionAwareFragmentActivity imp
 
     @Override
     public void scanDocFromCamera() {
-        showFragment(new CameraFragment());
+        showFragment(new YapCameraFragment());
     }
 
     @Override
