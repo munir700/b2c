@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
+
     override fun getLayoutId(): Int = R.layout.fragment_onboarding_congratulations
 
     override val viewModel: ICongratulations.ViewModel
@@ -143,7 +144,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             }
         }
     }
-
 
     override fun onBackPressed(): Boolean = run { (activity as? OnboardingActivity)?.finish().let { true } }
 }

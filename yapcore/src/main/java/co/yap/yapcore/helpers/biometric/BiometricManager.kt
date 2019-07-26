@@ -1,4 +1,4 @@
-package co.yap.app.login
+package co.yap.yapcore.helpers.biometric
 
 import android.annotation.TargetApi
 import android.content.Context
@@ -7,10 +7,10 @@ import android.hardware.biometrics.BiometricPrompt
 import android.os.Build
 import android.os.CancellationSignal
 
-class BiometricManager protected constructor(biometricBuilder: BiometricBuilder) : BiometricManagerV23() {
+class BiometricManager private constructor(biometricBuilder: BiometricBuilder) : BiometricManagerV23() {
 
 
-    protected var mCancellationSignal = CancellationSignal()
+    private var mCancellationSignal = CancellationSignal()
 
     init {
         this.context = biometricBuilder.context

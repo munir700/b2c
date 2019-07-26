@@ -11,18 +11,21 @@ import java.util.*
 
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     private var date: Date? = null
+
     @get:Bindable
     override var fullName: String = "Nada Hassan"
         set(value) {
             field = value
             notifyPropertyChanged(BR.fullName)
         }
+
     @get:Bindable
     override var nationality: String = "Canadian"
         set(value) {
             field = value
             notifyPropertyChanged(BR.nationality)
         }
+
     @get:Bindable
     override var dateOfBirth: String = "01/01/1979"
         set(value) {
@@ -37,12 +40,14 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             field = Utils.getAgeFromDate(year, month, day).toString()
 
         }
+
     @get:Bindable
     override var gender: String = "Female"
         set(value) {
             field = value
             notifyPropertyChanged(BR.gender)
         }
+
     @get:Bindable
     override var expiryDate: String = "01/01/2019"
         set(value) {
@@ -52,5 +57,4 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             date = Utils.stringToDate(field.replace("/","-"))
             field = if (cal.time < date) "expiry date is valid" else "expiry date is not valid"
         }
-
 }

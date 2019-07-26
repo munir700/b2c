@@ -13,6 +13,7 @@ class SplashViewModel(application: Application) : BaseViewModel<ISplash.State>(a
     IRepositoryHolder<AuthRepository> {
 
     override val state: SplashState = SplashState()
+
     override val repository: AuthRepository = AuthRepository
 
     override val splashComplete: SingleLiveEvent<Boolean> = SingleLiveEvent()

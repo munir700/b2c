@@ -61,7 +61,7 @@
     </fragment>
     <activity
         android:id="@+id/createPasscodeActivity2"
-        tools:layout="@layout/screen_create_passcode"
+        tools:layout="@layout/activity_create_passcode"
         android:name="co.yap.modules.onboarding.activities.CreatePasscodeActivity"
         android:label="CreatePasscodeActivity"/>
     <activity

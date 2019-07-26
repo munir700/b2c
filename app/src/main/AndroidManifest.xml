@@ -47,9 +47,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".login.BiometricActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name="co.yap.app.modules.startup.activities.AccountSelectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"

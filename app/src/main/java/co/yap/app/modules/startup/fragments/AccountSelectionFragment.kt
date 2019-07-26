@@ -1,5 +1,6 @@
 package co.yap.app.modules.startup.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -12,15 +13,16 @@ import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.defaults.DefaultViewModel
 import co.yap.yapcore.defaults.IDefault
-import kotlinx.android.synthetic.main.activity_account_selection.*
+import kotlinx.android.synthetic.main.fragment_account_selection.*
 
 class AccountSelectionFragment : BaseBindingFragment<IDefault.ViewModel>(), IDefault.View {
-    override val viewModel: IDefault.ViewModel
-        get() = ViewModelProviders.of(this).get(DefaultViewModel::class.java)
 
     override fun getBindingVariable(): Int = 0
 
-    override fun getLayoutId(): Int = R.layout.activity_account_selection
+    override fun getLayoutId(): Int = R.layout.fragment_account_selection
+
+    override val viewModel: IDefault.ViewModel
+        get() = ViewModelProviders.of(this).get(DefaultViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

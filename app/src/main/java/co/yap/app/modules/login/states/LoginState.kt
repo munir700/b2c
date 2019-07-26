@@ -52,7 +52,6 @@ class LoginState : BaseState(), ILogin.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.drawbleRight)
-
         }
         get() {
             return field
@@ -64,7 +63,6 @@ class LoginState : BaseState(), ILogin.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.refreshField)
-
         }
 
 

@@ -4,6 +4,10 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/kyc_navigation"
             app:startDestination="@id/KYCHomeFragment">
+    <fragment
+        android:id="@+id/informationErrorFragment"
+        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
+        android:label="InformationErrorFragment"/>
 
     <fragment
         android:id="@+id/KYCHomeFragment"
@@ -18,7 +22,11 @@
         android:id="@+id/eidInfoReviewFragment"
         tools:layout="@layout/activity_eid_info_review"
         android:name="co.yap.modules.kyc.fragments.EidInfoReviewFragment"
-        android:label="EidInfoReviewFragment"/>
+        android:label="EidInfoReviewFragment">
+        <action
+            android:id="@+id/action_eidInfoReviewFragment_to_informationErrorFragment"
+            app:destination="@id/informationErrorFragment"/>
+    </fragment>
 
     <fragment
         android:id="@+id/AddressSelectionFragment"
@@ -29,4 +37,5 @@
             android:id="@+id/action_AddressSelectionFragment_to_KYCHomeFragment"
             app:destination="@id/KYCHomeFragment"/>
     </fragment>
+
 </navigation>

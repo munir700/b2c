@@ -13,6 +13,7 @@ import java.util.regex.Pattern
 class EmailState(application: Application) : BaseState(), IEmail.State {
 
     override var verificationCompleted: Boolean = false
+    val context: Context = application.applicationContext
 
     override fun reset() {
         super.reset()
@@ -21,7 +22,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
 
     @get:Bindable
     override var deactivateField: Boolean = true
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.deactivateField)
@@ -30,29 +30,23 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
 
     @get:Bindable
     override var emailBtnTitle: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.emailBtnTitle)
         }
+
     @get:Bindable
     override var emailVerificationTitle: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.emailVerificationTitle)
         }
-    val context: Context = application.applicationContext
+
+
     @get:Bindable
-
-
     override var emailTitle: String = ""
-        get() = field
         set(value) {
             field = value
-//            field=Translator.getString(context,context.getString(R.string.screen_email_verification_display_text_title))//update screen_email_verification_display_text_title to great title on email header
-
-//            emailTitle= Translator.getString(application,screen_enter_email_b2c_display_text_title)
             notifyPropertyChanged(BR.emailTitle)
         }
 
@@ -60,26 +54,20 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
     override var twoWayTextWatcher: String = ""
         set(value) {
             field = value
-
             notifyPropertyChanged(BR.twoWayTextWatcher)
             settwoWayTextWatcher()
         }
 
-    val mContext = application.applicationContext
-
     @get:Bindable
     override var emailHint: String =
-        application.applicationContext.getString(R.string.screen_enter_email_display_text_email_address)
-        get() = field
+        context.getString(R.string.screen_enter_email_display_text_email_address)
         set(value) {
             field = value
-
             notifyPropertyChanged(BR.emailHint)
         }
 
     @get:Bindable
     override var email: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.email)
@@ -87,7 +75,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
 
     @get:Bindable
     override var emailError: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.emailError)
@@ -101,25 +88,17 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             notifyPropertyChanged(BR.drawbleRight)
 
         }
-        get() {
-            return field
-        }
 
     @get:Bindable
     override var valid: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
-
-
         }
-        get() {
-            return field
-        }
+
 
     @get:Bindable
     override var cursorPlacement: Boolean = true
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.cursorPlacement)
@@ -128,7 +107,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
 
     @get:Bindable
     override var setSelection: Int = email.length
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.setSelection)
@@ -137,7 +115,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
 
     @get:Bindable
     override var refreshField: Boolean = false
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.refreshField)
@@ -145,13 +122,12 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         }
     @get:Bindable
     override var handleBackPress: Int = 0
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.handleBackPress)
         }
 
-    fun isValidEmail(email: String): Boolean {
+    private fun isValidEmail(email: String): Boolean {
         var inputStr: CharSequence = ""
         var isValid = false
         val expression = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
@@ -164,11 +140,10 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         if (matcher.matches()) {
             isValid = true
         }
-
         return isValid
     }
 
-    fun validateEmail(email: String): Boolean {
+    private fun validateEmail(email: String): Boolean {
         var isValidEmail = false
         if ("" == email.trim { it <= ' ' }) {
             isValidEmail = false
@@ -180,12 +155,11 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         return isValidEmail
     }
 
-
     private fun setSuccessUI() {
         refreshField = true
         valid = true
         emailError = ""
-        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+        drawbleRight = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
     }
 
     private fun setErrorUI(): Boolean {
@@ -193,7 +167,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
                  set error UI*/
         valid = false
         refreshField = false
-        emailError = mContext.getString(R.string.screen_phone_number_display_text_error)
+        emailError = context.getString(R.string.screen_phone_number_display_text_error)
         return false
     }
 
@@ -202,7 +176,6 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
         valid = false
         drawbleRight = null
     }
-
 
     fun settwoWayTextWatcher() {
 

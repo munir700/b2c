@@ -12,7 +12,6 @@ import co.yap.yapcore.helpers.StringUtils
 class NameState(application: Application) : BaseState(), IName.State {
 
     override var dummyStrings: Array<String> = arrayOf("0123")
-
     val context: Context = application.applicationContext
 
     @get:Bindable
@@ -50,7 +49,6 @@ class NameState(application: Application) : BaseState(), IName.State {
             notifyPropertyChanged(BR.valid)
         }
 
-
     @get:Bindable
     override var drawbleRight: Drawable? = null
         set(value) {
@@ -77,12 +75,13 @@ class NameState(application: Application) : BaseState(), IName.State {
     override var valid: Boolean = false
         get() = validate()
 
+
     private fun validate(): Boolean {
          return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()
     }
 
 
-    fun setFirstNameTextWatcher(value: String) {
+    private fun setFirstNameTextWatcher(value: String) {
 
         if (!value.isNullOrEmpty() && value.length >= 2) {
 
@@ -100,8 +99,6 @@ class NameState(application: Application) : BaseState(), IName.State {
                 drawbleRight = null
                 notifyPropertyChanged(BR.firstNameError)
                 notifyPropertyChanged(BR.valid)
-
-
             }
         } else {
             drawbleRight = null
@@ -109,7 +106,7 @@ class NameState(application: Application) : BaseState(), IName.State {
         }
     }
 
-    fun setLastNameTextWatcher(value: String) {
+    private fun setLastNameTextWatcher(value: String) {
 
         if (!value.isNullOrEmpty() && value.length >= 2) {
 

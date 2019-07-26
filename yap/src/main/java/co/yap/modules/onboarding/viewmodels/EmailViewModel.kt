@@ -27,7 +27,6 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
 
-
     override fun onResume() {
         super.onResume()
         setProgress(80)
@@ -46,7 +45,6 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             postDemographicData()
         } else {
             sendVerificationEmail()
-
         }
     }
 

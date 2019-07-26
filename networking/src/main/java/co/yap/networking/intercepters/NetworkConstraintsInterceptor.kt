@@ -8,6 +8,7 @@ import okhttp3.Response
 
 
 internal abstract class NetworkConstraintsInterceptor(val context: Context) : Interceptor, NetworkConstraintsListener {
+
     override fun intercept(chain: Interceptor.Chain): Response {
         var request = chain.request()
         if (!isInternetAvailable()) {
@@ -38,5 +39,4 @@ internal abstract class NetworkConstraintsInterceptor(val context: Context) : In
         }
         return false
     }
-
 }

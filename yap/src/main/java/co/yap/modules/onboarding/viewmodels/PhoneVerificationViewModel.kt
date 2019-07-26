@@ -24,7 +24,6 @@ open class PhoneVerificationViewModel(application: Application) :
         setProgress(40)
     }
 
-
     override fun onCreate() {
         super.onCreate()
         state.mobileNumber[0] = parentViewModel!!.onboardingData.formattedMobileNumber

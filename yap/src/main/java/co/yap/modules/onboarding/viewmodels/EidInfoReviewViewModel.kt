@@ -7,5 +7,6 @@ import co.yap.yapcore.BaseViewModel
 
 class EidInfoReviewViewModel(application: Application) : BaseViewModel<IEidInfoReview.State>(application),
     IEidInfoReview.ViewModel {
+
     override val state: EidInfoReviewState = EidInfoReviewState()
 }

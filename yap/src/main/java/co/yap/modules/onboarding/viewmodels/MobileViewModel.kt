@@ -16,8 +16,8 @@ import java.util.*
 
 class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobile.State>(application),
     IMobile.ViewModel, IRepositoryHolder<MessagesRepository> {
-    override val repository: MessagesRepository = MessagesRepository
 
+    override val repository: MessagesRepository = MessagesRepository
     override val state: MobileState = MobileState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
@@ -31,13 +31,11 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
         state.etMobileNumber = editText
         state.etMobileNumber!!.requestFocus()
         state.etMobileNumber!!.setOnEditorActionListener(onEditorActionListener())
-
     }
 
     override fun handlePressOnNext() {
         // Record the time
         parentViewModel?.onboardingData?.startTime = Date()
-
         // Send OTP request
         createOtp()
     }
@@ -56,7 +54,6 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     }
 
     private fun createOtp() {
-
         var mobileNumber: String = state.mobile.trim().replace(state.countryCode.trim(), "")
         mobileNumber = state.mobile.trim().replace(" ", "")
         val formattedMobileNumber: String =
@@ -77,8 +74,6 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
                     parentViewModel!!.onboardingData.countryCode = countryCode
                     parentViewModel!!.onboardingData.mobileNo = mobileNumber
                     parentViewModel!!.onboardingData.formattedMobileNumber = formattedMobileNumber
-
-
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message

@@ -47,7 +47,8 @@ class CoreCircularImageView :ImageView {
     private var mReady: Boolean = false
     private var mSetupPending: Boolean = false
     private var mBorderOverlay: Boolean = false
-    var isDisableCircularTransformation: Boolean = false
+    private var isDisableCircularTransformation: Boolean = false
+
         set(disableCircularTransformation) {
             if (isDisableCircularTransformation == disableCircularTransformation) {
                 return
@@ -69,7 +70,7 @@ class CoreCircularImageView :ImageView {
             invalidate()
         }
 
-    var circleBackgroundColor: Int
+    private var circleBackgroundColor: Int
         get() = mCircleBackgroundColor
         set(@ColorInt circleBackgroundColor) {
             if (circleBackgroundColor == mCircleBackgroundColor) {

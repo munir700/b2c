@@ -5,6 +5,7 @@ import co.yap.yapcore.SingleLiveEvent
 
 
 interface IMeetingConfirmation {
+
     interface view : IBase.View<viewModel>
 
     interface viewModel : IBase.ViewModel<State>{
@@ -12,7 +13,5 @@ interface IMeetingConfirmation {
         fun handlePressOnGoToDashboard()
     }
 
-    interface State : IBase.State {
-
-    }
+    interface State : IBase.State
 }

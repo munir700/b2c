@@ -21,7 +21,6 @@ object StringUtils {
                 isValid = true
             }
         }
-
         return isValid
     }
 
@@ -37,7 +36,6 @@ object StringUtils {
         for (i in 0 until jsonArray.length()) {
             strArr[i] = jsonArray.getString(i)
         }
-
         return strArr
     }
 
@@ -68,13 +66,13 @@ object StringUtils {
     }
 
 
-    inline fun IntRange.asString(): String = run {
+    private fun IntRange.asString(): String = run {
         val s = StringBuilder()
         forEach { s.append(it.toString()) }
         s.toString()
     }
 
-    inline fun IntRange.asReversedString(): String = run {
+    private fun IntRange.asReversedString(): String = run {
         asString().reversed()
     }
 

@@ -5,6 +5,7 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
 interface IVerifyPasscode {
+
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {

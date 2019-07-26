@@ -21,13 +21,14 @@ import co.yap.yapcore.helpers.AnimationUtils
 
 class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
+    private val windowSize: Rect = Rect() // to hold the size of the visible window
+
     override fun getBindingVariable(): Int = BR.emailViewModel
+
     override fun getLayoutId(): Int = R.layout.fragment_email
 
     override val viewModel: IEmail.ViewModel
         get() = ViewModelProviders.of(this).get(EmailViewModel::class.java)
-
-    private val windowSize: Rect = Rect() // to hold the size of the visible window
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -36,17 +37,16 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
 
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
         viewModel.animationStartEvent.observe(this, Observer { startAnimation() })
-
-    }
-
-    private val nextButtonObserver = Observer<Boolean> {
-        navigate(R.id.congratulationsFragment)
     }
 
     override fun onDestroyView() {
         viewModel.nextButtonPressEvent.removeObservers(this)
         viewModel.animationStartEvent.removeObservers(this)
         super.onDestroyView()
+    }
+
+    private val nextButtonObserver = Observer<Boolean> {
+        navigate(R.id.congratulationsFragment)
     }
 
     fun startAnimation() {
@@ -80,7 +80,6 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
                 duration = 500
             )
         )
-
     }
 
     override fun onBackPressed(): Boolean = viewModel.state.verificationCompleted

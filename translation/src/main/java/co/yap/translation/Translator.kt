@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 
 object Translator {
+
     fun getString(context: Context, keyID: Int, vararg args: String): String {
         return context.resources.getString(keyID, *args)
     }
@@ -20,7 +21,6 @@ object Translator {
     fun getString(context: Context, keyID: String): String {
         val stringResourceId = context.resources.getIdentifier(keyID, "string", context.packageName)
         return getString(context, stringResourceId)
-
     }
 
     fun getString(context: Context, keyID: String, value: String): String {

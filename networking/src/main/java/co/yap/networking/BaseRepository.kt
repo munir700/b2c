@@ -56,9 +56,7 @@ abstract class BaseRepository : IRepository {
                     // return "Server sent some malformed data :o"
                 }
             }
-
         }
-
         return null
     }
 }

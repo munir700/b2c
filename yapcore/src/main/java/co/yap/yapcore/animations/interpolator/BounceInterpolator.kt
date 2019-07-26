@@ -4,6 +4,7 @@ import kotlin.math.cos
 import kotlin.math.pow
 
 class BounceInterpolator(amplitude: Double, frequency: Double) : android.view.animation.Interpolator {
+
     private var mAmplitude = 1.0
     private var mFrequency = 10.0
 
