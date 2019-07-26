@@ -19,6 +19,8 @@ import androidx.annotation.RequiresApi
 import androidx.core.text.toSpannable
 import androidx.core.view.children
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.activities.OnboardingActivity
@@ -33,8 +35,6 @@ import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
 
-    private val windowSize: Rect = Rect() // to hold the size of the visible window
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_onboarding_congratulations
@@ -42,12 +42,14 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     override val viewModel: ICongratulations.ViewModel
         get() = ViewModelProviders.of(this).get(CongratulationsViewModel::class.java)
 
+    private val windowSize: Rect = Rect() // to hold the size of the visible window
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         btnCompleteVerification.setOnClickListener {
-            navigate(R.id.action_congratulationsFragment_to_liteDashboardActivity)
+            findNavController().navigate(R.id.action_congratulationsFragment_to_documentsDashboardActivity)
         }
 
         val display = activity!!.windowManager.defaultDisplay

@@ -54,9 +54,6 @@
         android:name="co.yap.modules.onboarding.fragments.CongratulationsFragment"
         android:label="CongratulationsFragment">
         <action
-            android:id="@+id/action_congratulationsFragment_to_liteDashboardActivity"
-            app:destination="@id/liteDashboardActivity"/>
-        <action
             android:id="@+id/action_congratulationsFragment_to_documentsDashboardActivity"
             app:destination="@id/documentsDashboardActivity"
             app:popUpToInclusive="true"
@@ -67,11 +64,6 @@
         tools:layout="@layout/activity_create_passcode"
         android:name="co.yap.modules.onboarding.activities.CreatePasscodeActivity"
         android:label="CreatePasscodeActivity"/>
-    <activity
-        android:id="@+id/liteDashboardActivity"
-        tools:layout="@layout/activity_lite_dashboard"
-        android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
-        android:label="LiteDashboardActivity"/>
     <activity
         android:id="@+id/documentsDashboardActivity"
         tools:layout="@layout/activity_documents_dashboard"

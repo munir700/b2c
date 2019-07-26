@@ -3,13 +3,15 @@
 
     <application>
         <activity
-            android:name=".app.modules.startup.activities.WelcomeActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
             android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/kyc_navigation"/>
         </activity>
 
+        <activity
+            android:name=".modules.kyc.activities.DocumentsDashboardActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity"
             android:windowSoftInputMode="adjustResize"
@@ -37,10 +39,5 @@
         <activity
             android:name=".modules.onboarding.activities.EidInfoReviewActivity"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".modules.kyc.activities.DocumentsDashboardActivity"
-            android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/kyc_navigation"/>
-        </activity>
     </application>
 </manifest>
