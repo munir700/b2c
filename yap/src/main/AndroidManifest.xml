@@ -24,6 +24,10 @@
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/onboarding_navigation"/>
         </activity>
+
+        <activity
+            android:name=".modules.kyc.fragments.LocationSelectionActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.onboarding.activities.CreatePasscodeActivity"
             android:screenOrientation="portrait"/>

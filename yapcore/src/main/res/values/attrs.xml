@@ -205,4 +205,12 @@
         <attr name="civ_circle_background_color" format="color" />
     </declare-styleable>
 
+
+
+    <declare-styleable name="MyyMap">
+        <attr name="latitude" format="float" />
+        <attr name="longitude" format="float" />
+        <attr name="marker" format="string" />
+    </declare-styleable>
+
 </resources>

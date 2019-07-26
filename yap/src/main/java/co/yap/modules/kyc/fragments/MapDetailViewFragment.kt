@@ -10,7 +10,7 @@ class MapDetailViewFragment : SupportMapFragment() {
     private var mListener: OnTouchListener? = null
 
     fun setListener(listener: () -> Unit) {
-        mListener = listener
+//        mListener = listener
     }
 
     interface OnTouchListener {

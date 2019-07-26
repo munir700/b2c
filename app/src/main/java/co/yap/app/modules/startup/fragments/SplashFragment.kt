@@ -1,5 +1,7 @@
 package co.yap.app.modules.startup.fragments
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.fragments.LocationSelectionActivity
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -25,9 +28,19 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        startActivity(
+//            activity?.let { it1 ->
+//                DocumentsDashboardActivity.newIntent(
+//                    it1
+//                )
+//            }
+//        )
+//        Intent(context, LocationSelectionActivity::class.java)
+
+
         startActivity(
             activity?.let { it1 ->
-                DocumentsDashboardActivity.newIntent(
+                LocationSelectionActivity.newIntent(
                     it1
                 )
             }

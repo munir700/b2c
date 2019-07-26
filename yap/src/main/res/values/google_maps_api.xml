@@ -20,5 +20,7 @@
     Once you have your key (it starts with "AIza"), replace the "google_maps_key"
     string in this file.
     -->
-    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4</string>
+    <!--<string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAwMbe3AAuJfPm6w1LEQpx7IME9iIUiSR4</string> &lt;!&ndash; from old app the un restricted api key &ndash;&gt;-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCyLf0e-07PzAGzGOhI7o2LLQ2CrH5BE60</string>  the new restricted api key
+
 </resources>
