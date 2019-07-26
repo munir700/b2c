@@ -20,7 +20,6 @@ abstract class BaseNavFragment : Fragment() {
 
     protected fun navigate(destinationId: Int, args: Bundle? = null, navOptions: NavOptions? = defaultNavOptions) {
         findNavController().navigate(destinationId, args, navOptions)
-
     }
 
     protected fun navigate(destinationId: Int, args: Bundle? = null, optionsBuilder: NavOptions.Builder.() -> Unit?) {

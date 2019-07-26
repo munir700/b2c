@@ -1,20 +1,14 @@
 package co.yap.modules.kyc.fragments
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.activities.EidInfoReviewActivity
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel
 import co.yap.yapcore.BaseBindingFragment
 
 class EidInfoReviewFragment :BaseBindingFragment<IEidInfoReview.ViewModel>() {
-   /* companion object {
-        fun newIntent(context: Context): Intent = Intent(context, EidInfoReviewActivity::class.java)
-    }*/
 
     override fun getBindingVariable(): Int = BR.viewModel
 

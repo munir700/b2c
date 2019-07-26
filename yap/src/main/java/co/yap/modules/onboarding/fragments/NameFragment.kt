@@ -17,7 +17,6 @@ class NameFragment : OnboardingChildFragment<IName.ViewModel>(), IName.View {
     override val viewModel: IName.ViewModel
         get() = ViewModelProviders.of(this).get(NameViewModel::class.java)
 
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)

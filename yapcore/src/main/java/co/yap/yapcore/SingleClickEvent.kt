@@ -7,39 +7,42 @@ import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
 
-@Deprecated("Use {@link SingleClickEvent} Instead")
-class SingleLiveEvent<T> : MutableLiveData<T>() {
+class SingleClickEvent : MutableLiveData<Int>() {
+    companion object {
+        private val TAG = "SingleClickEvent"
+    }
 
+    private val defaultValue: Int = -1
     private val debounceDelay: Long = 500L
-    private val mPending = AtomicBoolean(false)
+    private val mPending = AtomicInteger(defaultValue)
 
     @MainThread
-    override fun observe(owner: LifecycleOwner, observer: Observer<in T>) {
+    override fun observe(owner: LifecycleOwner, observer: Observer<in Int>) {
         if (hasActiveObservers()) {
             Log.w(TAG, "Multiple observers registered but only one will be notified of changes.")
         }
 
         // Observe the internal MutableLiveData
         super.observe(owner, Observer { t ->
-            if (mPending.get()) {
+            if (mPending.get() != defaultValue) {
                 observer.onChanged(t)
-                Handler(Looper.getMainLooper()).postDelayed({ mPending.set(false) }, debounceDelay)
+                Handler(Looper.getMainLooper()).postDelayed({ mPending.set(defaultValue) }, debounceDelay)
             }
         })
     }
 
-    override fun postValue(value: T) {
-        if (!mPending.get()) {
+    override fun postValue(value: Int) {
+        if (mPending.get() == defaultValue) {
             super.postValue(value)
         }
     }
 
     @MainThread
-    override fun setValue(t: T?) {
-        if (!mPending.get()) {
-            mPending.set(true)
+    override fun setValue(t: Int) {
+        if (mPending.get() == defaultValue) {
+            mPending.set(t)
             super.setValue(t)
         }
     }
@@ -49,11 +52,7 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
      */
     @MainThread
     fun call() {
-        value = null
+       setValue(0)
     }
 
-    companion object {
-
-        private val TAG = "SingleLiveEvent"
-    }
 }

@@ -142,4 +142,10 @@
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
 
+    <!-- Set card PIN Welcome screen -->
+    <string name="screen_set_card_pin_welcome_display_text_title">Great, looks like you just received your YAP card!</string>
+    <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN code to be able to use your debit card for purchases and withdrawals</string>
+    <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN code</string>
+    <string name="screen_set_card_pin_welcome_button_create_pin_later">Do it later</string>
+
 </resources>

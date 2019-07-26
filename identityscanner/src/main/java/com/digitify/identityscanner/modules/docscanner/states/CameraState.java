@@ -1,22 +1,17 @@
 package com.digitify.identityscanner.modules.docscanner.states;
 
-import android.graphics.Bitmap;
-
+import androidx.databinding.Bindable;
 import com.digitify.identityscanner.BR;
 import com.digitify.identityscanner.modules.docscanner.enums.ImageReadinessStatus;
 import com.digitify.identityscanner.states.State;
-
 import org.opencv.core.Rect;
-
-import androidx.databinding.Bindable;
 
 public class CameraState extends State {
     private String title;
     private String instructions;
-    private ImageReadinessStatus imageReadinessStatus;
+    private String stepInstructions;
+    private String submitButtonTitle;
     private Rect cardRect;
-    private Bitmap cardPreview;
-    private Bitmap mrzPreview;
     private boolean capturing;
 
     @Bindable
@@ -40,13 +35,23 @@ public class CameraState extends State {
     }
 
     @Bindable
-    public ImageReadinessStatus getImageReadinessStatus() {
-        return imageReadinessStatus;
+    public String getStepInstructions() {
+        return stepInstructions;
     }
 
-    public void setImageReadinessStatus(ImageReadinessStatus status) {
-        this.imageReadinessStatus = status;
-        notifyPropertyChanged(BR.imageReadinessStatus);
+    public void setStepInstructions(String stepInstructions) {
+        this.stepInstructions = stepInstructions;
+        notifyPropertyChanged(BR.stepInstructions);
+    }
+
+    @Bindable
+    public String getSubmitButtonTitle() {
+        return submitButtonTitle;
+    }
+
+    public void setSubmitButtonTitle(String submitButtonTitle) {
+        this.submitButtonTitle = submitButtonTitle;
+        notifyPropertyChanged(BR.submitButtonTitle);
     }
 
     @Bindable
@@ -57,26 +62,6 @@ public class CameraState extends State {
     public void setCardRect(Rect cardRect) {
         this.cardRect = cardRect;
         notifyPropertyChanged(BR.cardRect);
-    }
-
-    @Bindable
-    public Bitmap getCardPreview() {
-        return cardPreview;
-    }
-
-    public void setCardPreview(Bitmap cardPreview) {
-        this.cardPreview = cardPreview;
-        notifyPropertyChanged(BR.cardPreview);
-    }
-
-    @Bindable
-    public Bitmap getMrzPreview() {
-        return mrzPreview;
-    }
-
-    public void setMrzPreview(Bitmap mrzPreview) {
-        this.mrzPreview = mrzPreview;
-        notifyPropertyChanged(BR.mrzPreview);
     }
 
     @Bindable
@@ -92,9 +77,8 @@ public class CameraState extends State {
     public void reset() {
         title = "";
         instructions = "";
-        imageReadinessStatus = ImageReadinessStatus.NOK;
+        stepInstructions = "";
         cardRect = null;
-        cardPreview = null;
         capturing = false;
         notifyChange();
     }
