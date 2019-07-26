@@ -49,7 +49,7 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         navigate(R.id.congratulationsFragment)
     }
 
-    fun startAnimation() {
+    private fun startAnimation() {
         Handler(Looper.getMainLooper()).postDelayed({
             toolbarAnimation().apply {
                 addListener (onEnd = {

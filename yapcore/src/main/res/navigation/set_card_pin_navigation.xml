@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/kyc_navigation"
+            app:startDestination="@id/KYCHomeFragment">
+
+    <fragment
+        android:id="@+id/KYCHomeFragment"
+        tools:layout="@layout/fragment_kyc_home"
+        android:name="co.yap.modules.kyc.fragments.KYCHomeFragment"
+        android:label="KYCHomeFragment">
+    </fragment>
+
+</navigation>
