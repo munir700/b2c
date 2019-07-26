@@ -150,4 +150,10 @@ object Strings {
     const val screen_b2c_eid_info_review_button_title_confirm: String = "screen_b2c_eid_info_review_button_title_confirm"
     const val screen_b2c_eid_info_review_button_title_rescan_eid: String = "screen_b2c_eid_info_review_button_title_rescan_eid"
 
+    //Set card PIN welcome screen
+    const val screen_set_card_pin_welcome_display_text_title: String = "screen_set_card_pin_welcome_display_text_title"
+    const val screen_set_card_pin_welcome_display_text_sub_title: String = "screen_set_card_pin_welcome_display_text_sub_title"
+    const val screen_set_card_pin_welcome_button_create_pin: String = "screen_set_card_pin_welcome_button_create_pin"
+    const val screen_set_card_pin_welcome_button_create_pin_later: String = "screen_set_card_pin_welcome_button_create_pin_later"
+
 }
