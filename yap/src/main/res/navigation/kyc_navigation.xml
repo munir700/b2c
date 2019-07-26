@@ -3,7 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/kyc_navigation"
-            app:startDestination="@id/AddressSelectionFragment">
+            app:startDestination="@id/MapDetailViewFragment">
 
     <fragment
         android:id="@+id/KYCHomeFragment"
@@ -21,4 +21,15 @@
             android:id="@+id/action_AddressSelectionFragment_to_KYCHomeFragment"
             app:destination="@id/KYCHomeFragment"/>
     </fragment>
+
+    <fragment
+        android:id="@+id/MapDetailViewFragment"
+        tools:layout="@layout/fragment_map_detail"
+        android:name="co.yap.modules.kyc.fragments.MapDetailViewFragment"
+        android:label="MapDetailViewFragment">
+        <action
+            android:id="@+id/action_MapDetailViewFragment_to_KYCHomeFragment"
+            app:destination="@id/KYCHomeFragment"/>
+    </fragment>
+
 </navigation>

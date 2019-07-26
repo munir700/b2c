@@ -34,7 +34,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var addressField: String = "subHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitlesubHeadingTitle"
+    override var addressField: String = ""
         get() = field
         set(value) {
             field = value
