@@ -27,7 +27,6 @@ object AuthRepository : BaseRepository(), AuthApi {
         return response
     }
 
-
     override suspend fun getCSRFToken(): RetroApiResponse<ApiResponse> {
         val response: RetroApiResponse<ApiResponse> = executeSafely(call = { API.getCSRFToken() })
         when (response) {
@@ -38,9 +37,7 @@ object AuthRepository : BaseRepository(), AuthApi {
                 }
             }
         }
-
         return response
-
     }
 
     override suspend fun refreshJWTToken(token: String): RetroApiResponse<ApiResponse> =

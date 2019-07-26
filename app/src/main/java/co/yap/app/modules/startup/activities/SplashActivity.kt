@@ -23,13 +23,11 @@ class SplashActivity : BaseActivity<ISplash.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+        setContentView(R.layout.fragment_splash)
 
         viewModel.splashComplete.observe(this, Observer {
             finish()
-
             sharedPreferenceManager = SharedPreferenceManager(this@SplashActivity)
-
             if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
               startActivity(VerifyPasscodeActivity.newIntent(this, ""))
             } else {
@@ -39,9 +37,7 @@ class SplashActivity : BaseActivity<ISplash.ViewModel>(),
                 }else{
                     startActivity(Intent(this, LogInActivity::class.java))
                 }
-
             }
         })
     }
-
 }

@@ -13,6 +13,7 @@ import co.yap.yapcore.BaseBindingActivity
 
 @Deprecated("Use EidInfoReviewFragment")
 class EidInfoReviewActivity : BaseBindingActivity<IEidInfoReview.ViewModel>() {
+
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, EidInfoReviewActivity::class.java)
     }

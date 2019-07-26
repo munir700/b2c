@@ -25,9 +25,7 @@ class CCPCountry : Comparable<CCPCountry> {
             return flagResID
         }
 
-    constructor() {
-
-    }
+    constructor()
 
     fun getphoneCode(): String {
         return phoneCode
@@ -82,10 +80,10 @@ class CCPCountry : Comparable<CCPCountry> {
 
         internal var DEFAULT_FLAG_RES = -99
         internal var TAG = "Class Country"
-        internal var loadedLibraryMasterListLanguage: CountryCodePicker.Language? = null
-        internal var dialogTitle: String? = null
-        internal var searchHintMessage: String? = null
-        internal var noResultFoundAckMessage: String? = null
+        private var loadedLibraryMasterListLanguage: CountryCodePicker.Language? = null
+        private var dialogTitle: String? = null
+        private var searchHintMessage: String? = null
+        private var noResultFoundAckMessage: String? = null
         var loadedLibraryMaterList: List<CCPCountry>? = null
             internal set
         //countries with +1
@@ -113,7 +111,7 @@ class CCPCountry : Comparable<CCPCountry> {
         private val US_VIRGIN_ISLANDS_AREA_CODES = "340"
 
 
-        public fun getCountryForCode(
+         fun getCountryForCode(
             context: Context,
             language: CountryCodePicker.Language,
             preferredCountries: List<CCPCountry>,
@@ -122,7 +120,7 @@ class CCPCountry : Comparable<CCPCountry> {
             return getCountryForCode(context, language, preferredCountries, code.toString() + "")
         }
 
-        public fun getCountryForCode(
+         fun getCountryForCode(
             context: Context,
             language: CountryCodePicker.Language,
             preferredCountries: List<CCPCountry>?,
@@ -145,7 +143,7 @@ class CCPCountry : Comparable<CCPCountry> {
             return null
         }
 
-        internal fun loadDataFromXML(context: Context, language: CountryCodePicker.Language) {
+        private fun loadDataFromXML(context: Context, language: CountryCodePicker.Language) {
             var countries: MutableList<CCPCountry> = ArrayList()
             var tempDialogTitle = ""
             var tempSearchHint = ""
@@ -416,7 +414,7 @@ class CCPCountry : Comparable<CCPCountry> {
 
     }
 
-    public fun getCountryForCode(
+     fun getCountryForCode(
         context: Context,
         language: CountryCodePicker.Language,
         preferredCountries: List<CCPCountry>,

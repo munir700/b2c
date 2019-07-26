@@ -15,13 +15,18 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
+
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator, IFragmentHolder {
+
     companion object {
-
-
         fun newIntent(context: Context): Intent = Intent(context, DocumentsDashboardActivity::class.java)
 
     }
+
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.activity_documents_dashboard
+
 
     override val viewModel: IDocumentsDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(DocumentsDashboardViewModel::class.java)
@@ -33,10 +38,6 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
-
-    override fun getBindingVariable(): Int = BR.viewModel
-
-    override fun getLayoutId(): Int = R.layout.activity_documents_dashboard
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.my_nav_host_fragment)

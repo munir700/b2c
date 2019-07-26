@@ -7,7 +7,6 @@ import co.yap.yapcore.BaseState
 
 class LiteDashboardState : BaseState(), ILiteDashboard.State {
 
-
     @get:Bindable
     override var name: String = ""
         set(value) {

@@ -15,7 +15,6 @@ class PhoneVerificationState(application: Application) : BaseState(), IPhoneVeri
 
     @get:Bindable
     override var otp: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.otp)
@@ -40,7 +39,6 @@ class PhoneVerificationState(application: Application) : BaseState(), IPhoneVeri
 
     @get:Bindable
     override var timer: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.timer)
@@ -50,19 +48,18 @@ class PhoneVerificationState(application: Application) : BaseState(), IPhoneVeri
 
     @get:Bindable
     override var color: Int = mContext.resources.getColor(R.color.disabled)
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.color)
         }
 
     private fun validate(): Boolean {
-        var vlidateOtp: Boolean = false
+        var validateOtp: Boolean = false
         if (!otp.isNullOrEmpty() && otp.length == 4) {
-            vlidateOtp = true
+            validateOtp = true
             valid = true
         }
-        return vlidateOtp
+        return validateOtp
     }
 
     override fun reverseTimer(Seconds: Int) {

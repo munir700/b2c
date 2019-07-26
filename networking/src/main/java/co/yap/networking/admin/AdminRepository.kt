@@ -7,7 +7,6 @@ import co.yap.networking.models.RetroApiResponse
 
 object AdminRepository : BaseRepository(), AdminApi {
 
-
     const val URL_VERIFY_USERNAME = "/admin/api/verify-user"
 
     private val API: AdminRetroService = RetroNetwork.createService(AdminRetroService::class.java)

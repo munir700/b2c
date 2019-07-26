@@ -24,9 +24,6 @@ import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.custom_widget_edit_text.view.*
 
-
-
-
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
 @SuppressLint("CustomViewStyleable")
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -38,34 +35,31 @@ class CoreInputField @JvmOverloads constructor(
 ) : RelativeLayout(context, attrs, defStyle, defStyleRes) {
 
 
-    var drawableRight: Drawable? = null
-    var drawableLeft: Drawable? = null
+    private var drawableRight: Drawable? = null
+    private var drawableLeft: Drawable? = null
     private var paintText: Paint = Paint()
     private var viewWeight: Int = 0
     private var viewHeight: Int = 0
     private var textInput: String = ""
-    public var countryCode: String = "+971 "
+    var countryCode: String = "+971 "
     lateinit var typedArray: TypedArray
     var inputType: Int = 0
-    var imeiActionType: Int = 1
-    var IME_NEXT: Int = 2
+    private var imeiActionType: Int = 1
+    private var IME_NEXT: Int = 2
     var maxLength: Int = 0
-    var view_id: Int = 0
-    var PHONE_INPUT_TYPE: Int = 1
-    var EMAIL_INPUT_TYPE: Int = 2
-    var PHONE_NUMBER_LENGTH: Int = 16
+    private var view_id: Int = 0
+    private var PHONE_INPUT_TYPE: Int = 1
+    private var EMAIL_INPUT_TYPE: Int = 2
+    private var PHONE_NUMBER_LENGTH: Int = 16
     var editText: EditText
     var checkFocusChange: Boolean = false
-    private lateinit var viewDataBinding: ViewDataBinding
+    private var viewDataBinding: ViewDataBinding
 
     init {
         viewDataBinding =
             DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.custom_widget_edit_text, this, true)
         viewDataBinding.executePendingBindings()
         editText = findViewWithTag("input")
-
-
-
 
         attrs?.let {
             typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
@@ -156,7 +150,6 @@ class CoreInputField @JvmOverloads constructor(
 
             EMAIL_INPUT_TYPE -> {
                 editText.inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
-//                editText.requestFocus()
                 requestKeyboard()
 
             }
@@ -195,7 +188,6 @@ class CoreInputField @JvmOverloads constructor(
         editText.setOnClickListener(OnClickListener { editText.setSelection(editText.getText().toString().length) })
 
         editText.setCursorVisible(true)
-//        editText.requestFocus()
     }
 
     fun cursorPlacement() {
@@ -331,14 +323,8 @@ class CoreInputField @JvmOverloads constructor(
     }
     fun requestKeyboard() {
         editText.requestFocus()
-//             (editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-//                InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY
-//            )
-//        } else if (request) {
             (editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
                 InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
             )
-//        }
-
     }
 }

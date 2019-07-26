@@ -9,7 +9,7 @@ import co.yap.modules.onboarding.interfaces.IInformationError
 import co.yap.yapcore.BaseState
 
 class InformationErrorState(application: Application) : BaseState(), IInformationError.State {
-    val mContext = application.applicationContext
+    private val mContext = application.applicationContext
     @get:Bindable
     override var errorTitle: String="Looks like you're from the United States"
         set(value) {

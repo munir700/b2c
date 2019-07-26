@@ -16,31 +16,28 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
 
-
-    override val viewModel: IPhoneVerification.ViewModel
-        get() = ViewModelProviders.of(this).get(PhoneVerificationViewModel::class.java)
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_phone_verification
+
+    override val viewModel: IPhoneVerification.ViewModel
+        get() = ViewModelProviders.of(this).get(PhoneVerificationViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
 
-    private val nextButtonObserver = Observer<Boolean> {
+    override fun onDestroyView() {
+        viewModel.nextButtonPressEvent.removeObservers(this)
+        super.onDestroyView()
+    }
 
+    private val nextButtonObserver = Observer<Boolean> {
         startActivityForResult(
             context?.let { CreatePasscodeActivity.newIntent(it) },
             Constants.REQUEST_CODE_CREATE_PASSCODE
         )
-
-    }
-
-    override fun onDestroyView() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
-        super.onDestroyView()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -51,8 +48,6 @@ class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.Vie
                 viewModel.setPasscode(data.getStringExtra(SharedPreferenceManager.KEY_PASSCODE))
                 findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
             }
-
         }
     }
-
 }

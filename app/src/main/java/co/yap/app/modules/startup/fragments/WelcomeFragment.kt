@@ -15,12 +15,12 @@ import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
 
 class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View {
 
-    override val viewModel: IWelcome.ViewModel
-        get() = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)
-
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.screen_onboarding_welcome
+    override fun getLayoutId(): Int = R.layout.fragment_onboarding_welcome
+
+    override val viewModel: IWelcome.ViewModel
+        get() = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -37,16 +37,15 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
         viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
     }
 
-    private fun getAccountType(): AccountType =
-        arguments?.getSerializable(getString(R.string.arg_account_type)) as AccountType
-
-    private val getStartedButtonObserver = Observer<Boolean> {
-        findNavController().navigate(R.id.action_welcomeFragment_to_onboardingActivity, arguments)
-    }
-
     override fun onDestroyView() {
         viewModel.onGetStartedPressEvent.removeObservers(this)
         super.onDestroyView()
     }
 
+    private val getStartedButtonObserver = Observer<Boolean> {
+        findNavController().navigate(R.id.action_welcomeFragment_to_onboardingActivity, arguments)
+    }
+
+    private fun getAccountType(): AccountType =
+        arguments?.getSerializable(getString(R.string.arg_account_type)) as AccountType
 }

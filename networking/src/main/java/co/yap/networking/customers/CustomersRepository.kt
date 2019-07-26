@@ -14,7 +14,6 @@ import co.yap.networking.models.RetroApiResponse
 
 object CustomersRepository : BaseRepository(), CustomersApi {
 
-
     const val URL_SIGN_UP = "/customers/api/profile"
     const val URL_SEND_VERIFICATION_EMAIL = "/customers/api/sign-up/email"
     const val URL_ACCOUNT_INFO = "/customers/api/accounts"

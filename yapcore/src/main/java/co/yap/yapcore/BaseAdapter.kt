@@ -1,5 +1,3 @@
 package co.yap.yapcore
 
-abstract class BaseAdapter {
-
-}
+abstract class BaseAdapter

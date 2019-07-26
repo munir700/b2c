@@ -73,7 +73,6 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
     }
 
     override fun handlePressOnSignInButton() {
-//        state.dialerError=state.passcode
         signInButtonPressEvent.postValue(true)
     }
 }
