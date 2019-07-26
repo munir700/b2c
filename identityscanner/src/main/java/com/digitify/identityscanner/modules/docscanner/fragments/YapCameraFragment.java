@@ -1,14 +1,16 @@
 package com.digitify.identityscanner.modules.docscanner.fragments;
 
 import android.content.Intent;
-import android.graphics.RectF;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.Observable;
+import androidx.lifecycle.ViewModelProviders;
 import com.digitify.identityscanner.BR;
 import com.digitify.identityscanner.R;
 import com.digitify.identityscanner.components.OpenCVCameraView;
@@ -16,37 +18,19 @@ import com.digitify.identityscanner.components.TransparentCardView;
 import com.digitify.identityscanner.core.arch.MainHandler;
 import com.digitify.identityscanner.core.detection.utils.OpenCVUtils;
 import com.digitify.identityscanner.databinding.FragmentCameraBinding;
-import com.digitify.identityscanner.fragments.BaseFragment;
 import com.digitify.identityscanner.fragments.OpenCVCameraFragment;
 import com.digitify.identityscanner.modules.docscanner.components.Overlay;
-import com.digitify.identityscanner.modules.docscanner.enums.DocumentPageType;
 import com.digitify.identityscanner.modules.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.modules.docscanner.interfaces.Cropper;
 import com.digitify.identityscanner.modules.docscanner.interfaces.ICamera;
 import com.digitify.identityscanner.modules.docscanner.viewmodels.CameraViewModel;
 import com.digitify.identityscanner.modules.docscanner.viewmodels.IdentityScannerViewModel;
-import com.digitify.identityscanner.utils.ImageUtils;
 import com.digitify.identityscanner.utils.NumberUtils;
-
 import org.opencv.android.CameraBridgeViewBase;
 import org.opencv.core.Mat;
 import org.opencv.core.Rect;
 
-import java.io.File;
-
-import androidx.annotation.Nullable;
-import androidx.databinding.DataBindingUtil;
-import androidx.databinding.Observable;
-import androidx.lifecycle.ViewModelProviders;
-
-public class CameraFragment extends OpenCVCameraFragment implements ICamera.View, CameraBridgeViewBase.CvCameraViewListener2 {
-    private static String TAG = CameraFragment.class.getName();
-
-    public static BaseFragment get(String title) {
-        CameraFragment fragment = new CameraFragment();
-        fragment.setTitle(title);
-        return fragment;
-    }
+public class YapCameraFragment extends OpenCVCameraFragment implements ICamera.View, CameraBridgeViewBase.CvCameraViewListener2 {
 
     private Overlay overlay;
     private TransparentCardView cardOverlay;
@@ -86,39 +70,24 @@ public class CameraFragment extends OpenCVCameraFragment implements ICamera.View
         cardOverlay.setCardRatio(getParentViewModel().getDocumentType() == DocumentType.PASSPORT ? TransparentCardView.PASSPORT_RATIO : TransparentCardView.ID_CARD_RATIO);
 
         getView().findViewById(R.id.camFab).setOnClickListener((v) -> getViewModel().handleOnPressCapture(takeSnapshot()));
-        getView().findViewById(R.id.quick_doc_preview).setOnClickListener((v) -> getViewModel().handleOnPressQuickCapture(takeSnapshot()));
-        setTitle(getTitle(getParentViewModel().getState().getScanMode()));
 
         getViewModel().setDocumentType(getParentViewModel().getDocumentType());
+        getViewModel().setScanMode(getParentViewModel().getState().getScanMode());
 
     }
 
-    Observable.OnPropertyChangedCallback propertyChangedCallback = new Observable.OnPropertyChangedCallback() {
+    private Observable.OnPropertyChangedCallback propertyChangedCallback = new Observable.OnPropertyChangedCallback() {
 
         @Override
         public void onPropertyChanged(Observable sender, int propertyId) {
             if (propertyId == BR.scanMode) {
-                getViewModel().reset();
-                setTitle(getTitle(getParentViewModel().getState().getScanMode()));
+                getViewModel().setScanMode(getParentViewModel().getState().getScanMode());
             } else if (propertyId == BR.cardRect) {
                 updateDrawView(getViewModel().getState().getCardRect());
             }
         }
     };
 
-
-    private String getTitle(DocumentPageType mode) {
-        if (getParentViewModel().getDocumentType() == DocumentType.PASSPORT) {
-            return getString(R.string.scan_passport);
-        } else if (getParentViewModel().getDocumentType() == DocumentType.EID) {
-            return (mode == DocumentPageType.FRONT) ?
-                    getString(R.string.scan_front_eid) :
-                    getString(R.string.scan_back_eid);
-        }
-
-        return getString(R.string.scan);
-
-    }
 
     private void updateDrawView(Rect roi) {
         MainHandler.get().post(() -> {
@@ -128,10 +97,10 @@ public class CameraFragment extends OpenCVCameraFragment implements ICamera.View
                 if (roi == null || roi.size().width <= 0) {
                     overlay.clear();
                 } else {
-                    /**
-                     * We may have frame size different than surface size so
-                     * to map the dimensions of roi (adjusted according to frame size) to Surface size,
-                     * get the frame/surface ratio and adjust roi
+                    /*
+                      We may have frame size different than surface size so
+                      to map the dimensions of roi (adjusted according to frame size) to Surface size,
+                      get the frame/surface ratio and adjust roi
                      */
                     double hr = getFrameToSurfaceHeightRatio();
                     double wr = getFrameToSurfaceWidthRatio();
@@ -231,11 +200,6 @@ public class CameraFragment extends OpenCVCameraFragment implements ICamera.View
 
     private IdentityScannerViewModel getParentViewModel() {
         return parentViewModel;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        if (getViewModel() != null) getViewModel().setTitle(title);
     }
 
     @Override

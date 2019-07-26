@@ -11,7 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleLiveEvent
 
-class PhoneVerificationViewModel(application: Application) :
+open class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
     IRepositoryHolder<MessagesRepository> {
 

@@ -14,7 +14,7 @@ import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
-class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
+open class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerification.ViewModel>(), IPhoneVerification.View {
 
 
     override val viewModel: IPhoneVerification.ViewModel

@@ -3,6 +3,7 @@ package com.digitify.identityscanner.modules.docscanner.interfaces;
 import com.digitify.identityscanner.core.arch.SingleLiveEvent;
 import com.digitify.identityscanner.interfaces.IBase;
 import com.digitify.identityscanner.interfaces.ILIfeCycle;
+import com.digitify.identityscanner.modules.docscanner.enums.DocumentPageType;
 import com.digitify.identityscanner.modules.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.modules.docscanner.states.CameraState;
 
@@ -13,8 +14,6 @@ public interface ICamera {
     interface View extends IBase.View {
         void openCropper(String filename);
 
-        void setTitle(String title);
-
         void setInstructions(String inst);
 
         void onCaptureProcessCompleted(String filename);
@@ -23,9 +22,13 @@ public interface ICamera {
     interface ViewModel extends IBase.ViewModel {
         void setDocumentType(DocumentType documentType);
 
+        void setScanMode(DocumentPageType mode);
+
+        DocumentPageType getScanMode();
+
         void reset();
 
-        void setTitle(String title);
+        // void setTitle(String title);
 
         void setInstructions(String inst);
 

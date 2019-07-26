@@ -5,6 +5,7 @@
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
             android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/kyc_navigation"/>
         </activity>
 
         <activity
@@ -38,10 +39,5 @@
         <activity
             android:name=".modules.onboarding.activities.EidInfoReviewActivity"
             android:screenOrientation="portrait"/>
-        <activity
-            android:name=".modules.kyc.activities.DocumentsDashboardActivity"
-            android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/kyc_navigation"/>
-        </activity>
     </application>
 </manifest>
