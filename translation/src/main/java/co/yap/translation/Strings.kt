@@ -150,4 +150,25 @@ object Strings {
     const val screen_b2c_eid_info_review_button_title_confirm: String = "screen_b2c_eid_info_review_button_title_confirm"
     const val screen_b2c_eid_info_review_button_title_rescan_eid: String = "screen_b2c_eid_info_review_button_title_rescan_eid"
 
+    // KYC SDK
+    const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String = "idenetity_scanner_sdk_screen_scanner_display_text_step_1"
+    const val idenetity_scanner_sdk_screen_scanner_display_text_step_2: String = "idenetity_scanner_sdk_screen_scanner_display_text_step_2"
+    const val idenetity_scanner_sdk_screen_scanner_display_text_front_side: String = "idenetity_scanner_sdk_screen_scanner_display_text_front_side"
+    const val idenetity_scanner_sdk_screen_scanner_display_text_back_side: String = "idenetity_scanner_sdk_screen_scanner_display_text_back_side"
+    const val idenetity_scanner_sdk_screen_scanner_button_scan: String = "idenetity_scanner_sdk_screen_scanner_button_scan"
+    const val idenetity_scanner_sdk_screen_scanner_display_text_glare: String = "idenetity_scanner_sdk_screen_scanner_display_text_glare"
+    const val idenetity_scanner_sdk_screen_review_info_button_rescan: String = "idenetity_scanner_sdk_screen_review_info_button_rescan"
+    const val idenetity_scanner_sdk_screen_review_info_button_next: String = "idenetity_scanner_sdk_screen_review_info_button_next"
+    const val idenetity_scanner_sdk_screen_review_info_button_done: String = "idenetity_scanner_sdk_screen_review_info_button_done"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_review: String = "idenetity_scanner_sdk_screen_review_info_display_text_review"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_front"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_emirates_id_back"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_error_face: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_face"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_invalid_document"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file"
+    const val idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete: String = "idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete"
+
 }

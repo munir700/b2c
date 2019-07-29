@@ -44,7 +44,7 @@
 
             <com.digitify.identityscanner.components.TransparentCardView
                 android:id="@+id/cardOverlay"
-                app:cardMarginTop="80dp"
+                app:cardMarginTop="130dp"
                 app:cardCorners="8dp"
                 app:cardMarginHorizontal="8dp"
                 app:cardBorderColor="@color/white"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="58dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/white_round_background"
             android:gravity="center"

@@ -11,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.Observable;
 import androidx.lifecycle.ViewModelProviders;
+import co.yap.translation.Strings;
+import co.yap.translation.Translator;
 import com.digitify.identityscanner.BR;
 import com.digitify.identityscanner.R;
 import com.digitify.identityscanner.components.OpenCVCameraView;
@@ -147,7 +149,7 @@ public class YapCameraFragment extends OpenCVCameraFragment implements ICamera.V
         if (!TextUtils.isEmpty(filename)) {
             cropper.crop(getActivity(), this, filename);
         } else {
-            setInstructions(getString(R.string.error_saving_file));
+            setInstructions(Translator.INSTANCE.getString(requireContext(), Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file));
         }
     }
 
@@ -166,7 +168,7 @@ public class YapCameraFragment extends OpenCVCameraFragment implements ICamera.V
 
     @Override
     public void onCaptureProcessCompleted(String filename) {
-        setInstructions(getString(R.string.capture_process_complete));
+        setInstructions(Translator.INSTANCE.getString(requireContext(), Strings.idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete));
         getParentViewModel().onPictureTaken(filename);
 
     }
