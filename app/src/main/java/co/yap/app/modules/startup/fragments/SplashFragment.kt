@@ -28,23 +28,23 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        startActivity(
-//            activity?.let { it1 ->
-//                DocumentsDashboardActivity.newIntent(
-//                    it1
-//                )
-//            }
-//        )
-//        Intent(context, LocationSelectionActivity::class.java)
-
-
         startActivity(
             activity?.let { it1 ->
-                LocationSelectionActivity.newIntent(
+                DocumentsDashboardActivity.newIntent(
                     it1
                 )
             }
         )
+//        Intent(context, LocationSelectionActivity::class.java)
+
+
+//        startActivity(
+//            activity?.let { it1 ->
+//                LocationSelectionActivity.newIntent(
+//                    it1
+//                )
+//            }
+//        )
 
         viewModel.splashComplete.observe(this, Observer {
 

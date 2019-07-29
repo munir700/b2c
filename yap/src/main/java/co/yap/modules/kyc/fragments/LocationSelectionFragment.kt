@@ -1,4 +1,4 @@
-package co.yap.modules.onboarding.fragments
+package co.yap.modules.kyc.fragments
 
 import android.content.Context
 import android.os.Bundle
@@ -17,7 +17,7 @@ class LocationSelectionFragment: SupportMapFragment(), OnMapReadyCallback {
 
     var initial_latitude  = 25.276987
     var initial_longitude = 55.296249
-    var initial_marker    = "Seed nay"
+    var initial_marker    = "marker"
     override fun onInflate(context: Context, attrs: AttributeSet, savedInstanceState: Bundle?) {
         super.onInflate(context, attrs, savedInstanceState)
         attrs ?: return

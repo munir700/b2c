@@ -34,6 +34,13 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         super.onCreate(savedInstanceState)
 //        viewModel.onboardingData.accountType = getAccountType()
 //        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+//        val mapFragment =
+//            supportFragmentManager.findFragmentById(R.id.map) as MyMapFragment
+//        /*mapFragment.initial_latitude = -10.0
+//        mapFragment.initial_longitude = 115.0
+//        mapFragment.initial_marker = "Inishol mawker"*/
+//        mapFragment.getMapAsync(mapFragment)
+
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
