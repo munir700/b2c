@@ -2,14 +2,7 @@ package com.digitify.identityscanner.components;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
+import android.graphics.*;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -40,6 +33,9 @@ public class TransparentCardView extends View {
 
     private int backgroundColor;
     private int cardBorderColor;
+    private int cardColor;
+    private int cardBorderDashSpan = 20;
+    private boolean cardBorderDashed = false;
 
     //Flag for checking whether view is drawn or not.
     private boolean isDrawn = false;
@@ -68,11 +64,14 @@ public class TransparentCardView extends View {
     private void init(Context context, AttributeSet attrs) {
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TransparentCardView);
         backgroundColor = a.getColor(R.styleable.TransparentCardView_backgroundColor, getResources().getColor(R.color.semi_dark));
+        cardColor = a.getColor(R.styleable.TransparentCardView_cardColor, getResources().getColor(R.color.transparent));
         cardBorderColor = a.getColor(R.styleable.TransparentCardView_cardBorderColor, getResources().getColor(R.color.white));
+        cardBorderWidth = (int) a.getDimension(R.styleable.TransparentCardView_cardBorderWidth, cardBorderWidth);
+        cardBorderDashSpan = (int) a.getDimension(R.styleable.TransparentCardView_cardBorderDashSpan, cardBorderDashSpan);
+        cardBorderDashed = a.getBoolean(R.styleable.TransparentCardView_cardBorderDashed, cardBorderDashed);
         cardCorners = (int) a.getDimension(R.styleable.TransparentCardView_cardCorners, cardCorners);
         cardTop = (int) a.getDimension(R.styleable.TransparentCardView_cardMarginTop, cardTop);
         cardMarginHorizontal = (int) a.getDimension(R.styleable.TransparentCardView_cardMarginHorizontal, cardMarginHorizontal);
-        cardBorderWidth = (int) a.getDimension(R.styleable.TransparentCardView_cardBorderWidth, cardBorderWidth);
         a.recycle();
     }
 
@@ -92,15 +91,6 @@ public class TransparentCardView extends View {
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-        if (!isDrawn) defaultAttributes();
-        isDrawn = true;
-        Bitmap bitmap = bitmapDraw();
-        if (bitmap != null) canvas.drawBitmap(bitmap, 0, 0, null);
-    }
-
-    @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         defaultAttributes();
@@ -109,6 +99,15 @@ public class TransparentCardView extends View {
             this.layoutListener.onLayout();
 
         isDrawn = true;
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        if (!isDrawn) defaultAttributes();
+        isDrawn = true;
+        Bitmap bitmap = bitmapDraw();
+        if (bitmap != null) canvas.drawBitmap(bitmap, 0, 0, null);
     }
 
     /**
@@ -120,20 +119,28 @@ public class TransparentCardView extends View {
         Bitmap bitmap = Bitmap.createBitmap(getMainWidth(), getMainHeight(), Bitmap.Config.ARGB_8888);
         bitmap.eraseColor(Color.TRANSPARENT);
 
+        // Fill the canvas with background first
         Canvas canvasBitmap = new Canvas(bitmap);
         canvasBitmap.drawColor(backgroundColor);
 
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
 
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        // Draw card rect
+        paint.setStyle(Paint.Style.FILL);
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)); // adds color over background
+        paint.setColor(cardColor);
         RectF cardRectangle = new RectF(cardLeft, cardTop, cardRight, cardBottom);
         canvasBitmap.drawRoundRect(cardRectangle, cardCorners, cardCorners, paint);
 
+
+        // Draw border of card
         paint.setColor(cardBorderColor);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(cardBorderWidth);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER));
+        if (cardBorderDashed) {
+            paint.setPathEffect(new DashPathEffect(new float[]{cardBorderDashSpan, cardBorderDashSpan}, 0));
+        }
+        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)); // adds color over background
         canvasBitmap.drawRoundRect(cardRectangle, cardCorners, cardCorners, paint);
 
         return bitmap;
