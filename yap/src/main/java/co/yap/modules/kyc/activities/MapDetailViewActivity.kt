@@ -3,11 +3,14 @@ package co.yap.modules.kyc.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import co.yap.R
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -16,6 +19,8 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnCompleteListener
@@ -35,7 +40,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private val DEFAULT_ZOOM = 15
     private val mDefaultLocation = LatLng(-33.8523341, 151.2106085)
-
+    lateinit var icon: BitmapDescriptor
     private lateinit var mPlacesClient: PlacesClient
 
 
@@ -53,6 +58,11 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
+        val abc = resources.getDrawable(R.drawable.ic_pin)
+//        icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)
+
+        icon = this!!.bitmapDescriptorFromVector(this, R.drawable.ic_pin)!!
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -63,11 +73,20 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
+    private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
+        return ContextCompat.getDrawable(context, vectorResId)?.run {
+            setBounds(0, 0, intrinsicWidth, intrinsicHeight)
+            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            draw(Canvas(bitmap))
+            BitmapDescriptorFactory.fromBitmap(bitmap)
+        }
+    }
+
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         val sydney = LatLng(25.276987, 55.296249)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney").icon(icon))
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
         mMap.uiSettings.isZoomControlsEnabled = false
 
@@ -147,6 +166,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
                             mMap.addMarker(
                                 MarkerOptions()
+                                    .icon(icon)
                                     .title(title)
                                     .position(markerLatLng!!)
                                     .snippet(markerSnippet)
