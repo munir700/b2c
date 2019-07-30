@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-feature android:name="android.hardware.location.gps" />
 
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <application>
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
@@ -53,7 +54,7 @@
         </activity>
 
         <activity
-            android:name=".modules.kyc.activities.MapsActivity"
+            android:name=".modules.kyc.activities.MapDetailViewActivity"
             android:screenOrientation="portrait"/>
 
     </application>
