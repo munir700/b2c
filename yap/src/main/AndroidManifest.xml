@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="co.yap">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-feature android:name="android.hardware.location.gps" />
 
     <application>
         <activity
@@ -51,5 +51,10 @@
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/kyc_navigation"/>
         </activity>
+
+        <activity
+            android:name=".modules.kyc.activities.MapsActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 </manifest>
