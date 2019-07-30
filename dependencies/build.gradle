@@ -83,12 +83,14 @@ project.ext {
             coroutineAndroid         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1',
 
             // maps
-            maps                     : "com.google.android.gms:play-services-maps:$playServicesVersion",
+            maps                     : 'com.google.android.gms:play-services-maps:16.1.0',
             mapUtils                 : "com.google.maps.android:android-maps-utils:0.4.4",
             servicesLocation         : "com.google.android.gms:play-services-location:$playServicesVersion",
-            playServicesPlaces       : "com.google.android.gms:play-services-places:$playServicesVersion"
+            playServicesPlaces       : "com.google.android.gms:play-services-places:$playServicesVersion",
+            playLibPlaces            : 'com.google.android.libraries.places:places:1.1.0'
 
-            // Animations
+
+             // Animations
             // easing                   : 'com.daasuu:EasingInterpolator:1.3.0',
             // morphView                : 'com.akaita.android:morphview:1.0.0',
             // choreographer            : 'zachinio.choreographer:choreographer:1.0.3',
@@ -139,7 +141,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.maps],
             [configuration: "implementation", dependency: libraries.mapUtils],
             [configuration: "implementation", dependency: libraries.servicesLocation],
-            [configuration: "implementation", dependency: libraries.playServicesPlaces]
+            [configuration: "implementation", dependency: libraries.playServicesPlaces],
+            [configuration: "implementation", dependency: libraries.playLibPlaces],
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies

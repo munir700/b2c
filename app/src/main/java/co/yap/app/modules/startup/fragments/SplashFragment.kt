@@ -6,11 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.activities.MapDetailViewActivity
+import co.yap.modules.kyc.fragments.LocationSelectionActivity
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -27,11 +27,21 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         startActivity(
             activity?.let { it1 ->
-                DocumentsDashboardActivity.newIntent(
+                MapDetailViewActivity.newIntent(
                     it1
                 )
             }
         )
+//        Intent(context, LocationSelectionActivity::class.java)
+
+
+//        startActivity(
+//            activity?.let { it1 ->
+//                LocationSelectionActivity.newIntent(
+//                    it1
+//                )
+//            }
+//        )
 
         viewModel.splashComplete.observe(this, Observer {
 

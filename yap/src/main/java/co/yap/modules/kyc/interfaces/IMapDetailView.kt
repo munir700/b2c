@@ -4,8 +4,7 @@ import android.widget.TextView
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface IAddressSelection {
-
+interface IMapDetailView {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
