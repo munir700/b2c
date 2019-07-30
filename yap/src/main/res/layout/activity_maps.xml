@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -7,7 +8,7 @@
               android:orientation="vertical">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -19,6 +20,95 @@
             android:layout_height="match_parent"
             tools:context=".MapsActivity"/>
 
-    </LinearLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="@+id/map">
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cvCard"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="@dimen/_122sdp"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetailsVerify"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:layout_marginTop="@dimen/margin_large"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="10dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium"
+                    android:paddingStart="@dimen/margin_medium"
+                    android:paddingEnd="@dimen/margin_medium">
+
+                    <ImageView
+                        android:id="@+id/ivProfile"
+                        android:layout_width="@dimen/_89sdp"
+                        android:layout_height="wrap_content"
+                        android:minHeight="@dimen/_92sdp"
+                        app:srcCompat="@drawable/ic_profile"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:tint="@color/warning"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:contentDescription="@string/empty_string"
+                        />
+
+                    <TextView
+                        android:id="@+id/tvEid"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginStart="@dimen/margin_medium_large"
+                        style="@style/Small"
+                        android:layout_marginTop="@dimen/margin_medium"
+                        app:layout_constraintLeft_toRightOf="@+id/ivProfile"
+                        tools:text="Burj Residence Tower 1"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEid"
+                        app:layout_constraintStart_toStartOf="@+id/tvEid"
+                        style="@style/ASmallGrey"
+                        tools:text="Suite 1107. Dubai, UAE"
+                        android:id="@+id/textView6"/>
+
+                    <co.yap.widgets.CoreButton
+                        style="@style/AddressBtnStyle"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btnConfirm"
+                        android:textColor="@color/white"
+                        android:text="@string/screen_meeting_location_button_confirm_selected_location"
+                        app:layout_constraintStart_toEndOf="@+id/ivProfile"
+                        android:paddingTop="0dp"
+                        android:paddingBottom="0dp"
+                        android:paddingLeft="@dimen/margin_small"
+                        android:paddingRight="@dimen/margin_small"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        app:btn_text_size="@dimen/text_size_c2"
+                        app:layout_constraintTop_toBottomOf="@+id/textView6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="8dp"/>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
