@@ -21,7 +21,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 public class DocReviewFragment extends BaseFragment implements IDocReview.View {
-    private static String TAG = DocReviewFragment.class.getName();
     private static String FILE_PATH = "filepath";
     private static String DOC_TYPE = "docType";
     private static String DOC_PAGE_TYPE = "docPageType";

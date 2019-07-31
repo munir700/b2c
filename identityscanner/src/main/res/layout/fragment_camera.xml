@@ -44,10 +44,14 @@
 
             <com.digitify.identityscanner.components.TransparentCardView
                 android:id="@+id/cardOverlay"
-                app:cardMarginTop="80dp"
+                app:cardMarginTop="130dp"
                 app:cardCorners="8dp"
-                app:cardMarginHorizontal="8dp"
-                app:cardBorderColor="@color/white"
+                app:cardMarginHorizontal="16dp"
+                app:cardBorderColor="@color/colorPrimary"
+                app:cardColor="@color/kycCard"
+                app:backgroundColor="@color/transparent"
+                app:cardBorderDashed="true"
+                app:cardBorderDashSpan="7dp"
                 app:cardBorderWidth="2dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
@@ -60,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="58dp"
             android:layout_marginEnd="8dp"
             android:background="@drawable/white_round_background"
             android:gravity="center"
