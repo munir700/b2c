@@ -7,9 +7,7 @@
 
     <data>
 
-        <!--<variable-->
-        <!--name="viewModel"-->
-        <!--type="co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel"/>-->
+
 
         <import type="co.yap.translation.Strings"/>
     </data>

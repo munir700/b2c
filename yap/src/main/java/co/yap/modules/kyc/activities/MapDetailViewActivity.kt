@@ -3,6 +3,7 @@ package co.yap.modules.kyc.activities
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Location
@@ -10,6 +11,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import co.yap.R
 import com.google.android.gms.common.api.ApiException
@@ -38,11 +40,16 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     private val TAG = "MapDetailViewActivity"
 
     private lateinit var mMap: GoogleMap
-    private val DEFAULT_ZOOM = 15
-    private val mDefaultLocation = LatLng(-33.8523341, 151.2106085)
+    private val DEFAULT_ZOOM = 16
+    private var mDefaultLocation = LatLng(-33.8523341, 151.2106085)
     lateinit var icon: BitmapDescriptor
     private lateinit var mPlacesClient: PlacesClient
 
+    private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
+    private var mLocationPermissionGranted: Boolean = false
+    lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
+    lateinit var mLastKnownLocation: Location
+    var animationFrequency: Int = 1                 //can be set to 2000
 
     companion object {
 
@@ -50,16 +57,10 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
     }
 
-    lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-
-    lateinit var mLastKnownLocation: Location
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        val abc = resources.getDrawable(R.drawable.ic_pin)
-//        icon = BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)
 
         icon = this!!.bitmapDescriptorFromVector(this, R.drawable.ic_pin)!!
 
@@ -82,20 +83,25 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        getDeviceLocation()
+    }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val sydney = LatLng(25.276987, 55.296249)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney").icon(icon))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.addMarker(MarkerOptions().position(mDefaultLocation).title("Marker in Sydney").icon(icon))
         mMap.uiSettings.isZoomControlsEnabled = false
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(25.276987, 55.296249), 13f), 1, null)
-
-        pickCurrentPlace()
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()), 1500, null)
         mMap.setOnMapClickListener { point ->
             Toast.makeText(applicationContext, point.toString(), Toast.LENGTH_SHORT).show()
         }
+
+        if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
+            getLocationPermission()
+            getDeviceLocation()
+        }
+
     }
 
 
@@ -110,20 +116,24 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
                         mLastKnownLocation = location
                         Log.d(TAG, "Latitude: " + mLastKnownLocation.getLatitude())
                         Log.d(TAG, "Longitude: " + mLastKnownLocation.getLongitude())
-                        mMap.moveCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                LatLng(
-                                    mLastKnownLocation.getLatitude(),
-                                    mLastKnownLocation.getLongitude()
-                                ), DEFAULT_ZOOM.toFloat()
-                            )
+                        mDefaultLocation = LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
+
+                        mMap.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+                            animationFrequency,
+                            null
                         )
+
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
-                        mMap.moveCamera(
-                            CameraUpdateFactory
-                                .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat())
+
+                        mMap.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+                            animationFrequency,
+                            null
                         )
+
+                        getLocationPermission()
                     }
 
                     getCurrentPlaceLikelihoods()
@@ -171,7 +181,12 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
                                     .position(markerLatLng!!)
                                     .snippet(markerSnippet)
                             )
-                            mMap.moveCamera(CameraUpdateFactory.newLatLng(markerLatLng))
+                            mMap.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    mDefaultLocation,
+                                    DEFAULT_ZOOM.toFloat()
+                                ), animationFrequency, null
+                            )
 
                         } else {
                             break
@@ -197,5 +212,50 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
         getDeviceLocation()
     }
+
+    /**
+     * Prompts the user for permission to use the device location.
+     */
+    private fun getLocationPermission() {
+        /*
+         * Request location permission, so that we can get the location of the
+         * device. The result of the permission request is handled by a callback,
+         * onRequestPermissionsResult.
+         */
+        mLocationPermissionGranted = false
+        if (ContextCompat.checkSelfPermission(
+                this.applicationContext,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            mLocationPermissionGranted = true
+        } else {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
+                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+            )
+        }
+    }
+
+    /**
+     * Handles the result of the request for location permissions.
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        mLocationPermissionGranted = false
+        when (requestCode) {
+            PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true
+                }
+            }
+        }
+    }
+
 
 }
