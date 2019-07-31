@@ -32,6 +32,7 @@ class ForgotPasscodeViewModel(application: Application) : PhoneVerificationViewM
     override fun onResume() {
         super.onResume()
         setProgress(40)
+
     }
 
     override fun handlePressOnSendButton() {
