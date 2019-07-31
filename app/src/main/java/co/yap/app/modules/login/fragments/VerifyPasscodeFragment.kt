@@ -43,6 +43,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
+        viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
+            when (it) {
+                R.id.tvForgotPassword-> showToast("m clicking")
+               /* R.id.singnButton-> {
+
+                }*/
+            }
+        })
 
         dialer.hideFingerprintView()
         sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)

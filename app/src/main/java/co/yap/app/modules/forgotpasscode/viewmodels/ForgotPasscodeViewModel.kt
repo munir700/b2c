@@ -17,11 +17,11 @@ class ForgotPasscodeViewModel(application: Application) : PhoneVerificationViewM
         state.verificationTitle=getString(Strings.screen_verify_phone_number_display_text_title)
 
 
-        state.verificationTitle = getString(Strings.screen_verify_phone_number_display_text_title)
+        /*state.verificationTitle = getString(Strings.screen_verify_phone_number_display_text_title)
         state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
         state.mobileNumber[0] = parentViewModel!!.onboardingData.formattedMobileNumber
         state.reverseTimer(10)
-        state.validResend = false
+        state.validResend = false*/
     }
 
 
@@ -39,7 +39,7 @@ class ForgotPasscodeViewModel(application: Application) : PhoneVerificationViewM
         verifyOtp()
     }
 
-    override fun handlePressOnResendOTP() {
+   /* override fun handlePressOnResendOTP() {
         launch {
             state.loading = true
             when (val response =
@@ -61,7 +61,7 @@ class ForgotPasscodeViewModel(application: Application) : PhoneVerificationViewM
             }
             state.loading = false
         }
-    }
+    }*/
 
     private fun verifyOtp() {
         launch {
