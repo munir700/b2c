@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import co.yap.R
+import co.yap.widgets.photokit.RoundedCornersTransformation
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -28,10 +29,11 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.PhotoMetadata
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
-import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse
-import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.api.net.*
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_maps.*
 import java.util.*
 
 
@@ -51,10 +53,29 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var mLastKnownLocation: Location
     var animationFrequency: Int = 1                 //can be set to 2000
 
-    companion object {
+    var placeName: String = ""
+    var pictureURL: String = ""
+    var placeTitle: String = ""
+    var placeSubTitle: String = ""
 
+
+    companion object {
         fun newIntent(context: Context): Intent = Intent(context, MapDetailViewActivity::class.java)
 
+        //
+
+//
+//        PhotoMetadata
+//        {
+//            attributions = < a href =
+//                "https://maps.google.com/maps/contrib/108951521001893080162/photos" >
+//                        Md Emdadullah < / a >,
+//            height = 1067,
+//            width = 1600,
+//            photoReference = CmRaAAAAf3mAHblb83dfK_4Vy4vnc56wrexiUtSWl_wAVXfuTR6lCpMNhI6ai_TGoZDS1X2WWvXPgjg6k14J7_WhCSqUMWJ8YWSN-Pt6uVNfqxVD-9NVnUSMxpkOfWyyX406PNRaEhDiBWIPJ5D2J0zZfmbnhtGhGhSRy_Bk7ayDnmpxZJjpomw-7LhNbw
+//        }
+
+        //
     }
 
 
@@ -71,8 +92,13 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
         Places.initialize(applicationContext, apiKey)
         mPlacesClient = Places.createClient(this)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
-
+        Picasso.get()
+            .load(R.drawable.black_white_tile)
+            .resize(90, 90)
+            .transform(RoundedCornersTransformation(10, 0, RoundedCornersTransformation.CornerType.ALL))
+            .into(ivLocationPhoto)
     }
+
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
@@ -117,6 +143,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
                         Log.d(TAG, "Latitude: " + mLastKnownLocation.getLatitude())
                         Log.d(TAG, "Longitude: " + mLastKnownLocation.getLongitude())
                         mDefaultLocation = LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
+
 
                         mMap.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
@@ -169,15 +196,41 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
 
                             if (currPlace.address != null) {
                                 markerSnippet = markerSnippet + "\n" + currPlace.address
+                                placeSubTitle = markerSnippet
                             }
-                            var title: String = currPlace.name!!
+                            if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
+                                var photoMetadata: PhotoMetadata = currPlace.getPhotoMetadatas()!!.get(0)
+
+                                ///
+                                getPhotoz(photoMetadata)
+
+                            }
+
+                            placeName = currPlace.name!!
+                            placeTitle = currPlace.address!!
                             var currentAddress: String = currPlace.address!!
+//                            placeTitle=currPlace.name!!
+//here add picture
+                            Picasso.get()
+                                .load(pictureURL)
+                                .placeholder(R.drawable.black_white_tile)
+                                .resize(90, 90)
+                                .transform(
+                                    RoundedCornersTransformation(
+                                        10,
+                                        0,
+                                        RoundedCornersTransformation.CornerType.ALL
+                                    )
+                                )
+                                .into(ivLocationPhoto)
+
+//
 
 
                             mMap.addMarker(
                                 MarkerOptions()
                                     .icon(icon)
-                                    .title(title)
+                                    .title(placeName)
                                     .position(markerLatLng!!)
                                     .snippet(markerSnippet)
                             )
@@ -204,6 +257,113 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
                 }
             })
     }
+
+    private fun getPhotoz(photoMetadata: PhotoMetadata) {
+
+//        var photoRequest = FetchPhotoRequest.builder(photoMetadata).build()
+//
+//        val placeResponse = mPlacesClient.fetchPhoto(photoRequest)
+//
+//        placeResponse.addOnCompleteListener(this, OnCompleteListener<FetchPhotoResponse> { task ->
+//            if (task.isSuccessful) {
+//                val response = task.result
+//
+//                var bitmap: Bitmap = response!!.getBitmap();
+////                    imageView.setImageBitmap(bitmap);
+//
+//
+//            } else {
+//
+//            }
+//
+//
+//        })
+
+        var photoRequest = FetchPhotoRequest.builder(photoMetadata).build()
+
+        val placeResponse = mPlacesClient.fetchPhoto(photoRequest)
+
+        placeResponse.addOnSuccessListener(this, OnSuccessListener<FetchPhotoResponse> { task ->
+            //            if (task.isSuccessful) {
+            val response = task.bitmap
+
+            var bitmap: Bitmap = response!!
+//                    imageView.setImageBitmap(bitmap);
+
+
+//            } else {
+//
+//            }
+
+
+        })
+
+//        placesClient.fetchPhoto(photoRequest).addOnSuccessListener((fetchPhotoResponse) -> {
+//        Bitmap bitmap = fetchPhotoResponse.getBitmap();
+//        imageView.setImageBitmap(bitmap);
+//    }).addOnFailureListener((exception) -> {
+//        if (exception instanceof ApiException) {
+//            ApiException apiException = (ApiException) exception;
+//            int statusCode = apiException.getStatusCode();
+//            // Handle error with given status code.
+//            Log.e(TAG, "Place not found: " + exception.getMessage());
+//        }
+//    });
+
+
+    }
+
+//    private void attemptFetchPhoto(Place place)
+//    {
+//        List<PhotoMetadata> photoMetadatas = place . getPhotoMetadatas ();
+//        if (photoMetadatas != null && !photoMetadatas.isEmpty()) {
+//            fetchPhoto(photoMetadatas.get(0));
+//        }
+//    }
+//
+//    /**
+//     * Fetches a Bitmap using the Places API and displays it.
+//     *
+//     * @param photoMetadata from a {@link Place} instance.
+//     */
+//    private void fetchPhoto(PhotoMetadata photoMetadata)
+//    {
+//        photoView.setImageBitmap(null);
+//        setLoading(true);
+//
+//        String customPhotoReference = getCustomPhotoReference ();
+//        if (!TextUtils.isEmpty(customPhotoReference)) {
+//            photoMetadata = PhotoMetadata.builder(customPhotoReference).build();
+//        }
+//
+//        FetchPhotoRequest.Builder photoRequestBuilder = FetchPhotoRequest . builder (photoMetadata);
+//
+//        Integer maxWidth = readIntFromTextView (R.id.photo_max_width);
+//        if (maxWidth != null) {
+//            photoRequestBuilder.setMaxWidth(maxWidth);
+//        }
+//
+//        Integer maxHeight = readIntFromTextView (R.id.photo_max_height);
+//        if (maxHeight != null) {
+//            photoRequestBuilder.setMaxHeight(maxHeight);
+//        }
+//
+//        Task<FetchPhotoResponse> photoTask = placesClient . fetchPhoto (photoRequestBuilder.build());
+//
+//        photoTask.addOnSuccessListener(
+//            response -> {
+//        photoView.setImageBitmap(response.getBitmap());
+//        StringUtil.prepend(responseView, StringUtil.stringify(response.getBitmap()));
+//    });
+//
+//        photoTask.addOnFailureListener(
+//            exception -> {
+//        exception.printStackTrace();
+//        StringUtil.prepend(responseView, "Photo: " + exception.getMessage());
+//    });
+//
+//        photoTask.addOnCompleteListener(response -> setLoading(false));
+//    }
 
     private fun pickCurrentPlace() {
         if (mMap == null) {

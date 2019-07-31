@@ -87,9 +87,8 @@ project.ext {
             mapUtils                 : "com.google.maps.android:android-maps-utils:0.4.4",
             servicesLocation         : "com.google.android.gms:play-services-location:$playServicesVersion",
             playServicesPlaces       : "com.google.android.gms:play-services-places:$playServicesVersion",
-            playLibPlaces            : 'com.google.android.libraries.places:places:1.1.0'
-
-
+            playLibPlaces            : 'com.google.android.libraries.places:places:1.1.0',
+            picasoTransformation     : 'com.squareup.picasso:picasso:2.71828'
              // Animations
             // easing                   : 'com.daasuu:EasingInterpolator:1.3.0',
             // morphView                : 'com.akaita.android:morphview:1.0.0',
@@ -143,6 +142,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.servicesLocation],
             [configuration: "implementation", dependency: libraries.playServicesPlaces],
             [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: libraries.picasoTransformation]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
@@ -166,7 +166,8 @@ project.ext {
             [configuration: "api", dependency: libraries.otpView],
             [configuration: "implementation", dependency: libraries.numberFomater],
             [configuration: "implementation", dependency: libraries.recyclerfastscroll],
-            [configuration: "implementation", dependency: libraries.gson]
+            [configuration: "implementation", dependency: libraries.gson],
+            [configuration: "implementation", dependency: libraries.picasoTransformation]
     ]
 
     // dependencies which need to be added in translation module only in conjunction with commonDependencies
