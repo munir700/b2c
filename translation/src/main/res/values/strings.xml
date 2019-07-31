@@ -148,4 +148,8 @@
     <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN code</string>
     <string name="screen_set_card_pin_welcome_button_create_pin_later">Do it later</string>
 
+    <!-- Set card PIN screen -->
+    <string name="screen_set_card_pin_display_text_title">Set your PIN code</string>
+    <string name="screen_set_card_pin_button_create_pin">Next</string>
+
 </resources>

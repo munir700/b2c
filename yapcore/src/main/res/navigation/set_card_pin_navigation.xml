@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/kyc_navigation"
             app:startDestination="@id/setCardPinWelcomeFragment">
 
@@ -11,6 +10,10 @@
         android:label="SetCardPinWelcomeFragment">
         <action
             android:id="@+id/action_setCardPinWelcomeFragment_to_setCardPinFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right"
             app:destination="@id/setCardPinFragment"/>
     </fragment>
     <fragment

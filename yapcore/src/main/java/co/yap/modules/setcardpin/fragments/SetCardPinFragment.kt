@@ -13,8 +13,7 @@ class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCar
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_set_card_pin_welcome
-    //override fun getLayoutId(): Int = R.layout.fragment_set_card_pin
+    override fun getLayoutId(): Int = R.layout.fragment_set_card_pin
 
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(SetCardPinViewModel::class.java)
@@ -23,7 +22,7 @@ class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCar
         super.onActivityCreated(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-               // R.id.btnAction -> ""
+                R.id.btnAction -> showToast("Next")
             }
         })
     }
