@@ -58,9 +58,9 @@
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnCreatePin"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/FragmentsBtnStyle"
+            style="@style/RectangleBtnStyle"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
             app:layout_constraintLeft_toLeftOf="parent"
