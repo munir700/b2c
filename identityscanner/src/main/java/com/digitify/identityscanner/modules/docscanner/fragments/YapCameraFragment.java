@@ -120,7 +120,7 @@ public class YapCameraFragment extends OpenCVCameraFragment implements ICamera.V
                         // capture this
                         getViewModel().handleOnPressQuickCapture(takeSnapshot());
                     } else {
-                        cardOverlay.setCardBorderColor(getResources().getColor(R.color.white));
+                        cardOverlay.setCardBorderColor(getResources().getColor(R.color.colorPrimary));
                     }
                 }
             }
