@@ -4,6 +4,8 @@ import android.app.Application;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import co.yap.translation.Strings;
+import co.yap.translation.Translator;
 import com.digitify.identityscanner.BR;
 import com.digitify.identityscanner.R;
 import com.digitify.identityscanner.core.arch.SingleLiveEvent;
@@ -52,7 +54,7 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
     @Override
     public void reset() {
         getState().reset();
-        getState().setSubmitButtonTitle("Scan");
+        getState().setSubmitButtonTitle(getString(Strings.idenetity_scanner_sdk_screen_scanner_button_scan));
     }
 
     @Override
@@ -117,7 +119,7 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
                 String file = ImageUtils.savePicture(getApplication().getApplicationContext(), entity.getBitmap());
                 if (validateFile(file)) setCapturedDocument(file);
             } else {
-                setInstructions(getString(R.string.error_detecting_document));
+                setInstructions(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document));
             }
             getState().setCapturing(false);
         }
@@ -126,7 +128,7 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
     private boolean validateFile(String file) {
         if (TextUtils.isEmpty(file)) {
             // This is most probably a developer's mistake. Handle it.
-            setInstructions(getString(R.string.error_saving_file));
+            setInstructions(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file));
             return false;
         }
         return true;
@@ -206,24 +208,24 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
             return getString(R.string.scan_passport);
         } else if (getDocumentType() == DocumentType.EID) {
             return (mode == DocumentPageType.FRONT) ?
-                    getString(R.string.scan_front_eid) :
-                    getString(R.string.scan_back_eid);
+                    getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_front_side) :
+                    getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_back_side);
         }
 
-        return getString(R.string.scan);
+        return getString(Strings.idenetity_scanner_sdk_screen_scanner_button_scan);
 
     }
 
     private String getStepString(DocumentPageType mode) {
         if (getDocumentType() == DocumentType.PASSPORT) {
-            return "Step 1 of 1";
+            return getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_step_1);
         } else if (getDocumentType() == DocumentType.EID) {
             return (mode == DocumentPageType.FRONT) ?
-                    "Step 1 of 2" :
-                    "Step 2 of 2";
+                    getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_step_1) :
+                    getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_step_2);
         }
 
-        return getString(R.string.scan);
+        return getString(Strings.idenetity_scanner_sdk_screen_scanner_button_scan);
 
     }
 }

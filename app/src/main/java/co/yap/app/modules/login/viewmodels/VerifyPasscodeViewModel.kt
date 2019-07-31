@@ -11,11 +11,13 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyPasscode.State>(application),
     IVerifyPasscode.ViewModel, IRepositoryHolder<AuthRepository> {
 
+    override val forgotPasscodeButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
     override val state: VerifyPasscodeState = VerifyPasscodeState()
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -42,6 +44,22 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
         }
     }
 
+    override fun handlePressOnForgotPasscodeButton(id: Int) {
+        launch {
+            when (val response=messagesRepository.createForgotPasscodeOTP()) {
+                is RetroApiResponse.Success ->{
+                    forgotPasscodeButtonPressEvent.setValue(id)
+                }
+                is RetroApiResponse.Error->{
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+        }
+
+
+    }
+
     override fun validateDevice() {
         launch {
             when (val response = customersRepository.validateDemographicData(state.deviceId)) {
@@ -59,7 +77,8 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
     override fun createOtp() {
         launch {
-            when (val response = messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
+            when (val response =
+                messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
                 is RetroApiResponse.Success -> {
                     createOtpResult.postValue(true)
                 }
@@ -75,4 +94,6 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
     override fun handlePressOnSignInButton() {
         signInButtonPressEvent.postValue(true)
     }
+
+
 }

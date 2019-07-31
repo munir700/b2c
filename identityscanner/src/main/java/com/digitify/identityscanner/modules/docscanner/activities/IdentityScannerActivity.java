@@ -98,10 +98,6 @@ public class IdentityScannerActivity extends PermissionAwareFragmentActivity imp
         showFragment(new GalleryFragment());
     }
 
-    @Override
-    public void showScanResults(IdentityScannerResult result) {
-        showFragment(ScanResultsFragment.get(result));
-    }
 
     @Override
     public void finishWithResult(IdentityScannerResult result) {

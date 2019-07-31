@@ -22,8 +22,6 @@ public interface IIdentityScanner {
 
         void scanDocFromGallery();
 
-        void showScanResults(IdentityScannerResult result);
-
         void finishWithResult(IdentityScannerResult result);
 
         void finishWithoutResult();

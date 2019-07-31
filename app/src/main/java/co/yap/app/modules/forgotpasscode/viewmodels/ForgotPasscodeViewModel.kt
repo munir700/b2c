@@ -1,9 +1,8 @@
-package co.yap.modules.onboarding.viewmodels
+package co.yap.app.modules.forgotpasscode.viewmodels
 
 import android.app.Application
-import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.modules.onboarding.states.PhoneVerificationState
-import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
@@ -11,9 +10,20 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleLiveEvent
 
-open class PhoneVerificationViewModel(application: Application) :
-    OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
-    IRepositoryHolder<MessagesRepository> {
+class ForgotPasscodeViewModel(application: Application) : PhoneVerificationViewModel(application) {
+
+    override fun onCreate() {
+        super.onCreate()
+        state.verificationTitle=getString(Strings.screen_verify_phone_number_display_text_title)
+
+
+        /*state.verificationTitle = getString(Strings.screen_verify_phone_number_display_text_title)
+        state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
+        state.mobileNumber[0] = parentViewModel!!.onboardingData.formattedMobileNumber
+        state.reverseTimer(10)
+        state.validResend = false*/
+    }
+
 
     override val state: PhoneVerificationState = PhoneVerificationState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -22,22 +32,14 @@ open class PhoneVerificationViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setProgress(40)
-    }
 
-    override fun onCreate() {
-        super.onCreate()
-        state.verificationTitle = getString(Strings.screen_verify_phone_number_display_text_title)
-        state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
-        state.mobileNumber[0] = parentViewModel!!.onboardingData.formattedMobileNumber
-        state.reverseTimer(10)
-        state.validResend = false
     }
 
     override fun handlePressOnSendButton() {
         verifyOtp()
     }
 
-    override fun handlePressOnResendOTP() {
+   /* override fun handlePressOnResendOTP() {
         launch {
             state.loading = true
             when (val response =
@@ -59,7 +61,7 @@ open class PhoneVerificationViewModel(application: Application) :
             }
             state.loading = false
         }
-    }
+    }*/
 
     private fun verifyOtp() {
         launch {
@@ -83,4 +85,5 @@ open class PhoneVerificationViewModel(application: Application) :
     override fun setPasscode(passcode: String) {
         parentViewModel!!.onboardingData.passcode = passcode
     }
+
 }
