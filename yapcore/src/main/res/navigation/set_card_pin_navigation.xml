@@ -3,13 +3,19 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/kyc_navigation"
-            app:startDestination="@id/KYCHomeFragment">
+            app:startDestination="@id/setCardPinWelcomeFragment">
 
     <fragment
-        android:id="@+id/KYCHomeFragment"
-        tools:layout="@layout/fragment_kyc_home"
-        android:name="co.yap.modules.kyc.fragments.KYCHomeFragment"
-        android:label="KYCHomeFragment">
+        android:id="@+id/setCardPinWelcomeFragment"
+        android:name="co.yap.modules.setcardpin.fragments.SetCardPinWelcomeFragment"
+        android:label="SetCardPinWelcomeFragment">
+        <action
+            android:id="@+id/action_setCardPinWelcomeFragment_to_setCardPinFragment"
+            app:destination="@id/setCardPinFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/setCardPinFragment"
+        android:name="co.yap.modules.setcardpin.fragments.SetCardPinFragment"
+        android:label="SetCardPinFragment"/>
 
 </navigation>

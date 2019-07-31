@@ -4,6 +4,11 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.setcardpin.viewmodels.SetCardPinWelcomeViewModel"/>
+
         <import type="co.yap.translation.Strings"/>
     </data>
 
@@ -63,6 +68,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="@string/screen_set_card_pin_welcome_button_create_pin"
             app:btn_enable="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnCreatePin(v.id)}"
             android:layout_marginBottom="@dimen/margin_normal"
             app:text="@{Strings.screen_set_card_pin_welcome_button_create_pin}"
             app:layout_constraintVertical_bias="0.75"
@@ -73,6 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/Regular"
+            android:onClick="@{(v) -> viewModel.handlePressOnCreatePinLater(v.id)}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
