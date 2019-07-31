@@ -1,14 +1,13 @@
-package co.yap.modules.onboarding.states
+package co.yap.app.modules.forgotpasscode.states
 
 import android.app.Application
 import android.os.CountDownTimer
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.interfaces.IPhoneVerification
-import co.yap.yapcore.BaseState
+import co.yap.modules.onboarding.states.PhoneVerificationState
 
-open class PhoneVerificationState(application: Application) : BaseState(), IPhoneVerification.State {
+class ForgotPasscodeState(application: Application):PhoneVerificationState(application) {
     @get:Bindable
     override var verificationTitle: String="I am your title"
         set(value) {
@@ -22,8 +21,6 @@ open class PhoneVerificationState(application: Application) : BaseState(), IPhon
             notifyPropertyChanged(BR.verificationDescription)
         }
 
-    val mContext = application.applicationContext
-    val mobileNumber: Array<String?> = arrayOfNulls(1)
 
     @get:Bindable
     override var otp: String = ""
@@ -48,6 +45,16 @@ open class PhoneVerificationState(application: Application) : BaseState(), IPhon
             field = value
             notifyPropertyChanged(BR.validResend)
         }
+    private fun validate(): Boolean {
+        var validateOtp: Boolean = false
+        if (!otp.isNullOrEmpty() && otp.length == 4) {
+            validateOtp = true
+            valid = true
+        }
+        return validateOtp
+    }
+
+
 
     @get:Bindable
     override var timer: String = ""
@@ -65,14 +72,7 @@ open class PhoneVerificationState(application: Application) : BaseState(), IPhon
             notifyPropertyChanged(BR.color)
         }
 
-    private fun validate(): Boolean {
-        var validateOtp: Boolean = false
-        if (!otp.isNullOrEmpty() && otp.length == 4) {
-            validateOtp = true
-            valid = true
-        }
-        return validateOtp
-    }
+
 
     override fun reverseTimer(Seconds: Int) {
         color = mContext.resources.getColor(R.color.disabled)

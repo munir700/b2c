@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/forgot_passcode_navigation"
+            app:startDestination="@id/forgotPasscodeFragment">
+
+    <fragment
+        android:id="@+id/forgotPasscodeFragment"
+        android:name="co.yap.app.modules.forgotpasscode.fragments.ForgotPasscodeFragment"
+        tools:layout="@layout/fragment_phone_verification"
+        android:label="ForgotPasscodeFragment"/>
+</navigation>
