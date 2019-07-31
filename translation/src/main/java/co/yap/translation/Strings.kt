@@ -171,4 +171,10 @@ object Strings {
     const val idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file: String = "idenetity_scanner_sdk_screen_review_info_display_text_error_saving_cropped_file"
     const val idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete: String = "idenetity_scanner_sdk_screen_review_info_display_text_capture_process_complete"
 
+    //Set card PIN welcome screen
+    const val screen_set_card_pin_welcome_display_text_title: String = "screen_set_card_pin_welcome_display_text_title"
+    const val screen_set_card_pin_welcome_display_text_sub_title: String = "screen_set_card_pin_welcome_display_text_sub_title"
+    const val screen_set_card_pin_welcome_button_create_pin: String = "screen_set_card_pin_welcome_button_create_pin"
+    const val screen_set_card_pin_welcome_button_create_pin_later: String = "screen_set_card_pin_welcome_button_create_pin_later"
+
 }
