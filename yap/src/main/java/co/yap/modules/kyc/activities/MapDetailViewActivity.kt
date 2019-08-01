@@ -2,12 +2,16 @@ package co.yap.modules.kyc.activities
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
 import android.location.Location
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import co.yap.R
 import co.yap.widgets.photokit.RoundedCornersTransformation
+import com.bumptech.glide.Glide
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -31,9 +36,13 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.PhotoMetadata
 import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.*
+import com.google.android.libraries.places.api.net.FetchPhotoRequest
+import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
+import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_maps.*
+import java.io.*
 import java.util.*
 
 
@@ -45,7 +54,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     private val DEFAULT_ZOOM = 16
     private var mDefaultLocation = LatLng(-33.8523341, 151.2106085)
     lateinit var icon: BitmapDescriptor
-    private lateinit var mPlacesClient: PlacesClient
+    private lateinit var placesClient: PlacesClient
 
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     private var mLocationPermissionGranted: Boolean = false
@@ -54,10 +63,11 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     var animationFrequency: Int = 1                 //can be set to 2000
 
     var placeName: String = ""
-    var pictureURL: String = ""
+    var pictureURL: String = "abc"
     var placeTitle: String = ""
     var placeSubTitle: String = ""
-
+    var placePhoto: Bitmap? = null
+    var plcaOhotoUri: Uri? = null
 
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, MapDetailViewActivity::class.java)
@@ -90,7 +100,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         val apiKey = getString(R.string.google_maps_key)
         Places.initialize(applicationContext, apiKey)
-        mPlacesClient = Places.createClient(this)
+        placesClient = Places.createClient(this)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         Picasso.get()
             .load(R.drawable.black_white_tile)
@@ -179,7 +189,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
         )
 
         val request = FindCurrentPlaceRequest.builder(placeFields).build()
-        val placeResponse = mPlacesClient.findCurrentPlace(request)
+        val placeResponse = placesClient.findCurrentPlace(request)
         placeResponse.addOnCompleteListener(this,
             OnCompleteListener<FindCurrentPlaceResponse> { task ->
                 if (task.isSuccessful) {
@@ -202,8 +212,9 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
                                 var photoMetadata: PhotoMetadata = currPlace.getPhotoMetadatas()!!.get(0)
 
                                 ///
-                                getPhotoz(photoMetadata)
-
+//                                getPhotoz(photoMetadata)
+                                attemptFetchPhoto(currPlace)
+//                                setImageBitmap
                             }
 
                             placeName = currPlace.name!!
@@ -211,19 +222,22 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
                             var currentAddress: String = currPlace.address!!
 //                            placeTitle=currPlace.name!!
 //here add picture
-                            Picasso.get()
-                                .load(pictureURL)
-                                .placeholder(R.drawable.black_white_tile)
-                                .resize(90, 90)
-                                .transform(
-                                    RoundedCornersTransformation(
-                                        10,
-                                        0,
-                                        RoundedCornersTransformation.CornerType.ALL
-                                    )
-                                )
-                                .into(ivLocationPhoto)
-
+//                            if (null!=plcaOhotoUri) {
+//
+//                                Picasso.get()
+//                                    .load(plcaOhotoUri)
+//
+//                                    .placeholder(R.drawable.black_white_tile)
+//                                    .resize(90, 90)
+//                                    .transform(
+//                                        RoundedCornersTransformation(
+//                                            10,
+//                                            0,
+//                                            RoundedCornersTransformation.CornerType.ALL
+//                                        )
+//                                    )
+//                                    .into(ivLocationPhoto)
+//                            }
 //
 
 
@@ -258,112 +272,115 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
             })
     }
 
-    private fun getPhotoz(photoMetadata: PhotoMetadata) {
-
-//        var photoRequest = FetchPhotoRequest.builder(photoMetadata).build()
-//
-//        val placeResponse = mPlacesClient.fetchPhoto(photoRequest)
-//
-//        placeResponse.addOnCompleteListener(this, OnCompleteListener<FetchPhotoResponse> { task ->
-//            if (task.isSuccessful) {
-//                val response = task.result
-//
-//                var bitmap: Bitmap = response!!.getBitmap();
-////                    imageView.setImageBitmap(bitmap);
-//
-//
-//            } else {
-//
-//            }
-//
-//
-//        })
-
-        var photoRequest = FetchPhotoRequest.builder(photoMetadata).build()
-
-        val placeResponse = mPlacesClient.fetchPhoto(photoRequest)
-
-        placeResponse.addOnSuccessListener(this, OnSuccessListener<FetchPhotoResponse> { task ->
-            //            if (task.isSuccessful) {
-            val response = task.bitmap
-
-            var bitmap: Bitmap = response!!
-//                    imageView.setImageBitmap(bitmap);
-
-
-//            } else {
-//
-//            }
-
-
-        })
-
-//        placesClient.fetchPhoto(photoRequest).addOnSuccessListener((fetchPhotoResponse) -> {
-//        Bitmap bitmap = fetchPhotoResponse.getBitmap();
-//        imageView.setImageBitmap(bitmap);
-//    }).addOnFailureListener((exception) -> {
-//        if (exception instanceof ApiException) {
-//            ApiException apiException = (ApiException) exception;
-//            int statusCode = apiException.getStatusCode();
-//            // Handle error with given status code.
-//            Log.e(TAG, "Place not found: " + exception.getMessage());
-//        }
-//    });
-
-
+    private fun getImageUri(context: Context, inImage: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(context.contentResolver, inImage, "Title", null)
+        return Uri.parse(path)
     }
 
-//    private void attemptFetchPhoto(Place place)
-//    {
-//        List<PhotoMetadata> photoMetadatas = place . getPhotoMetadatas ();
-//        if (photoMetadatas != null && !photoMetadatas.isEmpty()) {
-//            fetchPhoto(photoMetadatas.get(0));
-//        }
-//    }
-//
-//    /**
-//     * Fetches a Bitmap using the Places API and displays it.
-//     *
-//     * @param photoMetadata from a {@link Place} instance.
-//     */
-//    private void fetchPhoto(PhotoMetadata photoMetadata)
-//    {
-//        photoView.setImageBitmap(null);
-//        setLoading(true);
-//
-//        String customPhotoReference = getCustomPhotoReference ();
+    private fun attemptFetchPhoto(place: Place) {
+        val photoMetadatas = place.getPhotoMetadatas()
+        if (photoMetadatas != null && !photoMetadatas!!.isEmpty()) {
+            fetchPhoto(photoMetadatas!!.get(0))
+        }
+    }
+
+    /**
+     * Fetches a Bitmap using the Places API and displays it.
+     *
+     * @param photoMetadata from a [Place] instance.
+     */
+    private fun fetchPhoto(photoMetadata: PhotoMetadata) {
+        var photoMetadata = photoMetadata
+//        photoView!!.setImageBitmap(null)
+//        setLoading(true).............///////////loader
+
+//        val customPhotoReference = customPhotoReference
 //        if (!TextUtils.isEmpty(customPhotoReference)) {
-//            photoMetadata = PhotoMetadata.builder(customPhotoReference).build();
+//            photoMetadata = PhotoMetadata.Builder.build()
 //        }
+
+        val photoRequestBuilder = FetchPhotoRequest.builder(photoMetadata)
+
+        val photoTask = placesClient!!.fetchPhoto(photoRequestBuilder.build())
+
+        photoTask.addOnSuccessListener { response ->
+            //            photoView!!.setImageBitmap(response.bitmap)
+//            StringUtil.prepend(responseView, StringUtil.stringify(response.bitmap))
+
+            placePhoto = response.bitmap
+            plcaOhotoUri = bitmapToFile(placePhoto!!)
+            if (null != plcaOhotoUri) {
+//                var drawable: Int = BitmapDrawable(getResources(), placePhoto)
+//                Picasso.get().load(R.drawable.black_white_tile).into(ivLocationPhoto);
+//                val resourceId = data.resourceId
+//                Picasso.get()
+//                    .asBitmap
+//                    .load(R.drawable.black_white_tile)
+//                    .error(R.drawable.black_white_tile)
 //
-//        FetchPhotoRequest.Builder photoRequestBuilder = FetchPhotoRequest . builder (photoMetadata);
-//
-//        Integer maxWidth = readIntFromTextView (R.id.photo_max_width);
-//        if (maxWidth != null) {
-//            photoRequestBuilder.setMaxWidth(maxWidth);
-//        }
-//
-//        Integer maxHeight = readIntFromTextView (R.id.photo_max_height);
-//        if (maxHeight != null) {
-//            photoRequestBuilder.setMaxHeight(maxHeight);
-//        }
-//
-//        Task<FetchPhotoResponse> photoTask = placesClient . fetchPhoto (photoRequestBuilder.build());
-//
-//        photoTask.addOnSuccessListener(
-//            response -> {
-//        photoView.setImageBitmap(response.getBitmap());
-//        StringUtil.prepend(responseView, StringUtil.stringify(response.getBitmap()));
-//    });
-//
-//        photoTask.addOnFailureListener(
-//            exception -> {
-//        exception.printStackTrace();
-//        StringUtil.prepend(responseView, "Photo: " + exception.getMessage());
-//    });
-//
-//        photoTask.addOnCompleteListener(response -> setLoading(false));
-//    }
+//                    .placeholder(drawable)
+//                    .resize(90, 90)
+//                    .transform(
+//                        RoundedCornersTransformation(
+//                            10,
+//                            0,
+//                            RoundedCornersTransformation.CornerType.ALL
+//                        )
+//                    )
+//                    .into(ivLocationPhoto)
+
+//                ivLocationPhoto.setImageBitmap(bitmap
+//                ivLocationPhoto.trans
+            }
+//            plcaOhotoUri= placePhoto?.let { getImageUri(this, it) }
+
+
+//            Glide.with(this)
+//                .load("http://example.com/imageurl")
+//                .Bitmap
+//                .into(ivLocationPhoto)
+
+            Glide.with(this)
+                .asBitmap().load(placePhoto)
+
+                .into(ivLocationPhoto)
+        }
+
+        photoTask.addOnFailureListener { exception ->
+            exception.printStackTrace()
+//            StringUtil.prepend(responseView, "Photo: " + exception.message)
+            val strPic = exception.message
+        }
+
+        photoTask.addOnCompleteListener {
+            //                response -> setLoading(false)
+        }
+    }
+
+    // Method to save an bitmap to a file
+    private fun bitmapToFile(bitmap: Bitmap): Uri {
+        // Get the context wrapper
+        val wrapper = ContextWrapper(applicationContext)
+
+        // Initialize a new file instance to save bitmap object
+        var file = wrapper.getDir("Images", Context.MODE_PRIVATE)
+        file = File(file, "${UUID.randomUUID()}.jpg")
+
+        try {
+            // Compress the bitmap and save in jpg format
+            val stream: OutputStream = FileOutputStream(file)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            stream.flush()
+            stream.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+
+        // Return the saved bitmap uri
+        return Uri.parse(file.absolutePath)
+    }
 
     private fun pickCurrentPlace() {
         if (mMap == null) {
