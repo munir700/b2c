@@ -41,6 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             app:dialer_max_length="4"
+            app:componentDialerError='@{viewModel.state.dialerError}'
+            app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}"
             app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
 
 
@@ -63,8 +65,8 @@
                 android:gravity="center"
                 style="@style/AMicroGrey"
                 app:layout_constraintBottom_toTopOf="@+id/tvTermsAndConditions"
-                app:text="@{Strings.screen_create_passcode_display_title_terms_and_conditions}"
-                tools:text="@string/screen_create_passcode_display_title_terms_and_conditions"
+                app:text="@{Strings.screen_confirm_card_pin_display_title_terms_and_conditions}"
+                tools:text="@string/screen_confirm_card_pin_display_title_terms_and_conditions"
                 />
 
             <TextView
@@ -77,9 +79,9 @@
                 android:gravity="center"
                 android:textColor="@color/colorPrimary"
                 style="@style/AMicroGrey"
-                app:text="@{Strings.screen_create_passcode_display_text_terms_and_conditions}"
+                app:text="@{Strings.screen_confirm_card_pin_display_text_terms_and_conditions}"
                 app:layout_constraintTop_toBottomOf="@+id/tvTermsAndConditionsTitle"
-                tools:text="@string/screen_create_passcode_display_text_terms_and_conditions"
+                tools:text="@string/screen_confirm_card_pin_display_text_terms_and_conditions"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>
 

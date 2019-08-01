@@ -11,6 +11,7 @@ import co.yap.yapcore.helpers.StringUtils
 class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreatePasscode.State>(application),
     ICreatePasscode.ViewModel {
 
+    override val state: CreatePasscodeState = CreatePasscodeState()
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
     override fun handlePressOnCreatePasscodeButton() {
@@ -26,7 +27,4 @@ class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreateP
         if (isSame) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_same_digits)
         return !isSame && !isSequenced
     }
-
-    override val state: CreatePasscodeState = CreatePasscodeState()
-
 }
