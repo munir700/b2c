@@ -1,10 +1,9 @@
-package co.yap.modules.onboarding.interfaces
+package co.yap.app.modules.forgotpasscode.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
-interface IPhoneVerification {
-
+interface IForgotPasscode {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {

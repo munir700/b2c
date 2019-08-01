@@ -90,6 +90,8 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="@dimen/margin_normal"
+            android:onClick="@{(v)-> viewModel.handlePressOnForgotPasscodeButton(v.id)}"
+            tools:text="@string/screen_verify_passcode_text_forgot_password"
             app:text="@{Strings.screen_verify_passcode_text_forgot_password}"
 
             />

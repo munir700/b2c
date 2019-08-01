@@ -28,4 +28,9 @@ interface MessagesRetroService {
     // Verify otp request
     @PUT(MessagesRepository.URL_VERIFY_OTP_GENERIC)
     suspend fun verifyOtpGeneric(@Body verifyOtpGenericRequest: VerifyOtpGenericRequest): Response<ValidateDeviceResponse>
+
+    //forgot passcode create otp
+    @POST(MessagesRepository.URL_FORGOT_PASSCODE)
+    suspend fun createForgotPasscodeOTP(): Response<ApiResponse>
+
 }

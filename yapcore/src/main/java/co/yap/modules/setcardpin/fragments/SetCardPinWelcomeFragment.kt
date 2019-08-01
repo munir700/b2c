@@ -23,8 +23,7 @@ class SetCardPinWelcomeFragment : BaseBindingFragment<ISetCardPinWelcome.ViewMod
         super.onActivityCreated(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-               // R.id.btnCreatePin -> findNavController().navigate(R.id.action_setCardPinWelcomeFragment_to_setCardPinFragment)
-                R.id.btnCreatePin ->  showToast("Create Pin!")
+                R.id.btnCreatePin -> findNavController().navigate(R.id.action_setCardPinWelcomeFragment_to_setCardPinFragment)
                 R.id.tvCreatePinLater -> showToast("Do It Later!")
             }
         })
