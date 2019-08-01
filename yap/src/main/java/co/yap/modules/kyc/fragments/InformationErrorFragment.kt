@@ -6,10 +6,9 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IInformationError
-import co.yap.modules.onboarding.viewmodels.InformationErrorViewModel
-import co.yap.yapcore.BaseBindingFragment
+import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
 
-class InformationErrorFragment : BaseBindingFragment<IInformationError.ViewModel>() {
+class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_information_error

@@ -1,4 +1,4 @@
-package co.yap.modules.onboarding.viewmodels
+package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import co.yap.modules.onboarding.interfaces.IInformationError

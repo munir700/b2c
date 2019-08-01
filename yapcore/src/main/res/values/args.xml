@@ -2,4 +2,5 @@
 <resources>
     <string name="arg_username">username</string>
     <string name="arg_account_type">account_type</string>
+    <string name="arg_name">name</string>
 </resources>

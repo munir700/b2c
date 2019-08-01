@@ -23,7 +23,5 @@
             android:layout_weight="1"
             app:defaultNavHost="true"
             app:navGraph="@navigation/kyc_navigation"/>
-
-
     </LinearLayout>
 </layout>
