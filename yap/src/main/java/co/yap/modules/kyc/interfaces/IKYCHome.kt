@@ -9,6 +9,7 @@ interface IKYCHome {
     interface State : IBase.State {
         var valid: Boolean
         var eidScanStatus: DocScanStatus
+        val name: Array<String?>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

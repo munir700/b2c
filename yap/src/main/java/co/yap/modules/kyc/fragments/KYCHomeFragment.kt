@@ -15,7 +15,7 @@ import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
 
 private const val SCAN_EID_CAM = 12
 
-class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View {
+class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -35,6 +35,7 @@ class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View
                 }
             }
         })
+
     }
 
     override fun onDestroyView() {
@@ -61,5 +62,7 @@ class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View
             SCAN_EID_CAM
         )
     }
+
+
 
 }

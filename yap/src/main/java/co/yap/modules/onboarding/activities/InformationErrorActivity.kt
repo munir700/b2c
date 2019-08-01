@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IInformationError
-import co.yap.modules.onboarding.viewmodels.InformationErrorViewModel
+import co.yap.modules.kyc.viewmodels.InformationErrorViewModel
 import co.yap.yapcore.BaseBindingActivity
 
 @Deprecated("Use InformationErrorFragment instead")

@@ -57,7 +57,12 @@
             android:id="@+id/action_congratulationsFragment_to_documentsDashboardActivity"
             app:destination="@id/documentsDashboardActivity"
             app:popUpToInclusive="true"
-            app:popUpTo="@+id/onboarding_navigation"/>
+            app:popUpTo="@+id/onboarding_navigation">
+            <argument
+                android:name="name"
+                android:defaultValue=" "
+                app:argType="string"/>
+        </action>
     </fragment>
     <activity
         android:id="@+id/createPasscodeActivity2"

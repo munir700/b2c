@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel"/>
+            type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
     </data>
