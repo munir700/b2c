@@ -18,7 +18,7 @@ class LocationSelectionActivity : BaseFragment() {
 //     internal lateinit var geocoder: Geocoder
 //    internal lateinit var mapsClass: MapsUtil
 //     internal lateinit var inflater: LayoutInflater
-//    internal var mMap: GoogleMap? = null
+//    internal var googleMap: GoogleMap? = null
 //    internal lateinit var mapFragment: SupportMapFragment
 //    internal lateinit var scrollView: ScrollView
 //    internal var address: String? = null
@@ -145,7 +145,7 @@ class LocationSelectionActivity : BaseFragment() {
 //            if (resultCode == RESULT_OK) {
 //                setLocation()
 //            } else if (resultCode == RESULT_CANCELED) {
-//                mMap!!.uiSettings.isMyLocationButtonEnabled = false
+//                googleMap!!.uiSettings.isMyLocationButtonEnabled = false
 //            }
 //
 //        }

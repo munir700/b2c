@@ -7,15 +7,17 @@ import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.location.Location
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.util.Log
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
 import co.yap.R
+import co.yap.modules.kyc.interfaces.IAddressSelection
+import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
+import co.yap.yapcore.BaseBindingActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -40,11 +42,22 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse
 import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.android.synthetic.main.activity_maps.*
-import java.io.ByteArrayOutputStream
 import java.util.*
 
 
-class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>(), OnMapReadyCallback {
+
+    companion object {
+        fun newIntent(context: Context): Intent = Intent(context, MapDetailViewActivity::class.java)
+    }
+
+
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.activity_maps
+
+    override val viewModel: IAddressSelection.ViewModel
+        get() = ViewModelProviders.of(this).get(AddressSelectionViewModel::class.java)
 
     private val TAG = "MapDetailViewActivity"
 
@@ -67,14 +80,9 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     var placePhoto: Bitmap? = null
     lateinit var markerOptions: MarkerOptions
 
-    companion object {
-        fun newIntent(context: Context): Intent = Intent(context, MapDetailViewActivity::class.java)
-    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_maps)
 
         icon = this!!.bitmapDescriptorFromVector(this, R.drawable.ic_pin)!!
         setUpMarker(mDefaultLocation, placeName, markerSnippet)
@@ -115,7 +123,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     ) {
         markerOptions = MarkerOptions()
             .icon(icon)
-             .position(markerLatLng!!)
+            .position(markerLatLng!!)
 
     }
 
@@ -124,7 +132,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap.addMarker(markerOptions)
         mMap.uiSettings.isZoomControlsEnabled = false
         mMap.uiSettings.isMapToolbarEnabled = false
-        mMap.uiSettings.isCompassEnabled=false
+        mMap.uiSettings.isCompassEnabled = false
         mMap.animateCamera(
             CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
             animationFrequency,
@@ -251,13 +259,6 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
             })
     }
 
-    private fun getImageUri(context: Context, inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-        val path = MediaStore.Images.Media.insertImage(context.contentResolver, inImage, "Title", null)
-        return Uri.parse(path)
-    }
-
     private fun attemptFetchPhoto(place: Place) {
         val photoMetadatas = place.getPhotoMetadatas()
         if (photoMetadatas != null && !photoMetadatas!!.isEmpty()) {
@@ -339,11 +340,7 @@ class MapDetailViewActivity : AppCompatActivity(), OnMapReadyCallback {
     /**
      * Handles the result of the request for location permissions.
      */
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         mLocationPermissionGranted = false
         when (requestCode) {
             PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {

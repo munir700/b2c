@@ -13,8 +13,49 @@ import co.yap.yapcore.SingleClickEvent
 
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel {
+    override fun handlePressOnCloseMap(id: Int) {
+
+    }
+
+    override fun handlePressOnCardSelectLocation(id: Int) {
+ // close map
+     }
 
     override val state: AddressSelectionState = AddressSelectionState(application)
+
+
+    //map deaatil work
+
+
+
+
+
+
+
+
+    //
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     fun onLocatioenSelected() {
         // aalso visible faade in location button

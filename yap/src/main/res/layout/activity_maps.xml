@@ -7,10 +7,16 @@
 
         <import type="co.yap.translation.Strings"/>
 
-        <!--<variable-->
-            <!--name="viewModel"-->
-            <!--type="co.yap.modules.onboarding.viewmodels.PhoneVerificationSignInViewModel"/>-->
+        <variable
+            name="viewModel"
+            type="co.yap.modules.kyc.viewmodels.AddressSelectionViewModel"/>
     </data>
+    <!--var placePhoto: Bitmap-->
+    <!--var placeTitle: String-->
+    <!--var placeSubTitle: String-->
+    <!--var closeCard: Boolean-->
+    <!--var cardView: Boolean-->
+    <!--var confirmLocationButton: Boolean-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -65,13 +71,13 @@
                         android:paddingBottom="@dimen/margin_medium"
                         android:paddingStart="@dimen/margin_medium"
                         android:paddingEnd="@dimen/margin_medium">
+                        <!--app:srcCompat="@drawable/black_white_tile"-->
 
                         <ImageView
                             android:id="@+id/ivLocationPhoto"
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_83sdp"
-                            app:srcCompat="@drawable/black_white_tile"
-                            android:src="@color/red"
+                            app:srcCompat="@{viewModel.state.placePhoto}"
                             tools:ignore="MissingConstraints"/>
 
                         <TextView
@@ -82,6 +88,7 @@
                             android:maxLines="2"
                             android:ellipsize="end"
                             style="@style/Small"
+                            android:text="@{viewModel.state.headingTitle}"
                             app:layout_constraintLeft_toRightOf="@+id/ivLocationPhoto"
                             tools:text="Burj Residence Tower 1"
                             android:layout_marginLeft="24dp"/>
@@ -94,6 +101,7 @@
                             app:layout_constraintStart_toStartOf="@+id/tvAddressTitle"
                             style="@style/ASmallGrey"
                             android:maxLines="2"
+                            android:text="@{viewModel.state.subHeadingTitle}"
                             android:ellipsize="end"
                             tools:text="Suite 1107. Dubai, UAE"
                             android:layout_marginTop="@dimen/_2sdp"/>
@@ -117,7 +125,8 @@
                             app:layout_constraintTop_toBottomOf="@+id/tvAddressSubTitle"
                             app:layout_constraintEnd_toEndOf="parent"
                             android:layout_marginEnd="8dp"
-                            app:layout_constraintHorizontal_bias="0.366"/>
+                            app:layout_constraintHorizontal_bias="0.366"
+                            android:onClick="@{(v) -> viewModel.handlePressOnCardSelectLocation(v.id)}"/>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
@@ -141,6 +150,7 @@
                 android:layout_marginBottom="8dp"
                 app:layout_constraintBottom_toTopOf="@+id/frameLayout"
                 app:layout_constraintHorizontal_bias="0.022"
-                app:layout_constraintVertical_bias="0.016"/>
+                app:layout_constraintVertical_bias="0.016"
+                android:onClick="@{(v) -> viewModel.handlePressOnCloseMap(v.id)}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout></layout>
