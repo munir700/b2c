@@ -10,6 +10,8 @@ import co.yap.app.R
 import co.yap.app.activities.MainActivity
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.activities.DocumentsDashboardActivityArgs
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
@@ -47,8 +49,10 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signUpButtonObserver = Observer<Boolean> {
-         findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
-//        findNavController().navigate(R.id.action_loginFragment_to_documentsDashboardActivity2)
+        findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+
+//        val action = LoginFragmentDirections.actionLoginFragmentToDocumentsDashboardActivity("Nada")
+//        findNavController().navigate(action)
     }
 
 

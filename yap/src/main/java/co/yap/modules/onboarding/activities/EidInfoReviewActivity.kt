@@ -3,12 +3,11 @@ package co.yap.modules.onboarding.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
-import co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel
+import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.yapcore.BaseBindingActivity
 
 @Deprecated("Use EidInfoReviewFragment")

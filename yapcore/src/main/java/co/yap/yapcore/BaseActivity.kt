@@ -94,15 +94,6 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun showLoader(isVisible: Boolean) {
         if (isVisible) progress?.show() else progress?.dismiss()
         Utils.hideKeyboard(this.window.decorView)
-
-//        if (isVisible) {
-//            if (!progressDialogueFragment.isVisible && !progressDialogueFragment.isAdded) progressDialogueFragment.show(
-//                supportFragmentManager,
-//                "loading"
-//            )
-//        } else {
-//            if (progressDialogueFragment.isVisible) progressDialogueFragment.dismiss()
-//        }
     }
 
     private fun setSnackBar(activity: Activity, message: String, duration: Int): Snackbar {
@@ -126,9 +117,7 @@ abstract class BaseActivity<V : IBase.ViewModel<*>> : AppCompatActivity(), IBase
     override fun onDestroy() {
         NetworkConnectionManager.unsubscribe(this)
         unregisterStateListeners()
-        progress?.let {
-            it.dismiss()
-        }
+        progress?.dismiss()
         super.onDestroy()
     }
 

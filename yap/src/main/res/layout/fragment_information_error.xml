@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.InformationErrorViewModel"/>
+            type="co.yap.modules.kyc.viewmodels.InformationErrorViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
     </data>
