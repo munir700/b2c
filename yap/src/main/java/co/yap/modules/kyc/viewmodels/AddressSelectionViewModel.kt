@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.location.Location
 import android.util.Log
@@ -78,7 +79,9 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     var placeName: String = ""
     var placeTitle: String = ""
     var placeSubTitle: String = ""
-    var placePhoto: Bitmap? = null
+    var placePhoto: Bitmap =
+        BitmapFactory.decodeResource(application.resources, R.drawable.black_white_tile) //R.drawable.black_white_tile
+
     lateinit var markerOptions: MarkerOptions
 
     override fun handlePressOnCloseMap(id: Int) {
@@ -262,6 +265,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
             Place.Field.NAME, Place.Field.ADDRESS,
             Place.Field.LAT_LNG, Place.Field.PHOTO_METADATAS
         )
+        state.loading = true
 
         val request = FindCurrentPlaceRequest.builder(placeFields).build()
         val placeResponse = placesClient.findCurrentPlace(request)
@@ -284,10 +288,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                                 markerSnippet = markerSnippet + "\n" + currPlace.address
                                 placeSubTitle = markerSnippet
                             }
-                            if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
-                                attemptFetchPhoto(currPlace)
-                            }
-
                             placeName = currPlace.name!!
                             placeTitle = currPlace.address!!
                             var currentAddress: String = currPlace.address!!
@@ -301,6 +301,14 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                                     DEFAULT_ZOOM.toFloat()
                                 ), animationFrequency, null
                             )
+                            if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
+                                attemptFetchPhoto(currPlace)
+                            }
+//                            else{
+//                                state.loading = false
+//                                setUpCardFields()
+//                            }
+
 
                         } else {
                             break
@@ -358,6 +366,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         state.headingTitle = this.placeName
         state.subHeadingTitle = this.placeTitle
         state.placePhoto = this.placePhoto
+        state.loading = false
 
     }
 
