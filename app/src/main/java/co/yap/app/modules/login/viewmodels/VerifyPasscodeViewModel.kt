@@ -45,7 +45,8 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
-        launch {
+        forgotPasscodeButtonPressEvent.setValue(id)
+       /* launch {
             when (val response=messagesRepository.createForgotPasscodeOTP()) {
                 is RetroApiResponse.Success ->{
                     forgotPasscodeButtonPressEvent.setValue(id)
@@ -55,7 +56,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                     state.loading = false
                 }
             }
-        }
+        }*/
 
 
     }
