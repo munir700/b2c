@@ -28,7 +28,6 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
     IAddressSelection.View, OnMapReadyCallback/*, OnMapReadyCallback*/ {
 
 
-
     companion object {
         fun newIntent(context: Context): Intent = Intent(context, MapDetailViewActivity::class.java)
     }
@@ -64,18 +63,19 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
 
     override fun onResume() {
         super.onResume()
-        viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
-
+//        viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
+//        viewModel.onResume()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        icon = this!!.bitmapDescriptorFromVector(this, R.drawable.ic_pin)!!
 //        setUpMarker(mDefaultLocation, placeName, markerSnippet)
-        viewModel!!.mapDetailViewActivity =  MapDetailViewActivity()
+        viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
-    mapFragment!!.getMapAsync(this)
+        mapFragment!!.getMapAsync(this)
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -89,7 +89,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
                 }
                 2 -> {
 //                    viewModel!!.mapDetailViewActivity = this
-                    viewModel!!.mapDetailViewActivity =  MapDetailViewActivity()
+                    viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
                 }
             }
         })
@@ -346,6 +346,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     viewModel.mLocationPermissionGranted = true
+                    viewModel.getDeviceLocation()
                 }
             }
         }

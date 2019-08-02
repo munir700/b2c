@@ -29,6 +29,7 @@ interface IAddressSelection {
         var mapDetailViewActivity: MapDetailViewActivity
         fun initMap()
         fun onMapInit(p0: GoogleMap?)
+        fun  getDeviceLocation()
     }
 
     interface State : IBase.State {

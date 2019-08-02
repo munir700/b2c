@@ -53,6 +53,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         set(value) {
 
         }
+    var checkMapInit: Boolean = false
 
     override var mLocationPermissionGranted: Boolean = false
         get() = field
@@ -100,7 +101,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     //map deaatil work
     override fun onMapInit(googleMap: GoogleMap?) {
-     initMap()
+        initMap()
 
         if (googleMap != null) {
             mMap = googleMap
@@ -128,24 +129,27 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 //        }
 
             if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
-                getPermissions()
+//                getPermissions()
                 getDeviceLocation()
             }
         } else {
             if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
-                getPermissions()
+//                getPermissions()
                 getDeviceLocation()
             }
         }
     }
 
     override fun initMap() {
-        setUpMarker(mDefaultLocation, placeName, markerSnippet)
+        if (!checkMapInit) {
+            setUpMarker(mDefaultLocation, placeName, markerSnippet)
 //        getDeviceLocation()
-        val apiKey = getString(R.string.google_maps_key)
-        Places.initialize(context, apiKey)
-        placesClient = Places.createClient(context)
-        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+            val apiKey = getString(R.string.google_maps_key)
+            Places.initialize(context, apiKey)
+            placesClient = Places.createClient(context)
+            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+            checkMapInit = true
+        }
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
@@ -208,7 +212,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
 
     @SuppressLint("MissingPermission")
-    private fun getDeviceLocation() {
+    override fun getDeviceLocation() {
 //        if (null != mapDetailViewActivity) {
         try {
             val locationResult = mFusedLocationProviderClient.getLastLocation()
@@ -251,166 +255,164 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
 
+    override fun getPermissions() {
+        clickEvent.setValue(1)
+    }
 
+    @SuppressLint("MissingPermission")
+    private fun getCurrentPlaceLikelihoods() {
+        val placeFields = Arrays.asList(
+            Place.Field.NAME, Place.Field.ADDRESS,
+            Place.Field.LAT_LNG, Place.Field.PHOTO_METADATAS
+        )
 
-override fun getPermissions() {
-    clickEvent.setValue(1)
-}
+        val request = FindCurrentPlaceRequest.builder(placeFields).build()
+        val placeResponse = placesClient.findCurrentPlace(request)
+        placeResponse.addOnCompleteListener(
+            this!!.mapDetailViewActivity!!,
+            OnCompleteListener<FindCurrentPlaceResponse> { task ->
+                if (task.isSuccessful) {
+                    val response = task.result
+                    var i = 0
+                    for (placeLikelihood in response!!.placeLikelihoods) {
+                        if (i == 0) {
+                            val currPlace = placeLikelihood.place
+                            if (currPlace.attributions != null) {
+                                currPlace.attributions!!.joinToString(" ")
+                            }
+                            val markerLatLng = currPlace.latLng
+                            var markerSnippet = currPlace.address
 
-@SuppressLint("MissingPermission")
-private fun getCurrentPlaceLikelihoods() {
-    val placeFields = Arrays.asList(
-        Place.Field.NAME, Place.Field.ADDRESS,
-        Place.Field.LAT_LNG, Place.Field.PHOTO_METADATAS
-    )
+                            if (currPlace.address != null) {
+                                markerSnippet = markerSnippet + "\n" + currPlace.address
+                                placeSubTitle = markerSnippet
+                            }
+                            if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
+                                attemptFetchPhoto(currPlace)
+                            }
 
-    val request = FindCurrentPlaceRequest.builder(placeFields).build()
-    val placeResponse = placesClient.findCurrentPlace(request)
-    placeResponse.addOnCompleteListener(
-        this!!.mapDetailViewActivity!!,
-        OnCompleteListener<FindCurrentPlaceResponse> { task ->
-            if (task.isSuccessful) {
-                val response = task.result
-                var i = 0
-                for (placeLikelihood in response!!.placeLikelihoods) {
-                    if (i == 0) {
-                        val currPlace = placeLikelihood.place
-                        if (currPlace.attributions != null) {
-                            currPlace.attributions!!.joinToString(" ")
+                            placeName = currPlace.name!!
+                            placeTitle = currPlace.address!!
+                            var currentAddress: String = currPlace.address!!
+
+                            setUpMarker(markerLatLng!!, placeName, markerSnippet)
+                            mMap.addMarker(markerOptions)
+
+                            mMap.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    mDefaultLocation,
+                                    DEFAULT_ZOOM.toFloat()
+                                ), animationFrequency, null
+                            )
+
+                        } else {
+                            break
                         }
-                        val markerLatLng = currPlace.latLng
-                        var markerSnippet = currPlace.address
-
-                        if (currPlace.address != null) {
-                            markerSnippet = markerSnippet + "\n" + currPlace.address
-                            placeSubTitle = markerSnippet
-                        }
-                        if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
-                            attemptFetchPhoto(currPlace)
-                        }
-
-                        placeName = currPlace.name!!
-                        placeTitle = currPlace.address!!
-                        var currentAddress: String = currPlace.address!!
-
-                        setUpMarker(markerLatLng!!, placeName, markerSnippet)
-                        mMap.addMarker(markerOptions)
-
-                        mMap.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(
-                                mDefaultLocation,
-                                DEFAULT_ZOOM.toFloat()
-                            ), animationFrequency, null
-                        )
-
-                    } else {
                         break
+
                     }
-                    break
 
+                } else {
+                    val exception = task.exception
+                    if (exception is ApiException) {
+                        val apiException = exception as ApiException?
+                        Log.e(TAG, "Place not found: " + apiException!!.statusCode)
+                    }
                 }
-
-            } else {
-                val exception = task.exception
-                if (exception is ApiException) {
-                    val apiException = exception as ApiException?
-                    Log.e(TAG, "Place not found: " + apiException!!.statusCode)
-                }
-            }
-        })
-}
-
-private fun attemptFetchPhoto(place: Place) {
-    val photoMetadatas = place.getPhotoMetadatas()
-    if (photoMetadatas != null && !photoMetadatas!!.isEmpty()) {
-        fetchPhoto(photoMetadatas!!.get(0))
-    }
-}
-
-/**
- * Fetches a Bitmap using the Places API and displays it.
- *
- * @param photoMetadata from a [Place] instance.
- */
-private fun fetchPhoto(photoMetadata: PhotoMetadata) {
-    var photoMetadata = photoMetadata
-    val photoRequestBuilder = FetchPhotoRequest.builder(photoMetadata)
-
-    val photoTask = placesClient!!.fetchPhoto(photoRequestBuilder.build())
-
-    photoTask.addOnSuccessListener { response ->
-
-        placePhoto = response.bitmap
-
-        setUpCardFields()
+            })
     }
 
-    photoTask.addOnFailureListener { exception ->
-        exception.printStackTrace()
-        //hide loader here
+    private fun attemptFetchPhoto(place: Place) {
+        val photoMetadatas = place.getPhotoMetadatas()
+        if (photoMetadatas != null && !photoMetadatas!!.isEmpty()) {
+            fetchPhoto(photoMetadatas!!.get(0))
+        }
     }
 
-    photoTask.addOnCompleteListener {
-        //hide loader here
+    /**
+     * Fetches a Bitmap using the Places API and displays it.
+     *
+     * @param photoMetadata from a [Place] instance.
+     */
+    private fun fetchPhoto(photoMetadata: PhotoMetadata) {
+        var photoMetadata = photoMetadata
+        val photoRequestBuilder = FetchPhotoRequest.builder(photoMetadata)
+
+        val photoTask = placesClient!!.fetchPhoto(photoRequestBuilder.build())
+
+        photoTask.addOnSuccessListener { response ->
+
+            placePhoto = response.bitmap
+
+            setUpCardFields()
+        }
+
+        photoTask.addOnFailureListener { exception ->
+            exception.printStackTrace()
+            //hide loader here
+        }
+
+        photoTask.addOnCompleteListener {
+            //hide loader here
+        }
     }
-}
 
-private fun setUpCardFields() {
-    state.headingTitle = this.placeName
-    state.subHeadingTitle = this.placeTitle
-    state.placePhoto = this.placePhoto
+    private fun setUpCardFields() {
+        state.headingTitle = this.placeName
+        state.subHeadingTitle = this.placeTitle
+        state.placePhoto = this.placePhoto
 
-}
-
-private fun pickCurrentPlace() {
-    if (mMap == null) {
-        return
     }
 
-    getDeviceLocation()
-}
+    private fun pickCurrentPlace() {
+        if (mMap == null) {
+            return
+        }
+
+        getDeviceLocation()
+    }
 
 
 //
 
 
-fun onLocatioenSelected() {
-    // aalso visible faade in location button
-    state.headingTitle = Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_title)
-    state.subHeadingTitle =
-        Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_selected_subtitle)
-    state.locationBtnText =
-        Translator.getString(getApplication(), R.string.screen_meeting_location_button_change_location)
-}
+    fun onLocatioenSelected() {
+        // aalso visible faade in location button
+        state.headingTitle = Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_title)
+        state.subHeadingTitle =
+            Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_selected_subtitle)
+        state.locationBtnText =
+            Translator.getString(getApplication(), R.string.screen_meeting_location_button_change_location)
+    }
 
 
-override fun handlePressOnSelectLocation(id: Int) {
-    clickEvent.setValue(id)
-    onLocatioenSelected()
-}
+    override fun handlePressOnSelectLocation(id: Int) {
+        clickEvent.setValue(id)
+        onLocatioenSelected()
+    }
 
-override fun handlePressOnNext(id: Int) {
-    clickEvent.setValue(id)
+    override fun handlePressOnNext(id: Int) {
+        clickEvent.setValue(id)
 
-    //            onLocatioenSelected()
+        //            onLocatioenSelected()
 //           start new fragment in sequeence
-}
+    }
 
-fun handlePressOnChangeLocation() {
-    state.locationBtnText = getString(R.string.screen_meeting_location_button_change_location)
-}
+    fun handlePressOnChangeLocation() {
+        state.locationBtnText = getString(R.string.screen_meeting_location_button_change_location)
+    }
 
-override fun onEditorActionListener(): TextView.OnEditorActionListener {
-    return object : TextView.OnEditorActionListener {
-        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                if (state.valid) {
+    override fun onEditorActionListener(): TextView.OnEditorActionListener {
+        return object : TextView.OnEditorActionListener {
+            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (state.valid) {
 //           start new fragment in sequeence
+                    }
                 }
+                return false
             }
-            return false
         }
     }
-}
 
 }
