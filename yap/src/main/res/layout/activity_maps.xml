@@ -62,7 +62,7 @@
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_large"
                     app:cardCornerRadius="10dp"
-                    android:visibility="visible">
+                    >
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"

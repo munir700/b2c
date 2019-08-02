@@ -16,6 +16,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
@@ -259,21 +260,16 @@ object UIBinder {
                 .asBitmap().load(resId)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
-
             //set placeholder here
-//            setImageResId(view, resId)
         }
     }
+
+    //
 //
-//
-//    @BindingAdapter("src", "circular")
-//    fun setImageResId(view: ImageView, resId: Int, circular: Boolean) {
-//        if (circular) {
-//            Glide.with(view.context).load(resId).apply(RequestOptions.circleCropTransform()).into(view)
-//        } else {
-//            //set placeholder here
-//            setImageResId(view, resId)
-//        }
-//    }
+    @BindingAdapter("visibility")
+    @JvmStatic
+    fun setImageResId(view: CardView, visibility: Boolean) {
+        view.visibility = View.VISIBLE
+    }
 
 }

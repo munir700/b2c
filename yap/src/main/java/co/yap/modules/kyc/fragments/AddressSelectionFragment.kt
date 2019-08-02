@@ -10,6 +10,10 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 
 class AddressSelectionFragment : BaseBindingFragment<IAddressSelection.ViewModel>(), IAddressSelection.View {
+    override fun getLocationPermission() {
+
+    }
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_address_selection
