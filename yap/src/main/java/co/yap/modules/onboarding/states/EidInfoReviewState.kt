@@ -12,49 +12,75 @@ import java.util.*
 class EidInfoReviewState : BaseState(), IEidInfoReview.State {
     private var date: Date? = null
 
+    override var titleName: Array<String?> = arrayOfNulls(1)
+
     @get:Bindable
-    override var fullName: String = "Nada Hassan"
+    override var fullName: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.fullName)
         }
 
     @get:Bindable
-    override var nationality: String = "Canadian"
+    override var nationality: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.nationality)
         }
 
     @get:Bindable
-    override var dateOfBirth: String = "01/01/1979"
+    override var dateOfBirth: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.dateOfBirth)
-            val cal = Calendar.getInstance()
-            date = Utils.stringToDate(field.replace("/","-"))
-            cal.time = date
-            val year: Int = cal.get(Calendar.YEAR)
-            val month: Int = cal.get(Calendar.MONTH)
-            val day: Int = cal.get(Calendar.DAY_OF_MONTH)
-            field = Utils.getAgeFromDate(year, month, day).toString()
-
         }
 
     @get:Bindable
-    override var gender: String = "Female"
+    override var gender: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.gender)
         }
 
     @get:Bindable
-    override var expiryDate: String = "01/01/2019"
+    override var expiryDate: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.expiryDate)
-            val cal = Calendar.getInstance()
-            date = Utils.stringToDate(field.replace("/","-"))
-            field = if (cal.time < date) "expiry date is valid" else "expiry date is not valid"
+        }
+
+    @get:Bindable
+    override var fullNameValid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fullNameValid)
+        }
+
+    @get:Bindable
+    override var nationalityValid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.nationalityValid)
+        }
+
+    @get:Bindable
+    override var dateOfBirthValid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.dateOfBirthValid)
+        }
+
+    @get:Bindable
+    override var genderValid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.genderValid)
+        }
+
+    @get:Bindable
+    override var expiryDateValid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.expiryDateValid)
         }
 }

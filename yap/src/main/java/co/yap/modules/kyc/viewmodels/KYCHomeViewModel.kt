@@ -16,7 +16,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun onCreate() {
         super.onCreate()
-        state.name[0] = parentViewModel?.state?.name
+        state.name[0] = parentViewModel?.name
     }
 
     override fun handlePressOnNextButton(id: Int) {
@@ -32,6 +32,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
     }
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
+        parentViewModel?.identity = result
         state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
     }
 }
