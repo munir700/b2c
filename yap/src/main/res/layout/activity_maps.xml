@@ -71,13 +71,13 @@
                         android:paddingBottom="@dimen/margin_medium"
                         android:paddingStart="@dimen/margin_medium"
                         android:paddingEnd="@dimen/margin_medium">
-                        <!--app:srcCompat="@drawable/black_white_tile"-->
 
                         <ImageView
                             android:id="@+id/ivLocationPhoto"
                             android:layout_width="@dimen/_80sdp"
                             android:layout_height="@dimen/_83sdp"
-                            app:srcCompat="@{viewModel.state.placePhoto}"
+                            app:circular="@{true}"
+                            app:src="@{viewModel.state.placePhoto}"
                             tools:ignore="MissingConstraints"/>
 
                         <TextView
@@ -153,4 +153,5 @@
                 app:layout_constraintVertical_bias="0.016"
                 android:onClick="@{(v) -> viewModel.handlePressOnCloseMap(v.id)}"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </LinearLayout></layout>
+    </LinearLayout>
+</layout>

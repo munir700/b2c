@@ -24,6 +24,9 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBindable
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 
 
 object UIBinder {
@@ -237,5 +240,40 @@ object UIBinder {
             0
         )
     }
+
+
+    @BindingAdapter("src", "circular")
+    @JvmStatic
+    fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
+        if (circular) {
+
+            Glide.with(view.getContext())
+                .asBitmap().load(resId)
+                .transforms(CenterCrop(), RoundedCorners(15))
+                .into(view)
+
+        } else {
+//            Glide.with(view.context).load(resId).apply(RequestOptions.circleCropTransform()).into(view)
+
+            Glide.with(view.getContext())
+                .asBitmap().load(resId)
+                .transforms(CenterCrop(), RoundedCorners(15))
+                .into(view)
+
+            //set placeholder here
+//            setImageResId(view, resId)
+        }
+    }
+//
+//
+//    @BindingAdapter("src", "circular")
+//    fun setImageResId(view: ImageView, resId: Int, circular: Boolean) {
+//        if (circular) {
+//            Glide.with(view.context).load(resId).apply(RequestOptions.circleCropTransform()).into(view)
+//        } else {
+//            //set placeholder here
+//            setImageResId(view, resId)
+//        }
+//    }
 
 }
