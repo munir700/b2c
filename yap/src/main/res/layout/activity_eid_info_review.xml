@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel"/>
+            type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
     </data>
@@ -49,6 +49,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 tools:text="@string/screen_b2c_eid_info_review_display_text_sub_title"
                 app:text="@{Strings.screen_b2c_eid_info_review_display_text_sub_title}"
+                app:concat="@{viewModel.state.titleName}"
                 />
 
             <androidx.cardview.widget.CardView

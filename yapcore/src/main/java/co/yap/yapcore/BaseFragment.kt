@@ -96,6 +96,8 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
         getBaseView()?.requestPermissions()
     }
 
+    // TODO: Support PermissionsManager.OnPermissionGrantedListener functions in BaseFragment
+
     override fun getString(resourceKey: String): String = Translator.getString(context!!, resourceKey)
     fun getString(resourceKey: String, vararg arg: String): String = Translator.getString(context!!, resourceKey, *arg)
 

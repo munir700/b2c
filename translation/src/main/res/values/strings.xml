@@ -101,7 +101,7 @@
 
     <!-- KYC home Screen-->
     <string name="screen_b2c_kyc_home_display_text_screen_title">Complete verification</string>
-    <string name="screen_b2c_kyc_home_display_text_sub_heading">Please scan your Emirates ID</string>
+    <string name="screen_b2c_kyc_home_display_text_sub_heading">%1$s, Please scan your Emirates ID</string>
     <string name="screen_b2c_kyc_home_button_skip">Skip and go to dashboard</string>
     <string name="screen_b2c_kyc_home_emirates_id_scan">Tap to scan your Emirates ID</string>
 
@@ -131,7 +131,7 @@
 
     <!-- Eid details review screen -->
     <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
-    <string name="screen_b2c_eid_info_review_display_text_sub_title">Thanks Nada! Verify your details so we can send you your YAP card</string>
+    <string name="screen_b2c_eid_info_review_display_text_sub_title">Thanks %1$s! Verify your details so we can send you your YAP card</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_heading">Emirates ID</string>
     <string name="screen_b2c_eid_info_review_display_text_emirates_id_sub_heading">Pending confirmation</string>
     <string name="screen_b2c_eid_info_review_display_text_name_heading">Name</string>
@@ -168,5 +168,15 @@
     <string name="screen_set_card_pin_welcome_display_text_sub_title">Now create a unique 4-digit PIN code to be able to use your debit card for purchases and withdrawals</string>
     <string name="screen_set_card_pin_welcome_button_create_pin">Create PIN code</string>
     <string name="screen_set_card_pin_welcome_button_create_pin_later">Do it later</string>
+
+    <!-- Set card PIN screen -->
+    <string name="screen_set_card_pin_display_text_title">Set your PIN code</string>
+    <string name="screen_set_card_pin_button_create_pin">Next</string>
+
+    <!-- Confirm card PIN screen -->
+    <string name="screen_confirm_card_pin_display_text_title">Re-enter your PIN code to confirm</string>
+    <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN code you agree to our</string>
+    <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="screen_confirm_card_pin_button_create_pin">Create PIN code</string>
 
 </resources>

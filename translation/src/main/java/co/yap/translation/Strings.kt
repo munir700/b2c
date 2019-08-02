@@ -177,4 +177,13 @@ object Strings {
     const val screen_set_card_pin_welcome_button_create_pin: String = "screen_set_card_pin_welcome_button_create_pin"
     const val screen_set_card_pin_welcome_button_create_pin_later: String = "screen_set_card_pin_welcome_button_create_pin_later"
 
+    //Set card PIN screen
+    const val screen_set_card_pin_display_text_title: String = "screen_set_card_pin_display_text_title"
+    const val screen_set_card_pin_button_create_pin: String = "screen_set_card_pin_button_create_pin"
+
+    //Confirm card PIN screen
+    const val screen_confirm_card_pin_display_text_title: String = "screen_confirm_card_pin_display_text_title"
+    const val screen_confirm_card_pin_display_title_terms_and_conditions: String = "screen_confirm_card_pin_display_title_terms_and_conditions"
+    const val screen_confirm_card_pin_display_text_terms_and_conditions: String = "screen_confirm_card_pin_display_text_terms_and_conditions"
+    const val screen_confirm_card_pin_button_create_pin: String = "screen_confirm_card_pin_button_create_pin"
 }

@@ -11,7 +11,7 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils
 import java.lang.StringBuilder
 
-class CreatePasscodeState : BaseState(), ICreatePasscode.State {
+open class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 
     @get:Bindable
     override var sequence: Boolean = false

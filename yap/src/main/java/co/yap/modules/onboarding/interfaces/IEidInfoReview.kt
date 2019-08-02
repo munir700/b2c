@@ -9,10 +9,17 @@ interface IEidInfoReview {
     interface ViewModel : IBase.ViewModel<State>
 
     interface State : IBase.State {
+        var titleName: Array<String?>
         var fullName: String
         var nationality: String
         var dateOfBirth: String
         var gender: String
         var expiryDate: String
+
+        var fullNameValid: Boolean
+        var nationalityValid: Boolean
+        var dateOfBirthValid: Boolean
+        var genderValid: Boolean
+        var expiryDateValid: Boolean
     }
 }

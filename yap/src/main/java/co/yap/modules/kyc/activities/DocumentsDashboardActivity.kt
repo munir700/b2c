@@ -1,5 +1,6 @@
 package co.yap.modules.kyc.activities
 
+import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -29,6 +30,15 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.name = getBundledName()
+    }
+
+    private fun getBundledName(): String {
+        return intent.getStringExtra(getString(R.string.arg_name))
     }
 
 }

@@ -12,7 +12,8 @@ interface ICongratulations {
     }
 
     interface State : IBase.State {
-        var name: String
+        val nameList: Array<String?>
+        // var name: String
         var ibanNumber: String
         var onboardingTime: String
     }

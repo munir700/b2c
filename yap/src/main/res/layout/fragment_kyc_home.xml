@@ -46,6 +46,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="@dimen/margin_small"
+            app:concat="@{viewModel.state.name}"
             app:layout_constraintEnd_toEndOf="parent"/>
 
 
