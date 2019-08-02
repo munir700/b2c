@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/kyc_navigation"
             app:startDestination="@id/setCardPinWelcomeFragment">
 
     <fragment
         android:id="@+id/setCardPinWelcomeFragment"
+        tools:layout="@layout/fragment_set_card_pin_welcome"
         android:name="co.yap.modules.setcardpin.fragments.SetCardPinWelcomeFragment"
         android:label="SetCardPinWelcomeFragment">
         <action
@@ -19,6 +21,24 @@
     <fragment
         android:id="@+id/setCardPinFragment"
         android:name="co.yap.modules.setcardpin.fragments.SetCardPinFragment"
-        android:label="SetCardPinFragment"/>
+        tools:layout="@layout/fragment_set_card_pin"
+        android:label="SetCardPinFragment">
+        <action
+            android:id="@+id/action_setCardPinFragment_to_confirmCardPinFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/confirmCardPinFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/confirmCardPinFragment"
+        tools:layout="@layout/fragment_set_card_pin"
+        android:name="co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment"
+        android:label="ConfirmCardPinFragment">
+        <argument
+            android:name="pincode"
+            app:argType="string"/>
+    </fragment>
 
 </navigation>
