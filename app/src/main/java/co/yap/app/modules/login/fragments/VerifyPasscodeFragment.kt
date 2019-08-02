@@ -5,6 +5,7 @@ import android.os.Handler
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.activities.MainActivity
@@ -44,12 +45,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
-            when (it) {
-                R.id.tvForgotPassword-> showToast("m clicking")
+           // when (it) {
+                findNavController().navigate(R.id.action_verifyPasscodeFragment_to_forgotPasscodeActivity)
+
+               // R.id.tvForgotPassword-> showToast("m clicking")
                /* R.id.singnButton-> {
 
                 }*/
-            }
+           // }
         })
 
         dialer.hideFingerprintView()

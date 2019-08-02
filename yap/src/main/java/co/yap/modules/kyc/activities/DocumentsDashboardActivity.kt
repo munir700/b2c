@@ -34,7 +34,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.name = getBundledName()
+        viewModel.name = getBundledName()
     }
 
     private fun getBundledName(): String {
