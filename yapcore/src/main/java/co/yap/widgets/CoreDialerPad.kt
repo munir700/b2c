@@ -139,6 +139,10 @@ class CoreDialerPad @JvmOverloads constructor(
         llPasscode.startAnimation(animShake)
     }
 
+    fun startAnimationDigits() {
+        etPassCodeText.startAnimation(animShake)
+    }
+
     fun settingUIForError(error: String) {
         tvError.visibility = View.VISIBLE
         tvError.text = error
