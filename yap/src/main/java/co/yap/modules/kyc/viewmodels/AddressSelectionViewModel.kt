@@ -82,7 +82,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     lateinit var markerOptions: MarkerOptions
 
     override fun handlePressOnCloseMap(id: Int) {
-        state.cardView = state.gone
+        state.cardView = false
         //collapse maap
     }
 
@@ -113,7 +113,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
             mMap.setOnMapClickListener { point ->
                 //            cvLocationCard.visibility = View.VISIBLE
 
-                state.cardView = state.visible
+                state.cardView = true
             }
 
 

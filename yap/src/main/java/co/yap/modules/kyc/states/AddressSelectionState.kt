@@ -16,8 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 class AddressSelectionState(application: Application) : BaseState(), IAddressSelection.State {
 
     val mContext: Context = application.applicationContext
-    val visible: String = "VISIBLE"
-    val gone: String = "GONE"
+
     //map detail
 
     @get:Bindable
@@ -63,7 +62,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var cardView: String = gone
+    override var cardView: Boolean = false
         get() = field
         set(value) {
             field = value

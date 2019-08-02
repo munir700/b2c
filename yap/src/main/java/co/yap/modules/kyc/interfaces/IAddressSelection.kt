@@ -44,7 +44,7 @@ interface IAddressSelection {
         var placeTitle: String
         var placeSubTitle: String
         var closeCard: Boolean
-        var cardView: String
+        var cardView: Boolean
         var confirmLocationButton: Boolean
         var googleMap: GoogleMap?
 

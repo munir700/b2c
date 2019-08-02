@@ -266,10 +266,15 @@ object UIBinder {
 
     //
 //
-    @BindingAdapter("visibility")
+    @BindingAdapter("toggleVisibility")
     @JvmStatic
     fun setImageResId(view: CardView, visibility: Boolean) {
-        view.visibility = View.VISIBLE
+        if (visibility){
+            view.visibility = View.VISIBLE
+        }else{
+            view.visibility = View.GONE
+
+        }
     }
 
 }
