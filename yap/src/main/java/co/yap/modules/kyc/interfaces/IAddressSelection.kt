@@ -24,8 +24,6 @@ interface IAddressSelection {
         fun getPermissions()
         fun onEditorActionListener(): TextView.OnEditorActionListener
         var mapFragment: SupportMapFragment?
-        var PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: Int
-        var mLocationPermissionGranted: Boolean
         var mapDetailViewActivity: MapDetailViewActivity
         fun initMap()
         fun onMapInit(p0: GoogleMap?)

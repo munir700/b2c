@@ -55,12 +55,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         }
     var checkMapInit: Boolean = false
 
-    override var mLocationPermissionGranted: Boolean = false
-        get() = field
-        set(value) {}
-    override var PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: Int = 1
-        get() = field
-        set(value) {}
     override var mapFragment: SupportMapFragment? = null
         get() = field
         set(value) {
@@ -129,27 +123,29 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 //        }
 
             if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
-//                getPermissions()
+                getPermissions()
                 getDeviceLocation()
             }
         } else {
             if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
-//                getPermissions()
+                getPermissions()
                 getDeviceLocation()
             }
         }
     }
 
     override fun initMap() {
-        if (!checkMapInit) {
-            setUpMarker(mDefaultLocation, placeName, markerSnippet)
-//        getDeviceLocation()
-            val apiKey = getString(R.string.google_maps_key)
-            Places.initialize(context, apiKey)
-            placesClient = Places.createClient(context)
-            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-            checkMapInit = true
-        }
+//        if (!checkMapInit) {
+        setUpMarker(mDefaultLocation, placeName, markerSnippet)
+        getDeviceLocation()
+        val apiKey = getString(R.string.google_maps_key)
+        Places.initialize(context, apiKey)
+        placesClient = Places.createClient(context)
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+//            checkMapInit = true
+
+
+//        }
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
@@ -215,6 +211,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override fun getDeviceLocation() {
 //        if (null != mapDetailViewActivity) {
         try {
+//            initMap()
             val locationResult = mFusedLocationProviderClient.getLastLocation()
             locationResult.addOnSuccessListener(
                 mapDetailViewActivity,

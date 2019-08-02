@@ -48,8 +48,8 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
     lateinit var icon: BitmapDescriptor
     private lateinit var placesClient: PlacesClient
 
-    //    private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
-//    private var mLocationPermissionGranted: Boolean = false
+    private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
+    private var mLocationPermissionGranted: Boolean = false
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
     lateinit var mLastKnownLocation: Location
     var animationFrequency: Int = 1                 //can be set to 2000
@@ -64,7 +64,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
     override fun onResume() {
         super.onResume()
 //        viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
-//        viewModel.onResume()
+//        viewModel.getDeviceLocation()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -320,18 +320,18 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        viewModel.mLocationPermissionGranted = false
+        mLocationPermissionGranted = false
         if (ContextCompat.checkSelfPermission(
                 this.applicationContext,
                 android.Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-            viewModel.mLocationPermissionGranted = true
+            mLocationPermissionGranted = true
         } else {
             ActivityCompat.requestPermissions(
                 this,
                 arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-                viewModel.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
+                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
             )
         }
     }
@@ -340,12 +340,12 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
      * Handles the result of the request for location permissions.
      */
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        viewModel.mLocationPermissionGranted = false
+        mLocationPermissionGranted = false
         when (requestCode) {
-            viewModel.PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
+            PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    viewModel.mLocationPermissionGranted = true
+                    mLocationPermissionGranted = true
                     viewModel.getDeviceLocation()
                 }
             }
@@ -359,3 +359,6 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
 
 
 }
+
+
+
