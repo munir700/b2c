@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <layout>
 
     <data>
@@ -7,6 +6,7 @@
             name="viewModel"
             type="co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel"/>
 
+        <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +25,8 @@
             android:layout_marginTop="@dimen/margin_normal"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintRight_toRightOf="parent"
+            android:src="@drawable/logo"/>
 
         <TextView
             android:id="@+id/tvVerifyPasscodeTitle"
@@ -43,6 +44,54 @@
             app:text="@{Strings.screen_verify_passcode_display_text_title}"
             tools:text="@string/screen_verify_passcode_display_text_title"
             app:layout_constraintTop_toBottomOf="@+id/ivLogo"
+            app:layout_constraintBottom_toTopOf="@+id/dialer"
+            />
+
+        <co.yap.widgets.CoreDialerPad
+            android:id="@+id/dialer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dialer_pass_code="passcode"
+            android:layout_marginTop="@dimen/margin_normal"
+            app:componentDialerError='@{viewModel.state.dialerError}'
+            app:passcodeTextWatcher="@{viewModel.state.getTextWatcher()}"
+            app:layout_constraintTop_toBottomOf="@id/tvVerifyPasscodeTitle"
+            />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnVerifyPasscode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/FragmentsBtnStyle"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginRight="@dimen/margin_xxl"
+            tools:text="@string/screen_verify_passcode_button_sign_in"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/dialer"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:text="@{Strings.screen_verify_passcode_button_sign_in}"
+            tools:ignore="MissingConstraints"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            android:onClick="@{(v)-> viewModel.handlePressOnSignInButton()}"
+            app:layout_constraintVertical_bias="0.75"
+            app:layout_constraintBottom_toTopOf="@+id/tvForgotPassword"
+            />
+
+        <TextView
+            android:id="@+id/tvForgotPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Regular"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:onClick="@{(v)-> viewModel.handlePressOnForgotPasscodeButton(v.id)}"
+            tools:text="@string/screen_verify_passcode_text_forgot_password"
+            app:text="@{Strings.screen_verify_passcode_text_forgot_password}"
+
             />
 
 
