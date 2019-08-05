@@ -8,7 +8,7 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.StringUtils
 
-class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreatePasscode.State>(application),
+open class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreatePasscode.State>(application),
     ICreatePasscode.ViewModel {
 
     override val state: CreatePasscodeState = CreatePasscodeState()
@@ -20,7 +20,7 @@ class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreateP
         }
     }
 
-    private fun validateAggressively(): Boolean {
+    protected fun validateAggressively(): Boolean {
         val isSame = StringUtils.hasAllSameChars(state.passcode)
         val isSequenced = StringUtils.isSequenced(state.passcode)
         if (isSequenced) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_sequence)
