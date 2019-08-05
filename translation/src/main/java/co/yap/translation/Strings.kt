@@ -186,4 +186,10 @@ object Strings {
     const val screen_confirm_card_pin_display_title_terms_and_conditions: String = "screen_confirm_card_pin_display_title_terms_and_conditions"
     const val screen_confirm_card_pin_display_text_terms_and_conditions: String = "screen_confirm_card_pin_display_text_terms_and_conditions"
     const val screen_confirm_card_pin_button_create_pin: String = "screen_confirm_card_pin_button_create_pin"
+
+    //Set card PIN success screen
+    const val screen_set_card_pin_success_display_text_title: String = "screen_set_card_pin_success_display_text_title"
+    const val screen_set_card_pin_success_display_text_description: String = "screen_set_card_pin_success_display_text_description"
+    const val screen_set_card_pin_success_button_create_pin: String = "screen_set_card_pin_success_button_create_pin"
+    const val screen_set_card_pin_success_button_create_pin_later: String = "screen_set_card_pin_success_button_create_pin_later"
 }
