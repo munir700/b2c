@@ -39,6 +39,14 @@
         <argument
             android:name="pincode"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_confirmCardPinFragment_to_setCardPinSuccessFragment"
+            app:destination="@id/setCardPinSuccessFragment"/>
     </fragment>
+    <fragment
+        android:id="@+id/setCardPinSuccessFragment"
+        tools:layout="@layout/fragment_set_card_pin_success"
+        android:name="co.yap.modules.setcardpin.fragments.SetCardPinSuccessFragment"
+        android:label="SetCardPinSuccessFragment"/>
 
 </navigation>

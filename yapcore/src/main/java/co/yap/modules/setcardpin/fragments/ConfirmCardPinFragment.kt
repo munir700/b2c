@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.translation.Strings
@@ -23,6 +24,9 @@ class ConfirmCardPinFragment : SetCardPinFragment() {
         btnAction.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_button_create_pin)
 
         viewModel.pincode = arguments?.let { ConfirmCardPinFragmentArgs.fromBundle(it).pincode } as String
+
+
+
     }
 
     override fun setObservers() {
@@ -30,7 +34,7 @@ class ConfirmCardPinFragment : SetCardPinFragment() {
             when (it) {
                 R.id.btnAction -> {
                     if (viewModel.pincode.equals(viewModel.state.pincode)) {
-                        showToast("Pin Match")
+                       findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
                     } else {
                         dialer.startAnimationDigits()
                     }

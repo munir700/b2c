@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.setcardpin.viewmodels.SetCardPinWelcomeViewModel"/>
+            type="co.yap.modules.setcardpin.viewmodels.SetCardPinSuccessViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
     </data>
@@ -35,8 +35,8 @@
 
         <ImageView
             android:id="@+id/ivBubbles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_220sdp"
+            android:layout_height="@dimen/_205sdp"
             app:srcCompat="@drawable/ic_set_card_pin_success"
             android:scaleType="fitXY"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -74,6 +74,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="@string/screen_set_card_pin_success_button_create_pin"
             app:btn_enable="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnTopUp(v.id)}"
             android:layout_marginBottom="@dimen/margin_normal"
             app:text="@{Strings.screen_set_card_pin_success_button_create_pin}"
             app:layout_constraintVertical_bias="0.75"
@@ -90,6 +91,7 @@
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginBottom="@dimen/margin_normal"
             tools:text="@string/screen_set_card_pin_success_button_create_pin_later"
+            android:onClick="@{(v) -> viewModel.handlePressOnTopUpLater(v.id)}"
             app:text="@{Strings.screen_set_card_pin_success_button_create_pin_later}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
