@@ -138,6 +138,9 @@
     <string name="screen_b2c_eid_info_review_display_text_nationality_heading">Nationality</string>
     <string name="screen_b2c_eid_info_review_display_text_dob_heading">Date of birth</string>
     <string name="screen_b2c_eid_info_review_display_text_gender_heading">Gender</string>
+    <string name="screen_b2c_eid_info_review_display_text_gender_male">Male</string>
+    <string name="screen_b2c_eid_info_review_display_text_gender_female">Female</string>
+    <string name="screen_b2c_eid_info_review_display_text_gender_unknown">Unknown</string>
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
