@@ -182,4 +182,10 @@
     <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="screen_confirm_card_pin_button_create_pin">Create PIN code</string>
 
+    <!-- Set card PIN success screen -->
+    <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>
+    <string name="screen_set_card_pin_success_display_text_description">Begin using your YAP card by topping up your card with AED 50 or more</string>
+    <string name="screen_set_card_pin_success_button_create_pin">Top up now</string>
+    <string name="screen_set_card_pin_success_button_create_pin_later">Do it later</string>
+
 </resources>
