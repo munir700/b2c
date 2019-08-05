@@ -11,12 +11,13 @@ import com.google.android.gms.maps.SupportMapFragment
 interface IAddressSelection {
 
     interface View : IBase.View<ViewModel> {
-        fun getLocationPermission()
 
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        val PERMISSION_EVENT_ID: Int
+        val MARKER_CLICK_ID: Int
         fun handlePressOnNext(id: Int)
         fun handlePressOnSelectLocation(id: Int)
         fun handlePressOnCardSelectLocation(id: Int)
@@ -27,7 +28,9 @@ interface IAddressSelection {
         var mapDetailViewActivity: MapDetailViewActivity
         fun initMap()
         fun onMapInit(p0: GoogleMap?)
-        fun  getDeviceLocation()
+        fun getDeviceLocation()
+        fun onLocatioenSelected()
+        fun toggleMarkerVisibility()
     }
 
     interface State : IBase.State {
@@ -46,6 +49,7 @@ interface IAddressSelection {
         var closeCard: Boolean
         var cardView: Boolean
         var confirmLocationButton: Boolean
+        var isMapOnScreen: Boolean
         var googleMap: GoogleMap?
 
     }

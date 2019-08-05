@@ -14,10 +14,8 @@ import com.google.android.gms.maps.GoogleMap
 
 
 class AddressSelectionState(application: Application) : BaseState(), IAddressSelection.State {
-
     val mContext: Context = application.applicationContext
 
-    //map detail
 
     @get:Bindable
     override var googleMap: GoogleMap? = null
@@ -26,7 +24,6 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             field = value
             notifyPropertyChanged(BR.googleMap)
         }
-//    var icon = BitmapFactory.decodeResource(mContext.resources, R.drawable.black_white_tile)
 
     @get:Bindable
     override var placePhoto: Bitmap? =
@@ -60,6 +57,14 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             field = value
             notifyPropertyChanged(BR.closeCard)
         }
+
+    @get:Bindable
+    override var isMapOnScreen: Boolean = false
+        set(value) {
+            field = value
+//            notifyPropertyChanged(BR.isMapOnScreen)
+        }
+
 
     @get:Bindable
     override var cardView: Boolean = false
@@ -122,9 +127,11 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             field = value
             notifyPropertyChanged(BR.locationBtnText)
         }
+
     @get:Bindable
     override var valid: Boolean = true
         get() = validateAddress()
+
 
     private fun validateAddress(): Boolean {
         if (!addressField.isNullOrEmpty() && addressField.length >= 2 /*&& addressField.length <= 100*/) {

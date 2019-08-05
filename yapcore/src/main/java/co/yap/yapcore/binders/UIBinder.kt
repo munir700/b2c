@@ -28,6 +28,8 @@ import co.yap.yapcore.interfaces.IBindable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 
 
 object UIBinder {
@@ -254,7 +256,6 @@ object UIBinder {
                 .into(view)
 
         } else {
-//            Glide.with(view.context).load(resId).apply(RequestOptions.circleCropTransform()).into(view)
 
             Glide.with(view.getContext())
                 .asBitmap().load(resId)
@@ -264,14 +265,30 @@ object UIBinder {
         }
     }
 
-    //
-//
     @BindingAdapter("toggleVisibility")
     @JvmStatic
     fun setImageResId(view: CardView, visibility: Boolean) {
-        if (visibility){
+        if (visibility) {
+            YoYo.with(Techniques.SlideInUp)
+                .duration(700)
+                .playOn(view)
+
+
+        } else {
+            YoYo.with(Techniques.SlideOutDown)
+                .duration(0)
+                .playOn(view)
+
+        }
+
+    }
+
+    @BindingAdapter("toggleButtonVisibility")
+    @JvmStatic
+    fun setImageResId(view: ImageView, visibility: Boolean) {
+        if (visibility) {
             view.visibility = View.VISIBLE
-        }else{
+        } else {
             view.visibility = View.GONE
 
         }

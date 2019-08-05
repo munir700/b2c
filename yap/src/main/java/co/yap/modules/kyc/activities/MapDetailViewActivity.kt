@@ -1,10 +1,10 @@
 package co.yap.modules.kyc.activities
 
+import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.location.Location
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -15,17 +15,15 @@ import co.yap.R
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.yapcore.BaseBindingActivity
-import com.google.android.gms.location.FusedLocationProviderClient
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.libraries.places.api.net.PlacesClient
 
 class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>(),
-    IAddressSelection.View, OnMapReadyCallback/*, OnMapReadyCallback*/ {
+    OnMapReadyCallback {
 
 
     companion object {
@@ -35,42 +33,23 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_maps
+    override fun getLayoutId(): Int = R.layout.activity_map_detail
 
     override val viewModel: IAddressSelection.ViewModel
         get() = ViewModelProviders.of(this).get(AddressSelectionViewModel::class.java)
 
-    private val TAG = "MapDetailViewActivity"
 
-    private lateinit var mMap: GoogleMap
-    private val DEFAULT_ZOOM = 16
-    private var mDefaultLocation = LatLng(-33.8523341, 151.2106085)
     lateinit var icon: BitmapDescriptor
-    private lateinit var placesClient: PlacesClient
-
     private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     private var mLocationPermissionGranted: Boolean = false
-    lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var mLastKnownLocation: Location
-    var animationFrequency: Int = 1                 //can be set to 2000
 
-    var markerSnippet: String = ""
-    var placeName: String = ""
     var placeTitle: String = ""
     var placeSubTitle: String = ""
     var placePhoto: Bitmap? = null
-    lateinit var markerOptions: MarkerOptions
 
-    override fun onResume() {
-        super.onResume()
-//        viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
-//        viewModel.getDeviceLocation()
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        icon = this!!.bitmapDescriptorFromVector(this, R.drawable.ic_pin)!!
-//        setUpMarker(mDefaultLocation, placeName, markerSnippet)
         viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
 
         val mapFragment = supportFragmentManager
@@ -80,16 +59,27 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnLocation -> {
+                    expandMap()
+                }
 
+                R.id.btnConfirm -> {
+                    slideDownLocationCard()
                 }
+
+                R.id.ivClose -> {
+                    collapseMap()
+                }
+
                 R.id.next_button -> {
+//goto next screen or api call
                 }
-                1 -> {
+
+                viewModel.PERMISSION_EVENT_ID -> {
                     getLocationPermission()
                 }
-                2 -> {
-//                    viewModel!!.mapDetailViewActivity = this
-                    viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
+
+                viewModel.MARKER_CLICK_ID -> {
+
                 }
             }
         })
@@ -99,11 +89,70 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
         viewModel.onMapInit(p0)
     }
 
+    private fun slideDownLocationCard() {
 
-//    /**
-//     * Prompts the user for permission to use the device location.
-//     */
-    override fun getLocationPermission() {
+        YoYo.with(Techniques.SlideOutDown)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    collapseMap()
+                    viewModel.onLocatioenSelected()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
+            .duration(700)
+            .playOn(findViewById(R.id.cvLocationCard))
+
+
+    }
+
+    private fun expandMap() {
+        YoYo.with(Techniques.FadeOut)
+            .duration(100)
+            .playOn(findViewById(R.id.btnLocation));
+
+        YoYo.with(Techniques.SlideOutUp)
+            .duration(700)
+            .playOn(findViewById(R.id.flTitle));
+
+        YoYo.with(Techniques.SlideOutDown)
+            .duration(700)
+            .playOn(findViewById(R.id.flAddressDetail))
+    }
+
+    private fun collapseMap() {
+        viewModel.state.isMapOnScreen = false
+        viewModel.state.cardView = false
+        viewModel.state.closeCard = false
+
+        YoYo.with(Techniques.FadeIn)
+            .duration(400)
+            .playOn(findViewById(R.id.btnLocation));
+
+        YoYo.with(Techniques.SlideInDown)
+            .duration(700)
+            .playOn(findViewById(R.id.flTitle));
+
+        YoYo.with(Techniques.SlideInUp)
+            .duration(700)
+            .playOn(findViewById(R.id.flAddressDetail))
+
+        viewModel.toggleMarkerVisibility()
+
+        //        viewModel.onLocatioenSelected()
+    }
+
+    /**
+     * Prompts the user for permission to use the device location.
+     */
+    fun getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,

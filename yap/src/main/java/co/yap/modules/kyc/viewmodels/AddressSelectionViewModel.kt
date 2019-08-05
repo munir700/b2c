@@ -9,6 +9,7 @@ import android.graphics.Canvas
 import android.location.Location
 import android.util.Log
 import android.view.KeyEvent
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -19,16 +20,15 @@ import co.yap.modules.kyc.states.AddressSelectionState
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.libraries.places.api.Places
@@ -42,8 +42,16 @@ import java.util.*
 
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel {
+    var locationMarker: Marker? = null
+
+    override val PERMISSION_EVENT_ID: Int = 1
+        get() = field
+
+    override val MARKER_CLICK_ID: Int = 2
+        get() = field
+
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    var appz: Application = application
+
 
     fun mapDetailViewActivity(): MapDetailViewActivity {
         return MapDetailViewActivity()
@@ -66,7 +74,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     private val TAG = "MapDetailViewActivity"
 
     private lateinit var mMap: GoogleMap
-    private val DEFAULT_ZOOM = 16
+    private var DEFAULT_ZOOM = 16
     private var mDefaultLocation = LatLng(-33.8523341, 151.2106085)
     lateinit var icon: BitmapDescriptor
     private lateinit var placesClient: PlacesClient
@@ -79,30 +87,24 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     var placeName: String = ""
     var placeTitle: String = ""
     var placeSubTitle: String = ""
-    var placePhoto: Bitmap =
-        BitmapFactory.decodeResource(application.resources, R.drawable.black_white_tile) //R.drawable.black_white_tile
+    var placePhoto: Bitmap = BitmapFactory.decodeResource(
+        application.resources,
+        R.drawable.black_white_tile
+    ) //should add place holder here, adding dummy placeholder right now
 
     lateinit var markerOptions: MarkerOptions
-
-    override fun handlePressOnCloseMap(id: Int) {
-        state.cardView = false
-        //collapse maap
-    }
-
-    override fun handlePressOnCardSelectLocation(id: Int) {
-        // close map
-    }
-
     override val state: AddressSelectionState = AddressSelectionState(application)
 
-
-    //map deaatil work
     override fun onMapInit(googleMap: GoogleMap?) {
         initMap()
 
         if (googleMap != null) {
             mMap = googleMap
-            mMap.addMarker(markerOptions)
+            locationMarker = mMap.addMarker(markerOptions)
+
+
+            toggleMarkerVisibility()
+
             mMap.uiSettings.isZoomControlsEnabled = false
             mMap.uiSettings.isMapToolbarEnabled = false
             mMap.uiSettings.isCompassEnabled = false
@@ -112,18 +114,14 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                 null
             )
 
+            mMap!!.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
+                override fun onMarkerClick(marker: Marker): Boolean {
+                    state.cardView = true
 
-            mMap.setOnMapClickListener { point ->
-                //            cvLocationCard.visibility = View.VISIBLE
-
-                state.cardView = true
-            }
-
-
-//        ivClose.setOnClickListener {
-////            cvLocationCard.visibility = View.GONE
-//            state.cardView =state.gone
-//        }
+                    clickEvent.setValue(MARKER_CLICK_ID)
+                    return false
+                }
+            })
 
             if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
                 getPermissions()
@@ -137,18 +135,30 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         }
     }
 
+    override fun toggleMarkerVisibility() {
+        if (!state.isMapOnScreen) {
+            locationMarker!!.isVisible = false
+            YoYo.with(Techniques.FadeOut)
+                .duration(200)
+                .playOn(locationMarker as View)
+
+        } else {
+            YoYo.with(Techniques.FadeIn)
+                .duration(200)
+                .playOn(locationMarker as View)
+
+            locationMarker!!.isVisible = true
+        }
+    }
+
     override fun initMap() {
-//        if (!checkMapInit) {
         setUpMarker(mDefaultLocation, placeName, markerSnippet)
         getDeviceLocation()
         val apiKey = getString(R.string.google_maps_key)
         Places.initialize(context, apiKey)
         placesClient = Places.createClient(context)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
-//            checkMapInit = true
 
-
-//        }
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
@@ -176,45 +186,14 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
             .icon(icon)
             .position(markerLatLng!!)
 
-    }
 
-//    override fun onMapReady(googleMap: GoogleMap) {
-//        mMap = googleMap
-//        mMap.addMarker(markerOptions)
-//        mMap.uiSettings.isZoomControlsEnabled = false
-//        mMap.uiSettings.isMapToolbarEnabled = false
-//        mMap.uiSettings.isCompassEnabled = false
-//        mMap.animateCamera(
-//            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
-//            animationFrequency,
-//            null
-//        )
-//
-//
-//        mMap.setOnMapClickListener { point ->
-//            //            cvLocationCard.visibility = View.VISIBLE
-//
-//            state.cardView = state.visible
-//        }
-//
-//
-////        ivClose.setOnClickListener {
-//////            cvLocationCard.visibility = View.GONE
-////            state.cardView =state.gone
-////        }
-//
-//        if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
-//            getPermissions()
-//            getDeviceLocation()
-//        }
-//    }
+    }
 
 
     @SuppressLint("MissingPermission")
     override fun getDeviceLocation() {
-//        if (null != mapDetailViewActivity) {
+
         try {
-//            initMap()
             val locationResult = mFusedLocationProviderClient.getLastLocation()
             locationResult.addOnSuccessListener(
                 mapDetailViewActivity,
@@ -225,13 +204,12 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                         Log.d(TAG, "Longitude: " + mLastKnownLocation.getLongitude())
                         mDefaultLocation =
                             LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
-
-
                         mMap.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
                             animationFrequency,
                             null
                         )
+
 
                     } else {
                         Log.d(TAG, "Current location is null. Using defaults.")
@@ -242,7 +220,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             null
                         )
 //                        IAddressSelection.View=  IBase.View<AddressSelectionViewModel>
-                        getPermissions()  // getLocationPermission()
+                        getPermissions()
                     }
 
                     getCurrentPlaceLikelihoods()
@@ -250,13 +228,12 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         } catch (e: Exception) {
             Log.e("Exception: %s", e.message)
         }
-//        } else {
-//            clickEvent.setValue(2)
+
     }
 
 
     override fun getPermissions() {
-        clickEvent.setValue(1)
+        clickEvent.setValue(PERMISSION_EVENT_ID)
     }
 
     @SuppressLint("MissingPermission")
@@ -291,25 +268,19 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             placeName = currPlace.name!!
                             placeTitle = currPlace.address!!
                             var currentAddress: String = currPlace.address!!
-
                             setUpMarker(markerLatLng!!, placeName, markerSnippet)
-                            mMap.addMarker(markerOptions)
-
+                            locationMarker = mMap.addMarker(markerOptions)
+                            toggleMarkerVisibility()
                             mMap.animateCamera(
                                 CameraUpdateFactory.newLatLngZoom(
                                     mDefaultLocation,
                                     DEFAULT_ZOOM.toFloat()
                                 ), animationFrequency, null
                             )
+
                             if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
                                 attemptFetchPhoto(currPlace)
                             }
-//                            else{
-//                                state.loading = false
-//                                setUpCardFields()
-//                            }
-
-
                         } else {
                             break
                         }
@@ -324,6 +295,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                         Log.e(TAG, "Place not found: " + apiException!!.statusCode)
                     }
                 }
+                state.loading = false
             })
     }
 
@@ -350,62 +322,64 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
             placePhoto = response.bitmap
 
             setUpCardFields()
+            state.loading = false
         }
 
         photoTask.addOnFailureListener { exception ->
             exception.printStackTrace()
-            //hide loader here
+            state.loading = false
         }
 
         photoTask.addOnCompleteListener {
-            //hide loader here
+            state.loading = false
         }
     }
 
     private fun setUpCardFields() {
         state.headingTitle = this.placeName
-        state.subHeadingTitle = this.placeTitle
         state.placePhoto = this.placePhoto
-        state.loading = false
 
     }
 
-    private fun pickCurrentPlace() {
-        if (mMap == null) {
-            return
-        }
-
-        getDeviceLocation()
-    }
-
-
-//
-
-
-    fun onLocatioenSelected() {
-        // aalso visible faade in location button
-        state.headingTitle = Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_title)
+    override fun onLocatioenSelected() {
+        state.headingTitle = this.placeName
+        state.addressField = this.placeName + ", " + this.placeTitle
+        state.placePhoto = this.placePhoto
         state.subHeadingTitle =
             Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_selected_subtitle)
         state.locationBtnText =
             Translator.getString(getApplication(), R.string.screen_meeting_location_button_change_location)
     }
 
+    override fun handlePressOnCloseMap(id: Int) {
+        state.isMapOnScreen = false
+        state.cardView = false
+        toggleMarkerVisibility()
+        clickEvent.setValue(id)
+
+    }
+
+    override fun handlePressOnCardSelectLocation(id: Int) {
+        state.isMapOnScreen = false
+        toggleMarkerVisibility()
+        clickEvent.setValue(id)
+    }
 
     override fun handlePressOnSelectLocation(id: Int) {
+        state.closeCard = true
+        state.isMapOnScreen = true
+        toggleMarkerVisibility()
         clickEvent.setValue(id)
-        onLocatioenSelected()
     }
 
     override fun handlePressOnNext(id: Int) {
         clickEvent.setValue(id)
-
-        //            onLocatioenSelected()
-//           start new fragment in sequeence
     }
 
     fun handlePressOnChangeLocation() {
         state.locationBtnText = getString(R.string.screen_meeting_location_button_change_location)
+        state.isMapOnScreen = true
+        toggleMarkerVisibility()
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {

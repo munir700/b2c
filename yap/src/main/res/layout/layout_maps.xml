@@ -11,17 +11,10 @@
             name="viewModel"
             type="co.yap.modules.kyc.viewmodels.AddressSelectionViewModel"/>
     </data>
-    <!--var placePhoto: Bitmap-->
-    <!--var placeTitle: String-->
-    <!--var placeSubTitle: String-->
-    <!--var closeCard: Boolean-->
-    <!--var cardView: Boolean-->
-    <!--var confirmLocationButton: Boolean-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
         android:orientation="vertical">
 
 
@@ -62,7 +55,9 @@
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_large"
                     app:cardCornerRadius="10dp"
+                    android:visibility="visible"
                     app:toggleVisibility="@{viewModel.state.cardView}"
+
                     >
 
                     <androidx.constraintlayout.widget.ConstraintLayout
@@ -108,10 +103,10 @@
                             android:layout_marginTop="@dimen/_2sdp"/>
 
                         <co.yap.widgets.CoreButton
+                            android:id="@+id/btnConfirm"
                             style="@style/AddressBtnStyle"
                             android:layout_width="wrap_content"
                             android:layout_height="@dimen/_24sdp"
-                            android:id="@+id/btnConfirm"
                             android:textColor="@color/white"
                             android:text="@string/screen_meeting_location_button_confirm_selected_location"
                             app:layout_constraintStart_toEndOf="@+id/ivLocationPhoto"
@@ -149,6 +144,8 @@
                 android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginBottom="8dp"
+                android:visibility="gone"
+                app:toggleButtonVisibility="@{viewModel.state.closeCard}"
                 app:layout_constraintBottom_toTopOf="@+id/frameLayout"
                 app:layout_constraintHorizontal_bias="0.022"
                 app:layout_constraintVertical_bias="0.016"
