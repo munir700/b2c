@@ -4,9 +4,9 @@ import android.app.Application
 import co.yap.modules.onboarding.viewmodels.CreatePasscodeViewModel
 
 class CreateNewPasscodeViewModel(application: Application):CreatePasscodeViewModel(application) {
-    override fun handlePressOnCreatePasscodeButton() {
+    override fun handlePressOnCreatePasscodeButton(id:Int) {
         if (validateAggressively()) {
-            nextButtonPressEvent.value = true
+            nextButtonPressEvent.setValue(id)
         }
     }
 }

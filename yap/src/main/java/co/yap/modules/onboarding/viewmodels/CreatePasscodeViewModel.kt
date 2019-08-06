@@ -5,6 +5,7 @@ import co.yap.modules.onboarding.interfaces.ICreatePasscode
 import co.yap.modules.onboarding.states.CreatePasscodeState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.StringUtils
 
@@ -12,11 +13,12 @@ open class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICr
     ICreatePasscode.ViewModel {
 
     override val state: CreatePasscodeState = CreatePasscodeState()
-    override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
 
-    override fun handlePressOnCreatePasscodeButton() {
+    override fun handlePressOnCreatePasscodeButton(id:Int) {
         if (validateAggressively()) {
-            nextButtonPressEvent.value = true
+            nextButtonPressEvent.setValue(id)
+//            nextButtonPressEvent.value = true
         }
     }
 

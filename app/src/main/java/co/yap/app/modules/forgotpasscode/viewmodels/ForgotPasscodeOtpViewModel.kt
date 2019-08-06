@@ -67,6 +67,7 @@ class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<IForg
     override fun setPasscode(passcode: String) {
     }
     private fun verifyOtp(id:Int) {
+        nextButtonPressEvent.setValue(id)
         launch {
             state.loading = true
          /*   when (val response = repository.verifyOtpOnboarding(

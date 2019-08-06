@@ -24,7 +24,7 @@ class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.ViewMod
         setObservers()
     }
 
-    fun setObservers() {
+    private fun setObservers() {
 
         viewModel.nextButtonPressEvent.observe(this, Observer {
             findNavController().navigate(R.id.action_forgotPasscodeFragment_to_createNewPasscodeFragment)

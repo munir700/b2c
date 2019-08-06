@@ -131,6 +131,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
     override fun createOtp() {
         launch {
+            state.loading = true
             when (val response =
                 messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
                 is RetroApiResponse.Success -> {
@@ -141,7 +142,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                     state.loading = false
                 }
             }
-            state.loading = false
+//            state.loading = false
         }
     }
 

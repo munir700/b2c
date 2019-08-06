@@ -2,15 +2,18 @@ package co.yap.modules.onboarding.interfaces
 
 import android.text.TextWatcher
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 interface ICreatePasscode {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel>{
+        fun setObservers()
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val nextButtonPressEvent: SingleLiveEvent<Boolean>
-        fun handlePressOnCreatePasscodeButton()
+        val nextButtonPressEvent: SingleClickEvent
+        fun handlePressOnCreatePasscodeButton(id:Int)
     }
 
     interface State : IBase.State {

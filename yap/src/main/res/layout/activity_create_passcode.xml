@@ -102,7 +102,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:paddingBottom="8dp"
             android:gravity="center"
-            android:onClick="@{(v)-> createPasscodeViewModel.handlePressOnCreatePasscodeButton()}"
+            android:onClick="@{(v)-> createPasscodeViewModel.handlePressOnCreatePasscodeButton(v.id)}"
             app:text="@{Strings.screen_create_passcode_button_create_passcode}"
             android:paddingEnd="@dimen/_30sdp"
             android:paddingStart="@dimen/_30sdp"
