@@ -56,13 +56,6 @@ class OnboardingActivity : BaseBindingActivity<IOnboarding.ViewModel>(), INaviga
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
-    override fun onFragmentAttached() {
-
-    }
-
-    override fun onFragmentDetached(tag: String) {
-    }
-
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById( R.id.my_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {

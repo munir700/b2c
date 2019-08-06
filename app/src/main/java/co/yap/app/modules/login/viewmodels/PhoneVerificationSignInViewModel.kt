@@ -1,18 +1,16 @@
-package co.yap.modules.onboarding.viewmodels
+package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
 import android.os.Build
 import co.yap.app.login.EncryptionUtils
+import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.modules.onboarding.constants.Constants
-import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
-import co.yap.modules.onboarding.states.PhoneVerificationSignInState
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
-import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -25,7 +23,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
     IRepositoryHolder<AuthRepository> {
 
     override val repository: AuthRepository = AuthRepository
-    override val state: PhoneVerificationSignInState = PhoneVerificationSignInState(application)
+    override val state: co.yap.app.modules.login.states.PhoneVerificationSignInState =
+        co.yap.app.modules.login.states.PhoneVerificationSignInState(application)
     override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val postDemographicDataResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val verifyOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()

@@ -21,6 +21,6 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
     }
 
     private val gotoDashboardpressEventObserver = Observer<Boolean> {
-        //startActivity(LiteDashboardActivity.newIntent(this@InformationErrorActivity)
+        //startActivity(LiteDashboardFragment.newIntent(this@InformationErrorActivity)
     }
 }

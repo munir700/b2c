@@ -21,9 +21,8 @@
             app:destination="@id/eidInfoReviewFragment"/>
         <action
             android:id="@+id/action_KYCHomeFragment_to_liteDashboardActivity"
-            app:destination="@id/liteDashboardActivity"
-            app:popUpTo="@+id/kyc_navigation"
-            app:popUpToInclusive="true"/>
+            app:destination="@id/liteDashboardActivity"/>
+
     </fragment>
     <fragment
         android:id="@+id/eidInfoReviewFragment"
@@ -46,8 +45,9 @@
     </fragment>
     <activity
         android:id="@+id/liteDashboardActivity"
-        android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
         tools:layout="@layout/activity_lite_dashboard"
+        android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
         android:label="LiteDashboardActivity"/>
+
 
 </navigation>

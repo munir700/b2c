@@ -41,7 +41,7 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
 
     private val signInButtonObserver = Observer<Boolean> {
         if (it) {
-            startActivity(VerifyPasscodeActivity.newIntent(this, viewModel.state.twoWayTextWatcher))
+            //startActivity(VerifyPasscodeActivity.newIntent(this, viewModel.state.twoWayTextWatcher))
         } else {
             viewModel.state.emailError = "That's not the right username. Please try again"
         }

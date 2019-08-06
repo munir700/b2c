@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context="co.yap.app.modules.login.activities.SystemPermissionActivity">
+        tools:context="co.yap.app.modules.login.fragments.SystemPermissionFragment">
 
         <ImageView
             android:id="@+id/ivFingerprint"

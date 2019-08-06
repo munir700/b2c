@@ -5,6 +5,12 @@
             android:id="@+id/main_nav_graph"
             app:startDestination="@id/splashFragment">
 
+    <action
+        android:id="@+id/action_goto_liteDashboardActivity"
+        app:destination="@id/liteDashboardActivity"
+        app:popUpTo="@+id/main_nav_graph"
+        app:popUpToInclusive="true"/>
+
     <fragment
         android:id="@+id/splashFragment"
         android:name="co.yap.app.modules.startup.fragments.SplashFragment"
@@ -22,6 +28,8 @@
             app:destination="@id/loginFragment"/>
         <action
             android:id="@+id/action_splashFragment_to_verifyPasscodeFragment"
+            app:popUpTo="@id/main_nav_graph"
+            app:popUpToInclusive="true"
             app:destination="@id/verifyPasscodeFragment"/>
     </fragment>
     <fragment
@@ -88,6 +96,12 @@
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_forgotPasscodeActivity"
             app:destination="@id/forgotPasscodeActivity"/>
+        <action
+            android:id="@+id/action_verifyPasscodeFragment_to_systemPermissionFragment"
+            app:destination="@id/systemPermissionFragment"/>
+        <action
+            android:id="@+id/action_verifyPasscodeFragment_to_phoneVerificationSignInFragment"
+            app:destination="@id/phoneVerificationSignInFragment"/>
     </fragment>
 
     <activity
@@ -106,4 +120,35 @@
         android:name="co.yap.app.modules.forgotpasscode.activities.ForgotPasscodeActivity"
         tools:layout="@layout/activity_forgot_passcode"
         android:label="ForgotPasscodeActivity"/>
+    <activity
+        android:id="@+id/liteDashboardActivity"
+        tools:layout="@layout/activity_lite_dashboard"
+        android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
+        android:label="LiteDashboardActivity"/>
+    <fragment
+        android:id="@+id/systemPermissionFragment"
+        tools:layout="@layout/fragment_biometric_permission"
+        android:name="co.yap.app.modules.login.fragments.SystemPermissionFragment"
+        android:label="SystemPermissionFragment">
+        <argument
+            android:name="screen_type"
+            android:defaultValue=" "
+            app:argType="string"/>
+    </fragment>
+    <fragment
+        android:id="@+id/phoneVerificationSignInFragment"
+        tools:layout="@layout/activity_phone_verification"
+        android:name="co.yap.app.modules.login.fragments.PhoneVerificationSignInFragment"
+        android:label="PhoneVerificationSignInFragment">
+
+        <argument
+            android:name="username"
+            android:defaultValue=" "
+            app:argType="string"/>
+
+        <argument
+            android:name="passcode"
+            android:defaultValue=" "
+            app:argType="string"/>
+    </fragment>
 </navigation>

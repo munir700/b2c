@@ -65,6 +65,9 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
         launch {
             when (val response = customersRepository.validateDemographicData(state.deviceId)) {
                 is RetroApiResponse.Success -> {
+                    if(response.data.data){
+                        state.loading = false
+                    }
                     validateDeviceResult.postValue(response.data.data)
                 }
                 is RetroApiResponse.Error -> {

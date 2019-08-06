@@ -31,6 +31,6 @@ class InformationErrorActivity : BaseBindingActivity<IInformationError.ViewModel
     }
 
     private val gotoDashboardPressEventObserver = Observer<Boolean> {
-        //startActivity(LiteDashboardActivity.newIntent(this@InformationErrorActivity)
+        //startActivity(LiteDashboardFragment.newIntent(this@InformationErrorActivity)
     }
 }

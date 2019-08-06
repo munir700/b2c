@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.PhoneVerificationSignInViewModel"/>
+            type="co.yap.app.modules.login.viewmodels.PhoneVerificationSignInViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

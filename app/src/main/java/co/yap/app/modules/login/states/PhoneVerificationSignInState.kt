@@ -1,14 +1,11 @@
-package co.yap.modules.onboarding.states
+package co.yap.app.modules.login.states
 
 import android.app.Application
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.CountDownTimer
-import android.widget.TextView
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.onboarding.interfaces.IPhoneVerificationSignIn
+import co.yap.app.modules.login.interfaces.IPhoneVerificationSignIn
 import co.yap.yapcore.BaseState
 
 class PhoneVerificationSignInState(application: Application) : BaseState(), IPhoneVerificationSignIn.State {
