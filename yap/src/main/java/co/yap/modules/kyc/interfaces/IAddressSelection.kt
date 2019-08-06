@@ -40,6 +40,7 @@ interface IAddressSelection {
         var landmarkField: String
         var locationBtnText: String
         var valid: Boolean
+        var checked: Boolean
 
         //map detail
 

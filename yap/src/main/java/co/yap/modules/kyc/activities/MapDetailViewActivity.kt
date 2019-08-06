@@ -1,11 +1,16 @@
 package co.yap.modules.kyc.activities
 
+import android.Manifest
 import android.animation.Animator
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
@@ -48,7 +53,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
     var placeSubTitle: String = ""
     var placePhoto: Bitmap? = null
 
-
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
@@ -56,14 +61,27 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment!!.getMapAsync(this)
-        viewModel.mapView = mapFragment.getView()
 
 
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnLocation -> {
-                    expandMap()
+
+                    if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                        if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
+                            val uri:Uri=Uri.fromParts("package", this.packageName, null)
+                            intent.data = uri;
+                            this.startActivity(intent);
+
+                        } else {
+                            requestPermissions()
+                        }
+                    } else
+//                        onPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
+                       expandMap()
                 }
 
                 R.id.btnConfirm -> {
@@ -88,6 +106,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
             }
         })
     }
+
 
     override fun onMapReady(p0: GoogleMap?) {
         viewModel.onMapInit(p0)
@@ -156,6 +175,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
     /**
      * Prompts the user for permission to use the device location.
      */
+
     fun getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the

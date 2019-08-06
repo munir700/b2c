@@ -2,10 +2,9 @@
           package="co.yap">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>-->
-    <!--<uses-feature android:name="android.hardware.location.gps" />-->
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
     <application>
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
@@ -30,17 +29,9 @@
         </activity>
 
         <activity
-            android:name=".modules.kyc.fragments.LocationSelectionActivity"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".modules.onboarding.activities.CreatePasscodeActivity"
             android:screenOrientation="portrait"/>
 
-        <!--TODO convert these two activities into fragments-->
-        <activity
-            android:name=".modules.onboarding.activities.MeetingConfirmationActivity"
-            android:screenOrientation="portrait"
-            />
         <activity
             android:name=".modules.onboarding.activities.InformationErrorActivity"
             android:screenOrientation="portrait"/>
@@ -56,6 +47,5 @@
         <activity
             android:name=".modules.kyc.activities.MapDetailViewActivity"
             android:screenOrientation="portrait"/>
-
     </application>
 </manifest>

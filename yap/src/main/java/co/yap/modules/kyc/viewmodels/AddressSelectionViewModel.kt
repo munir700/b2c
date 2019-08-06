@@ -40,10 +40,6 @@ import java.util.*
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel {
 
-    override var mapView: android.view.View? = null
-        get() = field
-        set(value) {}
-
     var locationMarker: Marker? = null
 
     override val PERMISSION_EVENT_ID: Int = 1
@@ -76,8 +72,8 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     private val TAG = "MapDetailViewActivity"
 
     private lateinit var mMap: GoogleMap
-    private var DEFAULT_ZOOM = 16
-    private var mDefaultLocation = LatLng(-33.8523341, 151.2106085)
+    private var DEFAULT_ZOOM = 15
+    private var mDefaultLocation = LatLng(25.276987, 55.296249)
     lateinit var icon: BitmapDescriptor
     private lateinit var placesClient: PlacesClient
 

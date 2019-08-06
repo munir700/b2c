@@ -166,10 +166,16 @@ object Strings {
         "screen_meeting_location_input_text_landmark_hint"
     const val screen_meeting_location_button_change_location: String =
         "screen_meeting_location_button_change_location"
+
     const val screen_meeting_location_display_text_selected_subtitle: String =
         "screen_meeting_location_display_text_selected_subtitle"
     const val screen_meeting_location_button_confirm_selected_location: String =
         "screen_meeting_location_button_confirm_selected_location"
+
+    const val screen_meeting_location_text_accept_terms: String = "screen_meeting_location_text_accept_terms"
+    const val screen_meeting_location_text_terms_and_conditions: String = "screen_meeting_location_text_terms_and_conditions"
+
+
 
     //Eid Info Review screen
     const val screen_b2c_eid_info_review_display_text_title: String = "screen_b2c_eid_info_review_display_text_title"

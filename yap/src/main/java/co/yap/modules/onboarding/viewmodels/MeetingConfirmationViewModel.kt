@@ -12,7 +12,6 @@ class MeetingConfirmationViewModel(application: Application) : BaseViewModel<IMe
     override val state: MeetingConfirmationState = MeetingConfirmationState()
 
     override fun handlePressOnGoToDashboard() {
-        state.toast="mn click ho ra hn "
         goToDashboardButtonPressEvent.value = true
     }
 }

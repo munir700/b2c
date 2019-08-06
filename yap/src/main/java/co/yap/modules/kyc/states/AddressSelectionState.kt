@@ -87,7 +87,6 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
     @get:Bindable
     override var headingTitle: String =
         Translator.getString(application, R.string.screen_meeting_location_display_text_title)
-        get() = field
         set(value) {
 
             field = value
@@ -97,7 +96,6 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
     @get:Bindable
     override var subHeadingTitle: String =
         Translator.getString(application, R.string.screen_meeting_location_display_text_subtitle)
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.subHeadingTitle)
@@ -113,34 +111,37 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
 
     @get:Bindable
     override var landmarkField: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.landmarkField)
         }
 
     @get:Bindable
+    override var checked: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.checked)
+            valid=validateAddress()
+        }
+
+    @get:Bindable
     override var locationBtnText: String =
         Translator.getString(application, R.string.screen_meeting_location_button_confirm_location)
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.locationBtnText)
         }
 
     @get:Bindable
-    override var valid: Boolean = true
-        get() = validateAddress()
+    override var valid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
 
 
     private fun validateAddress(): Boolean {
-        if (!addressField.isNullOrEmpty() && addressField.length >= 2 /*&& addressField.length <= 100*/) {
-
-            return true
-        } else {
-            return false
-
-        }
+        return addressField.isNotEmpty() && addressField.length >= 2 && checked
     }
 
     private fun setPlacePhoto() {
