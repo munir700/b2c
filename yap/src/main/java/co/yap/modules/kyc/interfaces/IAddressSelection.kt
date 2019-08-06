@@ -1,7 +1,6 @@
 package co.yap.modules.kyc.interfaces
 
 import android.graphics.Bitmap
-import android.widget.TextView
 import co.yap.modules.kyc.activities.MapDetailViewActivity
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -16,14 +15,11 @@ interface IAddressSelection {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        val PERMISSION_EVENT_ID: Int
         val MARKER_CLICK_ID: Int
         fun handlePressOnNext(id: Int)
         fun handlePressOnSelectLocation(id: Int)
         fun handlePressOnCardSelectLocation(id: Int)
         fun handlePressOnCloseMap(id: Int)
-        fun getPermissions()
-        fun onEditorActionListener(): TextView.OnEditorActionListener
         var mapFragment: SupportMapFragment?
         var mapDetailViewActivity: MapDetailViewActivity
         fun initMap()

@@ -4,15 +4,12 @@ import android.Manifest
 import android.animation.Animator
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -45,7 +42,6 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
 
 
     lateinit var icon: BitmapDescriptor
-    private val PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1
     private var mLocationPermissionGranted: Boolean = false
 
     var placeTitle: String = ""
@@ -68,7 +64,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
                 R.id.btnLocation -> {
 
                     if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        mLocationPermissionGranted=true
+                        mLocationPermissionGranted = true
                         if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                             val intent = Intent()
                             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
@@ -79,15 +75,10 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
                         } else {
                             requestPermissions()
                         }
-                    } else{
-//                        onPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)
+                    } else {
                         expandMap()
-//                        viewModel.initMap()
-//                        viewModel.getDeviceLocation()
-//
-                        //call places api on map expan
+
                     }
-//
                 }
 
                 R.id.btnConfirm -> {
@@ -102,10 +93,6 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
 //goto next screen or api call
                 }
 
-                viewModel.PERMISSION_EVENT_ID -> {
-//                    getLocationPermission()
-                }
-
                 viewModel.MARKER_CLICK_ID -> {
 
                 }
@@ -115,12 +102,13 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
 
     override fun onPermissionGranted(permission: String?) {
         super.onPermissionGranted(permission)
-        if ( mLocationPermissionGranted){
+        if (mLocationPermissionGranted) {
             expandMap()
 
         }
 
     }
+
     override fun onMapReady(p0: GoogleMap?) {
         viewModel.onMapInit(p0)
     }
@@ -145,8 +133,6 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
             })
             .duration(400)
             .playOn(findViewById(R.id.cvLocationCard))
-
-
     }
 
     private fun expandMap() {
@@ -163,7 +149,6 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
             .playOn(findViewById(R.id.flAddressDetail))
 
         viewModel.state.isMapOnScreen
-
         viewModel.getDeviceLocation()
 //        viewModel.toggleMarkerVisibility()
 
@@ -188,59 +173,10 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
 
         viewModel.toggleMarkerVisibility()
 
-        //        viewModel.onLocatioenSelected()
     }
-
-    /**
-     * Prompts the user for permission to use the device location.
-     */
-
-//    fun getLocationPermission() {
-//        /*
-//         * Request location permission, so that we can get the location of the
-//         * device. The result of the permission request is handled by a callback,
-//         * onRequestPermissionsResult.
-//         */
-//        mLocationPermissionGranted = false
-//        if (ContextCompat.checkSelfPermission(
-//                this.applicationContext,
-//                android.Manifest.permission.ACCESS_FINE_LOCATION
-//            ) == PackageManager.PERMISSION_GRANTED
-//        ) {
-//            mLocationPermissionGranted = true
-//        } else {
-//            ActivityCompat.requestPermissions(
-//                this,
-//                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),
-//                PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION
-//            )
-//        }
-//    }
-
-    /**
-     * Handles the result of the request for location permissions.
-     */
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        mLocationPermissionGranted = false
-//        when (requestCode) {
-//            PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION -> {
-//                // If request is cancelled, the result arrays are empty.
-//                if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                    mLocationPermissionGranted = true
-//                    expandMap()
-//                    viewModel.getDeviceLocation()
-//                }
-//            }
-//        }
-//    }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
-
-
 }
-
-
-

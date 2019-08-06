@@ -82,8 +82,6 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             notifyPropertyChanged(BR.confirmLocationButton)
         }
 
-    //
-
     @get:Bindable
     override var headingTitle: String =
         Translator.getString(application, R.string.screen_meeting_location_display_text_title)
@@ -121,7 +119,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         set(value) {
             field = value
             notifyPropertyChanged(BR.checked)
-            valid=validateAddress()
+            valid = validateAddress()
         }
 
     @get:Bindable
@@ -143,12 +141,4 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
     private fun validateAddress(): Boolean {
         return addressField.isNotEmpty() && addressField.length >= 2 && checked
     }
-
-    private fun setPlacePhoto() {
-        if (null != placePhoto) {
-
-
-        }
-    }
-
 }

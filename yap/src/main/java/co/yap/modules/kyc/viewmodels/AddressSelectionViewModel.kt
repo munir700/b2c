@@ -8,9 +8,6 @@ import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.location.Location
 import android.util.Log
-import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
-import android.widget.TextView
 import androidx.core.content.ContextCompat
 import co.yap.R
 import co.yap.modules.kyc.activities.MapDetailViewActivity
@@ -41,10 +38,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     IAddressSelection.ViewModel {
 
     var locationMarker: Marker? = null
-
-    override val PERMISSION_EVENT_ID: Int = 1
-        get() = field
-
     override val MARKER_CLICK_ID: Int = 2
         get() = field
 
@@ -96,14 +89,9 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun onMapInit(googleMap: GoogleMap?) {
         initMap()
-//        getDeviceLocation()
-
         if (googleMap != null) {
             mMap = googleMap
-
             locationMarker = mMap.addMarker(markerOptions)
-
-
             toggleMarkerVisibility()
 
             mMap.uiSettings.isZoomControlsEnabled = false
@@ -143,7 +131,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun initMap() {
         setUpMarker(mDefaultLocation, placeName, markerSnippet)
-//        getDeviceLocation()
         val apiKey = getString(R.string.google_maps_key)
         Places.initialize(context, apiKey)
         placesClient = Places.createClient(context)
@@ -215,10 +202,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
 
-    override fun getPermissions() {
-//        clickEvent.setValue(PERMISSION_EVENT_ID)
-    }
-
     @SuppressLint("MissingPermission")
     private fun getCurrentPlaceLikelihoods() {
         val placeFields = Arrays.asList(
@@ -252,6 +235,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             placeTitle = currPlace.address!!
                             var currentAddress: String = currPlace.address!!
                             setUpMarker(markerLatLng!!, placeName, markerSnippet)
+
                             locationMarker = mMap.addMarker(markerOptions)
                             toggleMarkerVisibility()
                             mMap.animateCamera(
@@ -263,21 +247,15 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
                             if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
                                 attemptFetchPhoto(currPlace)
-                            }else{
-
+                            } else {
                                 state.cardView = true
-
                                 clickEvent.setValue(MARKER_CLICK_ID)
                             }
                         } else {
                             break
                         }
                         break
-
                     }
-
-
-
                 } else {
                     state.loading = false
                     val exception = task.exception
@@ -286,7 +264,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                         Log.e(TAG, "Place not found: " + apiException!!.statusCode)
                     }
                 }
-//
             })
     }
 
@@ -334,16 +311,15 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         state.placeTitle = this.placeName
         state.placePhoto = this.placePhoto
         state.placeSubTitle = this.placeSubTitle
-//
-//        state.cardView = true
-//
-//        clickEvent.setValue(MARKER_CLICK_ID)
-
     }
 
     override fun onLocatioenSelected() {
         state.headingTitle = this.placeName
         state.addressField = this.placeName + ", " + this.placeTitle
+        state.landmarkField = this.placeName
+        Log.e(TAG, "landmarkField: " + state.headingTitle)
+        Log.e(TAG, "landmarkField: " + state.addressField)
+        Log.e(TAG, "landmarkField: " + state.landmarkField)
 
         state.placePhoto = this.placePhoto
         state.subHeadingTitle =
@@ -381,19 +357,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         state.locationBtnText = getString(R.string.screen_meeting_location_button_change_location)
         state.isMapOnScreen = true
         toggleMarkerVisibility()
-    }
-
-    override fun onEditorActionListener(): TextView.OnEditorActionListener {
-        return object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (state.valid) {
-//           start new fragment in sequeence
-                    }
-                }
-                return false
-            }
-        }
     }
 
 }
