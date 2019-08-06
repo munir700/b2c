@@ -1,26 +1,17 @@
-package co.yap.modules.onboarding.interfaces
+package co.yap.app.modules.forgotpasscode.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
-interface IPhoneVerification {
-
-    interface View : IBase.View<ViewModel>{
-        fun setObservers()
-    }
-
-    interface ViewModel : IBase.ViewModel<State> {
-        // val nextButtonPressEvent: SingleLiveEvent<Boolean>
+interface IForgotPasscodeOtp {
+    interface View:IBase.View<ViewModel>
+    interface ViewModel:IBase.ViewModel<State>{
         val nextButtonPressEvent: SingleClickEvent
-
-        //  fun handlePressOnSend()
         fun handlePressOnSendButton(id: Int)
-
-        fun handlePressOnResendOTP()
+        fun handlePressOnResendOTP(id:Int)
         fun setPasscode(passcode: String)
-    }
 
+    }
     interface State : IBase.State {
         //views
         var verificationTitle: String

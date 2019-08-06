@@ -5,22 +5,24 @@ import co.yap.modules.onboarding.interfaces.ICreatePasscode
 import co.yap.modules.onboarding.states.CreatePasscodeState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.StringUtils
 
-class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreatePasscode.State>(application),
+open class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreatePasscode.State>(application),
     ICreatePasscode.ViewModel {
 
     override val state: CreatePasscodeState = CreatePasscodeState()
-    override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
 
-    override fun handlePressOnCreatePasscodeButton() {
+    override fun handlePressOnCreatePasscodeButton(id:Int) {
         if (validateAggressively()) {
-            nextButtonPressEvent.value = true
+            nextButtonPressEvent.setValue(id)
+//            nextButtonPressEvent.value = true
         }
     }
 
-    private fun validateAggressively(): Boolean {
+    protected fun validateAggressively(): Boolean {
         val isSame = StringUtils.hasAllSameChars(state.passcode)
         val isSequenced = StringUtils.isSequenced(state.passcode)
         if (isSequenced) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_sequence)

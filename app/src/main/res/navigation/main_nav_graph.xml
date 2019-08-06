@@ -86,8 +86,8 @@
             android:name="username"
             app:argType="string"/>
         <action
-            android:id="@+id/action_verifyPasscodeFragment_to_forgotPasscodeActivity"
-            app:destination="@id/forgotPasscodeActivity"/>
+            android:id="@+id/action_verifyPasscodeFragment_to_forgot_passcode_navigation"
+            app:destination="@id/forgot_passcode_navigation"/>
     </fragment>
 
     <activity
@@ -101,9 +101,5 @@
             app:argType="string"/>
     </activity>
 
-    <activity
-        android:id="@+id/forgotPasscodeActivity"
-        android:name="co.yap.app.modules.forgotpasscode.activities.ForgotPasscodeActivity"
-        tools:layout="@layout/activity_forgot_passcode"
-        android:label="ForgotPasscodeActivity"/>
+    <include app:graph="@navigation/forgot_passcode_navigation"/>
 </navigation>

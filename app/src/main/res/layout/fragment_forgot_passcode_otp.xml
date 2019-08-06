@@ -10,7 +10,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.PhoneVerificationViewModel"/>
+            type="co.yap.app.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,7 +113,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginEnd="8dp"
             android:textAllCaps="false"
-            android:onClick="@{(v) -> viewModel.handlePressOnResendOTP()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnResendOTP(v.id)}"
             android:id="@+id/button10"
             android:enabled="@{viewModel.state.validResend}"
             android:layout_marginBottom="@dimen/margin_medium"
@@ -131,7 +131,7 @@
             android:text="@string/screen_phone_number_button_send"
             tools:ignore="MissingConstraints"
             app:enableCoreButton="@{viewModel.state.valid}"
-            android:onClick="@{(v) -> viewModel.handlePressOnSendButton()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnSendButton(v.id)}"
             android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintVertical_bias="1.0"
             android:layout_marginEnd="@dimen/margin_xxl"
