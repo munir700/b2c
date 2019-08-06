@@ -31,6 +31,7 @@ interface IAddressSelection {
         fun getDeviceLocation()
         fun onLocatioenSelected()
         fun toggleMarkerVisibility()
+        fun setUpCardFields()
     }
 
     interface State : IBase.State {

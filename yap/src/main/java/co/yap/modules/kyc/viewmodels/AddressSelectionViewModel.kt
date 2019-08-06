@@ -96,6 +96,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun onMapInit(googleMap: GoogleMap?) {
         initMap()
+//        getDeviceLocation()
 
         if (googleMap != null) {
             mMap = googleMap
@@ -114,32 +115,27 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                 null
             )
 
-            mMap!!.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
-                override fun onMarkerClick(marker: Marker): Boolean {
-                    state.cardView = true
+//            mMap!!.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
+//                override fun onMarkerClick(marker: Marker): Boolean {
+//                    state.cardView = true
+//
+//                    clickEvent.setValue(MARKER_CLICK_ID)
+//                    return false
+//                }
+//            })
 
-                    clickEvent.setValue(MARKER_CLICK_ID)
-                    return false
-                }
-            })
-
-            if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
-                getPermissions()
-                getDeviceLocation()
-            }
+//            if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
+//
+//                getDeviceLocation()
+//            }
         } else {
-            if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
-                getPermissions()
-                getDeviceLocation()
-            }
+
         }
     }
 
     override fun toggleMarkerVisibility() {
         if (!state.isMapOnScreen) {
             locationMarker!!.isVisible = false
-
-
         } else {
             locationMarker!!.isVisible = true
         }
@@ -147,7 +143,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun initMap() {
         setUpMarker(mDefaultLocation, placeName, markerSnippet)
-        getDeviceLocation()
+//        getDeviceLocation()
         val apiKey = getString(R.string.google_maps_key)
         Places.initialize(context, apiKey)
         placesClient = Places.createClient(context)
@@ -166,7 +162,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun onResume() {
         super.onResume()
-        getDeviceLocation()
+//        getDeviceLocation()
     }
 
     fun setUpMarker(
@@ -200,8 +196,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             animationFrequency,
                             null
                         )
-
-
                     } else {
 
                         mMap.animateCamera(
@@ -209,8 +203,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             animationFrequency,
                             null
                         )
-//                        IAddressSelection.View=  IBase.View<AddressSelectionViewModel>
-                        getPermissions()
+
                     }
 
                     getCurrentPlaceLikelihoods()
@@ -223,7 +216,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
 
     override fun getPermissions() {
-        clickEvent.setValue(PERMISSION_EVENT_ID)
+//        clickEvent.setValue(PERMISSION_EVENT_ID)
     }
 
     @SuppressLint("MissingPermission")
@@ -270,6 +263,11 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
                             if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
                                 attemptFetchPhoto(currPlace)
+                            }else{
+
+                                state.cardView = true
+
+                                clickEvent.setValue(MARKER_CLICK_ID)
                             }
                         } else {
                             break
@@ -278,14 +276,17 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
                     }
 
+
+
                 } else {
+                    state.loading = false
                     val exception = task.exception
                     if (exception is ApiException) {
                         val apiException = exception as ApiException?
                         Log.e(TAG, "Place not found: " + apiException!!.statusCode)
                     }
                 }
-                state.loading = false
+//
             })
     }
 
@@ -312,7 +313,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
             placePhoto = response.bitmap
 
             setUpCardFields()
-            state.loading = false
+
         }
 
         photoTask.addOnFailureListener { exception ->
@@ -322,13 +323,21 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
         photoTask.addOnCompleteListener {
             state.loading = false
+            state.cardView = true
+
+            clickEvent.setValue(MARKER_CLICK_ID)
+
         }
     }
 
-    private fun setUpCardFields() {
+    override fun setUpCardFields() {
         state.placeTitle = this.placeName
         state.placePhoto = this.placePhoto
         state.placeSubTitle = this.placeSubTitle
+//
+//        state.cardView = true
+//
+//        clickEvent.setValue(MARKER_CLICK_ID)
 
     }
 
@@ -346,22 +355,22 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override fun handlePressOnCloseMap(id: Int) {
         state.isMapOnScreen = false
         state.cardView = false
-        toggleMarkerVisibility()
         clickEvent.setValue(id)
+        toggleMarkerVisibility()
 
     }
 
     override fun handlePressOnCardSelectLocation(id: Int) {
         state.isMapOnScreen = false
-        toggleMarkerVisibility()
         clickEvent.setValue(id)
+        toggleMarkerVisibility()
     }
 
     override fun handlePressOnSelectLocation(id: Int) {
         state.closeCard = true
         state.isMapOnScreen = true
-        toggleMarkerVisibility()
         clickEvent.setValue(id)
+        toggleMarkerVisibility()
     }
 
     override fun handlePressOnNext(id: Int) {
