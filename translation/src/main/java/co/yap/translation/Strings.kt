@@ -143,6 +143,9 @@ object Strings {
     const val screen_b2c_eid_info_review_display_text_emirates_id_heading: String = "screen_b2c_eid_info_review_display_text_emirates_id_heading"
     const val screen_b2c_eid_info_review_display_text_emirates_id_sub_heading: String = "screen_b2c_eid_info_review_display_text_emirates_id_sub_heading"
     const val screen_b2c_eid_info_review_display_text_name_heading: String = "screen_b2c_eid_info_review_display_text_name_heading"
+    const val screen_b2c_eid_info_review_display_text_gender_male: String = "screen_b2c_eid_info_review_display_text_gender_male"
+    const val screen_b2c_eid_info_review_display_text_gender_female: String = "screen_b2c_eid_info_review_display_text_gender_female"
+    const val screen_b2c_eid_info_review_display_text_gender_unknown: String = "screen_b2c_eid_info_review_display_text_gender_unknown"
     const val screen_b2c_eid_info_review_display_text_nationality_heading: String = "screen_b2c_eid_info_review_display_text_nationality_heading"
     const val screen_b2c_eid_info_review_display_text_dob_heading: String = "screen_b2c_eid_info_review_display_text_dob_heading"
     const val screen_b2c_eid_info_review_display_text_gender_heading: String = "screen_b2c_eid_info_review_display_text_gender_heading"
@@ -186,4 +189,10 @@ object Strings {
     const val screen_confirm_card_pin_display_title_terms_and_conditions: String = "screen_confirm_card_pin_display_title_terms_and_conditions"
     const val screen_confirm_card_pin_display_text_terms_and_conditions: String = "screen_confirm_card_pin_display_text_terms_and_conditions"
     const val screen_confirm_card_pin_button_create_pin: String = "screen_confirm_card_pin_button_create_pin"
+
+    //Set card PIN success screen
+    const val screen_set_card_pin_success_display_text_title: String = "screen_set_card_pin_success_display_text_title"
+    const val screen_set_card_pin_success_display_text_description: String = "screen_set_card_pin_success_display_text_description"
+    const val screen_set_card_pin_success_button_create_pin: String = "screen_set_card_pin_success_button_create_pin"
+    const val screen_set_card_pin_success_button_create_pin_later: String = "screen_set_card_pin_success_button_create_pin_later"
 }

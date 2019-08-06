@@ -138,6 +138,9 @@
     <string name="screen_b2c_eid_info_review_display_text_nationality_heading">Nationality</string>
     <string name="screen_b2c_eid_info_review_display_text_dob_heading">Date of birth</string>
     <string name="screen_b2c_eid_info_review_display_text_gender_heading">Gender</string>
+    <string name="screen_b2c_eid_info_review_display_text_gender_male">Male</string>
+    <string name="screen_b2c_eid_info_review_display_text_gender_female">Female</string>
+    <string name="screen_b2c_eid_info_review_display_text_gender_unknown">Unknown</string>
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
@@ -178,5 +181,11 @@
     <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN code you agree to our</string>
     <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="screen_confirm_card_pin_button_create_pin">Create PIN code</string>
+
+    <!-- Set card PIN success screen -->
+    <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>
+    <string name="screen_set_card_pin_success_display_text_description">Begin using your YAP card by topping up your card with AED 50 or more</string>
+    <string name="screen_set_card_pin_success_button_create_pin">Top up now</string>
+    <string name="screen_set_card_pin_success_button_create_pin_later">Do it later</string>
 
 </resources>
