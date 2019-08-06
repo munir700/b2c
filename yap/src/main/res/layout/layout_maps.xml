@@ -84,7 +84,7 @@
                             android:maxLines="2"
                             android:ellipsize="end"
                             style="@style/Small"
-                            android:text="@{viewModel.state.headingTitle}"
+                            android:text="@{viewModel.state.placeTitle}"
                             app:layout_constraintLeft_toRightOf="@+id/ivLocationPhoto"
                             tools:text="Burj Residence Tower 1"
                             android:layout_marginLeft="24dp"/>
@@ -97,7 +97,7 @@
                             app:layout_constraintStart_toStartOf="@+id/tvAddressTitle"
                             style="@style/ASmallGrey"
                             android:maxLines="2"
-                            android:text="@{viewModel.state.subHeadingTitle}"
+                            android:text="@{viewModel.state.placeSubTitle}"
                             android:ellipsize="end"
                             tools:text="Suite 1107. Dubai, UAE"
                             android:layout_marginTop="@dimen/_2sdp"/>

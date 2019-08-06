@@ -270,7 +270,7 @@ object UIBinder {
     fun setImageResId(view: CardView, visibility: Boolean) {
         if (visibility) {
             YoYo.with(Techniques.SlideInUp)
-                .duration(700)
+                .duration(400)
                 .playOn(view)
 
 

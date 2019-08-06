@@ -9,7 +9,6 @@ import android.graphics.Canvas
 import android.location.Location
 import android.util.Log
 import android.view.KeyEvent
-import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -20,8 +19,6 @@ import co.yap.modules.kyc.states.AddressSelectionState
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import com.daimajia.androidanimations.library.Techniques
-import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -42,6 +39,11 @@ import java.util.*
 
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel {
+
+    override var mapView: android.view.View? = null
+        get() = field
+        set(value) {}
+
     var locationMarker: Marker? = null
 
     override val PERMISSION_EVENT_ID: Int = 1
@@ -95,11 +97,13 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     lateinit var markerOptions: MarkerOptions
     override val state: AddressSelectionState = AddressSelectionState(application)
 
+
     override fun onMapInit(googleMap: GoogleMap?) {
         initMap()
 
         if (googleMap != null) {
             mMap = googleMap
+
             locationMarker = mMap.addMarker(markerOptions)
 
 
@@ -138,15 +142,9 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override fun toggleMarkerVisibility() {
         if (!state.isMapOnScreen) {
             locationMarker!!.isVisible = false
-            YoYo.with(Techniques.FadeOut)
-                .duration(200)
-                .playOn(locationMarker as View)
+
 
         } else {
-            YoYo.with(Techniques.FadeIn)
-                .duration(200)
-                .playOn(locationMarker as View)
-
             locationMarker!!.isVisible = true
         }
     }
@@ -189,7 +187,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     }
 
-
     @SuppressLint("MissingPermission")
     override fun getDeviceLocation() {
 
@@ -200,8 +197,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                 OnSuccessListener<Location> { location ->
                     if (location != null) {
                         mLastKnownLocation = location
-                        Log.d(TAG, "Latitude: " + mLastKnownLocation.getLatitude())
-                        Log.d(TAG, "Longitude: " + mLastKnownLocation.getLongitude())
                         mDefaultLocation =
                             LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
                         mMap.animateCamera(
@@ -212,7 +207,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
 
                     } else {
-                        Log.d(TAG, "Current location is null. Using defaults.")
 
                         mMap.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
@@ -336,14 +330,16 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
     private fun setUpCardFields() {
-        state.headingTitle = this.placeName
+        state.placeTitle = this.placeName
         state.placePhoto = this.placePhoto
+        state.placeSubTitle = this.placeSubTitle
 
     }
 
     override fun onLocatioenSelected() {
         state.headingTitle = this.placeName
         state.addressField = this.placeName + ", " + this.placeTitle
+
         state.placePhoto = this.placePhoto
         state.subHeadingTitle =
             Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_selected_subtitle)

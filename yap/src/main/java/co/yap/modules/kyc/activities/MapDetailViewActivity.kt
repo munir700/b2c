@@ -21,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
+import kotlinx.android.synthetic.main.activity_map_detail.*
 
 class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>(),
     OnMapReadyCallback {
@@ -55,6 +56,9 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment!!.getMapAsync(this)
+        viewModel.mapView = mapFragment.getView()
+
+
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -107,7 +111,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(700)
+            .duration(400)
             .playOn(findViewById(R.id.cvLocationCard))
 
 
@@ -119,11 +123,11 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
             .playOn(findViewById(R.id.btnLocation));
 
         YoYo.with(Techniques.SlideOutUp)
-            .duration(700)
+            .duration(400)
             .playOn(findViewById(R.id.flTitle));
 
         YoYo.with(Techniques.SlideOutDown)
-            .duration(700)
+            .duration(400)
             .playOn(findViewById(R.id.flAddressDetail))
     }
 
@@ -137,11 +141,11 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
             .playOn(findViewById(R.id.btnLocation));
 
         YoYo.with(Techniques.SlideInDown)
-            .duration(700)
+            .duration(400)
             .playOn(findViewById(R.id.flTitle));
 
         YoYo.with(Techniques.SlideInUp)
-            .duration(700)
+            .duration(400)
             .playOn(findViewById(R.id.flAddressDetail))
 
         viewModel.toggleMarkerVisibility()
