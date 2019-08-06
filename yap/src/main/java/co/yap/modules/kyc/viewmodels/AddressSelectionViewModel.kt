@@ -45,10 +45,8 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     var locationMarker: Marker? = null
 
     override val PERMISSION_EVENT_ID: Int = 1
-        get() = field
 
     override val MARKER_CLICK_ID: Int = 2
-        get() = field
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
@@ -58,14 +56,12 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
     override var mapDetailViewActivity: MapDetailViewActivity = mapDetailViewActivity()
-        get() = field
         set(value) {
 
         }
     var checkMapInit: Boolean = false
 
     override var mapFragment: SupportMapFragment? = null
-        get() = field
         set(value) {
 
         }
@@ -114,7 +110,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                 null
             )
 
-            mMap!!.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
+            mMap.setOnMarkerClickListener(object : GoogleMap.OnMarkerClickListener {
                 override fun onMarkerClick(marker: Marker): Boolean {
                     state.cardView = true
 
@@ -135,22 +131,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         }
     }
 
-    override fun toggleMarkerVisibility() {
-        if (!state.isMapOnScreen) {
-            locationMarker!!.isVisible = false
-            YoYo.with(Techniques.FadeOut)
-                .duration(200)
-                .playOn(locationMarker as View)
-
-        } else {
-            YoYo.with(Techniques.FadeIn)
-                .duration(200)
-                .playOn(locationMarker as View)
-
-            locationMarker!!.isVisible = true
-        }
-    }
-
     override fun initMap() {
         setUpMarker(mDefaultLocation, placeName, markerSnippet)
         getDeviceLocation()
@@ -159,6 +139,10 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         placesClient = Places.createClient(context)
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 
+    }
+
+    override fun toggleMarkerVisibility() {
+        locationMarker!!.isVisible = state.isMapOnScreen
     }
 
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
@@ -180,7 +164,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         placeName: String?,
         markerSnippet: String?
     ) {
-        icon = this!!.bitmapDescriptorFromVector(getApplication(), R.drawable.ic_pin)!!
+        icon = this.bitmapDescriptorFromVector(getApplication(), R.drawable.ic_pin)!!
 
         markerOptions = MarkerOptions()
             .icon(icon)
@@ -194,16 +178,16 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override fun getDeviceLocation() {
 
         try {
-            val locationResult = mFusedLocationProviderClient.getLastLocation()
+            val locationResult = mFusedLocationProviderClient.lastLocation
             locationResult.addOnSuccessListener(
                 mapDetailViewActivity,
                 OnSuccessListener<Location> { location ->
                     if (location != null) {
                         mLastKnownLocation = location
-                        Log.d(TAG, "Latitude: " + mLastKnownLocation.getLatitude())
-                        Log.d(TAG, "Longitude: " + mLastKnownLocation.getLongitude())
+                        Log.d(TAG, "Latitude: " + mLastKnownLocation.latitude)
+                        Log.d(TAG, "Longitude: " + mLastKnownLocation.longitude)
                         mDefaultLocation =
-                            LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
+                            LatLng(mLastKnownLocation.latitude, mLastKnownLocation.longitude)
                         mMap.animateCamera(
                             CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
                             animationFrequency,
@@ -247,7 +231,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         val request = FindCurrentPlaceRequest.builder(placeFields).build()
         val placeResponse = placesClient.findCurrentPlace(request)
         placeResponse.addOnCompleteListener(
-            this!!.mapDetailViewActivity!!,
+            this.mapDetailViewActivity,
             OnCompleteListener<FindCurrentPlaceResponse> { task ->
                 if (task.isSuccessful) {
                     val response = task.result
@@ -300,9 +284,9 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
     private fun attemptFetchPhoto(place: Place) {
-        val photoMetadatas = place.getPhotoMetadatas()
-        if (photoMetadatas != null && !photoMetadatas!!.isEmpty()) {
-            fetchPhoto(photoMetadatas!!.get(0))
+        val photoMetadatas = place.photoMetadatas
+        if (photoMetadatas != null && !photoMetadatas.isEmpty()) {
+            fetchPhoto(photoMetadatas.get(0))
         }
     }
 
@@ -315,7 +299,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         var photoMetadata = photoMetadata
         val photoRequestBuilder = FetchPhotoRequest.builder(photoMetadata)
 
-        val photoTask = placesClient!!.fetchPhoto(photoRequestBuilder.build())
+        val photoTask = placesClient.fetchPhoto(photoRequestBuilder.build())
 
         photoTask.addOnSuccessListener { response ->
 

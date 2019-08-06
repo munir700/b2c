@@ -124,7 +124,7 @@
                     android:background="@color/white"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/margin_small"
-                     >
+                    >
 
                     <TextView
                         style="@style/ASmall"
@@ -211,6 +211,41 @@
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         app:layout_constraintStart_toStartOf="parent"
                         />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="@dimen/margin_medium">
+
+                        <CheckBox
+                            android:id="@+id/cbTermsAndConditions"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            android:checked="@={viewModel.state.checked}"
+                            android:layout_marginStart="@dimen/_13sdp"
+                            app:layout_constraintVertical_bias="0.892"/>
+
+                        <TextView
+                            android:id="@+id/tvTerms"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/AMicroGrey"
+                            tools:text="@string/screen_meeting_location_text_accept_terms"
+                            app:text="@{Strings.screen_meeting_location_text_accept_terms}"
+                            />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/margin_extra_small"
+                            style="@style/AMicroGrey"
+                            android:textColor="@color/colorPrimary"
+                            app:text="@{Strings.screen_meeting_location_text_terms_and_conditions}"
+                            tools:text="@string/screen_meeting_location_text_terms_and_conditions"/>
+
+                    </LinearLayout>
 
                     <co.yap.widgets.CoreButton
                         android:id="@+id/next_button"

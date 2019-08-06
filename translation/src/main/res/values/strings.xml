@@ -128,8 +128,10 @@
     <string name="screen_meeting_location_input_text_address_hint">Enter your address</string>
     <string name="screen_meeting_location_input_text_landmark_title">Landmark (optional)</string>
     <string name="screen_meeting_location_input_text_landmark_hint">Enter landmark</string>
-    <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added succesfully</string>
     <string name="screen_meeting_location_button_confirm_selected_location">Confirm location</string>
+    <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added successfully</string>
+    <string name="screen_meeting_location_text_accept_terms">I accept the </string>
+    <string name="screen_meeting_location_text_terms_and_conditions"> CRS and FATCA Terms and Conditions</string>
 
     <!-- Eid details review screen -->
     <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>

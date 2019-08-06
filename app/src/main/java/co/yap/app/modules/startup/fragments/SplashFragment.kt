@@ -10,7 +10,7 @@ import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
 import co.yap.modules.kyc.activities.MapDetailViewActivity
- import co.yap.yapcore.BaseFragment
+import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class SplashFragment : BaseFragment<ISplash.ViewModel>(),
