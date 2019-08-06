@@ -10,7 +10,7 @@ import android.location.Location
 import android.util.Log
 import androidx.core.content.ContextCompat
 import co.yap.R
-import co.yap.modules.kyc.activities.MapDetailViewActivity
+import co.yap.modules.kyc.activities.AddressSelectionActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
 import co.yap.translation.Translator
@@ -44,11 +44,11 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
 
-    fun mapDetailViewActivity(): MapDetailViewActivity {
-        return MapDetailViewActivity()
+    fun mapDetailViewActivity(): AddressSelectionActivity {
+        return AddressSelectionActivity()
     }
 
-    override var mapDetailViewActivity: MapDetailViewActivity = mapDetailViewActivity()
+    override var mapDetailViewActivity: AddressSelectionActivity = mapDetailViewActivity()
         get() = field
         set(value) {
 
@@ -62,7 +62,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         }
 
 
-    private val TAG = "MapDetailViewActivity"
+    private val TAG = "AddressSelectionActivity"
 
     private lateinit var mMap: GoogleMap
     private var DEFAULT_ZOOM = 15
@@ -237,7 +237,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             setUpMarker(markerLatLng!!, placeName, markerSnippet)
 
                             locationMarker = mMap.addMarker(markerOptions)
-                            toggleMarkerVisibility()
+//                            toggleMarkerVisibility()
                             mMap.animateCamera(
                                 CameraUpdateFactory.newLatLngZoom(
                                     mDefaultLocation,
@@ -248,6 +248,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
                                 attemptFetchPhoto(currPlace)
                             } else {
+                                toggleMarkerVisibility()
                                 state.cardView = true
                                 clickEvent.setValue(MARKER_CLICK_ID)
                             }
@@ -299,9 +300,9 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         }
 
         photoTask.addOnCompleteListener {
+            toggleMarkerVisibility()
             state.loading = false
             state.cardView = true
-
             clickEvent.setValue(MARKER_CLICK_ID)
 
         }
@@ -317,10 +318,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         state.headingTitle = this.placeName
         state.addressField = this.placeName + ", " + this.placeTitle
         state.landmarkField = this.placeName
-        Log.e(TAG, "landmarkField: " + state.headingTitle)
-        Log.e(TAG, "landmarkField: " + state.addressField)
-        Log.e(TAG, "landmarkField: " + state.landmarkField)
-
+        toggleMarkerVisibility()
         state.placePhoto = this.placePhoto
         state.subHeadingTitle =
             Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_selected_subtitle)
@@ -358,5 +356,4 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         state.isMapOnScreen = true
         toggleMarkerVisibility()
     }
-
 }

@@ -45,7 +45,7 @@
         </activity>
 
         <activity
-            android:name=".modules.kyc.activities.MapDetailViewActivity"
+            android:name=".modules.kyc.activities.AddressSelectionActivity"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

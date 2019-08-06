@@ -24,12 +24,12 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
 
-class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>(),
+class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel>(),
     OnMapReadyCallback {
 
 
     companion object {
-        fun newIntent(context: Context): Intent = Intent(context, MapDetailViewActivity::class.java)
+        fun newIntent(context: Context): Intent = Intent(context, AddressSelectionActivity::class.java)
     }
 
 
@@ -51,7 +51,7 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
     @RequiresApi(Build.VERSION_CODES.M)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel!!.mapDetailViewActivity = MapDetailViewActivity()
+        viewModel!!.mapDetailViewActivity = AddressSelectionActivity()
 
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
@@ -131,21 +131,21 @@ class MapDetailViewActivity : BaseBindingActivity<IAddressSelection.ViewModel>()
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(400)
+            .duration(300)
             .playOn(findViewById(R.id.cvLocationCard))
     }
 
     private fun expandMap() {
         YoYo.with(Techniques.FadeOut)
-            .duration(100)
+            .duration(200)
             .playOn(findViewById(R.id.btnLocation));
 
         YoYo.with(Techniques.SlideOutUp)
-            .duration(500)
+            .duration(600)
             .playOn(findViewById(R.id.flTitle));
 
         YoYo.with(Techniques.SlideOutDown)
-            .duration(500)
+            .duration(600)
             .playOn(findViewById(R.id.flAddressDetail))
 
         viewModel.state.isMapOnScreen

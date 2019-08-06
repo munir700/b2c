@@ -52,6 +52,7 @@
                     android:background="@color/white"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:layout_marginBottom="@dimen/margin_medium"
                     android:layout_gravity="top">
 
                     <TextView
@@ -136,7 +137,7 @@
                         tools:ignore="MissingConstraints"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/viewMapFragment"
-                        android:layout_marginTop="@dimen/margin_medium"
+                        android:layout_marginTop="@dimen/margin_large"
                         android:layout_marginStart="@dimen/margin_medium"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintStart_toStartOf="parent"
@@ -216,7 +217,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="@dimen/margin_medium">
+                         android:layout_marginBottom="@dimen/margin_medium">
 
                         <CheckBox
                             android:id="@+id/cbTermsAndConditions"
