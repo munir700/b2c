@@ -58,39 +58,44 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
     private val permissionGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
-            startActivity(
+           /* startActivity(
                 newIntent(
                     context as MainActivity,
                     Constants.NOTIFICATION_SCREEN_TYPE
                 )
-            )
+            )*/
+            val action = VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(Constants.NOTIFICATION_SCREEN_TYPE)
+            findNavController().navigate(action)
+
             activity?.finish()
         } else {
             //startActivity(LiteDashboardFragment.newIntent(this, AccountType.B2C_ACCOUNT))
             findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+            activity?.finish()
         }
     }
 
     private val permissionNotGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
-            startActivity(
+           /* startActivity(
                 newIntent(
                     context as MainActivity,
                     Constants.NOTIFICATION_SCREEN_TYPE
                 )
-            )
+            )*/
+            val action = VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(Constants.NOTIFICATION_SCREEN_TYPE)
+            findNavController().navigate(action)
             activity?.finish()
         } else {
             //startActivity(LiteDashboardFragment.newIntent(this, AccountType.B2C_ACCOUNT))
             findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+            activity?.finish()
         }
     }
 
     private fun getScreenType(): String {
-        //arguments?.let { .fromBundle(it).username } as String
-        //return intent.getStringExtra(SCREEN_TYPE)
-        return ""
+        return  arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
     }
 
 }

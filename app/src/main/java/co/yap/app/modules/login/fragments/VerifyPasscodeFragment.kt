@@ -108,6 +108,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             if (viewModel.isFingerprintLogin) {
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
                 findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+                activity?.finish()
             } else {
                 viewModel.validateDevice()
             }
@@ -140,6 +141,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
             } else {
                 findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+                activity?.finish()
             }
         } else {
             viewModel.createOtp()
