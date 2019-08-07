@@ -54,6 +54,7 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 viewModel.state.nameList[0] ?: ""
             )
             findNavController().navigate(action)
+            activity?.finishAffinity()
         }
 
         val display = activity!!.windowManager.defaultDisplay

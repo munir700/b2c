@@ -45,6 +45,7 @@ class PhoneVerificationSignInFragment : BaseBindingFragment<IPhoneVerificationSi
 
     private val postDemographicDataObserver = Observer<Boolean> {
         findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+        activity?.finish()
     }
 
     private fun setUsername() {
