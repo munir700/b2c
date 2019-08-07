@@ -4,6 +4,8 @@ import android.app.Application;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import co.yap.translation.Strings;
+import co.yap.translation.Translator;
 import com.digitify.identityscanner.BR;
 import com.digitify.identityscanner.R;
 import com.digitify.identityscanner.core.arch.SingleLiveEvent;
@@ -16,6 +18,7 @@ import com.digitify.identityscanner.core.detection.models.Entity;
 import com.digitify.identityscanner.core.detection.models.Mrz;
 import com.digitify.identityscanner.core.detection.models.Passport;
 import com.digitify.identityscanner.core.detection.utils.OpenCVUtils;
+import com.digitify.identityscanner.modules.docscanner.enums.DocumentPageType;
 import com.digitify.identityscanner.modules.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.modules.docscanner.enums.ImageReadinessStatus;
 import com.digitify.identityscanner.modules.docscanner.interfaces.ICamera;
@@ -31,57 +34,27 @@ import androidx.databinding.Observable;
 
 public class CameraViewModel extends BaseAndroidViewModel implements ICamera.ViewModel {
     private WorkerHandler workHandler = WorkerHandler.get("camera_processing");
-    private WorkerHandler mrzHandler = WorkerHandler.get("mrz_detector");
 
     private int mFrameCount = 0;
     private int FRAME_PROCESS_RATE = 3;
 
     private DocumentType documentType;
+    private DocumentPageType scanMode;
     private SingleLiveEvent<String> capturedImage;
     private SingleLiveEvent<String> capturedDocument;
     private CameraState state;
     private CardDetector cardDetector;
-    private MrzDetector mrzDetector;
     private PassportDetector passportDetector;
 
     public CameraViewModel(@NonNull Application application) {
         super(application);
-        init();
         reset();
-    }
-
-    private void init() {
-
-        // only for debugging purpose
-        if (Constants.SHOW_DEBUG_VIEWS) {
-            // Observe if Card is detected.. then do some more processing on card
-            getState().addOnPropertyChangedCallback(new Observable.OnPropertyChangedCallback() {
-                @Override
-                public void onPropertyChanged(Observable sender, int propertyId) {
-                    if (propertyId == BR.cardPreview) {
-                        findMrz(getState().getCardPreview());
-                    }
-                }
-            });
-        }
     }
 
     @Override
     public void reset() {
         getState().reset();
-    }
-
-    private void findMrz(final Bitmap bitmap) {
-        mrzHandler.post(() -> {
-            if (bitmap != null) {
-                Mrz mrz = getMrzDetector().detect(bitmap);
-                if (getMrzDetector().validate(mrz)) {
-                    getState().setMrzPreview(getDocumentType() == DocumentType.EID ? OpenCVUtils.binaryText(mrz.getBitmap()) : mrz.getBitmap());
-                } else {
-                    getState().setMrzPreview(null);
-                }
-            }
-        });
+        getState().setSubmitButtonTitle(getString(Strings.idenetity_scanner_sdk_screen_scanner_button_scan));
     }
 
     @Override
@@ -113,14 +86,10 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
         if (card.isValid()) {
             // we found a card. so show the visual
             getState().setCardRect(card.getBoundingBox());
-            getState().setImageReadinessStatus(ImageReadinessStatus.OK);
-            getState().setCardPreview(OpenCVUtils.convertToBitmap(card.getDetection()));
             return;
         }
 
         getState().setCardRect(null);
-        getState().setImageReadinessStatus(ImageReadinessStatus.NOK);
-        getState().setCardPreview(null);
     }
 
     @Override
@@ -150,7 +119,7 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
                 String file = ImageUtils.savePicture(getApplication().getApplicationContext(), entity.getBitmap());
                 if (validateFile(file)) setCapturedDocument(file);
             } else {
-                setInstructions(getString(R.string.error_detecting_document));
+                setInstructions(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_detecting_document));
             }
             getState().setCapturing(false);
         }
@@ -159,7 +128,7 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
     private boolean validateFile(String file) {
         if (TextUtils.isEmpty(file)) {
             // This is most probably a developer's mistake. Handle it.
-            setInstructions(getString(R.string.error_saving_file));
+            setInstructions(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_saving_file));
             return false;
         }
         return true;
@@ -193,10 +162,6 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
         getCapturedDocument().setValue(filename);
     }
 
-    @Override
-    public void setTitle(String title) {
-        getState().setTitle(title);
-    }
 
     @Override
     public void setInstructions(String inst) {
@@ -220,13 +185,47 @@ public class CameraViewModel extends BaseAndroidViewModel implements ICamera.Vie
         return cardDetector;
     }
 
-    public MrzDetector getMrzDetector() {
-        if (mrzDetector == null) mrzDetector = new MrzDetector();
-        return mrzDetector;
-    }
-
     public PassportDetector getPassportDetector() {
         if (passportDetector == null) passportDetector = new PassportDetector();
         return passportDetector;
+    }
+
+    @Override
+    public void setScanMode(DocumentPageType mode) {
+        this.scanMode = mode;
+        reset();
+        getState().setTitle(getTitleForMode(mode));
+        getState().setStepInstructions(getStepString(mode));
+    }
+
+    @Override
+    public DocumentPageType getScanMode() {
+        return this.scanMode;
+    }
+
+    private String getTitleForMode(DocumentPageType mode) {
+        if (getDocumentType() == DocumentType.PASSPORT) {
+            return getString(R.string.scan_passport);
+        } else if (getDocumentType() == DocumentType.EID) {
+            return (mode == DocumentPageType.FRONT) ?
+                    getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_front_side) :
+                    getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_back_side);
+        }
+
+        return getString(Strings.idenetity_scanner_sdk_screen_scanner_button_scan);
+
+    }
+
+    private String getStepString(DocumentPageType mode) {
+        if (getDocumentType() == DocumentType.PASSPORT) {
+            return getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_step_1);
+        } else if (getDocumentType() == DocumentType.EID) {
+            return (mode == DocumentPageType.FRONT) ?
+                    getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_step_1) :
+                    getString(Strings.idenetity_scanner_sdk_screen_scanner_display_text_step_2);
+        }
+
+        return getString(Strings.idenetity_scanner_sdk_screen_scanner_button_scan);
+
     }
 }

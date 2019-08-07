@@ -4,13 +4,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
-
 import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R
-import co.yap.app.modules.startup.activities.AccountSelectionActivity
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.app.modules.startup.activities.AccountSelectionActivity
 import co.yap.yapcore.BaseBindingActivity
 
 // TODO: Remove this file once all references are invalid
@@ -22,7 +21,8 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.screen_log_in
+
+    override fun getLayoutId(): Int = R.layout.fragment_log_in
 
     override val viewModel: ILogin.ViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
@@ -31,6 +31,12 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
         super.onCreate(savedInstanceState)
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.signUpButtonPressEvent.observe(this, signUpButtonObserver)
+    }
+
+    override fun onDestroy() {
+        viewModel.signInButtonPressEvent.removeObservers(this)
+        viewModel.signUpButtonPressEvent.removeObservers(this)
+        super.onDestroy()
     }
 
     private val signInButtonObserver = Observer<Boolean> {
@@ -46,9 +52,4 @@ class LogInActivity : BaseBindingActivity<ILogin.ViewModel>(), ILogin.View {
         finish()
     }
 
-    override fun onDestroy() {
-        viewModel.signInButtonPressEvent.removeObservers(this)
-        viewModel.signUpButtonPressEvent.removeObservers(this)
-        super.onDestroy()
-    }
 }

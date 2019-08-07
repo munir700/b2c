@@ -8,6 +8,7 @@ import co.yap.yapcore.SingleLiveEvent
 
 class MeetingConfirmationViewModel(application: Application) : BaseViewModel<IMeetingConfirmation.State>(application),
     IMeetingConfirmation.viewModel {
+
     override val goToDashboardButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: MeetingConfirmationState = MeetingConfirmationState()
 

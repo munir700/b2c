@@ -6,14 +6,16 @@ import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.yapcore.BaseState
 
 class CongratulationsState : BaseState(), ICongratulations.State {
-    val nameList: Array<String?> = arrayOfNulls(1)
 
-    @get:Bindable
-    override var name: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.name)
-        }
+    override val nameList: Array<String?> = arrayOfNulls(1)
+
+//    // TODO: This is not being used
+//    @get:Bindable
+//    override var name: String = ""
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.name)
+//        }
 
     @get:Bindable
     override var ibanNumber: String = ""

@@ -12,7 +12,6 @@ class SystemPermissionState : BaseState(), ISystemPermission.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.icon)
-
         }
 
     override var title: String = ""

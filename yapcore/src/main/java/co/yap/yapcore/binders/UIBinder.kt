@@ -34,6 +34,7 @@ import com.daimajia.androidanimations.library.YoYo
 
 
 object UIBinder {
+
     @BindingAdapter("bitmap")
     @JvmStatic
     fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
@@ -59,7 +60,6 @@ object UIBinder {
         if (drawable != null)
             view.setImageDrawable(drawable)
     }
-
 
     @BindingAdapter("text")
     @JvmStatic
@@ -163,7 +163,6 @@ object UIBinder {
             }
         }
     }
-
 
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     @JvmStatic

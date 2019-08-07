@@ -11,7 +11,9 @@ import kotlinx.android.synthetic.main.fragment_mobile.*
 
 
 class MobileFragment : OnboardingChildFragment<IMobile.ViewModel>() {
+
     override fun getBindingVariable(): Int = BR.viewModel
+
     override fun getLayoutId(): Int = R.layout.fragment_mobile
 
     override val viewModel: IMobile.ViewModel

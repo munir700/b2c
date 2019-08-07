@@ -31,4 +31,7 @@
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
 
+    <!-- Objects -->
+    <color name="kycCard">#247c4dff</color>
+
 </resources>

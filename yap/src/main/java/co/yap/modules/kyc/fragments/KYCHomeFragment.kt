@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
@@ -15,7 +16,7 @@ import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
 
 private const val SCAN_EID_CAM = 12
 
-class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View {
+class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -29,12 +30,11 @@ class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.cvCard -> openCardScanner()
-                R.id.btnNext -> {
-                }
-                R.id.tvSkip -> {
-                }
+                R.id.btnNext -> findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                R.id.tvSkip -> findNavController().navigate(R.id.action_KYCHomeFragment_to_liteDashboardActivity)
             }
         })
+
     }
 
     override fun onDestroyView() {
@@ -61,5 +61,7 @@ class KYCHomeFragment : BaseBindingFragment<IKYCHome.ViewModel>(), IKYCHome.View
             SCAN_EID_CAM
         )
     }
+
+
 
 }

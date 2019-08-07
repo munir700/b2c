@@ -5,7 +5,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.EidInfoReviewViewModel"/>
+            type="co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
     </data>
@@ -49,6 +49,7 @@
                 android:layout_marginEnd="@dimen/margin_medium"
                 tools:text="@string/screen_b2c_eid_info_review_display_text_sub_title"
                 app:text="@{Strings.screen_b2c_eid_info_review_display_text_sub_title}"
+                app:concat="@{viewModel.state.titleName}"
                 />
 
             <androidx.cardview.widget.CardView
@@ -72,12 +73,12 @@
 
                     <ImageView
                         android:id="@+id/ivProfile"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_profile"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_profile"
                         android:contentDescription="@string/empty_string"
                         />
 
@@ -96,10 +97,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@+id/tvEid"
-                        app:layout_constraintStart_toStartOf="@+id/tvEid"
                         style="@style/ASmallGrey"
                         tools:text="@string/screen_b2c_eid_info_review_display_text_emirates_id_sub_heading"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEid"
+                        app:layout_constraintStart_toStartOf="@+id/tvEid"
                         app:text="@{Strings.screen_b2c_eid_info_review_display_text_emirates_id_sub_heading}"/>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -121,13 +122,13 @@
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_normal"
                 android:drawableEnd="@drawable/path"
                 app:layout_constraintTop_toBottomOf="@+id/tvNameHeading"
                 tools:text="Nada Hassan"
                 android:text="@{viewModel.state.fullName}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
                 style="@style/Large"
                 />
 
@@ -172,12 +173,12 @@
                 android:id="@+id/tvDOB"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                tools:text="01/01/1979"
+                android:text="@{viewModel.state.dateOfBirth}"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:drawableEnd="@drawable/path"
                 app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading"
-                tools:text="01/01/1979"
-                android:text="@{viewModel.state.dateOfBirth}"
                 style="@style/Large"
                 />
 
@@ -185,24 +186,25 @@
                 android:id="@+id/tvGenderHeading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintStart_toStartOf="@+id/tvDOB"
-                style="@style/ASmallGrey"
-                android:layout_marginTop="@dimen/margin_medium"
                 app:layout_constraintTop_toBottomOf="@+id/tvDOB"
                 tools:text="@string/screen_b2c_eid_info_review_display_text_gender_heading"
                 app:text="@{Strings.screen_b2c_eid_info_review_display_text_gender_heading}"
+                app:layout_constraintStart_toStartOf="@+id/tvDOB"
+                style="@style/ASmallGrey"
+                android:layout_marginTop="@dimen/margin_medium"
+
                 />
 
             <TextView
                 android:id="@+id/tvGender"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                tools:text="Female"
+                android:text="@{viewModel.state.gender}"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
                 android:drawableEnd="@drawable/path"
                 app:layout_constraintTop_toBottomOf="@+id/tvGenderHeading"
-                tools:text="Female"
-                android:text="@{viewModel.state.gender}"
                 style="@style/Large"
                 />
 
@@ -223,12 +225,12 @@
                 android:id="@+id/tvExpiryDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/margin_normal"
-                android:drawableEnd="@drawable/path"
                 app:layout_constraintTop_toBottomOf="@+id/tvExpiryDateHeading"
                 tools:text="01/01/2019"
                 android:text="@{viewModel.state.expiryDate}"
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_normal"
+                android:drawableEnd="@drawable/path"
                 style="@style/Large"
                 />
 
@@ -237,18 +239,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 style="@style/RectangleBtnStyle"
-                tools:text="@string/screen_b2c_eid_info_review_button_title_confirm"
-                app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginBottom="@dimen/margin_normal"
-                app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
                 app:layout_constraintTop_toBottomOf="@+id/tvExpiryDate"
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginLeft="@dimen/margin_xxl"
                 android:layout_marginRight="@dimen/margin_xxl"
                 android:gravity="center"
                 tools:ignore="MissingConstraints"
+                tools:text="@string/screen_b2c_eid_info_review_button_title_confirm"
+                app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginBottom="@dimen/margin_normal"
+                app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
                 app:layout_constraintVertical_bias="0.75"
                 />
 
@@ -256,13 +258,13 @@
                 android:id="@+id/tvNoThanks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/Large"
-                android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:layout_marginBottom="@dimen/margin_large"
                 tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid"
+                style="@style/Large"
+                android:textColor="@color/colorPrimary"
                 app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
                 />
         </androidx.constraintlayout.widget.ConstraintLayout>

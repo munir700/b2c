@@ -4,7 +4,6 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
-
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Lifecycle;
@@ -13,6 +12,20 @@ import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.OnLifecycleEvent;
 
 public class PermissionsManager implements LifecycleObserver {
+
+    private static int PERMISSION_REQUEST = 13;
+    private static String ALL_PERMISSIONS = "ALL";
+    private static final String[] APP_PERMISSIONS = {
+            Manifest.permission.CAMERA,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+
+    private Activity activity;
+    private String requestedPermission = ALL_PERMISSIONS;
+    private OnPermissionGrantedListener onPermissionGrantedListener = OnPermissionGrantedListener.DEFAULT;
+
 
     public interface OnPermissionGrantedListener {
         void onPermissionGranted(String permission);
@@ -31,19 +44,6 @@ public class PermissionsManager implements LifecycleObserver {
             }
         };
     }
-
-    private static int PERMISSION_REQUEST = 13;
-    private static String ALL_PERMISSIONS = "ALL";
-    private static final String[] APP_PERMISSIONS = {
-            Manifest.permission.CAMERA,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.ACCESS_FINE_LOCATION
-    };
-
-    private Activity activity;
-    private String requestedPermission = ALL_PERMISSIONS;
-    private OnPermissionGrantedListener onPermissionGrantedListener = OnPermissionGrantedListener.DEFAULT;
 
     public PermissionsManager(Activity activity, OnPermissionGrantedListener listener) {
         this.activity = activity;

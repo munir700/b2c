@@ -11,7 +11,7 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils
 import java.lang.StringBuilder
 
-class CreatePasscodeState : BaseState(), ICreatePasscode.State {
+open class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 
     @get:Bindable
     override var sequence: Boolean = false
@@ -62,11 +62,9 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
     override fun getTextWatcher(): TextWatcher {
         return object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-
             }
 
             override fun beforeTextChanged(p0: CharSequence, p1: Int, p2: Int, p3: Int) {
-
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -75,6 +73,5 @@ class CreatePasscodeState : BaseState(), ICreatePasscode.State {
             }
         }
     }
-
 }
 

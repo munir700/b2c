@@ -9,14 +9,17 @@ import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
-class PhoneVerificationViewModel(application: Application) :
+open class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
     IRepositoryHolder<MessagesRepository> {
 
+    override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
+
     override val state: PhoneVerificationState = PhoneVerificationState(application)
-    override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    //override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: MessagesRepository = MessagesRepository
 
     override fun onResume() {
@@ -24,16 +27,17 @@ class PhoneVerificationViewModel(application: Application) :
         setProgress(40)
     }
 
-
     override fun onCreate() {
         super.onCreate()
+        state.verificationTitle = getString(Strings.screen_verify_phone_number_display_text_title)
+        state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
         state.mobileNumber[0] = parentViewModel!!.onboardingData.formattedMobileNumber
         state.reverseTimer(10)
         state.validResend = false
     }
 
-    override fun handlePressOnSendButton() {
-        verifyOtp()
+    override fun handlePressOnSendButton(id :Int) {
+        verifyOtp(id)
     }
 
     override fun handlePressOnResendOTP() {
@@ -60,7 +64,7 @@ class PhoneVerificationViewModel(application: Application) :
         }
     }
 
-    private fun verifyOtp() {
+    private fun verifyOtp(id:Int) {
         launch {
             state.loading = true
             when (val response = repository.verifyOtpOnboarding(
@@ -71,7 +75,7 @@ class PhoneVerificationViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    nextButtonPressEvent.value = true
+                    nextButtonPressEvent.call()
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

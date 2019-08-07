@@ -8,14 +8,25 @@ import co.yap.R
 import co.yap.modules.onboarding.interfaces.IPhoneVerification
 import co.yap.yapcore.BaseState
 
-class PhoneVerificationState(application: Application) : BaseState(), IPhoneVerification.State {
+open class PhoneVerificationState(application: Application) : BaseState(), IPhoneVerification.State {
+    @get:Bindable
+    override var verificationTitle: String="I am your title"
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.verificationTitle)
+        }
+    @get:Bindable
+    override var verificationDescription: String=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.verificationDescription)
+        }
 
     val mContext = application.applicationContext
     val mobileNumber: Array<String?> = arrayOfNulls(1)
 
     @get:Bindable
     override var otp: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.otp)
@@ -40,7 +51,6 @@ class PhoneVerificationState(application: Application) : BaseState(), IPhoneVeri
 
     @get:Bindable
     override var timer: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.timer)
@@ -50,19 +60,18 @@ class PhoneVerificationState(application: Application) : BaseState(), IPhoneVeri
 
     @get:Bindable
     override var color: Int = mContext.resources.getColor(R.color.disabled)
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.color)
         }
 
     private fun validate(): Boolean {
-        var vlidateOtp: Boolean = false
+        var validateOtp: Boolean = false
         if (!otp.isNullOrEmpty() && otp.length == 4) {
-            vlidateOtp = true
+            validateOtp = true
             valid = true
         }
-        return vlidateOtp
+        return validateOtp
     }
 
     override fun reverseTimer(Seconds: Int) {

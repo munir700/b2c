@@ -116,9 +116,7 @@ public class IdentityScannerViewModel extends BaseAndroidViewModel implements II
     }
 
     private void onResults(IdentityScannerResult result) {
-        getView().showScanResults(result);
-
-        // getView().finishWithResult(getScannerResult());
+        getView().finishWithResult(getScannerResult());
     }
 
     @Override

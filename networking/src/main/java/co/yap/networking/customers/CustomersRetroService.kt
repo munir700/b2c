@@ -7,6 +7,9 @@ import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.networking.customers.responsedtos.SignUpResponse
 import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -32,5 +35,21 @@ interface CustomersRetroService {
     // Validate demographic data
     @GET(CustomersRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
     suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ValidateDeviceResponse>
+
+    // Upload Documents Request
+    @Multipart
+    @POST(CustomersRepository.URL_UPLOAD_DOCUMENTS)
+    suspend fun uploadDocuments(
+        files: List<MultipartBody.Part>,
+        @Part("documentType") documentType: RequestBody,
+        @Part("firstName") firstName: RequestBody,
+        @Part("lastName") lastName: RequestBody,
+        @Part("nationality") nationality: RequestBody,
+        @Part("dateExpiry") dateExpiry: RequestBody,
+        @Part("dob") dob: RequestBody,
+        @Part("fullName") fullName: RequestBody,
+        @Part("gender") gender: RequestBody,
+        @Part("identityNo") identityNo: RequestBody
+    ): Response<ApiResponse>
 
 }

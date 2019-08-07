@@ -166,6 +166,7 @@ project.ext {
             [configuration: "api", dependency: libraries.navigationFragmentKtx],
             [configuration: "api", dependency: libraries.navigationUItKtx],
             [configuration: "api", dependency: libraries.otpView],
+            [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.numberFomater],
             [configuration: "implementation", dependency: libraries.recyclerfastscroll],
             [configuration: "implementation", dependency: libraries.gson],

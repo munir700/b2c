@@ -19,14 +19,12 @@ class InternationalPhoneTextWatcher
     private val internationalOnly: Boolean = true
 ) :
     TextWatcher {
-    internal var phoneNumberUtil: PhoneNumberUtil
-
+    private var phoneNumberUtil: PhoneNumberUtil
     private var mSelfChange = false
-
     private var mStopFormatting: Boolean = false
     private var mFormatter: AsYouTypeFormatter? = null
     private var countryNameCode: String? = null
-    internal var lastFormatted: Editable? = null
+    private var lastFormatted: Editable? = null
     private var countryPhoneCode: Int = 0
 
     private var needUpdateForCountryChange = false

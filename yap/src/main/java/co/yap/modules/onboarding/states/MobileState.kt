@@ -16,7 +16,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
     val VISIBLE: Int = 0x00000000
     val GONE: Int = 0x00000008
-
     val mContext = application.applicationContext
     var countryCode: String = "+971 "
 
@@ -27,10 +26,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             field = value
             notifyPropertyChanged(BR.background)
         }
-        get() {
-            return field
-        }
-
 
     @get:Bindable
     override var drawbleRight: Drawable? = null
@@ -39,9 +34,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             notifyPropertyChanged(BR.drawbleRight)
 
         }
-        get() {
-            return field
-        }
 
     @get:Bindable
     override var mobile: String = ""
@@ -49,9 +41,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             field = value
             notifyPropertyChanged(BR.mobile)
 
-        }
-        get() {
-            return field
         }
 
     @get:Bindable
@@ -62,9 +51,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             setErrorResponseLayout()
 
         }
-        get() {
-            return field
-        }
 
     @get:Bindable
     override var valid: Boolean = false
@@ -72,13 +58,9 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             field = value
             notifyPropertyChanged(BR.valid)
         }
-        get() {
-            return field
-        }
 
     @get:Bindable
     override var activeFieldValue: Boolean = true
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.activeFieldValue)
@@ -86,7 +68,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
     @get:Bindable
     override var errorVisibility: Int = VISIBLE
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.handleBackPress)
@@ -94,21 +75,19 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
     @get:Bindable
     var etMobileNumber: EditText? = null
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.etMobileNumber)
             findKeyBoardFocus()
             registerCarrierEditText()
-
         }
 
     private fun registerCarrierEditText() {
 
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(mContext)
-        ccpLoadNumber!!.registerCarrierNumberEditText(this!!.etMobileNumber!!)
+        ccpLoadNumber!!.registerCarrierNumberEditText(this.etMobileNumber!!)
 
-        ccpLoadNumber!!.setPhoneNumberValidityChangeListener(object :
+        ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
             CountryCodePicker.PhoneNumberValidityChangeListener {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
@@ -137,7 +116,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     }
 
     private fun findKeyBoardFocus() {
-
         etMobileNumber!!.getViewTreeObserver().addOnGlobalLayoutListener(
             object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
@@ -154,7 +132,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     }
 
     fun keyboardShown(rootView: View): Boolean {
-
         val softKeyboardHeight = 100
         val r = Rect()
         rootView.getWindowVisibleDisplayFrame(r)
@@ -176,7 +153,6 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
              errorVisibility = VISIBLE
             valid = false
         }
-
     }
 
     private fun setSuccessUI() {

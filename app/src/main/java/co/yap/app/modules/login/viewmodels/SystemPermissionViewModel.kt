@@ -24,11 +24,11 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
     }
 
 
-    override fun permissonGranted() {
+    override fun permissionGranted() {
         permissionGrantedPressEvent.value = true
     }
 
-    override fun permissonNotGranted() {
+    override fun permissionNotGranted() {
         permissionNotGrantedPressEvent.value = true
     }
 
@@ -54,5 +54,4 @@ class SystemPermissionViewModel(application: Application) : BaseViewModel<ISyste
         state.termsAndConditionsVisibility = false
         state.buttonTitle = getString(Strings.screen_notification_permission_button_title)
     }
-
 }

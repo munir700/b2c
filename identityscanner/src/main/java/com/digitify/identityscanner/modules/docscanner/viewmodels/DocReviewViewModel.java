@@ -3,6 +3,7 @@ package com.digitify.identityscanner.modules.docscanner.viewmodels;
 import android.app.Application;
 import android.graphics.Bitmap;
 
+import co.yap.translation.Strings;
 import com.digitify.identityscanner.R;
 import com.digitify.identityscanner.core.detection.detectors.FaceDetector;
 import com.digitify.identityscanner.core.detection.detectors.MrzDetector;
@@ -114,7 +115,7 @@ public class DocReviewViewModel extends BaseAndroidViewModel implements IDocRevi
 
     private void onFaceValidationComplete(Bitmap bm, boolean isValidated) {
         getState().setDocValid(isValidated);
-        getState().setReviewText(isValidated ? getString(R.string.review_ok) : getString(R.string.review_face_nok));
+        getState().setReviewText(isValidated ? getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_review) : getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_face));
     }
 
     private void onMrzValidationComplete(Bitmap bitmap, boolean isValidated) {
@@ -125,19 +126,19 @@ public class DocReviewViewModel extends BaseAndroidViewModel implements IDocRevi
                 public void onIdentityFetchingComplete(Identity identity, String mrz) {
                     getState().setLoading(false);
                     getState().setDocValid(true);
-                    getState().setReviewText(getString(R.string.review_ok));
+                    getState().setReviewText(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_review));
                 }
 
                 @Override
                 public void onIdentityFetchingFailed(String error) {
                     getState().setLoading(false);
                     getState().setDocValid(false);
-                    getState().setReviewText(getString(R.string.review_mrz_nok));
+                    getState().setReviewText(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable));
                 }
             }).build();
         } else {
             getState().setDocValid(false);
-            getState().setReviewText(getString(R.string.review_mrz_nok));
+            getState().setReviewText(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable));
         }
 
     }

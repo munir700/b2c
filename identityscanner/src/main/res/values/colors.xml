@@ -9,6 +9,7 @@
     <color name="semi_black">#50000000</color>
     <color name="semi_dark">#80000000</color>
     <color name="semi_white">#50ffffff</color>
+    <color name="semi_white_80">#b8ffffff</color>
     <color name="transparent">#00000000</color>
     <color name="red">#EB332B</color>
     <color name="green">#8BC34A</color>

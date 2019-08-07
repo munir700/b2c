@@ -1,4 +1,4 @@
-package co.yap.app.login
+package co.yap.yapcore.helpers.biometric
 
 import android.Manifest
 import android.content.Context

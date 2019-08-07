@@ -3,21 +3,18 @@ package co.yap.networking.messages
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
-import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
-import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
-import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
+import co.yap.networking.messages.requestdtos.*
 import co.yap.networking.messages.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 object MessagesRepository : BaseRepository(), MessagesApi {
 
-
     const val URL_CREATE_OTP_ONBOARDING = "/messages/api/otp/sign-up/mobile-no"
     const val URL_VERIFY_OTP_ONBOARDING = "/messages/api/otp/sign-up/verify"
     const val URL_CREATE_OTP_GENERIC = "/messages/api/otp"
     const val URL_VERIFY_OTP_GENERIC = "/messages/api/otp"
+    const val URL_FORGOT_PASSCODE="/messages/api/otp/action/forgot-password"
 
     private val API: MessagesRetroService = RetroNetwork.createService(MessagesRetroService::class.java)
 
@@ -33,4 +30,8 @@ object MessagesRepository : BaseRepository(), MessagesApi {
 
     override suspend fun verifyOtpGeneric(verifyOtpGenericRequest: VerifyOtpGenericRequest): RetroApiResponse<ValidateDeviceResponse> =
         AuthRepository.executeSafely(call = { API.verifyOtpGeneric(verifyOtpGenericRequest) })
+
+
+    override suspend fun createForgotPasscodeOTP(createForgotPasscodeOtp: CreateForgotPasscodeOtp): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.createForgotPasscodeOTP(createForgotPasscodeOtp) })
 }

@@ -8,6 +8,7 @@ import org.json.JSONArray
 import org.json.JSONObject
 
 internal abstract class SessionValidator : TokenValidator, Interceptor {
+
     override var isLoggedIn: Boolean
         get() = CookiesManager.isLoggedIn
         set(value) {
@@ -28,9 +29,7 @@ internal abstract class SessionValidator : TokenValidator, Interceptor {
             // need to refresh the token since previous token was invalid
             // TODO: Implement token refresh logic here. For now let's invalidate
             invalidate()
-
         }
-
         return response
     }
 }

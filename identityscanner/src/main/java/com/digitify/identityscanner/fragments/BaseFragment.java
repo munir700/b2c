@@ -31,7 +31,7 @@ public abstract class BaseFragment extends Fragment implements IBase.View {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setTitle(getScreenTitle());
+        // getActivity().setTitle(getScreenTitle());
     }
 
     protected abstract String getScreenTitle();

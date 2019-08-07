@@ -25,6 +25,7 @@ class CoreDialerPad @JvmOverloads constructor(
     defStyle: Int = 0,
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
+
     var editText: EditText
     var list: ArrayList<Int> = ArrayList()
     var dialerType = 0
@@ -93,8 +94,6 @@ class CoreDialerPad @JvmOverloads constructor(
                 addListSizeForPasscode()
             }
         }
-        // if (it.id == R.id.btnFingerPrint) etPassCodeText.append("0")
-
         onButtonClickListener?.onClick(it)
     }
 
@@ -108,9 +107,7 @@ class CoreDialerPad @JvmOverloads constructor(
             dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 0)
             val dialerMaxLength = typedArray.getInt(R.styleable.CoreDialerPad_dialer_max_length, 6)
             etPassCodeText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(dialerMaxLength))
-            /* val error = resources.getText(
-                 typedArray.getResourceId(R.styleable.CoreInputField_view_error_input_field, R.string.empty_string)
-             )*/
+
             if (dialerType == 1) performPassCode()
 
             button1.setOnClickListener(onClickListener)
@@ -124,8 +121,6 @@ class CoreDialerPad @JvmOverloads constructor(
             button9.setOnClickListener(onClickListener)
             button0.setOnClickListener(onClickListener)
             btnFingerPrint.setOnClickListener(onClickListener)
-            // if (error.isNotEmpty()) settingUIForError(error = error.toString()) else settingUIForNormal()
-//            typedArray.recycle()
 
             buttonRemove.setOnClickListener {
                     removePasscodeFromList()
@@ -142,7 +137,10 @@ class CoreDialerPad @JvmOverloads constructor(
 
     fun startAnimation() {
         llPasscode.startAnimation(animShake)
-       // etPassCodeText.setText("")
+    }
+
+    fun startAnimationDigits() {
+        etPassCodeText.startAnimation(animShake)
     }
 
     fun settingUIForError(error: String) {
@@ -164,7 +162,6 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 
     fun performPassCode() {
-        // etPassCodeText.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
         etPassCodeText.textSize = resources.getDimension(R.dimen.text_size_h1) //R.dimen.margin_xxl.toFloat()
         etPassCodeText.visibility = View.GONE
         llPasscode.visibility = View.VISIBLE

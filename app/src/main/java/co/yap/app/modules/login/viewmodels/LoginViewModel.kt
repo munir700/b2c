@@ -16,6 +16,7 @@ import java.util.regex.Pattern
 
 class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(application), ILogin.ViewModel,
     IRepositoryHolder<AuthRepository> {
+
     override val signInButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val signUpButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: LoginState = LoginState()
@@ -30,7 +31,6 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
     override fun handlePressOnSignUp() {
         signUpButtonPressEvent.value = true
     }
-
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
         return object : TextView.OnEditorActionListener {
@@ -72,7 +72,6 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
             } else {
                 return username
             }
-
         } else {
             return username
         }
@@ -91,7 +90,6 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
         if (matcher.matches()) {
             isValid = true
         }
-
         return isValid
     }
 }

@@ -31,11 +31,28 @@ class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.screen_biometric_permission
+    override fun getLayoutId(): Int = R.layout.activity_biometric_permission
 
     override val viewModel: ISystemPermission.ViewModel
         get() = ViewModelProviders.of(this).get(SystemPermissionViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        sharedPreferenceManager = SharedPreferenceManager(this@SystemPermissionActivity)
+
+        viewModel.screenType = getScreenType()
+        viewModel.registerLifecycleOwner(this)
+
+        viewModel.permissionGrantedPressEvent.observe(this, permissionGrantedObserver)
+        viewModel.permissionNotGrantedPressEvent.observe(this, permissionNotGrantedObserver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.permissionGrantedPressEvent.removeObservers( this)
+        viewModel.permissionNotGrantedPressEvent.removeObservers(this)
+    }
 
     private val permissionGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
@@ -57,27 +74,8 @@ class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel
         }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        sharedPreferenceManager = SharedPreferenceManager(this@SystemPermissionActivity)
-
-        viewModel.screenType = getScreenType()
-        viewModel.registerLifecycleOwner(this)
-
-        viewModel.permissionGrantedPressEvent.observe(this, permissionGrantedObserver)
-        viewModel.permissionNotGrantedPressEvent.observe(this, permissionNotGrantedObserver)
-    }
-
     private fun getScreenType(): String {
         return intent.getStringExtra(SCREEN_TYPE)
-    }
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.permissionGrantedPressEvent.removeObservers( this)
-        viewModel.permissionNotGrantedPressEvent.removeObservers(this)
     }
 
 }

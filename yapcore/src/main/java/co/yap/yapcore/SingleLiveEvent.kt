@@ -9,7 +9,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import java.util.concurrent.atomic.AtomicBoolean
 
-@Deprecated("Use SingleClickEvent Instead")
+@Deprecated("Use {@link SingleClickEvent} Instead")
 class SingleLiveEvent<T> : MutableLiveData<T>() {
 
     private val debounceDelay: Long = 500L

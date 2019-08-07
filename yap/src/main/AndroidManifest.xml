@@ -9,6 +9,7 @@
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
             android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/kyc_navigation"/>
         </activity>
 
         <meta-data

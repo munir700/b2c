@@ -23,6 +23,7 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.kyc.activities.DocumentsDashboardActivityArgs
 import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
@@ -36,6 +37,7 @@ import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
 
     override fun getBindingVariable(): Int = BR.viewModel
+
     override fun getLayoutId(): Int = R.layout.fragment_onboarding_congratulations
 
     override val viewModel: ICongratulations.ViewModel
@@ -48,7 +50,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         super.onViewCreated(view, savedInstanceState)
 
         btnCompleteVerification.setOnClickListener {
-            findNavController().navigate(R.id.action_congratulationsFragment_to_documentsDashboardActivity)
+            val action = CongratulationsFragmentDirections.actionCongratulationsFragmentToDocumentsDashboardActivity(
+                viewModel.state.nameList[0] ?: ""
+            )
+            findNavController().navigate(action)
         }
 
         val display = activity!!.windowManager.defaultDisplay
@@ -143,7 +148,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
             }
         }
     }
-
 
     override fun onBackPressed(): Boolean = run { (activity as? OnboardingActivity)?.finish().let { true } }
 }

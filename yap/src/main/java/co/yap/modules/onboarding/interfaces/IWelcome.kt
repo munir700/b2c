@@ -6,7 +6,9 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
 
 interface IWelcome {
+
     interface View : IBase.View<ViewModel>
+
     interface ViewModel : IBase.ViewModel<State> {
         var onGetStartedPressEvent:SingleLiveEvent<Boolean>
         fun getPages(): ArrayList<WelcomeContent>

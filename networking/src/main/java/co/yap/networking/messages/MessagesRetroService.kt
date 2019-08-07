@@ -1,9 +1,6 @@
 package co.yap.networking.messages
 
-import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
-import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
-import co.yap.networking.messages.requestdtos.VerifyOtpGenericRequest
-import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
+import co.yap.networking.messages.requestdtos.*
 import co.yap.networking.messages.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
@@ -28,4 +25,9 @@ interface MessagesRetroService {
     // Verify otp request
     @PUT(MessagesRepository.URL_VERIFY_OTP_GENERIC)
     suspend fun verifyOtpGeneric(@Body verifyOtpGenericRequest: VerifyOtpGenericRequest): Response<ValidateDeviceResponse>
+
+    //forgot passcode create otp
+    @POST(MessagesRepository.URL_FORGOT_PASSCODE)
+    suspend fun createForgotPasscodeOTP(@Body createForgotPasscodeOtp: CreateForgotPasscodeOtp): Response<ApiResponse>
+
 }

@@ -10,9 +10,6 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.app.BR
 import co.yap.app.R
 import co.yap.app.constants.Constants
-import co.yap.app.login.BiometricCallback
-import co.yap.app.login.BiometricManager
-import co.yap.app.login.BiometricUtil
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
@@ -21,19 +18,20 @@ import co.yap.modules.onboarding.activities.PhoneVerificationSignInActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
-import kotlinx.android.synthetic.main.activity_verify_passcode.*
+import co.yap.yapcore.helpers.biometric.BiometricCallback
+import co.yap.yapcore.helpers.biometric.BiometricManager
+import co.yap.yapcore.helpers.biometric.BiometricUtil
+import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
-
+// TODO: Remove this file once all references are invalid
+@Deprecated("Use LoginFragment instead")
 class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(), BiometricCallback {
 
-
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
-    lateinit var mBiometricManager: BiometricManager
+    private lateinit var mBiometricManager: BiometricManager
 
     companion object {
-
         private val USERNAME = "username"
-
         fun newIntent(context: Context, username: String): Intent {
             val intent = Intent(context, VerifyPasscodeActivity::class.java)
             intent.putExtra(USERNAME, username)
@@ -43,7 +41,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_verify_passcode
+    override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
     override val viewModel: IVerifyPasscode.ViewModel
         get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
@@ -69,29 +67,29 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
             if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)) {
                 dialer.showFingerprintView()
-
                 Handler().postDelayed(
                     {
                         showFingerprintDialog()
                     }, 500
                 )
-
-
             } else {
                 dialer.hideFingerprintView()
             }
-
         }
-
 
         dialer.onButtonClickListener = View.OnClickListener {
             if (it.id == R.id.btnFingerPrint)
                 showFingerprintDialog()
         }
-
-
     }
 
+    override fun onDestroy() {
+        viewModel.signInButtonPressEvent.removeObservers(this)
+        viewModel.loginSuccess.removeObservers(this)
+        viewModel.validateDeviceResult.removeObservers(this)
+        viewModel.createOtpResult.removeObservers(this)
+        super.onDestroy()
+    }
 
     private val signInButtonObserver = Observer<Boolean> {
         viewModel.isFingerprintLogin = false
@@ -119,9 +117,7 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
         } else {
             dialer.startAnimation()
         }
-
     }
-
 
     private val validateDeviceResultObserver = Observer<Boolean> {
         if (it) {
@@ -131,7 +127,6 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
                     false
                 )
             ) {
-
                 if (BiometricUtil.isFingerprintSupported
                     && BiometricUtil.isHardwareSupported(this@VerifyPasscodeActivity)
                     && BiometricUtil.isPermissionGranted(this@VerifyPasscodeActivity)
@@ -151,7 +146,6 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
         } else {
             viewModel.createOtp()
         }
-
     }
 
     private val createOtpObserver = Observer<Boolean> {
@@ -162,14 +156,6 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
                 viewModel.state.username
             )
         )
-    }
-
-    override fun onDestroy() {
-        viewModel.signInButtonPressEvent.removeObservers(this)
-        viewModel.loginSuccess.removeObservers(this)
-        viewModel.validateDeviceResult.removeObservers(this)
-        viewModel.createOtpResult.removeObservers(this)
-        super.onDestroy()
     }
 
     private fun setUsername() {
@@ -186,7 +172,6 @@ class VerifyPasscodeActivity : BaseBindingActivity<IVerifyPasscode.ViewModel>(),
 
 
     }
-
 
     override fun onSdkVersionNotSupported() {
     }

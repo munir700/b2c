@@ -8,20 +8,22 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.app.R
 import co.yap.app.activities.MainActivity
-import co.yap.app.modules.login.activities.VerifyPasscodeActivity
 import co.yap.app.modules.login.interfaces.ILogin
 import co.yap.app.modules.login.viewmodels.LoginViewModel
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.activities.DocumentsDashboardActivityArgs
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
 
 class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.fragment_log_in
+
     override val viewModel: ILogin.ViewModel
         get() = ViewModelProviders.of(this).get(LoginViewModel::class.java)
-
-    override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.screen_log_in
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -37,7 +39,9 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
 
     private val signInButtonObserver = Observer<Boolean> {
         if (it) {
-            startActivity(VerifyPasscodeActivity.newIntent(requireContext(), viewModel.state.twoWayTextWatcher))
+            val action =
+                LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(viewModel.state.twoWayTextWatcher)
+            findNavController().navigate(action)
         } else {
             viewModel.state.emailError =
                 Translator.getString(activity as MainActivity, Strings.screen_sign_in_display_text_error_text)
@@ -45,8 +49,10 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
     }
 
     private val signUpButtonObserver = Observer<Boolean> {
-          findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
-         // findNavController().navigate(R.id.action_loginFragment_to_documentsDashboardActivity2)
+        findNavController().navigate(R.id.action_loginFragment_to_accountSelectionFragment)
+
+//        val action = LoginFragmentDirections.actionLoginFragmentToDocumentsDashboardActivity("Bilal")
+//        findNavController().navigate(action)
     }
 
 

@@ -20,10 +20,8 @@ import kotlinx.android.synthetic.main.activity_phone_verification.*
 class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSignIn.ViewModel>() {
 
     companion object {
-
         private val PASSCODE = "passcode"
         private val USERNAME = "username"
-
         fun newIntent(context: Context, passcode: String, username: String): Intent {
             val intent = Intent(context, PhoneVerificationSignInActivity::class.java)
             intent.putExtra(PASSCODE, passcode)
@@ -31,6 +29,13 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
             return intent
         }
     }
+
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.activity_phone_verification
+
+    override val viewModel: IPhoneVerificationSignIn.ViewModel
+        get() = ViewModelProviders.of(this).get(PhoneVerificationSignInViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +47,10 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
         setPasscode()
     }
 
-    override val viewModel: IPhoneVerificationSignIn.ViewModel
-        get() = ViewModelProviders.of(this).get(PhoneVerificationSignInViewModel::class.java)
+    override fun onDestroy() {
+        viewModel.nextButtonPressEvent.removeObservers(this)
+        super.onDestroy()
+    }
 
     private val nextButtonObserver = Observer<Boolean> {
         viewModel.verifyOtp()
@@ -57,16 +64,6 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
         startActivity(LiteDashboardActivity.newIntent(this@PhoneVerificationSignInActivity, AccountType.B2C_ACCOUNT))
     }
 
-    override fun getBindingVariable(): Int = BR.viewModel
-
-    override fun getLayoutId(): Int = R.layout.activity_phone_verification
-
-
-    override fun onDestroy() {
-        viewModel.nextButtonPressEvent.removeObservers(this)
-        super.onDestroy()
-    }
-
     private fun setUsername() {
         viewModel.state.username = intent.getSerializableExtra(USERNAME) as String
     }
@@ -74,21 +71,4 @@ class PhoneVerificationSignInActivity : BaseBindingActivity<IPhoneVerificationSi
     private fun setPasscode() {
         viewModel.state.passcode = intent.getSerializableExtra(PASSCODE) as String
     }
-
-    /*fun changeResendColor(disable:Boolean) {
-        if (disable){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                tvResendOtp.setTextColor(resources.getColor(R.color.greyDark, null))
-            } else {
-                tvResendOtp.setTextColor(resources.getColor(R.color.greyDark))
-            }
-        }else if (!disable){
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                tvResendOtp.setTextColor(resources.getColor(R.color.colorPrimary, null))
-            } else {
-                tvResendOtp.setTextColor(resources.getColor(R.color.colorPrimary))
-            }
-        }
-
-    }*/
 }

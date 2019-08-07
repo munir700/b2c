@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/kyc_navigation"
-            app:startDestination="@id/KYCHomeFragment">
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/kyc_navigation"
+    app:startDestination="@id/KYCHomeFragment">
+    <fragment
+        android:id="@+id/informationErrorFragment"
+        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
+        tools:layout="@layout/fragment_information_error"
+        android:label="InformationErrorFragment"/>
 
     <fragment
         android:id="@+id/KYCHomeFragment"
         tools:layout="@layout/fragment_kyc_home"
         android:name="co.yap.modules.kyc.fragments.KYCHomeFragment"
-        android:label="KYCHomeFragment"/>
+        android:label="KYCHomeFragment">
+        <action
+            android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"
+            app:destination="@id/eidInfoReviewFragment"/>
+        <action
+            android:id="@+id/action_KYCHomeFragment_to_liteDashboardActivity"
+            app:destination="@id/liteDashboardActivity"
+            app:popUpTo="@+id/kyc_navigation"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <fragment
+        android:id="@+id/eidInfoReviewFragment"
+        tools:layout="@layout/activity_eid_info_review"
+        android:name="co.yap.modules.kyc.fragments.EidInfoReviewFragment"
+        android:label="EidInfoReviewFragment">
+        <action
+            android:id="@+id/action_eidInfoReviewFragment_to_informationErrorFragment"
+            app:destination="@id/informationErrorFragment"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/AddressSelectionFragment"
+        tools:layout="@layout/fragment_address_selection"
+        android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
+        android:label="AddressSelectionFragment">
+        <action
+            android:id="@+id/action_AddressSelectionFragment_to_KYCHomeFragment"
+            app:destination="@id/KYCHomeFragment"/>
+    </fragment>
+    <activity
+        android:id="@+id/liteDashboardActivity"
+        android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
+        tools:layout="@layout/activity_lite_dashboard"
+        android:label="LiteDashboardActivity"/>
 
 </navigation>

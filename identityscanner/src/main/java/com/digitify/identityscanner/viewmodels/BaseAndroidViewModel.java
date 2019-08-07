@@ -3,6 +3,7 @@ package com.digitify.identityscanner.viewmodels;
 import android.app.Application;
 import android.content.Context;
 
+import co.yap.translation.Translator;
 import com.digitify.identityscanner.interfaces.ILIfeCycle;
 import com.digitify.identityscanner.utils.Constants;
 
@@ -45,7 +46,5 @@ public class BaseAndroidViewModel extends AndroidViewModel implements ILIfeCycle
         return getApplication().getResources().getString(resourceId);
     }
 
-    public boolean isDebugging() {
-        return debugging;
-    }
+    protected String getString(String resourceId) {return  Translator.INSTANCE.getString(getContext(), resourceId); }
 }
