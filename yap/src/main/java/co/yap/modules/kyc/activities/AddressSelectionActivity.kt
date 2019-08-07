@@ -4,11 +4,13 @@ import android.Manifest
 import android.animation.Animator
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +21,9 @@ import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.yapcore.BaseBindingActivity
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.ResultCallback
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
@@ -26,6 +31,8 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 
 class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel>(),
     OnMapReadyCallback {
+
+    val REQUEST_CHECK_SETTINGS = 100
 
 
     companion object {
@@ -52,7 +59,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel!!.mapDetailViewActivity = AddressSelectionActivity()
-
+        displayLocationSettingsRequest(this)
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment!!.getMapAsync(this)
@@ -76,8 +83,9 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                             requestPermissions()
                         }
                     } else {
+                        displayLocationSettingsRequest(this)
                         expandMap()
-
+                         viewModel.getDeviceLocation()
                     }
                 }
 
@@ -95,6 +103,60 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
                 viewModel.MARKER_CLICK_ID -> {
 
+                }
+
+                viewModel.GPS_CLICK_EEVENT -> {
+                    displayLocationSettingsRequest(this)
+
+                }
+            }
+        })
+    }
+
+    fun displayLocationSettingsRequest(context: Context) {
+        val googleApiClient = GoogleApiClient.Builder(context)
+            .addApi(LocationServices.API).build()
+        googleApiClient.connect()
+
+        val locationRequest = LocationRequest.create()
+        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        locationRequest.interval = 10000
+        locationRequest.fastestInterval = (10000 / 2).toLong()
+
+        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+        builder.setAlwaysShow(true)
+
+        val result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
+        result.setResultCallback(object : ResultCallback<LocationSettingsResult> {
+            override fun onResult(result: LocationSettingsResult) {
+                val status = result.status
+                when (status.statusCode) {
+                    LocationSettingsStatusCodes.SUCCESS -> {
+                        Log.i("TAGAddress", "All location settings are satisfied.")
+                        viewModel.checkGps = true
+
+                    }
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                        Log.i(
+                            "TAGAddress",
+                            "Location settings are not satisfied. Show the user a dialog to upgrade location settings "
+                        )
+
+                        try {
+                            // Show the dialog by calling startResolutionForResult(), and check the result
+                            // in onActivityResult().
+                            viewModel.checkGps = false
+                            status.startResolutionForResult(this@AddressSelectionActivity, REQUEST_CHECK_SETTINGS)
+                        } catch (e: IntentSender.SendIntentException) {
+                            Log.i("TAGAddress", "PendingIntent unable to execute request.")
+                        }
+
+                    }
+                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> Log.i(
+
+                        "TAGAddress",
+                        "Location settings are inadequate, and cannot be fixed here. Dialog not created."
+                    )
                 }
             }
         })
@@ -136,6 +198,17 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     }
 
     private fun expandMap() {
+        if ( viewModel.checkGps){
+            viewModel.state.isMapOnScreen = true
+//            viewModel.state.cardView = true
+////            viewModel.state.isMapOnScreen = true
+//
+        }else{
+            viewModel.state.isMapOnScreen = false
+            viewModel.state.cardView = false
+
+        }
+        viewModel.toggleMarkerVisibility()
         YoYo.with(Techniques.FadeOut)
             .duration(200)
             .playOn(findViewById(R.id.btnLocation));
@@ -148,14 +221,14 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
             .duration(600)
             .playOn(findViewById(R.id.flAddressDetail))
 
-        viewModel.state.isMapOnScreen
-        viewModel.getDeviceLocation()
+
 //        viewModel.toggleMarkerVisibility()
 
     }
 
     private fun collapseMap() {
         viewModel.state.isMapOnScreen = false
+        viewModel.toggleMarkerVisibility()
         viewModel.state.cardView = false
         viewModel.state.closeCard = false
 
@@ -178,5 +251,14 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CHECK_SETTINGS) {
+            showToast("ok")
+//            viewModel.checkGps = true
+            viewModel.getDeviceLocation()
+        }
     }
 }

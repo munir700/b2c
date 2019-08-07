@@ -58,8 +58,9 @@
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_large"
                     app:cardCornerRadius="10dp"
-                    android:visibility="visible"
+                    android:visibility="@{viewModel.state.errorVisibility}"
                     app:toggleVisibility="@{viewModel.state.cardView}"
+
 
                     >
 

@@ -17,8 +17,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -37,8 +36,17 @@ import java.util.*
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel {
 
+    val REQUEST_CHECK_SETTINGS=100
+
     var locationMarker: Marker? = null
-    override val MARKER_CLICK_ID: Int = 2
+
+    override  var checkGps: Boolean = true // on markerclick listener
+        get() = field
+
+  override val MARKER_CLICK_ID: Int = 2// on markerclick listener
+        get() = field
+
+     override val GPS_CLICK_EEVENT: Int = 200
         get() = field
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -165,11 +173,11 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
 
     }
-
     @SuppressLint("MissingPermission")
     override fun getDeviceLocation() {
 
         try {
+
             val locationResult = mFusedLocationProviderClient.getLastLocation()
             locationResult.addOnSuccessListener(
                 mapDetailViewActivity,
@@ -183,17 +191,26 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             animationFrequency,
                             null
                         )
-                    } else {
+//                        getCurrentPlaceLikelihoods()
 
-                        mMap.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
-                            animationFrequency,
-                            null
-                        )
+
+                    } else {
+                        clickEvent.setValue(GPS_CLICK_EEVENT)
+
+
+//                        displayLocationSettingsRequest(context)
+//break;
+//                        displayLocationSettingsRequest(context)
+//                        mMap.animateCamera(
+//                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+//                            animationFrequency,
+//                            null
+//                        )
 
                     }
 
                     getCurrentPlaceLikelihoods()
+
                 })
         } catch (e: Exception) {
             Log.e("Exception: %s", e.message)
@@ -202,7 +219,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
 
-    @SuppressLint("MissingPermission")
+    @SuppressLint("MissingPermission", "LongLogTag")
     private fun getCurrentPlaceLikelihoods() {
         val placeFields = Arrays.asList(
             Place.Field.NAME, Place.Field.ADDRESS,
@@ -248,8 +265,10 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             if (!currPlace.photoMetadatas.isNullOrEmpty() && currPlace.photoMetadatas!!.size > 0) {
                                 attemptFetchPhoto(currPlace)
                             } else {
+                                state.loading = false
                                 toggleMarkerVisibility()
-                                state.cardView = true
+
+                                popUPcardFields()
                                 clickEvent.setValue(MARKER_CLICK_ID)
                             }
                         } else {
@@ -302,10 +321,25 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         photoTask.addOnCompleteListener {
             toggleMarkerVisibility()
             state.loading = false
-            state.cardView = true
+            popUPcardFields()
             clickEvent.setValue(MARKER_CLICK_ID)
 
         }
+    }
+
+      fun popUPcardFields() {
+          if(null!= this.placeSubTitle ||null!= this.placeName || null!=this.placePhoto && (state.isMapOnScreen)){
+              if (checkGps){
+                  state.cardView = true
+
+              }else{
+                  state.cardView = false
+              }
+          }else{
+              state.cardView = false
+          }
+
+
     }
 
     override fun setUpCardFields() {
@@ -342,7 +376,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun handlePressOnSelectLocation(id: Int) {
         state.closeCard = true
-        state.isMapOnScreen = true
+//        state.isMapOnScreen = true
         clickEvent.setValue(id)
         toggleMarkerVisibility()
     }
@@ -353,7 +387,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     fun handlePressOnChangeLocation() {
         state.locationBtnText = getString(R.string.screen_meeting_location_button_change_location)
-        state.isMapOnScreen = true
+//        state.isMapOnScreen = true
         toggleMarkerVisibility()
     }
 }

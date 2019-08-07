@@ -16,6 +16,7 @@ interface IAddressSelection {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         val MARKER_CLICK_ID: Int
+        val GPS_CLICK_EEVENT: Int
         fun handlePressOnNext(id: Int)
         fun handlePressOnSelectLocation(id: Int)
         fun handlePressOnCardSelectLocation(id: Int)
@@ -28,6 +29,7 @@ interface IAddressSelection {
         fun onLocatioenSelected()
         fun toggleMarkerVisibility()
         fun setUpCardFields()
+        var checkGps: Boolean
     }
 
     interface State : IBase.State {
@@ -49,6 +51,8 @@ interface IAddressSelection {
         var confirmLocationButton: Boolean
         var isMapOnScreen: Boolean
         var googleMap: GoogleMap?
+        var errorVisibility: Int
+
 
     }
 }

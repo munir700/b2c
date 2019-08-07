@@ -5,7 +5,6 @@
     >
 
     <data>
-
         <variable
             name="viewModel"
             type="co.yap.modules.kyc.viewmodels.AddressSelectionViewModel"/>
@@ -52,7 +51,7 @@
                     android:background="@color/white"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                     android:layout_gravity="top">
+                    android:layout_gravity="top">
 
                     <TextView
                         android:id="@+id/tvAddressSelectionHeading"
@@ -136,7 +135,7 @@
                         tools:ignore="MissingConstraints"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/viewMapFragment"
-                         android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintStart_toStartOf="parent"
                         android:id="@+id/tvAddressHeading"/>
@@ -215,7 +214,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                         android:layout_marginBottom="@dimen/margin_medium">
+                        android:layout_marginBottom="@dimen/margin_medium">
 
                         <CheckBox
                             android:id="@+id/cbTermsAndConditions"
