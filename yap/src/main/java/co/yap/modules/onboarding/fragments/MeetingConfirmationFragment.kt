@@ -19,7 +19,7 @@ class MeetingConfirmationActivity : BaseBindingActivity<IMeetingConfirmation.vie
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_meeting_confirmation
+    override fun getLayoutId(): Int = R.layout.fragment_meeting_confirmation
 
     override val viewModel: IMeetingConfirmation.viewModel
         get() = ViewModelProviders.of(this).get(MeetingConfirmationViewModel::class.java)
