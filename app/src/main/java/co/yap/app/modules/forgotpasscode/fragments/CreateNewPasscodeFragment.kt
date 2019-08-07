@@ -13,7 +13,8 @@ import co.yap.yapcore.BaseBindingFragment
 class CreateNewPasscodeFragment:BaseBindingFragment<ICreatePasscode.ViewModel>() {
     override fun getBindingVariable(): Int= BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_create_new_passcode
+    override fun getLayoutId(): Int = R.layout.fragment_forgot_passcode_success
+//    override fun getLayoutId(): Int = R.layout.fragment_create_new_passcode
 
     override val viewModel: ICreatePasscode.ViewModel
         get() = ViewModelProviders.of(this).get(CreateNewPasscodeViewModel::class.java)
