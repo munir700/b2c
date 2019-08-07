@@ -5,6 +5,7 @@
     >
 
     <data>
+
         <variable
             name="viewModel"
             type="co.yap.modules.kyc.viewmodels.AddressSelectionViewModel"/>

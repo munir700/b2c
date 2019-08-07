@@ -30,7 +30,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
-import kotlinx.android.synthetic.main.activity_map_detail.*
 import kotlinx.android.synthetic.main.layout_maps.*
 
 class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel>(),
@@ -67,7 +66,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment!!.getMapAsync(this)
-
+//        clickEvent.setValue(GPS_CLICK_EEVENT)
 
         transparentImage!!.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -100,7 +99,6 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                     } else {
                         displayLocationSettingsRequest(this)
                         expandMap()
-//                        viewModel.getDeviceLocation()
                     }
                 }
 
@@ -165,20 +163,11 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                 val status = result.status
                 when (status.statusCode) {
                     LocationSettingsStatusCodes.SUCCESS -> {
-                        Log.i("TAGAddress", "All location settings are satisfied.")
                         viewModel.checkGps = true
-
-
                     }
-                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
-                        Log.i(
-                            "TAGAddress",
-                            "Location settings are not satisfied. Show the user a dialog to upgrade location settings "
-                        )
 
+                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
                         try {
-                            // Show the dialog by calling startResolutionForResult(), and check the result
-                            // in onActivityResult().
                             viewModel.checkGps = false
                             status.startResolutionForResult(this@AddressSelectionActivity, REQUEST_CHECK_SETTINGS)
                         } catch (e: IntentSender.SendIntentException) {
@@ -232,20 +221,11 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     }
 
     private fun expandMap() {
-//        val VISIBLE: Int = 0x00000000
         if (viewModel.checkGps) {
-            val GONE: Int = 0x00000008
-//            viewModel.state.errorVisibility =   VISIBLE
             viewModel.state.isMapOnScreen = true
-//            viewModel.state.cardView = true
-
-////            viewModel.state.isMapOnScreen = true
-//
         } else {
-//            viewModel.state.errorVisibility =   VISIBLE
             viewModel.state.isMapOnScreen = false
             viewModel.state.cardView = false
-
         }
 
         viewModel.toggleMarkerVisibility()
@@ -274,10 +254,6 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
             })
             .duration(600)
             .playOn(findViewById(R.id.flAddressDetail))
-
-
-//        viewModel.toggleMarkerVisibility()
-
     }
 
     private fun collapseMap() {

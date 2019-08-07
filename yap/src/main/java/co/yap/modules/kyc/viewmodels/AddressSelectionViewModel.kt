@@ -37,7 +37,6 @@ import java.util.*
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel {
 
-    val REQUEST_CHECK_SETTINGS = 100
 
     var locationMarker: Marker? = null
 
@@ -99,6 +98,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun onMapInit(googleMap: GoogleMap?) {
         initMap()
+
         if (googleMap != null) {
             mMap = googleMap
             locationMarker = mMap.addMarker(markerOptions)
@@ -122,10 +122,10 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 //                }
 //            })
 
-//            if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
-//
-//                getDeviceLocation()
-//            }
+            if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
+
+                getDefaultLocationMap()
+            }
         } else {
 
         }
@@ -160,6 +160,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override fun onResume() {
         super.onResume()
 //        getDeviceLocation()
+        getDefaultLocationMap()
     }
 
     fun setUpMarker(
@@ -175,6 +176,41 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
 
     }
+
+
+    @SuppressLint("MissingPermission")
+    override fun getDefaultLocationMap() {
+
+        try {
+
+            val locationResult = mFusedLocationProviderClient.getLastLocation()
+            locationResult.addOnSuccessListener(
+                mapDetailViewActivity,
+                OnSuccessListener<Location> { location ->
+                    if (location != null) {
+                        mLastKnownLocation = location
+                        mDefaultLocation =
+                            LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
+                        mMap.animateCamera(
+                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+                            animationFrequency,
+                            null
+                        )
+//                        getCurrentPlaceLikelihoods()
+
+
+                    } else {
+                        clickEvent.setValue(GPS_CLICK_EEVENT)
+                    }
+
+
+                })
+        } catch (e: Exception) {
+            Log.e("Exception: %s", e.message)
+        }
+
+    }
+
 
     @SuppressLint("MissingPermission")
     override fun getDeviceLocation() {
@@ -331,34 +367,23 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
     fun popUPcardFields() {
+        val VISIBLE: Int = 0x00000000
         if (null != this.placeSubTitle || null != this.placeName || null != this.placePhoto && (state.isMapOnScreen)) {
-            val VISIBLE: Int = 0x00000000
-
             state.errorVisibility = VISIBLE
 
             if (checkGps) {
-
-                val VISIBLE: Int = 0x00000000
-                val GONE: Int = 0x00000008
                 state.errorVisibility = VISIBLE
-
                 state.cardView = true
 
             } else {
                 state.cardView = false
-                val VISIBLE: Int = 0x00000000
-
                 state.errorVisibility = VISIBLE
-
             }
         } else {
-            val VISIBLE: Int = 0x00000000
 
             state.errorVisibility = VISIBLE
             state.cardView = false
         }
-
-
     }
 
     override fun setUpCardFields() {
@@ -384,13 +409,6 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 //        state.cardView = false
         clickEvent.setValue(id)
         toggleMarkerVisibility()
-
-//
-//        state.isMapOnScreen = false
-//        clickEvent.setValue(id)
-//        toggleMarkerVisibility()
-
-
     }
 
     override fun handlePressOnCardSelectLocation(id: Int) {

@@ -26,6 +26,7 @@ interface IAddressSelection {
         fun initMap()
         fun onMapInit(p0: GoogleMap?)
         fun getDeviceLocation()
+        fun getDefaultLocationMap()
         fun onLocatioenSelected()
         fun toggleMarkerVisibility()
         fun setUpCardFields()
