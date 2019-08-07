@@ -100,7 +100,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                     } else {
                         displayLocationSettingsRequest(this)
                         expandMap()
-                        viewModel.getDeviceLocation()
+//                        viewModel.getDeviceLocation()
                     }
                 }
 
@@ -109,7 +109,24 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                 }
 
                 R.id.ivClose -> {
-                    collapseMap()
+                    YoYo.with(Techniques.SlideOutDown)
+                        .withListener(object : Animator.AnimatorListener {
+                            override fun onAnimationStart(animation: Animator?) {
+                            }
+
+                            override fun onAnimationRepeat(animation: Animator?) {
+                            }
+
+                            override fun onAnimationEnd(animation: Animator?) {
+                                collapseMap()
+                            }
+
+                            override fun onAnimationCancel(animation: Animator?) {
+                            }
+                        })
+                        .duration(300)
+                        .playOn(findViewById(R.id.cvLocationCard))
+
                 }
 
                 R.id.next_button -> {
@@ -230,6 +247,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
             viewModel.state.cardView = false
 
         }
+
         viewModel.toggleMarkerVisibility()
         YoYo.with(Techniques.FadeOut)
             .duration(200)
@@ -240,6 +258,20 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
             .playOn(findViewById(R.id.flTitle));
 
         YoYo.with(Techniques.SlideOutDown)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    viewModel.getDeviceLocation()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
             .duration(600)
             .playOn(findViewById(R.id.flAddressDetail))
 

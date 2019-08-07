@@ -381,9 +381,15 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun handlePressOnCloseMap(id: Int) {
         state.isMapOnScreen = false
-        state.cardView = false
+//        state.cardView = false
         clickEvent.setValue(id)
         toggleMarkerVisibility()
+
+//
+//        state.isMapOnScreen = false
+//        clickEvent.setValue(id)
+//        toggleMarkerVisibility()
+
 
     }
 
