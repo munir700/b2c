@@ -4,6 +4,9 @@
     <string name="common_display_text_retry">Retry</string>
     <string name="common_button_next">Next</string>
     <string name="common_display_text_error_no_internet">Internet connection appears to be offline</string>
+    <string name="common_button_yes">Yes</string>
+    <string name="common_button_cancel">Cancel</string>
+    <string name="common_button_settings">Settings</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -144,6 +147,12 @@
     <string name="screen_b2c_eid_info_review_display_text_expiry_date_heading">Expiry date</string>
     <string name="screen_b2c_eid_info_review_button_title_confirm">Confirm</string>
     <string name="screen_b2c_eid_info_review_button_title_rescan_eid">Re-scan Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_display_text_error_under_age">Hey there, looks like you\'re under 18</string>
+    <string name="screen_b2c_eid_info_review_button_not_under_age">No, I\'m over 18</string>
+    <string name="screen_b2c_eid_info_review_display_text_error_expired_eid">Looks like your Emirates ID is expired</string>
+    <string name="screen_b2c_eid_info_review_button_valid_emirates_id">No, I have a valid Emirates ID</string>
+    <string name="screen_b2c_eid_info_review_display_text_error_from_usa">Looks like you\'re from United States</string>
+    <string name="screen_b2c_eid_info_review_button_not_from_usa">No, I\'m not from USA</string>
 
     <!-- KYC SDK -->
     <string name="idenetity_scanner_sdk_screen_scanner_display_text_step_1">Step 1 of 2</string>

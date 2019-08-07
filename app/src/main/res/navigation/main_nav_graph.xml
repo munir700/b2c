@@ -22,7 +22,9 @@
             app:destination="@id/loginFragment"/>
         <action
             android:id="@+id/action_splashFragment_to_verifyPasscodeFragment"
-            app:destination="@id/verifyPasscodeFragment"/>
+            app:destination="@id/verifyPasscodeFragment"
+            app:popUpTo="@+id/main_nav_graph"
+            app:popUpToInclusive="true"/>
     </fragment>
     <fragment
         android:id="@+id/accountSelectionFragment"
@@ -31,6 +33,7 @@
         android:label="AccountSelectionFragment">
         <action
             android:id="@+id/action_accountSelectionFragment_to_welcomeFragment"
+            app:popExitAnim="@anim/fade_out_long"
             app:destination="@id/welcomeFragment"/>
         <action
             android:id="@+id/action_accountSelectionFragment_to_loginFragment"

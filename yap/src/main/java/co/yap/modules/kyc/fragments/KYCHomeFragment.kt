@@ -31,7 +31,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-                R.id.tvSkip -> findNavController().navigate(R.id.action_KYCHomeFragment_to_liteDashboardActivity)
+                R.id.tvSkip -> findNavController().navigate(R.id.action_goto_liteDashboardActivity)
             }
         })
 

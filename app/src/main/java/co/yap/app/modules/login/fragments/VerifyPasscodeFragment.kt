@@ -6,7 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.app.BR
+import co.yap.BR
 import co.yap.app.R
 import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
@@ -45,14 +45,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
-           // when (it) {
-                findNavController().navigate(R.id.action_verifyPasscodeFragment_to_forgotPasscodeActivity)
+            // when (it) {
+            findNavController().navigate(R.id.action_verifyPasscodeFragment_to_forgotPasscodeActivity)
 
-               // R.id.tvForgotPassword-> showToast("m clicking")
-               /* R.id.singnButton-> {
+            // R.id.tvForgotPassword-> showToast("m clicking")
+            /* R.id.singnButton-> {
 
-                }*/
-           // }
+             }*/
+            // }
         })
 
         dialer.hideFingerprintView()
@@ -111,7 +111,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         if (it) {
             if (viewModel.isFingerprintLogin) {
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
-                startActivity(LiteDashboardActivity.newIntent(context as MainActivity, AccountType.B2C_ACCOUNT))
+                navigateToLiteDashboard()
             } else {
                 viewModel.validateDevice()
             }
@@ -152,7 +152,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 }
 
             } else {
-                startActivity(LiteDashboardActivity.newIntent(context as MainActivity, AccountType.B2C_ACCOUNT))
+                navigateToLiteDashboard()
             }
         } else {
             viewModel.createOtp()
@@ -224,6 +224,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     override fun onAuthenticationError(errorCode: Int, errString: CharSequence) {
+    }
+
+    private fun navigateToLiteDashboard() {
+//        val action =
+//            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToLiteDashboardActivity(AccountType.B2C_ACCOUNT)
+//        findNavController().navigate(action)
+         startActivity(LiteDashboardActivity.newIntent(context as MainActivity, AccountType.B2C_ACCOUNT))
     }
 
 

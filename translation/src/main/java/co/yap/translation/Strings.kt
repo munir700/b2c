@@ -7,6 +7,9 @@ object Strings {
     const val common_display_text_retry: String = "common_display_text_retry"
     const val common_button_next: String = "common_button_next"
     const val common_display_text_error_no_internet: String = "common_display_text_error_no_internet"
+    const val common_button_yes: String = "common_button_yes"
+    const val common_button_cancel: String = "common_button_cancel"
+    const val common_button_settings: String = "common_button_settings"
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"
@@ -152,6 +155,12 @@ object Strings {
     const val screen_b2c_eid_info_review_display_text_expiry_date_heading: String = "screen_b2c_eid_info_review_display_text_expiry_date_heading"
     const val screen_b2c_eid_info_review_button_title_confirm: String = "screen_b2c_eid_info_review_button_title_confirm"
     const val screen_b2c_eid_info_review_button_title_rescan_eid: String = "screen_b2c_eid_info_review_button_title_rescan_eid"
+    const val screen_b2c_eid_info_review_display_text_error_under_age: String = "screen_b2c_eid_info_review_display_text_error_under_age"
+    const val screen_b2c_eid_info_review_button_not_under_age: String = "screen_b2c_eid_info_review_button_not_under_age"
+    const val screen_b2c_eid_info_review_display_text_error_expired_eid: String = "screen_b2c_eid_info_review_display_text_error_expired_eid"
+    const val screen_b2c_eid_info_review_button_valid_emirates_id: String = "screen_b2c_eid_info_review_button_valid_emirates_id"
+    const val screen_b2c_eid_info_review_display_text_error_from_usa: String = "screen_b2c_eid_info_review_display_text_error_from_usa"
+    const val screen_b2c_eid_info_review_button_not_from_usa: String = "screen_b2c_eid_info_review_button_not_from_usa"
 
     // KYC SDK
     const val idenetity_scanner_sdk_screen_scanner_display_text_step_1: String = "idenetity_scanner_sdk_screen_scanner_display_text_step_1"

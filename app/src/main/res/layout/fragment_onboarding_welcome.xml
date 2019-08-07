@@ -18,6 +18,7 @@
     <LinearLayout
         android:orientation="vertical"
         tools:context=".modules.onboarding.activities.WelcomeActivity"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
