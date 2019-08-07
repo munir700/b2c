@@ -17,7 +17,8 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.location.*
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
@@ -36,17 +37,18 @@ import java.util.*
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel {
 
-    val REQUEST_CHECK_SETTINGS=100
+    val REQUEST_CHECK_SETTINGS = 100
 
     var locationMarker: Marker? = null
 
-    override  var checkGps: Boolean = true // on markerclick listener
+    override var checkGps: Boolean = true // on markerclick listener
         get() = field
 
-  override val MARKER_CLICK_ID: Int = 2// on markerclick listener
+    override val MARKER_CLICK_ID: Int = 2
+        // on markerclick listener
         get() = field
 
-     override val GPS_CLICK_EEVENT: Int = 200
+    override val GPS_CLICK_EEVENT: Int = 200
         get() = field
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -173,6 +175,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
 
     }
+
     @SuppressLint("MissingPermission")
     override fun getDeviceLocation() {
 
@@ -327,17 +330,33 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         }
     }
 
-      fun popUPcardFields() {
-          if(null!= this.placeSubTitle ||null!= this.placeName || null!=this.placePhoto && (state.isMapOnScreen)){
-              if (checkGps){
-                  state.cardView = true
+    fun popUPcardFields() {
+        if (null != this.placeSubTitle || null != this.placeName || null != this.placePhoto && (state.isMapOnScreen)) {
+            val VISIBLE: Int = 0x00000000
 
-              }else{
-                  state.cardView = false
-              }
-          }else{
-              state.cardView = false
-          }
+            state.errorVisibility = VISIBLE
+
+            if (checkGps) {
+
+                val VISIBLE: Int = 0x00000000
+                val GONE: Int = 0x00000008
+                state.errorVisibility = VISIBLE
+
+                state.cardView = true
+
+            } else {
+                state.cardView = false
+                val VISIBLE: Int = 0x00000000
+
+                state.errorVisibility = VISIBLE
+
+            }
+        } else {
+            val VISIBLE: Int = 0x00000000
+
+            state.errorVisibility = VISIBLE
+            state.cardView = false
+        }
 
 
     }

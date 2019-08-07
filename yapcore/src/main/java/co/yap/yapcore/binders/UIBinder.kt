@@ -18,6 +18,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
+import androidx.fragment.app.Fragment
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
@@ -269,6 +270,7 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: CardView, visibility: Boolean) {
         if (visibility) {
+            view.visibility=View.VISIBLE
             YoYo.with(Techniques.SlideInUp)
                 .duration(400)
                 .playOn(view)
@@ -293,5 +295,16 @@ object UIBinder {
 
         }
     }
+//
+//    @BindingAdapter("toggleTouch")
+//    @JvmStatic
+//    fun setImageResId(view: Fragment, visibility: Boolean) {
+//        if (visibility) {
+//            view.visibility = View.VISIBLE
+//        } else {
+//            view.visibility = View.GONE
+//
+//        }
+//    }
 
 }

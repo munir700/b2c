@@ -73,28 +73,31 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var errorVisibility: Int = GONE
+    override var errorVisibility: Int = VISIBLE
         get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.handleBackPress)
+//            notifyPropertyChanged(BR.cardView)
         }
 
     @get:Bindable
     override var cardView: Boolean = false
         get() = field
         set(value) {
-            if (cardView) {
+
+
+            if (value) {
                 errorVisibility = VISIBLE
                 notifyPropertyChanged(BR.errorVisibility)
 
             }
+            field = value
 //            else{
 //
 //                errorVisibility = GONE
 //                notifyPropertyChanged(BR.errorVisibility)
 //            }
-            field = value
             notifyPropertyChanged(BR.cardView)
 
         }

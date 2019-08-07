@@ -22,18 +22,44 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+            <!--<RelativeLayout-->
+                <!--android:id="@+id/map_layout"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"></RelativeLayout>-->
 
-            <fragment
-                android:id="@+id/map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
+                <fragment
+                    android:id="@+id/map"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:context=".MapsActivity"
+                    tools:layout_editor_absoluteY="182dp"
+                    tools:layout_editor_absoluteX="145dp"
+                    app:cameraTargetLat="25.276987"
+                    app:cameraTargetLng="55.296249"
+
+                    />
+
+            <ImageView
+                android:id="@+id/transparentImage"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:context=".MapsActivity"
-                tools:layout_editor_absoluteY="182dp"
-                tools:layout_editor_absoluteX="145dp"
-                app:cameraTargetLat="25.276987"
-                app:cameraTargetLng="55.296249"
-                />
+                android:src="@color/transparent"
+                tools:layout_editor_absoluteY="0dp"
+                tools:layout_editor_absoluteX="0dp"/>
+
+            <!--<fragment-->
+                <!--android:id="@+id/map"-->
+                <!--android:name="com.google.android.gms.maps.SupportMapFragment"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--tools:context=".MapsActivity"-->
+                <!--tools:layout_editor_absoluteY="182dp"-->
+                <!--tools:layout_editor_absoluteX="145dp"-->
+                <!--app:cameraTargetLat="25.276987"-->
+                <!--app:cameraTargetLng="55.296249"-->
+
+                <!--/>-->
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -58,16 +84,17 @@
                     android:layout_marginEnd="@dimen/margin_normal"
                     android:layout_marginTop="@dimen/margin_large"
                     app:cardCornerRadius="10dp"
-                    android:visibility="@{viewModel.state.errorVisibility}"
-                    app:toggleVisibility="@{viewModel.state.cardView}"
+                     app:toggleVisibility="@{viewModel.state.cardView}"
 
+                    android:visibility="@{viewModel.state.errorVisibility}"
 
                     >
+                    <!--android:visibility="@{viewModel.state.errorVisibility}"-->
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                      >
+                        >
 
                         <LinearLayout
                             android:layout_width="match_parent"

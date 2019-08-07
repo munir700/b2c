@@ -33,7 +33,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(),
         )
 //        Intent(context, LocationSelectionActivity::class.java)
 
-
 //        startActivity(
 //            activity?.let { it1 ->
 //                LocationSelectionActivity.newIntent(

@@ -11,6 +11,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -28,6 +30,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
+import kotlinx.android.synthetic.main.activity_map_detail.*
+import kotlinx.android.synthetic.main.layout_maps.*
 
 class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel>(),
     OnMapReadyCallback {
@@ -65,6 +69,17 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
         mapFragment!!.getMapAsync(this)
 
 
+        transparentImage!!.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(v: View, event: MotionEvent): Boolean {
+
+                if (!viewModel.state.isMapOnScreen) {
+                    return true
+
+                } else {
+                    return false
+                }
+            }
+        })
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -85,7 +100,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                     } else {
                         displayLocationSettingsRequest(this)
                         expandMap()
-                         viewModel.getDeviceLocation()
+                        viewModel.getDeviceLocation()
                     }
                 }
 
@@ -113,6 +128,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
         })
     }
 
+
     fun displayLocationSettingsRequest(context: Context) {
         val googleApiClient = GoogleApiClient.Builder(context)
             .addApi(LocationServices.API).build()
@@ -134,6 +150,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                     LocationSettingsStatusCodes.SUCCESS -> {
                         Log.i("TAGAddress", "All location settings are satisfied.")
                         viewModel.checkGps = true
+
 
                     }
                     LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
@@ -198,12 +215,17 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     }
 
     private fun expandMap() {
-        if ( viewModel.checkGps){
+//        val VISIBLE: Int = 0x00000000
+        if (viewModel.checkGps) {
+            val GONE: Int = 0x00000008
+//            viewModel.state.errorVisibility =   VISIBLE
             viewModel.state.isMapOnScreen = true
 //            viewModel.state.cardView = true
+
 ////            viewModel.state.isMapOnScreen = true
 //
-        }else{
+        } else {
+//            viewModel.state.errorVisibility =   VISIBLE
             viewModel.state.isMapOnScreen = false
             viewModel.state.cardView = false
 
@@ -256,8 +278,6 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CHECK_SETTINGS) {
-            showToast("ok")
-//            viewModel.checkGps = true
             viewModel.getDeviceLocation()
         }
     }
