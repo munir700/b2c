@@ -1,7 +1,6 @@
-package co.yap.modules.onboarding.activities
+package co.yap.modules.onboarding.fragments
 
-import android.content.Context
-import android.content.Intent
+
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -11,11 +10,11 @@ import co.yap.modules.onboarding.interfaces.IMeetingConfirmation
 import co.yap.modules.onboarding.viewmodels.MeetingConfirmationViewModel
 import co.yap.yapcore.BaseBindingActivity
 
-class MeetingConfirmationActivity : BaseBindingActivity<IMeetingConfirmation.viewModel>() {
+class MeetingConfirmationFragment : BaseBindingActivity<IMeetingConfirmation.viewModel>() {
 
-    companion object {
-        fun newIntent(context: Context): Intent = Intent(context, MeetingConfirmationActivity::class.java)
-    }
+//    companion object {
+//        fun newIntent(context: Context): Intent = Intent(context, MeetingConfirmationActivity::class.java)
+//    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 

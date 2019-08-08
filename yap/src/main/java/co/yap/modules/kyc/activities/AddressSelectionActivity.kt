@@ -45,7 +45,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_map_detail
+    override fun getLayoutId(): Int = R.layout.activity_address_selection
 
     override val viewModel: IAddressSelection.ViewModel
         get() = ViewModelProviders.of(this).get(AddressSelectionViewModel::class.java)
