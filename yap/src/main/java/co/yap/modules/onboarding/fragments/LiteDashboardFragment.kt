@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
@@ -69,6 +70,8 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
         when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
+                findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity("Bilal"))
+                activity?.finish()
             }
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
             }
@@ -95,7 +98,6 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
                 btnCompleteVerification.visibility = View.GONE
             }
         }
-        MyUserManager.user?.notificationStatuses
     }
 
     private fun doLogout() {

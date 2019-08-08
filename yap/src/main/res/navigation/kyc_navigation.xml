@@ -5,6 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kyc_navigation"
     app:startDestination="@id/KYCHomeFragment">
+    <argument
+        android:name="name"
+        android:defaultValue=" "
+        app:argType="string"/>
     <action
         android:id="@+id/action_goto_liteDashboardActivity"
         app:destination="@id/liteDashboardActivity"
