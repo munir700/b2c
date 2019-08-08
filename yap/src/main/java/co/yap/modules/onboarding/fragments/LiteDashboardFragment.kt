@@ -6,10 +6,11 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
 import co.yap.BR
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
+import co.yap.modules.onboarding.models.MyUserManager
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -33,6 +34,8 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
         super.onActivityCreated(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
         sharedPreferenceManager = SharedPreferenceManager(context as LiteDashboardActivity)
+
+        viewModel.getAccountInfo()
 
         if (BiometricUtil.isFingerprintSupported
             && BiometricUtil.isHardwareSupported(context as LiteDashboardActivity)
@@ -63,12 +66,36 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     }
 
     private val observer = Observer<Int> {
-        when(it) {
+        when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-
+            }
+            viewModel.EVENT_PRESS_SET_CARD_PIN -> {
+            }
+            viewModel.EVENT_GET_ACCOUNT_INFO_SUCCESS -> {
+                checkUserStatus()
             }
         }
+    }
+
+
+    private fun checkUserStatus() {
+        //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_MEETING_SCHEDULED
+        when (MyUserManager.user?.notificationStatuses) {
+            Constants.USER_STATUS_ON_BOARDED -> {
+                btnCompleteVerification.visibility = View.VISIBLE
+                btnSetCardPin.visibility = View.GONE
+            }
+            Constants.USER_STATUS_MEETING_SUCCESS -> {
+                btnSetCardPin.visibility = View.VISIBLE
+                btnCompleteVerification.visibility = View.GONE
+            }
+            Constants.USER_STATUS_MEETING_SCHEDULED -> {
+                btnSetCardPin.visibility = View.GONE
+                btnCompleteVerification.visibility = View.GONE
+            }
+        }
+        MyUserManager.user?.notificationStatuses
     }
 
     private fun doLogout() {

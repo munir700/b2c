@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel"/>
+
+        <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -84,10 +86,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/FragmentsBtnStyle"
-            app:enableCoreButton="@{true}"
+            android:visibility="gone"
+            app:btn_enable="true"
             app:text="@{Strings.screen_onboarding_congratulations_button_complete_verification}"
             tools:text="@string/screen_onboarding_congratulations_button_complete_verification"
             android:onClick="@{(v) -> viewModel.handlePressOnCompleteVerification()}"
+            android:layout_marginStart="@dimen/margin_xl"
+            android:layout_marginEnd="@dimen/margin_xl"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnSetCardPin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/FragmentsBtnStyle"
+            android:visibility="gone"
+            app:btn_enable="true"
+            app:text="@{Strings.screen_confirm_card_pin_button_create_pin}"
+            tools:text="@string/screen_confirm_card_pin_button_create_pin"
+            android:onClick="@{(v) -> viewModel.handlePressOnsetCardPin()}"
             android:layout_marginStart="@dimen/margin_xl"
             android:layout_marginEnd="@dimen/margin_xl"
             android:layout_marginBottom="8dp"
