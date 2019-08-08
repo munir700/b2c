@@ -9,8 +9,6 @@
         <variable
             name="viewModel"
             type="co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel"/>
-
-        <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

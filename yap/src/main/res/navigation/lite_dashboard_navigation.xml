@@ -15,6 +15,9 @@
             app:popUpTo="@id/lite_dashboard_navigation"
             app:popUpToInclusive="true"
             app:destination="@id/documentsDashboardActivity" />
+        <action
+            android:id="@+id/action_liteDashboardFragment_to_setCardPinWelcomeActivity"
+            app:destination="@id/setCardPinWelcomeActivity"/>
     </fragment>
     <activity
         android:id="@+id/documentsDashboardActivity"
@@ -23,6 +26,15 @@
         android:label="DocumentsDashboardActivity">
         <argument
             android:name="name"
+            app:argType="string"/>
+    </activity>
+    <activity
+        android:id="@+id/setCardPinWelcomeActivity"
+        tools:layout="@layout/activity_set_card_pin_welcome"
+        android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
+        android:label="SetCardPinWelcomeActivity">
+        <argument
+            android:name="card_serial_number"
             app:argType="string"/>
     </activity>
 </navigation>
