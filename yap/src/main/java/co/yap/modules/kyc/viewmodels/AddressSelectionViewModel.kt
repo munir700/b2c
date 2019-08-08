@@ -233,9 +233,9 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
 
                     }
-                    else {
-                        clickEvent.setValue(GPS_CLICK_EEVENT)
-                    }
+//                    else {
+//                        clickEvent.setValue(GPS_CLICK_EEVENT)
+//                    }
 
 
                 })

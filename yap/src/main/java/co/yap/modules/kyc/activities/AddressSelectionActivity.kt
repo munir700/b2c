@@ -110,8 +110,8 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                 R.id.ivClose -> {
                     viewModel.state.isMapOnScreen = false
 
-                    if (viewModel.state.errorChecked){
-                         viewModel.state.cardView = false
+                    if (viewModel.state.errorChecked) {
+                        viewModel.state.cardView = false
                         YoYo.with(Techniques.SlideOutDown)
                             .withListener(object : Animator.AnimatorListener {
                                 override fun onAnimationStart(animation: Animator?) {
@@ -129,7 +129,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                             })
                             .duration(300)
                             .playOn(findViewById(R.id.cvLocationCard))
-                    }else{
+                    } else {
                         collapseMap()
                     }
 //                    viewModel.state.cardView = false
@@ -156,7 +156,10 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
                 R.id.next_button -> {
 //goto next screen or api call
-                    showToast(viewModel.state.error)
+                    if (!viewModel.state.error.isNullOrEmpty()) {
+                        showToast(viewModel.state.error)
+
+                    }
                 }
 
                 viewModel.MARKER_CLICK_ID -> {
@@ -173,8 +176,8 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
 
     fun displayLocationSettingsRequest(context: Context) {
-        if (!isLocationSettingsDialogue){
-            isLocationSettingsDialogue=true
+        if (!isLocationSettingsDialogue) {
+//            isLocationSettingsDialogue = true
             val googleApiClient = GoogleApiClient.Builder(context)
                 .addApi(LocationServices.API).build()
             googleApiClient.connect()
@@ -198,6 +201,8 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
                         LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
                             try {
+                                isLocationSettingsDialogue = true
+
                                 viewModel.checkGps = false
                                 status.startResolutionForResult(this@AddressSelectionActivity, REQUEST_CHECK_SETTINGS)
                             } catch (e: IntentSender.SendIntentException) {
@@ -292,7 +297,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     private fun collapseMap() {
         viewModel.state.isMapOnScreen = false
         viewModel.toggleMarkerVisibility()
-        if (viewModel.state.errorChecked){
+        if (viewModel.state.errorChecked) {
 //            viewModel.state.isMapOnScreen = false
             viewModel.state.cardView = false
         }
@@ -322,8 +327,8 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        isLocationSettingsDialogue = false
         if (requestCode == REQUEST_CHECK_SETTINGS) {
-            isLocationSettingsDialogue=false
 
             viewModel.getDeviceLocation()
         }
