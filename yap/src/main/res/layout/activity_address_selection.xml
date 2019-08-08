@@ -123,7 +123,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/margin_small"
+                    android:paddingTop="@dimen/margin_medium"
                     >
 
                     <TextView
@@ -227,8 +227,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="@dimen/margin_medium"
-                        android:visibility="@{viewModel.state.checkBoxLayoutVisibility}">
+                         android:visibility="@{viewModel.state.checkBoxLayoutVisibility}">
 
                         <CheckBox
                             android:id="@+id/cbTermsAndConditions"
@@ -265,6 +264,7 @@
                         android:layout_height="wrap_content"
                         style="@style/FragmentsBtnStyle"
                         android:text="@string/screen_phone_number_button_send"
+                        android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
                         android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -275,7 +275,6 @@
                         android:onClick="@{(v) -> viewModel.handlePressOnNext(v.id)}"
                         android:layout_gravity="bottom"
                         android:gravity="bottom"
-
                         />
                 </LinearLayout>
             </LinearLayout>
