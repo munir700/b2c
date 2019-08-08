@@ -101,7 +101,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     lateinit var markerOptions: MarkerOptions
     override val state: AddressSelectionState = AddressSelectionState(application)
 
-    private fun orderCard() {
+    private fun orderCard(id: Int) {
         var orderCardRequest: OrderCardRequest = OrderCardRequest(
             state.landmarkField,
             "",
@@ -120,6 +120,8 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    state.error=response.error.message
+                    clickEvent.setValue(id)
 
                 }
             }
@@ -457,7 +459,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override fun handlePressOnNext(id: Int) {
 //        clickEvent.setValue(id)
-        orderCard()
+        orderCard(id)
     }
 
     fun handlePressOnChangeLocation() {

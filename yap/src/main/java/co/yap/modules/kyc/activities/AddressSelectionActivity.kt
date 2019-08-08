@@ -129,6 +129,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
                 R.id.next_button -> {
 //goto next screen or api call
+                    showToast(viewModel.state.error)
                 }
 
                 viewModel.MARKER_CLICK_ID -> {
