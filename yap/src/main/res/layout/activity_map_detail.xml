@@ -189,10 +189,6 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:id="@+id/etLandMarkField"
-                        android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        android:cursorVisible="false"
-                        android:editable="false"
                         tools:hint="@string/screen_meeting_location_input_text_landmark_hint"
                         app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
                         style="@style/ALarge"
@@ -209,6 +205,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:textSelection="@{viewModel.state.landmarkField}"
                         />
 
                     <LinearLayout

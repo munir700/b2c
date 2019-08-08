@@ -22,6 +22,7 @@ import androidx.fragment.app.Fragment
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CoreInputField
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -294,16 +295,18 @@ object UIBinder {
 
         }
     }
-//
-//    @BindingAdapter("toggleTouch")
-//    @JvmStatic
-//    fun setImageResId(view: Fragment, visibility: Boolean) {
-//        if (visibility) {
-//            view.visibility = View.VISIBLE
-//        } else {
-//            view.visibility = View.GONE
-//
-//        }
-//    }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("textSelection")
+    fun textSelection(view: EditText, selection: String) {
+        if (!selection.isNullOrEmpty()){
+
+            view.setSelection(selection.length)
+
+        }
+
+    }
 
 }
