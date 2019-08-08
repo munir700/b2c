@@ -147,7 +147,7 @@
                     <EditText
                         android:id="@+id/etAddressField"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_42sdp"
                         android:inputType="textPersonName"
                         tools:hint="@string/screen_meeting_location_input_text_address_hint"
                         app:hint="@{Strings.screen_meeting_location_input_text_address_hint}"
@@ -164,12 +164,12 @@
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:layout_marginTop="4dp"
                         android:maxLength="100"
+                         android:paddingRight="@dimen/margin_medium"
                         android:textSize="@dimen/text_size_h3"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:editable="false"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:paddingRight="@dimen/margin_extra_small"
-                        android:textColor="@color/black"
+                        android:textColor="@color/colorPrimaryDark"
 
                         />
                     <!--greyDark-->
@@ -217,8 +217,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:textSelection="@{viewModel.state.landmarkField}"
                         android:drawablePadding="@dimen/margin_extra_small"
-                        android:paddingRight="@dimen/margin_extra_small"
-                        android:textColor="@color/black"
+                        android:paddingRight="0dp"
+                        android:textColor="@color/colorPrimaryDark"
                         app:drawableClick="@{viewModel.state.onDrawableClick}"
                         />
 

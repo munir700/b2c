@@ -150,7 +150,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
                 setDrawable= mContext.resources.getDrawable(R.drawable.ic_clear_field)
                 landMarkTitleColor= mContext.resources.getColor(R.color.greyDark)
             }else{
-                landMarkTitleColor= mContext.resources.getColor(R.color.black)
+                landMarkTitleColor= mContext.resources.getColor(R.color.colorPrimaryDark)
 
                 onDrawableClick=false
             }
@@ -166,7 +166,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var addressTitlesColor: Int = mContext.resources.getColor(R.color.black)
+    override var addressTitlesColor: Int = mContext.resources.getColor(R.color.colorPrimaryDark)
         get() = field
         set(value) {
             field = value
@@ -174,7 +174,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
-    override var landMarkTitleColor: Int = mContext.resources.getColor(R.color.black)
+    override var landMarkTitleColor: Int = mContext.resources.getColor(R.color.colorPrimaryDark)
         get() = field
         set(value) {
             field = value
