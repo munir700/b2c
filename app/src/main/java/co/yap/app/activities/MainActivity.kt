@@ -19,5 +19,9 @@ class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+    }
+
 
 }

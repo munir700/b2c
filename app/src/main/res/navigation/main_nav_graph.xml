@@ -99,9 +99,11 @@
             app:destination="@id/forgotPasscodeActivity"/>
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_systemPermissionFragment"
+            app:popExitAnim="@anim/fade_out_long"
             app:destination="@id/systemPermissionFragment"/>
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_phoneVerificationSignInFragment"
+            app:popExitAnim="@anim/fade_out_long"
             app:destination="@id/phoneVerificationSignInFragment"/>
     </fragment>
 
@@ -135,7 +137,11 @@
             android:name="screen_type"
             android:defaultValue=" "
             app:argType="string"/>
+        <action
+            android:id="@+id/action_systemPermissionFragment_to_systemPermissionFragmentNotification"
+            app:destination="@id/systemPermissionFragment"/>
     </fragment>
+
     <fragment
         android:id="@+id/phoneVerificationSignInFragment"
         tools:layout="@layout/activity_phone_verification"
@@ -152,4 +158,5 @@
             android:defaultValue=" "
             app:argType="string"/>
     </fragment>
+
 </navigation>

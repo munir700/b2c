@@ -10,6 +10,7 @@ import co.yap.networking.admin.AdminRepository
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import java.util.regex.Pattern
@@ -48,7 +49,11 @@ class LoginViewModel(application: Application) : BaseViewModel<ILogin.State>(app
             state.loading = true
             when (val response = adminRepository.verifyUsername(state.twoWayTextWatcher)) {
                 is RetroApiResponse.Success -> {
-                    signInButtonPressEvent.value = response.data.data
+                    if (response.data.data) {
+                        signInButtonPressEvent.postValue(true)
+                    } else {
+                        state.emailError = getString(Strings.screen_sign_in_display_text_error_text)
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.error = response.error.message

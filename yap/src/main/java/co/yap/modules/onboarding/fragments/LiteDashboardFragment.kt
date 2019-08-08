@@ -67,9 +67,9 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
         val isFingerprintPermissionShown: Boolean =
             sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, false)
         val uuid: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
-        val ACTION = "co.yap.app.OPEN_LOGIN"
-        val intent = Intent()
-        intent.action = ACTION
+        // val ACTION = "co.yap.app.OPEN_LOGIN"
+        val intent = Intent("co.yap.app.OPEN_LOGIN")
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         sharedPreferenceManager.clearSharedPreference()
         sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())

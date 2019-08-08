@@ -37,15 +37,6 @@
 
         </activity>
         <activity
-            android:name=".modules.login.activities.LogInActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="co.yap.app.OPEN_LOGIN"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
-        <activity
             android:name="co.yap.app.modules.startup.activities.AccountSelectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
