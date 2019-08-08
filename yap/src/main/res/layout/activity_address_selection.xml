@@ -139,7 +139,10 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:id="@+id/tvAddressHeading"/>
+                        android:id="@+id/tvAddressHeading"
+                        android:textColor="@{viewModel.state.addressTitlesColor}"
+
+                        />
 
                     <EditText
                         android:id="@+id/etAddressField"
@@ -164,8 +167,12 @@
                         android:textSize="@dimen/text_size_h3"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:editable="false"
-                        app:layout_constraintStart_toStartOf="parent"/>
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:paddingRight="@dimen/margin_extra_small"
+                        android:textColor="@color/black"
 
+                        />
+                    <!--greyDark-->
                     <TextView
                         style="@style/ASmall"
                         android:gravity="left"
@@ -180,7 +187,9 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:id="@+id/tvLandMark"/>
+                        android:id="@+id/tvLandMark"
+                        android:textColor="@{viewModel.state.addressTitlesColor}"
+                        />
 
                     <!-- min char length 2-->
 
@@ -206,6 +215,11 @@
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         app:layout_constraintStart_toStartOf="parent"
                         app:textSelection="@{viewModel.state.landmarkField}"
+
+                        android:drawablePadding="@dimen/margin_extra_small"
+                        android:paddingRight="@dimen/margin_extra_small"
+                        android:textColor="@color/black"
+                        app:drawableClick="@{viewModel.state.onDrawableClick}"
                         />
 
                     <LinearLayout

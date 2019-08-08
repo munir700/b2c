@@ -114,11 +114,11 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                 is RetroApiResponse.Success -> {
 //           load         MeetingConfirmationFragment
                     state.loading = false
-                 }
+                }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.error=response.error.message
+                    state.error = response.error.message
                     clickEvent.setValue(id)
 
                 }
@@ -228,14 +228,10 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             null
                         )
 //                        getCurrentPlaceLikelihoods()
-
-
                     }
 //                    else {
 //                        clickEvent.setValue(GPS_CLICK_EEVENT)
 //                    }
-
-
                 })
         } catch (e: Exception) {
             Log.e("Exception: %s", e.message)
@@ -264,13 +260,12 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                         )
 //                        getCurrentPlaceLikelihoods()
 
-
                     } else {
                         clickEvent.setValue(GPS_CLICK_EEVENT)
 
 
 //                        displayLocationSettingsRequest(context)
-//break;
+//                          break;
 //                        displayLocationSettingsRequest(context)
 //                        mMap.animateCamera(
 //                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),

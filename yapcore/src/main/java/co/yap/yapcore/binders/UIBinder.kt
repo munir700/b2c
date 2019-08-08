@@ -3,6 +3,7 @@ package co.yap.yapcore.binders
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -12,17 +13,16 @@ import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
-import androidx.fragment.app.Fragment
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
-import co.yap.widgets.CoreInputField
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -270,7 +270,7 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: CardView, visibility: Boolean) {
         if (visibility) {
-            view.visibility=View.VISIBLE
+            view.visibility = View.VISIBLE
             YoYo.with(Techniques.SlideInUp)
                 .duration(400)
                 .playOn(view)
@@ -301,7 +301,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("textSelection")
     fun textSelection(view: EditText, selection: String) {
-        if (!selection.isNullOrEmpty()){
+        if (!selection.isNullOrEmpty()) {
 
             view.setSelection(selection.length)
 
@@ -309,4 +309,33 @@ object UIBinder {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("drawableClick")
+    fun setDrawableRightListener(view: EditText, onDrawableClick: Boolean) {
+        if (onDrawableClick) {
+            view.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_clear_field,0)
+
+            view.setOnTouchListener(object : View.OnTouchListener {
+                override fun onTouch(v: View, m: MotionEvent): Boolean {
+                    var hasConsumed = false
+                    if (v is EditText) {
+                        if (m.x >= v.width - v.totalPaddingRight) {
+                            if (m.action == MotionEvent.ACTION_UP) {
+                                view.text.clear()
+
+                                view.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+                            }
+                            hasConsumed = true
+                        }
+                    }
+                     return hasConsumed
+                }
+            })
+        }else{
+            view.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+
+        }
+    }
 }

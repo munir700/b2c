@@ -1,6 +1,9 @@
 package co.yap.modules.kyc.interfaces
 
 import android.graphics.Bitmap
+import android.graphics.Color
+import android.graphics.DrawFilter
+import android.graphics.drawable.Drawable
 import co.yap.modules.kyc.activities.AddressSelectionActivity
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -54,6 +57,11 @@ interface IAddressSelection {
         var googleMap: GoogleMap?
         var errorVisibility: Int
         var errorChecked: Boolean
+
+        var setDrawable: Drawable?
+        var addressTitlesColor: Int
+        var landMarkTitleColor: Int
+        var onDrawableClick: Boolean
 
 
     }

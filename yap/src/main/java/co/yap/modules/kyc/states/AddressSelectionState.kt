@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
@@ -17,13 +18,8 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
 
     val mContext: Context = application.applicationContext
 
+
     val VISIBLE: Int = 0x00000000
-    val GONE: Int = 0x00000008
-
-//fun toggleVisisbilityCard(boo){
-//
-//}
-
 
     @get:Bindable
     override var googleMap: GoogleMap? = null
@@ -87,28 +83,21 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         set(value) {
             field = value
 
-                notifyPropertyChanged(BR.errorChecked)
+            notifyPropertyChanged(BR.errorChecked)
 
-         }
+        }
 
     @get:Bindable
     override var cardView: Boolean = false
         get() = field
         set(value) {
-
-
             if (value) {
                 errorVisibility = VISIBLE
                 notifyPropertyChanged(BR.errorVisibility)
 
             }
             field = value
-            errorChecked=value
-//            else{
-//
-//                errorVisibility = GONE
-//                notifyPropertyChanged(BR.errorVisibility)
-//            }
+            errorChecked = value
             notifyPropertyChanged(BR.cardView)
 
         }
@@ -144,6 +133,11 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         set(value) {
             field = value
             notifyPropertyChanged(BR.addressField)
+
+            if (!value.isNullOrEmpty()) {
+                addressTitlesColor = mContext.resources.getColor(R.color.greyDark)
+                notifyPropertyChanged(BR.addressTitlesColor)
+            }
         }
 
     @get:Bindable
@@ -151,7 +145,39 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         set(value) {
             field = value
             notifyPropertyChanged(BR.landmarkField)
+            if (!value.isNullOrEmpty()) {
+                onDrawableClick = true
+                setDrawable= mContext.resources.getDrawable(R.drawable.ic_clear_field)
+            }else{
+                onDrawableClick=false
+            }
         }
+
+
+    @get:Bindable
+    override var setDrawable: Drawable? = null
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.setDrawable)
+        }
+
+    @get:Bindable
+    override var addressTitlesColor: Int = mContext.resources.getColor(R.color.black)
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.addressTitlesColor)
+        }
+
+    @get:Bindable
+    override var landMarkTitleColor: Int = mContext.resources.getColor(R.color.black)
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.landMarkTitleColor)
+        }
+
 
     @get:Bindable
     override var checked: Boolean = false
@@ -176,6 +202,13 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             notifyPropertyChanged(BR.valid)
         }
 
+    @get:Bindable
+    override var onDrawableClick: Boolean = false
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.onDrawableClick)
+        }
 
     private fun validateAddress(): Boolean {
         return addressField.isNotEmpty() && addressField.length >= 2 && checked
