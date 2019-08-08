@@ -25,6 +25,11 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
     private val cardsRepository: CardsRepository = CardsRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
 
+    override fun onCreate() {
+        super.onCreate()
+        getAccountInfo()
+    }
+
     override fun handlePressOnLogout() {
         logout()
     }
