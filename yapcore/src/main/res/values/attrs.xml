@@ -11,6 +11,8 @@
         <attr name="btn_drawable_padding_top" format="float"/>
         <attr name="btn_drawable_padding_right" format="float"/>
         <attr name="btn_drawable_padding_left" format="float"/>
+        <attr name="btn_text_alignment_from_left" format="float"/>
+        <attr name="btn_has_bold_text" format="boolean"/>
         <attr name="btn_enable" format="boolean"/>
 
         <attr name="btn_shape_type" format="enum">
@@ -201,6 +203,42 @@
         <attr name="civ_border_color" format="color" />
         <attr name="civ_border_overlay" format="boolean" />
         <attr name="civ_circle_background_color" format="color" />
+    </declare-styleable>
+
+
+
+    <declare-styleable name="MyyMap">
+        <attr name="latitude" format="float" />
+        <attr name="longitude" format="float" />
+        <attr name="marker" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="RoundedImageView">
+        <attr name="riv_corner_radius" format="dimension" />
+        <attr name="riv_corner_radius_top_left" format="dimension" />
+        <attr name="riv_corner_radius_top_right" format="dimension" />
+        <attr name="riv_corner_radius_bottom_left" format="dimension" />
+        <attr name="riv_corner_radius_bottom_right" format="dimension" />
+        <attr name="riv_border_width" format="dimension" />
+        <attr name="riv_border_color" format="color" />
+        <attr name="riv_mutate_background" format="boolean" />
+        <attr name="riv_oval" format="boolean" />
+        <attr name="android:scaleType" />
+        <attr name="riv_tile_mode">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_x">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
+        <attr name="riv_tile_mode_y">
+            <enum name="clamp" value="0" />
+            <enum name="repeat" value="1" />
+            <enum name="mirror" value="2" />
+        </attr>
     </declare-styleable>
 
 </resources>

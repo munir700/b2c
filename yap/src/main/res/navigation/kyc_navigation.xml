@@ -40,14 +40,22 @@
     </fragment>
 
     <fragment
-        android:id="@+id/AddressSelectionFragment"
-        tools:layout="@layout/fragment_address_selection"
-        android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
+        android:id="@+id/MeetingConfirmationFragment"
+        tools:layout="@layout/fragment_meeting_confirmation"
+        android:name="co.yap.modules.onboarding.fragments.MeetingConfirmationFragment"
         android:label="AddressSelectionFragment">
         <action
             android:id="@+id/action_AddressSelectionFragment_to_KYCHomeFragment"
             app:destination="@id/KYCHomeFragment"/>
     </fragment>
+
+    <activity
+        android:id="@+id/addressSelectionActivity"
+        tools:layout="@layout/activity_address_selection"
+        android:name="co.yap.modules.kyc.activities.AddressSelectionActivity"
+        android:label="AddressSelectionActivity"/>
+
+
     <activity
         android:id="@+id/liteDashboardActivity"
         android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"

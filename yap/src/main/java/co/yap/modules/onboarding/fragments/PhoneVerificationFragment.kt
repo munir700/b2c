@@ -25,7 +25,16 @@ open class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerificatio
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
+        setObservers()
+       // viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
+    }
+    override fun setObservers() {
+        viewModel.nextButtonPressEvent.observe(this, Observer {
+            startActivityForResult(
+                context?.let { CreatePasscodeActivity.newIntent(it) },
+                Constants.REQUEST_CODE_CREATE_PASSCODE
+            )
+        })
     }
 
     override fun onDestroyView() {
@@ -33,12 +42,12 @@ open class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerificatio
         super.onDestroyView()
     }
 
-    private val nextButtonObserver = Observer<Boolean> {
+   /* private val nextButtonObserver = Observer<Boolean> {
         startActivityForResult(
             context?.let { CreatePasscodeActivity.newIntent(it) },
             Constants.REQUEST_CODE_CREATE_PASSCODE
         )
-    }
+    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -47,6 +56,7 @@ open class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerificatio
             if (null != data) {
                 viewModel.setPasscode(data.getStringExtra(SharedPreferenceManager.KEY_PASSCODE))
                 findNavController().navigate(R.id.action_phoneVerificationFragment_to_nameFragment)
+
             }
         }
     }

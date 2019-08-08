@@ -42,7 +42,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.createOtpResult.observe(this, createOtpObserver)
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
            // when (it) {
-                findNavController().navigate(R.id.action_verifyPasscodeFragment_to_forgotPasscodeActivity)
+                findNavController().navigate(R.id.action_verifyPasscodeFragment_to_forgot_passcode_navigation)
 
                // R.id.tvForgotPassword-> showToast("m clicking")
                /* R.id.singnButton-> {

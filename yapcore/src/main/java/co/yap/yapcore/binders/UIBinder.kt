@@ -3,6 +3,7 @@ package co.yap.yapcore.binders
 
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
@@ -12,10 +13,12 @@ import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
@@ -24,6 +27,11 @@ import co.yap.yapcore.R
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBindable
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.daimajia.androidanimations.library.Techniques
+import com.daimajia.androidanimations.library.YoYo
 
 
 object UIBinder {
@@ -237,4 +245,97 @@ object UIBinder {
         )
     }
 
+
+    @BindingAdapter("src", "circular")
+    @JvmStatic
+    fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
+        if (circular) {
+
+            Glide.with(view.getContext())
+                .asBitmap().load(resId)
+                .transforms(CenterCrop(), RoundedCorners(15))
+                .into(view)
+
+        } else {
+
+            Glide.with(view.getContext())
+                .asBitmap().load(resId)
+                .transforms(CenterCrop(), RoundedCorners(15))
+                .into(view)
+            //set placeholder here
+        }
+    }
+
+    @BindingAdapter("toggleVisibility")
+    @JvmStatic
+    fun setImageResId(view: CardView, visibility: Boolean) {
+        if (visibility) {
+            view.visibility = View.VISIBLE
+            YoYo.with(Techniques.SlideInUp)
+                .duration(400)
+                .playOn(view)
+
+
+        } else {
+            YoYo.with(Techniques.SlideOutDown)
+                .duration(0)
+                .playOn(view)
+
+        }
+
+    }
+
+    @BindingAdapter("toggleButtonVisibility")
+    @JvmStatic
+    fun setImageResId(view: ImageView, visibility: Boolean) {
+        if (visibility) {
+            view.visibility = View.VISIBLE
+        } else {
+            view.visibility = View.GONE
+
+        }
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("textSelection")
+    fun textSelection(view: EditText, selection: String) {
+        if (!selection.isNullOrEmpty()) {
+
+            view.setSelection(selection.length)
+
+        }
+
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    @JvmStatic
+    @BindingAdapter("drawableClick")
+    fun setDrawableRightListener(view: EditText, onDrawableClick: Boolean) {
+        if (onDrawableClick) {
+            view.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_clear_field,0)
+
+            view.setOnTouchListener(object : View.OnTouchListener {
+                override fun onTouch(v: View, m: MotionEvent): Boolean {
+                    var hasConsumed = false
+                    if (v is EditText) {
+                        if (m.x >= v.width - v.totalPaddingRight) {
+                            if (m.action == MotionEvent.ACTION_UP) {
+                                view.text.clear()
+
+                                view.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+                            }
+                            hasConsumed = true
+                        }
+                    }
+                     return hasConsumed
+                }
+            })
+        }else{
+            view.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+
+        }
+    }
 }

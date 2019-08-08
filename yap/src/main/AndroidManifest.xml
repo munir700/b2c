@@ -1,6 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="co.yap">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+
     <application>
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
@@ -8,10 +12,10 @@
             <nav-graph android:value="@navigation/kyc_navigation"/>
         </activity>
 
-        <activity
-            android:name=".modules.kyc.activities.DocumentsDashboardActivity"
-            android:screenOrientation="portrait"
-            />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key"/>
+
         <activity
             android:name=".modules.onboarding.activities.OnboardingActivity"
             android:label="@string/app_name"
@@ -20,20 +24,25 @@
             android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/onboarding_navigation"/>
         </activity>
+
         <activity
             android:name=".modules.onboarding.activities.CreatePasscodeActivity"
             android:screenOrientation="portrait"/>
 
-        <!--TODO convert these two activities into fragments-->
-        <activity
-            android:name=".modules.onboarding.activities.MeetingConfirmationActivity"
-            android:screenOrientation="portrait"
-            />
         <activity
             android:name=".modules.onboarding.activities.InformationErrorActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.onboarding.activities.EidInfoReviewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.kyc.activities.DocumentsDashboardActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/kyc_navigation"/>
+        </activity>
+
+        <activity
+            android:name=".modules.kyc.activities.AddressSelectionActivity"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

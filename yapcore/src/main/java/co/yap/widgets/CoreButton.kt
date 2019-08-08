@@ -26,10 +26,13 @@ class CoreButton : Button {
     private var DRAWABLE_RIGHT: Int = 1
     private var DRAWABLE_LEFT: Int = 0
     private var enableButton: Boolean = true
+    private var hasBoldText: Boolean = false
 
     private var defaultDrawablePaddingLeft: Float = 9.5f
     private var defaultDrawablePaddingRight: Float = 1.2f
     private var defaultDrawablePaddingTop: Float = 2.5f
+
+    private var alignmentDistnce: Float = 2f
 
     private var drawablePaddingLeft: Float = 9.5f
     private var drawablePaddingRight: Float = 1.2f
@@ -74,6 +77,7 @@ class CoreButton : Button {
         )
         drawablePositionType = typedArray.getInt(R.styleable.CoreButton_btn_drawable_position, 2)
         enableButton = typedArray.getBoolean(R.styleable.CoreButton_btn_enable, enableButton)
+        hasBoldText = typedArray.getBoolean(R.styleable.CoreButton_btn_has_bold_text, hasBoldText)
 
 
         labelTextColor = typedArray.getColor(
@@ -97,6 +101,9 @@ class CoreButton : Button {
         }
 
         shapeType = typedArray.getInt(R.styleable.CoreButton_btn_shape_type, 1)
+        alignmentDistnce =
+            typedArray.getFloat(R.styleable.CoreButton_btn_text_alignment_from_left, alignmentDistnce)
+
         drawablePaddingLeft =
             typedArray.getFloat(R.styleable.CoreButton_btn_drawable_padding_left, defaultDrawablePaddingLeft)
         drawablePaddingRight =
@@ -128,6 +135,9 @@ class CoreButton : Button {
         paintText.setTextSize(labelTextSize)
         paintText.textAlign = Paint.Align.CENTER
         paintText.style = Paint.Style.FILL
+        if (hasBoldText) {
+            paintText.setFakeBoldText(true)
+        }
 
     }
 
@@ -171,7 +181,7 @@ class CoreButton : Button {
         } else {
             rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
             canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
-            canvas.drawText(text.toString(), (btnWeight / 2).toFloat(), (btnHeight / 1.6).toFloat(), paintText)
+            canvas.drawText(text.toString(), (btnWeight / alignmentDistnce).toFloat(), (btnHeight / 1.6).toFloat(), paintText)
 
         }
 

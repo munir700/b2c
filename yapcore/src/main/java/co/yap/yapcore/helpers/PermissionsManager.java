@@ -15,14 +15,17 @@ public class PermissionsManager implements LifecycleObserver {
 
     private static int PERMISSION_REQUEST = 13;
     private static String ALL_PERMISSIONS = "ALL";
-    private Activity activity;
-    private String requestedPermission = ALL_PERMISSIONS;
-    private OnPermissionGrantedListener onPermissionGrantedListener = OnPermissionGrantedListener.DEFAULT;
     private static final String[] APP_PERMISSIONS = {
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_FINE_LOCATION
     };
+
+    private Activity activity;
+    private String requestedPermission = ALL_PERMISSIONS;
+    private OnPermissionGrantedListener onPermissionGrantedListener = OnPermissionGrantedListener.DEFAULT;
+
 
     public interface OnPermissionGrantedListener {
         void onPermissionGranted(String permission);
