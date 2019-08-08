@@ -36,8 +36,6 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
         viewModel.clickEvent.observe(this, observer)
         sharedPreferenceManager = SharedPreferenceManager(context as LiteDashboardActivity)
 
-        viewModel.getAccountInfo()
-
         if (BiometricUtil.isFingerprintSupported
             && BiometricUtil.isHardwareSupported(context as LiteDashboardActivity)
             && BiometricUtil.isPermissionGranted(context as LiteDashboardActivity)
@@ -70,13 +68,19 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
         when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-                findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity(
-                    MyUserManager.user?.customer?.firstName.toString()
-                ))
+                findNavController().navigate(
+                    LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity(
+                        MyUserManager.user?.customer?.firstName ?: ""
+                    )
+                )
                 activity?.finish()
             }
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
-                findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity("12312312312313"))
+                findNavController().navigate(
+                    LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity(
+                        "12312312312313"
+                    )
+                )
             }
             viewModel.EVENT_GET_ACCOUNT_INFO_SUCCESS -> {
                 checkUserStatus()
