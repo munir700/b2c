@@ -16,10 +16,13 @@ interface ILiteDashboard {
             get() = 3
         val EVENT_GET_ACCOUNT_INFO_SUCCESS: Int
             get() = 4
+        val EVENT_GET_DEBIT_CARDS_SUCCESS: Int
+            get() = 5
 
         val clickEvent: SingleClickEvent
         fun handlePressOnLogout()
         fun getAccountInfo()
+        fun getDebitCards()
         fun handlePressOnCompleteVerification()
         fun handlePressOnsetCardPin()
         fun logout()

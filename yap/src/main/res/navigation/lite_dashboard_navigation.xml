@@ -33,8 +33,5 @@
         tools:layout="@layout/activity_set_card_pin_welcome"
         android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
         android:label="SetCardPinWelcomeActivity">
-        <argument
-            android:name="card_serial_number"
-            app:argType="string"/>
     </activity>
 </navigation>

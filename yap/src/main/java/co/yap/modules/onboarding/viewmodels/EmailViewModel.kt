@@ -8,7 +8,7 @@ import android.widget.TextView
 import co.yap.R
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
-import co.yap.modules.onboarding.models.MyUserManager
+import co.yap.yapcore.managers.MyUserManager
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
