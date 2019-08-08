@@ -4,6 +4,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="co.yap.translation.Strings"/>
 
         <variable
             name="viewModel"

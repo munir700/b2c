@@ -62,7 +62,9 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
             val action =
-                VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(Constants.NOTIFICATION_SCREEN_TYPE)
+                SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
+                    Constants.NOTIFICATION_SCREEN_TYPE
+                )
             findNavController().navigate(action)
         } else {
             findNavController().navigate(R.id.action_goto_liteDashboardActivity)

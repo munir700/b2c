@@ -7,7 +7,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
@@ -63,10 +65,12 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     }
 
     private val observer = Observer<Int> {
-        when(it) {
+        when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-
+                // TODO: pass the correct name here
+                findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity("Bilal"))
+                activity?.finish()
             }
         }
     }
