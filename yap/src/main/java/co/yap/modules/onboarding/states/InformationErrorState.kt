@@ -11,7 +11,7 @@ import co.yap.yapcore.BaseState
 class InformationErrorState(application: Application) : BaseState(), IInformationError.State {
     private val mContext = application.applicationContext
     @get:Bindable
-    override var errorTitle: String="Looks like you're from the United States"
+    override var errorTitle: String=""
         set(value) {
             field=value
             notifyPropertyChanged(BR.errorTitle)
@@ -23,13 +23,13 @@ class InformationErrorState(application: Application) : BaseState(), IInformatio
             notifyPropertyChanged(BR.errorImage)
         }
     @get:Bindable
-    override var errorGuide: String="Sorry, we're unable to activate your YAP account at this time. We're working on it and we will let you know once resolved."
+    override var errorGuide: String=""
         set(value) {
             field=value
             notifyPropertyChanged(BR.errorGuide)
         }
     @get:Bindable
-    override var buttonTitle: String="Go to dashboard"
+    override var buttonTitle: String=""
         set(value) {
             field=value
             notifyPropertyChanged(BR.buttonTitle)

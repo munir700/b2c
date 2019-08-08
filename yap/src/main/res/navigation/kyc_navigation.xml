@@ -5,6 +5,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kyc_navigation"
     app:startDestination="@id/KYCHomeFragment">
+    <action
+        android:id="@+id/action_goto_liteDashboardActivity"
+        app:destination="@id/liteDashboardActivity"
+        app:popUpTo="@+id/kyc_navigation"
+        app:popUpToInclusive="true"/>
     <fragment
         android:id="@+id/informationErrorFragment"
         android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
@@ -45,9 +50,8 @@
     </fragment>
     <activity
         android:id="@+id/liteDashboardActivity"
-        tools:layout="@layout/activity_lite_dashboard"
         android:name="co.yap.modules.onboarding.activities.LiteDashboardActivity"
+        tools:layout="@layout/activity_lite_dashboard"
         android:label="LiteDashboardActivity"/>
-
 
 </navigation>

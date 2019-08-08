@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -36,13 +37,40 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
     }
 
     override fun handlePressOnRescanBtn() {
-
+        clickEvent.setValue(EVENT_RESCAN)
     }
 
     override fun handlePressOnConfirmBtn() {
-        // TODO: perform mandatory validation checks and then upload docs if passed
+        parentViewModel?.identity?.identity?.let {
+            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
+            when {
+                DateUtils.isDatePassed(expiry) -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
+                DateUtils.getAge(it.dateOfBirth.run { DateUtils.toDate(day, month, year) }) < 18 -> clickEvent.setValue(
+                    EVENT_ERROR_UNDER_AGE
+                )
+                it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
+                else -> {
+                    // All checks passed.
+                    // performUploadDocumentsRequest()
+                    clickEvent.setValue(EVENT_NEXT)
+                }
+            }
+        }
 
-        // performUploadDocumentsRequest()
+
+    }
+
+    override fun handleUserRejection(reason: Int) {
+        handlePressOnRescanBtn()
+    }
+
+    override fun handleUserAcceptance(reason: Int) {
+        clickEvent.setValue(EVENT_NEXT_WITH_ERROR)
+    }
+
+    override fun onEIDScanningComplete(result: IdentityScannerResult) {
+        parentViewModel?.identity = result
+        populateState(result)
     }
 
     private fun performUploadDocumentsRequest() {
@@ -74,10 +102,10 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
     private fun populateState(identity: IdentityScannerResult?) {
         identity?.let {
             state.fullName = it.identity.givenName + " " + it.identity.sirName
-            state.fullNameValid = true
+            state.fullNameValid = state.fullName.isNotBlank()
 
             state.nationality = it.identity.nationality
-            state.nationalityValid = true
+            state.nationalityValid = state.nationality.isNotBlank() && !state.nationality.equals("USA", false)
 
             state.dateOfBirth = it.identity.dateOfBirth.toString()
             state.dateOfBirthValid = it.identity.dateOfBirth.run {
@@ -89,9 +117,10 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
 
             state.expiryDate = it.identity.expirationDate.toString()
             state.expiryDateValid = it.identity.expirationDate.run {
-                DateUtils.isDatePassed(DateUtils.toDate(day, month, year))
+                !DateUtils.isDatePassed(DateUtils.toDate(day, month, year))
             }
 
+            state.genderValid = true
             state.gender = it.identity.gender.run {
                 when {
                     this == Gender.Male -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)

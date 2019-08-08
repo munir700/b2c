@@ -122,7 +122,7 @@
                 android:id="@+id/tvName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableEnd="@drawable/path"
+                android:drawableEnd="@{viewModel.state.fullNameValid ? @drawable/path : @drawable/ic_error}"
                 app:layout_constraintTop_toBottomOf="@+id/tvNameHeading"
                 tools:text="Nada Hassan"
                 android:text="@{viewModel.state.fullName}"
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
-                android:drawableEnd="@drawable/path"
+                android:drawableEnd="@{viewModel.state.nationalityValid ? @drawable/path : @drawable/ic_error}"
                 app:layout_constraintTop_toBottomOf="@+id/tvNationalityHeading"
                 tools:text="Canadian"
                 android:text="@{viewModel.state.nationality}"
@@ -177,7 +177,7 @@
                 android:text="@{viewModel.state.dateOfBirth}"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
-                android:drawableEnd="@drawable/path"
+                android:drawableEnd="@{viewModel.state.dateOfBirthValid ? @drawable/path : @drawable/ic_error}"
                 app:layout_constraintTop_toBottomOf="@+id/tvDOBHeading"
                 style="@style/Large"
                 />
@@ -203,7 +203,7 @@
                 android:text="@{viewModel.state.gender}"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
-                android:drawableEnd="@drawable/path"
+                android:drawableEnd="@{viewModel.state.genderValid ? @drawable/path : @drawable/ic_error}"
                 app:layout_constraintTop_toBottomOf="@+id/tvGenderHeading"
                 style="@style/Large"
                 />
@@ -230,7 +230,7 @@
                 android:text="@{viewModel.state.expiryDate}"
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_normal"
-                android:drawableEnd="@drawable/path"
+                android:drawableEnd="@{viewModel.state.expiryDateValid ? @drawable/path : @drawable/ic_error}"
                 style="@style/Large"
                 />
 
@@ -252,6 +252,7 @@
                 android:layout_marginBottom="@dimen/margin_normal"
                 app:layout_constraintBottom_toTopOf="@+id/tvNoThanks"
                 app:layout_constraintVertical_bias="0.75"
+                android:onClick="@{(v) -> viewModel.handlePressOnConfirmBtn()}"
                 />
 
             <TextView
@@ -264,6 +265,7 @@
                 android:layout_marginBottom="@dimen/margin_large"
                 tools:text="@string/screen_b2c_eid_info_review_button_title_rescan_eid"
                 style="@style/Large"
+                android:onClick="@{(v) -> viewModel.handlePressOnRescanBtn()}"
                 android:textColor="@color/colorPrimary"
                 app:text="@{Strings.screen_b2c_eid_info_review_button_title_rescan_eid}"
                 />

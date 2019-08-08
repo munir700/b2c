@@ -41,14 +41,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
-            // when (it) {
-            findNavController().navigate(R.id.action_verifyPasscodeFragment_to_forgotPasscodeActivity)
+           // when (it) {
+                findNavController().navigate(R.id.action_verifyPasscodeFragment_to_forgotPasscodeActivity)
 
-            // R.id.tvForgotPassword-> showToast("m clicking")
-            /* R.id.singnButton-> {
+               // R.id.tvForgotPassword-> showToast("m clicking")
+               /* R.id.singnButton-> {
 
-             }*/
-            // }
+                }*/
+           // }
         })
 
         dialer.hideFingerprintView()
