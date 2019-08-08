@@ -174,6 +174,7 @@
                         />
                     <!--greyDark-->
                     <TextView
+                        android:id="@+id/tvLandMark"
                         style="@style/ASmall"
                         android:gravity="left"
                         android:layout_width="match_parent"
@@ -187,8 +188,7 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:id="@+id/tvLandMark"
-                        android:textColor="@{viewModel.state.addressTitlesColor}"
+                        android:textColor="@{viewModel.state.landMarkTitleColor}"
                         />
 
                     <!-- min char length 2-->
@@ -202,6 +202,7 @@
                         app:hint="@{Strings.screen_meeting_location_input_text_landmark_hint}"
                         style="@style/ALarge"
                         android:textColorHint="@color/grey"
+                        android:minHeight="@dimen/_42sdp"
                         android:gravity="left"
                         tools:ignore="MissingConstraints"
                         app:layout_constraintTop_toBottomOf="@+id/tvLandMark"
@@ -215,7 +216,6 @@
                         android:layout_marginBottom="@dimen/margin_medium_large"
                         app:layout_constraintStart_toStartOf="parent"
                         app:textSelection="@{viewModel.state.landmarkField}"
-
                         android:drawablePadding="@dimen/margin_extra_small"
                         android:paddingRight="@dimen/margin_extra_small"
                         android:textColor="@color/black"

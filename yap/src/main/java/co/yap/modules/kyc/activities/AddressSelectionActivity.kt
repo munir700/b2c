@@ -84,7 +84,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnLocation -> {
-
+                    hideKeyboard()
                     if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         mLocationPermissionGranted = true
                         if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {

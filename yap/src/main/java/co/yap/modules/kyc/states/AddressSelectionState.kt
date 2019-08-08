@@ -148,7 +148,10 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             if (!value.isNullOrEmpty()) {
                 onDrawableClick = true
                 setDrawable= mContext.resources.getDrawable(R.drawable.ic_clear_field)
+                landMarkTitleColor= mContext.resources.getColor(R.color.greyDark)
             }else{
+                landMarkTitleColor= mContext.resources.getColor(R.color.black)
+
                 onDrawableClick=false
             }
         }
