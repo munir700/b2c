@@ -53,6 +53,7 @@ interface IAddressSelection {
         var isMapOnScreen: Boolean
         var googleMap: GoogleMap?
         var errorVisibility: Int
+        var errorChecked: Boolean
 
 
     }

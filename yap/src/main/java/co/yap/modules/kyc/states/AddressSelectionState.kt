@@ -14,6 +14,7 @@ import com.google.android.gms.maps.GoogleMap
 
 
 class AddressSelectionState(application: Application) : BaseState(), IAddressSelection.State {
+
     val mContext: Context = application.applicationContext
 
     val VISIBLE: Int = 0x00000000
@@ -80,6 +81,15 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             notifyPropertyChanged(BR.handleBackPress)
 //            notifyPropertyChanged(BR.cardView)
         }
+    @get:Bindable
+    override var errorChecked: Boolean = false
+        get() = field
+        set(value) {
+            field = value
+
+                notifyPropertyChanged(BR.errorChecked)
+
+         }
 
     @get:Bindable
     override var cardView: Boolean = false
@@ -93,6 +103,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
 
             }
             field = value
+            errorChecked=value
 //            else{
 //
 //                errorVisibility = GONE

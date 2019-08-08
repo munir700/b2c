@@ -232,7 +232,8 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 //                        getCurrentPlaceLikelihoods()
 
 
-                    } else {
+                    }
+                    else {
                         clickEvent.setValue(GPS_CLICK_EEVENT)
                     }
 

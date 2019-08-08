@@ -53,6 +53,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
     lateinit var icon: BitmapDescriptor
     private var mLocationPermissionGranted: Boolean = false
+    private var isLocationSettingsDialogue: Boolean = false
 
     var placeTitle: String = ""
     var placeSubTitle: String = ""
@@ -107,23 +108,49 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                 }
 
                 R.id.ivClose -> {
-                    YoYo.with(Techniques.SlideOutDown)
-                        .withListener(object : Animator.AnimatorListener {
-                            override fun onAnimationStart(animation: Animator?) {
-                            }
+                    viewModel.state.isMapOnScreen = false
 
-                            override fun onAnimationRepeat(animation: Animator?) {
-                            }
+                    if (viewModel.state.errorChecked){
+                         viewModel.state.cardView = false
+                        YoYo.with(Techniques.SlideOutDown)
+                            .withListener(object : Animator.AnimatorListener {
+                                override fun onAnimationStart(animation: Animator?) {
+                                }
 
-                            override fun onAnimationEnd(animation: Animator?) {
-                                collapseMap()
-                            }
+                                override fun onAnimationRepeat(animation: Animator?) {
+                                }
 
-                            override fun onAnimationCancel(animation: Animator?) {
-                            }
-                        })
-                        .duration(300)
-                        .playOn(findViewById(R.id.cvLocationCard))
+                                override fun onAnimationEnd(animation: Animator?) {
+                                    collapseMap()
+                                }
+
+                                override fun onAnimationCancel(animation: Animator?) {
+                                }
+                            })
+                            .duration(300)
+                            .playOn(findViewById(R.id.cvLocationCard))
+                    }else{
+                        collapseMap()
+                    }
+//                    viewModel.state.cardView = false
+//                    viewModel.state.errorVisibility = GONE
+//                    YoYo.with(Techniques.SlideOutDown)
+//                        .withListener(object : Animator.AnimatorListener {
+//                            override fun onAnimationStart(animation: Animator?) {
+//                            }
+//
+//                            override fun onAnimationRepeat(animation: Animator?) {
+//                            }
+//
+//                            override fun onAnimationEnd(animation: Animator?) {
+//                                collapseMap()
+//                            }
+//
+//                            override fun onAnimationCancel(animation: Animator?) {
+//                            }
+//                        })
+//                        .duration(300)
+//                        .playOn(findViewById(R.id.cvLocationCard))
 
                 }
 
@@ -146,44 +173,48 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
 
     fun displayLocationSettingsRequest(context: Context) {
-        val googleApiClient = GoogleApiClient.Builder(context)
-            .addApi(LocationServices.API).build()
-        googleApiClient.connect()
+        if (!isLocationSettingsDialogue){
+            isLocationSettingsDialogue=true
+            val googleApiClient = GoogleApiClient.Builder(context)
+                .addApi(LocationServices.API).build()
+            googleApiClient.connect()
 
-        val locationRequest = LocationRequest.create()
-        locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
-        locationRequest.interval = 10000
-        locationRequest.fastestInterval = (10000 / 2).toLong()
+            val locationRequest = LocationRequest.create()
+            locationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            locationRequest.interval = 10000
+            locationRequest.fastestInterval = (10000 / 2).toLong()
 
-        val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
-        builder.setAlwaysShow(true)
+            val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
+            builder.setAlwaysShow(true)
 
-        val result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
-        result.setResultCallback(object : ResultCallback<LocationSettingsResult> {
-            override fun onResult(result: LocationSettingsResult) {
-                val status = result.status
-                when (status.statusCode) {
-                    LocationSettingsStatusCodes.SUCCESS -> {
-                        viewModel.checkGps = true
-                    }
-
-                    LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
-                        try {
-                            viewModel.checkGps = false
-                            status.startResolutionForResult(this@AddressSelectionActivity, REQUEST_CHECK_SETTINGS)
-                        } catch (e: IntentSender.SendIntentException) {
-                            Log.i("TAGAddress", "PendingIntent unable to execute request.")
+            val result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
+            result.setResultCallback(object : ResultCallback<LocationSettingsResult> {
+                override fun onResult(result: LocationSettingsResult) {
+                    val status = result.status
+                    when (status.statusCode) {
+                        LocationSettingsStatusCodes.SUCCESS -> {
+                            viewModel.checkGps = true
                         }
 
-                    }
-                    LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> Log.i(
+                        LocationSettingsStatusCodes.RESOLUTION_REQUIRED -> {
+                            try {
+                                viewModel.checkGps = false
+                                status.startResolutionForResult(this@AddressSelectionActivity, REQUEST_CHECK_SETTINGS)
+                            } catch (e: IntentSender.SendIntentException) {
+                                Log.i("TAGAddress", "PendingIntent unable to execute request.")
+                            }
 
-                        "TAGAddress",
-                        "Location settings are inadequate, and cannot be fixed here. Dialog not created."
-                    )
+                        }
+                        LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> Log.i(
+
+                            "TAGAddress",
+                            "Location settings are inadequate, and cannot be fixed here. Dialog not created."
+                        )
+                    }
                 }
-            }
-        })
+            })
+        }
+
     }
 
     override fun onPermissionGranted(permission: String?) {
@@ -222,6 +253,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     }
 
     private fun expandMap() {
+        viewModel.state.cardView = false
         if (viewModel.checkGps) {
             viewModel.state.isMapOnScreen = true
         } else {
@@ -260,7 +292,11 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     private fun collapseMap() {
         viewModel.state.isMapOnScreen = false
         viewModel.toggleMarkerVisibility()
-        viewModel.state.cardView = false
+        if (viewModel.state.errorChecked){
+//            viewModel.state.isMapOnScreen = false
+            viewModel.state.cardView = false
+        }
+//        viewModel.state.cardView = false
         viewModel.state.closeCard = false
 
         YoYo.with(Techniques.FadeIn)
@@ -287,6 +323,8 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == REQUEST_CHECK_SETTINGS) {
+            isLocationSettingsDialogue=false
+
             viewModel.getDeviceLocation()
         }
     }
