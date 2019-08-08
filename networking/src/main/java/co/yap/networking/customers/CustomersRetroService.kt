@@ -40,7 +40,7 @@ interface CustomersRetroService {
     @Multipart
     @POST(CustomersRepository.URL_UPLOAD_DOCUMENTS)
     suspend fun uploadDocuments(
-        files: List<MultipartBody.Part>,
+        @Part files: List<MultipartBody.Part>,
         @Part("documentType") documentType: RequestBody,
         @Part("firstName") firstName: RequestBody,
         @Part("lastName") lastName: RequestBody,

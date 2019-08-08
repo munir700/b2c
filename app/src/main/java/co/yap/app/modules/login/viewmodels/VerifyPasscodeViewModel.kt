@@ -145,7 +145,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                     state.loading = false
                 }
             }
-//            state.loading = false
+            state.loading = false
         }
     }
 
