@@ -24,10 +24,6 @@
         <action
             android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"
             app:destination="@id/eidInfoReviewFragment"/>
-        <action
-            android:id="@+id/action_KYCHomeFragment_to_liteDashboardActivity"
-            app:destination="@id/liteDashboardActivity"/>
-
     </fragment>
     <fragment
         android:id="@+id/eidInfoReviewFragment"

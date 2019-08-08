@@ -6,6 +6,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.NavHostFragment
 import co.yap.BR
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
@@ -30,7 +31,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.logoutSuccess.observe(this, logoutSuccessObserver)
+        viewModel.clickEvent.observe(this, observer)
         sharedPreferenceManager = SharedPreferenceManager(context as LiteDashboardActivity)
 
         if (BiometricUtil.isFingerprintSupported
@@ -57,11 +58,20 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     }
 
     override fun onDestroyView() {
-        viewModel.logoutSuccess.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()
     }
 
-    private val logoutSuccessObserver = Observer<Boolean> {
+    private val observer = Observer<Int> {
+        when(it) {
+            viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
+            viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
+
+            }
+        }
+    }
+
+    private fun doLogout() {
         val isFirstTimeUser: Boolean =
             sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
         val isFingerprintPermissionShown: Boolean =

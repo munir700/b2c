@@ -10,4 +10,9 @@
         android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
         tools:layout="@layout/fragment_lite_dashboard"
         android:label="LiteDashboardFragment"/>
+    <activity
+        android:id="@+id/documentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard"
+        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
+        android:label="DocumentsDashboardActivity"/>
 </navigation>

@@ -43,7 +43,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/ivLogo"/>
 
 
-
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnLogout"
                 android:layout_width="match_parent"
@@ -79,6 +78,24 @@
                 android:layout_marginTop="@dimen/margin_large"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnCompleteVerification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/FragmentsBtnStyle"
+            app:enableCoreButton="@{true}"
+            app:text="@{Strings.screen_onboarding_congratulations_button_complete_verification}"
+            tools:text="@string/screen_onboarding_congratulations_button_complete_verification"
+            android:onClick="@{(v) -> viewModel.handlePressOnCompleteVerification()}"
+            android:layout_marginStart="@dimen/margin_xl"
+            android:layout_marginEnd="@dimen/margin_xl"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

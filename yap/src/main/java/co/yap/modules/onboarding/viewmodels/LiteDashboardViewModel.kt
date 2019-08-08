@@ -10,6 +10,7 @@ import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -17,7 +18,7 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
     ILiteDashboard.ViewModel, IRepositoryHolder<AuthRepository> {
 
     override val state: LiteDashboardState = LiteDashboardState()
-    override val logoutSuccess: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
 
@@ -31,7 +32,7 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
             state.loading = true
             when (val response = repository.logout(deviceId.toString())) {
                 is RetroApiResponse.Success -> {
-                    logoutSuccess.value = true
+                    clickEvent.setValue(EVENT_LOGOUT_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -45,5 +46,7 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
         }
     }
 
-
+    override fun handlePressOnCompleteVerification() {
+        clickEvent.setValue(EVENT_PRESS_COMPLETE_VERIFICATION)
+    }
 }

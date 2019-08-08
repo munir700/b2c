@@ -9,14 +9,6 @@ class CongratulationsState : BaseState(), ICongratulations.State {
 
     override val nameList: Array<String?> = arrayOfNulls(1)
 
-//    // TODO: This is not being used
-//    @get:Bindable
-//    override var name: String = ""
-//        set(value) {
-//            field = value
-//            notifyPropertyChanged(BR.name)
-//        }
-
     @get:Bindable
     override var ibanNumber: String = ""
         set(value) {
