@@ -56,6 +56,7 @@ interface IAddressSelection {
         var isMapOnScreen: Boolean
         var googleMap: GoogleMap?
         var errorVisibility: Int
+        var checkBoxLayoutVisibility: Int
         var errorChecked: Boolean
 
         var setDrawable: Drawable?

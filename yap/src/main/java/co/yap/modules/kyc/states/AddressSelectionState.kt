@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.view.View.GONE
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
@@ -78,6 +79,14 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
 //            notifyPropertyChanged(BR.cardView)
         }
     @get:Bindable
+    override var checkBoxLayoutVisibility: Int = GONE
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.checkBoxLayoutVisibility)
+//            notifyPropertyChanged(BR.cardView)
+        }
+    @get:Bindable
     override var errorChecked: Boolean = false
         get() = field
         set(value) {
@@ -135,6 +144,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             notifyPropertyChanged(BR.addressField)
 
             if (!value.isNullOrEmpty()) {
+                checkBoxLayoutVisibility=VISIBLE
                 addressTitlesColor = mContext.resources.getColor(R.color.greyDark)
                 notifyPropertyChanged(BR.addressTitlesColor)
             }
