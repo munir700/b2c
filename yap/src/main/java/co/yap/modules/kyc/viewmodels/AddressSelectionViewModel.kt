@@ -13,6 +13,10 @@ import co.yap.R
 import co.yap.modules.kyc.activities.AddressSelectionActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -35,7 +39,9 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import java.util.*
 
 class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
-    IAddressSelection.ViewModel {
+    IAddressSelection.ViewModel, IRepositoryHolder<CardsRepository> {
+
+    override val repository: CardsRepository = CardsRepository
 
 
     var locationMarker: Marker? = null
@@ -94,6 +100,31 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     lateinit var markerOptions: MarkerOptions
     override val state: AddressSelectionState = AddressSelectionState(application)
+
+    private fun orderCard() {
+        var orderCardRequest: OrderCardRequest = OrderCardRequest(
+            state.landmarkField,
+            "",
+            state.addressField,
+            mDefaultLocation.latitude,
+            mDefaultLocation.longitude
+        )
+        launch {
+            when (val response = repository.orderCard(orderCardRequest)) {
+                is RetroApiResponse.Success -> {
+
+
+                    state.loading = false
+// load new frag
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+
+                }
+            }
+        }
+    }
 
 
     override fun onMapInit(googleMap: GoogleMap?) {
@@ -425,7 +456,8 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
     override fun handlePressOnNext(id: Int) {
-        clickEvent.setValue(id)
+//        clickEvent.setValue(id)
+        orderCard()
     }
 
     fun handlePressOnChangeLocation() {

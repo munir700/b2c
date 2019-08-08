@@ -11,12 +11,12 @@ import retrofit2.http.Path
 
 interface CardsRetroService {
 
-    // Create Card Pin
+    //    Create Card Pin
     @GET(CardsRepository.URL_CREATE_PIN)
     suspend fun createCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body createCardPinRequest: CreateCardPinRequest): Response<ApiResponse>
 
 
-    // Order Card
+    //    Order Card
     @POST(CardsRepository.URL_ORDER_CARD)
     suspend fun orderCard(@Body orderCardRequest: OrderCardRequest): Response<ApiResponse>
 }

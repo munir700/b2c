@@ -12,12 +12,7 @@ interface CardsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun orderCard(
-        orderCardRequest: OrderCardRequest,
-        nearestLandMark: String?,
-        cardName: String?,
-        address1: String?,
-        latitude: Int?,
-        longitude: Int?
+        orderCardRequest: OrderCardRequest
     ): RetroApiResponse<ApiResponse>
 
 }

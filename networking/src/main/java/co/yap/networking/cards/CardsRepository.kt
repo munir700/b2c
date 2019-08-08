@@ -21,13 +21,8 @@ object CardsRepository : BaseRepository(), CardsApi {
 
 
     override suspend fun orderCard(
-        orderCardRequest: OrderCardRequest,
-        nearestLandMark: String?,
-        cardName: String?,
-        address1: String?,
-        latitude: Int?,
-        longitude: Int?
-    ): RetroApiResponse<ApiResponse>  =
-        AuthRepository.executeSafely(call = { API.orderCard( orderCardRequest) })
+        orderCardRequest: OrderCardRequest
+    ): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.orderCard(orderCardRequest) })
 
 }
