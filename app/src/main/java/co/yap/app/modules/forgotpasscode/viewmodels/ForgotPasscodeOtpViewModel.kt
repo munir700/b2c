@@ -43,6 +43,8 @@ class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<IForg
             when (val response=repository.createForgotPasscodeOTP(CreateForgotPasscodeOtpRequest(destination,emailOtp))) {
                 is RetroApiResponse.Success ->{
                     state.toast=getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    state.reverseTimer(10)
+                    state.validResend = false
                     state.loading = false
                 }
                 is RetroApiResponse.Error->{
