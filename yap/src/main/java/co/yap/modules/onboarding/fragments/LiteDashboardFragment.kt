@@ -36,8 +36,6 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
         viewModel.clickEvent.observe(this, observer)
         sharedPreferenceManager = SharedPreferenceManager(context as LiteDashboardActivity)
 
-        viewModel.getAccountInfo()
-
         if (BiometricUtil.isFingerprintSupported
             && BiometricUtil.isHardwareSupported(context as LiteDashboardActivity)
             && BiometricUtil.isPermissionGranted(context as LiteDashboardActivity)
@@ -91,7 +89,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
 
 
     private fun checkUserStatus() {
-        MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_MEETING_SUCCESS
+        //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_MEETING_SUCCESS
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 btnCompleteVerification.visibility = View.VISIBLE
