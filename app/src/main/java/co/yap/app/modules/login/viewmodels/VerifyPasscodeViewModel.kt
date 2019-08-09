@@ -1,7 +1,6 @@
 package co.yap.app.modules.login.viewmodels
 
 import android.app.Application
-import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
@@ -11,7 +10,7 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
-import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtp
+import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -31,7 +30,8 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
     override val createOtpResult: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override var isFingerprintLogin: Boolean = false
     private val customersRepository: CustomersRepository = CustomersRepository
-    private var emailOtp: Boolean = false
+    override var emailOtp: Boolean = false
+    override var mobileNumber:String=""
 
     private val messagesRepository: MessagesRepository = MessagesRepository
 
@@ -52,9 +52,8 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
-        var sharedPreferenceManager: SharedPreferenceManager
+        var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
         var username : String = ""
-        sharedPreferenceManager = SharedPreferenceManager(context)
         if (!sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
             username = state.username
         } else {
@@ -66,8 +65,12 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
 
         launch {
-            when (val response=messagesRepository.createForgotPasscodeOTP(CreateForgotPasscodeOtp(verifyUsername("03120000009"),emailOtp))) {
+            state.loading = true
+            when (val response=messagesRepository.createForgotPasscodeOTP(CreateForgotPasscodeOtpRequest(verifyUsername(username),emailOtp))) {
                 is RetroApiResponse.Success ->{
+
+                    mobileNumber=response.data.data
+                    state.loading = false
                     forgotPasscodeButtonPressEvent.setValue(id)
                 }
                 is RetroApiResponse.Error->{

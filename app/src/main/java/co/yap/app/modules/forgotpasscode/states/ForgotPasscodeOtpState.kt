@@ -24,7 +24,7 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
         }
 
     val mContext = application.applicationContext
-    val mobileNumber: Array<String?> = arrayOfNulls(1)
+  override var mobileNumber: Array<String?> = arrayOfNulls(1)
 
     @get:Bindable
     override var otp: String = ""

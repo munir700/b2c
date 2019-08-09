@@ -44,7 +44,7 @@
 
     <!-- Phone number verification screen -->
     <string name="screen_verify_phone_number_display_text_title">Verify your mobile number</string>
-    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to \n %1$s</string>
+    <string name="screen_verify_phone_number_display_text_sub_title">We\'ve sent a verification code to\n %1$s</string>
     <string name="screen_verify_phone_number_button_resend_otp">Resend OTP</string>
     <string name="screen_verify_phone_number_button_send">Next</string>
 
@@ -188,10 +188,15 @@
     <string name="screen_set_card_pin_success_button_create_pin">Top up now</string>
     <string name="screen_set_card_pin_success_button_create_pin_later">Do it later</string>
 
+    <!-- Forgot passcode otp screen -->
+    <string name="screen_forgot_passcode_otp_display_text_heading">Verify your mobile number</string>
+    <string name="screen_forgot_passcode_otp_display_text_sub_heading">Enter the OTP sent to your registered mobile number %1$s</string>
+
+
     <!-- Forgot posscode success screen -->
-    <string name="screen_forgot_passcode_success_display_text_heading">Congratulations, %1$s!</string>
-    <string name="screen_forgot_passcode_success_display_text_sub_heading">Your new password has been created successfully</string>
-    <string name="common_button_go_to_dashboard">Go to dashboard</string>
+    <string name="screen_passcode_success_display_text_heading">Congratulations!</string>
+    <string name="screen_passcode_success_display_text_sub_heading">Your new passcode has been created successfully. Please sign in to access your account</string>
+    <string name="screen_passcode_success_button_sign_in">Sign in</string>
 
 
 </resources>

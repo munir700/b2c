@@ -196,10 +196,14 @@ object Strings {
     const val screen_set_card_pin_success_button_create_pin: String = "screen_set_card_pin_success_button_create_pin"
     const val screen_set_card_pin_success_button_create_pin_later: String = "screen_set_card_pin_success_button_create_pin_later"
 
+    //Forgot passcode otp screen
+    const val screen_forgot_passcode_otp_display_text_heading: String = "screen_forgot_passcode_otp_display_text_heading"
+    const val screen_forgot_passcode_otp_display_text_sub_heading: String = "screen_forgot_passcode_otp_display_text_sub_heading"
+
     // Forgot posscode success screen
-    const val screen_forgot_passcode_success_display_text_heading: String = "screen_forgot_passcode_success_display_text_heading"
-    const val screen_forgot_passcode_success_display_text_sub_heading: String = "screen_forgot_passcode_success_display_text_sub_heading"
-    const val common_button_go_to_dashboard: String = "common_button_go_to_dashboard"
+    const val screen_passcode_success_display_text_heading: String = "screen_passcode_success_display_text_heading"
+    const val screen_passcode_success_display_text_sub_heading: String = "screen_passcode_success_display_text_sub_heading"
+    const val screen_passcode_success_button_sign_in: String = "screen_passcode_success_button_sign_in"
 
 
 }

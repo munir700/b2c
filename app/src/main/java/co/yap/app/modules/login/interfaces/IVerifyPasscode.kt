@@ -7,7 +7,9 @@ import co.yap.yapcore.SingleLiveEvent
 
 interface IVerifyPasscode {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        fun setObservers()
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnSignInButton()
@@ -21,6 +23,8 @@ interface IVerifyPasscode {
         val validateDeviceResult: SingleLiveEvent<Boolean>
         val createOtpResult: SingleLiveEvent<Boolean>
         var isFingerprintLogin: Boolean
+        var mobileNumber: String
+        var emailOtp: Boolean
     }
 
     interface State : IBase.State {

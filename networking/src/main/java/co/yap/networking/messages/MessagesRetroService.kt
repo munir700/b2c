@@ -1,6 +1,7 @@
 package co.yap.networking.messages
 
 import co.yap.networking.messages.requestdtos.*
+import co.yap.networking.messages.responsedtos.CreateForgotPasscodeOtpResponse
 import co.yap.networking.messages.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
@@ -28,6 +29,8 @@ interface MessagesRetroService {
 
     //forgot passcode create otp
     @POST(MessagesRepository.URL_FORGOT_PASSCODE)
-    suspend fun createForgotPasscodeOTP(@Body createForgotPasscodeOtp: CreateForgotPasscodeOtp): Response<ApiResponse>
+    suspend fun createForgotPasscodeOTP(@Body createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): Response<CreateForgotPasscodeOtpResponse>
 
+    @PUT(MessagesRepository.URL_VERIFY_FORGOT_PASSCODE_OTP)
+    suspend fun verifyForgotPasscodeOtp(@Body verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest):Response<ApiResponse>
 }

@@ -87,7 +87,17 @@
             app:argType="string"/>
         <action
             android:id="@+id/action_verifyPasscodeFragment_to_forgot_passcode_navigation"
-            app:destination="@id/forgot_passcode_navigation"/>
+            app:destination="@id/forgot_passcode_navigation">
+            <argument
+                android:name="username"
+                app:argType="string"/>
+            <argument
+                android:name="emailOtp"
+                app:argType="boolean"/>
+            <argument
+                android:name="mobileNumber"
+                app:argType="string"/>
+        </action>
     </fragment>
 
     <activity
