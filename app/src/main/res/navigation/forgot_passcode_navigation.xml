@@ -7,7 +7,20 @@
 
     <fragment
         android:id="@+id/forgotPasscodeFragment"
-        android:name="co.yap.app.modules.forgotpasscode.fragments.ForgotPasscodeFragment"
+        android:name="co.yap.app.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment"
         tools:layout="@layout/fragment_phone_verification"
-        android:label="ForgotPasscodeFragment"/>
+        android:label="ForgotPasscodeFragment">
+        <action
+            android:id="@+id/action_forgotPasscodeFragment_to_createNewPasscodeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/createNewPasscodeFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/createNewPasscodeFragment"
+        android:name="co.yap.app.modules.forgotpasscode.fragments.CreateNewPasscodeFragment"
+        tools:layout="@layout/fragment_create_new_passcode"
+        android:label="CreateNewPasscodeFragment"/>
 </navigation>

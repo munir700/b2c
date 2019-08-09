@@ -22,5 +22,5 @@ class KYCHomeState : BaseState(), IKYCHome.State {
             notifyPropertyChanged(BR.valid)
         }
 
-    private fun validate(): Boolean = eidScanStatus != DocScanStatus.SCAN_PENDING
+    private fun validate(): Boolean = eidScanStatus == DocScanStatus.DOCS_UPLOADED
 }

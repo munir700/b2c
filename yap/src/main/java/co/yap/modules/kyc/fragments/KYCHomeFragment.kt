@@ -3,11 +3,14 @@ package co.yap.modules.kyc.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
+import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.yapcore.BR
 import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
@@ -26,10 +29,12 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        (viewModel.state as KYCHomeState).addOnPropertyChangedCallback(stateObserver)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.cvCard -> openCardScanner()
-                R.id.btnNext -> findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                R.id.btnNext -> {
+                }
                 R.id.tvSkip -> {
                     findNavController().navigate(R.id.action_goto_liteDashboardActivity)
                     activity?.finish()
@@ -37,10 +42,24 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             }
         })
 
+
+    }
+
+    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            when (propertyId) {
+                BR.eidScanStatus -> {
+                    if (viewModel.state.eidScanStatus === DocScanStatus.SCAN_COMPLETED) {
+                        findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                    }
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
+        (viewModel.state as KYCHomeState).removeOnPropertyChangedCallback(stateObserver)
         super.onDestroyView()
     }
 

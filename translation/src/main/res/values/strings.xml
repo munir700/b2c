@@ -127,10 +127,16 @@
     <string name="screen_meeting_location_display_text_title">Your card is ready to be delivered!</string>
     <string name="screen_meeting_location_display_text_subtitle">Choose your location on the map below</string>
     <string name="screen_meeting_location_button_confirm_location">Tap map to confirm location</string>
+    <string name="screen_meeting_location_button_change_location">Tap map to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
     <string name="screen_meeting_location_input_text_address_hint">Enter your address</string>
     <string name="screen_meeting_location_input_text_landmark_title">Landmark (optional)</string>
     <string name="screen_meeting_location_input_text_landmark_hint">Enter landmark</string>
+    <string name="screen_meeting_location_button_confirm_selected_location">Confirm location</string>
+    <string name="screen_meeting_location_display_text_selected_subtitle">Location has been added successfully</string>
+    <string name="screen_meeting_location_text_accept_terms">I accept the </string>
+    <string name="screen_meeting_location_text_terms_and_conditions"> CRS and FATCA Terms and Conditions</string>
+
 
     <!-- Eid details review screen -->
     <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
@@ -196,5 +202,11 @@
     <string name="screen_set_card_pin_success_display_text_description">Begin using your YAP card by topping up your card with AED 50 or more</string>
     <string name="screen_set_card_pin_success_button_create_pin">Top up now</string>
     <string name="screen_set_card_pin_success_button_create_pin_later">Do it later</string>
+
+    <!-- Forgot posscode success screen -->
+    <string name="screen_forgot_passcode_success_display_text_heading">Congratulations, %1$s!</string>
+    <string name="screen_forgot_passcode_success_display_text_sub_heading">Your new password has been created successfully</string>
+    <string name="common_button_go_to_dashboard">Go to dashboard</string>
+
 
 </resources>

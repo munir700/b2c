@@ -11,7 +11,6 @@ project.ext {
     versionName = "1.0"
     playServicesVersion = '16.0.0'
     supportLibraryVersion = "28.0.3"
-    playServicesVersion = "16.0.0"
     retrofitVersion = "2.6.0"
     daggerVersion = "2.16"
     okhttpVersion = "3.12.1"
@@ -83,12 +82,19 @@ project.ext {
             coroutineCore            : 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.0-M1',
             coroutineAndroid         : 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.0-M1',
 
-            // Animations
+            // maps
+            maps                     : 'com.google.android.gms:play-services-maps:16.1.0',
+            mapUtils                 : "com.google.maps.android:android-maps-utils:0.4.4",
+            servicesLocation         : "com.google.android.gms:play-services-location:$playServicesVersion",
+            playServicesPlaces       : "com.google.android.gms:play-services-places:$playServicesVersion",
+            playLibPlaces            : 'com.google.android.libraries.places:places:1.1.0',
+            glideTransformation      : 'com.github.bumptech.glide:glide:4.9.0',
+             // Animations
             // easing                   : 'com.daasuu:EasingInterpolator:1.3.0',
             // morphView                : 'com.akaita.android:morphview:1.0.0',
             // choreographer            : 'zachinio.choreographer:choreographer:1.0.3',
-            // androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
-            // androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar'
+             androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
+             androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar'
 
     ]
     // Test dependencies which need to be added in all modules
@@ -131,6 +137,14 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.kyc)],
             [configuration: "implementation", dependency: libraries.navigationFragment],
             [configuration: "implementation", dependency: libraries.navigationUI],
+            [configuration: "implementation", dependency: libraries.maps],
+            [configuration: "implementation", dependency: libraries.mapUtils],
+            [configuration: "implementation", dependency: libraries.servicesLocation],
+            [configuration: "implementation", dependency: libraries.playServicesPlaces],
+            [configuration: "implementation", dependency: libraries.playLibPlaces],
+            [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "implementation", dependency: libraries.androidanimations],
+            [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
@@ -155,7 +169,10 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.numberFomater],
             [configuration: "implementation", dependency: libraries.recyclerfastscroll],
-            [configuration: "implementation", dependency: libraries.gson]
+            [configuration: "implementation", dependency: libraries.gson],
+            [configuration: "implementation", dependency: libraries.glideTransformation],
+            [configuration: "implementation", dependency: libraries.androidanimations],
+            [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]
 
     // dependencies which need to be added in translation module only in conjunction with commonDependencies

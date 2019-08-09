@@ -9,14 +9,17 @@ import co.yap.networking.messages.requestdtos.CreateOtpOnboardingRequest
 import co.yap.networking.messages.requestdtos.VerifyOtpOnboardingRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 open class PhoneVerificationViewModel(application: Application) :
     OnboardingChildViewModel<IPhoneVerification.State>(application), IPhoneVerification.ViewModel,
     IRepositoryHolder<MessagesRepository> {
 
+    override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
+
     override val state: PhoneVerificationState = PhoneVerificationState(application)
-    override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    //override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: MessagesRepository = MessagesRepository
 
     override fun onResume() {
@@ -33,8 +36,8 @@ open class PhoneVerificationViewModel(application: Application) :
         state.validResend = false
     }
 
-    override fun handlePressOnSendButton() {
-        verifyOtp()
+    override fun handlePressOnSendButton(id :Int) {
+        verifyOtp(id)
     }
 
     override fun handlePressOnResendOTP() {
@@ -61,7 +64,7 @@ open class PhoneVerificationViewModel(application: Application) :
         }
     }
 
-    private fun verifyOtp() {
+    private fun verifyOtp(id:Int) {
         launch {
             state.loading = true
             when (val response = repository.verifyOtpOnboarding(
@@ -72,7 +75,7 @@ open class PhoneVerificationViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    nextButtonPressEvent.value = true
+                    nextButtonPressEvent.call()
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

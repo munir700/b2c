@@ -2,41 +2,137 @@ package co.yap.modules.kyc.states
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
+import android.view.View.GONE
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.helpers.StringUtils
+import com.google.android.gms.maps.GoogleMap
 
 
 class AddressSelectionState(application: Application) : BaseState(), IAddressSelection.State {
 
     val mContext: Context = application.applicationContext
 
+
+    val VISIBLE: Int = 0x00000000
+
     @get:Bindable
-    override var headingTitle: String = ""
+    override var googleMap: GoogleMap? = null
         get() = field
         set(value) {
-//            field = value
-//            notifyPropertyChanged(BR.headingTitle)
+            field = value
+            notifyPropertyChanged(BR.googleMap)
+        }
 
-//            field = value
-            field =
-                Translator.getString(mContext, mContext.getString(R.string.screen_meeting_location_display_text_title))
+    @get:Bindable
+    override var placePhoto: Bitmap? =
+        BitmapFactory.decodeResource(mContext.resources, R.drawable.black_white_tile) //R.drawable.black_white_tile
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.placePhoto)
+        }
+
+    @get:Bindable
+    override var placeTitle: String = ""
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.placeTitle)
+        }
+
+    @get:Bindable
+    override var placeSubTitle: String = ""
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.placeSubTitle)
+        }
+
+    @get:Bindable
+    override var closeCard: Boolean = false
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.closeCard)
+        }
+
+    @get:Bindable
+    override var isMapOnScreen: Boolean = false
+        set(value) {
+            field = value
+//            notifyPropertyChanged(BR.isMapOnScreen)
+        }
+
+    @get:Bindable
+    override var errorVisibility: Int = VISIBLE
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.handleBackPress)
+//            notifyPropertyChanged(BR.cardView)
+        }
+    @get:Bindable
+    override var checkBoxLayoutVisibility: Int = GONE
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.checkBoxLayoutVisibility)
+//            notifyPropertyChanged(BR.cardView)
+        }
+    @get:Bindable
+    override var errorChecked: Boolean = false
+        get() = field
+        set(value) {
+            field = value
+
+            notifyPropertyChanged(BR.errorChecked)
+
+        }
+
+    @get:Bindable
+    override var cardView: Boolean = false
+        get() = field
+        set(value) {
+            if (value) {
+                errorVisibility = VISIBLE
+                notifyPropertyChanged(BR.errorVisibility)
+
+            }
+            field = value
+            errorChecked = value
+            notifyPropertyChanged(BR.cardView)
+
+        }
+
+    @get:Bindable
+    override var confirmLocationButton: Boolean = false
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.confirmLocationButton)
+        }
+
+    @get:Bindable
+    override var headingTitle: String =
+        Translator.getString(application, R.string.screen_meeting_location_display_text_title)
+        set(value) {
+
+            field = value
             notifyPropertyChanged(BR.headingTitle)
         }
 
     @get:Bindable
-    override var subHeadingTitle: String = ""
-        get() = field
+    override var subHeadingTitle: String =
+        Translator.getString(application, R.string.screen_meeting_location_display_text_subtitle)
         set(value) {
-//            field = value
-            field = Translator.getString(
-                mContext,
-                mContext.getString(R.string.screen_meeting_location_display_text_subtitle)
-            )
+            field = value
             notifyPropertyChanged(BR.subHeadingTitle)
         }
 
@@ -46,35 +142,88 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         set(value) {
             field = value
             notifyPropertyChanged(BR.addressField)
+
+            if (!value.isNullOrEmpty()) {
+                checkBoxLayoutVisibility=VISIBLE
+                addressTitlesColor = mContext.resources.getColor(R.color.greyDark)
+                notifyPropertyChanged(BR.addressTitlesColor)
+            }
         }
 
     @get:Bindable
     override var landmarkField: String = ""
-        get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.landmarkField)
+            if (!value.isNullOrEmpty()) {
+                onDrawableClick = true
+                setDrawable= mContext.resources.getDrawable(R.drawable.ic_clear_field)
+                landMarkTitleColor= mContext.resources.getColor(R.color.greyDark)
+            }else{
+                landMarkTitleColor= mContext.resources.getColor(R.color.colorPrimaryDark)
+
+                onDrawableClick=false
+            }
+        }
+
+
+    @get:Bindable
+    override var setDrawable: Drawable? = null
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.setDrawable)
         }
 
     @get:Bindable
-    override var locationBtnText: String = ""
+    override var addressTitlesColor: Int = mContext.resources.getColor(R.color.colorPrimaryDark)
         get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.addressTitlesColor)
+        }
+
+    @get:Bindable
+    override var landMarkTitleColor: Int = mContext.resources.getColor(R.color.colorPrimaryDark)
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.landMarkTitleColor)
+        }
+
+
+    @get:Bindable
+    override var checked: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.checked)
+            valid = validateAddress()
+        }
+
+    @get:Bindable
+    override var locationBtnText: String =
+        Translator.getString(application, R.string.screen_meeting_location_button_confirm_location)
         set(value) {
             field = value
             notifyPropertyChanged(BR.locationBtnText)
         }
+
     @get:Bindable
     override var valid: Boolean = false
-        get() = validate()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
 
-    //        set(value) {
-//            field = value
-//            notifyPropertyChanged(BR.valid)
-//
-//        }
-    private fun validate(): Boolean {
-        return StringUtils.validateName(addressField) && StringUtils.validateName(landmarkField)
+    @get:Bindable
+    override var onDrawableClick: Boolean = false
+        get() = field
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.onDrawableClick)
+        }
 
+    private fun validateAddress(): Boolean {
+        return addressField.isNotEmpty() && addressField.length >= 2 && checked
     }
-
 }

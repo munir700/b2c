@@ -1,5 +1,4 @@
 package co.yap.app.modules.startup.fragments
-
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +9,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
+import co.yap.modules.kyc.activities.AddressSelectionActivity
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -38,6 +38,15 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                 }
             }
         })
+
+//        startActivity(
+//            activity?.let { it1 ->
+//                AddressSelectionActivity.newIntent(
+//                    it1
+//                )
+//            }
+//        )
+
     }
 
     override fun onDestroyView() {
