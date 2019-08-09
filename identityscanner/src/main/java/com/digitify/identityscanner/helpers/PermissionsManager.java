@@ -38,7 +38,8 @@ public class PermissionsManager implements LifecycleObserver {
     private static final String[] APP_PERMISSIONS = {
             Manifest.permission.CAMERA,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_FINE_LOCATION
     };
 
     private Activity activity;
