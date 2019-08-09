@@ -1,10 +1,8 @@
 package co.yap.modules.kyc.interfaces
 
 import android.graphics.Bitmap
-import android.graphics.Color
-import android.graphics.DrawFilter
 import android.graphics.drawable.Drawable
-import co.yap.modules.kyc.activities.AddressSelectionActivity
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.google.android.gms.maps.GoogleMap
@@ -25,11 +23,11 @@ interface IAddressSelection {
         fun handlePressOnCardSelectLocation(id: Int)
         fun handlePressOnCloseMap(id: Int)
         var mapFragment: SupportMapFragment?
-        var mapDetailViewActivity: AddressSelectionActivity
+        var mapDetailViewActivity: DocumentsDashboardActivity
         fun initMap()
         fun onMapInit(p0: GoogleMap?)
-        fun getDeviceLocation()
-        fun getDefaultLocationMap()
+        fun getDeviceLocation(activity: DocumentsDashboardActivity)
+        fun getDefaultLocationMap(activity: DocumentsDashboardActivity)
         fun onLocatioenSelected()
         fun toggleMarkerVisibility()
         fun setUpCardFields()

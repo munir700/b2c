@@ -30,6 +30,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
             <include
                 android:id="@+id/mapView"
                 android:layout_height="match_parent"

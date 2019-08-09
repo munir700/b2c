@@ -1,4 +1,4 @@
-package co.yap.modules.kyc.activities
+package co.yap.modules.kyc.fragments
 
 import android.Manifest
 import android.animation.Animator
@@ -7,20 +7,23 @@ import android.content.Intent
 import android.content.IntentSender
 import android.graphics.Bitmap
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
-import androidx.annotation.RequiresApi
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.interfaces.BaseMapFragment
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.common.api.GoogleApiClient
@@ -30,22 +33,23 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
+import kotlinx.android.synthetic.main.fragment_address_selection.*
 import kotlinx.android.synthetic.main.layout_maps.*
 
-class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel>(),
+class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     OnMapReadyCallback {
 
     val REQUEST_CHECK_SETTINGS = 100
 
 
     companion object {
-        fun newIntent(context: Context): Intent = Intent(context, AddressSelectionActivity::class.java)
+        fun newIntent(context: Context): Intent = Intent(context, AddressSelectionFragment::class.java)
     }
 
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_address_selection
+    override fun getLayoutId(): Int = R.layout.fragment_address_selection
 
     override val viewModel: IAddressSelection.ViewModel
         get() = ViewModelProviders.of(this).get(AddressSelectionViewModel::class.java)
@@ -58,17 +62,29 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
     var placeTitle: String = ""
     var placeSubTitle: String = ""
     var placePhoto: Bitmap? = null
+    private lateinit var viewDataBinding: ViewDataBinding
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel!!.mapDetailViewActivity = AddressSelectionActivity()
-        displayLocationSettingsRequest(this)
-        val mapFragment = supportFragmentManager
-            .findFragmentById(R.id.map) as SupportMapFragment
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_address_selection, container, false)
+        viewDataBinding.setVariable(getBindingVariable(), viewModel)
+        viewDataBinding.executePendingBindings()
+
+        val parentActivity = getActivity() as DocumentsDashboardActivity
+
+
+        viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
+        displayLocationSettingsRequest(requireContext())
+        val mapFragment =
+            childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+
         mapFragment!!.getMapAsync(this)
-//        clickEvent.setValue(GPS_CLICK_EEVENT)
 
+        return viewDataBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         transparentImage!!.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(v: View, event: MotionEvent): Boolean {
 
@@ -84,13 +100,13 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnLocation -> {
-                    hideKeyboard()
+//                    hideKeyboard(mapFragment.view)
                     if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
                         mLocationPermissionGranted = true
                         if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                             val intent = Intent()
                             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
-                            val uri: Uri = Uri.fromParts("package", this.packageName, null)
+                            val uri: Uri = Uri.fromParts("package", requireContext()!!.packageName, null)
                             intent.data = uri;
                             this.startActivity(intent);
 
@@ -98,7 +114,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                             requestPermissions()
                         }
                     } else {
-                        displayLocationSettingsRequest(this)
+                        requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
                         expandMap()
                     }
                 }
@@ -128,34 +144,13 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                                 }
                             })
                             .duration(300)
-                            .playOn(findViewById(R.id.cvLocationCard))
+                            .playOn(cvLocationCard)
                     } else {
                         collapseMap()
                     }
-//                    viewModel.state.cardView = false
-//                    viewModel.state.errorVisibility = GONE
-//                    YoYo.with(Techniques.SlideOutDown)
-//                        .withListener(object : Animator.AnimatorListener {
-//                            override fun onAnimationStart(animation: Animator?) {
-//                            }
-//
-//                            override fun onAnimationRepeat(animation: Animator?) {
-//                            }
-//
-//                            override fun onAnimationEnd(animation: Animator?) {
-//                                collapseMap()
-//                            }
-//
-//                            override fun onAnimationCancel(animation: Animator?) {
-//                            }
-//                        })
-//                        .duration(300)
-//                        .playOn(findViewById(R.id.cvLocationCard))
-
                 }
 
                 R.id.next_button -> {
-//goto next screen or api call
                     if (!viewModel.state.error.isNullOrEmpty()) {
                         showToast(viewModel.state.error)
 
@@ -167,13 +162,12 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                 }
 
                 viewModel.GPS_CLICK_EEVENT -> {
-                    displayLocationSettingsRequest(this)
+                    requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
 
                 }
             }
         })
     }
-
 
     fun displayLocationSettingsRequest(context: Context) {
         if (!isLocationSettingsDialogue) {
@@ -204,7 +198,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                                 isLocationSettingsDialogue = true
 
                                 viewModel.checkGps = false
-                                status.startResolutionForResult(this@AddressSelectionActivity, REQUEST_CHECK_SETTINGS)
+                                status.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS)
                             } catch (e: IntentSender.SendIntentException) {
                                 Log.i("TAGAddress", "PendingIntent unable to execute request.")
                             }
@@ -222,14 +216,14 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
     }
 
-    override fun onPermissionGranted(permission: String?) {
-        super.onPermissionGranted(permission)
-        if (mLocationPermissionGranted) {
-            expandMap()
-
-        }
-
-    }
+//    override fun onPermissionGranted(permission: String?) {
+//        super.onPermissionGranted(permission)
+//        if (mLocationPermissionGranted) {
+//            expandMap()
+//
+//        }
+//
+//    }
 
     override fun onMapReady(p0: GoogleMap?) {
         viewModel.onMapInit(p0)
@@ -254,7 +248,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                 }
             })
             .duration(300)
-            .playOn(findViewById(R.id.cvLocationCard))
+            .playOn(cvLocationCard)
     }
 
     private fun expandMap() {
@@ -269,11 +263,11 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
         viewModel.toggleMarkerVisibility()
         YoYo.with(Techniques.FadeOut)
             .duration(200)
-            .playOn(findViewById(R.id.btnLocation));
+            .playOn(btnLocation)
 
         YoYo.with(Techniques.SlideOutUp)
             .duration(600)
-            .playOn(findViewById(R.id.flTitle));
+            .playOn(flTitle)
 
         YoYo.with(Techniques.SlideOutDown)
             .withListener(object : Animator.AnimatorListener {
@@ -284,14 +278,14 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    viewModel.getDeviceLocation()
+                    viewModel.getDeviceLocation(activity as DocumentsDashboardActivity)
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
             .duration(600)
-            .playOn(findViewById(R.id.flAddressDetail))
+            .playOn(flAddressDetail)
     }
 
     private fun collapseMap() {
@@ -306,15 +300,15 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
 
         YoYo.with(Techniques.FadeIn)
             .duration(400)
-            .playOn(findViewById(R.id.btnLocation));
+            .playOn(btnLocation)
 
         YoYo.with(Techniques.SlideInDown)
             .duration(400)
-            .playOn(findViewById(R.id.flTitle));
+            .playOn(flTitle)
 
         YoYo.with(Techniques.SlideInUp)
             .duration(400)
-            .playOn(findViewById(R.id.flAddressDetail))
+            .playOn(flAddressDetail)
 
         viewModel.toggleMarkerVisibility()
 
@@ -330,7 +324,7 @@ class AddressSelectionActivity : BaseBindingActivity<IAddressSelection.ViewModel
         isLocationSettingsDialogue = false
         if (requestCode == REQUEST_CHECK_SETTINGS) {
 
-            viewModel.getDeviceLocation()
+            viewModel.getDeviceLocation(activity as DocumentsDashboardActivity)
         }
     }
 }

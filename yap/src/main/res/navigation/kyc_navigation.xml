@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kyc_navigation"
-    app:startDestination="@id/KYCHomeFragment">
+    app:startDestination="@id/AddressSelectionActivity">
     <argument
         android:name="name"
         android:defaultValue=" "
@@ -49,11 +49,21 @@
             app:destination="@id/KYCHomeFragment"/>
     </fragment>
 
-    <activity
-        android:id="@+id/addressSelectionActivity"
-        tools:layout="@layout/activity_address_selection"
-        android:name="co.yap.modules.kyc.activities.AddressSelectionActivity"
-        android:label="AddressSelectionActivity"/>
+ <fragment
+        android:id="@+id/AddressSelectionActivity"
+        tools:layout="@layout/fragment_address_selection"
+        android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
+        android:label="AddressSelectionActivity">
+        <action
+            android:id="@+id/action_AddressSelectionActivity_to_MeetingConfirmationFragment"
+            app:destination="@id/MeetingConfirmationFragment"/>
+    </fragment>
+
+    <!--<activity-->
+        <!--android:id="@+id/addressSelectionActivity"-->
+        <!--tools:layout="@layout/activity_address_selection"-->
+        <!--android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"-->
+        <!--android:label="AddressSelectionFragment"/>-->
 
 
     <activity

@@ -10,7 +10,7 @@ import android.location.Location
 import android.util.Log
 import androidx.core.content.ContextCompat
 import co.yap.R
-import co.yap.modules.kyc.activities.AddressSelectionActivity
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
 import co.yap.networking.cards.CardsRepository
@@ -59,11 +59,11 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
 
-    fun mapDetailViewActivity(): AddressSelectionActivity {
-        return AddressSelectionActivity()
+    fun mapDetailViewActivity(): DocumentsDashboardActivity {
+        return DocumentsDashboardActivity()
     }
 
-    override var mapDetailViewActivity: AddressSelectionActivity = mapDetailViewActivity()
+    override var mapDetailViewActivity: DocumentsDashboardActivity = mapDetailViewActivity()
         get() = field
         set(value) {
 
@@ -77,7 +77,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         }
 
 
-    private val TAG = "AddressSelectionActivity"
+    private val TAG = "AddressSelectionFragment"
 
     private lateinit var mMap: GoogleMap
     private var DEFAULT_ZOOM = 15
@@ -155,7 +155,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
             if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
 
-                getDefaultLocationMap()
+                getDefaultLocationMap(mapDetailViewActivity)
             }
         } else {
 
@@ -191,7 +191,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     override fun onResume() {
         super.onResume()
 //        getDeviceLocation()
-        getDefaultLocationMap()
+        getDefaultLocationMap(mapDetailViewActivity)
     }
 
     fun setUpMarker(
@@ -207,79 +207,86 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
 
     }
+//    ((DocumentsDashboardActivity)getActivity()).yourPublicMethod();
 
 
     @SuppressLint("MissingPermission")
-    override fun getDefaultLocationMap() {
-
+    override fun getDefaultLocationMap(activity: DocumentsDashboardActivity) {
+//        val activity = getActivity() as MyActivity
+//        activity.myMethod()
         try {
 
             val locationResult = mFusedLocationProviderClient.getLastLocation()
-            locationResult.addOnSuccessListener(
-                mapDetailViewActivity,
-                OnSuccessListener<Location> { location ->
-                    if (location != null) {
-                        mLastKnownLocation = location
-                        mDefaultLocation =
-                            LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
-                        mMap.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
-                            animationFrequency,
-                            null
-                        )
-//                        getCurrentPlaceLikelihoods()
-                    }
-//                    else {
-//                        clickEvent.setValue(GPS_CLICK_EEVENT)
-//                    }
-                })
+            activity?.let {
+                locationResult.addOnSuccessListener(
+                    it,
+                    OnSuccessListener<Location> { location ->
+                        if (location != null) {
+                            mLastKnownLocation = location
+                            mDefaultLocation =
+                                LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
+                            mMap.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+                                animationFrequency,
+                                null
+                            )
+                            //                        getCurrentPlaceLikelihoods()
+                        }
+                        //                    else {
+                        //                        clickEvent.setValue(GPS_CLICK_EEVENT)
+                        //                    }
+                    })
+            }
         } catch (e: Exception) {
-            Log.e("Exception: %s", e.message)
+//            Log.e("Exception: %s", e.message)
         }
 
     }
+//    ((YourActivityClassName)getActivity()).yourPublicMethod();
 
 
     @SuppressLint("MissingPermission")
-    override fun getDeviceLocation() {
+    override fun getDeviceLocation(activity: DocumentsDashboardActivity) {
 
         try {
 
             val locationResult = mFusedLocationProviderClient.getLastLocation()
-            locationResult.addOnSuccessListener(
-                mapDetailViewActivity,
-                OnSuccessListener<Location> { location ->
-                    if (location != null) {
-                        mLastKnownLocation = location
-                        mDefaultLocation =
-                            LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
-                        mMap.animateCamera(
-                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
-                            animationFrequency,
-                            null
-                        )
-//                        getCurrentPlaceLikelihoods()
+            activity?.let {
+                locationResult.addOnSuccessListener(
+                    it,
+                    OnSuccessListener<Location> { location ->
+                        if (location != null) {
+                            mLastKnownLocation = location
+                            mDefaultLocation =
+                                LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
+                            mMap.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+                                animationFrequency,
+                                null
+                            )
+                            //                        getCurrentPlaceLikelihoods()
 
-                    } else {
-                        clickEvent.setValue(GPS_CLICK_EEVENT)
+                        } else {
+                            clickEvent.setValue(GPS_CLICK_EEVENT)
 
 
-//                        displayLocationSettingsRequest(context)
-//                          break;
-//                        displayLocationSettingsRequest(context)
-//                        mMap.animateCamera(
-//                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
-//                            animationFrequency,
-//                            null
-//                        )
+                            //                        displayLocationSettingsRequest(context)
+                            //                          break;
+                            //                        displayLocationSettingsRequest(context)
+                            //                        mMap.animateCamera(
+                            //                            CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+                            //                            animationFrequency,
+                            //                            null
+                            //                        )
 
-                    }
+                        }
 
-                    getCurrentPlaceLikelihoods()
+                        getCurrentPlaceLikelihoods()
 
-                })
+                    })
+            }
         } catch (e: Exception) {
-            Log.e("Exception: %s", e.message)
+//            Log.e("Exception: %s", e.message)
         }
 
     }
@@ -296,7 +303,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         val request = FindCurrentPlaceRequest.builder(placeFields).build()
         val placeResponse = placesClient.findCurrentPlace(request)
         placeResponse.addOnCompleteListener(
-            this!!.mapDetailViewActivity!!,
+            mapDetailViewActivity()!!,
             OnCompleteListener<FindCurrentPlaceResponse> { task ->
                 if (task.isSuccessful) {
                     val response = task.result

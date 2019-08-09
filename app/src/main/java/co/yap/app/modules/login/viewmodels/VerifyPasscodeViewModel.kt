@@ -45,9 +45,10 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                 is RetroApiResponse.Error -> {
                     // state.toast = response.error.message
                     loginSuccess.postValue(false)
-                    state.loading = false
+
                 }
             }
+            state.loading = false
         }
     }
 
@@ -145,7 +146,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                     state.loading = false
                 }
             }
-//            state.loading = false
+            state.loading = false
         }
     }
 
