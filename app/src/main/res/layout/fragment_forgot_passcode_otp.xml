@@ -6,11 +6,11 @@
 
     <data>
 
-        <import type="co.yap.translation.Strings"/>
-
         <variable
             name="viewModel"
             type="co.yap.app.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel"/>
+        <import type="co.yap.translation.Strings"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,7 +30,7 @@
             style="@style/ALarge"
             android:textColor="@color/colorPrimaryDark"
             android:gravity="center_horizontal"
-            tools:text="@string/screen_verify_phone_number_display_text_title"
+            tools:text="@string/screen_forgot_passcode_otp_display_text_heading"
             android:text="@{viewModel.state.verificationTitle}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +47,7 @@
             style="@style/ASmallGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="We&apos;ve sent a verification code to +971 56 204 7636"
+            tools:text="We&apos;ve sent a verification code to \n +971 56 204 7636"
             app:text="@{viewModel.state.verificationDescription}"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,6 @@
             android:layout_marginTop="@dimen/_8sdp"
             android:id="@+id/textView4"
             app:concat="@{viewModel.state.mobileNumber}"
-            app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintVertical_bias="0.0"/>
 
         <in.aabhasjindal.otptextview.OtpTextView
@@ -83,7 +82,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="32dp"
             app:requestKeyboard="@{true}"
-            app:layout_constraintBottom_toTopOf="@+id/layout2"
             app:layout_constraintVertical_bias="0.137"/>
 
 

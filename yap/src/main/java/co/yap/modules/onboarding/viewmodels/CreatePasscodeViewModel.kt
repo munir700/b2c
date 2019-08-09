@@ -11,6 +11,7 @@ import co.yap.yapcore.helpers.StringUtils
 
 open class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreatePasscode.State>(application),
     ICreatePasscode.ViewModel {
+    override var mobileNumber: String=""
 
     override val state: CreatePasscodeState = CreatePasscodeState()
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
@@ -18,7 +19,6 @@ open class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICr
     override fun handlePressOnCreatePasscodeButton(id:Int) {
         if (validateAggressively()) {
             nextButtonPressEvent.setValue(id)
-//            nextButtonPressEvent.value = true
         }
     }
 
