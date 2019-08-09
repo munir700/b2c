@@ -89,7 +89,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
 
 
     private fun checkUserStatus() {
-        //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_MEETING_SUCCESS
+        // MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 btnCompleteVerification.visibility = View.VISIBLE

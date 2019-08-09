@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kyc_navigation"
-    app:startDestination="@id/AddressSelectionActivity">
+    app:startDestination="@id/KYCHomeFragment">
     <argument
         android:name="name"
         android:defaultValue=" "
@@ -28,6 +28,10 @@
         <action
             android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"
             app:destination="@id/eidInfoReviewFragment"/>
+        <action
+            android:id="@+id/action_KYCHomeFragment_to_AddressSelectionFragment"
+            app:destination="@id/AddressSelectionFragment"/>
+
     </fragment>
     <fragment
         android:id="@+id/eidInfoReviewFragment"
@@ -43,14 +47,10 @@
         android:id="@+id/MeetingConfirmationFragment"
         tools:layout="@layout/fragment_meeting_confirmation"
         android:name="co.yap.modules.onboarding.fragments.MeetingConfirmationFragment"
-        android:label="AddressSelectionFragment">
-        <action
-            android:id="@+id/action_AddressSelectionFragment_to_KYCHomeFragment"
-            app:destination="@id/KYCHomeFragment"/>
-    </fragment>
+        android:label="AddressSelectionFragment"/>
 
  <fragment
-        android:id="@+id/AddressSelectionActivity"
+        android:id="@+id/AddressSelectionFragment"
         tools:layout="@layout/fragment_address_selection"
         android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
         android:label="AddressSelectionActivity">
@@ -58,13 +58,6 @@
             android:id="@+id/action_AddressSelectionActivity_to_MeetingConfirmationFragment"
             app:destination="@id/MeetingConfirmationFragment"/>
     </fragment>
-
-    <!--<activity-->
-        <!--android:id="@+id/addressSelectionActivity"-->
-        <!--tools:layout="@layout/activity_address_selection"-->
-        <!--android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"-->
-        <!--android:label="AddressSelectionFragment"/>-->
-
 
     <activity
         android:id="@+id/liteDashboardActivity"

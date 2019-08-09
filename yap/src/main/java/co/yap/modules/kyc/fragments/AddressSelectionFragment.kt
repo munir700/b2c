@@ -18,12 +18,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.yapcore.interfaces.BaseMapFragment
+import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import com.google.android.gms.common.api.GoogleApiClient
@@ -153,7 +156,9 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 R.id.next_button -> {
                     if (!viewModel.state.error.isNullOrEmpty()) {
                         showToast(viewModel.state.error)
-
+                    } else {
+                        MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_MEETING_SCHEDULED
+                        findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
                     }
                 }
 
