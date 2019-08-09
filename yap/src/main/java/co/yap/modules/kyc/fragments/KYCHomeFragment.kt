@@ -10,7 +10,6 @@ import co.yap.R
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.yapcore.BR
-import co.yap.yapcore.BaseBindingFragment
 import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
 
@@ -31,7 +30,10 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
-                R.id.tvSkip -> findNavController().navigate(R.id.action_KYCHomeFragment_to_liteDashboardActivity)
+                R.id.tvSkip -> {
+                    findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+                    activity?.finish()
+                }
             }
         })
 
@@ -61,7 +63,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             SCAN_EID_CAM
         )
     }
-
 
 
 }

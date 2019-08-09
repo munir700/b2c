@@ -7,14 +7,14 @@ import androidx.navigation.fragment.findNavController
 
 abstract class BaseNavFragment : Fragment() {
 
-    val defaultAnimation: AnimBuilder = anim {
+    private val defaultAnimation: AnimBuilder = anim {
         enter = R.anim.slide_in_right
         exit = R.anim.slide_out_left
         popEnter = R.anim.slide_in_left
         popExit = R.anim.slide_out_right
     }
 
-    val defaultNavOptions = navOptions {
+    private val defaultNavOptions = navOptions {
         anim { defaultAnimation }
     }
 
@@ -22,7 +22,7 @@ abstract class BaseNavFragment : Fragment() {
         findNavController().navigate(destinationId, args, navOptions)
     }
 
-    protected fun navigate(destinationId: Int, args: Bundle? = null, optionsBuilder: NavOptions.Builder.() -> Unit?) {
+   /* protected fun navigate(destinationId: Int, args: Bundle? = null, optionsBuilder: NavOptions.Builder.() -> Unit?) {
         findNavController().navigate(destinationId, args, NavOptions.Builder().apply {
             setEnterAnim(defaultAnimation.enter)
             setExitAnim(defaultAnimation.exit)
@@ -30,7 +30,7 @@ abstract class BaseNavFragment : Fragment() {
             setPopExitAnim(defaultAnimation.popExit)
             optionsBuilder
         }.build())
-    }
+    }*/
 
     protected fun navigateBack(destinationId: Int = -1, inclusive: Boolean = false) {
         if (destinationId != -1) {
@@ -40,6 +40,6 @@ abstract class BaseNavFragment : Fragment() {
         }
     }
 
-    fun anim(animBuilder: AnimBuilder.() -> Unit): AnimBuilder = AnimBuilder().apply(animBuilder)
+    private fun anim(animBuilder: AnimBuilder.() -> Unit): AnimBuilder = AnimBuilder().apply(animBuilder)
 
 }

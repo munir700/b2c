@@ -13,10 +13,6 @@
             android:screenOrientation="portrait"
             />
         <activity
-            android:name=".modules.onboarding.activities.PhoneVerificationSignInActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".modules.onboarding.activities.OnboardingActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"

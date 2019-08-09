@@ -17,6 +17,7 @@ open class BaseNavigator(open val activity: AppCompatActivity, override val navH
     override lateinit var navController: NavController
 
     init {
+
         (activity as LifecycleOwner).lifecycle.addObserver(this)
     }
 

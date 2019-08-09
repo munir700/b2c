@@ -27,10 +27,7 @@ class InformationErrorActivity : BaseBindingActivity<IInformationError.ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.gotoDashboardPressEvent.observe(this, gotoDashboardPressEventObserver)
+        viewModel.clickEvent.observe(this, Observer {  })
     }
 
-    private val gotoDashboardPressEventObserver = Observer<Boolean> {
-        //startActivity(LiteDashboardActivity.newIntent(this@InformationErrorActivity)
-    }
 }

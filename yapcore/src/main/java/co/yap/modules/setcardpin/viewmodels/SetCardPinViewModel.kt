@@ -22,6 +22,8 @@ open class SetCardPinViewModel(application: Application) : BaseViewModel<ISetCar
         }
     }
 
+    override fun setCardPin() {}
+
     private fun validateAggressively(): Boolean {
         val isSame = StringUtils.hasAllSameChars(state.pincode)
         val isSequenced = StringUtils.isSequenced(state.pincode)

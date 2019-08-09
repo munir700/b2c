@@ -24,27 +24,17 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="co.yap.app.OPEN_LOGIN"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
-        <activity
-            android:name=".modules.login.activities.VerifyPasscodeActivity"
-            android:screenOrientation="portrait"/>
+
         <activity
             android:name="co.yap.app.modules.startup.activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
 
-        </activity>
-        <activity
-            android:name=".modules.login.activities.SystemPermissionActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".modules.login.activities.LogInActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="co.yap.app.OPEN_LOGIN"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
         </activity>
         <activity
             android:name="co.yap.app.modules.startup.activities.AccountSelectionActivity"

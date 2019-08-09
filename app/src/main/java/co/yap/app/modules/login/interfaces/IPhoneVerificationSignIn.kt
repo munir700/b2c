@@ -1,4 +1,4 @@
-package co.yap.modules.onboarding.interfaces
+package co.yap.app.modules.login.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent

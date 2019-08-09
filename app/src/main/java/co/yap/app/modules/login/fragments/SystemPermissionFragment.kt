@@ -1,45 +1,35 @@
-package co.yap.app.modules.login.activities
+package co.yap.app.modules.login.fragments
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.app.BR
 import co.yap.app.R
+import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
-import co.yap.app.constants.Constants.SCREEN_TYPE
 import co.yap.app.modules.login.interfaces.ISystemPermission
 import co.yap.app.modules.login.viewmodels.SystemPermissionViewModel
-import co.yap.modules.onboarding.activities.LiteDashboardActivity
-import co.yap.modules.onboarding.enums.AccountType
-import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
-class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel>(), ISystemPermission.View {
+class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel>(), ISystemPermission.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
-    companion object {
-        fun newIntent(context: Context, type: String): Intent {
-            val intent = Intent(context, SystemPermissionActivity::class.java)
-            intent.putExtra(SCREEN_TYPE, type)
-            return intent
-        }
-    }
-
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.activity_biometric_permission
+    override fun getLayoutId(): Int = R.layout.fragment_biometric_permission
 
     override val viewModel: ISystemPermission.ViewModel
         get() = ViewModelProviders.of(this).get(SystemPermissionViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        sharedPreferenceManager = SharedPreferenceManager(this@SystemPermissionActivity)
+        sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
 
         viewModel.screenType = getScreenType()
         viewModel.registerLifecycleOwner(this)
@@ -48,34 +38,42 @@ class SystemPermissionActivity : BaseBindingActivity<ISystemPermission.ViewModel
         viewModel.permissionNotGrantedPressEvent.observe(this, permissionNotGrantedObserver)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        viewModel.permissionGrantedPressEvent.removeObservers( this)
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewModel.permissionGrantedPressEvent.removeObservers(this)
         viewModel.permissionNotGrantedPressEvent.removeObservers(this)
     }
 
     private val permissionGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
-            startActivity(newIntent(this, Constants.NOTIFICATION_SCREEN_TYPE))
-            finish()
+            val action =
+                SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
+                    Constants.NOTIFICATION_SCREEN_TYPE
+                )
+            findNavController().navigate(action)
         } else {
-            startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+            findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+            activity?.finish()
         }
     }
 
     private val permissionNotGrantedObserver = Observer<Boolean> {
         if (viewModel.screenType == Constants.TOUCH_ID_SCREEN_TYPE) {
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
-            startActivity(newIntent(this, Constants.NOTIFICATION_SCREEN_TYPE))
-            finish()
+            val action =
+                SystemPermissionFragmentDirections.actionSystemPermissionFragmentToSystemPermissionFragmentNotification(
+                    Constants.NOTIFICATION_SCREEN_TYPE
+                )
+            findNavController().navigate(action)
         } else {
-            startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
+            findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+            activity?.finish()
         }
     }
 
     private fun getScreenType(): String {
-        return intent.getStringExtra(SCREEN_TYPE)
+        return arguments?.let { SystemPermissionFragmentArgs.fromBundle(it).screenType } as String
     }
 
 }

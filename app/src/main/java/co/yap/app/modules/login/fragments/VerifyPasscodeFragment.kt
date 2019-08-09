@@ -11,12 +11,8 @@ import co.yap.app.R
 import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
 import co.yap.app.login.EncryptionUtils
-import co.yap.app.modules.login.activities.SystemPermissionActivity
 import co.yap.app.modules.login.interfaces.IVerifyPasscode
 import co.yap.app.modules.login.viewmodels.VerifyPasscodeViewModel
-import co.yap.modules.onboarding.activities.LiteDashboardActivity
-import co.yap.modules.onboarding.activities.PhoneVerificationSignInActivity
-import co.yap.modules.onboarding.enums.AccountType
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricCallback
@@ -121,7 +117,8 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         if (it) {
             if (viewModel.isFingerprintLogin) {
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
-                startActivity(LiteDashboardActivity.newIntent(context as MainActivity, AccountType.B2C_ACCOUNT))
+                findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+                activity?.finish()
             } else {
                 viewModel.validateDevice()
             }
@@ -143,26 +140,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     && BiometricUtil.isPermissionGranted(context as MainActivity)
                     && BiometricUtil.isFingerprintAvailable(context as MainActivity)
                 ) {
-                    startActivity(
-                        SystemPermissionActivity.newIntent(
-                            context as MainActivity,
-                            Constants.TOUCH_ID_SCREEN_TYPE
-                        )
-                    )
+                    val action = VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(Constants.TOUCH_ID_SCREEN_TYPE)
+                    findNavController().navigate(action)
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
                 } else {
-                    // startActivity(LiteDashboardActivity.newIntent(this, AccountType.B2C_ACCOUNT))
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
-                    startActivity(
-                        SystemPermissionActivity.newIntent(
-                            context as MainActivity,
-                            Constants.NOTIFICATION_SCREEN_TYPE
-                        )
-                    )
+                    val action = VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(Constants.NOTIFICATION_SCREEN_TYPE)
+                    findNavController().navigate(action)
                 }
 
             } else {
-                startActivity(LiteDashboardActivity.newIntent(context as MainActivity, AccountType.B2C_ACCOUNT))
+                findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+                activity?.finish()
             }
         } else {
             viewModel.createOtp()
@@ -170,17 +159,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val createOtpObserver = Observer<Boolean> {
-        startActivity(
-            PhoneVerificationSignInActivity.newIntent(
-                context as MainActivity,
-                viewModel.state.passcode,
-                viewModel.state.username
-            )
-        )
+        val action = VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToPhoneVerificationSignInFragment(viewModel.state.username,  viewModel.state.passcode)
+        findNavController().navigate(action)
     }
 
     private fun setUsername() {
-        viewModel.state.username = arguments?.let { VerifyPasscodeFragmentArgs.fromBundle(it).username } as String
+         viewModel.state.username = arguments?.let { VerifyPasscodeFragmentArgs.fromBundle(it).username } as String
     }
 
 

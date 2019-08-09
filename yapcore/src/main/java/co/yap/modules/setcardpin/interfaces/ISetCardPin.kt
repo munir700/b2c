@@ -11,9 +11,13 @@ interface ISetCardPin {
     }
 
     interface ViewModel : IBase.ViewModel<State>{
+        val EVENT_SET_CARD_PIN_SUCCESS: Int
+            get() = 1
+
         var pincode: String
         val clickEvent: SingleClickEvent
         fun handlePressOnNextButton(id: Int)
+        fun setCardPin()
     }
 
     interface State : IBase.State{
