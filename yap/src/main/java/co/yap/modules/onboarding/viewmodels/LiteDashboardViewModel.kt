@@ -3,15 +3,16 @@ package co.yap.modules.onboarding.viewmodels
 import android.app.Application
 import android.os.Handler
 import android.os.Looper
-import androidx.appcompat.app.AlertDialog
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
+import co.yap.yapcore.managers.MyUserManager
 import co.yap.modules.onboarding.states.LiteDashboardState
 import co.yap.networking.authentication.AuthRepository
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDashboard.State>(application),
@@ -20,7 +21,14 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
     override val state: LiteDashboardState = LiteDashboardState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val repository: AuthRepository = AuthRepository
+    private val customerRepository: CustomersRepository = CustomersRepository
+    private val cardsRepository: CardsRepository = CardsRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
+
+    override fun onCreate() {
+        super.onCreate()
+        getAccountInfo()
+    }
 
     override fun handlePressOnLogout() {
         logout()
@@ -38,15 +46,52 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
                     state.toast = response.error.message
                 }
             }
-
             // Set a little delay in case of no in
             // TODO: Fix this delay issue. It should not be written with a delay
-            Handler(Looper.getMainLooper()).postDelayed({state.loading = false}, 500)
+            Handler(Looper.getMainLooper()).postDelayed({ state.loading = false }, 500)
 
+        }
+    }
+
+
+    override fun getAccountInfo() {
+        launch {
+            state.loading = true
+            when (val response = customerRepository.getAccountInfo()) {
+                is RetroApiResponse.Success -> {
+                    MyUserManager.user = response.data.data[0]
+                    clickEvent.setValue(EVENT_GET_ACCOUNT_INFO_SUCCESS)
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
+        }
+    }
+
+    override fun getDebitCards() {
+        launch {
+            state.loading = true
+            when (val response = cardsRepository.getDebitCards("DEBIT")) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data.size!=0) {
+                        MyUserManager.cardSerialNumber = response.data.data[0].cardSerialNumber
+                        clickEvent.setValue(EVENT_GET_DEBIT_CARDS_SUCCESS)
+                    }else{
+                        state.toast = "No cards found"
+                    }
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
         }
     }
 
     override fun handlePressOnCompleteVerification() {
         clickEvent.setValue(EVENT_PRESS_COMPLETE_VERIFICATION)
     }
+
+    override fun handlePressOnsetCardPin() {
+        clickEvent.setValue(EVENT_PRESS_SET_CARD_PIN)
+    }
+
 }

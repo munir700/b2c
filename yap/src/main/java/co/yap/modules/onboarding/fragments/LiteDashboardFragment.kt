@@ -6,12 +6,12 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
+import co.yap.yapcore.managers.MyUserManager
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -67,10 +67,45 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     private val observer = Observer<Int> {
         when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
+            viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
+                findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
+            }
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-                // TODO: pass the correct name here
-                findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity("Bilal"))
+                findNavController().navigate(
+                    LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity(
+                        MyUserManager.user?.customer?.firstName.toString()
+                    )
+                )
                 activity?.finish()
+            }
+            viewModel.EVENT_PRESS_SET_CARD_PIN -> {
+                viewModel.getDebitCards()
+            }
+            viewModel.EVENT_GET_ACCOUNT_INFO_SUCCESS -> {
+                checkUserStatus()
+            }
+        }
+    }
+
+
+    private fun checkUserStatus() {
+        //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_MEETING_SUCCESS
+        when (MyUserManager.user?.notificationStatuses) {
+            Constants.USER_STATUS_ON_BOARDED -> {
+                btnCompleteVerification.visibility = View.VISIBLE
+                btnSetCardPin.visibility = View.GONE
+            }
+            Constants.USER_STATUS_MEETING_SUCCESS -> {
+                btnSetCardPin.visibility = View.VISIBLE
+                btnCompleteVerification.visibility = View.GONE
+            }
+            Constants.USER_STATUS_MEETING_SCHEDULED -> {
+                btnSetCardPin.visibility = View.GONE
+                btnCompleteVerification.visibility = View.GONE
+            }
+            Constants.USER_STATUS_CARD_ACTIVATED -> {
+                btnSetCardPin.visibility = View.GONE
+                btnCompleteVerification.visibility = View.GONE
             }
         }
     }
@@ -95,7 +130,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
         activity?.finish()
     }
 
-    fun showLogoutDialog() {
+    private fun showLogoutDialog() {
         AlertDialog.Builder(context as LiteDashboardActivity)
             .setTitle("Exit")
             .setMessage("Are you sure you want to exit?")

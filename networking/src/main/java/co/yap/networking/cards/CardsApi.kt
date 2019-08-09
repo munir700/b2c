@@ -2,6 +2,7 @@ package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.cards.responsedtos.GetCardsResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -11,6 +12,7 @@ interface CardsApi {
         cardSerialNumber: String
     ): RetroApiResponse<ApiResponse>
 
+    suspend fun getDebitCards(cardType: String): RetroApiResponse<GetCardsResponse>
     suspend fun orderCard(
         orderCardRequest: OrderCardRequest
     ): RetroApiResponse<ApiResponse>

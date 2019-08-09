@@ -4,6 +4,7 @@ import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.responsedtos.AccountInfoResponse
+import co.yap.networking.customers.responsedtos.GetDocumentsResponse
 import co.yap.networking.customers.responsedtos.SignUpResponse
 import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
@@ -40,7 +41,7 @@ interface CustomersRetroService {
     @Multipart
     @POST(CustomersRepository.URL_UPLOAD_DOCUMENTS)
     suspend fun uploadDocuments(
-        files: List<MultipartBody.Part>,
+        @Part files: List<MultipartBody.Part>,
         @Part("documentType") documentType: RequestBody,
         @Part("firstName") firstName: RequestBody,
         @Part("lastName") lastName: RequestBody,
@@ -51,5 +52,9 @@ interface CustomersRetroService {
         @Part("gender") gender: RequestBody,
         @Part("identityNo") identityNo: RequestBody
     ): Response<ApiResponse>
+
+    // Get Documents
+    @GET(CustomersRepository.URL_GET_DOCUMENTS)
+    suspend fun getDocuments(): Response<GetDocumentsResponse>
 
 }

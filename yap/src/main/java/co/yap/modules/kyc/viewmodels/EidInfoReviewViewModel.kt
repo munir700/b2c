@@ -7,6 +7,7 @@ import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
@@ -51,8 +52,7 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
                 it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
                 else -> {
                     // All checks passed.
-                    // performUploadDocumentsRequest()
-                    clickEvent.setValue(EVENT_NEXT)
+                    performUploadDocumentsRequest()
                 }
             }
         }
@@ -93,7 +93,18 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
                     }
                 )
 
-                repository.uploadDocuments(request)
+                state.loading = true
+                val response = repository.uploadDocuments(request)
+                state.loading = false
+
+                when (response) {
+                    is RetroApiResponse.Success -> {
+                        clickEvent.setValue(EVENT_NEXT)
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
+                    }
+                }
 
             }
         }

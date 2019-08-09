@@ -1,4 +1,5 @@
 package co.yap.app.modules.startup.fragments
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -37,15 +38,6 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                 }
             }
         })
-
-//        startActivity(
-//            activity?.let { it1 ->
-//                AddressSelectionFragment.newIntent(
-//                    it1
-//                )
-//            }
-//        )
-
     }
 
     override fun onDestroyView() {

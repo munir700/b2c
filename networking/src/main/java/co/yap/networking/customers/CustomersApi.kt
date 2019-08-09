@@ -17,4 +17,5 @@ interface CustomersApi {
     suspend fun postDemographicData(demographicDataRequest: DemographicDataRequest): RetroApiResponse<ApiResponse>
     suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ValidateDeviceResponse>
     suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse>
+    suspend fun getDocuments(): RetroApiResponse<ApiResponse>
 }
