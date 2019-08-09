@@ -4,6 +4,7 @@ import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.responsedtos.AccountInfoResponse
+import co.yap.networking.customers.responsedtos.GetDocumentsResponse
 import co.yap.networking.customers.responsedtos.SignUpResponse
 import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
@@ -51,5 +52,9 @@ interface CustomersRetroService {
         @Part("gender") gender: RequestBody,
         @Part("identityNo") identityNo: RequestBody
     ): Response<ApiResponse>
+
+    // Get Documents
+    @GET(CustomersRepository.URL_GET_DOCUMENTS)
+    suspend fun getDocuments(): Response<GetDocumentsResponse>
 
 }

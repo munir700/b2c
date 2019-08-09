@@ -111,7 +111,7 @@
                     app:layout_constraintTop_toTopOf="@+id/tvEid"
                     app:layout_constraintBottom_toBottomOf="@+id/textView5"
                     app:layout_constraintStart_toEndOf="@+id/textView5"
-                    android:visibility="@{(viewModel.state.eidScanStatus == DocScanStatus.SCAN_COMPLETED || viewModel.state.eidScanStatus == DocScanStatus.DOCS_UPLOADED) ? View.VISIBLE : View.GONE}"
+                    android:visibility="@{(viewModel.state.eidScanStatus == DocScanStatus.DOCS_UPLOADED) ? View.VISIBLE : View.GONE}"
                     android:layout_marginStart="8dp"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
