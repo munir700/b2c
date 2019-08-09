@@ -51,7 +51,7 @@
             android:id="@+id/ivOnboarding"
             android:layout_width="360dp"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/location_group"
+            app:srcCompat="@drawable/group"
             app:layout_constraintTop_toBottomOf="@+id/tvTagLine"
             android:layout_marginTop="@dimen/margin_medium_large"
             app:layout_constraintStart_toStartOf="parent"
