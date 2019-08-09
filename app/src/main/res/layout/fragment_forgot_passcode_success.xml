@@ -4,12 +4,12 @@
         xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
-<!--
+
 
         <variable
             name="viewModel"
-            type="co.yap.modules.setcardpin.viewmodels.SetCardPinWelcomeViewModel"/>
--->
+            type="co.yap.app.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel"/>
+
 
         <import type="co.yap.translation.Strings"/>
     </data>
@@ -35,8 +35,8 @@
             android:lineSpacingExtra="9sp"
             android:gravity="center"
             android:layout_marginTop="@dimen/margin_medium_large"
-            tools:text="@string/screen_forgot_passcode_success_display_text_heading"
-            app:text="@{Strings.screen_forgot_passcode_success_display_text_heading}"
+            tools:text="@string/screen_passcode_success_display_text_heading"
+            app:text="@{Strings.screen_passcode_success_display_text_heading}"
             app:layout_constraintTop_toBottomOf="@+id/ivBubbles"
             android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginStart="@dimen/margin_large"/>
@@ -46,6 +46,7 @@
             style="@style/ASmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="@{viewModel.state.subTitle}"
             app:layout_constraintTop_toBottomOf="@+id/tvTitle"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -54,24 +55,25 @@
             android:layout_marginStart="@dimen/margin_medium"
             app:layout_constraintVertical_bias="0.0"
             android:gravity="center"
-            tools:text="@string/screen_forgot_passcode_success_display_text_sub_heading"
-            app:text="@{Strings.screen_forgot_passcode_success_display_text_sub_heading}"
+            tools:text="@string/screen_passcode_success_display_text_sub_heading"
             />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnCreatePin"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/RectangleBtnStyle"
+            android:textColor="@color/colorPrimary"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="@string/common_button_go_to_dashboard"
+            android:text="@{viewModel.state.buttonTitle}"
+            tools:text="@string/screen_passcode_success_button_sign_in"
             app:btn_enable="true"
+            android:onClick="@{(v)-> viewModel.handlePressOnGoToDashboardButton(v.id)}"
             android:layout_marginBottom="@dimen/margin_normal"
-            app:text="@{Strings.common_button_go_to_dashboard}"
             app:layout_constraintVertical_bias="0.75"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,19 +4,25 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IForgotPasscodeOtp {
-    interface View:IBase.View<ViewModel>
-    interface ViewModel:IBase.ViewModel<State>{
+    interface View : IBase.View<ViewModel> {
+        fun setObservers()
+    }
+
+    interface ViewModel : IBase.ViewModel<State> {
         val nextButtonPressEvent: SingleClickEvent
         fun handlePressOnSendButton(id: Int)
-        fun handlePressOnResendOTP(id:Int)
+        fun handlePressOnResendOTP(id: Int)
         fun setPasscode(passcode: String)
-
+       // var mobileNumber: String
+        var destination: String
+        var emailOtp: Boolean
     }
+
     interface State : IBase.State {
         //views
         var verificationTitle: String
         var verificationDescription: String
-
+        var mobileNumber: Array<String?>
         //properties
         var otp: String
         var valid: Boolean

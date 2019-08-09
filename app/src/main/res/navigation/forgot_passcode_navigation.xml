@@ -10,6 +10,16 @@
         android:name="co.yap.app.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment"
         tools:layout="@layout/fragment_phone_verification"
         android:label="ForgotPasscodeFragment">
+        <argument
+            android:name="username"
+            app:argType="string"/>
+        <argument
+            android:name="emailOtp"
+            app:argType="boolean"/>
+        <argument
+            android:name="mobileNumber"
+            app:argType="string"/>
+
         <action
             android:id="@+id/action_forgotPasscodeFragment_to_createNewPasscodeFragment"
             app:enterAnim="@anim/slide_in_right"
@@ -22,5 +32,25 @@
         android:id="@+id/createNewPasscodeFragment"
         android:name="co.yap.app.modules.forgotpasscode.fragments.CreateNewPasscodeFragment"
         tools:layout="@layout/fragment_create_new_passcode"
-        android:label="CreateNewPasscodeFragment"/>
+        android:label="CreateNewPasscodeFragment">
+        <argument
+            android:name="mobileNumber"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_createNewPasscodeFragment_to_forgotPasscodeSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/forgotPasscodeSuccessFragment">
+            <argument
+                android:name="mobileNumber"
+                app:argType="string"/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasscodeSuccessFragment"
+        android:name="co.yap.app.modules.forgotpasscode.fragments.ForgotPasscodeSuccessFragment"
+        android:label="ForgotPasscodeSuccessFragment"
+        tools:layout="@layout/fragment_forgot_passcode_success"/>
 </navigation>

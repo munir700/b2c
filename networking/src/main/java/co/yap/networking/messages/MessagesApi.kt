@@ -10,5 +10,6 @@ interface MessagesApi {
     suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<ApiResponse>
     suspend fun createOtpGeneric(createOtpGenericRequest: CreateOtpGenericRequest): RetroApiResponse<ApiResponse>
     suspend fun verifyOtpGeneric(verifyOtpGenericRequest: VerifyOtpGenericRequest): RetroApiResponse<ApiResponse>
-    suspend fun createForgotPasscodeOTP(createForgotPasscodeOtp: CreateForgotPasscodeOtp): RetroApiResponse<ApiResponse>
+    suspend fun createForgotPasscodeOTP(createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): RetroApiResponse<ApiResponse>
+    suspend fun verifyForgotPasscodeOtp(verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): RetroApiResponse<ApiResponse>
 }

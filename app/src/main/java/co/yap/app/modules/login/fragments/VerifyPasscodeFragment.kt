@@ -21,7 +21,8 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import kotlinx.android.synthetic.main.fragment_verify_passcode.*
 
 
-class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(), BiometricCallback {
+class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(), BiometricCallback,
+    IVerifyPasscode.View {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
     private lateinit var mBiometricManager: BiometricManager
@@ -36,21 +37,13 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.signInButtonPressEvent.observe(this, signInButtonObserver)
         viewModel.loginSuccess.observe(this, loginSuccessObserver)
         viewModel.validateDeviceResult.observe(this, validateDeviceResultObserver)
         viewModel.createOtpResult.observe(this, createOtpObserver)
-        viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
-           // when (it) {
-                findNavController().navigate(R.id.action_verifyPasscodeFragment_to_forgotPasscodeActivity)
-
-               // R.id.tvForgotPassword-> showToast("m clicking")
-               /* R.id.singnButton-> {
-
-                }*/
-           // }
-        })
-
+        setObservers()
+        setUsername()
         dialer.hideFingerprintView()
         sharedPreferenceManager = SharedPreferenceManager(context as MainActivity)
         viewModel.state.deviceId =
@@ -80,12 +73,29 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         }
     }
 
-    override fun onDestroy() {
+    override fun setObservers() {
+        viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
+            when (it) {
+               R.id.tvForgotPassword->{
+                   val action =
+                       VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
+                           viewModel.state.username,
+                           viewModel.emailOtp,
+                           viewModel.mobileNumber
+                       )
+                   findNavController().navigate(action)
+               }
+            }
+        })
+    }
+
+    override fun onDestroyView() {
         viewModel.signInButtonPressEvent.removeObservers(this)
         viewModel.loginSuccess.removeObservers(this)
         viewModel.validateDeviceResult.removeObservers(this)
         viewModel.createOtpResult.removeObservers(this)
-        super.onDestroy()
+        viewModel.forgotPasscodeButtonPressEvent.removeObservers(this)
+        super.onDestroyView()
     }
 
     private val signInButtonObserver = Observer<Boolean> {

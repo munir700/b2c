@@ -14,6 +14,7 @@ interface ICreatePasscode {
     interface ViewModel : IBase.ViewModel<State> {
         val nextButtonPressEvent: SingleClickEvent
         fun handlePressOnCreatePasscodeButton(id:Int)
+        var mobileNumber:String
     }
 
     interface State : IBase.State {
