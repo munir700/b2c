@@ -215,8 +215,9 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 //        val activity = getActivity() as MyActivity
 //        activity.myMethod()
         try {
-
             val locationResult = mFusedLocationProviderClient.getLastLocation()
+
+//            val locationResult = mFusedLocationProviderClient.getLastLocation()
             activity?.let {
                 locationResult.addOnSuccessListener(
                     it,
@@ -232,13 +233,17 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                             )
                             //                        getCurrentPlaceLikelihoods()
                         }
-                        //                    else {
-                        //                        clickEvent.setValue(GPS_CLICK_EEVENT)
-                        //                    }
+                        getCurrentPlaceLikelihoods()
+//                                            else {
+////                            getDefaultLocationMap(mapDetailViewActivity)
+//                                return@OnSuccessListener
+//
+////                                                clickEvent.setValue(GPS_CLICK_EEVENT)
+//                                            }
                     })
             }
         } catch (e: Exception) {
-//            Log.e("Exception: %s", e.message)
+            Log.e("Exception: %s", "exception")
         }
 
     }
@@ -339,7 +344,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                                 attemptFetchPhoto(currPlace)
                             } else {
                                 state.loading = false
-                                toggleMarkerVisibility()
+//                                toggleMarkerVisibility()
 
                                 popUPcardFields()
                                 clickEvent.setValue(MARKER_CLICK_ID)
@@ -356,6 +361,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                         val apiException = exception as ApiException?
                         Log.e(TAG, "Place not found: " + apiException!!.statusCode)
                     }
+//                    clickEvent.setValue(GPS_CLICK_EEVENT)
                 }
             })
     }
@@ -403,16 +409,18 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     fun popUPcardFields() {
         val VISIBLE: Int = 0x00000000
         if (null != this.placeSubTitle || null != this.placeName || null != this.placePhoto && (state.isMapOnScreen)) {
+//            state.errorVisibility = VISIBLE
+
+//            if (checkGps) {
+//                state.errorVisibility = VISIBLE
+//                state.cardView = true
+//
+//            } else {
+//                state.cardView = false
+//                state.errorVisibility = VISIBLE
+//            }
             state.errorVisibility = VISIBLE
-
-            if (checkGps) {
-                state.errorVisibility = VISIBLE
-                state.cardView = true
-
-            } else {
-                state.cardView = false
-                state.errorVisibility = VISIBLE
-            }
+            state.cardView = true
         } else {
 
             state.errorVisibility = VISIBLE
