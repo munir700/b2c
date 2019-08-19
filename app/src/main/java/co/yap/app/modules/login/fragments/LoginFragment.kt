@@ -37,6 +37,7 @@ class LoginFragment : BaseBindingFragment<ILogin.ViewModel>(), ILogin.View {
         val action =
             LoginFragmentDirections.actionLoginFragmentToVerifyPasscodeFragment(viewModel.state.twoWayTextWatcher)
         NavHostFragment.findNavController(this).navigate(action)
+         viewModel.state.twoWayTextWatcher = ""
         // findNavController().navigate(action)
     }
 
