@@ -23,23 +23,16 @@ class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.ViewMod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        //    viewModel.mobileNumber=args.mobileNumber
         viewModel.state.mobileNumber[0] = args.mobileNumber
-        viewModel.destination=args.username
+//        viewModel.destination=args.username
+        viewModel.destination=args.mobileNumber
         viewModel.emailOtp=args.emailOtp
     }
- /*   override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-
-        //viewModel.mobileNumber= arguments?.let { ForgotPasscodeOtpFragmentArgs.fromBundle(it).mobileNumber } as String
-
-    }*/
 
     override fun setObservers() {
 
         viewModel.nextButtonPressEvent.observe(this, Observer {
-            val action=ForgotPasscodeOtpFragmentDirections.actionForgotPasscodeFragmentToCreateNewPasscodeFragment(args.username)
+            val action=ForgotPasscodeOtpFragmentDirections.actionForgotPasscodeFragmentToCreateNewPasscodeFragment(args.mobileNumber)
             findNavController().navigate(action)
 
         })
