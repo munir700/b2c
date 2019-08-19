@@ -4,23 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.FrameLayout;
-
-import com.digitify.identityscanner.R;
-import com.digitify.identityscanner.activities.PermissionAwareFragmentActivity;
-import com.digitify.identityscanner.modules.docscanner.enums.DocumentType;
-import com.digitify.identityscanner.modules.docscanner.fragments.*;
-import com.digitify.identityscanner.modules.docscanner.interfaces.IIdentityScanner;
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult;
-import com.digitify.identityscanner.modules.docscanner.viewmodels.IdentityScannerViewModel;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProviders;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Vector;
+import com.digitify.identityscanner.R;
+import com.digitify.identityscanner.activities.PermissionAwareFragmentActivity;
+import com.digitify.identityscanner.modules.docscanner.enums.DocumentType;
+import com.digitify.identityscanner.modules.docscanner.fragments.DocReviewFragment;
+import com.digitify.identityscanner.modules.docscanner.fragments.GalleryFragment;
+import com.digitify.identityscanner.modules.docscanner.fragments.YapCameraFragment;
+import com.digitify.identityscanner.modules.docscanner.interfaces.IIdentityScanner;
+import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult;
+import com.digitify.identityscanner.modules.docscanner.viewmodels.IdentityScannerViewModel;
 
 public class IdentityScannerActivity extends PermissionAwareFragmentActivity implements IIdentityScanner.IView {
 
@@ -53,6 +48,12 @@ public class IdentityScannerActivity extends PermissionAwareFragmentActivity imp
         setTitle("");
 
         init();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
