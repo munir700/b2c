@@ -32,4 +32,8 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
         viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()
     }
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 }

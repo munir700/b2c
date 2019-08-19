@@ -25,4 +25,8 @@ class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess
             findNavController().popBackStack(R.id.loginFragment,false)
         })
     }
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 }
