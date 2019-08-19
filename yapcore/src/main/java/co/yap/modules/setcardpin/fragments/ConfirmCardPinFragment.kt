@@ -10,6 +10,7 @@ import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 
 class ConfirmCardPinFragment : SetCardPinFragment() {
@@ -36,7 +37,10 @@ class ConfirmCardPinFragment : SetCardPinFragment() {
                         dialer.startAnimationDigits()
                     }
                 }
-                viewModel.EVENT_SET_CARD_PIN_SUCCESS ->  findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
+                viewModel.EVENT_SET_CARD_PIN_SUCCESS ->  {
+                    findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
+                    MyUserManager.user?.notificationStatuses = "CARD_ACTIVATED"
+                }
             }
         })
     }

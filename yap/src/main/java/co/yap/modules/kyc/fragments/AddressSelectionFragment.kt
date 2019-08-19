@@ -110,8 +110,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                             val intent = Intent()
                             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
                             val uri: Uri = Uri.fromParts("package", requireContext()!!.packageName, null)
-                            intent.data = uri;
-                            this.startActivity(intent);
+                            intent.data = uri
+                            this.startActivity(intent)
 
                         } else {
                             requestPermissions()

@@ -22,8 +22,8 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
         super.onActivityCreated(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnTopUp -> showToast("Top Up Now!")
-                R.id.tvTopUpLater -> showToast("Top Up later!")
+                R.id.btnTopUp -> activity?.finish()
+                R.id.tvTopUpLater -> activity?.finish()
             }
         })
     }
