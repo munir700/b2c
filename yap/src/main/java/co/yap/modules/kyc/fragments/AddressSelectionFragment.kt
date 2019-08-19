@@ -167,6 +167,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 }
 
                 viewModel.GPS_CLICK_EEVENT -> {
+                    isLocationSettingsDialogue = false
                     requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
 
                 }
@@ -204,6 +205,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                                 viewModel.checkGps = false
                                 status.startResolutionForResult(activity, REQUEST_CHECK_SETTINGS)
+
                             } catch (e: IntentSender.SendIntentException) {
                                 Log.i("TAGAddress", "PendingIntent unable to execute request.")
                             }
@@ -328,8 +330,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         super.onActivityResult(requestCode, resultCode, data)
         isLocationSettingsDialogue = false
         if (requestCode == REQUEST_CHECK_SETTINGS) {
-
-            viewModel.getDeviceLocation(activity as DocumentsDashboardActivity)
+//            viewModel.getDefaultLocationMap( viewModel!!.mapDetailViewActivity)
+            viewModel.getDeviceLocation( viewModel!!.mapDetailViewActivity)
         }
     }
 }
