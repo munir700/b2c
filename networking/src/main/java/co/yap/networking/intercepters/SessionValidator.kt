@@ -24,7 +24,7 @@ internal abstract class SessionValidator : TokenValidator, Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val response = chain.proceed(request)
-        // Check if user is logged in server revoked the access token.
+        // Check if user is logged in and server revoked the access token.
         if (isLoggedIn && response.code() == 401) {
             // need to refresh the token since previous token was invalid
             // TODO: Implement token refresh logic here. For now let's invalidate
