@@ -23,7 +23,13 @@ class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.ViewMod
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        viewModel.state.mobileNumber[0] = args.mobileNumber
+
+        if (args.mobileNumber.startsWith("00")) {
+            viewModel.state.mobileNumber[0] = args.mobileNumber.replace("00", "+")
+        }else{
+            viewModel.state.mobileNumber[0] = args.mobileNumber
+        }
+
         viewModel.destination=args.username
        // viewModel.destination=args.mobileNumber
         viewModel.emailOtp=args.emailOtp
