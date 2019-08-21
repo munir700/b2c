@@ -209,6 +209,8 @@ object Strings {
     const val screen_confirm_card_pin_display_title_terms_and_conditions: String = "screen_confirm_card_pin_display_title_terms_and_conditions"
     const val screen_confirm_card_pin_display_text_terms_and_conditions: String = "screen_confirm_card_pin_display_text_terms_and_conditions"
     const val screen_confirm_card_pin_button_create_pin: String = "screen_confirm_card_pin_button_create_pin"
+    const val screen_confirm_card_pin_display_text_error_sequence: String = "screen_confirm_card_pin_display_text_error_sequence"
+    const val screen_confirm_card_pin_display_text_error_same_digits: String = "screen_confirm_card_pin_display_text_error_same_digits"
 
     //Set card PIN success screen
     const val screen_set_card_pin_success_display_text_title: String = "screen_set_card_pin_success_display_text_title"

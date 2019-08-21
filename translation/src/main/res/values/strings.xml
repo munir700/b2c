@@ -196,6 +196,8 @@
     <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN code you agree to our</string>
     <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="screen_confirm_card_pin_button_create_pin">Create PIN code</string>
+    <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
+    <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
 
     <!-- Set card PIN success screen -->
     <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>
