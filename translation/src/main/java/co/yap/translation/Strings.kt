@@ -226,4 +226,9 @@ object Strings {
     const val screen_passcode_success_button_sign_in: String = "screen_passcode_success_button_sign_in"
 
 
+    //Create new passcode screen
+    const val screen_create_new_passcode_button_text: String = "screen_create_new_passcode_button_text"
+
+
+
 }
