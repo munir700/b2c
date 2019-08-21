@@ -20,9 +20,7 @@
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:orientation="vertical"
-        android:id="@+id/clContainer"
-
-        >
+        android:id="@+id/clContainer">
 
         <FrameLayout
             android:id="@+id/viewMapFragment"
@@ -37,8 +35,7 @@
                 android:minHeight="@dimen/_140sdp"
                 android:layout_width="match_parent"
                 app:viewModel="@{viewModel}"
-                layout="@layout/layout_maps"
-                />
+                layout="@layout/layout_maps"/>
 
             <FrameLayout
                 android:id="@+id/flTitle"
@@ -68,8 +65,7 @@
                         android:lineSpacingExtra="0sp"
                         tools:text="@string/screen_meeting_location_display_text_title"
                         app:layout_constraintTop_toTopOf="parent"
-                        android:text="@{viewModel.state.headingTitle}"
-                        />
+                        android:text="@{viewModel.state.headingTitle}"/>
 
                     <TextView
                         android:id="@+id/tvAddressSelectionSubHeading"
@@ -81,8 +77,7 @@
                         android:layout_marginTop="@dimen/margin_small"
                         tools:text="@string/screen_meeting_location_display_text_subtitle"
                         android:text="@{viewModel.state.subHeadingTitle}"
-                        android:layout_marginBottom="@dimen/margin_normal_large"
-                        />
+                        android:layout_marginBottom="@dimen/margin_normal_large"/>
                 </LinearLayout>
             </FrameLayout>
 
@@ -114,9 +109,7 @@
                     app:btn_drawable_padding_left="15.5"
                     app:btn_drawable_padding_top="4.5"
                     app:btn_text_alignment_from_left="1.9"
-                    android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}"
-
-                    />
+                    android:onClick="@{(v) -> viewModel.handlePressOnSelectLocation(v.id)}"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -124,8 +117,7 @@
                     android:layout_gravity="center_vertical"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    android:paddingTop="@dimen/margin_medium"
-                    >
+                    android:paddingTop="@dimen/margin_medium">
 
                     <TextView
                         style="@style/ASmall"
@@ -141,9 +133,7 @@
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintStart_toStartOf="parent"
                         android:id="@+id/tvAddressHeading"
-                        android:textColor="@{viewModel.state.addressTitlesColor}"
-
-                        />
+                        android:textColor="@{viewModel.state.addressTitlesColor}"/>
 
                     <EditText
                         android:id="@+id/etAddressField"
@@ -165,15 +155,13 @@
                         android:layout_marginEnd="@dimen/margin_medium"
                         android:layout_marginTop="4dp"
                         android:maxLength="100"
-                         android:paddingRight="@dimen/margin_medium"
+                        android:paddingRight="@dimen/margin_medium"
                         android:textSize="@dimen/text_size_h3"
                         app:layout_constraintEnd_toEndOf="parent"
                         android:editable="false"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@color/colorPrimaryDark"/>
 
-                        />
-                    <!--greyDark-->
                     <TextView
                         android:id="@+id/tvLandMark"
                         style="@style/ASmall"
@@ -189,10 +177,8 @@
                         android:layout_marginStart="@dimen/margin_medium"
                         android:textSize="@dimen/text_size_h2"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:textColor="@{viewModel.state.landMarkTitleColor}"
-                        />
+                        android:textColor="@{viewModel.state.landMarkTitleColor}"/>
 
-                    <!-- min char length 2-->
 
                     <EditText
                         android:layout_width="match_parent"
@@ -220,15 +206,14 @@
                         android:drawablePadding="@dimen/margin_extra_small"
                         android:paddingRight="0dp"
                         android:textColor="@color/colorPrimaryDark"
-                        app:drawableClick="@{viewModel.state.onDrawableClick}"
-                        />
+                        app:drawableClick="@{viewModel.state.onDrawableClick}"/>
 
                     <LinearLayout
                         android:id="@+id/llTermsCondition"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                         android:visibility="@{viewModel.state.checkBoxLayoutVisibility}">
+                        android:visibility="@{viewModel.state.checkBoxLayoutVisibility}">
 
                         <CheckBox
                             android:id="@+id/cbTermsAndConditions"
@@ -245,8 +230,7 @@
                             android:layout_height="wrap_content"
                             style="@style/AMicroGrey"
                             tools:text="@string/screen_meeting_location_text_accept_terms"
-                            app:text="@{Strings.screen_meeting_location_text_accept_terms}"
-                            />
+                            app:text="@{Strings.screen_meeting_location_text_accept_terms}"/>
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -260,7 +244,7 @@
                     </LinearLayout>
 
                     <co.yap.widgets.CoreButton
-                        android:id="@+id/next_button"
+                        android:id="@+id/nextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/FragmentsBtnStyle"
@@ -275,12 +259,9 @@
                         app:enableCoreButton="@{viewModel.state.valid}"
                         android:onClick="@{(v) -> viewModel.handlePressOnNext(v.id)}"
                         android:layout_gravity="bottom"
-                        android:gravity="bottom"
-                        />
+                        android:gravity="bottom"/>
                 </LinearLayout>
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>
 </layout>
-
-
