@@ -76,8 +76,6 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
                     if (response.data.data.size!=0) {
                         MyUserManager.cardSerialNumber = response.data.data[0].cardSerialNumber
                         clickEvent.setValue(EVENT_GET_DEBIT_CARDS_SUCCESS)
-                    }else{
-                        state.toast = "No cards found"
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
