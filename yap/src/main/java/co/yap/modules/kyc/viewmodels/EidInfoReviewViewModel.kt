@@ -119,7 +119,9 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
             state.nationality = it.identity.nationality
             state.nationalityValid = state.nationality.isNotBlank() && !state.nationality.equals("USA", false)
 
-            state.dateOfBirth = it.identity.dateOfBirth.toString()
+            state.dateOfBirth = it.identity.dateOfBirth.run {
+                DateUtils.dateToString(day, month, year)
+            }
             state.dateOfBirthValid = it.identity.dateOfBirth.run {
                 if (isDateValid) {
                     val age = DateUtils.getAge(day, month, year)
@@ -127,7 +129,9 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
                 } else false
             }
 
-            state.expiryDate = it.identity.expirationDate.toString()
+            state.expiryDate = it.identity.expirationDate.run {
+                DateUtils.dateToString(day, month, year)
+            }
             state.expiryDateValid = it.identity.expirationDate.run {
                 !DateUtils.isDatePassed(DateUtils.toDate(day, month, year))
             }

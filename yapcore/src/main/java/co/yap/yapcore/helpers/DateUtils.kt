@@ -5,6 +5,8 @@ import java.util.*
 
 object DateUtils {
 
+    private const val DEFAULT_DATE_FORMAT: String = "dd/mm/yyyy"
+
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
         val dob = Calendar.getInstance()
@@ -40,20 +42,26 @@ object DateUtils {
         val dd = if (day < 10) "0$day" else "" + day
         val mm = if (month < 10) "0$month" else "" + month
         val yy = if (year < 10) "0$year" else "" + year
-        val format = SimpleDateFormat("dd-mm-yy", Locale.UK)
+        val format = SimpleDateFormat("dd-mm-yy", Locale.US)
         return format.parse("$dd-$mm-$yy")
     }
 
-    fun stringToDate(date: String, formatter: String? = "dd-mm-yyyy"): Date? {
-        val format = SimpleDateFormat(formatter, Locale.UK)
+    fun stringToDate(date: String, formatter: String? = DEFAULT_DATE_FORMAT): Date? {
+        val format = SimpleDateFormat(formatter, Locale.US)
         var convertedDate: Date? = null
         try {
             convertedDate = format.parse(date)
-            println(date)
         } catch (e: Exception) {
             e.printStackTrace()
         }
         return convertedDate
     }
+
+    fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
+        SimpleDateFormat(format, Locale.US).format(toDate(day, month, year))
+
+    fun dateToString(date: Date, format: String = DEFAULT_DATE_FORMAT) =
+        SimpleDateFormat(format, Locale.US).format(date)
+
 
 }
