@@ -145,4 +145,12 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
 
     override fun onBackPressed(): Boolean = showLogoutDialog().let { true }
 
+    override fun onResume() {
+        super.onResume()
+
+        if(Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses){
+            btnSetCardPin.visibility = View.GONE
+            btnCompleteVerification.visibility = View.GONE
+        }
+    }
 }

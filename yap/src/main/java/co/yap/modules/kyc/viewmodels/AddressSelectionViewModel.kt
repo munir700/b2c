@@ -110,17 +110,16 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
             mDefaultLocation.longitude
         )
         launch {
+            state.loading = true
             when (val response = repository.orderCard(orderCardRequest)) {
                 is RetroApiResponse.Success -> {
-//           load         MeetingConfirmationFragment
+                    clickEvent.setValue(id)
                     state.loading = false
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.error = response.error.message
-                    clickEvent.setValue(id)
-
                 }
             }
         }

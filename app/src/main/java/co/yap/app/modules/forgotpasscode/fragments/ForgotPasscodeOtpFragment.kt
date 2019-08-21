@@ -24,8 +24,8 @@ class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.ViewMod
         super.onCreate(savedInstanceState)
         setObservers()
         viewModel.state.mobileNumber[0] = args.mobileNumber
-//        viewModel.destination=args.username
-        viewModel.destination=args.mobileNumber
+        viewModel.destination=args.username
+       // viewModel.destination=args.mobileNumber
         viewModel.emailOtp=args.emailOtp
     }
 

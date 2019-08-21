@@ -11,7 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 
 object CardsRepository : BaseRepository(), CardsApi {
     const val URL_CREATE_PIN = "/cards/api/cards/create-pin/{card-serial-number}"
-    const val URL_GET_CARDS = "https://stg.yap.co/cards/api/cards"
+    const val URL_GET_CARDS = "/cards/api/cards"
     const val URL_ORDER_CARD = "/cards/api/cards/b2c/physical"
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
