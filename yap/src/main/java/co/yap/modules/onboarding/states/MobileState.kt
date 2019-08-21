@@ -40,6 +40,10 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.mobile)
+            if (mobile.length<9){
+                mobileNoLength=11
+
+            }
 
         }
 
@@ -74,6 +78,13 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         }
 
     @get:Bindable
+    override var mobileNoLength: Int = 11
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.mobileNoLength)
+        }
+
+    @get:Bindable
     var etMobileNumber: EditText? = null
         set(value) {
             field = value
@@ -91,7 +102,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             CountryCodePicker.PhoneNumberValidityChangeListener {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
-
+                    mobileNoLength=11
                     if (mobile.length == 11) {
                         setSuccessUI()
                         drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
@@ -101,6 +112,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
                         setSuccessUI()
                     }
                 } else {
+//                    mobileNoLength=9
                     setSuccessUI()
                     if (mobile.toString().replace(" ", "").trim().length >= 9) {
                         setErrorLayout()
@@ -141,6 +153,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     }
 
     private fun setErrorLayout() {
+        mobileNoLength=9
         valid = false
 
     }

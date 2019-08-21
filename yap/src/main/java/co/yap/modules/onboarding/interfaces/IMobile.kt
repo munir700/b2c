@@ -26,6 +26,7 @@ interface IMobile {
         var errorVisibility: Int
         var background: Drawable?
         var activeFieldValue: Boolean
+        var mobileNoLength: Int
 
     }
 }
