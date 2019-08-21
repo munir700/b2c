@@ -29,7 +29,8 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
 
     override fun onCreate() {
         super.onCreate()
-        state.titleName[0] = parentViewModel?.name
+//        state.titleName[0] = parentViewModel?.name
+        state.titleName[0] = parentViewModel?.identity?.identity?.givenName
     }
 
     override fun onResume() {
