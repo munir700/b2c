@@ -15,6 +15,9 @@ interface IAddressSelection {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
+        var checkGps: Boolean
+        var mapFragment: SupportMapFragment?
+        var mapDetailViewActivity: DocumentsDashboardActivity
         val clickEvent: SingleClickEvent
         val MARKER_CLICK_ID: Int
         val GPS_CLICK_EEVENT: Int
@@ -22,8 +25,6 @@ interface IAddressSelection {
         fun handlePressOnSelectLocation(id: Int)
         fun handlePressOnCardSelectLocation(id: Int)
         fun handlePressOnCloseMap(id: Int)
-        var mapFragment: SupportMapFragment?
-        var mapDetailViewActivity: DocumentsDashboardActivity
         fun initMap()
         fun onMapInit(p0: GoogleMap?)
         fun getDeviceLocation(activity: DocumentsDashboardActivity)
@@ -31,7 +32,6 @@ interface IAddressSelection {
         fun onLocatioenSelected()
         fun toggleMarkerVisibility()
         fun setUpCardFields()
-        var checkGps: Boolean
     }
 
     interface State : IBase.State {
@@ -56,12 +56,9 @@ interface IAddressSelection {
         var errorVisibility: Int
         var checkBoxLayoutVisibility: Int
         var errorChecked: Boolean
-
         var setDrawable: Drawable?
         var addressTitlesColor: Int
         var landMarkTitleColor: Int
         var onDrawableClick: Boolean
-
-
     }
 }
