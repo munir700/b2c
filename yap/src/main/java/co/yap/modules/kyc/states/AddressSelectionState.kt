@@ -32,7 +32,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
 
     @get:Bindable
     override var placePhoto: Bitmap? =
-        BitmapFactory.decodeResource(mContext.resources, R.drawable.black_white_tile) //R.drawable.black_white_tile
+        BitmapFactory.decodeResource(mContext.resources, R.drawable.location_place_holder)
         get() = field
         set(value) {
             field = value
@@ -67,7 +67,6 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
     override var isMapOnScreen: Boolean = false
         set(value) {
             field = value
-//            notifyPropertyChanged(BR.isMapOnScreen)
         }
 
     @get:Bindable
@@ -76,24 +75,22 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         set(value) {
             field = value
             notifyPropertyChanged(BR.handleBackPress)
-//            notifyPropertyChanged(BR.cardView)
         }
+
     @get:Bindable
     override var checkBoxLayoutVisibility: Int = GONE
         get() = field
         set(value) {
             field = value
             notifyPropertyChanged(BR.checkBoxLayoutVisibility)
-//            notifyPropertyChanged(BR.cardView)
         }
+
     @get:Bindable
     override var errorChecked: Boolean = false
         get() = field
         set(value) {
             field = value
-
             notifyPropertyChanged(BR.errorChecked)
-
         }
 
     @get:Bindable
@@ -103,12 +100,10 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             if (value) {
                 errorVisibility = VISIBLE
                 notifyPropertyChanged(BR.errorVisibility)
-
             }
             field = value
             errorChecked = value
             notifyPropertyChanged(BR.cardView)
-
         }
 
     @get:Bindable
@@ -144,7 +139,7 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             notifyPropertyChanged(BR.addressField)
 
             if (!value.isNullOrEmpty()) {
-                checkBoxLayoutVisibility=VISIBLE
+                checkBoxLayoutVisibility = VISIBLE
                 addressTitlesColor = mContext.resources.getColor(R.color.greyDark)
                 notifyPropertyChanged(BR.addressTitlesColor)
             }
@@ -157,12 +152,12 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
             notifyPropertyChanged(BR.landmarkField)
             if (!value.isNullOrEmpty()) {
                 onDrawableClick = true
-                setDrawable= mContext.resources.getDrawable(R.drawable.ic_clear_field)
-                landMarkTitleColor= mContext.resources.getColor(R.color.greyDark)
-            }else{
-                landMarkTitleColor= mContext.resources.getColor(R.color.colorPrimaryDark)
+                setDrawable = mContext.resources.getDrawable(R.drawable.ic_clear_field)
+                landMarkTitleColor = mContext.resources.getColor(R.color.greyDark)
+            } else {
+                landMarkTitleColor = mContext.resources.getColor(R.color.colorPrimaryDark)
 
-                onDrawableClick=false
+                onDrawableClick = false
             }
         }
 

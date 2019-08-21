@@ -59,7 +59,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
 
     lateinit var icon: BitmapDescriptor
-    private var mLocationPermissionGranted: Boolean = false
+    private var locationPermissionGranted: Boolean = false
     private var isLocationSettingsDialogue: Boolean = false
 
     var placeTitle: String = ""
@@ -69,21 +69,19 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_address_selection, container, false)
-        viewDataBinding.setVariable(getBindingVariable(), viewModel)
-        viewDataBinding.executePendingBindings()
 
-        val parentActivity = getActivity() as DocumentsDashboardActivity
+        performDataBinding(inflater, container)
+        initMapFragment()
 
+        return viewDataBinding.root
+    }
 
+    private fun initMapFragment() {
         viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
         displayLocationSettingsRequest(requireContext())
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-
         mapFragment!!.getMapAsync(this)
-
-        return viewDataBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -103,9 +101,9 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnLocation -> {
-//                    hideKeyboard(mapFragment.view)
+//                    hideKeyboard(mapView)
                     if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
-                        mLocationPermissionGranted = true
+                        locationPermissionGranted = true
                         if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                             val intent = Intent()
                             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
@@ -153,7 +151,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                     }
                 }
 
-                R.id.next_button -> {
+                R.id.nextButton -> {
                     if (!viewModel.state.error.isNullOrEmpty()) {
                         showToast(viewModel.state.error)
                     } else {
@@ -173,6 +171,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 }
             }
         })
+    }
+
+    override fun onMapReady(p0: GoogleMap?) {
+        viewModel.onMapInit(p0)
     }
 
     fun displayLocationSettingsRequest(context: Context) {
@@ -220,20 +222,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 }
             })
         }
-
-    }
-
-//    override fun onPermissionGranted(permission: String?) {
-//        super.onPermissionGranted(permission)
-//        if (mLocationPermissionGranted) {
-//            expandMap()
-//
-//        }
-//
-//    }
-
-    override fun onMapReady(p0: GoogleMap?) {
-        viewModel.onMapInit(p0)
     }
 
     private fun slideDownLocationCard() {
@@ -256,6 +244,12 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             })
             .duration(300)
             .playOn(cvLocationCard)
+    }
+
+    private fun performDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
+        viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_address_selection, container, false)
+        viewDataBinding.setVariable(getBindingVariable(), viewModel)
+        viewDataBinding.executePendingBindings()
     }
 
     private fun expandMap() {
@@ -299,10 +293,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         viewModel.state.isMapOnScreen = false
         viewModel.toggleMarkerVisibility()
         if (viewModel.state.errorChecked) {
-//            viewModel.state.isMapOnScreen = false
             viewModel.state.cardView = false
         }
-//        viewModel.state.cardView = false
         viewModel.state.closeCard = false
 
         YoYo.with(Techniques.FadeIn)
@@ -330,8 +322,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         super.onActivityResult(requestCode, resultCode, data)
         isLocationSettingsDialogue = false
         if (requestCode == REQUEST_CHECK_SETTINGS) {
-//            viewModel.getDefaultLocationMap( viewModel!!.mapDetailViewActivity)
-            viewModel.getDeviceLocation( viewModel!!.mapDetailViewActivity)
+            viewModel.getDeviceLocation(viewModel!!.mapDetailViewActivity)
         }
     }
 }
