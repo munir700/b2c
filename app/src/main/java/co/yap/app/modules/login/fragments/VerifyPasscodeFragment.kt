@@ -77,8 +77,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
                R.id.tvForgotPassword->{
+                   if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)){
+                       viewModel.state.username = EncryptionUtils.decrypt(
+                           context as MainActivity,
+                           sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+                       ) as String
+                   }
                    val action =
                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
+
                            viewModel.state.username,
                            viewModel.emailOtp,
                            viewModel.mobileNumber
