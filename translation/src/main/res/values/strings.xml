@@ -104,7 +104,7 @@
 
     <!-- KYC home Screen-->
     <string name="screen_b2c_kyc_home_display_text_screen_title">Complete verification</string>
-    <string name="screen_b2c_kyc_home_display_text_sub_heading">%1$s, Please scan your Emirates ID</string>
+    <string name="screen_b2c_kyc_home_display_text_sub_heading">%1$s, please scan your Emirates ID</string>
     <string name="screen_b2c_kyc_home_button_skip">Skip and go to dashboard</string>
     <string name="screen_b2c_kyc_home_emirates_id_scan">Tap to scan your Emirates ID</string>
 
@@ -196,6 +196,8 @@
     <string name="screen_confirm_card_pin_display_title_terms_and_conditions">By creating a PIN code you agree to our</string>
     <string name="screen_confirm_card_pin_display_text_terms_and_conditions">Terms &amp; Conditions</string>
     <string name="screen_confirm_card_pin_button_create_pin">Create PIN code</string>
+    <string name="screen_confirm_card_pin_display_text_error_sequence">PIN cannot be a straight sequence</string>
+    <string name="screen_confirm_card_pin_display_text_error_same_digits">PIN cannot be of same digits</string>
 
     <!-- Set card PIN success screen -->
     <string name="screen_set_card_pin_success_display_text_title">You’re all set!\nTime to top up</string>
@@ -212,6 +214,9 @@
     <string name="screen_passcode_success_display_text_heading">Congratulations!</string>
     <string name="screen_passcode_success_display_text_sub_heading">Your new passcode has been created successfully. Please sign in to access your account</string>
     <string name="screen_passcode_success_button_sign_in">Sign in</string>
+
+    <!-- Create new Passcode screen -->
+    <string name="screen_create_new_passcode_button_text">Create new passcode</string>
 
 
 </resources>

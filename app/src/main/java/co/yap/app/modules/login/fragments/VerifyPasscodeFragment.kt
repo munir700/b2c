@@ -76,15 +76,22 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     override fun setObservers() {
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
-               R.id.tvForgotPassword->{
-                   val action =
-                       VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
-                           viewModel.state.username,
-                           viewModel.emailOtp,
-                           viewModel.mobileNumber
-                       )
-                   findNavController().navigate(action)
-               }
+                R.id.tvForgotPassword -> {
+                    if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
+                        viewModel.state.username = EncryptionUtils.decrypt(
+                            context as MainActivity,
+                            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+                        ) as String
+                    }
+
+                    val action =
+                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToForgotPasscodeNavigation(
+                            viewModel.state.username,
+                            viewModel.emailOtp,
+                            viewModel.mobileNumber
+                        )
+                    findNavController().navigate(action)
+                }
             }
         })
     }
@@ -140,12 +147,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                     && BiometricUtil.isPermissionGranted(context as MainActivity)
                     && BiometricUtil.isFingerprintAvailable(context as MainActivity)
                 ) {
-                    val action = VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(Constants.TOUCH_ID_SCREEN_TYPE)
+                    val action =
+                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+                            Constants.TOUCH_ID_SCREEN_TYPE
+                        )
                     findNavController().navigate(action)
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
                 } else {
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
-                    val action = VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(Constants.NOTIFICATION_SCREEN_TYPE)
+                    val action =
+                        VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
+                            Constants.NOTIFICATION_SCREEN_TYPE
+                        )
                     findNavController().navigate(action)
                 }
 
