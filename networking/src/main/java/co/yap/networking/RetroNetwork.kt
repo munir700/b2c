@@ -2,6 +2,7 @@ package co.yap.networking
 
 import android.app.Application
 import android.content.Context
+import android.content.Intent
 import android.os.Environment
 import co.yap.networking.intercepters.CookiesInterceptor
 import co.yap.networking.intercepters.NetworkConstraintsInterceptor
@@ -21,7 +22,6 @@ object RetroNetwork : Network {
     private const val CONNECTION_TIMEOUT_SECONDS = 60L
     private const val DISK_CACHE_SIZE = (10 * 1024 * 1024).toLong() // 10 MB
 
-    // private var application: Application? = null
     private var retro: Retrofit? = null
     private var networkConstraintsListener: NetworkConstraintsListener? = null
         get() {
@@ -30,7 +30,6 @@ object RetroNetwork : Network {
         }
 
     override fun initWith(application: Application, baseUrl: String) {
-        // this.application = application
         build(application, baseUrl)
     }
 
@@ -86,7 +85,5 @@ object RetroNetwork : Network {
         val cacheDir = File(Environment.getDataDirectory(), "cache")
         return Cache(cacheDir, DISK_CACHE_SIZE)
     }
-
-
 
 }

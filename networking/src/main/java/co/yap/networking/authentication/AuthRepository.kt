@@ -22,7 +22,10 @@ object AuthRepository : BaseRepository(), AuthApi {
     override suspend fun login(username: String, password: String): RetroApiResponse<LoginResponse> {
         val response = executeSafely(call = { API.login("client_credentials", username, password) })
         when (response) {
-            is RetroApiResponse.Success -> CookiesManager.jwtToken = response.data.accessToken
+            is RetroApiResponse.Success -> {
+                CookiesManager.jwtToken = response.data.accessToken
+                CookiesManager.isLoggedIn = true
+            }
         }
         return response
     }
@@ -40,8 +43,17 @@ object AuthRepository : BaseRepository(), AuthApi {
         return response
     }
 
-    override suspend fun refreshJWTToken(token: String): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { API.refreshJWTToken("refresh", token) })
+    override suspend fun refreshJWTToken(token: String): RetroApiResponse<LoginResponse> {
+        val response = executeSafely(call = { API.refreshJWTToken("refresh", token) })
+        when (response) {
+            is RetroApiResponse.Success -> {
+                CookiesManager.jwtToken = response.data.accessToken
+                CookiesManager.isLoggedIn = true
+            }
+        }
+        return response
+
+    }
 
     override suspend fun logout(uuid: String): RetroApiResponse<ApiResponse> {
         val response = executeSafely(call = { API.logout(uuid) })

@@ -20,10 +20,6 @@ class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
-
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {

@@ -15,7 +15,7 @@ interface AuthRetroService {
 
     // Refresh JWT Token
     @POST(AuthRepository.URL_REFRESH_JWT_TOKEN)
-    suspend fun refreshJWTToken(@Query("grant_type") grantType: String, @Query("id_token") token: String): Response<ApiResponse>
+    suspend fun refreshJWTToken(@Query("grant_type") grantType: String, @Query("id_token") token: String): Response<LoginResponse>
 
     @POST(AuthRepository.URL_GET_JWT_TOKEN)
     suspend fun login(@Query("grant_type") grantType: String, @Query("client_id") username: String, @Query("client_secret") password: String): Response<LoginResponse>

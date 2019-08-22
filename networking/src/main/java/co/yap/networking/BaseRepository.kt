@@ -4,10 +4,10 @@ import co.yap.networking.interfaces.IRepository
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
-import com.google.gson.stream.MalformedJsonException
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Response
+import com.google.gson.stream.MalformedJsonException as MalformedJsonException1
 
 const val MALFORMED_JSON_EXCEPTION_CODE = 0
 
@@ -23,7 +23,7 @@ abstract class BaseRepository : IRepository {
             // Check if this is not a server side error (4** or 5**) then return error instead of success
             return RetroApiResponse.Error(detectError(response))
 
-        } catch (exception: MalformedJsonException) {
+        } catch (exception: MalformedJsonException1) {
             return RetroApiResponse.Error(ApiError(MALFORMED_JSON_EXCEPTION_CODE, exception.localizedMessage))
         }catch (exception: Exception) {
             return RetroApiResponse.Error(ApiError(0, exception.localizedMessage))
