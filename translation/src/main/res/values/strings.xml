@@ -214,10 +214,7 @@
     <string name="screen_passcode_success_button_sign_in">Sign in</string>
 
     <!-- Create new Passcode screen -->
-    <string name="screen_create_new_passcode_button_text">Sign in</string>
-
-
-
+    <string name="screen_create_new_passcode_button_text">Create new passcode</string>
 
 
 </resources>
