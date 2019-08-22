@@ -25,7 +25,7 @@ abstract class BaseRepository : IRepository {
 
         } catch (exception: MalformedJsonException1) {
             return RetroApiResponse.Error(ApiError(MALFORMED_JSON_EXCEPTION_CODE, exception.localizedMessage))
-        }catch (exception: Exception) {
+        } catch (exception: Exception) {
             return RetroApiResponse.Error(ApiError(0, exception.localizedMessage))
         }
     }
@@ -41,16 +41,26 @@ abstract class BaseRepository : IRepository {
         val error: String? = response.errorBody()!!.string()
         return ApiError(response.code(), fetchErrorFromBody(error) ?: error ?: "Something went wrong")
     }
-
+    
     private fun fetchErrorFromBody(response: String?): String? {
         response?.let {
             if (it.isNotBlank()) {
                 try {
                     val obj = JSONObject(it)
-                    val errors = obj.getJSONArray("errors")
-                    if (errors.length() > 0) {
-                        return errors.getJSONObject(0).getString("message")
+
+                    if (obj.has("errors")) {
+                        val errors = obj.getJSONArray("errors")
+                        if (errors.length() > 0) {
+                            return errors.getJSONObject(0).getString("message")
+                        }
+                    } else if (obj.has("error")) {
+                        // most probably.. unauthorised error
+                        val error = obj.getString("error") ?: ""
+                        if (error.contentEquals("unauthorized_user")) {
+                            return ""
+                        }
                     }
+
 
                 } catch (e: JSONException) {
                     // return "Server sent some malformed data :o"
