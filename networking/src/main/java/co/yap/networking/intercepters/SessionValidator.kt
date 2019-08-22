@@ -1,35 +1,50 @@
 package co.yap.networking.intercepters
 
 import co.yap.networking.CookiesManager
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.interfaces.TokenValidator
+import co.yap.networking.models.RetroApiResponse
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Response
-import org.json.JSONArray
-import org.json.JSONObject
 
 internal abstract class SessionValidator : TokenValidator, Interceptor {
 
-    override var isLoggedIn: Boolean
-        get() = CookiesManager.isLoggedIn
-        set(value) {
-            CookiesManager.isLoggedIn = value
-        }
-
-    override var jwtToken: String?
-        get() = CookiesManager.jwtToken
-        set(value) {
-            CookiesManager.jwtToken = value
-        }
+    override var tokenRefreshInProgress: Boolean = false
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
-        val response = chain.proceed(request)
+        var response = chain.proceed(request)
+
         // Check if user is logged in and server revoked the access token.
-        if (isLoggedIn && response.code() == 401) {
+        if (CookiesManager.isLoggedIn && response.code() == 401) {
             // need to refresh the token since previous token was invalid
-            // TODO: Implement token refresh logic here. For now let's invalidate
-            invalidate()
+
+            if (!tokenRefreshInProgress) {
+                // Refresh token
+                tokenRefreshInProgress = true
+                when (runBlocking { AuthRepository.refreshJWTToken(CookiesManager.jwtToken ?: "") }) {
+                    is RetroApiResponse.Success -> {
+                        val builder =
+                            request.newBuilder().header(KEY_AUTHORIZATION, KEY_BEARER + CookiesManager.jwtToken)
+                                .method(request.method(), request.body())
+                        response = chain.proceed(builder.build())
+                    }
+                    else -> {
+                        // Error in Refreshing token, Invalidate user now
+                        CookiesManager.isLoggedIn = false
+                        CookiesManager.jwtToken = ""
+                        invalidate()
+                    }
+                }
+                tokenRefreshInProgress = false
+            }
         }
         return response
     }
+
+
 }

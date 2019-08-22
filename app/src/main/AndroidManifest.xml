@@ -30,19 +30,24 @@
             </intent-filter>
         </activity>
 
+        <receiver android:name=".broadcasts.AuthBroadcastReceiver">
+            <intent-filter>
+                <action android:name="co.yap.app.OPEN_LOGIN"/>
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name="co.yap.app.modules.startup.activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait"/>
         <activity
             android:name="co.yap.app.modules.startup.activities.AccountSelectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
-        <activity android:name=".modules.forgotpasscode.activities.ForgotPasscodeActivity"
-                  android:screenOrientation="portrait">
+        <activity
+            android:name=".modules.forgotpasscode.activities.ForgotPasscodeActivity"
+            android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/forgot_passcode_navigation"/>
         </activity>
     </application>
