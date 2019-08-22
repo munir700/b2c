@@ -27,8 +27,8 @@ open class SetCardPinViewModel(application: Application) : BaseViewModel<ISetCar
     private fun validateAggressively(): Boolean {
         val isSame = StringUtils.hasAllSameChars(state.pincode)
         val isSequenced = StringUtils.isSequenced(state.pincode)
-        if (isSequenced) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_sequence)
-        if (isSame) state.dialerError = getString(Strings.screen_create_passcode_display_text_error_same_digits)
+        if (isSequenced) state.dialerError = getString(Strings.screen_confirm_card_pin_display_text_error_sequence)
+        if (isSame) state.dialerError = getString(Strings.screen_confirm_card_pin_display_text_error_same_digits)
         return !isSame && !isSequenced
     }
 }
