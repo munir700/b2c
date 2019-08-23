@@ -119,8 +119,9 @@ public class DocReviewViewModel extends BaseAndroidViewModel implements IDocRevi
     }
 
     private void onMrzValidationComplete(Bitmap bitmap, boolean isValidated) {
-        getState().setLoading(true);
+
         if (isValidated) {
+            getState().setLoading(true);
             new IdentityBuilder(getContext()).from(bitmap, getDocType()).listen(new IdentityBuilder.OnIdentityFetchingCompleteListener() {
                 @Override
                 public void onIdentityFetchingComplete(Identity identity, String mrz) {
