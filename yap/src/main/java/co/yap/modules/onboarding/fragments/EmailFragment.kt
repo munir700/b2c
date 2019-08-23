@@ -45,8 +45,13 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
         super.onDestroyView()
     }
 
-    private val nextButtonObserver = Observer<Boolean> {
-        navigate(R.id.congratulationsFragment)
+    private val nextButtonObserver = Observer<Int> {
+        when (it) {
+            viewModel.EVENT_NAVIGATE_NEXT -> navigate(R.id.congratulationsFragment)
+            viewModel.EVENT_POST_VERIFICATION_EMAIL -> viewModel.sendVerificationEmail()
+            viewModel.EVENT_POST_DEMOGRAPHIC -> viewModel.postDemographicData()
+        }
+
     }
 
     private fun startAnimation() {

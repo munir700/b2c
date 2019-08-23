@@ -35,7 +35,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse> {
         val response = executeSafely(call = { api.signUp(signUpRequest) })
         when (response) {
-            is RetroApiResponse.Success -> CookiesManager.jwtToken = response.data.data
+            is RetroApiResponse.Success -> {
+                CookiesManager.jwtToken = response.data.data
+                CookiesManager.isLoggedIn = true
+            }
         }
         return response
     }
