@@ -158,6 +158,9 @@
         <action
             android:id="@+id/action_systemPermissionFragment_to_systemPermissionFragmentNotification"
             app:destination="@id/systemPermissionFragment"/>
+        <action
+            android:id="@+id/action_systemPermissionFragment_to_liteDashboardActivity"
+            app:destination="@id/liteDashboardActivity"/>
     </fragment>
 
     <fragment
