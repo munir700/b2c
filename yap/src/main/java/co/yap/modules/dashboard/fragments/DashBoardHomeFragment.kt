@@ -29,7 +29,7 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         super.onViewCreated(view, savedInstanceState)
 
         val barSet = linkedMapOf(
-            "JAN" to 2.3F,
+            "JAN" to 1.3F,
             "FEB" to 2.3F,
             "MAR" to 2.3F,
             "MAY" to 2.3F,

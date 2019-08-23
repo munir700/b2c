@@ -66,16 +66,17 @@ class BarChartView @JvmOverloads constructor(
         innerFrame: Frame,
         entries: List<DataPoint>
     ) {
-
-        val halfBarWidth = (innerFrame.right - innerFrame.left - (entries.size + 1) * spacing) / entries.size / 2
+        val valueDataPoint = entries.get(0)
+        val halfBarWidth =
+            (innerFrame.right - innerFrame.left - (entries.size + 1) * spacing) / entries.size / 2
 
         painter.prepare(color = barsColor, style = Paint.Style.FILL)
         entries.forEach {
             canvas.drawRoundRect(
                 RectF(
-                    it.screenPositionX - halfBarWidth,
-                    it.screenPositionY,
-                    it.screenPositionX + halfBarWidth,
+                    valueDataPoint.screenPositionX - halfBarWidth,
+                    valueDataPoint.screenPositionY,
+                    valueDataPoint.screenPositionX + halfBarWidth,
                     innerFrame.bottom
                 ),
                 barRadius,
@@ -83,6 +84,19 @@ class BarChartView @JvmOverloads constructor(
                 painter.paint
             )
         }
+//        entries.forEach {
+//            canvas.drawRoundRect(
+//                RectF(
+//                    it.screenPositionX - halfBarWidth,
+//                    it.screenPositionY,
+//                    it.screenPositionX + halfBarWidth,
+//                    innerFrame.bottom
+//                ),
+//                barRadius,
+//                barRadius,
+//                painter.paint
+//            )
+//        }
     }
 
     override fun drawLabels(xLabels: List<Label>) {

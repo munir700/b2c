@@ -7,6 +7,11 @@
     android:orientation="vertical">
 
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        />
+
     <co.yap.widgets.graph.view.BarChartView
         android:id="@+id/barChart"
         android:layout_width="match_parent"
@@ -15,7 +20,7 @@
         android:layout_marginTop="200dp"
         android:layout_marginRight="20dp"
         app:chart_axis="x"
-        app:chart_barsColor="@color/black"
+        app:chart_barsColor="@color/colorPrimary"
         app:chart_barsRadius="2dp"
         app:chart_labelsColor="#FF70977F"
         app:chart_labelsSize="10sp"
