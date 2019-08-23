@@ -4,14 +4,8 @@ import android.content.Context
 import android.content.Intent
 
 object AuthUtils {
-    fun navigateToLogin(context: Context) {
-        val loginIntent = Intent("co.yap.app.OPEN_LOGIN")
-        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
-        context.startActivity(loginIntent)
-
+    fun navigateToHardLogin(context: Context) {
+        navigateToSoftLogin(context)
         val sharedPreferenceManager = SharedPreferenceManager(context)
         val isFirstTimeUser: Boolean =
             sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
@@ -29,5 +23,14 @@ object AuthUtils {
             isFingerprintPermissionShown
         )
         sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, isFirstTimeUser)
+    }
+
+    fun navigateToSoftLogin(context: Context) {
+        val loginIntent = Intent("co.yap.app.OPEN_LOGIN")
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        loginIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
+        context.startActivity(loginIntent)
     }
 }

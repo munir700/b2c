@@ -30,12 +30,6 @@
             </intent-filter>
         </activity>
 
-        <receiver android:name=".broadcasts.AuthBroadcastReceiver">
-            <intent-filter>
-                <action android:name="co.yap.app.OPEN_LOGIN"/>
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name="co.yap.app.modules.startup.activities.SplashActivity"
             android:theme="@style/AppTheme.NoActionBar"

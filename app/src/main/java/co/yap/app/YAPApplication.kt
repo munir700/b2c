@@ -25,7 +25,7 @@ class YAPApplication : Application() {
             }
 
             override fun onSessionInvalid() {
-                AuthUtils.navigateToLogin(applicationContext)
+                AuthUtils.navigateToSoftLogin(applicationContext)
             }
         })
     }

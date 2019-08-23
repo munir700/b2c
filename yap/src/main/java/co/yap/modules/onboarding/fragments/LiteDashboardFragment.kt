@@ -111,7 +111,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     }
 
     private fun doLogout() {
-        AuthUtils.navigateToLogin(requireContext())
+        AuthUtils.navigateToHardLogin(requireContext())
         activity?.finish()
     }
 

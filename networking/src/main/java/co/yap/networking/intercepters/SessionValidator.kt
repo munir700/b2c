@@ -26,7 +26,7 @@ internal abstract class SessionValidator : TokenValidator, Interceptor {
             if (!tokenRefreshInProgress) {
                 // Refresh token
                 tokenRefreshInProgress = true
-                when (runBlocking { AuthRepository.refreshJWTToken(KEY_BEARER + CookiesManager.jwtToken) }) {
+                when (runBlocking { AuthRepository.refreshJWTToken(CookiesManager.jwtToken ?: "") }) {
                     is RetroApiResponse.Success -> {
                         val builder =
                             request.newBuilder().header(KEY_AUTHORIZATION, KEY_BEARER + CookiesManager.jwtToken)
