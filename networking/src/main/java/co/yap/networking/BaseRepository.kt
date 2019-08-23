@@ -56,7 +56,7 @@ abstract class BaseRepository : IRepository {
                     } else if (obj.has("error")) {
                         // most probably.. unauthorised error
                         val error = obj.getString("error") ?: ""
-                        if (error.contentEquals("unauthorized_user")) {
+                        if (error.contains("unauthorized")) {
                             return ""
                         }
                     }
