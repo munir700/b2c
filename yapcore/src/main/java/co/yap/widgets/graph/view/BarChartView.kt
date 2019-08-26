@@ -14,7 +14,7 @@ import co.yap.widgets.graph.data.Label
 import co.yap.widgets.graph.data.toRect
 import co.yap.widgets.graph.renderer.BarChartRenderer
 import co.yap.yapcore.R
-import com.db.williamchart.data.DataPoint
+import co.yap.widgets.graph.data.DataPoint
 
 class BarChartView @JvmOverloads constructor(
     context: Context,

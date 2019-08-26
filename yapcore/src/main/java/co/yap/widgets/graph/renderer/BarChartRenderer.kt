@@ -9,7 +9,6 @@ import co.yap.widgets.graph.extensions.toDataPoints
 import co.yap.widgets.graph.extensions.toLabels
 import co.yap.widgets.graph.renderer.executor.DebugWithLabelsFrame
 import co.yap.widgets.graph.renderer.executor.MeasureBarChartPaddings
-import com.db.williamchart.data.DataPoint
 
 class BarChartRenderer(
     private val view: ChartContract.View,
@@ -18,6 +17,7 @@ class BarChartRenderer(
 ) : ChartContract.Renderer {
 
     private lateinit var data: List<DataPoint>
+//    private lateinit var data: DataPoint
 
     private lateinit var axis: AxisType
 
@@ -102,7 +102,7 @@ class BarChartRenderer(
     override fun draw() {
 
         if (axis.shouldDisplayAxisX())
-//            view.drawLabels(xLabels)
+            view.drawLabels(xLabels)
 
         if (axis.shouldDisplayAxisY())
             view.drawLabels(yLabels)
@@ -129,8 +129,12 @@ class BarChartRenderer(
         view.postInvalidate()
     }
 
-    override fun anim(entries: LinkedHashMap<String, Float>, animation: ChartAnimation) {
-        data = entries.toDataPoints()
+    override fun anim(entries: DataPoint, animation: ChartAnimation) {
+        val dataPoint=entries
+//        data = entries.toDataPoints()
+//        data[]
+        data = listOf(entries)
+//        data=data.add(dataPoint)
         this.animation = animation
         view.postInvalidate()
     }

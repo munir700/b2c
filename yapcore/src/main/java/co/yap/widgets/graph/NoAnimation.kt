@@ -1,6 +1,6 @@
 package co.yap.widgets.graph
 
-import com.db.williamchart.data.DataPoint
+import co.yap.widgets.graph.data.DataPoint
 
 
 class NoAnimation : ChartAnimation() {

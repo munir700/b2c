@@ -1,8 +1,8 @@
 package co.yap.widgets.graph.extensions
 
+import co.yap.widgets.graph.data.DataPoint
 import co.yap.widgets.graph.data.Label
 import co.yap.widgets.graph.data.Scale
-import com.db.williamchart.data.DataPoint
 
 fun List<Float>._limits(): Pair<Float, Float> {
 

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -10,24 +8,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTransactionsBarChart"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
-        android:background="@color/warning"
-        />
+        android:layout_height="wrap_content"
+        android:background="@color/white" />
 
-<!--    <co.yap.widgets.graph.view.BarChartView-->
-<!--        android:id="@+id/barChart"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="150dp"-->
-<!--        android:layout_marginLeft="20dp"-->
-<!--        android:layout_marginTop="200dp"-->
-<!--        android:layout_marginRight="20dp"-->
-<!--        app:chart_axis="x"-->
-<!--        app:chart_barsColor="@color/colorPrimary"-->
-<!--        app:chart_barsRadius="2dp"-->
-<!--        app:chart_labelsColor="#FF70977F"-->
-<!--        app:chart_labelsSize="10sp"-->
-<!--        app:chart_spacing="15dp"-->
-<!--        app:layout_constraintLeft_toLeftOf="parent"-->
-<!--        app:layout_constraintRight_toRightOf="parent"-->
-<!--        tools:ignore="MissingConstraints" />-->
 </LinearLayout>

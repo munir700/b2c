@@ -2,7 +2,7 @@ package co.yap.widgets.graph
 
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.Interpolator
-import com.db.williamchart.data.DataPoint
+import co.yap.widgets.graph.data.DataPoint
 
 abstract class ChartAnimation {
 

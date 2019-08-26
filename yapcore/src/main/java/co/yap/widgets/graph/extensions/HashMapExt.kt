@@ -1,8 +1,8 @@
 package co.yap.widgets.graph.extensions
 
-import com.db.williamchart.data.DataPoint
+import co.yap.widgets.graph.data.DataPoint
 
-internal fun HashMap<String, Float>.toDataPoints(): List<DataPoint> {
+fun HashMap<String, Float>.toDataPoints(): List<DataPoint> {
     return entries.map {
         DataPoint(
             label = it.key,

@@ -37,46 +37,62 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
 //        val hasList =
         val hashMap: HashMap<String, Float> = HashMap<String, Float>()
         hashMap.put("one", 1f)
-        hashMap.put("two", 2f)
-        hashMap.put("three", 3f)
+        hashMap.put("two", 3f)
+        hashMap.put("three", 6f)
         Log.i("hashMapstr", hashMap.size.toString())
-
-//        val barSet = linkedMapOf(
-////            "JAN" to 1.3F,
-////            "FEB" to 2.3F,
-////            "MAR" to 2.3F,
-////            "MAY" to 2.3F,
-////            "APR" to 2.3F,
-////            "JUN" to 2.3F,
-////            "JUL" to 2.3F,
-////            "AUG" to 2.3F,
-////            "SEP" to 2.3F,
-//            "OCT" to 6F,
-//            "NOV" to 2.3F,
-//            "DEC" to 3F
-////            "JAN" to 4F,
-////            "FEB" to 7F,
-////            "MAR" to 2F,
-////            "MAY" to 2.3F,
-////            "APR" to 5F,
-////            "JUN" to 4F,
-////            "JUL" to 2F,
-////            "AUG" to 4F,
-////            "SEP" to 5F,
-////            "OCT" to 6F,
-////            "NOV" to 4F,
-////            "DEC" to 3F
-//        )
-//        transactions!!.add(barSet)
-
-        rvTransactionsBarChart.layoutManager = LinearLayoutManager(activity)
-        rvTransactionsBarChart.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         rvTransactionsBarChart.adapter = DashboardAdapter(hashMap, this!!.activity!!)
+//        rvTransactionsBarChart.layoutManager =
+//            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+        rvTransactionsBarChart.setLayoutManager(
+            LinearLayoutManager(
+                activity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        )
 
 
-//        barChart.animation.duration = 1000
-//        barChart.animate(barSet)
+//
+
+//        imageModelArrayList = eatFruits()
+//        adapter = FruitAdapter(this, imageModelArrayList)
+//        recyclerView.setAdapter(adapter)
+//        recyclerView.setLayoutManager(
+//            LinearLayoutManager(
+//                getApplicationContext(),
+//                LinearLayoutManager.HORIZONTAL,
+//                false
+//            )
+//        )
+//        val items:HashMap<String, Float> = hashMap
+//        val item1 : LinkedHashMap<String, Float> = LinkedHashMap<String, Float>()
+//        for (abc in items ) {
+//            item1.put(abc.key, abc.value)
+//
+//        }
+//        for (abc in items ) {
+//
+//
+//            val keySet = items.keys
+//            val listOfKeys = ArrayList<String>(keySet)
+//            println("ArrayList Of Keys :")
+//
+//            for (key in listOfKeys) {
+//                println(key)
+//            }
+//            val values = items.values
+//            val listOfValues = ArrayList<Float>(values)
+//            println("ArrayList Of Values :")
+//            for (value in listOfValues) {
+//                println(value)
+//            }
+//            val item1 : LinkedHashMap<String, Float> = LinkedHashMap<String, Float>()
+//            item1.put(listOfKeys.get(abc),listOfValues.get(position))
+
+//            barChart.animation.duration = 1000
+//            barChart.animate(item1)
+
+//        }
 
     }
 }

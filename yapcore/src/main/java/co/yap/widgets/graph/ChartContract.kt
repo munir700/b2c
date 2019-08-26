@@ -1,9 +1,9 @@
 package co.yap.widgets.graph
 
 import co.yap.widgets.graph.data.AxisType
+import co.yap.widgets.graph.data.DataPoint
 import co.yap.widgets.graph.data.Frame
 import co.yap.widgets.graph.data.Label
-import com.db.williamchart.data.DataPoint
 
 interface ChartContract {
 
@@ -39,6 +39,6 @@ interface ChartContract {
 
         fun render(entries: LinkedHashMap<String, Float>)
 
-        fun anim(entries: LinkedHashMap<String, Float>, animation: ChartAnimation)
+        fun anim(entries: DataPoint, animation: ChartAnimation)
     }
 }

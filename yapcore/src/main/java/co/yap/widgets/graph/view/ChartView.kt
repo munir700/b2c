@@ -1,4 +1,5 @@
 package co.yap.widgets.graph.view
+
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Canvas
@@ -12,6 +13,7 @@ import co.yap.widgets.graph.ChartContract
 import co.yap.widgets.graph.DefaultAnimation
 import co.yap.widgets.graph.Painter
 import co.yap.widgets.graph.data.AxisType
+import co.yap.widgets.graph.data.DataPoint
 import co.yap.yapcore.R
 
 
@@ -100,7 +102,7 @@ abstract class ChartView @JvmOverloads constructor(
         renderer.render(entries)
     }
 
-    fun animate(entries: LinkedHashMap<String, Float>) {
+    fun animate(entries: DataPoint) {
         renderer.anim(entries, animation)
     }
 

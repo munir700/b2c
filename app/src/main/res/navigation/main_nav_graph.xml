@@ -3,14 +3,18 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/main_nav_graph"
-            app:startDestination="@id/splashFragment">
+            app:startDestination="@id/dashBoardHomeFragment">
 
     <action
         android:id="@+id/action_goto_liteDashboardActivity"
         app:destination="@id/liteDashboardActivity"
         app:popUpTo="@+id/main_nav_graph"
         app:popUpToInclusive="true"/>
-
+    <fragment
+        android:id="@+id/dashBoardHomeFragment"
+        android:name="co.yap.modules.dashboard.fragments.DashBoardHomeFragment"
+        tools:layout="@layout/fragment_dashboard"
+        android:label="DashBoardHomeFragment"></fragment>
     <fragment
         android:id="@+id/splashFragment"
         android:name="co.yap.app.modules.startup.fragments.SplashFragment"

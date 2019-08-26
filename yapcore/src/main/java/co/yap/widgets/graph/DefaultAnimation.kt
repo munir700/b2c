@@ -2,7 +2,7 @@ package co.yap.widgets.graph
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import com.db.williamchart.data.DataPoint
+import co.yap.widgets.graph.data.DataPoint
 
 class DefaultAnimation : ChartAnimation() {
 

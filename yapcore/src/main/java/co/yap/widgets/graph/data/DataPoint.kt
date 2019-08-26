@@ -1,4 +1,4 @@
-package com.db.williamchart.data
+package co.yap.widgets.graph.data
 
 data class DataPoint(
     val label: String,
