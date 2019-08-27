@@ -49,6 +49,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
         when (event!!.action){
             MotionEvent.ACTION_DOWN -> {
 
+                
                     //                if (this.isEnabled) {
 //                    paint.shader = null
 //                    paint.setColor(context.resources.getColor(R.color.colorPrimary))
