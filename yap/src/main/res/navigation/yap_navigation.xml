@@ -11,4 +11,10 @@
         tools:layout="@layout/fragment_yap_dashboard_home"
         android:name="co.yap.modules.dashboard.fragments.YapDashboardHome"
         android:label="YapDashboardHome"/>
+    <fragment
+        android:id="@+id/liteDashboardFragment"
+        android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
+        tools:layout="@layout/fragment_lite_dashboard"
+        android:label="LiteDashboardFragment"/>
+
 </navigation>
