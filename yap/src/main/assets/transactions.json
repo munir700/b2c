@@ -1,0 +1,84 @@
+{
+  "content": [
+    {
+      "vendor": "Amazon",
+      "amount": 123.00,
+      "amountPercentage": 10,
+      "type": "Debit",
+      "date": "October 06, 2018",
+      "time": "18:20",
+      "category": "Payment",
+      "currency": "AED"
+    },
+    {
+      "vendor": "Uber",
+      "amount": 150.00,
+      "amountPercentage": "50",
+      "type": "Credit",
+      "date": "November 06, 2018",
+      "time": "18:20",
+      "category": "Payment",
+      "currency": "AED"
+    },
+    {
+      "vendor": "Careem",
+      "amount": 150.00,
+      "amountPercentage": "70",
+      "type": "Credit",
+      "date": "December 06, 2018",
+      "time": "12:20",
+      "category": "Payment",
+      "currency": "AED"
+    },
+    {
+      "vendor": "Bikee",
+      "amount": 180.00,
+      "amountPercentage": "90",
+      "type": "Debit",
+      "date": "December 06, 2018",
+      "time": "12:20",
+      "category": "Payment",
+      "currency": "AED"
+    },
+    {
+      "vendor": "SomeOne",
+      "amount": 200.00,
+      "amountPercentage": "100",
+      "type": "Debit",
+      "date": "Jan 06, 2018",
+      "time": "10:20",
+      "category": "Payment",
+      "currency": "AED"
+    },
+    {
+      "vendor": "SomeOne",
+      "amount": 200.00,
+      "amountPercentage": "100",
+      "type": "Debit",
+      "date": "Jan 06, 2018",
+      "time": "10:20",
+      "category": "Payment",
+      "currency": "AED"
+    },
+    {
+      "vendor": "SomeOne",
+      "amount": 200.00,
+      "amountPercentage": "100",
+      "type": "Debit",
+      "date": "Jan 06, 2018",
+      "time": "10:20",
+      "category": "Payment",
+      "currency": "AED"
+    },
+    {
+      "vendor": "SomeOne",
+      "amount": 200.00,
+      "amountPercentage": "100",
+      "type": "Debit",
+      "date": "Jan 06, 2018",
+      "time": "10:20",
+      "category": "Payment",
+      "currency": "AED"
+    }
+  ]
+}

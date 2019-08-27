@@ -73,7 +73,7 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
             state.loading = true
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.size!=0) {
+                    if (response.data.data.size != 0) {
                         MyUserManager.cardSerialNumber = response.data.data[0].cardSerialNumber
                         clickEvent.setValue(EVENT_GET_DEBIT_CARDS_SUCCESS)
                     }
@@ -91,5 +91,8 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
     override fun handlePressOnsetCardPin() {
         clickEvent.setValue(EVENT_PRESS_SET_CARD_PIN)
     }
+
+
+
 
 }

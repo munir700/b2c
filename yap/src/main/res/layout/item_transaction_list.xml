@@ -2,10 +2,12 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/white">
+
     <co.yap.widgets.CoreCircularImageView
         android:id="@+id/ivTransaction"
         android:layout_width="@dimen/_38sdp"
@@ -14,14 +16,24 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_normal"
-        android:background="@color/colorPrimary"/>
+        android:src="@color/colorPrimary"/>
+    <TextView
+        android:id="@+id/tvNameInitials"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@+id/ivTransaction"
+        android:textColor="@color/white"
+        tools:text="NM"
+        app:layout_constraintBottom_toBottomOf="@+id/ivTransaction"
+        app:layout_constraintLeft_toLeftOf="@+id/ivTransaction"
+        app:layout_constraintRight_toRightOf="@+id/ivTransaction"/>
 
     <TextView
         android:id="@+id/tvTransactionName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/ASmall"
-        android:text="Amazon"
+        tools:text="Amazon"
         app:layout_constraintTop_toTopOf="@+id/ivTransaction"
         app:layout_constraintLeft_toRightOf="@+id/ivTransaction"
         android:layout_marginStart="@dimen/margin_large"/>
@@ -33,14 +45,14 @@
         style="@style/SmallGrey"
         app:layout_constraintLeft_toLeftOf="@+id/tvTransactionName"
         app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
-        android:text="18:25"
+        tools:text="18:25"
         />
 
     <TextView
         android:id="@+id/tvDot"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="."
+        tools:text="."
         style="@style/SmallGrey"
         android:layout_marginStart="@dimen/margin_extra_small"
         app:layout_constraintTop_toTopOf="@+id/tvTransactionTime"
@@ -55,22 +67,25 @@
         android:layout_marginStart="@dimen/margin_extra_small"
         app:layout_constraintLeft_toRightOf="@+id/tvDot"
         app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
-        android:text="Payment"
+        tools:text="Payment"
         />
+
     <TextView
         android:id="@+id/tvTransactionAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="- 21.00"
+        tools:text="- 21.00"
         style="@style/ASmall"
         android:layout_marginEnd="@dimen/margin_medium"
         app:layout_constraintTop_toTopOf="@+id/tvTransactionName"
         app:layout_constraintRight_toRightOf="parent"/>
+
     <TextView
+        android:id="@+id/tvCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/SmallGrey"
-        android:text="AED"
+        tools:text="AED"
         app:layout_constraintRight_toRightOf="@+id/tvTransactionAmount"
         app:layout_constraintTop_toBottomOf="@+id/tvTransactionAmount"
         />
