@@ -3,10 +3,8 @@ package co.yap.modules.dashboard.activities
 import android.os.Bundle
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import co.yap.R
 import co.yap.yapcore.IFragmentHolder
@@ -35,11 +33,9 @@ class YapDashboardActivity : DefaultActivity(), INavigator, IFragmentHolder, App
         appBarConfiguration = AppBarConfiguration(navController.graph) //configure nav controller
         setupNavigation(navController) //setup navigation
         // setupActionBarWithNavController(navController, appBarConfiguration)
+        setupBottomNavigation(navController)
 
-        val navControllerBottom = Navigation.findNavController(this, R.id.nav_host_fragment)
-        bottomNav.setupWithNavController(navControllerBottom)
     }
-
 
     private fun setupNavigation(navController: NavController) {
         val sideNavView = findViewById<NavigationView>(R.id.nav_view)
@@ -51,6 +47,10 @@ class YapDashboardActivity : DefaultActivity(), INavigator, IFragmentHolder, App
 //            setOf(R.id.fragment1, R.id.fragment2),
 //            drawerLayout
 //        )
+    }
+
+    private fun setupBottomNavigation(navController: NavController) {
+        bottomNav.setupWithNavController(navController)
     }
 
 }
