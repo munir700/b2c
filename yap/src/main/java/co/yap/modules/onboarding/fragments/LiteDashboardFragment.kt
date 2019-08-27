@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.modules.dashboard.activities.YapDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
@@ -34,12 +34,12 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
-        sharedPreferenceManager = SharedPreferenceManager(context as LiteDashboardActivity)
+        sharedPreferenceManager = SharedPreferenceManager(context as YapDashboardActivity)
 
         if (BiometricUtil.isFingerprintSupported
-            && BiometricUtil.isHardwareSupported(context as LiteDashboardActivity)
-            && BiometricUtil.isPermissionGranted(context as LiteDashboardActivity)
-            && BiometricUtil.isFingerprintAvailable(context as LiteDashboardActivity)
+            && BiometricUtil.isHardwareSupported(context as YapDashboardActivity)
+            && BiometricUtil.isPermissionGranted(context as YapDashboardActivity)
+            && BiometricUtil.isFingerprintAvailable(context as YapDashboardActivity)
         ) {
             val isTouchIdEnabled: Boolean =
                 sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
@@ -116,7 +116,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     }
 
     private fun showLogoutDialog() {
-        AlertDialog.Builder(context as LiteDashboardActivity)
+        AlertDialog.Builder(context as YapDashboardActivity)
             .setTitle("Exit")
             .setMessage("Are you sure you want to exit?")
             .setPositiveButton("CONFIRM") { dialog, which ->

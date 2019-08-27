@@ -13,6 +13,7 @@ import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.*
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.google.android.material.navigation.NavigationView
+import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 
 class YapDashboardActivity : BaseBindingActivity<IDefault.ViewModel>(), INavigator, IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
 
@@ -38,6 +39,7 @@ class YapDashboardActivity : BaseBindingActivity<IDefault.ViewModel>(), INavigat
         appBarConfiguration = AppBarConfiguration(navController.graph) //configure nav controller
         setupNavigation(navController) //setup navigation
         // setupActionBarWithNavController(navController, appBarConfiguration)
+        setupBottomNavigation(navController)
 
     }
 
@@ -51,6 +53,10 @@ class YapDashboardActivity : BaseBindingActivity<IDefault.ViewModel>(), INavigat
 //            setOf(R.id.fragment1, R.id.fragment2),
 //            drawerLayout
 //        )
+    }
+
+    private fun setupBottomNavigation(navController: NavController) {
+        bottomNav.setupWithNavController(navController)
     }
 
 }
