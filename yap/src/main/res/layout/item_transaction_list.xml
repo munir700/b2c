@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <co.yap.widgets.CoreCircularImageView
+        android:id="@+id/ivTransaction"
+        android:layout_width="@dimen/_38sdp"
+        android:layout_height="@dimen/_38sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:background="@color/colorPrimary"/>
+
+    <TextView
+        android:id="@+id/tvTransactionName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ASmall"
+        android:text="Amazon"
+        app:layout_constraintTop_toTopOf="@+id/ivTransaction"
+        app:layout_constraintLeft_toRightOf="@+id/ivTransaction"
+        android:layout_marginStart="@dimen/margin_large"/>
+
+    <TextView
+        android:id="@+id/tvTransactionTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SmallGrey"
+        app:layout_constraintLeft_toLeftOf="@+id/tvTransactionName"
+        app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
+        android:text="18:25"
+        />
+
+    <TextView
+        android:id="@+id/tvDot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="."
+        style="@style/SmallGrey"
+        android:layout_marginStart="@dimen/margin_extra_small"
+        app:layout_constraintTop_toTopOf="@+id/tvTransactionTime"
+        app:layout_constraintLeft_toRightOf="@+id/tvTransactionTime"
+        />
+
+    <TextView
+        android:id="@+id/tvTransactionCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SmallGrey"
+        android:layout_marginStart="@dimen/margin_extra_small"
+        app:layout_constraintLeft_toRightOf="@+id/tvDot"
+        app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
+        android:text="Payment"
+        />
+    <TextView
+        android:id="@+id/tvTransactionAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="- 21.00"
+        style="@style/ASmall"
+        android:layout_marginEnd="@dimen/margin_medium"
+        app:layout_constraintTop_toTopOf="@+id/tvTransactionName"
+        app:layout_constraintRight_toRightOf="parent"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/SmallGrey"
+        android:text="AED"
+        app:layout_constraintRight_toRightOf="@+id/tvTransactionAmount"
+        app:layout_constraintTop_toBottomOf="@+id/tvTransactionAmount"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>
