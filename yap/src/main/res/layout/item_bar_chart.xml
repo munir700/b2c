@@ -1,49 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingLeft="@dimen/_4sdp"
-    android:paddingRight="@dimen/_4sdp">
-
-    <TextView
-        android:id="@+id/tvCheck"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_15sdp"
-        android:background="@color/black" />
+    android:padding="@dimen/_4sdp"
+    android:layout_gravity="bottom"
+    android:foregroundGravity="bottom">
 
     <co.yap.modules.dashboard.ChartView
-        android:id="@+id/cv"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_200sdp"
-        android:layout_marginBottom="@dimen/_15sdp"
-        android:background="@color/white" />
-
-<!-- <co.yap.modules.dashboard.HorizontalProgressView-->
-<!--        android:id="@+id/hv"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="@dimen/_200sdp"-->
-<!--        android:layout_marginBottom="@dimen/_15sdp"-->
-<!--        />-->
-
-
-    <co.yap.widgets.graph.view.BarChartView
         android:id="@+id/transactionBar"
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:background="@color/warning"
-        app:chart_axis="x"
-        app:chart_barsColor="@color/colorPrimary"
-        app:chart_barsRadius="2dp"
-        app:chart_labelsColor="#FF70977F"
-        app:chart_labelsSize="10sp"
-        android:visibility="invisible"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_15sdp"
+        android:layout_gravity="bottom"
+        android:foregroundGravity="bottom"/>
 </LinearLayout>

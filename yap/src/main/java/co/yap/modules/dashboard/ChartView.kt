@@ -6,6 +6,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import co.yap.R
+import kotlin.math.roundToInt
+
 
 //class ChartView
 class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs) {
@@ -25,8 +27,10 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     protected override fun onDraw(canvas: Canvas) {
         paint.setStyle(Paint.Style.FILL)
         paint.setStrokeWidth(10F)
+
         var rectF: RectF = RectF()
-        paint.setColor(context.resources.getColor(R.color.greyDark))
+
+        //        paint.setColor(context.resources.getColor(R.color.greyDark))
 
         val shader: LinearGradient = LinearGradient(
             0f,
@@ -37,9 +41,8 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs) {
             context.resources.getColor(R.color.colorLightGreyGradient),
             Shader.TileMode.CLAMP
         )
-        paint.shader = shader
-        // paint.setColor(R.color.greyDark) // set color in case of selected tab
 
+        paint.shader = shader
         rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
         canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
 
@@ -47,8 +50,12 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
     protected override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         setMeasuredDimension(btnWeight, btnHeight) // set desired width and height of your
-//        setMeasuredDimension(100, 400) // set desired width and height of your
-     }
+    }
+
+    fun setBarHeight(barHeight: Double) {
+        btnHeight = barHeight.roundToInt() * 10
+
+    }
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(w, h, oldWidth, oldHeight)

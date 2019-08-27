@@ -11,10 +11,14 @@ import co.yap.R
 import co.yap.modules.dashboard.adapters.DashboardAdapter
 import co.yap.modules.dashboard.interfaces.IDashboard
 import co.yap.modules.dashboard.viewmodels.DashBoardViewModel
+import co.yap.modules.onboarding.models.TransactionModel
 import co.yap.yapcore.BaseFragment
 import kotlinx.android.synthetic.main.fragment_dashboard.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
-
+// RECYCLER VIEW POSITION SHOULD BE FROM RTL
 class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.View {
     var transactions: ArrayList<LinkedHashMap<String, Float>> = ArrayList()
     val hashMap: HashMap<Int, String> = HashMap<Int, String>()
@@ -31,6 +35,12 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         return inflater.inflate(R.layout.fragment_dashboard, container, false)
     }
 
+    fun getAmountPercentage(dataSet: Double): Double {
+
+        val percentage = dataSet / 2000 * 100
+        return percentage * 100
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -39,10 +49,79 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         hashMap.put("one", 1f)
         hashMap.put("two", 3f)
         hashMap.put("three", 6f)
+
+        var transactionsList: ArrayList<TransactionModel> = ArrayList()
+
+//        var transactionModel : TransactionModel = TransactionModel("vendor one", 5.00, getAmountPercentage(5.00),"type","April 12, 2019","category", "AED")
+        transactionsList.add(
+            TransactionModel(
+                "vendor one",
+                5.00,
+                getAmountPercentage(5.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            TransactionModel(
+                "vendor two",
+                4.00,
+                getAmountPercentage(4.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            TransactionModel(
+                "vendor three",
+                3.00,
+                getAmountPercentage(3.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            TransactionModel(
+                "vendor four",
+                2.00,
+                getAmountPercentage(2.00),
+                "type",
+                "April 13, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            TransactionModel(
+                "vendor five",
+                6.00,
+                getAmountPercentage(6.00),
+                "type",
+                "April 15, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            TransactionModel(
+                "vendor six",
+                5.00,
+                getAmountPercentage(5.00),
+                "type",
+                "April 19, 2019",
+                "category",
+                "AED"
+            )
+        )
+
         Log.i("hashMapstr", hashMap.size.toString())
-        rvTransactionsBarChart.adapter = DashboardAdapter(hashMap, this!!.activity!!)
-//        rvTransactionsBarChart.layoutManager =
-//            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+         rvTransactionsBarChart.adapter = DashboardAdapter(transactionsList, this!!.activity!!)
         rvTransactionsBarChart.setLayoutManager(
             LinearLayoutManager(
                 activity,
@@ -50,49 +129,5 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
                 false
             )
         )
-
-
-//
-
-//        imageModelArrayList = eatFruits()
-//        adapter = FruitAdapter(this, imageModelArrayList)
-//        recyclerView.setAdapter(adapter)
-//        recyclerView.setLayoutManager(
-//            LinearLayoutManager(
-//                getApplicationContext(),
-//                LinearLayoutManager.HORIZONTAL,
-//                false
-//            )
-//        )
-//        val items:HashMap<String, Float> = hashMap
-//        val item1 : LinkedHashMap<String, Float> = LinkedHashMap<String, Float>()
-//        for (abc in items ) {
-//            item1.put(abc.key, abc.value)
-//
-//        }
-//        for (abc in items ) {
-//
-//
-//            val keySet = items.keys
-//            val listOfKeys = ArrayList<String>(keySet)
-//            println("ArrayList Of Keys :")
-//
-//            for (key in listOfKeys) {
-//                println(key)
-//            }
-//            val values = items.values
-//            val listOfValues = ArrayList<Float>(values)
-//            println("ArrayList Of Values :")
-//            for (value in listOfValues) {
-//                println(value)
-//            }
-//            val item1 : LinkedHashMap<String, Float> = LinkedHashMap<String, Float>()
-//            item1.put(listOfKeys.get(abc),listOfValues.get(position))
-
-//            barChart.animation.duration = 1000
-//            barChart.animate(item1)
-
-//        }
-
     }
 }
