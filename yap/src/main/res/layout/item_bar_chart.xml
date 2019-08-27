@@ -2,18 +2,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:padding="@dimen/_4sdp"
     android:layout_gravity="bottom"
-    android:foregroundGravity="bottom">
+    android:layout_weight="1"
+    android:background="@color/white"
+    android:foregroundGravity="bottom"
+    android:orientation="vertical"
+    android:padding="@dimen/_4sdp">
 
-    <co.yap.modules.dashboard.ChartView
-        android:id="@+id/transactionBar"
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".4">
+
+        <co.yap.modules.dashboard.ChartView
+            android:id="@+id/transactionBar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginBottom="@dimen/_15sdp"
+            android:foregroundGravity="bottom" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp"
-        android:layout_marginBottom="@dimen/_15sdp"
-        android:layout_gravity="bottom"
-        android:foregroundGravity="bottom"/>
+        android:layout_marginTop="@dimen/_15sdp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".4"
+        android:gravity="bottom"
+        android:layout_gravity="bottom">
+
+        <RelativeLayout
+             android:id="@+id/transactionBarView"
+            android:layout_width="5dp"
+            android:layout_height="@dimen/_10sdp"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/_200sdp"
+            android:background="@drawable/bar_chart_selector"
+            android:foregroundGravity="bottom"
+            android:gravity="bottom"
+
+            />
+    </LinearLayout>
 </LinearLayout>
