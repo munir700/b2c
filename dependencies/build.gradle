@@ -19,7 +19,6 @@ project.ext {
     arch = "2.0.0"
     modules = [
             app           : ':app',
-            authentication: ':authentication',
             networking    : ':networking',
             translation   : ':translation',
             yap           : ':yap',
@@ -166,9 +165,6 @@ project.ext {
     translationDependencies = [
             [configuration: "implementation", dependency: project(modules.networking)],
     ]
-
-    // dependencies which need to be added in authentication module only in conjunction with commonDependencies
-    authenticationDependencies = []
 
     // dependencies which need to be added in network module only in conjunction with commonDependencies
     networkingDependencies = [

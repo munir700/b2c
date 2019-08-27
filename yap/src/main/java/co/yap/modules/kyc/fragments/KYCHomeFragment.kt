@@ -43,7 +43,6 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             }
         })
 
-
     }
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {

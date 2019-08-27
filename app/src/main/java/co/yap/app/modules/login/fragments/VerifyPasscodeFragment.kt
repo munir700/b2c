@@ -6,7 +6,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.app.BR
+import co.yap.BR
 import co.yap.app.R
 import co.yap.app.activities.MainActivity
 import co.yap.app.constants.Constants
@@ -124,8 +124,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         if (it) {
             if (viewModel.isFingerprintLogin) {
                 sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
-                findNavController().navigate(R.id.action_goto_liteDashboardActivity)
-                activity?.finish()
+                navigateToDashboard()
             } else {
                 viewModel.validateDevice()
             }
@@ -163,8 +162,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                 }
 
             } else {
-                findNavController().navigate(R.id.action_goto_liteDashboardActivity)
-                activity?.finish()
+                navigateToDashboard()
             }
         } else {
             viewModel.createOtp()
@@ -189,6 +187,12 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         mBiometricManager.authenticate(this@VerifyPasscodeFragment)
 
 
+    }
+
+    private fun navigateToDashboard() {
+        // findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        activity?.finish()
     }
 
     override fun onSdkVersionNotSupported() {
