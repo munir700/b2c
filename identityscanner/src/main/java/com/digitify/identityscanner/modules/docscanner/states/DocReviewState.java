@@ -18,6 +18,7 @@ public class DocReviewState extends State {
         reviewText = "";
         docValid = false;
         previewBitmap = null;
+        loading = false;
     }
 
     @Bindable

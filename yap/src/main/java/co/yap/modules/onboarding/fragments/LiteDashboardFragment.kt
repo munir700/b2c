@@ -1,6 +1,5 @@
 package co.yap.modules.onboarding.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -8,14 +7,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.modules.onboarding.activities.LiteDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
-import co.yap.yapcore.managers.MyUserManager
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
 
@@ -34,12 +33,12 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
-        sharedPreferenceManager = SharedPreferenceManager(context as LiteDashboardActivity)
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         if (BiometricUtil.isFingerprintSupported
-            && BiometricUtil.isHardwareSupported(context as LiteDashboardActivity)
-            && BiometricUtil.isPermissionGranted(context as LiteDashboardActivity)
-            && BiometricUtil.isFingerprintAvailable(context as LiteDashboardActivity)
+            && BiometricUtil.isHardwareSupported(requireContext())
+            && BiometricUtil.isPermissionGranted(requireContext())
+            && BiometricUtil.isFingerprintAvailable(requireContext())
         ) {
             val isTouchIdEnabled: Boolean =
                 sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
@@ -111,27 +110,12 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     }
 
     private fun doLogout() {
-        val isFirstTimeUser: Boolean =
-            sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, false)
-        val isFingerprintPermissionShown: Boolean =
-            sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, false)
-        val uuid: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
-        // val ACTION = "co.yap.app.OPEN_LOGIN"
-        val intent = Intent("co.yap.app.OPEN_LOGIN")
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(intent)
-        sharedPreferenceManager.clearSharedPreference()
-        sharedPreferenceManager.save(SharedPreferenceManager.KEY_APP_UUID, uuid.toString())
-        sharedPreferenceManager.save(
-            SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
-            isFingerprintPermissionShown
-        )
-        sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FIRST_TIME_USER, isFirstTimeUser)
+        AuthUtils.navigateToHardLogin(requireContext())
         activity?.finish()
     }
 
     private fun showLogoutDialog() {
-        AlertDialog.Builder(context as LiteDashboardActivity)
+        AlertDialog.Builder(requireContext())
             .setTitle("Exit")
             .setMessage("Are you sure you want to exit?")
             .setPositiveButton("CONFIRM") { dialog, which ->
@@ -148,7 +132,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     override fun onResume() {
         super.onResume()
 
-        if(Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses){
+        if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
             btnSetCardPin.visibility = View.GONE
             btnCompleteVerification.visibility = View.GONE
         }

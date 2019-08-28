@@ -26,7 +26,6 @@ open class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerificatio
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setObservers()
-       // viewModel.nextButtonPressEvent.observe(this, nextButtonObserver)
     }
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
@@ -41,13 +40,6 @@ open class PhoneVerificationFragment : OnboardingChildFragment<IPhoneVerificatio
         viewModel.nextButtonPressEvent.removeObservers(this)
         super.onDestroyView()
     }
-
-   /* private val nextButtonObserver = Observer<Boolean> {
-        startActivityForResult(
-            context?.let { CreatePasscodeActivity.newIntent(it) },
-            Constants.REQUEST_CODE_CREATE_PASSCODE
-        )
-    }*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/yap_navigation"
+    app:startDestination="@id/yapHome">
+
+    <fragment
+        android:id="@+id/yapHome"
+        tools:layout="@layout/fragment_yap_home"
+        android:name="co.yap.modules.dashboard.fragments.YapHomeFragment"
+        android:label="YapDashboardHome"/>
+
+    <fragment
+        android:id="@+id/yapStore"
+        tools:layout="@layout/fragment_yap_store"
+        android:name="co.yap.modules.dashboard.fragments.YapStoreFragment"
+        android:label="YapStoreFragment"/>
+
+    <fragment
+        android:id="@+id/yapCards"
+        tools:layout="@layout/fragment_yap_cards"
+        android:name="co.yap.modules.dashboard.fragments.YapCardsFragment"
+        android:label="YapCardsFragment"/>
+
+    <fragment
+        android:id="@+id/liteDashboard"
+        android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
+        tools:layout="@layout/fragment_lite_dashboard"
+        android:label="LiteDashboardFragment"/>
+
+
+</navigation>

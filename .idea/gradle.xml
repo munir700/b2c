@@ -9,7 +9,6 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
-            <option value="$PROJECT_DIR$/authentication" />
             <option value="$PROJECT_DIR$/identityscanner" />
             <option value="$PROJECT_DIR$/networking" />
             <option value="$PROJECT_DIR$/opencv_face401" />

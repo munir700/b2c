@@ -17,8 +17,6 @@ import kotlinx.android.synthetic.main.fragment_dashboard.*
 // need to fix max value height
 //need to work on percentage for height calculation
 
-
-
 class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.View {
     val maxVal: Int = 600
 

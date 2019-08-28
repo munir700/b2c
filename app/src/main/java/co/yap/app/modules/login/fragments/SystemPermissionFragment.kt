@@ -53,7 +53,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 )
             findNavController().navigate(action)
         } else {
-            findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+            findNavController().navigate(R.id.action_systemPermissionFragment_to_liteDashboardActivity)
             activity?.finish()
         }
     }
@@ -67,7 +67,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 )
             findNavController().navigate(action)
         } else {
-            findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+            findNavController().navigate(R.id.action_systemPermissionFragment_to_liteDashboardActivity)
             activity?.finish()
         }
     }

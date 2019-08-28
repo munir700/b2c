@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_80sdp"
+    android:layout_margin="@dimen/_2sdp"
+    android:elevation="@dimen/_15sdp"
+    android:background="@drawable/bg_round_selector"
+
+    app:cardCornerRadius="8dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <ImageView
+            android:id="@+id/ivNotification"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="@dimen/margin_small"
+            android:src="@drawable/ic_fingerprint_purple"
+            android:contentDescription="@string/empty_string"/>
+
+        <ImageView
+            android:id="@+id/ivCross"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:padding="@dimen/margin_small"
+            android:contentDescription="@string/empty_string"
+            android:src="@drawable/ic_ico_close"/>
+
+        <TextView
+            android:id="@+id/tvNotification"
+            style="@style/AMicro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toRightOf="@+id/ivNotification"
+            app:layout_constraintTop_toTopOf="@+id/ivNotification"
+            android:layout_toEndOf="@+id/ivNotification"
+            android:text="YAP service notice."/>
+        
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            style="@style/AMicroGrey"
+            app:layout_constraintRight_toLeftOf="@+id/ivCross"
+            app:layout_constraintTop_toBottomOf="@+id/tvNotification"
+            app:layout_constraintLeft_toLeftOf="@+id/tvNotification"
+            android:text="On May 24th, International money transfers won’t be available from 7 p.m. to 11 p.m."/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

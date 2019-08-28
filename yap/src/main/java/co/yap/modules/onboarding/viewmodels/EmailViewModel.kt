@@ -16,6 +16,7 @@ import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -23,7 +24,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     IRepositoryHolder<CustomersRepository> {
 
     override val state: EmailState = EmailState(application)
-    override val nextButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val animationStartEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val repository: CustomersRepository = CustomersRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
@@ -42,10 +43,10 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     override fun handlePressOnNext() {
-        if (state.emailTitle.equals(getString(R.string.screen_email_verification_display_text_title))) {
-            postDemographicData()
+        if (state.emailTitle == getString(R.string.screen_email_verification_display_text_title)) {
+            nextButtonPressEvent.setValue(EVENT_POST_DEMOGRAPHIC)
         } else {
-            sendVerificationEmail()
+            nextButtonPressEvent.setValue(EVENT_POST_VERIFICATION_EMAIL)
         }
     }
 
@@ -110,7 +111,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         animationStartEvent.value = true
     }
 
-    private fun sendVerificationEmail() {
+    override fun sendVerificationEmail() {
         launch {
             state.loading = true
             when (val response = repository.sendVerificationEmail(
@@ -131,7 +132,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
         }
     }
 
-    private fun postDemographicData() {
+    override fun postDemographicData() {
         val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.loading = true
@@ -161,7 +162,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
-                    nextButtonPressEvent.value = true
+                    nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                     MyUserManager.user = response.data.data[0]
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
@@ -171,15 +172,13 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     override fun onEditorActionListener(): TextView.OnEditorActionListener {
-        return object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    if (state.valid) {
-                        handlePressOnNext()
-                    }
+        return TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                if (state.valid) {
+                    handlePressOnNext()
                 }
-                return false
             }
+            false
         }
     }
 }
