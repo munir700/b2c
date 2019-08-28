@@ -2,20 +2,26 @@ package co.yap.modules.dashboard.activities
 
 import android.os.Bundle
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import co.yap.R
+import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
-import co.yap.yapcore.defaults.DefaultActivity
-import co.yap.yapcore.defaults.DefaultNavigator
-import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.defaults.*
 import co.yap.yapcore.interfaces.IBaseNavigator
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 
-class YapDashboardActivity : DefaultActivity(), INavigator, IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
+class YapDashboardActivity : BaseBindingActivity<IDefault.ViewModel>(), INavigator, IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
+
+    override fun getBindingVariable(): Int = 0
+
+    override fun getLayoutId(): Int = R.layout.activity_yap_dashboard
+    override val viewModel: IDefault.ViewModel
+        get() = ViewModelProviders.of(this).get(DefaultViewModel::class.java)
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this, R.id.nav_host_fragment)
@@ -24,7 +30,7 @@ class YapDashboardActivity : DefaultActivity(), INavigator, IFragmentHolder, App
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_yap_dashboard)
+        // setContentView(R.layout.activity_yap_dashboard)
 
         val host: NavHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
