@@ -12,15 +12,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight=".4">
+        android:layout_weight=".4" >
 
         <co.yap.modules.dashboard.ChartView
             android:id="@+id/transactionBar"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_100sdp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/_15sdp"
-            android:layout_marginBottom="@dimen/_15sdp"
+             android:paddingBottom="@dimen/_40sdp"
             android:foregroundGravity="bottom" />
     </LinearLayout>
 

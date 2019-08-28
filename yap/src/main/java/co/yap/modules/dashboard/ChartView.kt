@@ -6,6 +6,8 @@ import android.graphics.*
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import co.yap.R
 import kotlin.math.roundToInt
@@ -13,7 +15,6 @@ import kotlin.math.roundToInt
 
 class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     View.OnTouchListener {
-
 
     private var btnWeight: Int = 50
     private var btnHeight: Int = 400
@@ -36,7 +37,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
             Shader.TileMode.CLAMP
         )
 
-
         seletedColor = R.color.transparent
         customizePaint(context)
 
@@ -46,32 +46,45 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
     }
 
-    private fun customizePaint(context: Context) {
-        paint.color = seletedColor
-        paint.setStyle(Paint.Style.FILL)
-        paint.setStrokeWidth(10F)
-        paint.shader = paintShader
+    private fun customizeAnimation(context: Context) {
 
-    }
+        val fadeOut = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        fadeOut.duration = 1000
 
-    @SuppressLint("ResourceAsColor")
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        when (event!!.action) {
+        this.startAnimation(fadeOut)
 
-            MotionEvent.ACTION_DOWN -> {
+        fadeOut.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
                 paint.shader = null
                 paintShader = null
-                paint.color = context.resources.getColor(R.color.transparent)
-                seletedColor = context.resources.getColor(R.color.colorPrimary)
-                Toast.makeText(context, "ACTION_DOWN", Toast.LENGTH_SHORT).show()
-                customizePaint(context)
+                Toast.makeText(context, "out", Toast.LENGTH_SHORT).show()
+                val pupleSelectedColor = context.resources.getColor(R.color.colorPrimary)
+                paint.color = pupleSelectedColor
+                seletedColor = pupleSelectedColor
                 invalidate()
+                customizePaint(context)
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                Toast.makeText(context, "IN", Toast.LENGTH_SHORT).show()
+                val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+                startAnimation(fadeIn)
+                fadeInAnim(fadeIn)
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
+    }
+
+    fun fadeInAnim(fadeIn: Animation) {
+        fadeIn.duration = 500
+        fadeIn.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
 
             }
 
-            MotionEvent.ACTION_UP -> {
-                Toast.makeText(context, "ACTION_UP", Toast.LENGTH_SHORT).show()
-                seletedColor = R.color.transparent
+            override fun onAnimationEnd(animation: Animation) {
+                Toast.makeText(context, "out", Toast.LENGTH_SHORT).show()
 
                 paintShader = LinearGradient(
                     0f,
@@ -82,10 +95,34 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
                     context.resources.getColor(R.color.colorLightGreyGradient),
                     Shader.TileMode.CLAMP
                 )
-                customizePaint(context)
+
+                val pupleSelectedColor = context.resources.getColor(R.color.greySoft)
+                seletedColor = pupleSelectedColor
                 invalidate()
+                customizePaint(context)
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
+
+    }
+
+    private fun customizePaint(context: Context) {
+        paint.color = seletedColor
+        paint.shader = paintShader
+        paint.setStyle(Paint.Style.FILL)
+        paint.setStrokeWidth(10F)
+
+    }
+
+    @SuppressLint("ResourceAsColor")
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        when (event!!.action) {
+            MotionEvent.ACTION_DOWN -> {
+                customizeAnimation(context)
             }
         }
+
         return true
     }
 
