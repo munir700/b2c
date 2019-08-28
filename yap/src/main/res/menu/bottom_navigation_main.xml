@@ -2,11 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/yapDashboardHome"
+        android:id="@+id/yapHome"
         android:icon="@drawable/ic_home"
         android:title="Home" />
     <item
-        android:id="@+id/actionStore"
+        android:id="@+id/yapStore"
         android:icon="@drawable/ic_store"
         android:title="Store" />
 
@@ -16,11 +16,11 @@
         android:title="" />
 
     <item
-        android:id="@+id/actionCards"
+        android:id="@+id/yapCards"
         android:icon="@drawable/ic_cards"
         android:title="Cards" />
     <item
-        android:id="@+id/liteDashboardFragment"
+        android:id="@+id/liteDashboard"
         android:icon="@drawable/ic_more"
         android:title="More" />
 
