@@ -14,7 +14,13 @@ import co.yap.modules.onboarding.models.TransactionModel
 import co.yap.yapcore.BaseFragment
 import kotlinx.android.synthetic.main.fragment_dashboard.*
 
+// need to fix max value height
+//need to work on percentage for height calculation
+
+
+
 class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.View {
+    val maxVal: Int = 600
 
     override val viewModel: IDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(DashBoardViewModel::class.java)
@@ -29,9 +35,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
 
     fun getAmountPercentage(dataSet: Double): Double {
 
-        val percentage = dataSet / 2000 * 100
-        return Math.round(percentage * 100).toDouble()
-//        return (percentage * 100)
+        val percentage = dataSet / maxVal * 100
+        return Math.round(percentage ).toDouble()
     }
 
 
@@ -40,12 +45,11 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
 
         var transactionsList: ArrayList<TransactionModel> = ArrayList()
 
-//        var transactionModel : TransactionModel = TransactionModel("vendor one", 5.00, getAmountPercentage(5.00),"type","April 12, 2019","category", "AED")
         transactionsList.add(
             TransactionModel(
                 "vendor one",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -55,8 +59,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor two",
-                4.00,
-                getAmountPercentage(4.00),
+                400.00,
+                getAmountPercentage(400.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -66,8 +70,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor three",
-                3.00,
-                getAmountPercentage(3.00),
+                300.00,
+                getAmountPercentage(300.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -77,10 +81,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor four",
-                2.00,
-                getAmountPercentage(2.00),
+                200.00,
+                getAmountPercentage(200.00),
                 "type",
-                "April 13, 2019",
+                "April 1300, 2019",
                 "category",
                 "AED"
             )
@@ -88,10 +92,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor five",
-                6.00,
-                getAmountPercentage(6.00),
+                1000.00,
+                getAmountPercentage(1000.00),
                 "type",
-                "April 15, 2019",
+                "April 1500, 2019",
                 "category",
                 "AED"
             )
@@ -99,8 +103,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor six",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 19, 2019",
                 "category",
@@ -110,8 +114,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor one",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -121,8 +125,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor two",
-                4.00,
-                getAmountPercentage(4.00),
+                400.00,
+                getAmountPercentage(400.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -132,8 +136,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor three",
-                3.00,
-                getAmountPercentage(3.00),
+                300.00,
+                getAmountPercentage(300.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -143,10 +147,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor four",
-                2.00,
-                getAmountPercentage(2.00),
+                200.00,
+                getAmountPercentage(200.00),
                 "type",
-                "April 13, 2019",
+                "April 1300, 2019",
                 "category",
                 "AED"
             )
@@ -154,10 +158,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor five",
-                6.00,
-                getAmountPercentage(6.00),
+                600.00,
+                getAmountPercentage(600.00),
                 "type",
-                "April 15, 2019",
+                "April 1500, 2019",
                 "category",
                 "AED"
             )
@@ -165,8 +169,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor six",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 19, 2019",
                 "category",
@@ -176,8 +180,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor one",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -187,8 +191,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor two",
-                4.00,
-                getAmountPercentage(4.00),
+                400.00,
+                getAmountPercentage(400.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -198,8 +202,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor three",
-                3.00,
-                getAmountPercentage(3.00),
+                300.00,
+                getAmountPercentage(300.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -209,10 +213,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor four",
-                2.00,
-                getAmountPercentage(2.00),
+                200.00,
+                getAmountPercentage(200.00),
                 "type",
-                "April 13, 2019",
+                "April 1300, 2019",
                 "category",
                 "AED"
             )
@@ -220,10 +224,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor five",
-                6.00,
-                getAmountPercentage(6.00),
+                600.00,
+                getAmountPercentage(600.00),
                 "type",
-                "April 15, 2019",
+                "April 1500, 2019",
                 "category",
                 "AED"
             )
@@ -231,8 +235,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor six",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 19, 2019",
                 "category",
@@ -242,8 +246,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor one",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -253,8 +257,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor two",
-                4.00,
-                getAmountPercentage(4.00),
+                400.00,
+                getAmountPercentage(400.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -264,8 +268,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor three",
-                3.00,
-                getAmountPercentage(3.00),
+                300.00,
+                getAmountPercentage(300.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -275,10 +279,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor four",
-                2.00,
-                getAmountPercentage(2.00),
+                200.00,
+                getAmountPercentage(200.00),
                 "type",
-                "April 13, 2019",
+                "April 1300, 2019",
                 "category",
                 "AED"
             )
@@ -286,10 +290,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor five",
-                6.00,
-                getAmountPercentage(6.00),
+                600.00,
+                getAmountPercentage(600.00),
                 "type",
-                "April 15, 2019",
+                "April 1500, 2019",
                 "category",
                 "AED"
             )
@@ -297,8 +301,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor six",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 19, 2019",
                 "category",
@@ -308,8 +312,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor one",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -319,8 +323,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor two",
-                4.00,
-                getAmountPercentage(4.00),
+                400.00,
+                getAmountPercentage(400.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -330,8 +334,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor three",
-                3.00,
-                getAmountPercentage(3.00),
+                300.00,
+                getAmountPercentage(300.00),
                 "type",
                 "April 12, 2019",
                 "category",
@@ -341,10 +345,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor four",
-                2.00,
-                getAmountPercentage(2.00),
+                200.00,
+                getAmountPercentage(200.00),
                 "type",
-                "April 13, 2019",
+                "April 1300, 2019",
                 "category",
                 "AED"
             )
@@ -352,10 +356,10 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor five",
-                6.00,
-                getAmountPercentage(6.00),
+                600.00,
+                getAmountPercentage(600.00),
                 "type",
-                "April 15, 2019",
+                "April 1500, 2019",
                 "category",
                 "AED"
             )
@@ -363,8 +367,8 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         transactionsList.add(
             TransactionModel(
                 "vendor six",
-                5.00,
-                getAmountPercentage(5.00),
+                500.00,
+                getAmountPercentage(500.00),
                 "type",
                 "April 19, 2019",
                 "category",

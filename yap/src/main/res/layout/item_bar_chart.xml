@@ -5,8 +5,7 @@
     android:layout_gravity="bottom"
     android:gravity="bottom"
     android:orientation="vertical"
-android:paddingLeft="@dimen/_2sdp"
-    android:paddingRight="@dimen/_2sdp">
+     >
 
 <!--    <TextView-->
 <!--        android:id="@+id/tv"-->

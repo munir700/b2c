@@ -15,7 +15,7 @@ import kotlin.math.roundToInt
 class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     View.OnTouchListener {
 
-    private var btnWeight: Int = 30
+    private var btnWeight: Int = 26
     private var btnHeight: Int = 50
     private var roundRadius: Int = 7
     private var btnRadius: Int = 0
@@ -55,8 +55,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
             override fun onAnimationStart(animation: Animation) {
                 paint.shader = null
                 paintShader = null
-                Toast.makeText(context, "out", Toast.LENGTH_SHORT).show()
-                val pupleSelectedColor = context.resources.getColor(R.color.colorPrimary)
+                 val pupleSelectedColor = context.resources.getColor(R.color.colorPrimary)
                 paint.color = pupleSelectedColor
                 seletedColor = pupleSelectedColor
                 invalidate()
@@ -64,8 +63,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
             }
 
             override fun onAnimationEnd(animation: Animation) {
-                Toast.makeText(context, "IN", Toast.LENGTH_SHORT).show()
-                val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+                 val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_out)
                 startAnimation(fadeIn)
                 fadeInAnim(fadeIn)
             }
@@ -131,12 +129,16 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     }
 
     protected override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        setMeasuredDimension(btnWeight, btnHeight) // set desired width and height of your
+        setMeasuredDimension(btnWeight, btnHeight)
     }
 
-    fun setBarHeight(barHeight: Double) {
-        btnHeight = barHeight.roundToInt() * 10
-
+    fun setBarHeight(height: Double) {
+        if (height > 1) {
+            btnHeight = height.roundToInt()
+        }else{
+            btnHeight = height.roundToInt() * 10
+        }
+        // need to work on fixing height
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
