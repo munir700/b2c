@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.onboarding.models.TransactionModel
 import kotlinx.android.synthetic.main.item_bar_chart.view.*
- import android.widget.LinearLayout
 
 
 class DashboardAdapter(val listItems: ArrayList<TransactionModel>, val context: Context) :
@@ -23,26 +22,15 @@ class DashboardAdapter(val listItems: ArrayList<TransactionModel>, val context: 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val transactionModel : TransactionModel = listItems.get(position)
+        val transactionModel: TransactionModel = listItems.get(position)
 
         holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
-//        holder.transactionBarView.minimumHeight= transactionModel.amountPercentage.toInt()
-
-        holder.tv.text= transactionModel.amountPercentage.toString()
-//        holder.transactionBarView.setLayoutParams(ViewGroup.LayoutParams(15, transactionModel.amountPercentage.toInt()))
-
-//         holder.transactionBarView.setHeight(transactionModel.amountPercentage.toInt())
-
-        holder.transactionBarView.setLayoutParams(LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, (transactionModel.amountPercentage*10).toInt()))
-//        holder.transactionBarView.setLayoutParams(LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, context.resources.getDimension(R.dimen._10sdp).toInt()))
-
+//        holder.tv.text = transactionModel.amountPercentage.toString()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val transactionBar = itemView.transactionBar
-        val transactionBarView = itemView.transactionBarView
-        val tv = itemView.tv
-//        val transactionBar = itemView.findViewById<co.yap.modules.dashboard.ChartView>(R.id.transactionBar)
+//        val tv = itemView.tv
 
     }
 }

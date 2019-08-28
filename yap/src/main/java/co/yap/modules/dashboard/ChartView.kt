@@ -12,13 +12,12 @@ import android.widget.Toast
 import co.yap.R
 import kotlin.math.roundToInt
 
-
 class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     View.OnTouchListener {
 
-    private var btnWeight: Int = 50
-    private var btnHeight: Int = 400
-    private var roundRadius: Int = 20
+    private var btnWeight: Int = 30
+    private var btnHeight: Int = 50
+    private var roundRadius: Int = 7
     private var btnRadius: Int = 0
     private var seletedColor: Int = 0
     private var paintShader: Shader? = null
@@ -42,7 +41,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
         this.performClick()
         setOnTouchListener(this)
-
 
     }
 
@@ -84,7 +82,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
             }
 
             override fun onAnimationEnd(animation: Animation) {
-                Toast.makeText(context, "out", Toast.LENGTH_SHORT).show()
 
                 paintShader = LinearGradient(
                     0f,
@@ -131,7 +128,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
         rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
         canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
-
     }
 
     protected override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {

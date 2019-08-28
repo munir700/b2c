@@ -1,52 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="@dimen/_10sdp"
     android:layout_height="match_parent"
     android:layout_gravity="bottom"
-    android:layout_weight="1"
-    android:background="@color/white"
-    android:foregroundGravity="bottom"
+    android:gravity="bottom"
     android:orientation="vertical"
-    android:padding="@dimen/_4sdp">
+android:paddingLeft="@dimen/_2sdp"
+    android:paddingRight="@dimen/_2sdp">
+
+<!--    <TextView-->
+<!--        android:id="@+id/tv"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:maxLength="5"-->
+<!--        android:visibility="gone"/>-->
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight=".4" >
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:gravity="bottom">
 
         <co.yap.modules.dashboard.ChartView
             android:id="@+id/transactionBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
             android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/_15sdp"
-             android:paddingBottom="@dimen/_40sdp"
-            android:foregroundGravity="bottom" />
+            android:gravity="bottom" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_15sdp" />
-
-    <LinearLayout
-        android:layout_width="@dimen/_10sdp"
-        android:layout_height="0dp"
-        android:layout_weight=".4"
-        android:gravity="bottom"
-        android:layout_gravity="bottom">
-
-        <RelativeLayout
-             android:id="@+id/transactionBarView"
-            android:layout_width="5dp"
-            android:layout_height="@dimen/_10sdp"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="@dimen/_200sdp"
-            android:background="@drawable/bar_chart_selector"
-            android:foregroundGravity="bottom"
-            android:gravity="bottom"
-
-            />
-    </LinearLayout>
 </LinearLayout>
