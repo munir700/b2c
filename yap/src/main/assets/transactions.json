@@ -79,6 +79,26 @@
       "time": "10:20",
       "category": "Payment",
       "currency": "AED"
+    },
+    {
+      "vendor": "SomeOne",
+      "amount": 200.00,
+      "amountPercentage": "100",
+      "type": "Debit",
+      "date": "Jan 06, 2018",
+      "time": "10:20",
+      "category": "Payment",
+      "currency": "AED"
+    },
+    {
+      "vendor": "SomeOne",
+      "amount": 200.00,
+      "amountPercentage": "100",
+      "type": "Debit",
+      "date": "Jan 06, 2018",
+      "time": "10:20",
+      "category": "Payment",
+      "currency": "AED"
     }
   ]
 }
