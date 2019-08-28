@@ -8,7 +8,6 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.Toast
 import co.yap.R
 import kotlin.math.roundToInt
 
@@ -16,7 +15,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     View.OnTouchListener {
 
     private var btnWeight: Int = 26
-    private var btnHeight: Int = 50
+    private var btnHeight: Int = 10
     private var roundRadius: Int = 7
     private var btnRadius: Int = 0
     private var seletedColor: Int = 0
@@ -55,7 +54,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
             override fun onAnimationStart(animation: Animation) {
                 paint.shader = null
                 paintShader = null
-                 val pupleSelectedColor = context.resources.getColor(R.color.colorPrimary)
+                val pupleSelectedColor = context.resources.getColor(R.color.colorPrimary)
                 paint.color = pupleSelectedColor
                 seletedColor = pupleSelectedColor
                 invalidate()
@@ -63,7 +62,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
             }
 
             override fun onAnimationEnd(animation: Animation) {
-                 val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+                val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_out)
                 startAnimation(fadeIn)
                 fadeInAnim(fadeIn)
             }
@@ -133,11 +132,11 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     }
 
     fun setBarHeight(height: Double) {
-        if (height > 1) {
-            btnHeight = height.roundToInt()
-        }else{
-            btnHeight = height.roundToInt() * 10
-        }
+//        if (height > 1) {
+            btnHeight = (btnHeight+ height.roundToInt())
+//        } else {
+//            btnHeight = (btnHeight+ height.roundToInt())  * 10
+//        }
         // need to work on fixing height
     }
 
