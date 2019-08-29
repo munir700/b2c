@@ -18,12 +18,12 @@ project.ext {
     okhttpGsonVersion = "2.5.0"
     arch = "2.0.0"
     modules = [
-            app           : ':app',
-            networking    : ':networking',
-            translation   : ':translation',
-            yap           : ':yap',
-            yapcore       : ':yapcore',
-            kyc           : ':identityscanner'
+            app        : ':app',
+            networking : ':networking',
+            translation: ':translation',
+            yap        : ':yap',
+            yapcore    : ':yapcore',
+            kyc        : ':identityscanner'
     ]
 
     // All libraries that any module can contain
@@ -89,7 +89,7 @@ project.ext {
             // Animations
             androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
             androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar',
-            expandableLayout: 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+            expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
 
 
     ]
