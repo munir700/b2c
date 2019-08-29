@@ -1,14 +1,12 @@
 package co.yap.modules.dashboard.models
 
 import java.util.*
+import kotlin.collections.ArrayList
 
 data class TransactionModel(
-    var vendor: String,
-    var amount: Double,
-    var amountPercentage: Double,
     var type: String,
     var date: String,
-    var time: String,
-    var category:String,
-    var currency:String
+    var totalAmount:String,
+    var closingBalance:String,
+    val transaction:ArrayList<Transaction>
 )

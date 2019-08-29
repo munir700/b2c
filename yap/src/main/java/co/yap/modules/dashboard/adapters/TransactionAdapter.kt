@@ -8,36 +8,96 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.modules.dashboard.models.TransactionAdapterModel
 import co.yap.modules.dashboard.models.TransactionModel
 import kotlinx.android.synthetic.main.item_transaction_list.view.*
+import kotlinx.android.synthetic.main.item_transaction_list_header.view.*
 import org.w3c.dom.Text
 
-class TransactionAdapter(var arrayList: ArrayList<TransactionModel>, var context: Context) :
-    RecyclerView.Adapter<ViewHolder>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(context).inflate(
-                R.layout.item_transaction_list,
-                parent,
-                false
+class TransactionAdapter(var arrayList: ArrayList<TransactionAdapterModel>, var context: Context) :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+
+    private val TYPE_ONE = 1
+    private val TYPE_TWO = 2
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+        if (viewType == TYPE_ONE) {
+            return ViewHolderOne(
+                LayoutInflater.from(context).inflate(
+                    R.layout.item_transaction_list_header,
+                    parent,
+                    false
+                )
             )
-        )
+        } else if (viewType == TYPE_TWO) {
+            return ViewHolderTwo(
+                LayoutInflater.from(context).inflate(
+                    R.layout.item_transaction_list,
+                    parent,
+                    false
+                )
+            )
+        } else {
+            throw RuntimeException("The type has to be ONE or TWO")
+        }
+
+        /*
+           return ViewHolder(
+               LayoutInflater.from(context).inflate(
+                   R.layout.item_transaction_list,
+                   parent,
+                   false
+               )
+           )*/
     }
 
     override fun getItemCount(): Int {
         return arrayList.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val transactionModel: TransactionModel = arrayList.get(position)
-        holder.tvTransactionName?.text = transactionModel.vendor
-        holder.tvNameInitials?.text = shortName(transactionModel.vendor)
-        holder.tvTransactionTime?.text = transactionModel.time
-        holder.tvTransactionCategory?.text = transactionModel.category
-        holder.tvTransactionAmount?.text = transactionModel.amount.toString()
-        holder.tvCurrency?.text = transactionModel.currency
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+//        val transactionModel: TransactionModel = arrayList.get(position)
+
+        when (holder.itemViewType) {
+            TYPE_ONE -> initLayoutOne(holder as ViewHolderOne, position)
+            TYPE_TWO -> initLayoutTwo(holder as ViewHolderTwo, position)
+            else -> {
+            }
+        }
     }
 
+    override fun getItemViewType(position: Int): Int {
+        val item:TransactionAdapterModel = arrayList[position]
+        return if (item.viewType=="HEADER") {
+            TYPE_ONE
+        } else {
+            TYPE_TWO
+        }
+        /* if (item.getType() == CardStatement.ItemType.ONE_ITEM) {
+                return TYPE_ONE;
+            } else if (item.getType() == CardStatement.ItemType.TWO_ITEM) {
+                return TYPE_TWO;
+            } else {
+                return -1;
+            }*/
+    }
+
+    private fun initLayoutOne(holder: ViewHolderOne, position: Int) {
+        val model:TransactionAdapterModel = arrayList.get(position)
+        holder.tvTransactionDate?.text = model.date
+        holder.tvTotalAmount?.text=model.totalAmount
+    }
+
+    private fun initLayoutTwo(holder: ViewHolderTwo, position: Int) {
+        val model:TransactionAdapterModel = arrayList.get(position)
+        holder.tvTransactionName?.text = model.vendor
+        holder.tvNameInitials?.text = shortName(model.vendor)
+        holder.tvTransactionTime?.text = model.time
+        holder.tvTransactionCategory?.text = model.category
+        holder.tvTransactionAmount?.text = model.amount
+        holder.tvCurrency?.text = model.currency
+    }
 
     private fun shortName(cardFullName: String): String {
         var cardFullName = cardFullName
@@ -58,9 +118,16 @@ class TransactionAdapter(var arrayList: ArrayList<TransactionModel>, var context
         return shortName
     }
 
+    internal class ViewHolderOne(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvTransactionDate: TextView? = itemView.tvTransactionDate
+        val tvTotalAmount: TextView? = itemView.tvTotalAmount
+    }
+
+
 }
 
-class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+class ViewHolderTwo(view: View) : RecyclerView.ViewHolder(view) {
     val tvTransactionName: TextView? = view.tvTransactionName
     val tvNameInitials: TextView? = view.tvNameInitials
     val tvTransactionTime: TextView? = view.tvTransactionTime
