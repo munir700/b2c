@@ -18,8 +18,7 @@ import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 
 
-class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View,
-    RecyclerView.OnItemTouchListener {
+class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View {
 
 
     private var transactionAdapter: TransactionAdapter? = null
@@ -46,30 +45,8 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
         // set up graph
 
         setUpGraphRecyclerView()
-    }
 
-    fun setUpGraphRecyclerView() {
-        rvTransactionsBarChart.adapter =
-            DashboardAdapter(viewModel.getGraphDummyData(), this!!.activity!!)
-        rvTransactionsBarChart.setLayoutManager(
-            LinearLayoutManager(
-                activity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-        )
-
-        rvTransactionsBarChart.setOnTouchListener(object : RecyclerView.OnItemTouchListener,
-            View.OnTouchListener {
-            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-                when (event!!.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        rvTransaction.smoothScrollToPosition((viewModel.loadJSONDummyList().size - 1))
-                    }
-                }
-                return true
-            }
-
+        rvTransactionsBarChart.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
             override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
                 when (e!!.action) {
                     MotionEvent.ACTION_DOWN -> {
@@ -83,28 +60,21 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
             }
 
             override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+
             }
 
         })
     }
 
-    override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-        when (e!!.action) {
-            MotionEvent.ACTION_DOWN -> {
-                rvTransaction.smoothScrollToPosition((viewModel.loadJSONDummyList().size - 1))
-            }
-        }
-        return true
-    }
-
-    override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
-    }
-
-    override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        when (e!!.action) {
-            MotionEvent.ACTION_DOWN -> {
-                rvTransaction.smoothScrollToPosition((viewModel.loadJSONDummyList().size - 1))
-            }
-        }
+    fun setUpGraphRecyclerView() {
+        rvTransactionsBarChart.adapter =
+            DashboardAdapter(viewModel.getGraphDummyData(), this!!.activity!!)
+        rvTransactionsBarChart.setLayoutManager(
+            LinearLayoutManager(
+                activity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        )
     }
 }
