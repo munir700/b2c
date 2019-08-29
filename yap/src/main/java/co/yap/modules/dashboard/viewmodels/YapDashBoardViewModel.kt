@@ -20,6 +20,7 @@ class YapDashBoardViewModel(application: Application) :
     override fun copyAccountInfoToClipboard() {
         val info = "Account: ${state.accountNo}\nIBAN: ${state.ibanNo}"
         Utils.copyToClipboard(context, info)
+        state.toast = "Copied to clipboard"
     }
 
     override fun onResume() {

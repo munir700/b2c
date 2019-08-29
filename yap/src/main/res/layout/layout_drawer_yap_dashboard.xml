@@ -103,7 +103,7 @@
                     android:id="@+id/expandableLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:el_duration="500"
+                    app:el_duration="300"
                     app:el_expanded="false"
                     app:el_parallax="0.5">
 
