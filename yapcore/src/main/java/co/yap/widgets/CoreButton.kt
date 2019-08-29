@@ -181,12 +181,17 @@ class CoreButton : Button {
         } else {
             rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
             canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
-            canvas.drawText(text.toString(), (btnWeight / alignmentDistnce).toFloat(), (btnHeight / 1.6).toFloat(), paintText)
+            canvas.drawText(
+                text.toString(),
+                (btnWeight / alignmentDistnce).toFloat(),
+                (btnHeight / 1.6).toFloat(),
+                paintText
+            )
 
         }
 
         if (null != drawable) {
-            bitmapIcon = drawable?.let { this!!.drawableToBitmap(it) }!!
+            bitmapIcon = drawable?.let { this.drawableToBitmap(it) }!!
 
 
             when (drawablePositionType) {
