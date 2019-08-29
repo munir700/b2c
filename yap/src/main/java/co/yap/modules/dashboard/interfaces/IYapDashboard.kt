@@ -16,6 +16,7 @@ interface IYapDashboard {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnNavigationItem(id: Int)
+        fun getAccountInfo()
     }
     interface View : IBase.View<ViewModel>
 }

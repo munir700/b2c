@@ -15,7 +15,8 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
-class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDashboard.State>(application),
+class LiteDashboardViewModel(application: Application) :
+    BaseViewModel<ILiteDashboard.State>(application),
     ILiteDashboard.ViewModel, IRepositoryHolder<AuthRepository> {
 
     override val state: LiteDashboardState = LiteDashboardState()
@@ -25,17 +26,13 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
     private val cardsRepository: CardsRepository = CardsRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
 
-    override fun onCreate() {
-        super.onCreate()
-        getAccountInfo()
-    }
-
     override fun handlePressOnLogout() {
         logout()
     }
 
     override fun logout() {
-        val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        val deviceId: String? =
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response = repository.logout(deviceId.toString())) {
@@ -50,21 +47,6 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
             // TODO: Fix this delay issue. It should not be written with a delay
             Handler(Looper.getMainLooper()).postDelayed({ state.loading = false }, 500)
 
-        }
-    }
-
-
-    override fun getAccountInfo() {
-        launch {
-            state.loading = true
-            when (val response = customerRepository.getAccountInfo()) {
-                is RetroApiResponse.Success -> {
-                    MyUserManager.user = response.data.data[0]
-                    clickEvent.setValue(EVENT_GET_ACCOUNT_INFO_SUCCESS)
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
         }
     }
 
@@ -91,8 +73,6 @@ class LiteDashboardViewModel(application: Application) : BaseViewModel<ILiteDash
     override fun handlePressOnsetCardPin() {
         clickEvent.setValue(EVENT_PRESS_SET_CARD_PIN)
     }
-
-
 
 
 }
