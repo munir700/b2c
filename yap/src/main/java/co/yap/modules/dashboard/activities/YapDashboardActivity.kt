@@ -17,8 +17,11 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
+import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
+import net.cachapa.expandablelayout.ExpandableLayout
 
-class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View, INavigator,
+class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
+    INavigator,
     IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -37,7 +40,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         super.onCreate(savedInstanceState)
 
         val host: NavHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment? ?: return
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
+                ?: return
         val navController = host.navController
 
         appBarConfiguration = AppBarConfiguration(navController.graph) //configure nav controller
@@ -47,11 +51,16 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnCopy -> {}
-                R.id.lUserInfo -> {
-
-                }
+                R.id.lUserInfo -> expandableLayout.toggle(true)
             }
         })
+
+        expandableLayout.setOnExpansionUpdateListener { expansionFraction, state ->
+            when (state) {
+                ExpandableLayout.State.EXPANDED -> ivChevron.setImageResource(R.drawable.ic_chevron_up)
+                ExpandableLayout.State.COLLAPSED -> ivChevron.setImageResource(R.drawable.ic_chevron_down)
+            }
+        }
 
     }
 
