@@ -10,6 +10,7 @@ interface IYapHome {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        fun getGraphDummyData(): ArrayList<co.yap.modules.onboarding.models.TransactionModel>
         fun loadJSONDummyList(): ArrayList<TransactionAdapterModel>
     }
 

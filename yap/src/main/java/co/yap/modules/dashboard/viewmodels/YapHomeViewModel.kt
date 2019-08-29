@@ -19,6 +19,7 @@ class YapHomeViewModel(application: Application) : BaseViewModel<IYapHome.State>
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
+    val maxTransactionVal: Int = 600
 
 
     override fun loadJSONDummyList(): ArrayList<TransactionAdapterModel> {
@@ -93,5 +94,348 @@ class YapHomeViewModel(application: Application) : BaseViewModel<IYapHome.State>
         return json
     }
 
+    fun getAmountPercentage(dataSet: Double): Double {
+
+        val percentage = dataSet / maxTransactionVal * 100
+        return Math.round(percentage ).toDouble()
+    }
+
+    override fun getGraphDummyData(): ArrayList<co.yap.modules.onboarding.models.TransactionModel> {
+
+        var transactionsList: ArrayList<co.yap.modules.onboarding.models.TransactionModel> = ArrayList()
+
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor one",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor two",
+                400.00,
+                getAmountPercentage(400.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor three",
+                300.00,
+                getAmountPercentage(300.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor four",
+                200.00,
+                getAmountPercentage(200.00),
+                "type",
+                "April 1300, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor five",
+                1000.00,
+                getAmountPercentage(1000.00),
+                "type",
+                "April 1500, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor six",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 19, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor one",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor two",
+                400.00,
+                getAmountPercentage(400.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor three",
+                300.00,
+                getAmountPercentage(300.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor four",
+                200.00,
+                getAmountPercentage(200.00),
+                "type",
+                "April 1300, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor five",
+                600.00,
+                getAmountPercentage(600.00),
+                "type",
+                "April 1500, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor six",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 19, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor one",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor two",
+                400.00,
+                getAmountPercentage(400.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor three",
+                300.00,
+                getAmountPercentage(300.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor four",
+                200.00,
+                getAmountPercentage(200.00),
+                "type",
+                "April 1300, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor five",
+                600.00,
+                getAmountPercentage(600.00),
+                "type",
+                "April 1500, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor six",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 19, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor one",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor two",
+                400.00,
+                getAmountPercentage(400.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor three",
+                300.00,
+                getAmountPercentage(300.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor four",
+                200.00,
+                getAmountPercentage(200.00),
+                "type",
+                "April 1300, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor five",
+                600.00,
+                getAmountPercentage(600.00),
+                "type",
+                "April 1500, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor six",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 19, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor one",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor two",
+                400.00,
+                getAmountPercentage(400.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor three",
+                300.00,
+                getAmountPercentage(300.00),
+                "type",
+                "April 12, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor four",
+                200.00,
+                getAmountPercentage(200.00),
+                "type",
+                "April 1300, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor five",
+                600.00,
+                getAmountPercentage(600.00),
+                "type",
+                "April 1500, 2019",
+                "category",
+                "AED"
+            )
+        )
+        transactionsList.add(
+            co.yap.modules.onboarding.models.TransactionModel(
+                "vendor six",
+                500.00,
+                getAmountPercentage(500.00),
+                "type",
+                "April 19, 2019",
+                "category",
+                "AED"
+            )
+        )
+
+   return transactionsList
+    }
 
 }

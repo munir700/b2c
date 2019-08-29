@@ -33,6 +33,10 @@
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
 
+
+    <color name="colorLightGreyGradient">#eff2f9</color>
+    <color name="colorDarkGreyGradient">#dbe1f0</color>
+
     <!-- Objects -->
     <color name="kycCard">#247c4dff</color>
 

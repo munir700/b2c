@@ -18,6 +18,10 @@
         android:background="@color/white">
         <include
             layout="@layout/view_notifications"/>
+
+        <include
+            layout="@layout/view_graph"/>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTransaction"
             android:layout_width="match_parent"
