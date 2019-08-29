@@ -8,15 +8,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.modules.dashboard.models.Transaction
 import co.yap.modules.dashboard.models.TransactionAdapterModel
 import co.yap.modules.dashboard.models.TransactionModel
 import kotlinx.android.synthetic.main.item_transaction_list.view.*
 import kotlinx.android.synthetic.main.item_transaction_list_header.view.*
-import org.w3c.dom.Text
 
-class TransactionAdapter(var arrayList: ArrayList<TransactionAdapterModel>, var context: Context) :
+class TransactionAdapter(var arrayList: ArrayList<TransactionModel>, var context: Context) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+   var transactionsList:ArrayList<Transaction> ?=null
 
     private val TYPE_ONE = 1
     private val TYPE_TWO = 2
@@ -68,8 +68,10 @@ class TransactionAdapter(var arrayList: ArrayList<TransactionAdapterModel>, var 
     }
 
     override fun getItemViewType(position: Int): Int {
-        val item:TransactionAdapterModel = arrayList[position]
-        return if (item.viewType=="HEADER") {
+        val item:TransactionModel = arrayList[position]
+        val transactionsList: ArrayList<Transaction> = item.transactionsList
+
+        return if (item.type=="HEADER") {
             TYPE_ONE
         } else {
             TYPE_TWO
@@ -84,19 +86,21 @@ class TransactionAdapter(var arrayList: ArrayList<TransactionAdapterModel>, var 
     }
 
     private fun initLayoutOne(holder: ViewHolderOne, position: Int) {
-        val model:TransactionAdapterModel = arrayList.get(position)
+        val model:TransactionModel = arrayList.get(position)
         holder.tvTransactionDate?.text = model.date
         holder.tvTotalAmount?.text=model.totalAmount
     }
 
     private fun initLayoutTwo(holder: ViewHolderTwo, position: Int) {
-        val model:TransactionAdapterModel = arrayList.get(position)
-        holder.tvTransactionName?.text = model.vendor
-        holder.tvNameInitials?.text = shortName(model.vendor)
-        holder.tvTransactionTime?.text = model.time
-        holder.tvTransactionCategory?.text = model.category
-        holder.tvTransactionAmount?.text = model.amount
-        holder.tvCurrency?.text = model.currency
+        val model:TransactionModel = arrayList.get(position)
+        val transactionsList: ArrayList<Transaction> = model.transactionsList
+
+        holder.tvTransactionName?.text = transactionsList.get(position).vendor
+        holder.tvNameInitials?.text = shortName(transactionsList.get(position).vendor)
+        holder.tvTransactionTime?.text = transactionsList.get(position).time
+        holder.tvTransactionCategory?.text = transactionsList.get(position).category
+        holder.tvTransactionAmount?.text = transactionsList.get(position).amount
+        holder.tvCurrency?.text = transactionsList.get(position).currency
     }
 
     private fun shortName(cardFullName: String): String {

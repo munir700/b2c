@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.modules.onboarding.models.TransactionModel
+import co.yap.modules.dashboard.models.TransactionModel
 import kotlinx.android.synthetic.main.item_bar_chart.view.*
 
 
@@ -24,7 +24,7 @@ class DashboardAdapter(val listItems: ArrayList<TransactionModel>, val context: 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transactionModel: TransactionModel = listItems.get(position)
 
-        holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
+        holder.transactionBar.setBarHeight((transactionModel.amountPercentage).toDouble() )
 //        holder.tv.text = transactionModel.amountPercentage.toString()
     }
 

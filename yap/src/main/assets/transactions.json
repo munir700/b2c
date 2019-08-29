@@ -6,6 +6,7 @@
       "totalAmount": "1000",
       "closingBalance": "49000",
       "transactionType": "Debit",
+      "amountPercentage": "90",
       "transaction": [
         {
           "vendor": "Amazon",
@@ -14,8 +15,7 @@
           "time": "09:56",
           "category": "Payroll",
           "amount": "1000",
-          "currency": "AED",
-          "amountPercentage": "90"
+          "currency": "AED"
         }
       ]
     },
@@ -24,6 +24,7 @@
       "totalAmount": "350",
       "closingBalance": "48650",
       "transactionType": "Debit",
+      "amountPercentage": "90",
       "transaction": [
         {
           "vendor": "Apple",
@@ -32,8 +33,7 @@
           "time": "19:56",
           "category": "Payroll",
           "amount": "200",
-          "currency": "AED",
-          "amountPercentage": "90"
+          "currency": "AED"
         },
         {
           "vendor": "Amazon",
@@ -42,8 +42,7 @@
           "time": "09:56",
           "category": "Payroll",
           "amount": "150",
-          "currency": "AED",
-          "amountPercentage": "90"
+          "currency": "AED"
         },
         {
           "vendor": "Amazon",
@@ -52,8 +51,7 @@
           "time": "15:56",
           "category": "Payroll",
           "amount": "150",
-          "currency": "AED",
-          "amountPercentage": "90"
+          "currency": "AED"
         }
       ]
     },
@@ -62,6 +60,7 @@
       "totalAmount": "3000",
       "closingBalance": "45650",
       "transactionType": "Debit",
+      "amountPercentage": "90",
       "transaction": [
         {
           "vendor": "Apple",
@@ -70,8 +69,7 @@
           "time": "22:00",
           "category": "Payment",
           "amount": "2000",
-          "currency": "AED",
-          "amountPercentage": "90"
+          "currency": "AED"
         },
         {
           "vendor": "Ali express",
@@ -80,8 +78,7 @@
           "time": "12:56",
           "category": "Payrole",
           "amount": "1000",
-          "currency": "AED",
-          "amountPercentage": "90"
+          "currency": "AED"
         }
       ]
     },
@@ -90,6 +87,7 @@
       "totalAmount": "3000",
       "closingBalance": "48650",
       "transactionType": "Credit",
+      "amountPercentage": "90",
       "transaction": [
         {
           "vendor": "Apple",
@@ -98,8 +96,7 @@
           "time": "22:00",
           "category": "Payment",
           "amount": "2000",
-          "currency": "AED",
-          "amountPercentage": "90"
+          "currency": "AED"
         },
         {
           "vendor": "Ali express",
@@ -108,8 +105,7 @@
           "time": "12:56",
           "category": "Payrole",
           "amount": "1000",
-          "currency": "AED",
-          "amountPercentage": "90"
+          "currency": "AED"
         }
       ]
     }
