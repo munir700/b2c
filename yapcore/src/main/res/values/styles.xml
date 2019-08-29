@@ -317,4 +317,21 @@
         <item name="android:background">@drawable/bg_bottom_sheet</item>
     </style>
 
+    <style name="CardViewLight" parent="BaseCardView">
+        <item name="cardBackgroundColor">@color/white</item>
+    </style>
+
+    <style name="CardViewDark" parent="BaseCardView">
+        <item name="cardBackgroundColor">@color/greyDark</item>
+    </style>
+
+    <style name="BaseCardView" parent="android:Widget">
+        <item name="cardCornerRadius">@dimen/cardview_radius</item>
+        <item name="cardElevation">@dimen/cardview_elevation</item>
+        <item name="cardMaxElevation">@dimen/cardview_elevation</item>
+        <item name="cardUseCompatPadding">false</item>
+        <item name="android:shadowColor">@color/grey</item>
+        <item name="cardPreventCornerOverlap">true</item>
+    </style>
+
 </resources>

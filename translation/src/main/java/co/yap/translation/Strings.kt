@@ -231,6 +231,10 @@ object Strings {
     //Create new passcode screen
     const val screen_create_new_passcode_button_text: String = "screen_create_new_passcode_button_text"
 
+    //Yap Store screen
+    const val screen_yap_store_display_text_title: String = "screen_yap_store_display_text_title"
+    const val screen_yap_store_display_text_heading: String = "screen_yap_store_display_text_heading"
+
 
 
 }
