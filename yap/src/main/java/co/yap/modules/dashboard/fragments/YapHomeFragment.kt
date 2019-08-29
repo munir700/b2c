@@ -7,11 +7,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.adapters.DashboardAdapter
 import co.yap.modules.dashboard.adapters.TransactionAdapter
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
 import co.yap.yapcore.BaseBindingFragment
 import kotlinx.android.synthetic.main.fragment_yap_home.*
+import kotlinx.android.synthetic.main.view_graph.*
 
 class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View {
 
@@ -27,13 +29,29 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        transactionAdapter=TransactionAdapter(viewModel.loadJSONDummyList(),context!!)
+        transactionAdapter = TransactionAdapter(viewModel.loadJSONDummyList(), context!!)
         rvTransaction.setHasFixedSize(true)
-        val layoutManager= LinearLayoutManager(context)
+        val layoutManager = LinearLayoutManager(context)
         rvTransaction.layoutManager = layoutManager
-        rvTransaction.adapter=transactionAdapter
+        rvTransaction.adapter = transactionAdapter
         viewModel.clickEvent.observe(this, Observer {
 
         })
+
+        // set up graph
+
+        setUpGraphRecyclerView()
+    }
+
+    fun setUpGraphRecyclerView() {
+        rvTransactionsBarChart.adapter =
+            DashboardAdapter(viewModel.getGraphDummyData(), this!!.activity!!)
+        rvTransactionsBarChart.setLayoutManager(
+            LinearLayoutManager(
+                activity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        )
     }
 }

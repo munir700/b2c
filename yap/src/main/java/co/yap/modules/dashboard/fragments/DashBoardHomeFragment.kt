@@ -12,10 +12,10 @@ import co.yap.modules.dashboard.interfaces.IDashboard
 import co.yap.modules.dashboard.viewmodels.DashBoardViewModel
 import co.yap.modules.onboarding.models.TransactionModel
 import co.yap.yapcore.BaseFragment
-import kotlinx.android.synthetic.main.fragment_dashboard.*
+import kotlinx.android.synthetic.main.view_graph.*
 
 // need to fix max value height
-//need to work on percentage for height calculation
+// need to work on percentage for height calculation
 
 class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.View {
     val maxVal: Int = 600
@@ -28,7 +28,7 @@ class DashBoardHomeFragment : BaseFragment<IDashboard.ViewModel>(), IDashboard.V
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_dashboard, container, false)
+        return inflater.inflate(R.layout.view_graph, container, false)
     }
 
     fun getAmountPercentage(dataSet: Double): Double {

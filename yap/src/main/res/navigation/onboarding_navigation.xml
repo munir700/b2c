@@ -9,7 +9,7 @@
     <fragment
         android:id="@+id/dashBoardHomeFragment"
         android:name="co.yap.modules.dashboard.fragments.DashBoardHomeFragment"
-        tools:layout="@layout/fragment_dashboard"
+        tools:layout="@layout/view_graph"
         android:label="DashBoardHomeFragment">
         <action
             android:id="@+id/action_dashBoardHomeFragment_to_emailFragment"
