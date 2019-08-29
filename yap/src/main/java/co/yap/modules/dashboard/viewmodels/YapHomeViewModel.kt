@@ -3,6 +3,8 @@ package co.yap.modules.dashboard.viewmodels
 import android.app.Application
 import android.content.Context
 import co.yap.modules.dashboard.interfaces.IYapHome
+import co.yap.modules.dashboard.models.TransactionAdapterArrayModel
+import co.yap.modules.dashboard.models.TransactionAdapterModel
 import co.yap.modules.dashboard.models.TransactionModel
 import co.yap.modules.dashboard.models.TransactionResponseDTO
 import co.yap.modules.dashboard.states.YapHomeState
@@ -19,32 +21,61 @@ class YapHomeViewModel(application: Application) : BaseViewModel<IYapHome.State>
     override val state: YapHomeState = YapHomeState()
     val maxTransactionVal: Int = 600
 
-    override fun loadJSONDummyList(): ArrayList<TransactionModel> {
-        var transactionsList = TransactionResponseDTO(ArrayList())
+
+    override fun loadJSONDummyList(): ArrayList<TransactionAdapterModel> {
+        var transactionsList = TransactionAdapterArrayModel(ArrayList())
         try {
             val jsonObject = JSONObject(loadTransactionFromJsonAssets(context))
-            val jsonArray = jsonObject.getJSONArray("content")
-            val arrayList:ArrayList<TransactionModel> = ArrayList<TransactionModel>()
+            val jsonArray = jsonObject.getJSONArray("data")
+            val arrayList: ArrayList<TransactionAdapterModel> = ArrayList<TransactionAdapterModel>()
 
             for (i in 0..(jsonArray.length() - 1)) {
+
                 val jsonModel = jsonArray.getJSONObject(i)
-                val transactionItem = TransactionModel(
-                    jsonModel.getString("vendor"),
-                    jsonModel.getDouble("amount"),
-                    jsonModel.getDouble("amountPercentage"),
-                    jsonModel.getString("type"),
+                val transactionHeader = TransactionAdapterModel(
+                    "HEADER",
                     jsonModel.getString("date"),
-                    jsonModel.getString("time"),
-                    jsonModel.getString("category"),
-                    jsonModel.getString("currency")
+                    jsonModel.getString("totalAmount"),
+                    jsonModel.getString("closingBalance"),
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    "",
+                    ""
                 )
-                arrayList.add(transactionItem)
+                arrayList.add(transactionHeader)
+
+                val jsonArrayChild = jsonModel.getJSONArray("transaction")
+
+                for (i in 0..(jsonArrayChild.length() - 1)) {
+                    val jsonTransaction = jsonArrayChild.getJSONObject(i)
+
+                    val transactionItem = TransactionAdapterModel(
+                        "ITEM",
+                       "",
+                        "",
+                        "",
+                        jsonTransaction.getString("vendor"),
+                        jsonTransaction.getString("type"),
+                        jsonTransaction.getString("imageUrl"),
+                        jsonTransaction.getString("time"),
+                        jsonTransaction.getString("category"),
+                        jsonTransaction.getString("amount"),
+                        jsonTransaction.getString("currency"),
+                        jsonTransaction.getString("amountPercentage")
+                    )
+                    arrayList.add(transactionItem)
+
+                }
             }
-            transactionsList = TransactionResponseDTO(arrayList)
+            transactionsList = TransactionAdapterArrayModel(arrayList)
         } catch (e: Exception) {
             e.printStackTrace()
         }
-        return  transactionsList.arrayList
+        return transactionsList.data
     }
 
     private fun loadTransactionFromJsonAssets(context: Context): String? {

@@ -41,6 +41,7 @@
             style="@style/AMicro"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_small"
             app:layout_constraintLeft_toRightOf="@+id/ivNotification"
             app:layout_constraintTop_toTopOf="@+id/ivNotification"
             android:layout_toEndOf="@+id/ivNotification"
