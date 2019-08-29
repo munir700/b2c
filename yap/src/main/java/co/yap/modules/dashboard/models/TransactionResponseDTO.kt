@@ -1,4 +1,6 @@
 package co.yap.modules.dashboard.models
 
-data class TransactionResponseDTO( val arrayList: ArrayList<TransactionModel>) {
+import co.yap.networking.models.ApiResponse
+
+data class TransactionResponseDTO( val data: ArrayList<TransactionModel>):ApiResponse() {
 }

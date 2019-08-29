@@ -2,13 +2,11 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
-import android.view.KeyEvent
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.onboarding.interfaces.IEmail
-import co.yap.yapcore.managers.MyUserManager
 import co.yap.modules.onboarding.states.EmailState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
@@ -19,8 +17,10 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.MyUserManager
 
-class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
+class EmailViewModel(application: Application) :
+    OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
     override val state: EmailState = EmailState(application)
@@ -65,10 +65,16 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                        true
+                    )
                     sharedPreferenceManager.save(
                         SharedPreferenceManager.KEY_PASSCODE,
-                        EncryptionUtils.encrypt(context, parentViewModel!!.onboardingData.passcode)!!
+                        EncryptionUtils.encrypt(
+                            context,
+                            parentViewModel!!.onboardingData.passcode
+                        )!!
                     )
                     sharedPreferenceManager.save(
                         SharedPreferenceManager.KEY_USERNAME,
@@ -133,8 +139,10 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
     }
 
     override fun postDemographicData() {
-        val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        val deviceId: String? =
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
+            state.valid = false
             state.loading = true
             when (val response = repository.postDemographicData(
                 DemographicDataRequest(
@@ -148,6 +156,7 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             )) {
                 is RetroApiResponse.Success -> getAccountInfo()
                 is RetroApiResponse.Error -> {
+                    state.valid = true
                     state.loading = false
                     state.toast = response.error.message
                 }
@@ -161,11 +170,18 @@ class EmailViewModel(application: Application) : OnboardingChildViewModel<IEmail
             state.loading = true
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
+                    if (response.data.data.isNotEmpty()){
                     parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
                     nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                     MyUserManager.user = response.data.data[0]
+                    state.valid = true
+                    }
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.valid = true
+                    state.toast = response.error.message
+                }
+
             }
             state.loading = false
         }

@@ -1,104 +1,117 @@
 {
-  "content": [
+  "errors": null,
+  "data": [
     {
-      "vendor": "Amazon",
-      "amount": 123.00,
-      "amountPercentage": 10,
-      "type": "Debit",
-      "date": "October 06, 2018",
-      "time": "18:20",
-      "category": "Payment",
-      "currency": "AED"
+      "date": "July 01, 2019",
+      "totalAmount": "1000",
+      "closingBalance": "49000",
+      "transactionType": "Debit",
+      "transaction": [
+        {
+          "vendor": "Amazon",
+          "type": "Debit",
+          "imageUrl": "https://cdn3.iconfinder.com/data/icons/cute-flat-social-media-icons-3/512/amazon.png",
+          "time": "09:56",
+          "category": "Payroll",
+          "amount": "1000",
+          "currency": "AED",
+          "amountPercentage": "90"
+        }
+      ]
     },
     {
-      "vendor": "Uber",
-      "amount": 150.00,
-      "amountPercentage": "50",
-      "type": "Credit",
-      "date": "November 06, 2018",
-      "time": "18:20",
-      "category": "Payment",
-      "currency": "AED"
+      "date": "July 02, 2019",
+      "totalAmount": "350",
+      "closingBalance": "48650",
+      "transactionType": "Debit",
+      "transaction": [
+        {
+          "vendor": "Apple",
+          "type": "Debit",
+          "imageUrl": "https://cdn0.iconfinder.com/data/icons/devices-51/100/Apple_logo-512.png",
+          "time": "19:56",
+          "category": "Payroll",
+          "amount": "200",
+          "currency": "AED",
+          "amountPercentage": "90"
+        },
+        {
+          "vendor": "Amazon",
+          "type": "Debit",
+          "imageUrl": "https://cdn3.iconfinder.com/data/icons/cute-flat-social-media-icons-3/512/amazon.png",
+          "time": "09:56",
+          "category": "Payroll",
+          "amount": "150",
+          "currency": "AED",
+          "amountPercentage": "90"
+        },
+        {
+          "vendor": "Amazon",
+          "type": "Credit",
+          "imageUrl": "https://cdn3.iconfinder.com/data/icons/cute-flat-social-media-icons-3/512/amazon.png",
+          "time": "15:56",
+          "category": "Payroll",
+          "amount": "150",
+          "currency": "AED",
+          "amountPercentage": "90"
+        }
+      ]
     },
     {
-      "vendor": "Careem",
-      "amount": 150.00,
-      "amountPercentage": "70",
-      "type": "Credit",
-      "date": "December 06, 2018",
-      "time": "12:20",
-      "category": "Payment",
-      "currency": "AED"
+      "date": "July 06, 2018",
+      "totalAmount": "3000",
+      "closingBalance": "45650",
+      "transactionType": "Debit",
+      "transaction": [
+        {
+          "vendor": "Apple",
+          "type": "Debit",
+          "imageUrl": "https://cdn0.iconfinder.com/data/icons/devices-51/100/Apple_logo-512.png",
+          "time": "22:00",
+          "category": "Payment",
+          "amount": "2000",
+          "currency": "AED",
+          "amountPercentage": "90"
+        },
+        {
+          "vendor": "Ali express",
+          "type": "Debit",
+          "imageUrl": "https://assets.materialup.com/uploads/6f66f77a-a8dd-414b-ba57-6ad8ae5ce8d2/preview",
+          "time": "12:56",
+          "category": "Payrole",
+          "amount": "1000",
+          "currency": "AED",
+          "amountPercentage": "90"
+        }
+      ]
     },
     {
-      "vendor": "Bikee",
-      "amount": 180.00,
-      "amountPercentage": "90",
-      "type": "Debit",
-      "date": "December 06, 2018",
-      "time": "12:20",
-      "category": "Payment",
-      "currency": "AED"
-    },
-    {
-      "vendor": "SomeOne",
-      "amount": 200.00,
-      "amountPercentage": "100",
-      "type": "Debit",
-      "date": "Jan 06, 2018",
-      "time": "10:20",
-      "category": "Payment",
-      "currency": "AED"
-    },
-    {
-      "vendor": "SomeOne",
-      "amount": 200.00,
-      "amountPercentage": "100",
-      "type": "Debit",
-      "date": "Jan 06, 2018",
-      "time": "10:20",
-      "category": "Payment",
-      "currency": "AED"
-    },
-    {
-      "vendor": "SomeOne",
-      "amount": 200.00,
-      "amountPercentage": "100",
-      "type": "Debit",
-      "date": "Jan 06, 2018",
-      "time": "10:20",
-      "category": "Payment",
-      "currency": "AED"
-    },
-    {
-      "vendor": "SomeOne",
-      "amount": 200.00,
-      "amountPercentage": "100",
-      "type": "Debit",
-      "date": "Jan 06, 2018",
-      "time": "10:20",
-      "category": "Payment",
-      "currency": "AED"
-    },
-    {
-      "vendor": "SomeOne",
-      "amount": 200.00,
-      "amountPercentage": "100",
-      "type": "Debit",
-      "date": "Jan 06, 2018",
-      "time": "10:20",
-      "category": "Payment",
-      "currency": "AED"
-    },
-    {
-      "vendor": "SomeOne",
-      "amount": 200.00,
-      "amountPercentage": "100",
-      "type": "Debit",
-      "date": "Jan 06, 2018",
-      "time": "10:20",
-      "category": "Payment",
-      "currency": "AED"
+      "date": "July 07, 2018",
+      "totalAmount": "3000",
+      "closingBalance": "48650",
+      "transactionType": "Credit",
+      "transaction": [
+        {
+          "vendor": "Apple",
+          "type": "Credit",
+          "imageUrl": "https://cdn0.iconfinder.com/data/icons/devices-51/100/Apple_logo-512.png",
+          "time": "22:00",
+          "category": "Payment",
+          "amount": "2000",
+          "currency": "AED",
+          "amountPercentage": "90"
+        },
+        {
+          "vendor": "Ali express",
+          "type": "Credit",
+          "imageUrl": "https://assets.materialup.com/uploads/6f66f77a-a8dd-414b-ba57-6ad8ae5ce8d2/preview",
+          "time": "12:56",
+          "category": "Payrole",
+          "amount": "1000",
+          "currency": "AED",
+          "amountPercentage": "90"
+        }
+      ]
     }
   ]
 }
