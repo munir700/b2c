@@ -5,6 +5,7 @@ import co.yap.modules.dashboard.interfaces.IYapDashboard
 import co.yap.modules.dashboard.states.YapDashBoardState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 
 class YapDashBoardViewModel(application: Application) :
     BaseViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel {
@@ -14,6 +15,11 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun copyAccountInfoToClipboard() {
+        val info = "Account: ${state.accountNo}\nIBAN: ${state.ibanNo}"
+        Utils.copyToClipboard(context, info)
     }
 
     override fun onResume() {

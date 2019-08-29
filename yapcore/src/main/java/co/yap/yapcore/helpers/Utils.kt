@@ -1,6 +1,8 @@
 package co.yap.yapcore.helpers
 
 import android.app.AlertDialog
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
 import android.view.LayoutInflater
@@ -10,9 +12,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
-import java.text.ParseException
-import java.text.SimpleDateFormat
-import java.util.*
 
 object Utils {
     fun getColor(context: Context, @ColorRes color: Int) =
@@ -38,13 +37,15 @@ object Utils {
 
     fun hideKeyboard(view: View?) {
         view?.let { v ->
-            val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+            val imm =
+                view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
             imm?.hideSoftInputFromWindow(v.windowToken, 0)
         }
     }
 
     fun createProgressDialog(context: Context): AlertDialog {
-        val layoutInflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val layoutInflater: LayoutInflater =
+            context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         val view = layoutInflater.inflate(R.layout.progress_dialogue_fragment, null)
         view.findViewById<ProgressBar>(R.id.progressBar2).indeterminateDrawable.setColorFilter(
             getColor(
@@ -62,6 +63,11 @@ object Utils {
         }
     }
 
+    fun copyToClipboard(context: Context, text: CharSequence) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("YapAccount", text)
+        clipboard.primaryClip = clip
+    }
 
 
 }
