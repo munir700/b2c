@@ -15,7 +15,7 @@ class SingleClickEvent : MutableLiveData<Int>() {
     }
 
     private val defaultValue: Int = -1
-    private val debounceDelay: Long = 500L
+    private val debounceDelay: Long = 600L
     private val mPending = AtomicInteger(defaultValue)
 
     @MainThread
