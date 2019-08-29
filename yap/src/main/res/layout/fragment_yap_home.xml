@@ -16,8 +16,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white">
-        <include
-            layout="@layout/view_notifications"/>
+
+        <com.yarolegovich.discretescrollview.DiscreteScrollView
+            android:id="@+id/rvNotificationList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:dsv_orientation="horizontal" />
 
         <include
             layout="@layout/view_graph"/>

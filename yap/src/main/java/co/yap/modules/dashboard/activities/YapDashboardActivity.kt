@@ -15,6 +15,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -39,18 +40,19 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Setup Navigation
         val host: NavHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment?
                 ?: return
         val navController = host.navController
-
         appBarConfiguration = AppBarConfiguration(navController.graph) //configure nav controller
         setupDrawerNavigation(navController)
         setupBottomNavigation(navController)
 
+        // Set Observers
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnCopy -> {}
+                R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
             }
         })

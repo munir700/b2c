@@ -7,6 +7,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 class YapDashBoardViewModel(application: Application) :
@@ -18,6 +19,12 @@ class YapDashBoardViewModel(application: Application) :
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun copyAccountInfoToClipboard() {
+        val info = "Account: ${state.accountNo}\nIBAN: ${state.ibanNo}"
+        Utils.copyToClipboard(context, info)
+        state.toast = "Copied to clipboard"
     }
 
     override fun onCreate() {
