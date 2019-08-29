@@ -39,5 +39,6 @@
 
     <!-- Objects -->
     <color name="kycCard">#247c4dff</color>
+    <color name="copyBtn">#a0a682ff</color>
 
 </resources>
