@@ -1,11 +1,11 @@
 package co.yap.modules.dashboard.models
 
-class Transaction( var vendor: String,
+class Transaction(
                    var type: String,
+                   var vendor: String,
                    var imageUrl:String,
                    var time: String,
                    var category:String,
                    var amount: String,
-                   var currency:String,
-                   var amountPercentage: String){
+                   var currency:String){
 }
