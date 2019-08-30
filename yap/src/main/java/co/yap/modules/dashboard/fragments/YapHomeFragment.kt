@@ -11,6 +11,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.adapters.DashboardAdapter
 import co.yap.modules.dashboard.adapters.TransactionAdapter
+import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.TransactionModel
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
@@ -22,7 +23,8 @@ import kotlinx.android.synthetic.main.view_graph.*
 class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View {
     var listing: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
 
-    private var transactionAdapter: TransactionAdapter? = null
+    //    private var transactionAdapter: TransactionAdapter? = null
+    private var transactionAdapter: TransactionsHeaderAdapter? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -36,9 +38,9 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
         super.onViewCreated(view, savedInstanceState)
 
 
-         listing  = viewModel.loadJSONDummyList()
+        listing = viewModel.loadJSONDummyList()
 
-        transactionAdapter = TransactionAdapter(listing, context!!)
+        transactionAdapter = TransactionsHeaderAdapter( context!!, listing)
         rvTransaction.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
         rvTransaction.layoutManager = layoutManager
