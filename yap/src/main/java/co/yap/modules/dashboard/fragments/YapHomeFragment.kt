@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.adapters.DashboardAdapter
-import co.yap.modules.dashboard.adapters.TransactionAdapter
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.TransactionModel
@@ -21,10 +20,9 @@ import kotlinx.android.synthetic.main.view_graph.*
 
 
 class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View {
-    var listing: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
+    var transactionsListingData: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
 
-    //    private var transactionAdapter: TransactionAdapter? = null
-    private var transactionAdapter: TransactionsHeaderAdapter? = null
+     private var transactionAdapter: TransactionsHeaderAdapter? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -37,27 +35,22 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        transactionsListingData = viewModel.loadJSONDummyList()
 
-        listing = viewModel.loadJSONDummyList()
-
-        transactionAdapter = TransactionsHeaderAdapter( context!!, listing)
-        rvTransaction.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(context)
-        rvTransaction.layoutManager = layoutManager
-        rvTransaction.adapter = transactionAdapter
-        viewModel.clickEvent.observe(this, Observer {
-
-        })
-
-        // set up graph
-
+        setUpTransactionsListRecyclerView()
         setUpGraphRecyclerView()
 
+        setOnGraphBarClickListeners()
+        setOnTransactionCellClickListeners()
+    }
+
+
+    private fun setOnGraphBarClickListeners() {
         rvTransactionsBarChart.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
             override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
                 when (e!!.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        rvTransaction.smoothScrollToPosition((listing.size - 1))
+                        rvTransaction.smoothScrollToPosition((transactionsListingData.size - 1))
                     }
                 }
             }
@@ -73,9 +66,41 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
         })
     }
 
+    private fun setOnTransactionCellClickListeners() {
+        rvTransactionsBarChart.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
+            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
+                when (e!!.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        rvTransaction.smoothScrollToPosition((transactionsListingData.size - 1))
+                    }
+                }
+            }
+
+            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
+                return true
+            }
+
+            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+
+            }
+
+        })
+    }
+
+    private fun setUpTransactionsListRecyclerView() {
+        transactionAdapter = TransactionsHeaderAdapter(context!!, transactionsListingData)
+        rvTransaction.setHasFixedSize(true)
+        val layoutManager = LinearLayoutManager(context)
+        rvTransaction.layoutManager = layoutManager
+        rvTransaction.adapter = transactionAdapter
+        viewModel.clickEvent.observe(this, Observer {
+
+        })
+    }
+
     fun setUpGraphRecyclerView() {
         rvTransactionsBarChart.adapter =
-            DashboardAdapter(listing, this!!.activity!!)
+            DashboardAdapter(transactionsListingData, this!!.activity!!)
         rvTransactionsBarChart.setLayoutManager(
             LinearLayoutManager(
                 activity,

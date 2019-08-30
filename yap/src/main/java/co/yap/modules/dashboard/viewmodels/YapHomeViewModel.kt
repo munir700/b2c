@@ -35,10 +35,11 @@ class YapHomeViewModel(application: Application) : BaseViewModel<IYapHome.State>
                     val parentArrayList = mainDataList!!.getJSONObject(i)
                     var date: String = parentArrayList.getString("date")
                     var totalAmount: String = parentArrayList.getString("totalAmount")
+                    var totalAmountType: String = parentArrayList.getString("totalAmountType")
                     var closingBalance: String = parentArrayList.getString("closingBalance")
-                    var amountPercentage: String = parentArrayList.getString("amountPercentage")
+                    var amountPercentage: Double = parentArrayList.getDouble("amountPercentage")
 
-                    val childArrayList = parentArrayList!!.getJSONArray("transaction")
+                    val childArrayList = parentArrayList!!.getJSONArray("transactionItems")
                     val transactionsArrayList: ArrayList<Transaction> = ArrayList<Transaction>()
 
                     for (j in 0 until childArrayList!!.length()) {
@@ -65,6 +66,7 @@ class YapHomeViewModel(application: Application) : BaseViewModel<IYapHome.State>
 
                     val transactionModel: TransactionModel = TransactionModel(
                         "HEADER",
+                        totalAmountType,
                         date,
                         totalAmount,
                         closingBalance,

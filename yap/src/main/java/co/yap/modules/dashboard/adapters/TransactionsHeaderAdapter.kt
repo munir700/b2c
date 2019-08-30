@@ -31,7 +31,7 @@ class TransactionsHeaderAdapter(
 
         val categories: TransactionModel = categoriesList[position]
 
-        if (categories.transactionsList.isNotEmpty()) {
+        if (categories.transactionItems.isNotEmpty()) {
 
             holder.tvTotalAmount!!.text = categories.totalAmount
             holder.tvTransactionDate!!.text = categories.date
@@ -48,7 +48,7 @@ class TransactionsHeaderAdapter(
             snapHelper.attachToRecyclerView(holder.horizontalView)
 
             holder.horizontalView.adapter =
-                TransactionsListingAdapter(context!!, categories.transactionsList)
+                TransactionsListingAdapter(context!!, categories.transactionItems)
         }
 
     }
