@@ -104,7 +104,7 @@ project.ext {
     commonDependencies = [
             [configuration: "implementation", dependency: libraries.sdp],
             [configuration: "implementation", dependency: libraries.kotlinStdlib],
-            [configuration: "kapt", dependency: libraries.databindingCompiler],
+            // [configuration: "kapt", dependency: libraries.databindingCompiler],
             [configuration: "implementation", dependency: libraries.material],
             [configuration: "implementation", dependency: libraries.dagger],
             [configuration: "implementation", dependency: libraries.daggerAndroid],
