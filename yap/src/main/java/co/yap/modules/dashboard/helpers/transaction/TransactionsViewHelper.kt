@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.helpers
+package co.yap.modules.dashboard.helpers.transaction
 
 import android.content.Context
 import android.view.View
@@ -75,22 +75,16 @@ class TransactionsViewHelper(
     }
 
     private fun setUpTransactionsListRecyclerView() {
-//     var transactionAdapter :TransactionsHeaderAdapter= TransactionsHeaderAdapter(transactionContext, viewModel.loadJSONDummyList())
         transactionsView.rvTransaction.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(transactionContext)
         transactionsView.rvTransaction.layoutManager = layoutManager
-//        transactionsView.rvTransaction.adapter = transactionAdapter
         transactionsView.rvTransaction.adapter =
-            TransactionsHeaderAdapter(transactionContext, viewModel.loadJSONDummyList())
-//        viewModel.clickEvent.observe(this, Observer {
-//
-//        })
-
+            TransactionsHeaderAdapter(transactionContext, viewModel.transactionLogicHelper.loadJSONDummyList())
     }
 
     fun setUpGraphRecyclerView() {
         transactionsView.rvTransactionsBarChart.adapter =
-            GraphBarsAdapter(viewModel.loadJSONDummyList(), transactionContext)
+            GraphBarsAdapter(viewModel.transactionLogicHelper.loadJSONDummyList(), transactionContext)
         transactionsView.rvTransactionsBarChart.setLayoutManager(
             LinearLayoutManager(
                 transactionContext,

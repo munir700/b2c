@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.interfaces
 
-import co.yap.modules.dashboard.models.TransactionAdapterModel
-import co.yap.modules.dashboard.models.TransactionModel
+import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -11,7 +10,7 @@ interface IYapHome {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-         fun loadJSONDummyList(): ArrayList<TransactionModel>
+        val transactionLogicHelper: TransactionLogicHelper
     }
 
     interface State : IBase.State
