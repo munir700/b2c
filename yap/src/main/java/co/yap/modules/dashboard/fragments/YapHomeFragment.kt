@@ -14,6 +14,7 @@ import co.yap.modules.dashboard.adapters.TransactionAdapter
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.Notification
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.yapcore.BaseBindingFragment
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -51,42 +52,46 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
         // set up graph
 
         setUpGraphRecyclerView()
-        setUpDummyNotificationList()
     }
 
 
-    private fun setUpDummyNotificationList() {
+    private fun addSetPinNotification() {
         notificationsList.add(
             Notification(
-                "YAP service notice",
-                "On May 24th, International money transfers won’t be available from 7 p.m. to 11 p.m.",
+                "Set your card pin",
+                "Now create a unique 4-digit PIN code to be able to use your debit card for purchases and withdrawals",
                 "",
-                "",
+                Constants.NOTIFICATION_ACTION_SET_PIN,
                 "",
                 ""
             )
         )
-        notificationsList.add(
-            Notification(
-                "YAP service notice",
-                "On May 24th, International money transfers won’t be available from 7 p.m. to 11 p.m.",
-                "",
-                "",
-                "",
-                ""
-            )
+        mAdapter = NotificationAdapter(notificationsList, requireContext())
+        rvNotificationList.setSlideOnFling(false)
+        rvNotificationList.setOverScrollEnabled(true)
+        rvNotificationList.adapter = mAdapter
+        rvNotificationList.addOnItemChangedListener(this)
+        rvNotificationList.addScrollStateChangeListener(this)
+        rvNotificationList.smoothScrollToPosition(0)
+        rvNotificationList.setItemTransitionTimeMillis(100)
+        rvNotificationList.setItemTransformer(
+            ScaleTransformer.Builder()
+                .setMinScale(0.8f)
+                .build()
         )
-        notificationsList.add(
-            Notification(
-                "YAP service notice",
-                "On May 24th, International money transfers won’t be available from 7 p.m. to 11 p.m.",
-                "",
-                "",
-                "",
-                ""
-            )
-        )
+    }
 
+    private fun addCompleteVerificationNotification() {
+        notificationsList.add(
+            Notification(
+                "Complete Verification",
+                "Nada, please scan your Emirates ID",
+                "",
+                Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION,
+                "",
+                ""
+            )
+        )
         mAdapter = NotificationAdapter(notificationsList, requireContext())
         rvNotificationList.setSlideOnFling(false)
         rvNotificationList.setOverScrollEnabled(true)
@@ -122,7 +127,7 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
 
     fun setUpGraphRecyclerView() {
         rvTransactionsBarChart.adapter =
-            DashboardAdapter(viewModel.getGraphDummyData(), this!!.activity!!)
+            DashboardAdapter(viewModel.getGraphDummyData(), this.activity!!)
         rvTransactionsBarChart.setLayoutManager(
             LinearLayoutManager(
                 activity,
