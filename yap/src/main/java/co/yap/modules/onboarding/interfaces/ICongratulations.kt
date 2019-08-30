@@ -1,14 +1,18 @@
 package co.yap.modules.onboarding.interfaces
 
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface ICongratulations {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel>{
+        fun setObservers()
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         var elapsedOnboardingTime: Long
-        fun handlePressOnCompleteVerification()
+        fun handlePressOnCompleteVerification(id: Int)
+        val clickEvent: SingleClickEvent
     }
 
     interface State : IBase.State {

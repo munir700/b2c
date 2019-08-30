@@ -1,7 +1,6 @@
 package co.yap.yapcore.helpers
 
 import org.json.JSONArray
-import java.lang.StringBuilder
 import java.util.regex.Pattern
 
 object StringUtils {
@@ -82,6 +81,15 @@ object StringUtils {
     fun hasAllSameChars(text: String): Boolean = text.run {
         val first = get(0).toString()
         replace(first, "").isEmpty()
+    }
+
+    fun getInitials(fullName: String): String {
+        return if (fullName.isNotBlank()) {
+            fullName.split(' ')
+                .mapNotNull { it.firstOrNull()?.toString() }
+                .reduce { acc, s -> acc + s }
+        } else ""
+
     }
 
 

@@ -3,13 +3,14 @@ package co.yap.modules.onboarding.viewmodels
 import android.app.Application
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.states.CongratulationsState
+import co.yap.yapcore.SingleClickEvent
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class CongratulationsViewModel(application: Application) :
     OnboardingChildViewModel<ICongratulations.State>(application),
     ICongratulations.ViewModel {
-
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: CongratulationsState = CongratulationsState()
     override var elapsedOnboardingTime: Long = 0
 
@@ -30,8 +31,8 @@ class CongratulationsViewModel(application: Application) :
 
     }
 
-    override fun handlePressOnCompleteVerification() {
-
+    override fun handlePressOnCompleteVerification(id: Int) {
+        clickEvent.setValue(id)
     }
 
     private fun maskIbanNumber(unmaskedIban: String): String {

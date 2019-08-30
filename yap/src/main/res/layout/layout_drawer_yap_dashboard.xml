@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel" />
+        <import type="co.yap.yapcore.helpers.StringUtils" />
     </data>
 
     <LinearLayout
@@ -30,13 +31,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingTop="@dimen/margin_small"
-                android:paddingBottom="@dimen/margin_normal">
+                android:paddingTop="@dimen/margin_small" >
 
                 <RelativeLayout
                     android:id="@+id/lUserInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_normal"
                     android:clickable="true"
                     android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                     android:orientation="horizontal">
@@ -50,7 +51,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="@dimen/margin_small"
                         android:layout_marginEnd="@dimen/margin_small"
-                        app:srcCompat="@drawable/ic_chevron_up" />
+                        app:srcCompat="@drawable/ic_chevron_down" />
 
                     <LinearLayout
                         android:id="@+id/lAccountContainer"
@@ -94,7 +95,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/lAccountContainer"
                         android:layout_marginTop="@dimen/_2sdp"
-                        android:text="Nada Hassan" />
+                        android:text="@{viewModel.state.fullName}" />
 
                 </RelativeLayout>
 
@@ -102,12 +103,12 @@
                     android:id="@+id/expandableLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    app:el_duration="500"
-                    app:el_expanded="true"
+                    app:el_duration="300"
+                    app:el_expanded="false"
                     app:el_parallax="0.5">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:paddingBottom="@dimen/margin_normal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -125,7 +126,7 @@
                             style="@style/AMicro"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="033 1234567890123456"
+                            android:text="@{viewModel.state.accountNo}"
                             app:layout_constraintStart_toStartOf="@id/tvAccountHeading"
                             app:layout_constraintTop_toBottomOf="@id/tvAccountHeading" />
 
@@ -144,7 +145,7 @@
                             style="@style/AMicro"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="AE07 0331 2345 6789 0123 456"
+                            android:text="@{viewModel.state.ibanNo}"
                             app:layout_constraintStart_toStartOf="@id/tvIbanHeading"
                             app:layout_constraintTop_toBottomOf="@id/tvIbanHeading" />
 
@@ -275,7 +276,7 @@
                 android:background="@drawable/circle"
                 android:gravity="center"
                 android:maxLength="2"
-                android:text="NH"
+                android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.fullName)}"
                 android:textColor="@color/white" />
 
             <ImageView
