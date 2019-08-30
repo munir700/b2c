@@ -6,19 +6,23 @@ import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.states.YapHomeState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
-import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.MyUserManager
 
-class YapHomeViewModel(application: Application) : BaseViewModel<IYapHome.State>(application),
+class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
     override val transactionLogicHelper: TransactionLogicHelper =
         TransactionLogicHelper(context, this)
-    private val maxTransactionVal: Int = 600
+
     private val cardsRepository: CardsRepository = CardsRepository
+
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
 
     override fun getDebitCards() {
 
