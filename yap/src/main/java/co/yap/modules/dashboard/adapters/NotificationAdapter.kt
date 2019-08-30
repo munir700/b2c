@@ -6,14 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.modules.dashboard.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.models.Notification
 import kotlinx.android.synthetic.main.view_notifications.view.*
 
 
-class NotificationAdapter(private val listItems: ArrayList<Notification>, val context: Context) :
+class NotificationAdapter( val listItems: ArrayList<Notification>, val context: Context, val clickListener: NotificationItemClickListener) :
     RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
+
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(p0?.context).inflate(R.layout.view_notifications, p0, false)
@@ -31,10 +34,17 @@ class NotificationAdapter(private val listItems: ArrayList<Notification>, val co
         holder.tvDescription.text = notification.description
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val ivNotification: ImageView = itemView.ivNotification
         val ivCross: ImageView = itemView.ivCross
         val tvTitle: TextView = itemView.tvTitle
         val tvDescription: TextView = itemView.tvDescription
+        val cvNotification: CardView = itemView.cvNotification
+
+        init {
+            cvNotification.setOnClickListener {
+                clickListener.onClick(listItems[adapterPosition])
+            }
+        }
     }
 }

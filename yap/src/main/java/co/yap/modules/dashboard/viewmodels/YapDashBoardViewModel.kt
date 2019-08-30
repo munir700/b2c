@@ -17,7 +17,6 @@ class YapDashBoardViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapDashBoardState = YapDashBoardState()
     private val customerRepository: CustomersRepository = CustomersRepository
-    private val cardsRepository: CardsRepository = CardsRepository
 
 
     override fun handlePressOnNavigationItem(id: Int) {
@@ -62,24 +61,5 @@ class YapDashBoardViewModel(application: Application) :
             state.loading = false
         }
     }
-
-    override fun getDebitCards() {
-
-        launch {
-            state.loading = true
-            when (val response = cardsRepository.getDebitCards("DEBIT")) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data.size != 0) {
-                        MyUserManager.cardSerialNumber = response.data.data[0].cardSerialNumber
-//                        clickEvent.setValue(EVENT_GET_DEBIT_CARDS_SUCCESS)
-                    }
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
-        }
-
-    }
-
 
 }
