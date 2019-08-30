@@ -18,6 +18,7 @@ interface IYapDashboard {
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
         fun getAccountInfo()
+        fun getDebitCards()
     }
     interface View : IBase.View<ViewModel>
 }

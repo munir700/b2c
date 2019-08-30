@@ -25,6 +25,11 @@ class LiteDashboardViewModel(application: Application) :
     private val customerRepository: CustomersRepository = CustomersRepository
     private val cardsRepository: CardsRepository = CardsRepository
     private val sharedPreferenceManager = SharedPreferenceManager(context)
+    /*
+      override fun onCreate() {
+          super.onCreate()
+          getAccountInfo()
+      }*/
 
     override fun handlePressOnLogout() {
         logout()
@@ -49,6 +54,21 @@ class LiteDashboardViewModel(application: Application) :
 
         }
     }
+
+
+    /* override fun getAccountInfo() {
+         launch {
+             state.loading = true
+             when (val response = customerRepository.getAccountInfo()) {
+                 is RetroApiResponse.Success -> {
+                     MyUserManager.user = response.data.data[0]
+                     clickEvent.setValue(EVENT_GET_ACCOUNT_INFO_SUCCESS)
+                 }
+                 is RetroApiResponse.Error -> state.toast = response.error.message
+             }
+             state.loading = false
+         }
+     }*/
 
     override fun getDebitCards() {
         launch {
