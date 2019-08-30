@@ -3,26 +3,29 @@ package co.yap.modules.dashboard.fragments
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
+import android.widget.Toast
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.adapters.DashboardAdapter
+import co.yap.modules.dashboard.adapters.GraphBarsAdapter
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
-import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.TransactionModel
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
 import co.yap.yapcore.BaseBindingFragment
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
+import co.yap.modules.dashboard.interfaces.IYapHome
+import co.yap.yapcore.helpers.RecyclerTouchListener
 
 
 class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View {
     var transactionsListingData: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
 
-     private var transactionAdapter: TransactionsHeaderAdapter? = null
+    private var transactionAdapter: TransactionsHeaderAdapter? = null
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -46,45 +49,53 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
 
 
     private fun setOnGraphBarClickListeners() {
-        rvTransactionsBarChart.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-                when (e!!.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        rvTransaction.smoothScrollToPosition((transactionsListingData.size - 1))
+
+        rvTransactionsBarChart.addOnItemTouchListener(
+            RecyclerTouchListener(
+                this!!.activity!!, rvTransactionsBarChart,
+                object : RecyclerTouchListener.ClickListener {
+                    override fun onLongClick(view: View?, position: Int) {
+
                     }
-                }
-            }
 
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                return true
-            }
+                    override fun onClick(view: View, position: Int) {
+                        Toast.makeText(
+                            activity,
+                            "bar no "+Integer.toString(position),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+                        rvTransaction.smoothScrollToPosition(position)
+                    }
 
-            }
 
-        })
+                })
+        )
     }
 
     private fun setOnTransactionCellClickListeners() {
-        rvTransactionsBarChart.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
-            override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-                when (e!!.action) {
-                    MotionEvent.ACTION_DOWN -> {
-                        rvTransaction.smoothScrollToPosition((transactionsListingData.size - 1))
+
+        rvTransaction.addOnItemTouchListener(
+            RecyclerTouchListener(
+                this!!.activity!!, rvTransaction,
+                object : RecyclerTouchListener.ClickListener {
+                    override fun onLongClick(view: View?, position: Int) {
+
                     }
-                }
-            }
 
-            override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-                return true
-            }
+                    override fun onClick(view: View, position: Int) {
+                        Toast.makeText(
+                            activity,
+                           "listing cell no "+ Integer.toString(position),
+                            Toast.LENGTH_SHORT
+                        ).show()
 
-            override fun onRequestDisallowInterceptTouchEvent(disallowIntercept: Boolean) {
+                        rvTransactionsBarChart.smoothScrollToPosition(position)
+                    }
 
-            }
 
-        })
+                })
+        )
     }
 
     private fun setUpTransactionsListRecyclerView() {
@@ -100,7 +111,7 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
 
     fun setUpGraphRecyclerView() {
         rvTransactionsBarChart.adapter =
-            DashboardAdapter(transactionsListingData, this!!.activity!!)
+            GraphBarsAdapter(transactionsListingData, this!!.activity!!)
         rvTransactionsBarChart.setLayoutManager(
             LinearLayoutManager(
                 activity,

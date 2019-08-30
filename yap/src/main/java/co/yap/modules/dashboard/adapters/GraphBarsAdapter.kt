@@ -10,8 +10,8 @@ import co.yap.modules.dashboard.models.TransactionModel
 import kotlinx.android.synthetic.main.item_bar_chart.view.*
 
 
-class DashboardAdapter(val listItems: ArrayList<TransactionModel>, val context: Context) :
-    RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
+class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: Context) :
+    RecyclerView.Adapter<GraphBarsAdapter.ViewHolder>() {
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(p0?.context).inflate(R.layout.item_bar_chart, p0, false)
         return ViewHolder(v);
@@ -24,7 +24,7 @@ class DashboardAdapter(val listItems: ArrayList<TransactionModel>, val context: 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transactionModel: TransactionModel = listItems.get(position)
 
-        holder.transactionBar.setBarHeight((transactionModel.amountPercentage).toDouble() )
+        holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
 //        holder.tv.text = transactionModel.amountPercentage.toString()
     }
 
