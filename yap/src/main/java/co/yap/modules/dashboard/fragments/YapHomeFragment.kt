@@ -5,13 +5,12 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.adapters.DashboardAdapter
+import co.yap.modules.dashboard.adapters.GraphBarsAdapter
 import co.yap.modules.dashboard.adapters.NotificationAdapter
-import co.yap.modules.dashboard.adapters.TransactionAdapter
+import co.yap.modules.dashboard.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.models.Notification
@@ -22,14 +21,13 @@ import co.yap.yapcore.managers.MyUserManager
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_yap_home.*
-import kotlinx.android.synthetic.main.view_graph.*
+
 
 class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View,
     DiscreteScrollView.OnItemChangedListener<RecyclerView.ViewHolder>,
     DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder>,
     NotificationItemClickListener {
 
-    private var transactionAdapter: TransactionAdapter? = null
     private lateinit var mAdapter: NotificationAdapter
     private var notificationsList: ArrayList<Notification> = ArrayList()
 
@@ -43,21 +41,13 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        transactionAdapter = TransactionAdapter(viewModel.loadJSONDummyList(), context!!)
-        rvTransaction.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(context)
-        rvTransaction.layoutManager = layoutManager
-        rvTransaction.adapter = transactionAdapter
-        viewModel.clickEvent.observe(this, Observer {
-
-        })
-
-        // set up graph
-        setUpGraphRecyclerView()
-        //checkUserStatus()
+        TransactionsViewHelper(
+            this!!.activity!!,
+            view,
+            viewModel
+        )
         setObservers()
     }
-
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
@@ -160,18 +150,6 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
     ) {
     }
 
-    private fun setUpGraphRecyclerView() {
-        rvTransactionsBarChart.adapter =
-            DashboardAdapter(viewModel.getGraphDummyData(), this.activity!!)
-        rvTransactionsBarChart.setLayoutManager(
-            LinearLayoutManager(
-                activity,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
-        )
-    }
-
     override fun onResume() {
         super.onResume()
         if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
@@ -191,5 +169,4 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
 
         }
     }
-
 }

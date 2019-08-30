@@ -19,5 +19,10 @@ interface IYapDashboard {
         fun copyAccountInfoToClipboard()
         fun getAccountInfo()
     }
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        fun closeDrawer()
+        fun openDrawer()
+        fun toggleDrawer()
+        fun enableDrawerSwipe(enable: Boolean)
+    }
 }

@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.interfaces
 
-import co.yap.modules.dashboard.models.TransactionAdapterModel
+import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,9 +14,8 @@ interface IYapHome {
         val EVENT_SET_CARD_PIN: Int get() = 1
         val EVENT_SET_COMPLETE_VEERIFICATION: Int get() = 1
         val clickEvent: SingleClickEvent
-        fun getGraphDummyData(): ArrayList<co.yap.modules.onboarding.models.TransactionModel>
-        fun loadJSONDummyList(): ArrayList<TransactionAdapterModel>
         fun getDebitCards()
+        val transactionLogicHelper: TransactionLogicHelper
     }
 
     interface State : IBase.State

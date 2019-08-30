@@ -1,12 +1,14 @@
 package co.yap.modules.dashboard.models
 
-import java.util.*
-import kotlin.collections.ArrayList
+import androidx.annotation.Nullable
+
 
 data class TransactionModel(
     var type: String,
+    var totalAmountType: String,
     var date: String,
-    var totalAmount:String,
-    var closingBalance:String,
-    val transaction:ArrayList<Transaction>
+    var totalAmount: String,
+    var closingBalance: String,
+    var amountPercentage: Double,
+    @Nullable var transactionItems: ArrayList<Transaction>
 )

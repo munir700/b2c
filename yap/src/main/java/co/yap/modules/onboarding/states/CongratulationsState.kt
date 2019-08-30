@@ -1,7 +1,7 @@
 package co.yap.modules.onboarding.states
 
 import androidx.databinding.Bindable
-import co.yap.BR
+import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.yapcore.BaseState
 

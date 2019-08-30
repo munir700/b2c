@@ -7,7 +7,6 @@
         <attr name="btn_pressed_color" format="color" />
         <attr name="btn_unpressed_color" format="color" />
         <attr name="btn_round_radius" format="dimension" />
-        <attr name="btn_radius" format="dimension" />
         <attr name="btn_drawable_padding_top" format="float" />
         <attr name="btn_drawable_padding_right" format="float" />
         <attr name="btn_drawable_padding_left" format="float" />

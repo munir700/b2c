@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.activities
 
 import android.os.Bundle
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -15,7 +17,6 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -69,6 +70,24 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    override fun closeDrawer() {
+        drawerLayout.closeDrawer(GravityCompat.END)
+    }
+
+    override fun openDrawer() {
+        drawerLayout.openDrawer(GravityCompat.END)
+    }
+
+    override fun toggleDrawer() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
+        else openDrawer()
+    }
+
+    override fun enableDrawerSwipe(enable: Boolean) {
+        if (enable) drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        else drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
     private fun setupDrawerNavigation(navController: NavController) {
