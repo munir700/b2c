@@ -12,6 +12,7 @@ import co.yap.R
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter
 import co.yap.modules.dashboard.adapters.NotificationAdapter
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
+import co.yap.modules.dashboard.helpers.TransactionsViewHelper
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.Notification
 import co.yap.modules.dashboard.models.TransactionModel
@@ -45,83 +46,9 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        TransactionsViewHelper(this!!.activity!!, view,viewModel)
 
-        transactionsListingData = viewModel.loadJSONDummyList()
-
-        setUpTransactionsListRecyclerView()
-        setUpGraphRecyclerView()
-
-        setOnGraphBarClickListeners()
-        setOnTransactionCellClickListeners()
     }
-
-
-    private fun setOnGraphBarClickListeners() {
-
-        rvTransactionsBarChart.addOnItemTouchListener(
-            RecyclerTouchListener(
-                this!!.activity!!, rvTransactionsBarChart,
-                object : RecyclerTouchListener.ClickListener {
-                    override fun onLongClick(view: View?, position: Int) {
-
-                    }
-
-                    override fun onClick(view: View, position: Int) {
-                        Toast.makeText(
-                            activity,
-                            "bar no " + Integer.toString(position),
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        rvTransaction.smoothScrollToPosition(position)
-                    }
-
-
-                })
-        )
-    }
-
-    private fun setOnTransactionCellClickListeners() {
-
-        rvTransaction.addOnItemTouchListener(
-            RecyclerTouchListener(
-                this!!.activity!!, rvTransaction,
-                object : RecyclerTouchListener.ClickListener {
-                    override fun onLongClick(view: View?, position: Int) {
-
-                    }
-
-                    override fun onClick(view: View, position: Int) {
-                        Toast.makeText(
-                            activity,
-                            "listing cell no " + Integer.toString(position),
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        rvTransactionsBarChart.smoothScrollToPosition(position)
-                    }
-
-
-                })
-        )
-    }
-
-    private fun setUpTransactionsListRecyclerView() {
-        transactionAdapter = TransactionsHeaderAdapter(context!!, transactionsListingData)
-        rvTransaction.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(context)
-        rvTransaction.layoutManager = layoutManager
-        rvTransaction.adapter = transactionAdapter
-        viewModel.clickEvent.observe(this, Observer {
-
-        })
-
-        // set up graph
-
-        setUpGraphRecyclerView()
-        setUpDummyNotificationList()
-    }
-
 
     private fun setUpDummyNotificationList() {
         notificationsList.add(
