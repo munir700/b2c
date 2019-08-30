@@ -21,7 +21,6 @@ interface ILiteDashboard {
 
         val clickEvent: SingleClickEvent
         fun handlePressOnLogout()
-        fun getAccountInfo()
         fun getDebitCards()
         fun handlePressOnCompleteVerification()
         fun handlePressOnsetCardPin()
