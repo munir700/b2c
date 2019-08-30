@@ -8,14 +8,14 @@ import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 
-class YapHomeViewModel(application: Application) : BaseViewModel<IYapHome.State>(application),
+class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
-    override val transactionLogicHelper: TransactionLogicHelper =
-        TransactionLogicHelper(context, this)
-    val maxTransactionVal: Int = 600
+    override val transactionLogicHelper: TransactionLogicHelper = TransactionLogicHelper(context, this)
 
-
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
 }

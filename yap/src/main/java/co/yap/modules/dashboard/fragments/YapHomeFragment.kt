@@ -2,48 +2,64 @@ package co.yap.modules.dashboard.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.adapters.GraphBarsAdapter
 import co.yap.modules.dashboard.adapters.NotificationAdapter
 import co.yap.modules.dashboard.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.Notification
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
-import co.yap.yapcore.BaseBindingFragment
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_yap_home.*
-import kotlinx.android.synthetic.main.view_graph.*
 
 
-class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View,
+class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
     DiscreteScrollView.OnItemChangedListener<RecyclerView.ViewHolder>,
     DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder> {
 
 
     private lateinit var mAdapter: NotificationAdapter
     private var notificationsList: ArrayList<Notification> = ArrayList()
+    override lateinit var transactionViewHelper: TransactionsViewHelper
+
+    override val viewModel: IYapHome.ViewModel
+        get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
 
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_home
 
-    override val viewModel: IYapHome.ViewModel
-        get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        TransactionsViewHelper(
-            this!!.activity!!,
+
+        transactionViewHelper = TransactionsViewHelper(
+            requireContext(),
             view,
             viewModel
         )
         setUpDummyNotificationList()
+        setObservers()
+    }
+
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroyView()
+    }
+
+    private fun setObservers() {
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.ivSearch -> {
+                }
+                R.id.ivMenu -> parentView?.toggleDrawer()
+
+            }
+        })
     }
 
     private fun setUpDummyNotificationList() {
