@@ -43,7 +43,7 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
             view,
             viewModel
         )
-
+        setUpDummyNotificationList()
     }
 
     private fun setUpDummyNotificationList() {
