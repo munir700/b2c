@@ -37,7 +37,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     findNavController().navigate(R.id.action_KYCHomeFragment_to_AddressSelectionFragment)
                 }
                 R.id.tvSkip -> {
-                    findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+                    findNavController().navigate(R.id.action_goto_DashboardActivity)
                     activity?.finish()
                 }
             }

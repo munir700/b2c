@@ -18,7 +18,7 @@ class InformationErrorFragment : KYCChildFragment<IInformationError.ViewModel>()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer { findNavController().navigate(R.id.action_goto_liteDashboardActivity) })
+        viewModel.clickEvent.observe(this, Observer { findNavController().navigate(R.id.action_goto_DashboardActivity) })
     }
 
     override fun onDestroyView() {
