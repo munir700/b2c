@@ -19,7 +19,7 @@ import co.yap.modules.onboarding.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
-import kotlinx.android.synthetic.main.fragment_yap_home.*
+import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -146,6 +146,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 .setMinScale(0.8f)
                 .build()
         )
+
     }
 
 
