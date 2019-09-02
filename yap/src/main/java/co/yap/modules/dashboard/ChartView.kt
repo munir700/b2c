@@ -9,16 +9,20 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import co.yap.R
+ import co.yap.modules.dashboard.fragments.YapHomeFragment.Companion.isBarHighLighted
 import kotlin.math.roundToInt
 
 class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
-    View.OnTouchListener {
+    View.OnTouchListener, View.OnFocusChangeListener {
+
 
     private var btnWeight: Int = 26
     private var btnHeight: Int = 10
     private var roundRadius: Int = 7
     private var btnRadius: Int = 0
     private var seletedColor: Int = 0
+    private var previouslySelectedBarPosition: Int = 0
+//    private var isBarHighLighted: Boolean = false
     private var paintShader: Shader? = null
     private var paint: Paint = Paint()
     var rectF: RectF = RectF()
@@ -37,7 +41,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
         seletedColor = R.color.transparent
         customizePaint(context)
-
         this.performClick()
         setOnTouchListener(this)
 
@@ -45,12 +48,12 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
     private fun customizeAnimation(context: Context) {
 
-        val fadeOut = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        fadeOut.duration = 1000
+        val fadeInBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        fadeInBarAnimation.duration = 500
 
-        this.startAnimation(fadeOut)
+        this.startAnimation(fadeInBarAnimation)
 
-        fadeOut.setAnimationListener(object : Animation.AnimationListener {
+        fadeInBarAnimation.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {
                 paint.shader = null
                 paintShader = null
@@ -62,9 +65,9 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
             }
 
             override fun onAnimationEnd(animation: Animation) {
-                val fadeIn = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-                startAnimation(fadeIn)
-                fadeInAnim(fadeIn)
+//                val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+//                startAnimation(fadeOutBarAnimation)
+//                fadeInAnim(fadeOutBarAnimation)
             }
 
             override fun onAnimationRepeat(animation: Animation) {}
@@ -94,6 +97,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
                 seletedColor = pupleSelectedColor
                 invalidate()
                 customizePaint(context)
+                isBarHighLighted = true
             }
 
             override fun onAnimationRepeat(animation: Animation) {}
@@ -109,17 +113,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
     }
 
-    @SuppressLint("ResourceAsColor")
-    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
-        when (event!!.action) {
-            MotionEvent.ACTION_DOWN -> {
-                customizeAnimation(context)
-            }
-        }
-
-        return true
-    }
-
     @SuppressLint("ResourceType")
     protected override fun onDraw(canvas: Canvas) {
 
@@ -131,14 +124,110 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
         setMeasuredDimension(btnWeight, btnHeight)
     }
 
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+        startAnimation(fadeOutBarAnimation)
+        isBarHighLighted=false
+        fadeInAnim(fadeOutBarAnimation)
+    }
+
+    @SuppressLint("ResourceAsColor")
+    override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+        when (event!!.action) {
+            MotionEvent.ACTION_DOWN -> {
+                if (isBarHighLighted) {
+                    val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+                    startAnimation(fadeOutBarAnimation)
+                    isBarHighLighted=false
+                    fadeInAnim(fadeOutBarAnimation)
+                }
+                customizeAnimation(context)
+            }
+        }
+
+        return true
+    }
+
+
     fun setBarHeight(height: Double) {
 //        if (height > 1) {
-            btnHeight = (btnHeight+ height.roundToInt())
+        btnHeight = (btnHeight + height.roundToInt())
 //        } else {
 //            btnHeight = (btnHeight+ height.roundToInt())  * 10
 //        }
         // need to work on fixing height
     }
+
+    fun getHighLightedBars(): Boolean {
+        return isBarHighLighted
+    }
+
+    fun unSelectHighlightedBar(highlighted: Boolean) {
+//        if (highlighted) {
+//            //list
+//            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+//            startAnimation(fadeOutBarAnimation)
+//            fadeInAnim(fadeOutBarAnimation)
+//            isBarHighLighted=false
+//            customizeAnimation(context)
+//        } else {
+            //graph
+
+
+//            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+//            startAnimation(fadeOutBarAnimation)
+//            fadeInAnim(fadeOutBarAnimation)
+//            customizeAnimation(context)
+            if (isBarHighLighted) {
+                val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+                startAnimation(fadeOutBarAnimation)
+                isBarHighLighted=false
+                fadeInAnim(fadeOutBarAnimation)
+            } else {
+                val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+                startAnimation(fadeOutBarAnimation)
+                fadeInAnim(fadeOutBarAnimation)
+                isBarHighLighted=false
+                customizeAnimation(context)
+
+            }
+//        }
+
+    }
+
+
+    fun unSelectHighlightedBarFromTransactionListCell(selectBar: Boolean) {
+        if (selectBar) {
+            //list
+            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+            startAnimation(fadeOutBarAnimation)
+            fadeInAnim(fadeOutBarAnimation)
+            isBarHighLighted=false
+            customizeAnimation(context)
+        } else {
+            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+            startAnimation(fadeOutBarAnimation)
+            isBarHighLighted=false
+            fadeInAnim(fadeOutBarAnimation)
+
+        }
+
+    }
+
+
+//    fun unSelectHighlightedBar(highlight: Boolean) {
+//        if (isBarHighLighted){
+//            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+//            startAnimation(fadeOutBarAnimation)
+//            fadeInAnim(fadeOutBarAnimation)
+//        }else{
+//            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+//            startAnimation(fadeOutBarAnimation)
+//            fadeInAnim(fadeOutBarAnimation)
+//            customizeAnimation(context)
+//
+//        }
+//    }
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(w, h, oldWidth, oldHeight)

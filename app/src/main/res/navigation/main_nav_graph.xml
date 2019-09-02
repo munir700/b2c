@@ -3,8 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/yapHome">
 
+    <fragment
+        android:id="@+id/yapHome"
+        tools:layout="@layout/fragment_yap_home"
+        android:name="co.yap.modules.dashboard.fragments.YapHomeFragment"
+        android:label="YapDashboardHome"/>
     <action
         android:id="@+id/action_goto_liteDashboardActivity"
         app:destination="@id/liteDashboardActivity"

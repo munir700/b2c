@@ -3,11 +3,9 @@ package co.yap.modules.dashboard.fragments
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.adapters.GraphBarsAdapter
 import co.yap.modules.dashboard.adapters.NotificationAdapter
 import co.yap.modules.dashboard.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.interfaces.IYapHome
@@ -17,7 +15,6 @@ import co.yap.yapcore.BaseBindingFragment
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.fragment_yap_home.*
-import kotlinx.android.synthetic.main.view_graph.*
 
 
 class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -35,7 +32,10 @@ class YapHomeFragment : BaseBindingFragment<IYapHome.ViewModel>(), IYapHome.View
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
 
+companion object{
+      var isBarHighLighted: Boolean = false
 
+}
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         TransactionsViewHelper(

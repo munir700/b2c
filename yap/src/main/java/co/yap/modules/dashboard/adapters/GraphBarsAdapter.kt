@@ -11,7 +11,25 @@ import kotlinx.android.synthetic.main.item_bar_chart.view.*
 
 
 class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: Context) :
-    RecyclerView.Adapter<GraphBarsAdapter.ViewHolder>() {
+    RecyclerView.Adapter<GraphBarsAdapter.ViewHolder>(), View.OnFocusChangeListener {
+    lateinit var viewHolder: ViewHolder
+
+    companion object {
+        var previouslySelected: Int = 0
+        var isCellHighlighted: Boolean = false//graph
+        var isCellHighlightedFromTransaction: Boolean = false//graph
+
+//          var isBarHighLighted: Boolean = false
+//              get() {
+//                  return field
+//              }
+//              set(value) {
+//
+//              }
+
+    }
+
+
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(p0?.context).inflate(R.layout.item_bar_chart, p0, false)
         return ViewHolder(v);
@@ -22,15 +40,61 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        viewHolder = holder
         val transactionModel: TransactionModel = listItems.get(position)
-
+        holder.transactionBar.onFocusChangeListener = this
         holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
-//        holder.tv.text = transactionModel.amountPercentage.toString()
+
+//
+//        holder.itemView.setOnClickListener(object : View.OnClickListener {
+//            override fun onClick(v: View?) {
+//                if (isCellHighlighted){
+////                    list
+//                    holder.transactionBar.unSelectHighlightedBar(isCellHighlighted)
+//
+//                }else{
+//                    holder.transactionBar.unSelectHighlightedBar(isCellHighlighted)
+//
+//                    // graph
+//                }
+//            }
+//
+//        })
+
+        holder.itemView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                if (isCellHighlighted){
+//                    list
+                    if (isCellHighlightedFromTransaction){
+                        //creat
+                        holder.transactionBar.unSelectHighlightedBarFromTransactionListCell(true)
+
+                    }else{
+                        //fade out
+                        holder.transactionBar.unSelectHighlightedBarFromTransactionListCell(false)
+
+                    }
+
+
+
+                }else{
+                    holder.transactionBar.unSelectHighlightedBar(isCellHighlighted)
+
+                    // graph
+                }
+            }
+
+        })
+    }
+
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        if (!viewHolder.transactionBar.hasFocus()) {
+            viewHolder.transactionBar.unSelectHighlightedBar(hasFocus)
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val transactionBar = itemView.transactionBar
-//        val tv = itemView.tv
 
     }
 }
