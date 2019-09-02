@@ -24,6 +24,17 @@
                 android:layout_centerHorizontal="true"
                 android:elevation="4dp">
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/ivYapIt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    app:backgroundTint="@color/white"
+                    android:padding="@dimen/_5sdp"
+                    app:elevation="@dimen/_3sdp"
+                    android:layout_margin="@dimen/_3sdp"
+                    app:srcCompat="@drawable/ic_yap_it" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -33,13 +44,6 @@
                     android:text="YAP it"
                     android:textColor="@color/greyDark"
                     android:textSize="12sp" />
-
-                <co.yap.widgets.CoreCircularImageView
-                    android:id="@+id/ivYapIt"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_marginBottom="2dp"
-                    android:src="@color/colorPrimary" />
 
             </RelativeLayout>
 
