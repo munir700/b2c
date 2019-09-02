@@ -33,6 +33,55 @@
             <!--     Transaction Graph Center       -->
             <include layout="@layout/view_graph" />
 
+            <RelativeLayout
+                android:id="@+id/rlTransactionHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large">
+
+                <TextView
+                    android:id="@+id/tvTransactionTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/ASmall"
+                    android:text="Transactions"/>
+
+                <RelativeLayout
+                    android:id="@+id/rlFilter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true">
+
+                    <ImageView
+                        android:id="@+id/ivFilters"
+                        android:layout_width="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_filter"/>
+
+                    <TextView
+                        android:id="@+id/tvFilters"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_toEndOf="@+id/ivFilters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/ASmall"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Filter"/>
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:paddingTop="@dimen/_12sdp"
+                android:background="@color/divider"
+                android:layout_height="1dp"/>
+
             <!--     Transaction List-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransaction"
