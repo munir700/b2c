@@ -85,6 +85,9 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
             }
 
         })
+        if (position== 0){
+            holder.transactionBar.OnBarItemTouchEvent()
+        }
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {

@@ -133,17 +133,21 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     override fun onTouch(v: View?, event: MotionEvent?): Boolean {
         when (event!!.action) {
             MotionEvent.ACTION_DOWN -> {
-                if (isBarHighLighted) {
-                    val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-                    startAnimation(fadeOutBarAnimation)
-                    isBarHighLighted = false
-                    fadeInAnim(fadeOutBarAnimation)
-                }
-                customizeAnimation(context)
+                OnBarItemTouchEvent()
             }
         }
 
         return true
+    }
+
+    fun OnBarItemTouchEvent() {
+        if (isBarHighLighted) {
+            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+            startAnimation(fadeOutBarAnimation)
+            isBarHighLighted = false
+            fadeInAnim(fadeOutBarAnimation)
+        }
+        customizeAnimation(context)
     }
 
 

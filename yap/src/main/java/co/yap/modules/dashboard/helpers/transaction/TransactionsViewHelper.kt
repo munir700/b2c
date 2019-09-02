@@ -62,7 +62,7 @@ class TransactionsViewHelper(
             LinearLayoutManager(
                 transactionContext,
                 LinearLayoutManager.HORIZONTAL,
-                false
+                true
             )
         )
     }
