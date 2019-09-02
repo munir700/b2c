@@ -16,17 +16,8 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
 
     companion object {
         var previouslySelected: Int = 0
-        var isCellHighlighted: Boolean = false//graph
-        var isCellHighlightedFromTransaction: Boolean = false//graph
-
-//          var isBarHighLighted: Boolean = false
-//              get() {
-//                  return field
-//              }
-//              set(value) {
-//
-//              }
-
+        var isCellHighlighted: Boolean = false
+        var isCellHighlightedFromTransaction: Boolean = false
     }
 
 
