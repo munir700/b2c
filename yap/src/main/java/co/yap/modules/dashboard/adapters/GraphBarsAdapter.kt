@@ -45,47 +45,21 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
         holder.transactionBar.onFocusChangeListener = this
         holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
 
-//
-//        holder.itemView.setOnClickListener(object : View.OnClickListener {
-//            override fun onClick(v: View?) {
-//                if (isCellHighlighted){
-////                    list
-//                    holder.transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
-//
-//                }else{
-//                    holder.transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
-//
-//                    // graph
-//                }
-//            }
-//
-//        })
-
         holder.itemView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                if (isCellHighlighted){
-//                    list
-                    if (isCellHighlightedFromTransaction){
-                        //creat
+                if (isCellHighlighted) {
+                    if (isCellHighlightedFromTransaction) {
                         holder.transactionBar.unSelectHighlightedBarOnTransactionCellClick(true)
-
-                    }else{
-                        //fade out
+                    } else {
                         holder.transactionBar.unSelectHighlightedBarOnTransactionCellClick(false)
-
                     }
-
-
-
-                }else{
+                } else {
                     holder.transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
-
-                    // graph
                 }
             }
 
         })
-        if (position== 0){
+        if (position == 0) {
             holder.transactionBar.OnBarItemTouchEvent()
         }
     }
