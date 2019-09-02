@@ -8,16 +8,13 @@ import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.util.*
-import kotlin.Comparator
 import kotlin.collections.ArrayList
 
 class TransactionLogicHelper(
     val context: Context,
     val viewModel: IYapHome.ViewModel
 ) {
-
     fun loadJSONDummyList(): ArrayList<TransactionModel> {
-
         val transactioModelList: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
 
         val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
