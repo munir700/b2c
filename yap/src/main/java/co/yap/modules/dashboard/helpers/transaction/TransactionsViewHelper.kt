@@ -15,6 +15,8 @@ import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import kotlinx.android.synthetic.main.fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
+import java.util.*
+import kotlin.Comparator
 
 class TransactionsViewHelper(
     val transactionContext: Context, val transactionsView: View,
@@ -28,6 +30,16 @@ class TransactionsViewHelper(
         setOnTransactionCellClickListeners()
 
     }
+
+//    private fun sortListByDate() {
+//        Collections.sort(myList, object : Comparator<MyObject>() {
+//            fun compare(o1: MyObject, o2: MyObject): Int {
+//                return if (o1.getDateTime() == null || o2.getDateTime() == null) 0 else o1.getDateTime().compareTo(
+//                    o2.getDateTime()
+//                )
+//            }
+//        })
+//    }
 
     private fun setUpTransactionsListRecyclerView() {
         transactionsView.rvTransaction.setHasFixedSize(true)

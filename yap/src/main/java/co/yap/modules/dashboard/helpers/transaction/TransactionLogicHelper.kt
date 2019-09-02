@@ -7,6 +7,9 @@ import co.yap.modules.dashboard.models.TransactionModel
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.ArrayList
 
 class TransactionLogicHelper(
     val context: Context,
@@ -17,7 +20,7 @@ class TransactionLogicHelper(
     }
 
 
-      fun loadJSONDummyList(): ArrayList<TransactionModel> {
+    fun loadJSONDummyList(): ArrayList<TransactionModel> {
 
         val transactioModelList: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
 
@@ -74,6 +77,11 @@ class TransactionLogicHelper(
                 }
             }
         }
+        Collections.sort(transactioModelList, object : Comparator<TransactionModel> {
+            override fun compare(o1: TransactionModel, o2: TransactionModel): Int {
+                return o2.date.compareTo(o1.date)
+            }
+        })
 
         return transactioModelList
     }
