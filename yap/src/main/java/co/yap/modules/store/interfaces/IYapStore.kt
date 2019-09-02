@@ -11,6 +11,7 @@ interface IYapStore {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var yapStoreData : MutableList<YapStoreData>
+        fun handlePressOnView(id: Int)
     }
 
     interface View : IBase.View<ViewModel> {

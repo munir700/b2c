@@ -2,18 +2,18 @@ package co.yap.modules.store.viewmodels
 
 import android.app.Application
 import co.yap.R
-import co.yap.modules.store.interfaces.IYapStore
+import co.yap.modules.store.interfaces.IYapStoreDetail
 import co.yap.modules.store.models.YapStoreData
-import co.yap.modules.store.states.YapStoreState
+import co.yap.modules.store.states.YapStoreDetailState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.State>(application),
-    IYapStore.ViewModel {
+class YapStoreDetailViewModel(application: Application) :
+    BaseViewModel<IYapStoreDetail.State>(application),
+    IYapStoreDetail.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: YapStoreState = YapStoreState()
-
+    override val state: YapStoreDetailState = YapStoreDetailState()
     override var yapStoreData: MutableList<YapStoreData> = mutableListOf(
         YapStoreData(
             1,
@@ -52,5 +52,4 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
-
 }

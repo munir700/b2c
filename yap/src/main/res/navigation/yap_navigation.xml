@@ -18,5 +18,19 @@
         android:id="@+id/yapStoreFragment"
         android:name="co.yap.modules.store.fragments.YapStoreFragment"
         android:label="YapStoreFragment"
-        tools:layout="@layout/fragment_yap_store" />
+        tools:layout="@layout/fragment_yap_store">
+        <action
+            android:id="@+id/action_yapStoreFragment_to_yapStoreDetailFragment"
+            app:destination="@id/yapStoreDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/yapStoreDetailFragment"
+        android:name="co.yap.modules.store.fragments.YapStoreDetailFragment"
+        android:label="YapStoreDetailFragment"
+        tools:layout="@layout/fragment_yap_store_detail">
+        <argument
+            android:name="storeId"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
 </navigation>

@@ -1,0 +1,71 @@
+package co.yap.modules.store.fragments
+
+import android.os.Bundle
+import android.view.View
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import co.yap.BR
+import co.yap.R
+import co.yap.modules.store.adaptor.YapStoreDetailAdaptor
+import co.yap.modules.store.interfaces.IYapStoreDetail
+import co.yap.modules.store.models.YapStoreData
+import co.yap.modules.store.viewmodels.YapStoreDetailViewModel
+import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.helpers.MarginItemDecoration
+import kotlinx.android.synthetic.main.fragment_yap_store.*
+
+class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
+    IYapStoreDetail.View {
+
+    override fun getBindingVariable(): Int = BR.viewModel
+    override fun getLayoutId(): Int = R.layout.fragment_yap_store_detail
+
+    override val viewModel: IYapStoreDetail.ViewModel
+        get() = ViewModelProviders.of(this).get(YapStoreDetailViewModel::class.java)
+
+    override var testValue: String
+        get() = "test value"
+        set(value) {}
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel.clickEvent.observe(this, observer)
+        val storeId = arguments?.getString("storeId", "")
+
+        val data: YapStoreData? = viewModel.yapStoreData.find { (it.id == storeId!!.toInt()) }
+        if (data != null) {
+            viewModel.state.title = data.name
+            viewModel.state.subTitle = data.desc
+            viewModel.state.image = data.image
+            viewModel.state.storeHeading =
+                "Allocate specific budget to your child, track and fully."
+            viewModel.state.storeDetail =
+                "Allocate specific budget to your child, track and fully control your child spending by setting limits to the card. Save time with an innovative real-time money request system. Allocate specific budget to your child, track and fully control your child spending by setting limits to the card. Save time with an innovative real-time money request."
+            viewModel.state.storeIcon = R.drawable.ic_young_smile
+        }
+        setupRecycleView()
+    }
+
+    private fun setupRecycleView() {
+        val storeAdaptor = YapStoreDetailAdaptor(viewModel.yapStoreData)
+        recycler_stores.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+//        recycler_stores.addItemDecoration(
+//            MarginItemDecoration(
+//                resources.getDimension(R.dimen.margin_normal_large).toInt(),
+//                resources.getDimension(R.dimen.margin_large).toInt()
+//            )
+//        )
+        recycler_stores.adapter = storeAdaptor
+        //storeAdaptor.setItemListener(listener)
+    }
+
+    private val observer = Observer<Int> {
+        when (it) {
+            R.id.imgStoreShopping -> {
+                showToast("Shopping Button Clicked")
+            }
+        }
+    }
+}

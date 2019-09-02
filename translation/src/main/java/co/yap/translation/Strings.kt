@@ -10,6 +10,8 @@ object Strings {
     const val common_button_yes: String = "common_button_yes"
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
+    const val common_button_activate: String = "common_button_activate"
+
 
     //Home screen
     const val screen_home_display_text_tag_line: String = "screen_home_display_text_tag_line"

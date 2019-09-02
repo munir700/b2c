@@ -206,17 +206,26 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
-    <style name="LargeGrey" parent="AppFontRegular">
-        <item name="android:textSize">@dimen/text_size_h4</item>
-        <item name="android:lineSpacingExtra">10sp</item>
+    <style name="ARegular2Grey" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:lineSpacingExtra">6sp</item>
         <item name="android:textColor">@color/greyDark</item>
     </style>
+
 
     <style name="RegularGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h3</item>
         <item name="android:lineSpacingExtra">8sp</item>
         <item name="android:textColor">@color/greyDark</item>
     </style>
+
+    <style name="LargeGrey" parent="AppFontRegular">
+        <item name="android:textSize">@dimen/text_size_h4</item>
+        <item name="android:lineSpacingExtra">10sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+    </style>
+
 
     <style name="ASmallGrey" parent="AppFontRegular">
         <item name="android:textSize">@dimen/text_size_h2</item>
@@ -256,13 +265,24 @@
 
     </style>
 
- <style name="AddressBtnStyle" parent="AppFontBold">
+    <style name="RectangleBtnSmallStyle" parent="AppFontMedium">
+        <item name="btn_text_size">@dimen/text_size_h2</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="android:paddingLeft">@dimen/margin_medium_large</item>
+        <item name="android:paddingRight">@dimen/margin_medium_large</item>
+        <item name="android:paddingTop">@dimen/margin_small</item>
+        <item name="android:paddingBottom">@dimen/margin_small</item>
+        <item name="btn_round_radius">50dp</item>
+
+    </style>
+
+    <style name="AddressBtnStyle" parent="AppFontBold">
         <item name="btn_text_size">@dimen/text_size_h3</item>
         <item name="btn_shape_type">rectangle</item>
         <item name="android:enabled">true</item>
-           <item name="btn_round_radius">50dp</item>
-     <item name="android:textColor">@color/colorWhite</item>
-
+        <item name="btn_round_radius">50dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
     </style>
 
     <style name="FragmentsBtnStyle" parent="AppFontMedium">
@@ -304,7 +324,7 @@
     </style>
 
 
-    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog"/>
+    <style name="BottomSheetDialogTheme" parent="BaseBottomSheetDialog" />
 
 
     <style name="BaseBottomSheetDialog" parent="@style/Theme.Design.Light.BottomSheetDialog">

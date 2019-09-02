@@ -18,11 +18,12 @@
         android:background="@color/white">
 
         <ImageView
-            android:id="@+id/imgStoreType"
+            android:id="@+id/imgStoreShopping"
             android:layout_width="@dimen/_22sdp"
             android:layout_height="@dimen/_22sdp"
             android:layout_margin="@dimen/margin_small"
             android:contentDescription="@string/empty_string"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_shopping" />
@@ -37,10 +38,10 @@
             android:gravity="center"
             android:lineSpacingExtra="0dp"
             android:textAlignment="center"
-            app:layout_constraintBottom_toBottomOf="@+id/imgStoreType"
+            app:layout_constraintBottom_toBottomOf="@+id/imgStoreShopping"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgStoreType"
+            app:layout_constraintTop_toTopOf="@+id/imgStoreShopping"
             app:text="@{Strings.screen_yap_store_display_text_title}"
             tools:text="@string/screen_yap_store_display_text_title" />
 

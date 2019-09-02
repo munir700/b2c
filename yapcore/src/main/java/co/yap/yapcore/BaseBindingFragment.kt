@@ -28,6 +28,7 @@ abstract class BaseBindingFragment<V: IBase.ViewModel<*>> : BaseFragment<V>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
+        //viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
     }
 

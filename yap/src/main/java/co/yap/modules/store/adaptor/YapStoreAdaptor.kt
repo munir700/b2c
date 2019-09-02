@@ -20,4 +20,5 @@ class YapStoreAdaptor(private val list: MutableList<YapStoreData>) :
         super.onBindViewHolder(holder, position)
         holder.onBind(list[position])
     }
+
 }

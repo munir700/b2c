@@ -1,3 +1,12 @@
 package co.yap.modules.store.models
 
-data class YapStoreData(var id: Int, var name: String, var desc: String, var image: String)
+import androidx.annotation.Keep
+
+@Keep
+data class YapStoreData(
+    var id: Int,
+    var name: String,
+    var desc: String,
+    var image: Int,
+    var storeIcon: Int
+)
