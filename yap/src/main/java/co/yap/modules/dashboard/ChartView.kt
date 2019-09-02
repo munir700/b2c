@@ -9,7 +9,6 @@ import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import co.yap.R
- import co.yap.modules.dashboard.fragments.YapHomeFragment.Companion.isBarHighLighted
 import kotlin.math.roundToInt
 
 class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
@@ -21,8 +20,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     private var roundRadius: Int = 7
     private var btnRadius: Int = 0
     private var seletedColor: Int = 0
-    private var previouslySelectedBarPosition: Int = 0
-//    private var isBarHighLighted: Boolean = false
+    private var isBarHighLighted: Boolean = false
     private var paintShader: Shader? = null
     private var paint: Paint = Paint()
     var rectF: RectF = RectF()
@@ -127,7 +125,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
         val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
         startAnimation(fadeOutBarAnimation)
-        isBarHighLighted=false
+        isBarHighLighted = false
         fadeInAnim(fadeOutBarAnimation)
     }
 
@@ -138,7 +136,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
                 if (isBarHighLighted) {
                     val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
                     startAnimation(fadeOutBarAnimation)
-                    isBarHighLighted=false
+                    isBarHighLighted = false
                     fadeInAnim(fadeOutBarAnimation)
                 }
                 customizeAnimation(context)
@@ -162,72 +160,32 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
         return isBarHighLighted
     }
 
-    fun unSelectHighlightedBar(highlighted: Boolean) {
-//        if (highlighted) {
-//            //list
-//            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-//            startAnimation(fadeOutBarAnimation)
-//            fadeInAnim(fadeOutBarAnimation)
-//            isBarHighLighted=false
-//            customizeAnimation(context)
-//        } else {
-            //graph
-
-
-//            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-//            startAnimation(fadeOutBarAnimation)
-//            fadeInAnim(fadeOutBarAnimation)
-//            customizeAnimation(context)
-            if (isBarHighLighted) {
-                val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-                startAnimation(fadeOutBarAnimation)
-                isBarHighLighted=false
-                fadeInAnim(fadeOutBarAnimation)
-            } else {
-                val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-                startAnimation(fadeOutBarAnimation)
-                fadeInAnim(fadeOutBarAnimation)
-                isBarHighLighted=false
-                customizeAnimation(context)
-
-            }
-//        }
+    fun unSelectHighlightedBarOnGraphClick(highlighted: Boolean) {
+        val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+        startAnimation(fadeOutBarAnimation)
+        isBarHighLighted = false
+        fadeInAnim(fadeOutBarAnimation)
 
     }
 
 
-    fun unSelectHighlightedBarFromTransactionListCell(selectBar: Boolean) {
+    fun unSelectHighlightedBarOnTransactionCellClick(selectBar: Boolean) {
         if (selectBar) {
             //list
             val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
             startAnimation(fadeOutBarAnimation)
             fadeInAnim(fadeOutBarAnimation)
-            isBarHighLighted=false
+            isBarHighLighted = false
             customizeAnimation(context)
         } else {
             val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
             startAnimation(fadeOutBarAnimation)
-            isBarHighLighted=false
+            isBarHighLighted = false
             fadeInAnim(fadeOutBarAnimation)
 
         }
 
     }
-
-
-//    fun unSelectHighlightedBar(highlight: Boolean) {
-//        if (isBarHighLighted){
-//            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-//            startAnimation(fadeOutBarAnimation)
-//            fadeInAnim(fadeOutBarAnimation)
-//        }else{
-//            val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-//            startAnimation(fadeOutBarAnimation)
-//            fadeInAnim(fadeOutBarAnimation)
-//            customizeAnimation(context)
-//
-//        }
-//    }
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(w, h, oldWidth, oldHeight)

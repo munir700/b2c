@@ -72,8 +72,8 @@ class TransactionsViewHelper(
                             "bar no " + Integer.toString(position),
                             Toast.LENGTH_SHORT
                         ).show()
-                        isCellHighlighted=false
-                        isCellHighlightedFromTransaction =false
+                        isCellHighlighted = false
+                        isCellHighlightedFromTransaction = false
 
                         transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
                             .performClick()
@@ -104,28 +104,21 @@ class TransactionsViewHelper(
                             Toast.LENGTH_SHORT
                         ).show()
                         //first remove previously selected
-                        isCellHighlighted =true
-//                        previouslySelected = position
-                        isCellHighlightedFromTransaction =false
+                        isCellHighlighted = true
+
+                        isCellHighlightedFromTransaction = false
                         transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
                             .performClick()
 
                         //now list click
-                        isCellHighlighted =true
-                        isCellHighlightedFromTransaction =true
+                        isCellHighlighted = true
+                        isCellHighlightedFromTransaction = true
                         transactionsView.rvTransactionsBarChart.smoothScrollToPosition(position)
 
                         transactionsView.rvTransactionsBarChart.getChildAt(position)
                             .performClick()
                         previouslySelected = position
 
-                        //
-
-//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-//                            .performClick()
-
-//                        transactionsView.rvTransaction.smoothScrollToPosition(position)
-//                        previouslySelected = position
                     }
 
 

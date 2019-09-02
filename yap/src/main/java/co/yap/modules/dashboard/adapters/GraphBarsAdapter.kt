@@ -50,10 +50,10 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
 //            override fun onClick(v: View?) {
 //                if (isCellHighlighted){
 ////                    list
-//                    holder.transactionBar.unSelectHighlightedBar(isCellHighlighted)
+//                    holder.transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
 //
 //                }else{
-//                    holder.transactionBar.unSelectHighlightedBar(isCellHighlighted)
+//                    holder.transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
 //
 //                    // graph
 //                }
@@ -67,18 +67,18 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
 //                    list
                     if (isCellHighlightedFromTransaction){
                         //creat
-                        holder.transactionBar.unSelectHighlightedBarFromTransactionListCell(true)
+                        holder.transactionBar.unSelectHighlightedBarOnTransactionCellClick(true)
 
                     }else{
                         //fade out
-                        holder.transactionBar.unSelectHighlightedBarFromTransactionListCell(false)
+                        holder.transactionBar.unSelectHighlightedBarOnTransactionCellClick(false)
 
                     }
 
 
 
                 }else{
-                    holder.transactionBar.unSelectHighlightedBar(isCellHighlighted)
+                    holder.transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
 
                     // graph
                 }
@@ -89,7 +89,7 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
         if (!viewHolder.transactionBar.hasFocus()) {
-            viewHolder.transactionBar.unSelectHighlightedBar(hasFocus)
+            viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
         }
     }
 
