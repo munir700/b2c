@@ -15,10 +15,6 @@ class TransactionLogicHelper(
     val context: Context,
     val viewModel: IYapHome.ViewModel
 ) {
-    init {
-
-    }
-
 
     fun loadJSONDummyList(): ArrayList<TransactionModel> {
 

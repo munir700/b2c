@@ -66,7 +66,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     private val observer = Observer<Int> {
         when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
-            viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
+        /*    viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
                 findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
             }
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
@@ -76,7 +76,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
                     )
                 )
                 activity?.finish()
-            }
+            }*/
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
                 viewModel.getDebitCards()
             }

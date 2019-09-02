@@ -89,7 +89,8 @@ project.ext {
             // Animations
             androidanimations        : 'com.daimajia.androidanimations:library:2.3@aar',
             androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar',
-            expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
+            expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
+            // coordinatorBehaviour     : 'com.zoonref:simple-view-behavior:1.0'
 
 
     ]

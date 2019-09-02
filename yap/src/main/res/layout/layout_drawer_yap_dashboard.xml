@@ -39,6 +39,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/margin_normal"
                     android:clickable="true"
+                    android:focusable="true"
                     android:onClick="@{(v) -> viewModel.handlePressOnNavigationItem(v.getId())}"
                     android:orientation="horizontal">
 
