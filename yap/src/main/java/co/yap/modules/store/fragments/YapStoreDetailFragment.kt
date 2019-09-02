@@ -10,10 +10,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.store.adaptor.YapStoreDetailAdaptor
 import co.yap.modules.store.interfaces.IYapStoreDetail
-import co.yap.modules.store.models.YapStoreData
 import co.yap.modules.store.viewmodels.YapStoreDetailViewModel
+import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.helpers.MarginItemDecoration
+import co.yap.yapcore.BaseBindingRecyclerAdapter
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
 class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
@@ -34,7 +34,7 @@ class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
         viewModel.clickEvent.observe(this, observer)
         val storeId = arguments?.getString("storeId", "")
 
-        val data: YapStoreData? = viewModel.yapStoreData.find { (it.id == storeId!!.toInt()) }
+        val data: Store? = viewModel.yapStoreData.find { (it.id == storeId!!.toInt()) }
         if (data != null) {
             viewModel.state.title = data.name
             viewModel.state.subTitle = data.desc
@@ -51,20 +51,29 @@ class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
     private fun setupRecycleView() {
         val storeAdaptor = YapStoreDetailAdaptor(viewModel.yapStoreData)
         recycler_stores.layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
-//        recycler_stores.addItemDecoration(
-//            MarginItemDecoration(
-//                resources.getDimension(R.dimen.margin_normal_large).toInt(),
-//                resources.getDimension(R.dimen.margin_large).toInt()
-//            )
-//        )
         recycler_stores.adapter = storeAdaptor
-        //storeAdaptor.setItemListener(listener)
+        storeAdaptor.setItemListener(listener)
+    }
+
+    val listener = object : BaseBindingRecyclerAdapter.OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            showToast("List item $pos clicked")
+        }
     }
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.imgStoreShopping -> {
-                showToast("Shopping Button Clicked")
+            R.id.imgCross -> {
+                showToast("Cross Button Clicked")
+            }
+            R.id.imgCheckout -> {
+                showToast("Checkout Button Clicked")
+            }
+            R.id.btnActivate -> {
+                showToast("Activate Button Clicked")
+            }
+            R.id.btnActivateMe -> {
+                showToast("Activate Button Clicked")
             }
         }
     }

@@ -10,8 +10,8 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.store.adaptor.YapStoreAdaptor
 import co.yap.modules.store.interfaces.IYapStore
-import co.yap.modules.store.models.YapStoreData
 import co.yap.modules.store.viewmodels.YapStoreViewModel
+import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.MarginItemDecoration
@@ -29,12 +29,18 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, observer)
-        setupRecycleView()
+        setObservers()
     }
 
-    private fun setupRecycleView() {
-        val storeAdaptor = YapStoreAdaptor(viewModel.yapStoreData)
+    private fun setObservers() {
+        viewModel.clickEvent.observe(this, observer)
+        viewModel.yapStoreData.observe(this, Observer {
+            setupRecycleView(it)
+        })
+    }
+
+    private fun setupRecycleView(list: MutableList<Store>) {
+        val storeAdaptor = YapStoreAdaptor(list)
         recycler_stores.layoutManager = LinearLayoutManager(context)
         recycler_stores.addItemDecoration(
             MarginItemDecoration(
@@ -49,23 +55,22 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
     val listener = object : BaseBindingRecyclerAdapter.OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             val action =
-                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((data as YapStoreData).id.toString())
+                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((data as Store).id.toString())
             findNavController().navigate(action)
         }
     }
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.imgCross -> {
-                showToast("imgCross Button Clicked")
-            }
-            R.id.imgCheckout -> {
-                showToast("imgCheckout Button Clicked")
-            }
-            R.id.btnActivate -> {
-                showToast("btnActivate Button Clicked")
+            R.id.imgStoreShopping -> {
+                showToast("Shopping Button Clicked")
             }
         }
+    }
+
+    override fun onDestroyView() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroyView()
     }
 
 }

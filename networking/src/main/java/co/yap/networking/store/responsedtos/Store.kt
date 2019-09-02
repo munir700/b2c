@@ -1,9 +1,6 @@
-package co.yap.modules.store.models
+package co.yap.networking.store.responsedtos
 
-import androidx.annotation.Keep
-
-@Keep
-data class YapStoreData(
+data class Store(
     var id: Int,
     var name: String,
     var desc: String,

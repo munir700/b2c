@@ -109,8 +109,8 @@
                 android:layout_height="@dimen/_22sdp"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                app:btn_enable="true"
                 android:paddingTop="@dimen/_10sdp"
+                app:btn_enable="true"
                 app:layout_constraintLeft_toLeftOf="@+id/tvStoreDesc"
                 app:layout_constraintTop_toBottomOf="@+id/tvStoreDesc"
                 app:text="@{Strings.common_button_activate}"
@@ -139,6 +139,7 @@
                 android:layout_marginStart="@dimen/margin_normal"
                 android:layout_marginTop="@dimen/text_content_margin"
                 android:dividerHeight="2dp"
+                android:nestedScrollingEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvContentTitle" />

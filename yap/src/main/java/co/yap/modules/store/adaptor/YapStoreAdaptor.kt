@@ -3,12 +3,12 @@ package co.yap.modules.store.adaptor
 import androidx.databinding.ViewDataBinding
 import co.yap.R
 import co.yap.databinding.ItemYapStoreBinding
-import co.yap.modules.store.models.YapStoreData
 import co.yap.modules.store.viewholder.YapStoreItemViewHolder
+import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class YapStoreAdaptor(private val list: MutableList<YapStoreData>) :
-    BaseBindingRecyclerAdapter<YapStoreData, YapStoreItemViewHolder>(list) {
+class YapStoreAdaptor(private val list: MutableList<Store>) :
+    BaseBindingRecyclerAdapter<Store, YapStoreItemViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_yap_store
 
