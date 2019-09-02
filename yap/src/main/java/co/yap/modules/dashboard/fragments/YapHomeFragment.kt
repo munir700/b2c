@@ -13,9 +13,9 @@ import co.yap.modules.dashboard.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.models.Notification
+import co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
 import co.yap.modules.onboarding.constants.Constants
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.managers.MyUserManager
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -28,6 +28,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     NotificationItemClickListener {
 
     private lateinit var mAdapter: NotificationAdapter
+    private lateinit var parentViewModel: YapDashBoardViewModel
     private var notificationsList: ArrayList<Notification> = ArrayList()
     override lateinit var transactionViewHelper: TransactionsViewHelper
 
@@ -58,11 +59,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
         })
+
+
+        parentViewModel =
+            activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }!!
+
+        parentViewModel.getAccountInfoSuccess.observe(this, Observer { value ->
+            when (value) {
+                true -> checkUserStatus()
+            }
+
+        })
     }
 
 
     private fun checkUserStatus() {
-        MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
+        //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
                 addCompleteVerificationNotification()
@@ -72,10 +84,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
             Constants.USER_STATUS_MEETING_SCHEDULED -> {
                 notificationsList.clear()
+                mAdapter = NotificationAdapter(notificationsList, requireContext(), this)
                 mAdapter.notifyDataSetChanged()
             }
             Constants.USER_STATUS_CARD_ACTIVATED -> {
                 notificationsList.clear()
+                mAdapter = NotificationAdapter(notificationsList, requireContext(), this)
                 mAdapter.notifyDataSetChanged()
             }
         }
@@ -112,7 +126,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         notificationsList.add(
             Notification(
                 "Complete Verification",
-                "Nada, please scan your Emirates ID",
+                "Complete verification to activate your account",
                 "",
                 Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION,
                 "",
@@ -157,6 +171,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         super.onResume()
         if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
             notificationsList.clear()
+            mAdapter = NotificationAdapter(notificationsList, requireContext(), this)
             mAdapter.notifyDataSetChanged()
         }
     }
@@ -166,7 +181,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
             Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION -> {
                 val action =
-                    YapHomeFragmentDirections.actionYapHomeToDocumentsDashboardActivity("Hassan")
+                    YapHomeFragmentDirections.actionYapHomeToDocumentsDashboardActivity(
+                        parentViewModel.state.firstName
+                    )
                 findNavController().navigate(action)
             }
 

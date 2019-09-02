@@ -19,7 +19,6 @@ class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IY
 
     private val cardsRepository: CardsRepository = CardsRepository
 
-
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }

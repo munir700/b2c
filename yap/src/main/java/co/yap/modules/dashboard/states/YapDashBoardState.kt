@@ -23,6 +23,14 @@ class YapDashBoardState : BaseState(), IYapDashboard.State {
         }
 
     @get:Bindable
+    override var firstName: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.firstName)
+        }
+
+
+    @get:Bindable
     override var accountNo: String = ""
         set(value) {
             field = value

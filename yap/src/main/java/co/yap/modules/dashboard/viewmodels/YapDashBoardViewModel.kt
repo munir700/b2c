@@ -1,9 +1,10 @@
 package co.yap.modules.dashboard.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.interfaces.IYapDashboard
 import co.yap.modules.dashboard.states.YapDashBoardState
-import co.yap.networking.cards.CardsRepository
+import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -14,6 +15,8 @@ import co.yap.yapcore.managers.MyUserManager
 class YapDashBoardViewModel(application: Application) :
     BaseViewModel<IYapDashboard.State>(application), IYapDashboard.ViewModel {
 
+
+    override val getAccountInfoSuccess: MutableLiveData<Boolean> = MutableLiveData()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapDashBoardState = YapDashBoardState()
     private val customerRepository: CustomersRepository = CustomersRepository
@@ -41,9 +44,11 @@ class YapDashBoardViewModel(application: Application) :
 
     private fun populateState() {
         MyUserManager.user?.let {
-            state.accountNo=MyUserManager.user!!.accountNo
-            state.ibanNo=MyUserManager.user!!.iban
-            state.fullName=MyUserManager.user!!.customer.firstName +" " + MyUserManager.user!!.customer.firstName
+            state.accountNo = MyUserManager.user!!.accountNo
+            state.ibanNo = MyUserManager.user!!.iban
+            state.fullName =
+                MyUserManager.user!!.customer.firstName + " " + MyUserManager.user!!.customer.firstName
+            state.firstName = MyUserManager.user!!.customer.firstName
         }
     }
 
@@ -53,7 +58,15 @@ class YapDashBoardViewModel(application: Application) :
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
-//                    clickEvent.setValue(EVENT_GET_ACCOUNT_INFO_SUCCESS)
+                    when (MyUserManager.user?.notificationStatuses) {
+                        Constants.USER_STATUS_ON_BOARDED -> {
+                            getAccountInfoSuccess.value = true
+                        }
+                        Constants.USER_STATUS_MEETING_SUCCESS -> {
+                            getAccountInfoSuccess.value = true
+                        }
+                    }
+
                     populateState()
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
