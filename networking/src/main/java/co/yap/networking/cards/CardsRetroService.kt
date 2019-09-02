@@ -2,6 +2,7 @@ package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
@@ -20,4 +21,8 @@ interface CardsRetroService {
     //    Order Card
     @POST(CardsRepository.URL_ORDER_CARD)
     suspend fun orderCard(@Body orderCardRequest: OrderCardRequest): Response<ApiResponse>
+
+    // get card balance
+    @GET(CardsRepository.URL_GET_DEBIT_CARD_BALANCE)
+    suspend fun getAccountBalanceRequest(): Response<DebitCardBalanceResponseDTO>
 }

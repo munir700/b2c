@@ -5,14 +5,18 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 object CardsRepository : BaseRepository(), CardsApi {
+
     const val URL_CREATE_PIN = "/cards/api/cards/create-pin/{card-serial-number}"
     const val URL_GET_CARDS = "/cards/api/cards"
     const val URL_ORDER_CARD = "/cards/api/cards/b2c/physical"
+    const val URL_GET_DEBIT_CARD_BALANCE = "cards/api/cards/debit/balance"
+
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
     override suspend fun createCardPin(
@@ -29,5 +33,8 @@ object CardsRepository : BaseRepository(), CardsApi {
         orderCardRequest: OrderCardRequest
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.orderCard(orderCardRequest) })
+
+    override suspend fun getAccountBalanceRequest(): RetroApiResponse<DebitCardBalanceResponseDTO> =
+        AuthRepository.executeSafely(call = { API.getAccountBalanceRequest() })
 
 }

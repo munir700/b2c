@@ -43,4 +43,12 @@ class YapDashBoardState : BaseState(), IYapDashboard.State {
             field = value
             notifyPropertyChanged(BR.ibanNo)
         }
+
+    @get:Bindable
+    override var availableBalance: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.availableBalance)
+        }
+
 }

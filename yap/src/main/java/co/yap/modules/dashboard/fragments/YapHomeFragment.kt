@@ -68,7 +68,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             when (value) {
                 true -> checkUserStatus()
             }
+        })
 
+        parentViewModel.getAccountBalanceSuccess.observe(this, Observer { value ->
+            when (value) {
+                true -> viewModel.state.availableBalance = parentViewModel.state.availableBalance
+            }
         })
     }
 
