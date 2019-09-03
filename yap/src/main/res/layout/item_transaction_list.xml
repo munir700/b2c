@@ -41,7 +41,7 @@
         android:layout_marginStart="@dimen/margin_large"/>
 
     <TextView
-        android:id="@+id/tvTransactionTime"
+        android:id="@+id/tvTransactionTimeAndCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_extra_small"
@@ -52,29 +52,6 @@
         tools:text="18:25"
         />
 
-    <TextView
-        android:id="@+id/tvDot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/greyNormalDark"
-        tools:text="."
-        style="@style/SmallGrey"
-        android:layout_marginStart="@dimen/margin_extra_small"
-        app:layout_constraintTop_toTopOf="@+id/tvTransactionTime"
-        app:layout_constraintLeft_toRightOf="@+id/tvTransactionTime"
-        />
-
-    <TextView
-        android:id="@+id/tvTransactionCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/SmallGrey"
-        android:textColor="@color/greyNormalDark"
-        android:layout_marginStart="@dimen/margin_extra_small"
-        app:layout_constraintLeft_toRightOf="@+id/tvDot"
-        app:layout_constraintTop_toTopOf="@+id/tvTransactionTime"
-        tools:text="Payment"
-        />
 
     <TextView
         android:id="@+id/tvTransactionAmount"
@@ -94,14 +71,14 @@
         tools:text="AED"
         android:textColor="@color/greyNormalDark"
         app:layout_constraintRight_toRightOf="@+id/tvTransactionAmount"
-       app:layout_constraintTop_toTopOf="@+id/tvTransactionCategory"
+       app:layout_constraintTop_toTopOf="@+id/tvTransactionTimeAndCategory"
         />
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/divider"
         app:layout_constraintRight_toRightOf="@+id/tvCurrency"
-        app:layout_constraintLeft_toLeftOf="@+id/tvTransactionTime"
+        app:layout_constraintLeft_toLeftOf="@+id/tvTransactionTimeAndCategory"
         app:layout_constraintTop_toBottomOf="@+id/ivTransaction"
         android:layout_marginTop="@dimen/margin_normal"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -51,6 +51,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.EVENT_SET_CARD_PIN -> {
                     findNavController().navigate(R.id.action_yapHome_to_setCardPinWelcomeActivity)
                 }
+                R.id.ivMenu -> parentView?.toggleDrawer()
             }
         })
 
