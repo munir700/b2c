@@ -22,8 +22,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
     override val repository: StoresRepository = StoresRepository
     override var yapStoreData: MutableLiveData<MutableList<Store>> = MutableLiveData()
 
-    override fun onCreate() {
-        super.onCreate()
+    init {
         loadYapStores(2)
     }
 
@@ -41,11 +40,13 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
                     is RetroApiResponse.Success -> {
                         //Assume sample response
                         yapStoreData.value = getDummyList()
+                        state.storesList = getDummyList()
                         response.data
                     }
                     //Actual Line is RetroApiResponse.Error -> state.toast = response.error.message
                     is RetroApiResponse.Error -> {
                         yapStoreData.value = getDummyList()
+                        state.storesList = getDummyList()
                         response.error.message
                     }
                 }

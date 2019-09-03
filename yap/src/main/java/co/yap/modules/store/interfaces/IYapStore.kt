@@ -7,7 +7,9 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IYapStore {
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var storesList: MutableList<Store>
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent

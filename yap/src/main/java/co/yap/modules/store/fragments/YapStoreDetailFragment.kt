@@ -1,9 +1,12 @@
 package co.yap.modules.store.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
@@ -25,9 +28,19 @@ class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
     override val viewModel: IYapStoreDetail.ViewModel
         get() = ViewModelProviders.of(this).get(YapStoreDetailViewModel::class.java)
 
-    override var testValue: String
-        get() = "test value"
-        set(value) {}
+    override var testValue: String = "test value"
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,6 +77,7 @@ class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgCross -> {
+                findNavController().navigateUp()
                 showToast("Cross Button Clicked")
             }
             R.id.imgCheckout -> {

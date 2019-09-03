@@ -17,6 +17,10 @@
         style="@style/CardViewLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginBottom="@dimen/margin_normal"
         android:background="@color/white"
         android:gravity="center_vertical">
 
@@ -31,11 +35,12 @@
                 android:background="@color/light_grey"
                 android:backgroundTint="@color/light_grey"
                 android:contentDescription="@string/empty_string"
+                android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:src="@{viewModel.storeData.image}"
-                tools:srcCompat="@drawable/yap_card_basic_new" />
+                tools:srcCompat="@drawable/ic_store_b2b" />
 
             <ImageView
                 android:id="@+id/imgStoreType"
@@ -49,7 +54,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgStoreCover"
                 app:src="@{viewModel.storeData.storeIcon}"
-                tools:srcCompat="@drawable/ic_tick" />
+                tools:srcCompat="@drawable/ic_young_smile" />
 
             <TextView
                 android:id="@+id/tvStoreName"

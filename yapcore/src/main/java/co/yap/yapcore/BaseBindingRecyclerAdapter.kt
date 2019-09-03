@@ -47,7 +47,7 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
         return list.size
     }
 
-    protected fun setList(list: List<T>) {
+    fun setList(list: List<T>) {
         this.list.clear()
         this.list.addAll(list)
         notifyDataSetChanged()
