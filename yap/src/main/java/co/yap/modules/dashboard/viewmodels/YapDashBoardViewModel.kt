@@ -48,7 +48,7 @@ class YapDashBoardViewModel(application: Application) :
             state.accountNo = MyUserManager.user!!.accountNo
             state.ibanNo = MyUserManager.user!!.iban
             state.fullName =
-                MyUserManager.user!!.customer.firstName + " " + MyUserManager.user!!.customer.firstName
+                MyUserManager.user!!.customer.firstName + " " + MyUserManager.user!!.customer.lastName
             state.firstName = MyUserManager.user!!.customer.firstName
         }
     }
