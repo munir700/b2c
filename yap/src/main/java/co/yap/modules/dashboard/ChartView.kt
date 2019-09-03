@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
@@ -15,10 +16,12 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     View.OnTouchListener, View.OnFocusChangeListener {
 
 
-    private var btnWeight: Int = 26
-    private var btnHeight: Int = 10
+    private var barWeight: Int = 26
+    private var barHeight: Int = 0
+    private var minBarHeight: Int = 0
+    private var maxBarHeight: Int = 100
     private var roundRadius: Int = 7
-    private var btnRadius: Int = 0
+    private var barRadius: Int = 0
     private var seletedColor: Int = 0
     private var isBarHighLighted: Boolean = false
     private var paintShader: Shader? = null
@@ -113,12 +116,12 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     @SuppressLint("ResourceType")
     protected override fun onDraw(canvas: Canvas) {
 
-        rectF.set(0f, 0f, btnWeight.toFloat(), btnHeight.toFloat())
+        rectF.set(0f, 0f, barWeight.toFloat(), barHeight.toFloat())
         canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
     }
 
     protected override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        setMeasuredDimension(btnWeight, btnHeight)
+        setMeasuredDimension(barWeight, barHeight)
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -152,17 +155,11 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
 
     fun setBarHeight(height: Double) {
-//        if (height > 1) {
-        btnHeight = (btnHeight + height.roundToInt())
-//        } else {
-//            btnHeight = (btnHeight+ height.roundToInt())  * 10
-//        }
-        // need to work on fixing height
+        barHeight = ( height.toInt())
+        Log.i("barHeight",height.toString()+ " , "+ barHeight.toString())
+
     }
 
-    fun getHighLightedBars(): Boolean {
-        return isBarHighLighted
-    }
 
     fun unSelectHighlightedBarOnGraphClick(highlighted: Boolean) {
         fadeOutBarAnimation()
@@ -181,8 +178,8 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
         super.onSizeChanged(w, h, oldWidth, oldHeight)
-        btnWeight = w
-        btnHeight = h
-        btnRadius = btnWeight / 2
+        barWeight = w
+        barHeight = h
+        barRadius = barWeight / 2
     }
 }
