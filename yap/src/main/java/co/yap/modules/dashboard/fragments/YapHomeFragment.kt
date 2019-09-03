@@ -201,6 +201,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         parentViewModel.state.firstName
                     )
                 findNavController().navigate(action)
+                activity?.finish()
             }
 
         }
