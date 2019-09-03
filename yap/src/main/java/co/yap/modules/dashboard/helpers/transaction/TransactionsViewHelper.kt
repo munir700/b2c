@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.OrientationHelper
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter.Companion.isCellHighlighted
@@ -32,7 +31,7 @@ class TransactionsViewHelper(
         setOnGraphBarClickListeners()
         setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
-        autoScrollTransactionsOnGraphScroll()
+//        autoScrollTransactionsOnGraphScroll()
     }
 
     private fun setUpTransactionsListRecyclerView() {
@@ -68,6 +67,34 @@ class TransactionsViewHelper(
             RecyclerTouchListener(
                 transactionContext, transactionsView.rvTransactionsBarChart,
                 object : RecyclerTouchListener.ClickListener {
+                    override fun onItemTouchEvent(view: View?, position: Int) {
+                        Log.i("positionTouch", "onInterceptTouchEvent " + position)
+//                        isCellHighlighted = true
+//                        isCellHighlightedFromTransaction = false
+//                        transactionsView.rvTransaction.getChildAt(previouslySelected)
+//                            .performClick()
+//
+//                        //now list click
+//                        isCellHighlighted = true
+//                        isCellHighlightedFromTransaction = true
+//                        transactionsView.rvTransaction.smoothScrollToPosition(
+//                            position
+//                        )
+//                        transactionsView.rvTransaction.getChildAt(position )
+//                            .performClick()
+//                        previouslySelected = position
+
+                        isCellHighlighted = false
+                        isCellHighlightedFromTransaction = false
+
+                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+                            .performClick()
+
+                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+                        previouslySelected = position
+
+                    }
+
                     override fun onLongClick(view: View?, position: Int) {
 
                     }
@@ -87,9 +114,8 @@ class TransactionsViewHelper(
 
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         previouslySelected = position
+                        Log.i("positionTouch", position.toString())
                     }
-
-
                 })
         )
     }
@@ -100,6 +126,11 @@ class TransactionsViewHelper(
             RecyclerTouchListener(
                 transactionContext, transactionsView.rvTransaction,
                 object : RecyclerTouchListener.ClickListener {
+                    override fun onItemTouchEvent(view: View?, position: Int) {
+                        Log.i("positionTouch", "onInterceptTouchEvent")
+
+                    }
+
                     override fun onLongClick(view: View?, position: Int) {
 
                     }
@@ -153,14 +184,13 @@ class TransactionsViewHelper(
 
                             visibleitems = layoutManager.findLastCompletelyVisibleItemPosition() + 1
 
-                        }
-                        else{
+                        } else {
                             visibleitems = layoutManager.findLastCompletelyVisibleItemPosition() - 1
 
                         }
                         Log.i("visibleitems", visibleitems.toString())
                         Log.i("visibleitems", "totalItemsInView " + totalItemsInView.toString())
-                     }
+                    }
                 }
 
                 verticalOffSet += dy
@@ -187,7 +217,7 @@ class TransactionsViewHelper(
                             isCellHighlightedFromTransaction = true
 //                            transactionsView.rvTransactionsBarChart.smoothScrollBy(dx, dy)
 //                            if (currentPosition >0) {
-                                transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
+                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
                                 currentPosition - 1
                             )
                             transactionsView.rvTransactionsBarChart.getChildAt(currentPosition - 1)
@@ -256,7 +286,7 @@ class TransactionsViewHelper(
                             //now list click
                             isCellHighlighted = true
                             isCellHighlightedFromTransaction = true
-                             transactionsView.rvTransaction.smoothScrollToPosition(
+                            transactionsView.rvTransaction.smoothScrollToPosition(
                                 currentPosition - 1
                             )
                             transactionsView.rvTransaction.getChildAt(currentPosition - 1)
