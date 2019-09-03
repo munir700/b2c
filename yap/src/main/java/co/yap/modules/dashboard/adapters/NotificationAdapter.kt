@@ -43,7 +43,11 @@ class NotificationAdapter( val listItems: ArrayList<Notification>, val context: 
 
         init {
             cvNotification.setOnClickListener {
-                clickListener.onClick(listItems[adapterPosition])
+                try {
+                    clickListener.onClick(listItems[adapterPosition])
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
             }
         }
     }

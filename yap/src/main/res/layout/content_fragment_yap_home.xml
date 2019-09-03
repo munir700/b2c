@@ -31,7 +31,10 @@
 
 
             <!--     Transaction Graph Center       -->
-            <include layout="@layout/view_graph" />
+            <include
+                android:id="@+id/vGraph"
+                layout="@layout/view_graph"
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:id="@+id/rlTransactionHeader"
@@ -87,7 +90,18 @@
                 android:id="@+id/rvTransaction"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 tools:listitem="@layout/item_transaction_list" />
+
+            <ImageView
+                android:id="@+id/ivNoTransaction"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:src="@drawable/ic_no_transaction"/>
+
         </LinearLayout>
 <!--    </androidx.core.widget.NestedScrollView>-->
 
