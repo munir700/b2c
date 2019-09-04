@@ -21,6 +21,12 @@ class RecyclerTouchListener(
         gestureDetector =
             GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
                 override fun onSingleTapUp(e: MotionEvent): Boolean {
+//                    val child = recyclerView.findChildViewUnder(e.getX(), e.getY())
+//                    if (child != null && clickListener != null  ){
+////                        clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
+//                        clickListener!!.onItemTouchEvent(child, recyclerView.getChildAdapterPosition(child!!))
+//                    }
+
                     return true
                 }
 
@@ -40,7 +46,8 @@ class RecyclerTouchListener(
 //        Log.i("positionTouch","onInterceptTouchEvent")
 
          val child = rv.findChildViewUnder(e.getX(), e.getY())
-        if (child != null && clickListener != null ){
+        if (child != null && clickListener != null  ){
+//            clickListener.onClick(child, rv.getChildAdapterPosition(child))
             clickListener!!.onItemTouchEvent(child, rv.getChildAdapterPosition(child!!))
         }
 
