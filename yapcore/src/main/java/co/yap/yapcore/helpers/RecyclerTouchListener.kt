@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class RecyclerTouchListener(
-    context: Context,
+    context: Context,val checkTouch:Boolean,
     recyclerView: RecyclerView,
     private val clickListener: ClickListener?
 ) : RecyclerView.OnItemTouchListener {
@@ -48,7 +48,7 @@ class RecyclerTouchListener(
         if (child != null && clickListener != null) {
 //            clickListener.onClick(child, rv.getChildAdapterPosition(child))
             clickListener!!.onItemTouchEvent(child, rv.getChildAdapterPosition(child!!))
-            return true
+            return checkTouch
         }
 
 //        if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
