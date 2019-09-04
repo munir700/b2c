@@ -80,7 +80,12 @@ class TransactionsViewHelper(
                         transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
                             .performClick()
                         horizontalScrollPosition = position
+//
+                        isCellHighlighted = true
+                        isCellHighlightedFromTransaction = true
 
+                        transactionsView.rvTransactionsBarChart.getChildAt(position)
+                            .performClick()
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         previouslySelected = position
 
@@ -93,15 +98,15 @@ class TransactionsViewHelper(
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onClick(view: View, position: Int) {
 
-                        isCellHighlighted = false
-                        isCellHighlightedFromTransaction = false
-
-                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-                            .performClick()
-
-                        transactionsView.rvTransaction.smoothScrollToPosition(position)
-                        previouslySelected = position
-                        Log.i("positionTouch", position.toString())
+//                        isCellHighlighted = false
+//                        isCellHighlightedFromTransaction = false
+//
+//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+//                            .performClick()
+//
+//                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+//                        previouslySelected = position
+//                        Log.i("positionTouch", position.toString())
                     }
                 })
         )
@@ -223,37 +228,30 @@ class TransactionsViewHelper(
 
         verticalOffSet1 += dy
 
-        val currFirstPositionView: View? =
-            recyclerView.findChildViewUnder(dx.toFloat(), dy.toFloat())
-        if (currFirstPositionView != null) {
+        if (previouslySelected != horizontalScrollPosition) {
 
-            val currentPosition: Int = visibleitems1
+            //first remove previously clicked item
+            isCellHighlighted = true
+            isCellHighlightedFromTransaction = false
+            transactionsView.rvTransactionsBarChart.getChildAt(
+                previouslySelected
+            )
+                .performClick()
 
-            if (currentPosition > 0) {
-                if (previouslySelected != currentPosition) {
-
-                    //first remove previously clicked item
-                    isCellHighlighted = true
-                    isCellHighlightedFromTransaction = false
-                    transactionsView.rvTransactionsBarChart.getChildAt(
-                        previouslySelected
-                    )
-                        .performClick()
-
-                    //now list click
-                    isCellHighlighted = true
-                    isCellHighlightedFromTransaction = true
-                    //                            if (currentPosition >0) {
-                    transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
-                        horizontalScrollPosition
-                    )
-                    transactionsView.rvTransactionsBarChart.getChildAt(horizontalScrollPosition)
-                        .performClick()
-                    previouslySelected = horizontalScrollPosition
-                }
-
-            }
+            //now list click
+            isCellHighlighted = true
+            isCellHighlightedFromTransaction = true
+            //                            if (currentPosition >0) {
+//                    transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
+//                        horizontalScrollPosition
+//                    )
+            transactionsView.rvTransactionsBarChart.getChildAt(horizontalScrollPosition)
+                .performClick()
+            previouslySelected = horizontalScrollPosition
         }
+
+//            }
+//        }
     }
 
     private fun scrollBarsFromListTouch(
