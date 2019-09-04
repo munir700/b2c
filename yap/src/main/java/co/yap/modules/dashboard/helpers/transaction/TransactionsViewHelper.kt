@@ -35,6 +35,10 @@ class TransactionsViewHelper(
     var horizontalScrollPosition: Int = 0
 
     init {
+        previouslySelected=0
+        var isCellHighlighted: Boolean = false
+        var isCellHighlightedFromTransaction: Boolean = false
+        
         setUpTransactionsListRecyclerView()
         setUpGraphRecyclerView()
         setOnGraphBarClickListeners()
@@ -192,19 +196,19 @@ class TransactionsViewHelper(
 
                     override fun onClick(view: View, position: Int) {
                         //first remove previously selected
-                        isCellHighlighted = true
-
-                        isCellHighlightedFromTransaction = false
-                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-                            .performClick()
-
-                        //now list click
-                        isCellHighlighted = true
-                        isCellHighlightedFromTransaction = true
-                        transactionsView.rvTransactionsBarChart.smoothScrollToPosition(position)
-
-                        transactionsView.rvTransactionsBarChart.getChildAt(position).performClick()
-                        previouslySelected = position
+//                        isCellHighlighted = true
+//
+//                        isCellHighlightedFromTransaction = false
+//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+//                            .performClick()
+//
+//                        //now list click
+//                        isCellHighlighted = true
+//                        isCellHighlightedFromTransaction = true
+//                        transactionsView.rvTransactionsBarChart.smoothScrollToPosition(position)
+//
+//                        transactionsView.rvTransactionsBarChart.getChildAt(position).performClick()
+//                        previouslySelected = position
 
                     }
                 })
