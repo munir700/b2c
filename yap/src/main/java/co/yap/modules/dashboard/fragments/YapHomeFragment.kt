@@ -18,6 +18,7 @@ import co.yap.modules.dashboard.models.Notification
 import co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -200,7 +201,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun setAvailableBalance(balance : String) {
         try {
-            val ss1 = SpannableString(balance)
+            val ss1 = SpannableString(Utils.getFormattedCurrency(balance))
             if (ss1.isNotEmpty() && ss1.contains(".")) {
                 val balanceAfterDot = ss1.split(".")
                 ss1.setSpan(
