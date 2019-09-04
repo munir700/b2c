@@ -83,5 +83,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         )
     }
 
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 
 }

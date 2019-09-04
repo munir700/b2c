@@ -42,12 +42,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        transactionViewHelper = TransactionsViewHelper(
-            requireContext(),
-            view,
-            viewModel
-        )
         setObservers()
     }
 
@@ -83,21 +77,38 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
         when (MyUserManager.user?.notificationStatuses) {
             Constants.USER_STATUS_ON_BOARDED -> {
+                ivNoTransaction.visibility = View.VISIBLE
                 addCompleteVerificationNotification()
             }
             Constants.USER_STATUS_MEETING_SUCCESS -> {
+                ivNoTransaction.visibility = View.VISIBLE
                 addSetPinNotification()
             }
             Constants.USER_STATUS_MEETING_SCHEDULED -> {
+                ivNoTransaction.visibility = View.VISIBLE
                 notificationsList.clear()
                 mAdapter = NotificationAdapter(notificationsList, requireContext(), this)
                 mAdapter.notifyDataSetChanged()
             }
             Constants.USER_STATUS_CARD_ACTIVATED -> {
+                showTransactionsAndGraph()
                 notificationsList.clear()
                 mAdapter = NotificationAdapter(notificationsList, requireContext(), this)
                 mAdapter.notifyDataSetChanged()
             }
+        }
+    }
+
+    private fun showTransactionsAndGraph() {
+        ivNoTransaction.visibility = View.GONE
+        rvTransaction.visibility = View.VISIBLE
+        vGraph.visibility = View.VISIBLE
+        view?.let {
+            transactionViewHelper = TransactionsViewHelper(
+                requireContext(),
+                it,
+                viewModel
+            )
         }
     }
 
@@ -177,9 +188,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onResume() {
         super.onResume()
         if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
-            notificationsList.clear()
-            mAdapter = NotificationAdapter(notificationsList, requireContext(), this)
-            mAdapter.notifyDataSetChanged()
+           checkUserStatus()
         }
     }
 
@@ -192,6 +201,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         parentViewModel.state.firstName
                     )
                 findNavController().navigate(action)
+                activity?.finish()
             }
 
         }

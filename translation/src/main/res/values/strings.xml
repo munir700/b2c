@@ -218,5 +218,7 @@
     <!-- Create new Passcode screen -->
     <string name="screen_create_new_passcode_button_text">Create new passcode</string>
 
+    <!--    fragment home transaction-->
+    <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
 
 </resources>

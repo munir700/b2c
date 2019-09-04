@@ -7,6 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
+import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
@@ -18,7 +19,7 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
 
-class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
+class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel>() {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 

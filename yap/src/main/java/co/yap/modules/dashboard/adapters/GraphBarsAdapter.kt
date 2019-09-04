@@ -14,8 +14,7 @@ import kotlinx.android.synthetic.main.item_bar_chart.view.*
 
 class GraphBarsAdapter(
     private val listItems: ArrayList<TransactionModel>,
-    val context: Context,
-    var tooltip: Tooltip?
+    val context: Context
 ) :
     RecyclerView.Adapter<GraphBarsAdapter.ViewHolder>(), View.OnFocusChangeListener {
     lateinit var viewHolder: ViewHolder
@@ -59,28 +58,6 @@ class GraphBarsAdapter(
         if (position == 0) {
             holder.transactionBar.OnBarItemTouchEvent()
         }
-    }
-
-    private fun addTooltip(view: View) {
-        // val tooltip = transactionsView.findViewById<TooltipView>(R.id.tooltip)
-        view.let {
-            tooltip?.dismiss()
-            tooltip = Tooltip.Builder(context)
-                .anchor(it, 0, 0, false)
-                // .anchor(Int, Int)
-                .text("Hello from dynamic")
-                // .styleId(Int)
-                .maxWidth(400)
-                .arrow(true)
-                .floatingAnimation(Tooltip.Animation.DEFAULT)
-                // .closePolicy(ClosePolicy.TOUCH_NONE)
-                // .showDuration(5000)
-                // .fadeDuration(1000)
-                .overlay(true)
-                .create()
-            tooltip?.show(it, Tooltip.Gravity.TOP, true)
-        }
-
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
