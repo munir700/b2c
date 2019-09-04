@@ -9,6 +9,7 @@ interface IYapStore {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        fun handleClickIOnView(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

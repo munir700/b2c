@@ -2,12 +2,13 @@ package co.yap.modules.dashboard.helpers.transaction
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.R
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter.Companion.isCellHighlighted
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter.Companion.isCellHighlightedFromTransaction
@@ -15,16 +16,24 @@ import co.yap.modules.dashboard.adapters.GraphBarsAdapter.Companion.previouslySe
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.yapcore.helpers.RecyclerTouchListener
+import com.skydoves.balloon.Balloon
+import com.skydoves.balloon.BalloonAnimation
+import com.skydoves.balloon.OnBalloonClickListener
+import com.skydoves.balloon.createBalloon
+import it.sephiroth.android.library.xtooltip.ClosePolicy
+import it.sephiroth.android.library.xtooltip.Tooltip
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
 
 
 class TransactionsViewHelper(
-    val transactionContext: Context, val transactionsView: View,
+    val context: Context, val transactionsView: View,
     val viewModel: IYapHome.ViewModel
 ) {
-    init {
+    var tooltip: Tooltip? = null
+    lateinit var balloon: Balloon
 
+    init {
         setUpTransactionsListRecyclerView()
         setUpGraphRecyclerView()
 
@@ -32,15 +41,64 @@ class TransactionsViewHelper(
         setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
 //        autoScrollTransactionsOnGraphScroll()
+
+        initBalloon()
+    }
+
+    private fun initBalloon() {
+        balloon = createBalloon(context) {
+            setArrowSize(10)
+            setWidthRatio(0.5f)
+            setHeight(65)
+            // setArrowPosition(0.7f)
+            setCornerRadius(4f)
+            setAlpha(0.9f)
+            setText("You can access your profile from on now.")
+            setTextColorResource(R.color.white)
+            setBackgroundColorResource(R.color.colorPrimary)
+            setDismissWhenClicked(true)
+            setBalloonAnimation(BalloonAnimation.FADE)
+            setLifecycleOwner(context as LifecycleOwner)
+        }
+    }
+
+    private fun addTooltip(view: View?) {
+        view?.let {
+            tooltip?.dismiss()
+            tooltip = Tooltip.Builder(context)
+                // .anchor(view, 0, 0, true)
+                .anchor(500, 500)
+                .text("Hello from dynamic")
+                // .styleId(Int)
+                .maxWidth(400)
+                .arrow(true)
+                .floatingAnimation(Tooltip.Animation.DEFAULT)
+                .closePolicy(ClosePolicy.TOUCH_NONE)
+                // .showDuration(5000)
+                // .fadeDuration(1000)
+                .overlay(true)
+                .create()
+            tooltip?.show(view, Tooltip.Gravity.TOP, true)
+        }
+
+
+    }
+
+    private fun showTooltip(view: View?) {
+        view?.let {
+            // tooltip?.show(view, Tooltip.Gravity.TOP, true)
+            balloon.dismiss()
+            balloon.show(view)
+        }
     }
 
     private fun setUpTransactionsListRecyclerView() {
         transactionsView.rvTransaction.setHasFixedSize(true)
-        val layoutManager = LinearLayoutManager(transactionContext)
+        val layoutManager = LinearLayoutManager(context)
         transactionsView.rvTransaction.layoutManager = layoutManager
         transactionsView.rvTransaction.adapter =
             TransactionsHeaderAdapter(
-                transactionContext,
+                context,
                 viewModel.transactionLogicHelper.loadJSONDummyList()
             )
     }
@@ -49,14 +107,13 @@ class TransactionsViewHelper(
         transactionsView.rvTransactionsBarChart.adapter =
             GraphBarsAdapter(
                 viewModel.transactionLogicHelper.loadJSONDummyList(),
-                transactionContext
+                context,
+                tooltip
             )
-        transactionsView.rvTransactionsBarChart.setLayoutManager(
-            LinearLayoutManager(
-                transactionContext,
-                LinearLayoutManager.HORIZONTAL,
-                true
-            )
+        transactionsView.rvTransactionsBarChart.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            true
         )
     }
 
@@ -65,10 +122,9 @@ class TransactionsViewHelper(
 
         transactionsView.rvTransactionsBarChart.addOnItemTouchListener(
             RecyclerTouchListener(
-                transactionContext, transactionsView.rvTransactionsBarChart,
+                context, transactionsView.rvTransactionsBarChart,
                 object : RecyclerTouchListener.ClickListener {
                     override fun onItemTouchEvent(view: View?, position: Int) {
-                        Log.i("positionTouch", "onInterceptTouchEvent " + position)
 //                        isCellHighlighted = true
 //                        isCellHighlightedFromTransaction = false
 //                        transactionsView.rvTransaction.getChildAt(previouslySelected)
@@ -83,6 +139,8 @@ class TransactionsViewHelper(
 //                        transactionsView.rvTransaction.getChildAt(position )
 //                            .performClick()
 //                        previouslySelected = position
+
+                        showTooltip(view)
 
                         isCellHighlighted = false
                         isCellHighlightedFromTransaction = false
@@ -102,7 +160,7 @@ class TransactionsViewHelper(
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onClick(view: View, position: Int) {
                         Toast.makeText(
-                            transactionContext,
+                            context,
                             "bar no " + Integer.toString(position),
                             Toast.LENGTH_SHORT
                         ).show()
@@ -114,7 +172,6 @@ class TransactionsViewHelper(
 
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         previouslySelected = position
-                        Log.i("positionTouch", position.toString())
                     }
                 })
         )
@@ -124,10 +181,9 @@ class TransactionsViewHelper(
 
         transactionsView.rvTransaction.addOnItemTouchListener(
             RecyclerTouchListener(
-                transactionContext, transactionsView.rvTransaction,
+                context, transactionsView.rvTransaction,
                 object : RecyclerTouchListener.ClickListener {
                     override fun onItemTouchEvent(view: View?, position: Int) {
-                        Log.i("positionTouch", "onInterceptTouchEvent")
 
                     }
 
@@ -137,7 +193,7 @@ class TransactionsViewHelper(
 
                     override fun onClick(view: View, position: Int) {
                         Toast.makeText(
-                            transactionContext,
+                            context,
                             "listing cell no " + Integer.toString(position),
                             Toast.LENGTH_SHORT
                         ).show()
@@ -188,8 +244,6 @@ class TransactionsViewHelper(
                             visibleitems = layoutManager.findLastCompletelyVisibleItemPosition() - 1
 
                         }
-                        Log.i("visibleitems", visibleitems.toString())
-                        Log.i("visibleitems", "totalItemsInView " + totalItemsInView.toString())
                     }
                 }
 
@@ -220,9 +274,11 @@ class TransactionsViewHelper(
                             transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
                                 currentPosition - 1
                             )
-                            transactionsView.rvTransactionsBarChart.getChildAt(currentPosition - 1)
-                                .performClick()
+                            val v = transactionsView.rvTransactionsBarChart.getChildAt(currentPosition - 1)
+                            v.performClick()
                             previouslySelected = currentPosition - 1
+
+                            showTooltip(v)
                         }
 
                     }
@@ -259,8 +315,6 @@ class TransactionsViewHelper(
                             visibleitems = layoutManager.findLastCompletelyVisibleItemPosition() + 1
 
                         }
-                        Log.i("visibleitems", visibleitems.toString())
-                        Log.i("visibleitems", "totalItemsInView " + totalItemsInView.toString())
                     }
                 }
 

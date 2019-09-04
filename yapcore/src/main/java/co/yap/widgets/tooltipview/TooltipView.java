@@ -4,22 +4,21 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.ColorRes;
 import androidx.annotation.DimenRes;
 import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.StyleableRes;
+import androidx.appcompat.widget.AppCompatTextView;
 
 import co.yap.yapcore.R;
 
-public class TooltipView extends TextView {
+public class TooltipView extends AppCompatTextView {
 
     private static final int NOT_PRESENT = Integer.MIN_VALUE;
     private int arrowHeight;
@@ -58,8 +57,8 @@ public class TooltipView extends TextView {
         try {
 
             anchoredViewId = a.getResourceId(R.styleable.TooltipView_anchoredView, View.NO_ID);
-            tooltipColor =a.getInt(R.styleable.TooltipView_tooltipColor, R.color.white);
-           // tooltipColor = getContext().getResources().getColor(R.styleable.TooltipView_tooltipColor, Color.TRANSPARENT);
+            tooltipColor = a.getInt(R.styleable.TooltipView_tooltipColor, R.color.white);
+            // tooltipColor = getContext().getResources().getColor(R.styleable.TooltipView_tooltipColor, Color.TRANSPARENT);
             cornerRadius = getDimension(a, R.styleable.TooltipView_cornerRadius,
                     R.dimen.tooltip_default_corner_radius);
             arrowHeight = getDimension(a, R.styleable.TooltipView_arrowHeight,
@@ -75,7 +74,7 @@ public class TooltipView extends TextView {
                             R.integer.tooltip_default_arrow_alignment)));
             alignmentOffset = getDimension(a, R.styleable.TooltipView_arrowAlignmentOffset,
                     R.dimen.tooltip_default_offset);
-         //   setBackground(res.getDrawable(R.drawable.bg_shadow));
+            //   setBackground(res.getDrawable(R.drawable.bg_shadow));
         } finally {
             a.recycle();
         }
@@ -99,19 +98,19 @@ public class TooltipView extends TextView {
         if (tooltipPath == null || paint == null) {
             arrowLocation.configureDraw(this, canvas);
         }
-        paint.setShadowLayer(1,6,5,R.color.greyDark);
+        paint.setShadowLayer(1, 6, 5, R.color.greyDark);
         canvas.drawPath(tooltipPath, paint);
         super.onDraw(canvas);
     }
 
     Paint getTooltipPaint() {
-     //   paint.setShadowLayer(1,6,5,R.color.greyDark);
+        //   paint.setShadowLayer(1,6,5,R.color.greyDark);
         return paint;
     }
 
     void setPaint(Paint paint) {
-       // paint.setColor(getResources().getColor(R.color.greyNormalDark));
-       // paint.setShadowLayer(1,6,5,R.color.greyDark);
+        // paint.setColor(getResources().getColor(R.color.greyNormalDark));
+        // paint.setShadowLayer(1,6,5,R.color.greyDark);
         setLayerPaint(paint);
         this.paint = paint;
     }
@@ -176,7 +175,7 @@ public class TooltipView extends TextView {
     }
 
     public int getTooltipColor() {
-      //  paint.setShadowLayer(1,6,5,R.color.greyDark);
+        //  paint.setShadowLayer(1,6,5,R.color.greyDark);
         return tooltipColor;
     }
 

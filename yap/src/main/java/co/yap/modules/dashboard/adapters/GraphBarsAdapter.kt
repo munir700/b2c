@@ -6,11 +6,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.modules.dashboard.ChartView
 import co.yap.modules.dashboard.models.TransactionModel
+import it.sephiroth.android.library.xtooltip.Tooltip
 import kotlinx.android.synthetic.main.item_bar_chart.view.*
 
 
-class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: Context) :
+class GraphBarsAdapter(
+    private val listItems: ArrayList<TransactionModel>,
+    val context: Context,
+    var tooltip: Tooltip?
+) :
     RecyclerView.Adapter<GraphBarsAdapter.ViewHolder>(), View.OnFocusChangeListener {
     lateinit var viewHolder: ViewHolder
 
@@ -23,7 +29,7 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(p0?.context).inflate(R.layout.item_bar_chart, p0, false)
-        return ViewHolder(v);
+        return ViewHolder(v)
     }
 
     override fun getItemCount(): Int {
@@ -32,7 +38,7 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         viewHolder = holder
-        val transactionModel: TransactionModel = listItems.get(position)
+        val transactionModel: TransactionModel = listItems[position]
         holder.transactionBar.onFocusChangeListener = this
         holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
 
@@ -55,6 +61,28 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
         }
     }
 
+    private fun addTooltip(view: View) {
+        // val tooltip = transactionsView.findViewById<TooltipView>(R.id.tooltip)
+        view.let {
+            tooltip?.dismiss()
+            tooltip = Tooltip.Builder(context)
+                .anchor(it, 0, 0, false)
+                // .anchor(Int, Int)
+                .text("Hello from dynamic")
+                // .styleId(Int)
+                .maxWidth(400)
+                .arrow(true)
+                .floatingAnimation(Tooltip.Animation.DEFAULT)
+                // .closePolicy(ClosePolicy.TOUCH_NONE)
+                // .showDuration(5000)
+                // .fadeDuration(1000)
+                .overlay(true)
+                .create()
+            tooltip?.show(it, Tooltip.Gravity.TOP, true)
+        }
+
+    }
+
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
         if (!viewHolder.transactionBar.hasFocus()) {
             viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
@@ -62,7 +90,6 @@ class GraphBarsAdapter(val listItems: ArrayList<TransactionModel>, val context: 
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val transactionBar = itemView.transactionBar
-
+        val transactionBar: ChartView = itemView.transactionBar
     }
 }

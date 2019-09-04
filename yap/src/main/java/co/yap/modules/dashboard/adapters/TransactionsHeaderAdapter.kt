@@ -37,9 +37,9 @@ class TransactionsHeaderAdapter(
            // holder.tvTotalAmount!!.text = categories.totalAmount
 
             if(categories.totalAmountType=="Credit"){
-                holder.tvTotalAmount?.text="+"+ Utils.getFormattedCurrency(categories.totalAmount)
+                holder.tvTotalAmount?.text="+${Utils.getFormattedCurrency(categories.totalAmount)}"
             }else if(categories.totalAmountType=="Debit"){
-                holder.tvTotalAmount?.text="-"+Utils.getFormattedCurrency(categories.totalAmount)
+                holder.tvTotalAmount?.text="-${Utils.getFormattedCurrency(categories.totalAmount)}"
             }
             holder.tvTransactionDate!!.text = categories.date
 

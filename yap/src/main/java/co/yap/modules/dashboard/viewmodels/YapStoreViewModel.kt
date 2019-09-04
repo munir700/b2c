@@ -12,4 +12,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapStoreState = YapStoreState()
 
+    override fun handleClickIOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
 }
