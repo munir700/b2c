@@ -1,7 +1,6 @@
 package co.yap.yapcore.helpers
 
 import android.content.Context
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -9,8 +8,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 
 class RecyclerTouchListener(
-    context: Context,val checkTouch:Boolean,
-    recyclerView: RecyclerView,
+    context: Context, val checkTouch: Boolean,
+    var recyclerView: RecyclerView,
     private val clickListener: ClickListener?
 ) : RecyclerView.OnItemTouchListener {
 
@@ -21,12 +20,16 @@ class RecyclerTouchListener(
             GestureDetector(context, object : GestureDetector.SimpleOnGestureListener() {
                 override fun onSingleTapUp(e: MotionEvent): Boolean {
 //                    val child = recyclerView.findChildViewUnder(e.getX(), e.getY())
-//                    if (child != null && clickListener != null  ){
-////                        clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
-//                        clickListener!!.onItemTouchEvent(child, recyclerView.getChildAdapterPosition(child!!))
+////                    if (child != null && clickListener != null  ){
+//////                        clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
+////                        clickListener!!.onItemTouchEvent(child, recyclerView.getChildAdapterPosition(child!!))
+////                    }
+//                    if (child != null && clickListener != null) {
+////            clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
+//                        clickListener!!.scrollOnItemsTouchEvent(child, recyclerView.getChildAdapterPosition(child!!))
+//                        return checkTouch
 //                    }
-
-                    return false
+                    return true
                 }
 
                 override fun onLongPress(e: MotionEvent) {
@@ -42,13 +45,26 @@ class RecyclerTouchListener(
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-//        Log.i("positionTouch","onInterceptTouchEvent")
 
-        val child = rv.findChildViewUnder(e.getX(), e.getY())
+        val child = recyclerView.findChildViewUnder(e.getX(), e.getY())
         if (child != null && clickListener != null) {
-//            clickListener.onClick(child, rv.getChildAdapterPosition(child))
-            clickListener!!.onItemTouchEvent(child, rv.getChildAdapterPosition(child!!))
-            return checkTouch
+//            clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
+            clickListener!!.onItemTouchEvent(child, recyclerView.getChildAdapterPosition(child!!))
+//            return false
+        }
+
+        when (e.action) {
+
+
+            MotionEvent.ACTION_UP -> {
+                if (child != null && clickListener != null) {
+                    clickListener!!.scrollOnItemsTouchEvent(
+                        child,
+                        recyclerView.getChildAdapterPosition(child!!)
+                    )
+                    return checkTouch
+                }
+            }
         }
 
 //        if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
@@ -64,7 +80,6 @@ class RecyclerTouchListener(
     }
 
     override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        Log.i("positionTouch", "onTouchEvent")
 
     }
 
@@ -78,6 +93,8 @@ class RecyclerTouchListener(
         fun onLongClick(view: View?, position: Int)
 
         fun onItemTouchEvent(view: View?, position: Int)
+
+        fun scrollOnItemsTouchEvent(view: View?, position: Int)
 
     }
 }

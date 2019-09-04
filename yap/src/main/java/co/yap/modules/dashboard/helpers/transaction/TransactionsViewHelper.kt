@@ -67,8 +67,10 @@ class TransactionsViewHelper(
 
         transactionsView.rvTransactionsBarChart.addOnItemTouchListener(
             RecyclerTouchListener(
-                transactionContext, true,transactionsView.rvTransactionsBarChart,
+                transactionContext, true, transactionsView.rvTransactionsBarChart,
                 object : RecyclerTouchListener.ClickListener {
+
+
                     override fun onItemTouchEvent(view: View?, position: Int) {
 
                         checkScroll = true
@@ -79,7 +81,7 @@ class TransactionsViewHelper(
                         transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
                             .performClick()
                         horizontalScrollPosition = position
-//
+
                         isCellHighlighted = true
                         isCellHighlightedFromTransaction = true
 
@@ -88,6 +90,26 @@ class TransactionsViewHelper(
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         previouslySelected = position
 
+                    }
+
+                    override fun scrollOnItemsTouchEvent(view: View?, position: Int) {
+
+                        checkScroll = true
+
+                        isCellHighlighted = false
+                        isCellHighlightedFromTransaction = false
+
+                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+                            .performClick()
+                        horizontalScrollPosition = position
+
+                        isCellHighlighted = true
+                        isCellHighlightedFromTransaction = true
+
+                        transactionsView.rvTransactionsBarChart.getChildAt(position)
+                            .performClick()
+                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+                        previouslySelected = position
                     }
 
                     override fun onLongClick(view: View?, position: Int) {
@@ -116,8 +138,12 @@ class TransactionsViewHelper(
 
         transactionsView.rvTransaction.addOnItemTouchListener(
             RecyclerTouchListener(
-                transactionContext, false ,transactionsView.rvTransaction,
+                transactionContext, false, transactionsView.rvTransaction,
                 object : RecyclerTouchListener.ClickListener {
+                    override fun scrollOnItemsTouchEvent(view: View?, position: Int) {
+//                        checkScroll = false
+                    }
+
                     override fun onItemTouchEvent(view: View?, position: Int) {
                         Log.i("positionTouch", "onInterceptTouchEvent")
                         checkScroll = false
