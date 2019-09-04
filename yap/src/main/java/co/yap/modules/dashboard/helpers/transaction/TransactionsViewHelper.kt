@@ -6,6 +6,7 @@ import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.R
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter.Companion.isCellHighlighted
 import co.yap.modules.dashboard.adapters.GraphBarsAdapter.Companion.isCellHighlightedFromTransaction
@@ -23,38 +24,33 @@ class TransactionsViewHelper(
     val context: Context, val transactionsView: View,
     val viewModel: IYapHome.ViewModel
 ) {
-    var tooltip: Tooltip? = null
+    private var tooltip: Tooltip? = null
     var checkScroll: Boolean = false
     var horizontalScrollPosition: Int = 0
 
     init {
         setUpTransactionsListRecyclerView()
         setUpGraphRecyclerView()
-
         setOnGraphBarClickListeners()
         setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
-//        autoScrollTransactionsOnGraphScroll()
-
     }
 
-    private fun addTooltip(view: View?) {
+    private fun addTooltip(view: View?, text: CharSequence? = "") {
         view?.let {
             tooltip?.dismiss()
             tooltip = Tooltip.Builder(context)
-                .anchor(view, 0, 0, true)
-                .text("Hello from dynamic")
+                .anchor(view, 0, -50, false)
+                .text(text!!)
                 .maxWidth(400)
+                .styleId(R.style.ToolTipAltStyle)
                 .arrow(true)
-                // .floatingAnimation(Tooltip.Animation.SLOW)
+                .floatingAnimation(Tooltip.Animation.DEFAULT)
                 .closePolicy(ClosePolicy.TOUCH_NONE)
-                // .showDuration(5000)
-                // .fadeDuration(1000)
-                .overlay(true)
+                .overlay(false)
                 .create()
             tooltip?.show(view, Tooltip.Gravity.TOP, true)
         }
-
 
     }
 
@@ -260,7 +256,7 @@ class TransactionsViewHelper(
                     val newView =
                         transactionsView.rvTransactionsBarChart.getChildAt(horizontalScrollPosition)
                     newView.performClick()
-                    addTooltip(newView)
+                    addTooltip(newView.findViewById(R.id.transactionBar))
                     previouslySelected = horizontalScrollPosition
 
                 }
@@ -332,7 +328,7 @@ class TransactionsViewHelper(
                     val newView =
                         transactionsView.rvTransactionsBarChart.getChildAt(currentPosition - 1)
                     newView.performClick()
-                    addTooltip(newView)
+                    addTooltip(newView.findViewById(R.id.transactionBar))
                     previouslySelected = currentPosition - 1
                 }
 

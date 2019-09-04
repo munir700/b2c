@@ -27,7 +27,7 @@ class GraphBarsAdapter(
 
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
-        val v = LayoutInflater.from(p0?.context).inflate(R.layout.item_bar_chart, p0, false)
+        val v = LayoutInflater.from(p0.context).inflate(R.layout.item_bar_chart, p0, false)
         return ViewHolder(v)
     }
 
@@ -67,6 +67,6 @@ class GraphBarsAdapter(
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val transactionBar: ChartView = itemView.transactionBar
+         val transactionBar: ChartView = itemView.transactionBar
     }
 }

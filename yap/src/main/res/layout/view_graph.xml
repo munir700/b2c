@@ -3,20 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/_10sdp"
     android:orientation="vertical">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvTransactionsBarChart"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/_80sdp"
-        android:layout_marginTop="@dimen/_10sdp"
         android:layout_gravity="bottom"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="@color/white"
-        android:gravity="bottom"
-        android:paddingLeft="1dp"
+        android:gravity="bottom|start"
+        android:background="@color/transparent"
         tools:listitem="@layout/item_bar_chart" />
-
 
 </FrameLayout>

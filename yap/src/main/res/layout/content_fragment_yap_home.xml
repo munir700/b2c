@@ -11,10 +11,6 @@
 
     </data>
 
-<!--    <androidx.core.widget.NestedScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent" >-->
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,7 +30,7 @@
             <include
                 android:id="@+id/vGraph"
                 layout="@layout/view_graph"
-                android:visibility="gone"/>
+                android:visibility="visible"/>
 
             <RelativeLayout
                 android:id="@+id/rlTransactionHeader"
@@ -103,6 +99,5 @@
                 android:src="@drawable/ic_no_transaction"/>
 
         </LinearLayout>
-<!--    </androidx.core.widget.NestedScrollView>-->
 
 </layout>

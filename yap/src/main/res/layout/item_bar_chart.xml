@@ -2,25 +2,13 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="@dimen/_9sdp"
     android:layout_height="match_parent"
-    android:layout_gravity="bottom"
-    android:gravity="bottom"
-    android:orientation="vertical"
-    android:layout_marginRight=".2dp"
     android:layout_marginLeft=".2dp"
-     >
+    android:layout_marginRight=".2dp"
+    android:gravity="bottom"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <co.yap.modules.dashboard.ChartView
+        android:id="@+id/transactionBar"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:gravity="bottom">
-
-        <co.yap.modules.dashboard.ChartView
-            android:id="@+id/transactionBar"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_gravity="bottom"
-            android:gravity="bottom" />
-    </LinearLayout>
-
+        android:layout_height="0dp" />
 </LinearLayout>
