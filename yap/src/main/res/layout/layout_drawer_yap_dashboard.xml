@@ -14,6 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
+        android:elevation="4dp"
+        app:elevation="4dp"
         android:weightSum="100">
 
         <!-- Left Section -->
@@ -23,6 +25,8 @@
             android:layout_marginTop="@dimen/margin_xl"
             android:layout_weight="80"
             android:orientation="vertical"
+            android:elevation="4dp"
+            app:elevation="4dp"
             android:paddingStart="@dimen/margin_large"
             android:paddingEnd="0dp">
 

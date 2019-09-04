@@ -108,4 +108,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         bottomNav.setupWithNavController(navController)
     }
 
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
+        else super.onBackPressed()
+    }
+
 }

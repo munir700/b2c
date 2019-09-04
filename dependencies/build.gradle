@@ -42,6 +42,7 @@ project.ext {
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",
             tooltip                  : 'com.github.sephiroth74:android-target-tooltip:2.0.4',
             baloon                   : "com.github.skydoves:balloon:1.0.5",
+            quickAction              : "me.piruin:quickaction:2.4.3",
 
 
             // Dagger

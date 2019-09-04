@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.SpannableStringBuilder
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,13 +17,13 @@ import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.TransactionModel
 import co.yap.yapcore.helpers.RecyclerTouchListener
-import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import it.sephiroth.android.library.xtooltip.ClosePolicy
-import it.sephiroth.android.library.xtooltip.Tooltip
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
-import java.lang.StringBuilder
+import android.text.style.ForegroundColorSpan
+import androidx.core.content.ContextCompat
+import it.sephiroth.android.library.xtooltip.Tooltip
 
 
 class TransactionsViewHelper(
@@ -46,19 +45,25 @@ class TransactionsViewHelper(
     private fun addTooltip(view: View?, data: TransactionModel) {
         view?.let {
             tooltip?.dismiss()
-            val text = buildString {
-                append(data.date)
-                append("\n")
-                append("AED ${Utils.getFormattedCurrency(data.closingBalance)}")
-            }
-            tooltip = Tooltip.Builder(context)
+
+            val text = data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance)
+            val spannable = SpannableString(text)
+
+            spannable.setSpan(
+                ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
+                0,
+                data.date.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+
+            tooltip = Tooltip.Builder(view.context)
                 .anchor(view, 0, -50, false)
-                .text(text)
-                // .maxWidth(400)
+                .text(spannable)
+                .maxWidth(380)
                 .styleId(R.style.ToolTipAltStyle)
                 .arrow(true)
-                .floatingAnimation(Tooltip.Animation.DEFAULT)
-                .closePolicy(ClosePolicy.TOUCH_NONE)
+                //.floatingAnimation(Tooltip.Animation.DEFAULT)
+                .closePolicy(ClosePolicy.TOUCH_OUTSIDE_NO_CONSUME)
                 .overlay(false)
                 .create()
             tooltip?.show(view, Tooltip.Gravity.TOP, true)
