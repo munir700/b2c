@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.drawerlayout.widget.DrawerLayout
-
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -75,6 +74,8 @@
             android:layout_width="@dimen/_290sdp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
+            android:elevation="4dp"
+            app:elevation="4dp"
             android:background="@color/white"
             android:fitsSystemWindows="true">
 
