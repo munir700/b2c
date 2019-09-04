@@ -1,7 +1,6 @@
 package co.yap.yapcore.helpers
 
 import android.content.Context
-import android.text.method.Touch.onTouchEvent
 import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
@@ -27,7 +26,7 @@ class RecyclerTouchListener(
 //                        clickListener!!.onItemTouchEvent(child, recyclerView.getChildAdapterPosition(child!!))
 //                    }
 
-                    return true
+                    return false
                 }
 
                 override fun onLongPress(e: MotionEvent) {
@@ -45,10 +44,11 @@ class RecyclerTouchListener(
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
 //        Log.i("positionTouch","onInterceptTouchEvent")
 
-         val child = rv.findChildViewUnder(e.getX(), e.getY())
-        if (child != null && clickListener != null  ){
+        val child = rv.findChildViewUnder(e.getX(), e.getY())
+        if (child != null && clickListener != null) {
 //            clickListener.onClick(child, rv.getChildAdapterPosition(child))
             clickListener!!.onItemTouchEvent(child, rv.getChildAdapterPosition(child!!))
+            return true
         }
 
 //        if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
@@ -64,7 +64,7 @@ class RecyclerTouchListener(
     }
 
     override fun onTouchEvent(rv: RecyclerView, e: MotionEvent) {
-        Log.i("positionTouch","onTouchEvent")
+        Log.i("positionTouch", "onTouchEvent")
 
     }
 
