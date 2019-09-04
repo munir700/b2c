@@ -9,6 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import android.widget.LinearLayout
 import co.yap.R
 import kotlin.math.roundToInt
 
@@ -155,9 +156,11 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
 
     fun setBarHeight(height: Double) {
-        barHeight = ( height.toInt())
-        Log.i("barHeight",height.toString()+ " , "+ barHeight.toString())
+        // layoutParams = LinearLayout.LayoutParams(width, 0, height.toFloat())
 
+        barHeight = ( height.toInt())
+
+        // invalidate()
     }
 
 

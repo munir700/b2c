@@ -30,7 +30,7 @@
             <include
                 android:id="@+id/vGraph"
                 layout="@layout/view_graph"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:id="@+id/rlTransactionHeader"

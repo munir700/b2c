@@ -12,6 +12,7 @@
 
 
         <TextView
+            android:id="@+id/tvAvailableBalance"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"
             tools:text="50,174.78"
@@ -47,6 +48,7 @@
                 android:gravity="center"
                 android:text="AED"
                 style="@style/ASmall"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

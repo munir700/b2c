@@ -14,7 +14,13 @@ class TransactionLogicHelper(
     val context: Context,
     val viewModel: IYapHome.ViewModel
 ) {
-    fun loadJSONDummyList(): ArrayList<TransactionModel> {
+    var transactionList: ArrayList<TransactionModel> = arrayListOf()
+
+    init {
+        transactionList = loadJSONDummyList()
+    }
+
+    private fun loadJSONDummyList(): ArrayList<TransactionModel> {
         val transactioModelList: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
 
         val mainObj = JSONObject(loadTransactionFromJsonAssets(context))

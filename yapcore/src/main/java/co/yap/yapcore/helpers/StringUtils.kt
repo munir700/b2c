@@ -87,7 +87,7 @@ object StringUtils {
         return if (fullName.isNotBlank()) {
             fullName.split(' ')
                 .mapNotNull { it.firstOrNull()?.toString() }
-                .reduce { acc, s -> acc + s }
+                .reduce { acc, s -> acc + s }.toUpperCase()
         } else ""
 
     }

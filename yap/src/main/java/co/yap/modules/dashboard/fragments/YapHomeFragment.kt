@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.fragments
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.RelativeSizeSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -20,6 +22,7 @@ import co.yap.yapcore.managers.MyUserManager
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
+import kotlinx.android.synthetic.main.fragment_yap_home.*
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -43,6 +46,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
+        setAvailableBalance(viewModel.state.availableBalance)
     }
 
     override fun setObservers() {
@@ -67,7 +71,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         parentViewModel.getAccountBalanceSuccess.observe(this, Observer { value ->
             when (value) {
-                true -> viewModel.state.availableBalance = parentViewModel.state.availableBalance
+                true -> {
+                    setAvailableBalance(parentViewModel.state.availableBalance)
+                }
             }
         })
     }
@@ -188,7 +194,25 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onResume() {
         super.onResume()
         if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
-           checkUserStatus()
+            checkUserStatus()
+        }
+    }
+
+    private fun setAvailableBalance(balance : String) {
+        try {
+            val ss1 = SpannableString(balance)
+            if (ss1.isNotEmpty() && ss1.contains(".")) {
+                val balanceAfterDot = ss1.split(".")
+                ss1.setSpan(
+                    RelativeSizeSpan(0.5f),
+                    balanceAfterDot[0].length,
+                    balanceAfterDot[0].length + balanceAfterDot[1].length + 1,
+                    0
+                )
+                tvAvailableBalance.text = ss1
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
