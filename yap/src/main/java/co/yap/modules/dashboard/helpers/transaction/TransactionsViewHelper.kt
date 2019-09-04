@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +23,8 @@ class TransactionsViewHelper(
     val viewModel: IYapHome.ViewModel
 ) {
 
-    var checkScroll: Boolean=false
+    var checkScroll: Boolean = false
+    var horizontalScrollPosition: Int = 0
 
     init {
 
@@ -54,7 +54,6 @@ class TransactionsViewHelper(
                 viewModel.transactionLogicHelper.loadJSONDummyList(),
                 transactionContext
             )
-
         transactionsView.rvTransactionsBarChart.setLayoutManager(
             LinearLayoutManager(
                 transactionContext,
@@ -72,76 +71,18 @@ class TransactionsViewHelper(
                 transactionContext, transactionsView.rvTransactionsBarChart,
                 object : RecyclerTouchListener.ClickListener {
                     override fun onItemTouchEvent(view: View?, position: Int) {
-                        checkScroll=true
 
-//                        Log.i("positionTouch", "onInterceptTouchEvent " + position)
-//                        isCellHighlighted = true
-//                        isCellHighlightedFromTransaction = false
-//                        transactionsView.rvTransaction.getChildAt(previouslySelected)
-//                            .performClick()
-//
-//                        //now list click
-//                        isCellHighlighted = true
-//                        isCellHighlightedFromTransaction = true
-//                        transactionsView.rvTransaction.smoothScrollToPosition(
-//                            position
-//                        )
-//                        transactionsView.rvTransaction.getChildAt(position )
-//                            .performClick()
-//                        previouslySelected = position
+                        checkScroll = true
 
-//                        isCellHighlighted = false
-//                        isCellHighlightedFromTransaction = false
-//
-//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-//                            .performClick()
-//
-//                        transactionsView.rvTransaction.smoothScrollToPosition(position)
-//                        previouslySelected = position
+                        isCellHighlighted = false
+                        isCellHighlightedFromTransaction = false
 
+                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+                            .performClick()
+                        horizontalScrollPosition = position
 
-//
-                        Log.i("positionTouch", "onInterceptTouchEvent " + position)
-
-                        Toast.makeText(
-                            transactionContext,
-                            "bar no " + Integer.toString(position),
-                            Toast.LENGTH_SHORT
-                        ).show()
-
-                        if (previouslySelected != position) {
-
-//first remove previously clicked item
-                            isCellHighlighted = true
-                            isCellHighlightedFromTransaction = false
-                            transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-                                .performClick()
-
-                            //now list click
-                            isCellHighlighted = true
-                            isCellHighlightedFromTransaction = true
-//                            transactionsView.rvTransactionsBarChart.smoothScrollBy(dx, dy)
-//                            if (currentPosition >0) {
-//                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
-//                                position
-//                            )
-//                            transactionsView.rvTransaction.smoothScrollToPosition(
-//                                position
-//                            )
-                            transactionsView.rvTransactionsBarChart.getChildAt(position)
-                                .performClick()
-                            //disable scrolling at the moment
-
-                                transactionsView.rvTransaction.smoothScrollToPosition(
-                                    position
-                                )
-//                                transactionsView.rvTransactionsBarChart.getChildAt(position )
-//                                    .performClick()
-                            previouslySelected = position
-                        }
-
-//                        }
-//                        return
+                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+                        previouslySelected = position
 
                     }
 
@@ -151,20 +92,16 @@ class TransactionsViewHelper(
 
                     @RequiresApi(Build.VERSION_CODES.O)
                     override fun onClick(view: View, position: Int) {
-//                        Toast.makeText(
-//                            transactionContext,
-//                            "bar no " + Integer.toString(position),
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        isCellHighlighted = false
-//                        isCellHighlightedFromTransaction = false
-//
-//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-//                            .performClick()
-//
-//                        transactionsView.rvTransaction.smoothScrollToPosition(position)
-//                        previouslySelected = position
-//                        Log.i("positionTouch", position.toString())
+
+                        isCellHighlighted = false
+                        isCellHighlightedFromTransaction = false
+
+                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+                            .performClick()
+
+                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+                        previouslySelected = position
+                        Log.i("positionTouch", position.toString())
                     }
                 })
         )
@@ -178,7 +115,7 @@ class TransactionsViewHelper(
                 object : RecyclerTouchListener.ClickListener {
                     override fun onItemTouchEvent(view: View?, position: Int) {
                         Log.i("positionTouch", "onInterceptTouchEvent")
-                        checkScroll=false
+                        checkScroll = false
 
                     }
 
@@ -187,26 +124,22 @@ class TransactionsViewHelper(
                     }
 
                     override fun onClick(view: View, position: Int) {
-//                        Toast.makeText(
-//                            transactionContext,
-//                            "listing cell no " + Integer.toString(position),
-//                            Toast.LENGTH_SHORT
-//                        ).show()
-//                        //first remove previously selected
-//                        isCellHighlighted = true
-//
-//                        isCellHighlightedFromTransaction = false
-//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-//                            .performClick()
-//
-//                        //now list click
-//                        isCellHighlighted = true
-//                        isCellHighlightedFromTransaction = true
-//                        transactionsView.rvTransactionsBarChart.smoothScrollToPosition(position)
-//
-//                        transactionsView.rvTransactionsBarChart.getChildAt(position)
-//                            .performClick()
-//                        previouslySelected = position
+
+                        //first remove previously selected
+                        isCellHighlighted = true
+
+                        isCellHighlightedFromTransaction = false
+                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+                            .performClick()
+
+                        //now list click
+                        isCellHighlighted = true
+                        isCellHighlightedFromTransaction = true
+                        transactionsView.rvTransactionsBarChart.smoothScrollToPosition(position)
+
+                        transactionsView.rvTransactionsBarChart.getChildAt(position)
+                            .performClick()
+                        previouslySelected = position
 
                     }
                 })
@@ -222,126 +155,28 @@ class TransactionsViewHelper(
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-if (!checkScroll){
+                if (!checkScroll) {
+                    scrollBarsFromListTouch(
+                        recyclerView,
+                        totalItemsInView,
+                        visibleitems,
+                        verticalOffSet,
+                        dy,
+                        dx
+                    )
 
+                } else {
 
-    if (recyclerView.getLayoutManager() is LinearLayoutManager) {
-        val layoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
-        if (layoutManager.orientation == LinearLayoutManager.VERTICAL) {
-            totalItemsInView = layoutManager.itemCount
-//                        if (totalItemsInView != layoutManager.findLastCompletelyVisibleItemPosition()) {
-//                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition()
-            visibleitems = layoutManager.findFirstCompletelyVisibleItemPosition()
-//                            visibleitems = layoutManager.findFirstCompletelyVisibleItemPosition()
+                    scrollBarsFromBarsOnTouch(
+                        totalItemsInView,
+                        visibleitems,
+                        verticalOffSet,
+                        recyclerView,
+                        dy,
+                        dx
+                    )
+                }
 
-//                        }
-//                        if (layoutManager.findLastCompletelyVisibleItemPosition() >= 28) {
-//
-//                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition()
-//
-//
-//                        } else {
-//                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition()
-//
-//                        }
-            Log.i("visibleitems", visibleitems.toString())
-            Log.i("visibleitems", "totalItemsInView " + totalItemsInView.toString())
-        }
-    }
-
-    verticalOffSet += dy
-
-    val currFirstPositionView: View? =
-        recyclerView.findChildViewUnder(dx.toFloat(), dy.toFloat())
-    if (currFirstPositionView != null) {
-//                    val currentPosition: Int = recyclerView.getChildAdapterPosition(
-//                        currFirstPositionView!!
-//                    )
-        val currentPosition: Int = visibleitems
-
-//                    if (currentPosition > 0) {
-//                        if (previouslySelected != currentPosition) {
-
-//first remove previously clicked item
-        isCellHighlighted = true
-        isCellHighlightedFromTransaction = false
-        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-            .performClick()
-
-        //now list click
-        isCellHighlighted = true
-        isCellHighlightedFromTransaction = true
-//                            transactionsView.rvTransactionsBarChart.smoothScrollBy(dx, dy)
-//                            if (currentPosition >0) {
-        transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
-            currentPosition
-        )
-        transactionsView.rvTransactionsBarChart.getChildAt(currentPosition )
-            .performClick()
-        previouslySelected = currentPosition
-//                        }
-
-//                    }
-    }
-}
-//                if (recyclerView.getLayoutManager() is LinearLayoutManager) {
-//                    val layoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
-//                    if (layoutManager.orientation == LinearLayoutManager.VERTICAL) {
-//                        totalItemsInView = layoutManager.itemCount
-////                        if (totalItemsInView != layoutManager.findLastCompletelyVisibleItemPosition()) {
-////                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition()
-//                            visibleitems = layoutManager.findFirstCompletelyVisibleItemPosition()
-////                            visibleitems = layoutManager.findFirstCompletelyVisibleItemPosition()
-//
-////                        }
-////                        if (layoutManager.findLastCompletelyVisibleItemPosition() >= 28) {
-////
-////                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition()
-////
-////
-////                        } else {
-////                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition()
-////
-////                        }
-//                        Log.i("visibleitems", visibleitems.toString())
-//                        Log.i("visibleitems", "totalItemsInView " + totalItemsInView.toString())
-//                    }
-//                }
-//
-//                verticalOffSet += dy
-//
-//                val currFirstPositionView: View? =
-//                    recyclerView.findChildViewUnder(dx.toFloat(), dy.toFloat())
-//                if (currFirstPositionView != null) {
-////                    val currentPosition: Int = recyclerView.getChildAdapterPosition(
-////                        currFirstPositionView!!
-////                    )
-//                    val currentPosition: Int = visibleitems
-//
-////                    if (currentPosition > 0) {
-////                        if (previouslySelected != currentPosition) {
-//
-////first remove previously clicked item
-//                            isCellHighlighted = true
-//                            isCellHighlightedFromTransaction = false
-//                            transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-//                                .performClick()
-//
-//                            //now list click
-//                            isCellHighlighted = true
-//                            isCellHighlightedFromTransaction = true
-////                            transactionsView.rvTransactionsBarChart.smoothScrollBy(dx, dy)
-////                            if (currentPosition >0) {
-//                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
-//                                currentPosition
-//                            )
-//                            transactionsView.rvTransactionsBarChart.getChildAt(currentPosition )
-//                                .performClick()
-//                            previouslySelected = currentPosition
-////                        }
-//
-////                    }
-//                }
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
@@ -351,73 +186,215 @@ if (!checkScroll){
         })
     }
 
-//    private fun autoScrollTransactionsOnGraphScroll() {
-//        var verticalOffSet: Int = 0
-//        var totalItemsInView: Int = 0
-//        var visibleitems: Int = 0
-//
-//        transactionsView.rvTransactionsBarChart.addOnScrollListener(object :
-//            RecyclerView.OnScrollListener() {
-//            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-//                super.onScrolled(recyclerView, dx, dy)
-//
-//                if (recyclerView.getLayoutManager() is LinearLayoutManager) {
-//                    val layoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
-//                    if (layoutManager.orientation == LinearLayoutManager.VERTICAL) {
-//                        totalItemsInView = layoutManager.itemCount
-//                        if (totalItemsInView != layoutManager.findLastCompletelyVisibleItemPosition()) {
-//                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition()
-//
-//                        }
-//                        if (layoutManager.findLastCompletelyVisibleItemPosition() >= 28) {
-//
-//                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition()
-//
-//                        }
-//                        Log.i("visibleitems", visibleitems.toString())
-//                        Log.i("visibleitems", "totalItemsInView " + totalItemsInView.toString())
-//                    }
-//                }
-//
-//                verticalOffSet += dy
-//
-//                val currFirstPositionView: View? =
-//                    recyclerView.findChildViewUnder(dx.toFloat(), dy.toFloat())
-//                if (currFirstPositionView != null) {
-////                    val currentPosition: Int = recyclerView.getChildAdapterPosition(
-////                        currFirstPositionView!!
-////                    )
-//                    val currentPosition: Int = visibleitems
-//
-//                    if (currentPosition >= 0) {
-//                        if (previouslySelected != currentPosition) {
-//
-////first remove previously clicked item
-//                            isCellHighlighted = true
-//                            isCellHighlightedFromTransaction = false
-//                            transactionsView.rvTransaction.getChildAt(previouslySelected)
-//                                .performClick()
-//
-//                            //now list click
-//                            isCellHighlighted = true
-//                            isCellHighlightedFromTransaction = true
-//                            transactionsView.rvTransaction.smoothScrollToPosition(
-//                                currentPosition
-//                            )
-//                            transactionsView.rvTransaction.getChildAt(currentPosition )
-//                                .performClick()
-//                            previouslySelected = currentPosition
-//                        }
-//
-//                    }
-//                }
-//            }
-//
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//
-//            }
-//        })
-//    }
+    private fun scrollBarsFromBarsOnTouch(
+        totalItemsInView: Int,
+        visibleitems: Int,
+        verticalOffSet: Int,
+        recyclerView: RecyclerView,
+        dy: Int,
+        dx: Int
+    ) {
+        var totalItemsInView1 = totalItemsInView
+        var visibleitems1 = visibleitems
+        var verticalOffSet1 = verticalOffSet
+        if (recyclerView.getLayoutManager() is LinearLayoutManager) {
+            val layoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
+            if (layoutManager.orientation == LinearLayoutManager.VERTICAL) {
+                totalItemsInView1 = layoutManager.itemCount
+                if (totalItemsInView1 != layoutManager.findLastCompletelyVisibleItemPosition()) {
+                    visibleitems1 =
+                        layoutManager.findLastCompletelyVisibleItemPosition() - 1
+
+                }
+                if (layoutManager.findLastCompletelyVisibleItemPosition() >= 28) {
+
+                    visibleitems1 =
+                        layoutManager.findLastCompletelyVisibleItemPosition() + 1
+
+                } else {
+                    visibleitems1 =
+                        layoutManager.findLastCompletelyVisibleItemPosition() - 1
+
+                }
+                Log.i("visibleitems", visibleitems1.toString())
+                Log.i("visibleitems", "totalItemsInView " + totalItemsInView1.toString())
+            }
+        }
+
+        verticalOffSet1 += dy
+
+        val currFirstPositionView: View? =
+            recyclerView.findChildViewUnder(dx.toFloat(), dy.toFloat())
+        if (currFirstPositionView != null) {
+
+            val currentPosition: Int = visibleitems1
+
+            if (currentPosition > 0) {
+                if (previouslySelected != currentPosition) {
+
+                    //first remove previously clicked item
+                    isCellHighlighted = true
+                    isCellHighlightedFromTransaction = false
+                    transactionsView.rvTransactionsBarChart.getChildAt(
+                        previouslySelected
+                    )
+                        .performClick()
+
+                    //now list click
+                    isCellHighlighted = true
+                    isCellHighlightedFromTransaction = true
+                    //                            if (currentPosition >0) {
+                    transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
+                        horizontalScrollPosition
+                    )
+                    transactionsView.rvTransactionsBarChart.getChildAt(horizontalScrollPosition)
+                        .performClick()
+                    previouslySelected = horizontalScrollPosition
+                }
+
+            }
+        }
+    }
+
+    private fun scrollBarsFromListTouch(
+        recyclerView: RecyclerView,
+        totalItemsInView: Int,
+        visibleitems: Int,
+        verticalOffSet: Int,
+        dy: Int,
+        dx: Int
+    ) {
+        var totalItemsInView1 = totalItemsInView
+        var visibleitems1 = visibleitems
+        var verticalOffSet1 = verticalOffSet
+        if (recyclerView.getLayoutManager() is LinearLayoutManager) {
+            val layoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
+            if (layoutManager.orientation == LinearLayoutManager.VERTICAL) {
+                totalItemsInView1 = layoutManager.itemCount
+                if (totalItemsInView1 != layoutManager.findLastCompletelyVisibleItemPosition()) {
+                    visibleitems1 =
+                        layoutManager.findLastCompletelyVisibleItemPosition() - 1
+
+                }
+                if (layoutManager.findLastCompletelyVisibleItemPosition() >= 28) {
+
+                    visibleitems1 =
+                        layoutManager.findLastCompletelyVisibleItemPosition() + 1
+
+                } else {
+                    visibleitems1 =
+                        layoutManager.findLastCompletelyVisibleItemPosition() - 1
+
+                }
+                Log.i("visibleitems", visibleitems1.toString())
+                Log.i("visibleitems", "totalItemsInView " + totalItemsInView1.toString())
+            }
+        }
+
+        verticalOffSet1 += dy
+
+        val currFirstPositionView: View? =
+            recyclerView.findChildViewUnder(dx.toFloat(), dy.toFloat())
+        if (currFirstPositionView != null) {
+            //                    val currentPosition: Int = recyclerView.getChildAdapterPosition(
+            //                        currFirstPositionView!!
+            //                    )
+            val currentPosition: Int = visibleitems1
+
+            if (currentPosition > 0) {
+                if (previouslySelected != currentPosition) {
+
+                    //first remove previously clicked item
+                    isCellHighlighted = true
+                    isCellHighlightedFromTransaction = false
+                    transactionsView.rvTransactionsBarChart.getChildAt(
+                        previouslySelected
+                    )
+                        .performClick()
+
+                    //now list click
+                    isCellHighlighted = true
+                    isCellHighlightedFromTransaction = true
+                    //                            if (currentPosition >0) {
+                    transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
+                        currentPosition - 1
+                    )
+                    transactionsView.rvTransactionsBarChart.getChildAt(currentPosition - 1)
+                        .performClick()
+                    previouslySelected = currentPosition - 1
+                }
+
+            }
+        }
+    }
+
+    private fun autoScrollTransactionsOnGraphScroll() {
+        var verticalOffSet: Int = 0
+        var totalItemsInView: Int = 0
+        var visibleitems: Int = 0
+
+        transactionsView.rvTransactionsBarChart.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                if (recyclerView.getLayoutManager() is LinearLayoutManager) {
+                    val layoutManager = recyclerView.getLayoutManager() as LinearLayoutManager
+                    if (layoutManager.orientation == LinearLayoutManager.VERTICAL) {
+                        totalItemsInView = layoutManager.itemCount
+                        if (totalItemsInView != layoutManager.findLastCompletelyVisibleItemPosition()) {
+                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition() - 1
+
+                        }
+                        if (layoutManager.findLastCompletelyVisibleItemPosition() >= 28) {
+
+                            visibleitems = layoutManager.findLastCompletelyVisibleItemPosition() + 1
+
+                        }
+                        Log.i("visibleitems", visibleitems.toString())
+                        Log.i("visibleitems", "totalItemsInView " + totalItemsInView.toString())
+                    }
+                }
+
+                verticalOffSet += dy
+
+                val currFirstPositionView: View? =
+                    recyclerView.findChildViewUnder(dx.toFloat(), dy.toFloat())
+                if (currFirstPositionView != null) {
+//                    val currentPosition: Int = recyclerView.getChildAdapterPosition(
+//                        currFirstPositionView!!
+//                    )
+                    val currentPosition: Int = visibleitems
+
+                    if (currentPosition >= 0) {
+                        if (previouslySelected != currentPosition) {
+
+//first remove previously clicked item
+                            isCellHighlighted = true
+                            isCellHighlightedFromTransaction = false
+                            transactionsView.rvTransaction.getChildAt(previouslySelected)
+                                .performClick()
+
+                            //now list click
+                            isCellHighlighted = true
+                            isCellHighlightedFromTransaction = true
+                            transactionsView.rvTransaction.smoothScrollToPosition(
+                                currentPosition - 1
+                            )
+                            transactionsView.rvTransaction.getChildAt(currentPosition - 1)
+                                .performClick()
+                            previouslySelected = currentPosition - 1
+                        }
+
+                    }
+                }
+            }
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+            }
+        })
+    }
 
 }

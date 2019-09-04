@@ -50,7 +50,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     private fun customizeAnimation(context: Context) {
 
         val fadeInBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        fadeInBarAnimation.duration = 500
+        fadeInBarAnimation.duration = 300
 
         this.startAnimation(fadeInBarAnimation)
 
@@ -75,7 +75,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
     }
 
     fun fadeInAnim(fadeIn: Animation) {
-        fadeIn.duration = 500
+        fadeIn.duration = 300
         fadeIn.setAnimationListener(object : Animation.AnimationListener {
             override fun onAnimationStart(animation: Animation) {
 
