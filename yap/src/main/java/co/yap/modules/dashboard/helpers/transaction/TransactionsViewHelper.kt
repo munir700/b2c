@@ -63,7 +63,6 @@ class TransactionsViewHelper(
         )
     }
 
-
     private fun setOnGraphBarClickListeners() {
 
         transactionsView.rvTransactionsBarChart.addOnItemTouchListener(
