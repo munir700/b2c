@@ -25,7 +25,7 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.goToDashboardButtonPressEvent.observe(this, Observer {
-            findNavController().navigate(R.id.action_goto_liteDashboardActivity)
+            findNavController().navigate(R.id.action_goto_DashboardActivity)
             activity?.finish()
         })
     }

@@ -227,10 +227,9 @@ object Strings {
     const val screen_passcode_success_display_text_sub_heading: String = "screen_passcode_success_display_text_sub_heading"
     const val screen_passcode_success_button_sign_in: String = "screen_passcode_success_button_sign_in"
 
-
     //Create new passcode screen
     const val screen_create_new_passcode_button_text: String = "screen_create_new_passcode_button_text"
 
-
-
+    //fragment home transaction
+    const val screen_fragment_home_transaction_time_category: String = "screen_fragment_home_transaction_time_category"
 }

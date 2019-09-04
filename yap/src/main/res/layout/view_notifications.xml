@@ -29,6 +29,7 @@
             android:id="@+id/ivCross"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:contentDescription="@string/empty_string"
             android:padding="@dimen/margin_small"
             android:src="@drawable/ic_ico_close"

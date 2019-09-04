@@ -21,5 +21,7 @@ interface IYapHome {
         fun handlePressOnView(id: Int)
     }
 
-    interface State : IBase.State
+    interface State : IBase.State{
+        var availableBalance : String
+    }
 }

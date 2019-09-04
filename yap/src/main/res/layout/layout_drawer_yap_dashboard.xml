@@ -283,6 +283,7 @@
             <ImageView
                 android:layout_width="@dimen/_42sdp"
                 android:layout_height="@dimen/_42sdp"
+                android:visibility="gone"
                 android:layout_below="@id/tvUserInitials"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="@dimen/_40sdp"

@@ -12,6 +12,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
+import java.text.DecimalFormat
 
 object Utils {
     fun getColor(context: Context, @ColorRes color: Int) =
@@ -67,6 +68,16 @@ object Utils {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("YapAccount", text)
         clipboard.primaryClip = clip
+    }
+
+    fun getFormattedCurrency(num: String?): String {
+        if ("" != num && null != num) {
+            val m = java.lang.Double.parseDouble(num)
+            val formatter = DecimalFormat("###,###,##0.00")
+            return formatter.format(m)
+        } else {
+            return ""
+        }
     }
 
 

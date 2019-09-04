@@ -49,6 +49,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         appBarConfiguration = AppBarConfiguration(navController.graph) //configure nav controller
         setupDrawerNavigation(navController)
         setupBottomNavigation(navController)
+        viewModel.getAccountBalanceRequest()
 
         // Set Observers
         viewModel.clickEvent.observe(this, Observer {

@@ -14,14 +14,20 @@ interface IYapDashboard {
         var firstName: String
         var accountNo: String
         var ibanNo: String
+        var availableBalance: String
+
     }
+
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnNavigationItem(id: Int)
         fun copyAccountInfoToClipboard()
         fun getAccountInfo()
+        fun getAccountBalanceRequest()
         val getAccountInfoSuccess: MutableLiveData<Boolean>
+        val getAccountBalanceSuccess: MutableLiveData<Boolean>
     }
+
     interface View : IBase.View<ViewModel> {
         fun closeDrawer()
         fun openDrawer()

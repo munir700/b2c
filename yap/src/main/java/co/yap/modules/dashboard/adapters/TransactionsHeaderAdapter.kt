@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.models.TransactionModel
+import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.item_transaction_list_header.view.*
 
 class TransactionsHeaderAdapter(
@@ -33,7 +34,13 @@ class TransactionsHeaderAdapter(
 
         if (categories.transactionItems.isNotEmpty()) {
 
-            holder.tvTotalAmount!!.text = categories.totalAmount
+           // holder.tvTotalAmount!!.text = categories.totalAmount
+
+            if(categories.totalAmountType=="Credit"){
+                holder.tvTotalAmount?.text="+"+ Utils.getFormattedCurrency(categories.totalAmount)
+            }else if(categories.totalAmountType=="Debit"){
+                holder.tvTotalAmount?.text="-"+Utils.getFormattedCurrency(categories.totalAmount)
+            }
             holder.tvTransactionDate!!.text = categories.date
 
             holder.horizontalView.layoutManager = LinearLayoutManager(

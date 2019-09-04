@@ -10,7 +10,7 @@ import co.yap.modules.dashboard.interfaces.IYapStore
 import co.yap.modules.dashboard.viewmodels.YapStoreViewModel
 import co.yap.yapcore.BaseBindingFragment
 
-class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.View {
+class YapStoreFragment : YapDashboardChildFragment<IYapStore.ViewModel>(), IYapStore.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_store
@@ -20,7 +20,6 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.clickEvent.observe(this, Observer {
 
         })

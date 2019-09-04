@@ -38,6 +38,7 @@ class TransactionLogicHelper(
                         val innerElem = childArrayList!!.getJSONObject(j)
                         val itemType = "ITEM"
 //                        val itemType = innerElem.getString("type")
+                        val type = innerElem.getString("type")
                         val vendor = innerElem.getString("vendor")
                         val imageUrl = innerElem.getString("imageUrl")
                         val time = innerElem.getString("time")
@@ -46,6 +47,7 @@ class TransactionLogicHelper(
                         val currency = innerElem.getString("currency")
                         val transaction: Transaction = Transaction(
                             itemType,
+                            type,
                             vendor,
                             imageUrl,
                             time,

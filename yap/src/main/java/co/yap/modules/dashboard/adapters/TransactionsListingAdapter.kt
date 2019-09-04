@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.models.Transaction
+import co.yap.translation.Translator
+import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.item_transaction_list.view.*
 
 
@@ -32,12 +35,31 @@ class TransactionsListingAdapter(
 
     override fun onBindViewHolder(holder: TransactionsListingAdapter.ViewHolder, position: Int) {
         val transaction: Transaction = transactionsList[position]
-
+        if (transaction.type == "Credit") {
+            holder.tvTransactionAmount?.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorSecondaryGreen
+                )
+            )
+            holder.tvTransactionAmount?.text = "+" + Utils.getFormattedCurrency(transaction.amount)
+        } else if (transaction.type == "Debit") {
+            holder.tvTransactionAmount?.setTextColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorPrimaryDark
+                )
+            )
+            holder.tvTransactionAmount?.text = "-" + Utils.getFormattedCurrency(transaction.amount)
+        }
         holder.tvTransactionName?.text = transaction.vendor
-        holder.tvNameInitials?.text = shortName(transaction.vendor)
-        holder.tvTransactionTime?.text = transaction.time
-        holder.tvTransactionCategory?.text = transaction.category
-        holder.tvTransactionAmount?.text = transaction.amount
+        holder.tvNameInitials?.text = shortName(transaction.vendor.toUpperCase())
+        holder.tvTransactionTimeAndCategory?.text = Translator.getString(
+            context,
+            R.string.screen_fragment_home_transaction_time_category,
+            transaction.time,
+            transaction.category
+        )
         holder.tvCurrency?.text = transaction.currency
     }
 
@@ -48,10 +70,9 @@ class TransactionsListingAdapter(
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+        val tvTransactionTimeAndCategory: TextView? = view.tvTransactionTimeAndCategory
         val tvTransactionName: TextView? = view.tvTransactionName
         val tvNameInitials: TextView? = view.tvNameInitials
-        val tvTransactionTime: TextView? = view.tvTransactionTime
-        val tvTransactionCategory: TextView? = view.tvTransactionCategory
         val tvTransactionAmount: TextView? = view.tvTransactionAmount
         val tvCurrency: TextView? = view.tvCurrency
 
