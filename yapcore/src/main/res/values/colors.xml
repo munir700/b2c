@@ -23,6 +23,7 @@
     <color name="warning">#ffc430</color>
     <color name="transparent">#00000000</color>
     <color name="disabled">#4D7C4DFF</color>
+    <color name="disabledLight">#235e35b1</color>
     <color name="divider">#1b979797</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>

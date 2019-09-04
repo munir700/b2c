@@ -137,7 +137,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_small"
-                            android:text="IBan"
+                            android:text="IBAN"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvAccountNo" />
 
@@ -161,8 +161,8 @@
                             app:btn_shape_type="rectangle"
                             app:btn_text_color="@color/colorPrimary"
                             app:btn_text_size="@dimen/text_size_c3"
-                            app:btn_unpressed_color="@color/disabled"
-                            app:btn_pressed_color="@color/disabled"
+                            app:btn_unpressed_color="@color/disabledLight"
+                            app:btn_pressed_color="@color/disabledLight"
                             android:onClick="@{v -> viewModel.handlePressOnNavigationItem(v.getId())}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -258,7 +258,7 @@
                 <include
                     layout="@layout/layout_item_icon_text"
                     app:icon="@{@drawable/phone}"
-                    app:title='@{"Contact Us"}' />
+                    app:title='@{"Contact us"}' />
 
                 <include
                     layout="@layout/layout_item_icon_text"
