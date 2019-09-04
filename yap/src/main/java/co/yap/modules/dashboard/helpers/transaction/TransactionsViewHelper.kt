@@ -4,7 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
-import android.text.SpannableStringBuilder
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,21 +16,14 @@ import co.yap.modules.dashboard.adapters.GraphBarsAdapter.Companion.previouslySe
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.TransactionModel
-import co.yap.translation.Translator
 import co.yap.yapcore.helpers.RecyclerTouchListener
-import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import it.sephiroth.android.library.xtooltip.ClosePolicy
-import it.sephiroth.android.library.xtooltip.Tooltip
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
-import java.lang.StringBuilder
-import androidx.databinding.adapters.TextViewBindingAdapter.setText
-import android.R.id.text2
-import android.graphics.Color
 import android.text.style.ForegroundColorSpan
-import android.widget.TextView
 import androidx.core.content.ContextCompat
+import it.sephiroth.android.library.xtooltip.Tooltip
 
 
 class TransactionsViewHelper(
@@ -54,11 +46,11 @@ class TransactionsViewHelper(
         view?.let {
             tooltip?.dismiss()
 
-            val text = data.date+" AED "+ Utils.getFormattedCurrency(data.closingBalance)
+            val text = data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance)
             val spannable = SpannableString(text)
 
             spannable.setSpan(
-                ForegroundColorSpan(ContextCompat.getColor(context,R.color.greyDark)),
+                ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
                 0,
                 data.date.length,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
@@ -67,7 +59,7 @@ class TransactionsViewHelper(
             tooltip = Tooltip.Builder(view.context)
                 .anchor(view, 0, -50, false)
                 .text(spannable)
-                 .maxWidth(380)
+                .maxWidth(380)
                 .styleId(R.style.ToolTipAltStyle)
                 .arrow(true)
                 //.floatingAnimation(Tooltip.Animation.DEFAULT)
