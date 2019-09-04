@@ -67,7 +67,7 @@ class TransactionsViewHelper(
 
         transactionsView.rvTransactionsBarChart.addOnItemTouchListener(
             RecyclerTouchListener(
-                transactionContext, transactionsView.rvTransactionsBarChart,
+                transactionContext, true,transactionsView.rvTransactionsBarChart,
                 object : RecyclerTouchListener.ClickListener {
                     override fun onItemTouchEvent(view: View?, position: Int) {
 
@@ -107,7 +107,8 @@ class TransactionsViewHelper(
 //                        previouslySelected = position
 //                        Log.i("positionTouch", position.toString())
                     }
-                })
+                }
+            )
         )
     }
 
@@ -115,7 +116,7 @@ class TransactionsViewHelper(
 
         transactionsView.rvTransaction.addOnItemTouchListener(
             RecyclerTouchListener(
-                transactionContext, transactionsView.rvTransaction,
+                transactionContext, false ,transactionsView.rvTransaction,
                 object : RecyclerTouchListener.ClickListener {
                     override fun onItemTouchEvent(view: View?, position: Int) {
                         Log.i("positionTouch", "onInterceptTouchEvent")
