@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.helpers.transaction
 import android.app.Activity
 import android.content.Context
 import android.os.Build
+import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -37,19 +38,35 @@ class TransactionsViewHelper(
 
     init {
         previouslySelected = 0
-        var isCellHighlighted: Boolean = false
-        var isCellHighlightedFromTransaction: Boolean = false
-
         setUpTransactionsListRecyclerView()
         setUpGraphRecyclerView()
         setOnGraphBarClickListeners()
         setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
         initCustomTooltip()
+        setTooltipOnZero()
     }
 
     private fun initCustomTooltip() {
         tooltip = transactionsView.findViewById(R.id.tooltip)
+    }
+
+    fun addToolTipDelay(delay: Long, process: () -> Unit) {
+        Handler().postDelayed({
+            process()
+        }, delay)
+    }
+
+    private fun setTooltipOnZero() {
+        addToolTipDelay(300) {
+            val newView =
+                transactionsView.rvTransactionsBarChart.getChildAt(0)
+            previouslySelected=0
+            addTooltip(
+                newView.findViewById(R.id.transactionBar),
+                viewModel.transactionLogicHelper.transactionList[0]
+            )
+        }
     }
 
     private fun addTooltip(view: View?, data: TransactionModel) {
@@ -205,7 +222,32 @@ class TransactionsViewHelper(
                 context, false, transactionsView.rvTransaction,
                 object : RecyclerTouchListener.ClickListener {
                     override fun scrollOnItemsTouchEvent(view: View?, position: Int) {
+                        checkScroll = false
+
 //                        checkScroll = false
+////                        checkScroll = true
+//                        isCellHighlighted = false
+//                        isCellHighlightedFromTransaction = false
+////
+//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+//                            .performClick()
+//                        horizontalScrollPosition = position
+
+//                        isCellHighlighted = true
+//                        isCellHighlightedFromTransaction = true
+
+                        val newView =
+                            transactionsView.rvTransactionsBarChart.getChildAt(position)
+//                                .apply {
+//                                performClick()
+//                            }
+                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+//                        previouslySelected = position
+//
+                        addTooltip(
+                            newView.findViewById(R.id.transactionBar),
+                            viewModel.transactionLogicHelper.transactionList[position]
+                        )
                     }
 
                     override fun onItemTouchEvent(view: View?, position: Int) {
