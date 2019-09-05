@@ -4,8 +4,10 @@ import android.content.Context
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -16,61 +18,64 @@ import co.yap.modules.dashboard.adapters.GraphBarsAdapter.Companion.previouslySe
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.TransactionModel
+import co.yap.widgets.tooltipview.TooltipView
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.Utils
-import it.sephiroth.android.library.xtooltip.ClosePolicy
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
-import android.text.style.ForegroundColorSpan
-import androidx.core.content.ContextCompat
-import it.sephiroth.android.library.xtooltip.Tooltip
 
 
 class TransactionsViewHelper(
     val context: Context, val transactionsView: View,
     val viewModel: IYapHome.ViewModel
 ) {
-    private var tooltip: Tooltip? = null
+    private var tooltip: TooltipView? = null
     var checkScroll: Boolean = false
     var horizontalScrollPosition: Int = 0
 
     init {
-        previouslySelected=0
+        previouslySelected = 0
         var isCellHighlighted: Boolean = false
         var isCellHighlightedFromTransaction: Boolean = false
-        
+
         setUpTransactionsListRecyclerView()
         setUpGraphRecyclerView()
         setOnGraphBarClickListeners()
         setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
+        initCustomTooltip()
+    }
+
+    private fun initCustomTooltip() {
+        tooltip = transactionsView.findViewById(R.id.tooltip)
     }
 
     private fun addTooltip(view: View?, data: TransactionModel) {
         view?.let {
-            tooltip?.dismiss()
-
             val text = data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance)
-            val spannable = SpannableString(text)
+            tooltip?.apply {
+                this.text = SpannableString(text).apply {
+                    setSpan(
+                        ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
+                        0,
+                        data.date.length,
+                        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                    )
+                }
 
-            spannable.setSpan(
-                ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
-                0,
-                data.date.length,
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-            )
+                val originalPos = IntArray(2)
+                view.getLocationInWindow(originalPos)
+                x = originalPos[0].toFloat()
+                // Subtract the height of the collapsing toolbar
+                val toolbarHeight =
+                    context.resources.getDimension(R.dimen.collapsing_toolbar_height)
+                y =
+                    (originalPos[1].toFloat() - toolbarHeight) - (view.height / 2) - Utils.convertDpToPx(
+                        context,
+                        20f
+                    )
+            }
 
-            tooltip = Tooltip.Builder(view.context)
-                .anchor(view, 0, -50, false)
-                .text(spannable)
-                .maxWidth(380)
-                .styleId(R.style.ToolTipAltStyle)
-                .arrow(true)
-                //.floatingAnimation(Tooltip.Animation.DEFAULT)
-                .closePolicy(ClosePolicy.TOUCH_OUTSIDE_NO_CONSUME)
-                .overlay(false)
-                .create()
-            tooltip?.show(view, Tooltip.Gravity.TOP, true)
         }
 
     }
@@ -121,10 +126,17 @@ class TransactionsViewHelper(
                         isCellHighlighted = true
                         isCellHighlightedFromTransaction = true
 
-                        transactionsView.rvTransactionsBarChart.getChildAt(position)
-                            .performClick()
+                        val newView =
+                            transactionsView.rvTransactionsBarChart.getChildAt(position).apply {
+                                performClick()
+                            }
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         previouslySelected = position
+
+                        addTooltip(
+                            newView.findViewById(R.id.transactionBar),
+                            viewModel.transactionLogicHelper.transactionList[position]
+                        )
 
                     }
 
@@ -141,17 +153,12 @@ class TransactionsViewHelper(
                         isCellHighlighted = true
                         isCellHighlightedFromTransaction = true
 
-                        val newView =
-                            transactionsView.rvTransactionsBarChart.getChildAt(position).apply {
-                                performClick()
-                            }
+                        transactionsView.rvTransactionsBarChart.getChildAt(position).apply {
+                            performClick()
+                        }
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         previouslySelected = position
 
-                        addTooltip(
-                            newView.findViewById(R.id.transactionBar),
-                            viewModel.transactionLogicHelper.transactionList[position]
-                        )
                     }
 
                     override fun onLongClick(view: View?, position: Int) {
@@ -281,7 +288,7 @@ class TransactionsViewHelper(
 
                 } else {
                     visibleitems1 =
-                        layoutManager.findFirstCompletelyVisibleItemPosition()-1
+                        layoutManager.findFirstCompletelyVisibleItemPosition() - 1
 
                 }
             }
@@ -341,7 +348,7 @@ class TransactionsViewHelper(
 
                 } else {
                     visibleitems1 =
-                        layoutManager.findFirstCompletelyVisibleItemPosition()-1
+                        layoutManager.findFirstCompletelyVisibleItemPosition() - 1
 
                 }
             }
@@ -373,16 +380,16 @@ class TransactionsViewHelper(
                     isCellHighlightedFromTransaction = true
                     //                            if (currentPosition >0) {
                     transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
-                        currentPosition  
+                        currentPosition
                     )
                     val newView =
-                        transactionsView.rvTransactionsBarChart.getChildAt(currentPosition  )
+                        transactionsView.rvTransactionsBarChart.getChildAt(currentPosition)
                     newView.performClick()
                     addTooltip(
                         newView.findViewById(R.id.transactionBar),
-                        viewModel.transactionLogicHelper.transactionList[currentPosition  ]
+                        viewModel.transactionLogicHelper.transactionList[currentPosition]
                     )
-                    previouslySelected = currentPosition  
+                    previouslySelected = currentPosition
                 }
 
             }

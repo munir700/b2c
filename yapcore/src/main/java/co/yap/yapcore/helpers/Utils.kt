@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -71,14 +72,21 @@ object Utils {
     }
 
     fun getFormattedCurrency(num: String?): String {
-        if ("" != num && null != num) {
+        return if ("" != num && null != num) {
             val m = java.lang.Double.parseDouble(num)
             val formatter = DecimalFormat("###,###,##0.00")
-            return formatter.format(m)
+            formatter.format(m)
         } else {
-            return ""
+            ""
         }
     }
 
+    fun convertDpToPx(context: Context, dp: Float): Float {
+        return dp * context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
+    }
+
+    fun convertPxToDp(context: Context, px: Float): Float {
+        return px / context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
+    }
 
 }
