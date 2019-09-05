@@ -45,7 +45,7 @@ class TransactionsViewHelper(
         setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
         initCustomTooltip()
-        setTooltipOnZero()
+        //setTooltipOnZero()
     }
 
     private fun initCustomTooltip() {
