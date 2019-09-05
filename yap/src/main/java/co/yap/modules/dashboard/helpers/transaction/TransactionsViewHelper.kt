@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.helpers.transaction
 
 import android.content.Context
 import android.os.Build
+import android.os.Handler
 import android.text.Spannable
 import android.text.SpannableString
 import android.view.View
@@ -44,6 +45,25 @@ class TransactionsViewHelper(
         setOnGraphBarClickListeners()
         setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
+        setTooltipOnZero()
+    }
+    fun addToolTipDelay(delay: Long, process: () -> Unit) {
+        Handler().postDelayed({
+            process()
+        }, delay)
+    }
+
+    private fun setTooltipOnZero() {
+
+        addToolTipDelay(300, {
+            val newView =
+                    transactionsView.rvTransactionsBarChart.getChildAt(0)
+                previouslySelected=0
+                addTooltip(
+                    newView.findViewById(R.id.transactionBar),
+                    viewModel.transactionLogicHelper.transactionList[0]
+                )
+        })
     }
 
     private fun addTooltip(view: View?, data: TransactionModel) {
