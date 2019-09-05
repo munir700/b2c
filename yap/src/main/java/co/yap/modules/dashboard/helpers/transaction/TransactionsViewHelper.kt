@@ -31,7 +31,7 @@ class TransactionsViewHelper(
     val context: Context, val transactionsView: View,
     val viewModel: IYapHome.ViewModel
 ) {
-    private var tooltip: Tooltip? = null
+//    private var tooltip: Tooltip? = null
     var checkScroll: Boolean = false
     var horizontalScrollPosition: Int = 0
 
@@ -52,7 +52,13 @@ class TransactionsViewHelper(
             process()
         }, delay)
     }
+companion object{
+    private var tooltip: Tooltip? = null
 
+    fun dimissToolTip(){
+       tooltip?.dismiss()
+   }
+}
     private fun setTooltipOnZero() {
 
         addToolTipDelay(300, {
@@ -67,6 +73,8 @@ class TransactionsViewHelper(
     }
 
     private fun addTooltip(view: View?, data: TransactionModel) {
+        tooltip?.dismiss()
+
         view?.let {
             tooltip?.dismiss()
 
@@ -203,28 +211,28 @@ class TransactionsViewHelper(
                 context, false, transactionsView.rvTransaction,
                 object : RecyclerTouchListener.ClickListener {
                     override fun scrollOnItemsTouchEvent(view: View?, position: Int) {
-//                        checkScroll = false
+                        checkScroll = false
 
 //                        checkScroll = false
 ////                        checkScroll = true
-                        isCellHighlighted = false
-                        isCellHighlightedFromTransaction = false
-//
-                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-                            .performClick()
-                        horizontalScrollPosition = position
+//                        isCellHighlighted = false
+//                        isCellHighlightedFromTransaction = false
+////
+//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+//                            .performClick()
+//                        horizontalScrollPosition = position
 
-                        isCellHighlighted = true
-                        isCellHighlightedFromTransaction = true
+//                        isCellHighlighted = true
+//                        isCellHighlightedFromTransaction = true
 
                         val newView =
                             transactionsView.rvTransactionsBarChart.getChildAt(position)
-                                .apply {
-                                performClick()
-                            }
-//                        transactionsView.rvTransaction.smoothScrollToPosition(position)
-                        previouslySelected = position
-
+//                                .apply {
+//                                performClick()
+//                            }
+                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+//                        previouslySelected = position
+//
                         addTooltip(
                             newView.findViewById(R.id.transactionBar),
                             viewModel.transactionLogicHelper.transactionList[position]

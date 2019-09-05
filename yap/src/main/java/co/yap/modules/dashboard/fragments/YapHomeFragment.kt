@@ -12,6 +12,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.adapters.NotificationAdapter
 import co.yap.modules.dashboard.helpers.transaction.TransactionsViewHelper
+import co.yap.modules.dashboard.helpers.transaction.TransactionsViewHelper.Companion.dimissToolTip
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.models.Notification
@@ -232,4 +233,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
+    override fun onPause() {
+        super.onPause()
+        dimissToolTip()
+    }
 }
