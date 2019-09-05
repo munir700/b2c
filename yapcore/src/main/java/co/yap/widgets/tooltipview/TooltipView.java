@@ -35,6 +35,8 @@ public class TooltipView extends AppCompatTextView {
     private Paint paint;
     private Path tooltipPath;
 
+    private float arrowX = 0f;
+
     public TooltipView(Context context) {
         super(context);
         init(null, 0);
@@ -210,6 +212,15 @@ public class TooltipView extends AppCompatTextView {
     public void setAlignmentOffsetResource(@DimenRes int resId) {
         this.alignmentOffset = getResources().getDimensionPixelSize(resId);
         invalidate();
+    }
+
+    public void setArrowX(float x) {
+        this.arrowX = x;
+        invalidate();
+    }
+
+    public float getArrowX() {
+        return arrowX;
     }
 
     private int getDimension(TypedArray a, @StyleableRes int styleableId,

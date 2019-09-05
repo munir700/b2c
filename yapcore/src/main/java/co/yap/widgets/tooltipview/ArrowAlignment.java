@@ -1,7 +1,7 @@
 package co.yap.widgets.tooltipview;
 
 public enum ArrowAlignment {
-    START(0), CENTER(1), END(2), ANCHORED_VIEW(3);
+    START(0), CENTER(1), END(2), ANCHORED_VIEW(3), CUSTOM(4);
 
     private final int value;
 

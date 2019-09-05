@@ -1,10 +1,12 @@
 package co.yap.modules.dashboard.helpers.transaction
 
+import android.app.Activity
 import android.content.Context
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.util.DisplayMetrics
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
@@ -63,14 +65,27 @@ class TransactionsViewHelper(
                     )
                 }
 
-                val originalPos = IntArray(2)
-                view.getLocationInWindow(originalPos)
-                x = originalPos[0].toFloat()
-                // Subtract the height of the collapsing toolbar
+                val viewPosition = IntArray(2)
+                view.getLocationInWindow(viewPosition)
+                val screen = DisplayMetrics()
+                (context as Activity).windowManager.defaultDisplay.getMetrics(screen)
+
+                // Calculate X for tooltip
+                if (viewPosition[0] + this.width >= screen.widthPixels) {
+                    // It is the end of the screen so adjust X
+                    x = (screen.widthPixels - this.width).toFloat()
+                    // Adjust position of arrow of tooltip
+                    arrowX = viewPosition[0] - x
+                } else {
+                    x = viewPosition[0].toFloat()
+                }
+
+
+                // Calculate Y. Subtract the height of the collapsing toolbar
                 val toolbarHeight =
                     context.resources.getDimension(R.dimen.collapsing_toolbar_height)
                 y =
-                    (originalPos[1].toFloat() - toolbarHeight) - (view.height / 2) - Utils.convertDpToPx(
+                    (viewPosition[1].toFloat() - toolbarHeight) - (view.height / 2) - Utils.convertDpToPx(
                         context,
                         20f
                     )
