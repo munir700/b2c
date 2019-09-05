@@ -8,7 +8,7 @@ import co.yap.yapcore.SingleClickEvent
 interface IYapHome {
 
     interface View : IBase.View<ViewModel> {
-        var transactionViewHelper: TransactionsViewHelper
+        var transactionViewHelper: TransactionsViewHelper?
         fun setObservers()
     }
 

@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
@@ -87,6 +88,18 @@ object Utils {
 
     fun convertPxToDp(context: Context, px: Float): Float {
         return px / context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
+    }
+
+    fun getNavigationBarHeight(activity: Activity): Int {
+        val metrics = DisplayMetrics()
+        activity.windowManager.defaultDisplay.getMetrics(metrics)
+        val usableHeight = metrics.heightPixels
+        activity.windowManager.defaultDisplay.getRealMetrics(metrics)
+        val realHeight = metrics.heightPixels
+        return if (realHeight > usableHeight)
+            realHeight - usableHeight
+        else
+            0
     }
 
 }

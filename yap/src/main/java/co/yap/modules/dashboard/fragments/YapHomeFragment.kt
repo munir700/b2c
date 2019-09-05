@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.adapters.NotificationAdapter
+import co.yap.modules.dashboard.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.interfaces.NotificationItemClickListener
@@ -20,6 +21,7 @@ import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
+import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
@@ -34,7 +36,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private lateinit var mAdapter: NotificationAdapter
     private lateinit var parentViewModel: YapDashBoardViewModel
     private var notificationsList: ArrayList<Notification> = ArrayList()
-    override lateinit var transactionViewHelper: TransactionsViewHelper
+    override var transactionViewHelper: TransactionsViewHelper? = null
 
     override val viewModel: IYapHome.ViewModel
         get() = ViewModelProviders.of(this).get(YapHomeViewModel::class.java)
@@ -51,6 +53,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     override fun setObservers() {
+        listenForToolbarExpansion()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 viewModel.EVENT_SET_CARD_PIN -> {
@@ -199,7 +202,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-    private fun setAvailableBalance(balance : String) {
+    override fun onDestroyView() {
+        super.onDestroyView()
+        appbar.removeOnOffsetChangedListener(appbarListener)
+    }
+
+    private fun setAvailableBalance(balance: String) {
         try {
             val ss1 = SpannableString(Utils.getFormattedCurrency(balance))
             if (ss1.isNotEmpty() && ss1.contains(".")) {
@@ -230,6 +238,24 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
         }
+    }
+
+//    private val appbarListener = AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+//        val toolbarCollapsed = (abs(verticalOffset) - appBarLayout.totalScrollRange) == 0
+//    }
+
+    private val appbarListener = object : AppBarStateChangeListener() {
+        override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
+            if (state == State.COLLAPSED) {
+                transactionViewHelper?.onToolbarCollapsed()
+            } else if (state == State.EXPANDED) {
+                transactionViewHelper?.onToolbarExpanded()
+            }
+        }
+    }
+
+    private fun listenForToolbarExpansion() {
+        appbar.addOnOffsetChangedListener(appbarListener)
     }
 
 }

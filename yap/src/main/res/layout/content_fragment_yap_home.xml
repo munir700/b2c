@@ -108,6 +108,7 @@
             android:paddingEnd="@dimen/_8sdp"
             android:paddingBottom="@dimen/_12sdp"
             android:text="Tooltip"
+            android:visibility="gone"
             android:background="@color/grey"
             app:arrowAlignment="custom"
             app:arrowHeight="@dimen/_8sdp"

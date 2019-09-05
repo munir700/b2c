@@ -35,6 +35,7 @@ class TransactionsViewHelper(
     private var tooltip: TooltipView? = null
     var checkScroll: Boolean = false
     var horizontalScrollPosition: Int = 0
+    private var toolbarCollapsed = false
 
     init {
         previouslySelected = 0
@@ -51,7 +52,7 @@ class TransactionsViewHelper(
         tooltip = transactionsView.findViewById(R.id.tooltip)
     }
 
-    fun addToolTipDelay(delay: Long, process: () -> Unit) {
+    private fun addToolTipDelay(delay: Long, process: () -> Unit) {
         Handler().postDelayed({
             process()
         }, delay)
@@ -61,7 +62,7 @@ class TransactionsViewHelper(
         addToolTipDelay(300) {
             val newView =
                 transactionsView.rvTransactionsBarChart.getChildAt(0)
-            previouslySelected=0
+            previouslySelected = 0
             addTooltip(
                 newView.findViewById(R.id.transactionBar),
                 viewModel.transactionLogicHelper.transactionList[0]
@@ -73,6 +74,7 @@ class TransactionsViewHelper(
         view?.let {
             val text = data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance)
             tooltip?.apply {
+                visibility = View.VISIBLE
                 this.text = SpannableString(text).apply {
                     setSpan(
                         ForegroundColorSpan(ContextCompat.getColor(context, R.color.greyDark)),
@@ -90,22 +92,28 @@ class TransactionsViewHelper(
                 // Calculate X for tooltip
                 if (viewPosition[0] + this.width >= screen.widthPixels) {
                     // It is the end of the screen so adjust X
-                    x = (screen.widthPixels - this.width).toFloat()
+                    translationX = (screen.widthPixels - this.width).toFloat()
                     // Adjust position of arrow of tooltip
                     arrowX = viewPosition[0] - x
                 } else {
-                    x = viewPosition[0].toFloat()
+                    translationX = viewPosition[0].toFloat()
+                    arrowX = 0f
                 }
 
 
                 // Calculate Y. Subtract the height of the collapsing toolbar
-                val toolbarHeight =
+                var toolbarHeight =
                     context.resources.getDimension(R.dimen.collapsing_toolbar_height)
+
+                if (toolbarCollapsed) toolbarHeight = Utils.getNavigationBarHeight(context as Activity).toFloat()
+
                 y =
-                    (viewPosition[1].toFloat() - toolbarHeight) - (view.height / 2) - Utils.convertDpToPx(
+                    viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(
                         context,
                         20f
                     )
+
+
             }
 
         }
@@ -222,7 +230,7 @@ class TransactionsViewHelper(
                 context, false, transactionsView.rvTransaction,
                 object : RecyclerTouchListener.ClickListener {
                     override fun scrollOnItemsTouchEvent(view: View?, position: Int) {
-                        checkScroll = false
+//                        checkScroll = false
 
 //                        checkScroll = false
 ////                        checkScroll = true
@@ -236,18 +244,18 @@ class TransactionsViewHelper(
 //                        isCellHighlighted = true
 //                        isCellHighlightedFromTransaction = true
 
-                        val newView =
-                            transactionsView.rvTransactionsBarChart.getChildAt(position)
-//                                .apply {
-//                                performClick()
-//                            }
-                        transactionsView.rvTransaction.smoothScrollToPosition(position)
-//                        previouslySelected = position
-//
-                        addTooltip(
-                            newView.findViewById(R.id.transactionBar),
-                            viewModel.transactionLogicHelper.transactionList[position]
-                        )
+//                        val newView =
+//                            transactionsView.rvTransactionsBarChart.getChildAt(position)
+////                                .apply {
+////                                performClick()
+////                            }
+//                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+////                        previouslySelected = position
+////
+//                        addTooltip(
+//                            newView.findViewById(R.id.transactionBar),
+//                            viewModel.transactionLogicHelper.transactionList[position]
+//                        )
                     }
 
                     override fun onItemTouchEvent(view: View?, position: Int) {
@@ -451,6 +459,14 @@ class TransactionsViewHelper(
 
             }
         }
+    }
+
+    fun onToolbarCollapsed() {
+        toolbarCollapsed = true
+    }
+
+    fun onToolbarExpanded() {
+        toolbarCollapsed = false
     }
 
 
