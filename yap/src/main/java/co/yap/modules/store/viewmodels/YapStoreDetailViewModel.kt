@@ -1,7 +1,6 @@
 package co.yap.modules.store.viewmodels
 
 import android.app.Application
-import co.yap.R
 import co.yap.modules.store.interfaces.IYapStoreDetail
 import co.yap.modules.store.states.YapStoreDetailState
 import co.yap.networking.store.responsedtos.Store
@@ -15,38 +14,7 @@ class YapStoreDetailViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapStoreDetailState = YapStoreDetailState()
     override var yapStoreData: MutableList<Store> = mutableListOf(
-        Store(
-            1,
-            "YAP Young",
-            "Open a bank account for your children and help empower them financially.",
-            R.drawable.ic_store_young, R.drawable.ic_young_smile
 
-        )
-        ,
-        Store(
-            2,
-            "YAP Household",
-            "Manage your household salaries digitally.",
-            R.drawable.ic_store_household, R.drawable.ic_young_household
-        ),
-        Store(
-            3,
-            "YAP B2B",
-            "Manage your household salaries digitally.",
-            R.drawable.ic_store_b2b, R.drawable.ic_young_smile
-        ),
-        Store(
-            4,
-            "YAP B2C",
-            "Manage your household salaries digitally.",
-            R.drawable.ic_store_b2c, R.drawable.ic_young_smile
-        ),
-        Store(
-            5,
-            "Financial Freedom for All",
-            "Yap’s mission is to enable everyone with financial freedom. Financial fr…",
-            R.drawable.ic_freedom, R.drawable.ic_young_smile
-        )
     )
 
     override fun handlePressOnView(id: Int) {

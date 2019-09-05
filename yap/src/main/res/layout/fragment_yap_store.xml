@@ -63,18 +63,52 @@
             app:text="@{Strings.screen_yap_store_display_text_heading}"
             tools:text="@string/screen_yap_store_display_text_heading" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_stores"
+
+        <LinearLayout
+            android:id="@+id/list_section"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:data="@{viewModel.state.storesList}"
-            android:dividerHeight="2dp"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvYapStoreHeading"
-            tools:itemCount="5"
-            tools:listitem="@layout/item_yap_store" />
+            app:layout_constraintTop_toBottomOf="@+id/tvYapStoreHeading">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_stores"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:dividerHeight="2dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvYapStoreHeading"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_yap_store" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true" />
+
+                <TextView
+                    android:id="@+id/txt_error"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="ERROR !! Tap to retry."
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_20sdp" />
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

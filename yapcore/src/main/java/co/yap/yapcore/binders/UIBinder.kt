@@ -259,7 +259,7 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, path: String) {
         Glide.with(view.context)
-            .load(path).centerCrop().placeholder(R.drawable.base_button_selector)
+            .load(path).centerCrop()
             .into(view)
     }
 
@@ -268,14 +268,14 @@ object UIBinder {
     fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
         if (circular) {
 
-            Glide.with(view.getContext())
+            Glide.with(view.context)
                 .asBitmap().load(resId)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
 
         } else {
 
-            Glide.with(view.getContext())
+            Glide.with(view.context)
                 .asBitmap().load(resId)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)

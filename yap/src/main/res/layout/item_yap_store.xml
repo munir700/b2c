@@ -26,14 +26,13 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="@dimen/margin_medium">
 
             <ImageView
                 android:id="@+id/imgStoreCover"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/light_grey"
-                android:backgroundTint="@color/light_grey"
+                android:layout_height="@dimen/_160sdp"
                 android:contentDescription="@string/empty_string"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -50,12 +49,11 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginBottom="@dimen/margin_medium"
                 android:contentDescription="@string/empty_string"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgStoreCover"
-                app:src="@{viewModel.storeData.storeIcon}"
+                app:src="@{viewModel.storeData.image}"
                 tools:srcCompat="@drawable/ic_young_smile" />
-
+            <!--            app:src="@{viewModel.storeData.storeIcon}"-->
             <TextView
                 android:id="@+id/tvStoreName"
                 style="@style/ALarge"
@@ -77,7 +75,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="@dimen/_17sdp"
                 android:text="@{viewModel.storeData.desc}"
-                app:layout_constraintEnd_toEndOf="@+id/imgStoreCover"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/tvStoreName"
                 app:layout_constraintTop_toBottomOf="@+id/tvStoreName"
                 tools:text="@string/screen_yap_store_display_text_heading" />

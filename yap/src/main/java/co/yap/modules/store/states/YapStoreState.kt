@@ -8,11 +8,11 @@ import co.yap.yapcore.BaseState
 
 class YapStoreState : BaseState(), IYapStore.State {
 
-    @get:Bindable
-    override var storesList: MutableList<Store> = mutableListOf()
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.storesList)
-        }
+//    @get:Bindable
+//    override var storesList: MutableList<Store> = mutableListOf()
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.storesList)
+//        }
 
 }

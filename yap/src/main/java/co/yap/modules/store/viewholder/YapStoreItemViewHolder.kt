@@ -9,7 +9,7 @@ import co.yap.networking.store.responsedtos.Store
 class YapStoreItemViewHolder(private val itemYapStoreBinding: ItemYapStoreBinding) :
     RecyclerView.ViewHolder(itemYapStoreBinding.root) {
 
-    fun onBind(store: Store) {
+    fun onBind(store: Store?) {
         itemYapStoreBinding.viewModel = YapStoreItemViewModel(store)
         itemYapStoreBinding.executePendingBindings()
     }
