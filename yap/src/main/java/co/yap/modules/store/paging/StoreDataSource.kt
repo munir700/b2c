@@ -43,18 +43,19 @@ class StoreDataSource(
             when (val response =
                 storeRepo.getYapStores(CreateStoreRequest())) {
                 is RetroApiResponse.Success -> {
-                    updateState(PagingState.DONE)
                     callback.onResult(
                         response.data.stores,
                         null,
                         2
                     )
+                    updateState(PagingState.DONE)
                 }
                 //Actual Line is RetroApiResponse.Error -> state.toast = response.error.message
                 is RetroApiResponse.Error -> {
-                    updateState(PagingState.ERROR)
+
                     //setRetry(Action { loadInitial(params, callback) })
                     callback.onResult(listOf(), 111L, 1221L)
+                    updateState(PagingState.ERROR)
                 }
             }
         }
@@ -66,16 +67,16 @@ class StoreDataSource(
             when (val response =
                 storeRepo.getYapStores(CreateStoreRequest())) {
                 is RetroApiResponse.Success -> {
-                    updateState(PagingState.DONE)
                     callback.onResult(
                         response.data.stores,
                         params.key + 1
                     )
+                    updateState(PagingState.DONE)
                 }
                 //Actual Line is RetroApiResponse.Error -> state.toast = response.error.message
                 is RetroApiResponse.Error -> {
-                    updateState(PagingState.ERROR)
                     callback.onResult(listOf(), 111L)
+                    updateState(PagingState.ERROR)
                 }
             }
         }

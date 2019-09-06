@@ -44,14 +44,19 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
     }
 
     private fun initState() {
-        //retry.setOnClickListener { viewModel.retry() }
+        //retryBtn.setOnClickListener { viewModel.retry() }
         viewModel.getState().observe(this, Observer { state ->
-            progress_bar.visibility =
-                if (viewModel.listIsEmpty() && state == PagingState.LOADING) View.VISIBLE else View.GONE
-            txt_error.visibility =
-                if (viewModel.listIsEmpty() && state == PagingState.ERROR) View.VISIBLE else View.GONE
-            if (!viewModel.listIsEmpty()) {
-                getRecycleViewAdaptor()?.setState(state ?: PagingState.DONE)
+            if (viewModel.listIsEmpty()) {
+                recycler_stores.visibility = View.GONE
+                txt_error.visibility =
+                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
+                progress_bar.visibility =
+                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+            } else {
+                txt_error.visibility = View.GONE
+                progress_bar.visibility = View.GONE
+                recycler_stores.visibility = View.VISIBLE
+                getRecycleViewAdaptor()?.setState(state)
             }
         })
     }
