@@ -18,6 +18,8 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class EmailViewModel(application: Application) :
     OnboardingChildViewModel<IEmail.State>(application), IEmail.ViewModel,
@@ -48,6 +50,13 @@ class EmailViewModel(application: Application) :
         } else {
             nextButtonPressEvent.setValue(EVENT_POST_VERIFICATION_EMAIL)
         }
+    }
+
+    override fun stopTimer(){
+        parentViewModel?.onboardingData?.elapsedOnboardingTime =
+            TimeUnit.MILLISECONDS.toSeconds(
+                Date().time - (parentViewModel?.onboardingData?.startTime?.time ?: Date().time)
+            )
     }
 
 

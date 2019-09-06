@@ -100,7 +100,7 @@ public class TooltipView extends AppCompatTextView {
         if (tooltipPath == null || paint == null) {
             arrowLocation.configureDraw(this, canvas);
         }
-        paint.setShadowLayer(1, 6, 5, R.color.greyDark);
+        //paint.setShadowLayer(1, 6, 5, R.color.greyDark);
         canvas.drawPath(tooltipPath, paint);
         super.onDraw(canvas);
     }

@@ -7,7 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.widget.ImageView
 import androidx.core.animation.addListener
-import androidx.core.animation.doOnEnd
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -55,10 +54,10 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     }
 
     private fun startAnimation() {
+        viewModel.stopTimer()
         Handler(Looper.getMainLooper()).postDelayed({
             toolbarAnimation().apply {
-                addListener (onEnd = {
-
+                addListener(onEnd = {
                 })
             }.start()
         }, 500)
@@ -67,7 +66,8 @@ class EmailFragment : OnboardingChildFragment<IEmail.ViewModel>() {
     private fun toolbarAnimation(): AnimatorSet {
         val checkButton = (activity as OnboardingActivity).findViewById<ImageView>(R.id.tbBtnCheck)
         val backButton = (activity as OnboardingActivity).findViewById<ImageView>(R.id.tbBtnBack)
-        val progressbar = (activity as OnboardingActivity).findViewById<AnimatingProgressBar>(R.id.tbProgressBar)
+        val progressbar =
+            (activity as OnboardingActivity).findViewById<AnimatingProgressBar>(R.id.tbProgressBar)
 
         val checkBtnEndPosition = (windowSize.width() / 2) - (checkButton.width / 2)
 
