@@ -100,7 +100,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:paddingBottom="8dp"
             android:gravity="center"
-            app:btn_enable="true"
+            app:enableCoreButton="@{viewModel.state.valid}"
             android:onClick="@{(v)-> viewModel.handlePressOnNextButton(v.id)}"
             app:text="@{Strings.screen_set_card_pin_button_create_pin}"
             android:paddingEnd="@dimen/_65sdp"

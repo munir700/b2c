@@ -10,7 +10,7 @@ import co.yap.modules.dashboard.interfaces.IYapCards
 import co.yap.modules.dashboard.viewmodels.YapCardsViewModel
 import co.yap.yapcore.BaseBindingFragment
 
-class YapCardsFragment : BaseBindingFragment<IYapCards.ViewModel>(), IYapCards.View {
+class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_cards

@@ -1,77 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CoreButton">
-        <attr name="btn_text_color" format="color"/>
-        <attr name="btn_drawable" format="reference"/>
-        <attr name="btn_text_size" format="dimension"/>
-        <attr name="btn_pressed_color" format="color"/>
-        <attr name="btn_unpressed_color" format="color"/>
-        <attr name="btn_round_radius" format="dimension"/>
-        <attr name="btn_radius" format="dimension"/>
-        <attr name="btn_drawable_padding_top" format="float"/>
-        <attr name="btn_drawable_padding_right" format="float"/>
-        <attr name="btn_drawable_padding_left" format="float"/>
-        <attr name="btn_text_alignment_from_left" format="float"/>
-        <attr name="btn_has_bold_text" format="boolean"/>
-        <attr name="btn_enable" format="boolean"/>
+        <attr name="btn_text_color" format="color" />
+        <attr name="btn_drawable" format="reference" />
+        <attr name="btn_text_size" format="dimension" />
+        <attr name="btn_pressed_color" format="color" />
+        <attr name="btn_unpressed_color" format="color" />
+        <attr name="btn_round_radius" format="dimension" />
+        <attr name="btn_drawable_padding_top" format="float" />
+        <attr name="btn_drawable_padding_right" format="float" />
+        <attr name="btn_drawable_padding_left" format="float" />
+        <attr name="btn_text_alignment_from_left" format="float" />
+        <attr name="btn_has_bold_text" format="boolean" />
+        <attr name="btn_enable" format="boolean" />
 
         <attr name="btn_shape_type" format="enum">
-            <enum name="circle" value="0"/>
-            <enum name="rectangle" value="1"/>
+            <enum name="circle" value="0" />
+            <enum name="rectangle" value="1" />
         </attr>
 
         <attr name="btn_drawable_position" format="enum">
-            <enum name="left" value="0"/>
-            <enum name="right" value="1"/>
-            <enum name="center" value="2"/>
+            <enum name="left" value="0" />
+            <enum name="right" value="1" />
+            <enum name="center" value="2" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="CustomImageButton">
-        <attr name="pressed_src" format="reference"/>
-        <attr name="unpressed_src" format="reference"/>
+        <attr name="pressed_src" format="reference" />
+        <attr name="unpressed_src" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="CoreInputField">
-        <attr name="view_hint_input_field" format="reference"/>
-        <attr name="view_error_input_field" format="reference"/>
-        <attr name="view_drawable_right" format="reference"/>
-        <attr name="view_drawable_left" format="reference"/>
-        <attr name="view_focusable" format="boolean"/>
-        <attr name="view_input_text" format="string"/>
-        <attr name="view_max_length" format="integer"/>
-        <attr name="view_id" format="integer"/>
+        <attr name="view_hint_input_field" format="reference" />
+        <attr name="view_error_input_field" format="reference" />
+        <attr name="view_drawable_right" format="reference" />
+        <attr name="view_drawable_left" format="reference" />
+        <attr name="view_focusable" format="boolean" />
+        <attr name="view_input_text" format="string" />
+        <attr name="view_max_length" format="integer" />
+        <attr name="view_id" format="integer" />
 
         <attr name="view_input_text_imei_actions" format="enum">
-            <enum name="IME_ACTION_DONE" value="1"/>
-            <enum name="IME_ACTION_NEXT" value="2"/>
+            <enum name="IME_ACTION_DONE" value="1" />
+            <enum name="IME_ACTION_NEXT" value="2" />
         </attr>
 
         <attr name="view_input_type" format="enum">
-            <enum name="phone" value="1"/>
-            <enum name="email" value="2"/>
+            <enum name="phone" value="1" />
+            <enum name="email" value="2" />
         </attr>
     </declare-styleable>
 
     <declare-styleable name="CoreDialerPad">
-        <attr name="dialer_max_length" format="integer"/>
-        <attr name="dialer_error" format="reference"/>
+        <attr name="dialer_max_length" format="integer" />
+        <attr name="dialer_error" format="reference" />
         <attr name="dialer_pass_code" format="enum">
-            <enum name="defaultType" value="0"/>
-            <enum name="passcode" value="1"/>
+            <enum name="defaultType" value="0" />
+            <enum name="passcode" value="1" />
         </attr>
 
     </declare-styleable>
 
     <!-- Font Awesome attr-->
     <declare-styleable name="FontTextView">
-        <attr name="brand_icon" format="boolean"/>
-        <attr name="solid_icon" format="boolean"/>
+        <attr name="brand_icon" format="boolean" />
+        <attr name="solid_icon" format="boolean" />
     </declare-styleable>
-
-
-
-
 
 
     <declare-styleable name="CountryCodePicker">
@@ -206,7 +201,6 @@
     </declare-styleable>
 
 
-
     <declare-styleable name="MyyMap">
         <attr name="latitude" format="float" />
         <attr name="longitude" format="float" />
@@ -240,5 +234,73 @@
             <enum name="mirror" value="2" />
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="ChartAttrs">
+
+        <attr name="chart_axis">
+            <enum name="none" value="0" />
+            <enum name="x" value="1" />
+            <enum name="y" value="2" />
+            <enum name="xy" value="3" />
+        </attr>
+        <attr name="chart_labelsColor" format="reference|color" />
+        <attr name="chart_labelsSize" format="dimension" />
+        <attr name="chart_labelsFont" format="reference" />
+
+    </declare-styleable>
+
+    <declare-styleable name="BarChartAttrs">
+        <attr name="chart_spacing" format="dimension" />
+        <attr name="chart_barsColor" format="reference|color" />
+        <attr name="chart_barsRadius" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="ViewBehavior">
+        <attr name="behavior_dependsOn" format="reference" />
+        <attr name="behavior_dependType">
+            <enum name="height" value="0" />
+            <enum name="width" value="1" />
+            <enum name="x" value="2" />
+            <enum name="y" value="3" />
+        </attr>
+
+        <attr name="behavior_dependTarget" format="dimension" />
+
+        <attr name="behavior_targetX" format="dimension" />
+        <attr name="behavior_targetY" format="dimension" />
+        <attr name="behavior_targetWidth" format="dimension" />
+        <attr name="behavior_targetHeight" format="dimension" />
+        <attr name="behavior_targetBackgroundColor" format="color" />
+        <attr name="behavior_targetAlpha" format="float" />
+        <attr name="behavior_targetRotateX" format="float" />
+        <attr name="behavior_targetRotateY" format="float" />
+
+        <attr name="behavior_animation" format="reference" />
+    </declare-styleable>
+
+
+    <!--tooltipview-->
+
+    <declare-styleable name="TooltipView">
+        <attr name="anchoredView" format="reference" />
+        <attr name="cornerRadius" format="dimension" />
+        <attr name="tooltipColor" format="color" />
+        <attr name="arrowHeight" format="dimension" />
+        <attr name="arrowWidth" format="dimension" />
+        <attr name="arrowAlignmentOffset" format="dimension" />
+        <attr name="arrowLocation" format="integer">
+            <enum name="top" value="0" />
+            <enum name="bottom" value="1" />
+        </attr>
+
+        <attr name="arrowAlignment" format="enum">
+            <enum name="start" value="0" />
+            <enum name="center" value="1" />
+            <enum name="end" value="2" />
+            <enum name="anchored_view" value="3" />
+            <enum name="custom" value="4" />
+        </attr>
+    </declare-styleable>
+
 
 </resources>

@@ -10,7 +10,21 @@
         android:id="@+id/yapHome"
         tools:layout="@layout/fragment_yap_home"
         android:name="co.yap.modules.dashboard.fragments.YapHomeFragment"
-        android:label="YapDashboardHome"/>
+        android:label="YapDashboardHome">
+        <action
+            android:id="@+id/action_yapHome_to_documentsDashboardActivity"
+            app:popUpTo="@id/yap_navigation"
+            app:popUpToInclusive="true"
+            app:destination="@id/documentsDashboardActivity" >
+            <argument
+                android:name="name"
+                android:defaultValue=" "
+                app:argType="string"/>
+        </action>
+        <action
+            android:id="@+id/action_yapHome_to_setCardPinWelcomeActivity"
+            app:destination="@id/setCardPinWelcomeActivity" />
+    </fragment>
 
     <fragment
         android:id="@+id/yapStore"
@@ -28,7 +42,24 @@
         android:id="@+id/liteDashboard"
         android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
         tools:layout="@layout/fragment_lite_dashboard"
-        android:label="LiteDashboardFragment"/>
+        android:label="LiteDashboardFragment">
+    </fragment>
 
+    <activity
+        android:id="@+id/documentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard"
+        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
+        android:label="DocumentsDashboardActivity">
+        <argument
+            android:name="name"
+            app:argType="string"/>
+    </activity>
+
+    <activity
+        android:id="@+id/setCardPinWelcomeActivity"
+        tools:layout="@layout/activity_set_card_pin_welcome"
+        android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
+        android:label="SetCardPinWelcomeActivity">
+    </activity>
 
 </navigation>

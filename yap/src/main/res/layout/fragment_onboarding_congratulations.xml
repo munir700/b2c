@@ -134,6 +134,7 @@
             android:drawablePadding="@dimen/_20sdp"
             app:btn_shape_type="rectangle"
             tools:ignore="MissingConstraints"
+            android:onClick="@{(v)-> viewModel.handlePressOnCompleteVerification(v.id)}"
             android:layout_marginStart="@dimen/margin_xl"
             android:layout_marginEnd="@dimen/margin_xl"
             android:layout_marginBottom="8dp"
