@@ -1,36 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/kyc_navigation"
-    app:startDestination="@id/KYCHomeFragment">
-    <argument
-        android:name="name"
-        android:defaultValue=" "
-        app:argType="string"/>
-    <action
-        android:id="@+id/action_goto_DashboardActivity"
-        app:destination="@id/DashboardActivity"
-        app:popUpTo="@+id/kyc_navigation"
-        app:popUpToInclusive="true"/>
-    <fragment
-        android:id="@+id/informationErrorFragment"
-        android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
-        tools:layout="@layout/fragment_information_error"
-        android:label="InformationErrorFragment"/>
+    android:id="@+id/spare_cards_navigation"
+    app:startDestination="@id/spareCardLandingFragment">
+
 
     <fragment
-        android:id="@+id/KYCHomeFragment"
-        tools:layout="@layout/fragment_kyc_home"
-        android:name="co.yap.modules.kyc.fragments.KYCHomeFragment"
-        android:label="KYCHomeFragment">
-        <action
-            android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"
-            app:destination="@id/eidInfoReviewFragment"/>
-        <action
-            android:id="@+id/action_KYCHomeFragment_to_AddressSelectionFragment"
-            app:destination="@id/AddressSelectionFragment"/>
+        android:id="@+id/spareCardLandingFragment"
+        android:name="co.yap.modules.dashboard.cards.fragments.SpareCardLandingFragment"
+        android:label="@string/screen_spare_card_landing_display_text_title"
+        tools:layout="@layout/fragment_spare_card_landing">
+        <!--        <action-->
+        <!--            android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"-->
+        <!--            app:destination="@id/eidInfoReviewFragment"/>-->
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/benefitsFragment"
+        android:name="co.yap.modules.dashboard.cards.fragments.CardsBenefitsFragment"
+        android:label="Spare card benefits"
+        tools:layout="@layout/fragment_benefits">
+        <!--            <action-->
+        <!--                android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"-->
+        <!--                app:destination="@id/eidInfoReviewFragment"/>-->
 
     </fragment>
 
