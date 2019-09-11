@@ -5,20 +5,42 @@
     android:id="@+id/yap_navigation"
     app:startDestination="@id/yapHome">
 
+    <activity
+        android:id="@+id/documentsDashboardActivity"
+        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
+        android:label="DocumentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard">
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </activity>
+
+    <activity
+        android:id="@+id/setCardPinWelcomeActivity"
+        android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
+        android:label="SetCardPinWelcomeActivity"
+        tools:layout="@layout/activity_set_card_pin_welcome"></activity>
+
+    <fragment
+        android:id="@+id/liteDashboard"
+        android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
+        android:label="LiteDashboardFragment"
+        tools:layout="@layout/fragment_lite_dashboard"></fragment>
+
     <fragment
         android:id="@+id/yapHome"
-        tools:layout="@layout/fragment_yap_home"
         android:name="co.yap.modules.dashboard.fragments.YapHomeFragment"
-        android:label="YapDashboardHome">
+        android:label="YapDashboardHome"
+        tools:layout="@layout/fragment_yap_home">
         <action
             android:id="@+id/action_yapHome_to_documentsDashboardActivity"
+            app:destination="@id/documentsDashboardActivity"
             app:popUpTo="@id/yap_navigation"
-            app:popUpToInclusive="true"
-            app:destination="@id/documentsDashboardActivity" >
+            app:popUpToInclusive="true">
             <argument
                 android:name="name"
                 android:defaultValue=" "
-                app:argType="string"/>
+                app:argType="string" />
         </action>
         <action
             android:id="@+id/action_yapHome_to_setCardPinWelcomeActivity"
@@ -26,40 +48,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/yapStore"
-        tools:layout="@layout/fragment_yap_store"
-        android:name="co.yap.modules.dashboard.fragments.YapStoreFragment"
-        android:label="YapStoreFragment"/>
-
-    <fragment
         android:id="@+id/yapCards"
-        tools:layout="@layout/fragment_yap_cards"
         android:name="co.yap.modules.dashboard.fragments.YapCardsFragment"
-        android:label="YapCardsFragment"/>
-
-    <fragment
-        android:id="@+id/liteDashboard"
-        android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
-        tools:layout="@layout/fragment_lite_dashboard"
-        android:label="LiteDashboardFragment">
-    </fragment>
-
-    <activity
-        android:id="@+id/documentsDashboardActivity"
-        tools:layout="@layout/activity_documents_dashboard"
-        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
-        android:label="DocumentsDashboardActivity">
-        <argument
-            android:name="name"
-            app:argType="string"/>
-    </activity>
-
-    <activity
-        android:id="@+id/setCardPinWelcomeActivity"
-        tools:layout="@layout/activity_set_card_pin_welcome"
-        android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
-        android:label="SetCardPinWelcomeActivity">
-    </activity>
+        android:label="YapCardsFragment"
+        tools:layout="@layout/fragment_yap_cards" />
     <fragment
         android:id="@+id/yapDashboardHome"
         android:name="co.yap.modules.dashboard.fragments.YapDashboardHome"
@@ -67,10 +59,10 @@
         tools:layout="@layout/fragment_yap_dashboard_home">
         <action
             android:id="@+id/action_yapDashboardHome_to_yapStoreFragment"
-            app:destination="@id/yapStoreFragment" />
+            app:destination="@id/yapStore" />
     </fragment>
     <fragment
-        android:id="@+id/yapStoreFragment"
+        android:id="@+id/yapStore"
         android:name="co.yap.modules.store.fragments.YapStoreFragment"
         android:label="YapStoreFragment"
         tools:layout="@layout/fragment_yap_store">

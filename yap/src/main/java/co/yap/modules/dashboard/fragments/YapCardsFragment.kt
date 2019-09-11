@@ -4,39 +4,23 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.interfaces.IYapDashboardHome
-import co.yap.modules.dashboard.viewmodels.YapDashboardHomeViewModel
-import co.yap.yapcore.BaseBindingFragment
-import kotlinx.android.synthetic.main.fragment_yap_dashboard_home.*
+import co.yap.modules.dashboard.interfaces.IYapCards
+import co.yap.modules.dashboard.viewmodels.YapCardsViewModel
 
-class YapDashboardHome : BaseBindingFragment<IYapDashboardHome.ViewModel>(),
-    IYapDashboardHome.View {
+class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_yap_dashboard_home
+    override fun getLayoutId(): Int = R.layout.fragment_yap_cards
 
-    override val viewModel: IYapDashboardHome.ViewModel
-        get() = ViewModelProviders.of(this).get(YapDashboardHomeViewModel::class.java)
+    override val viewModel: IYapCards.ViewModel
+        get() = ViewModelProviders.of(this).get(YapCardsViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.clickEvent.observe(this, Observer {
 
         })
-
-
-        //////////////////////
-        //todo For testing only remove it while implementation YapDashboardHome.
-        button11.setOnClickListener {
-            val action =
-                YapDashboardHomeDirections.actionYapDashboardHomeToYapStoreFragment()
-            view.findNavController().navigate(action)
-        }
-        //////////////////////
-
-
     }
 }
