@@ -9,7 +9,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:paddingBottom="@dimen/margin_medium">
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
@@ -38,11 +40,12 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_100sdp"
+                android:layout_height="@dimen/_150sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
+                app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"
+                tools:listitem="@layout/item_benefits" />
 
             <TextView
                 android:id="@+id/tvCardType"
@@ -166,9 +169,9 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <variable
-            name="viewModel"
-            type="co.yap.modules.dashboard.cards.viewmodels.SpareCardLandingViewModel" />
+        <!--        <variable-->
+        <!--            name="viewModel"-->
+        <!--            type="co.yap.modules.dashboard.cards.viewmodels.SpareCardLandingViewModel" />-->
 
     </data>
 </layout>
