@@ -9,6 +9,7 @@
 /.idea/*
 /.idea/assetWizardSettings.xml
 /authentication/build/*
+/authentication/build
 .DS_Store
 /build
 /captures

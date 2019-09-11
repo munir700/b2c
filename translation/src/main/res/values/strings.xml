@@ -7,6 +7,7 @@
     <string name="common_button_yes">Yes</string>
     <string name="common_button_cancel">Cancel</string>
     <string name="common_button_settings">Settings</string>
+    <string name="common_button_activate">Activate</string>
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -217,6 +218,10 @@
 
     <!-- Create new Passcode screen -->
     <string name="screen_create_new_passcode_button_text">Create new passcode</string>
+
+    <!--  store  -->
+    <string name="screen_yap_store_display_text_title">YAP Store</string>
+    <string name="screen_yap_store_display_text_heading">Browse YAP packages and add-ons</string>
 
     <!--    fragment home transaction-->
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>

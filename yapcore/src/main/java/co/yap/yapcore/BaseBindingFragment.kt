@@ -8,7 +8,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseBindingFragment<V: IBase.ViewModel<*>> : BaseFragment<V>() {
+abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 
     private lateinit var viewDataBinding: ViewDataBinding
 
@@ -17,7 +17,7 @@ abstract class BaseBindingFragment<V: IBase.ViewModel<*>> : BaseFragment<V>() {
         setHasOptionsMenu(false)
     }
 
-    final override fun onCreateView(
+    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -28,6 +28,7 @@ abstract class BaseBindingFragment<V: IBase.ViewModel<*>> : BaseFragment<V>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
+        //viewDataBinding.lifecycleOwner = this
         viewDataBinding.executePendingBindings()
     }
 

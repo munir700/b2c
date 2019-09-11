@@ -64,4 +64,8 @@
     <integer name="tooltip_default_arrow_location">1</integer>
     <integer name="tooltip_default_arrow_alignment">3</integer>
 
+    <!-- CardView Settings-->
+    <dimen name="cardview_compat_inset_shadow">@dimen/_10sdp</dimen>
+    <dimen name="cardview_elevation">@dimen/_10sdp</dimen>
+    <dimen name="cardview_radius">@dimen/_10sdp</dimen>
 </resources>
