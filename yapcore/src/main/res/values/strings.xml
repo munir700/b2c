@@ -1,4 +1,7 @@
 <resources>
+    <string name="simple_view_behavior">co.yap.yapcore.viewbehavior.SimpleViewBehavior</string>
+    <string name="animation_view_behavior">co.yap.yapcore.viewbehavior.AnimationViewBehavior</string>
+
     //All strings are temporary
     <string name="empty_string"> </string>
     <string name="err_email">Please enter you email</string>

@@ -13,28 +13,27 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.animation.AccelerateInterpolator
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.core.animation.addListener
 import androidx.core.text.toSpannable
 import androidx.core.view.children
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.kyc.activities.DocumentsDashboardActivityArgs
 import co.yap.modules.onboarding.activities.OnboardingActivity
 import co.yap.modules.onboarding.interfaces.ICongratulations
 import co.yap.modules.onboarding.viewmodels.CongratulationsViewModel
 import co.yap.translation.Strings
-import co.yap.widgets.AnimatingProgressBar
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.fragment_onboarding_congratulations.*
 
 
-class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>() {
+class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewModel>(),
+    ICongratulations.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -49,14 +48,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        btnCompleteVerification.setOnClickListener {
-            val action = CongratulationsFragmentDirections.actionCongratulationsFragmentToDocumentsDashboardActivity(
-                viewModel.state.nameList[0] ?: ""
-            )
-            findNavController().navigate(action)
-            activity?.finishAffinity()
-        }
-
         val display = activity!!.windowManager.defaultDisplay
         display.getRectSize(windowSize)
 
@@ -67,6 +58,22 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 500)
+    }
+
+
+    override fun setObservers() {
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.btnCompleteVerification -> {
+                    val action =
+                        CongratulationsFragmentDirections.actionCongratulationsFragmentToDocumentsDashboardActivity(
+                            viewModel.state.nameList[0] ?: ""
+                        )
+                    findNavController().navigate(action)
+                    activity?.finishAffinity()
+                }
+            }
+        })
     }
 
     private fun runAnimations() {
@@ -81,7 +88,11 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                 AnimationUtils.jumpInAnimation(tvMeetingNotes).apply { startDelay = 200 },
                 AnimationUtils.jumpInAnimation(btnCompleteVerification).apply { startDelay = 300 }
             )
-        ).start()
+        ).apply {
+            addListener (onEnd = {
+                setObservers()
+            })
+        }.start()
     }
 
     private fun titleAnimation(): AnimatorSet {
@@ -93,7 +104,12 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         // move to center position instantly without animation
         val moveToCenter = AnimationUtils.runTogether(
             AnimationUtils.slideVertical(tvTitle, 0, titleOriginalPosition, titleMidScreenPosition),
-            AnimationUtils.slideVertical(tvSubTitle, 0, subTitleOriginalPosition, subTitleMidScreenPosition)
+            AnimationUtils.slideVertical(
+                tvSubTitle,
+                0,
+                subTitleOriginalPosition,
+                subTitleMidScreenPosition
+            )
         )
 
         // appear with alpha and scale animation
@@ -129,7 +145,11 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         return AnimationUtils.runSequentially(*array.requireNoNulls())
     }
 
-    private fun counterAnimation(initialValue: Int, finalValue: Int, textview: TextView): ValueAnimator {
+    private fun counterAnimation(
+        initialValue: Int,
+        finalValue: Int,
+        textview: TextView
+    ): ValueAnimator {
         val text = getString(Strings.screen_onboarding_congratulations_display_text_sub_title)
         val parts = text.split("%1s")
 
@@ -140,7 +160,12 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
                     val counterText = animator.animatedValue.toString() + parts[1]
                     append(counterText.toSpannable().apply {
                         setSpan(
-                            ForegroundColorSpan(Utils.getColor(requireContext(), R.color.colorPrimaryDark)),
+                            ForegroundColorSpan(
+                                Utils.getColor(
+                                    requireContext(),
+                                    R.color.colorPrimaryDark
+                                )
+                            ),
                             0, counterText.length,
                             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                         )
@@ -150,5 +175,6 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         }
     }
 
-    override fun onBackPressed(): Boolean = run { (activity as? OnboardingActivity)?.finish().let { true } }
+    override fun onBackPressed(): Boolean =
+        run { (activity as? OnboardingActivity)?.finish().let { true } }
 }

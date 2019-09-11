@@ -53,8 +53,7 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 )
             findNavController().navigate(action)
         } else {
-            findNavController().navigate(R.id.action_systemPermissionFragment_to_liteDashboardActivity)
-            activity?.finish()
+            navigateToDashboard()
         }
     }
 
@@ -67,9 +66,13 @@ class SystemPermissionFragment : BaseBindingFragment<ISystemPermission.ViewModel
                 )
             findNavController().navigate(action)
         } else {
-            findNavController().navigate(R.id.action_systemPermissionFragment_to_liteDashboardActivity)
-            activity?.finish()
+            navigateToDashboard()
         }
+    }
+
+    private fun navigateToDashboard() {
+        findNavController().navigate(R.id.action_goto_yapDashboardActivity)
+        activity?.finish()
     }
 
     private fun getScreenType(): String {

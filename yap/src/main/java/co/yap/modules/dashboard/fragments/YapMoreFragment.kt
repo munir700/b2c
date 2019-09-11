@@ -6,17 +6,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.interfaces.IYapDashboardHome
-import co.yap.modules.dashboard.viewmodels.YapDashboardHomeViewModel
+import co.yap.modules.dashboard.interfaces.IYapMore
+import co.yap.modules.dashboard.viewmodels.YapMoreViewModel
 import co.yap.yapcore.BaseBindingFragment
 
-class YapDashboardHome : BaseBindingFragment<IYapDashboardHome.ViewModel>(), IYapDashboardHome.View {
+class YapMoreFragment : YapDashboardChildFragment<IYapMore.ViewModel>(), IYapMore.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_yap_dashboard_home
+    override fun getLayoutId(): Int = R.layout.fragment_yap_more
 
-    override val viewModel: IYapDashboardHome.ViewModel
-        get() = ViewModelProviders.of(this).get(YapDashboardHomeViewModel::class.java)
+    override val viewModel: IYapMore.ViewModel
+        get() = ViewModelProviders.of(this).get(YapMoreViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

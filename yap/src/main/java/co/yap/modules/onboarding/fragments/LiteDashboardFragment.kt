@@ -7,7 +7,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.modules.onboarding.activities.LiteDashboardActivity
+import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
@@ -19,7 +19,7 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 
 
-class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
+class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel>() {
 
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
@@ -34,12 +34,12 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
-        sharedPreferenceManager = SharedPreferenceManager(context as LiteDashboardActivity)
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         if (BiometricUtil.isFingerprintSupported
-            && BiometricUtil.isHardwareSupported(context as LiteDashboardActivity)
-            && BiometricUtil.isPermissionGranted(context as LiteDashboardActivity)
-            && BiometricUtil.isFingerprintAvailable(context as LiteDashboardActivity)
+            && BiometricUtil.isHardwareSupported(requireContext())
+            && BiometricUtil.isPermissionGranted(requireContext())
+            && BiometricUtil.isFingerprintAvailable(requireContext())
         ) {
             val isTouchIdEnabled: Boolean =
                 sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
@@ -67,7 +67,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     private val observer = Observer<Int> {
         when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
-            viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
+        /*    viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
                 findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
             }
             viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
@@ -77,7 +77,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
                     )
                 )
                 activity?.finish()
-            }
+            }*/
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
                 viewModel.getDebitCards()
             }
@@ -116,7 +116,7 @@ class LiteDashboardFragment : BaseBindingFragment<ILiteDashboard.ViewModel>() {
     }
 
     private fun showLogoutDialog() {
-        AlertDialog.Builder(context as LiteDashboardActivity)
+        AlertDialog.Builder(requireContext())
             .setTitle("Exit")
             .setMessage("Are you sure you want to exit?")
             .setPositiveButton("CONFIRM") { dialog, which ->

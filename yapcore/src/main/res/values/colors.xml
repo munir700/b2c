@@ -15,6 +15,7 @@
     <color name="greyDark">#9391b1</color>
     <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
+    <color name="greyNormalDark">#809391b1</color>
     <color name="colorPrimaryAlt">#bb42eb</color>
     <color name="error">#ff3b30</color>
     <color name="white">#ffffff</color>
@@ -22,6 +23,8 @@
     <color name="warning">#ffc430</color>
     <color name="transparent">#00000000</color>
     <color name="disabled">#4D7C4DFF</color>
+    <color name="disabledLight">#235e35b1</color>
+    <color name="divider">#1b979797</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>
     <color name="colorSecondaryOrange">#f57f17</color>
@@ -31,7 +34,12 @@
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
 
+
+    <color name="colorLightGreyGradient">#eff2f9</color>
+    <color name="colorDarkGreyGradient">#dbe1f0</color>
+
     <!-- Objects -->
     <color name="kycCard">#247c4dff</color>
+    <color name="copyBtn">#a0a682ff</color>
 
 </resources>

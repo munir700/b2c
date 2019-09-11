@@ -23,6 +23,7 @@ interface IEmail {
         fun onEditorActionListener(): TextView.OnEditorActionListener
         fun postDemographicData()
         fun sendVerificationEmail()
+        fun stopTimer()
     }
 
     interface State : IBase.State {

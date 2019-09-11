@@ -13,6 +13,8 @@ data class OnboardingData(
     var accountType: AccountType,
     var ibanNumber: String,
     var formattedMobileNumber: String
+
 ) {
     var startTime: Date? = null
+    var elapsedOnboardingTime: Long = 0
 }
