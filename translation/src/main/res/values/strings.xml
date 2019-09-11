@@ -226,4 +226,12 @@
     <!--    fragment home transaction-->
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
 
+    <!-- Spare Card Landing Screen -->
+
+    <string name="screen_spare_card_landing_display_text_title">Add a spare card</string>
+    <string name="screen_spare_card_landing_display_text_spare_card">Spare card</string>
+    <string name="screen_spare_card_landing_display_text_select_card_type">Select a type of card</string>
+    <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
+    <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
+
 </resources>

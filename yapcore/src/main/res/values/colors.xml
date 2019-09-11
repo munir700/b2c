@@ -15,6 +15,7 @@
     <color name="greyDark">#9391b1</color>
     <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
+    <color name="greySoftSelected">#F0F1F3</color>
     <color name="greyNormalDark">#809391b1</color>
     <color name="colorPrimaryAlt">#bb42eb</color>
     <color name="error">#ff3b30</color>
