@@ -7,10 +7,8 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/*
-/.idea/codeStyles/project.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
-/authentication/build/
 /captures
 .externalNativeBuild
