@@ -20,6 +20,8 @@ class SpareCardLandingViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_spare_card_landing_display_text_title))
     }
+    // load data from th json and add in the list to load in the rv adapter
+
 
 
 }
