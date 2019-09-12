@@ -30,34 +30,20 @@
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back" />
+            app:srcCompat="@drawable/ic_back_arrow_left" />
 
-        <ImageView
-            android:id="@+id/tbBtnCheck"
-            android:layout_width="@dimen/_28sdp"
-            android:layout_height="@dimen/_28sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="@dimen/_5sdp"
-            android:clickable="true"
-            android:focusable="true"
-            android:onClick="@{(v) -> viewModel.handlePressOnTickButton()}"
-            app:enabled="@{false}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/tbBtnBack"
-            app:srcCompat="@drawable/ic_tick" />
 
-        <co.yap.widgets.AnimatingProgressBar
-            android:id="@+id/tbProgressBar"
-            style="@style/YAPProgressBar"
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/Large"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_5sdp"
+            android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginStart="@dimen/_14sdp"
             android:layout_marginEnd="@dimen/_14sdp"
-            android:layout_toStartOf="@id/tbBtnCheck"
-            android:layout_toEndOf="@id/tbBtnBack" />
+            android:layout_toEndOf="@id/tbBtnBack"
+            android:gravity="center"
+            android:text="Screen State Title" />
 
     </RelativeLayout>
-
 </layout>
