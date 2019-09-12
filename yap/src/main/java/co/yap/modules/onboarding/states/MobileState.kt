@@ -36,7 +36,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         }
 
     @get:Bindable
-    override var mobile: String = ""
+    override var mobile: String = "123"
         set(value) {
             field = value
             notifyPropertyChanged(BR.mobile)
