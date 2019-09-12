@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.OnboardingViewModel"/>
+            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel"/>
     </data>
 
     <LinearLayout
@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/layout_progress_toolbar"
+            layout="@layout/layout_cards_toolbar"
             app:viewModel="@{viewModel}"/>
 
         <fragment
