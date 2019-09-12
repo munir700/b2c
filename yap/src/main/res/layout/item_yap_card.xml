@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.cards.home.viewmodels.YapCardItemViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/_50sdp"
+        android:layout_marginEnd="@dimen/_50sdp">
+
+        <ImageView
+            android:id="@+id/imgCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/empty_string"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/card_spare" />
+
+        <TextView
+            android:id="@+id/tvCardName"
+            style="@style/ARegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@{viewModel.paymentCard.name}"
+            app:layout_constraintEnd_toEndOf="@+id/imgCard"
+            app:layout_constraintStart_toStartOf="@+id/imgCard"
+            app:layout_constraintTop_toBottomOf="@+id/imgCard"
+            tools:text="Rose Gold Premium card" />
+
+        <TextView
+            android:id="@+id/tvCardStatus"
+            style="@style/ASmallGrey"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            android:text="@{viewModel.paymentCard.status}"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardName"
+            app:layout_constraintStart_toStartOf="@+id/tvCardName"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
+            tools:text="This card has expired" />
+
+        <TextView
+            android:id="@+id/tvCardStatusAction"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@drawable/border_round_filled_background"
+            android:gravity="center"
+            android:paddingStart="@dimen/_15sdp"
+            android:paddingTop="@dimen/_5sdp"
+            android:paddingEnd="@dimen/_15sdp"
+            android:paddingBottom="@dimen/_5sdp"
+            android:text="@{viewModel.paymentCard.action}"
+            android:textColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardStatus"
+            app:layout_constraintStart_toStartOf="@+id/tvCardStatus"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardStatus"
+            tools:text="Update Card" />
+
+        <LinearLayout
+            android:id="@+id/layoutDetail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@+id/tvCardName"
+            app:layout_constraintStart_toStartOf="@+id/tvCardName"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardName"
+            tools:text="Update Card">
+
+            <ImageView
+                android:id="@+id/imgDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/empty_string"
+                tools:srcCompat="@drawable/ic_action_up" />
+
+            <TextView
+                android:id="@+id/tvDetail"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="@{viewModel.paymentCard.action}"
+                tools:text="See details" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

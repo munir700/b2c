@@ -49,7 +49,7 @@
 
     <fragment
         android:id="@+id/yapCards"
-        android:name="co.yap.modules.dashboard.fragments.YapCardsFragment"
+        android:name="co.yap.modules.dashboard.cards.home.fragments.YapCardsFragment"
         android:label="YapCardsFragment"
         tools:layout="@layout/fragment_yap_cards" />
     <fragment
