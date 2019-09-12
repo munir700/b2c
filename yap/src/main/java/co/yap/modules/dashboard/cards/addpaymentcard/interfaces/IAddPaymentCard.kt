@@ -1,18 +1,16 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.interfaces
 
-import co.yap.modules.onboarding.models.OnboardingData
 import co.yap.yapcore.IBase
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
-interface IAddPaymentCard  {
+interface IAddPaymentCard {
 
     interface State : IBase.State
 
     interface ViewModel : IBase.ViewModel<State> {
-         fun handlePressOnBackButton()
+        fun handlePressOnBackButton()
         fun handlePressOnTickButton()
-         val backButtonPressEvent: SingleLiveEvent<Boolean>
+        val backButtonPressEvent: SingleLiveEvent<Boolean>
     }
 
     interface View : IBase.View<ViewModel>
