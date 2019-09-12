@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.fragments
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 
 import android.os.Bundle
 import android.view.View

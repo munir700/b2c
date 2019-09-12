@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.fragments
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 
 
 import android.os.Bundle
@@ -7,17 +7,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.interfaces.ISpareCards
-import co.yap.modules.dashboard.cards.viewmodels.SpareCardLandingViewModel
+import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ICards
+import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.SpareCardLandingViewModel
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 
-class SpareCardLandingFragment : YapDashboardChildFragment<ISpareCards.ViewModel>(),
-    ISpareCards.View {
+class SpareCardLandingFragment : YapDashboardChildFragment<ICards.ViewModel>(),
+    ICards.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_spare_card_landing
 
-    override val viewModel: ISpareCards.ViewModel
+    override val viewModel: ICards.ViewModel
         get() = ViewModelProviders.of(this).get(SpareCardLandingViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

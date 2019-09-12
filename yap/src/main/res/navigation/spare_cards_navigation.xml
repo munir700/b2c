@@ -8,23 +8,18 @@
 
     <fragment
         android:id="@+id/spareCardLandingFragment"
-        android:name="co.yap.modules.dashboard.cards.fragments.SpareCardLandingFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.SpareCardLandingFragment"
         android:label="@string/screen_spare_card_landing_display_text_title"
         tools:layout="@layout/fragment_spare_card_landing">
-        <!--        <action-->
-        <!--            android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"-->
-        <!--            app:destination="@id/eidInfoReviewFragment"/>-->
 
     </fragment>
 
     <fragment
         android:id="@+id/benefitsFragment"
-        android:name="co.yap.modules.dashboard.cards.fragments.CardsBenefitsFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.CardsBenefitsFragment"
         android:label="Spare card benefits"
         tools:layout="@layout/fragment_benefits">
-        <!--            <action-->
-        <!--                android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"-->
-        <!--                app:destination="@id/eidInfoReviewFragment"/>-->
+
 
     </fragment>
 

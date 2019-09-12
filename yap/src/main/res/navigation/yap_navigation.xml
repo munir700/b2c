@@ -80,4 +80,13 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
+
+    <activity
+        android:id="@+id/addPaymentCardActivity"
+        tools:layout="@layout/activity_add_payment_cards"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
+        android:label="AddPaymentCardActivity">
+
+    </activity>
+
 </navigation>

@@ -12,7 +12,7 @@ import co.yap.modules.dashboard.viewmodels.YapCardsViewModel
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_spare_card_landing
+    override fun getLayoutId(): Int = R.layout.fragment_yap_cards
 
     override val viewModel: IYapCards.ViewModel
         get() = ViewModelProviders.of(this).get(YapCardsViewModel::class.java)

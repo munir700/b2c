@@ -45,6 +45,12 @@
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/kyc_navigation"/>
         </activity>
+        <activity
+            android:name="modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <nav-graph android:value="@navigation/spare_cards_navigation"/>
+        </activity>
 
         <!--<activity-->
             <!--android:name=".modules.kyc.activities.AddressSelectionFragment"-->

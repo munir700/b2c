@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.cards.interfaces
+package co.yap.modules.dashboard.cards.addpaymentcard.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface ISpareCards  {
+interface ICards  {
 
     interface State : IBase.State
 
