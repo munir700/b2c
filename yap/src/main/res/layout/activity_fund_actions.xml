@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:tools="http://schemas.android.com/tools">
     <data>
         <variable
             name="viewModel"
@@ -23,69 +23,29 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tvTopUp"
+            android:id="@+id/tvToolBarHeader"
             style="@style/Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Top up"
+            tools:text="@string/screen_add_funds_display_text_add_funds"
+            android:text="@{viewModel.state.toolBarHeader}"
             app:layout_constraintBottom_toBottomOf="@+id/ivCross"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/ivCross" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
+            android:id="@+id/cardInfoLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            layout="@layout/layout_card_info"
+            app:cardName="@{viewModel.state.cardName}"
+            app:cardNumber="@{viewModel.state.cardNumber}"
             android:layout_marginTop="@dimen/margin_medium_large"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTopUp">
-
-            <ImageView
-                android:id="@+id/ivCard"
-                android:layout_width="@dimen/_67sdp"
-                android:layout_height="@dimen/_97sdp"
-                android:background="@color/greyDark"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvCard"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_extra_large"
-                android:text="Primary card"
-                android:layout_marginTop="@dimen/margin_small"
-                app:layout_constraintLeft_toRightOf="@+id/ivCard"
-                app:layout_constraintTop_toTopOf="@+id/ivCard" />
-
-            <TextView
-                android:id="@+id/tvCardNumber"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="4040 3318 **** 3456"
-                app:layout_constraintStart_toStartOf="@+id/tvCard"
-                app:layout_constraintTop_toBottomOf="@+id/tvCard" />
-
-            <TextView
-                android:id="@+id/tvSecuredByYap"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Secured by YAP"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="@dimen/margin_small"
-                app:layout_constraintStart_toStartOf="@+id/tvCardNumber" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+            app:layout_constraintTop_toBottomOf="@+id/tvToolBarHeader">
+        </include>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <data>
-
-<!--        <variable-->
-<!--            name="viewModel"-->
-<!--            type="co.yap.modules.cards.viewmodels.PrimaryPaymentCardViewModel" />-->
-    </data>
 
 </layout>

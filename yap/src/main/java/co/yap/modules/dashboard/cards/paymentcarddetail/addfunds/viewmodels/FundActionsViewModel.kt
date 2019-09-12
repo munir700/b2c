@@ -5,8 +5,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFun
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
 import co.yap.yapcore.BaseViewModel
 
-open class FundActionsViewModel (application: Application) :
-    BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
+open class FundActionsViewModel (application: Application) : BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
     override val state: FundActionsState = FundActionsState()
 
 

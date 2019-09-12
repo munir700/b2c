@@ -235,21 +235,12 @@
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
 
 <!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
-    // MARK: - Add funds Screen
 
+<!--    Add funds Screen-->
     <string name="screen_add_funds_display_text_add_funds">Add funds</string>
-<!--    <string name="screen_add_funds_button_add">Add</string>-->
-<!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
-<!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
-<!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
-
-
-
-
-    "screen_add_funds_button_add" = "Add";
-
-    "screen_add_funds_display_text_enter_amount" = "Enter the amount to Add";
-
-    "screen_add_funds_display_text_available_balance" = "Your available balance is AED %@";
+    <string name="screen_add_card_display_text_spare_card">Spare card</string>
+    <string name="screen_add_funds_button_add">Add</string>
+    <string name="screen_add_funds_display_text_enter_amount">Enter the amount to Add</string>
+    <string name="screen_add_funds_display_text_available_balance">Your available balance is AED %1$s</string>
 
 </resources>
