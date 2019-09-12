@@ -5,7 +5,9 @@ import co.yap.yapcore.SingleLiveEvent
 
 interface IAddPaymentCard {
 
-    interface State : IBase.State
+    interface State : IBase.State{
+        var tootlBarTitle: String
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnBackButton()
