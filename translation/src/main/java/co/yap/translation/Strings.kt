@@ -386,5 +386,9 @@ object Strings {
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
 
+    // spare cards Benefit detail Screen
+  const val screen_spare_card_benefit_display_text_title: String =
+        "screen_spare_card_benefit_display_text_title"
+
 
 }

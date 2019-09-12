@@ -5,7 +5,7 @@
     android:background="@color/colorWhite"
     android:orientation="horizontal"
 
-    android:padding="@dimen/margin_normal">
+    android:padding="@dimen/margin_small">
 
     <TextView
         android:id="@+id/tvBenefit"

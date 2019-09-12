@@ -234,6 +234,9 @@
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
 
+    <!-- Spare Card Benefit Screen -->
+    <string name="screen_spare_card_benefit_display_text_title">Spare card benefits</string>
+
 <!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
 
 </resources>

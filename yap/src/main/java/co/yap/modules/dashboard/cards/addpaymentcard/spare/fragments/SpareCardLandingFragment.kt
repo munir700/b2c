@@ -29,7 +29,10 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ICards.ViewModel>(), IC
 
         })
 
-        rvBenefits.setHasFixedSize(true)
+        addBenefitRecyclerView()
+    }
+
+    private fun addBenefitRecyclerView() {
         val layoutManager = LinearLayoutManager(context)
         rvBenefits.layoutManager = layoutManager
         rvBenefits.adapter =

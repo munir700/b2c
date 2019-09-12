@@ -27,11 +27,11 @@ class SpareCardsLandingAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         viewHolder = holder
         val transactionModel: BenefitsModel = listItems[position]
-        holder.tvBenefit.text = transactionModel.benfits
+        holder.tvBenefit.text = transactionModel.benfitTitle
 
         holder.itemView.setOnClickListener(object : View.OnClickListener {
             override fun onClick(v: View?) {
-                //start detail benfits sreen
+                //start detail benfitTitle sreen
             }
 
         })

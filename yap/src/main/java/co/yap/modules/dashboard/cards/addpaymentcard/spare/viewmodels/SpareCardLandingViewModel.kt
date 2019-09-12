@@ -39,14 +39,14 @@ class SpareCardLandingViewModel(application: Application) :
                     //
                     val parentArrayList = mainDataList!!.getJSONObject(i)
                     var benfitTitle: String = parentArrayList.getString("benfitTitle")
+                    var benfitDetail: String = parentArrayList.getString("benfitDetail")
 
 
                     val benefitsModel: BenefitsModel = BenefitsModel(
-                        benfitTitle
+                        benfitTitle,
+                        benfitDetail
                     )
-
                     benefitsModelList.add(benefitsModel)
-
                 }
             }
         }
