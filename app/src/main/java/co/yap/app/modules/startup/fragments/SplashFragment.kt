@@ -31,8 +31,8 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
-//            startActivity(Intent(context, AddFundsActivity::class.java))
-                      val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+            startActivity(Intent(context, AddFundsActivity::class.java))
+                 /*     val sharedPreferenceManager = SharedPreferenceManager(requireContext())
                       if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
                           val action = SplashFragmentDirections.actionSplashFragmentToVerifyPasscodeFragment("")
                           findNavController().navigate(action)
@@ -43,7 +43,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                           } else {
                               findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
                           }
-                      }
+                      }*/
         })
     }
 

@@ -242,5 +242,6 @@
     <string name="screen_add_funds_button_add">Add</string>
     <string name="screen_add_funds_display_text_enter_amount">Enter the amount to Add</string>
     <string name="screen_add_funds_display_text_available_balance">Your available balance is AED %1$s</string>
+    <string name="screen_payment_card_detail_text_secure">Secured by YAP</string>
 
 </resources>

@@ -10,6 +10,7 @@
         <variable
             name="cardNumber"
             type="String" />
+        <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -65,7 +66,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/margin_small"
-            android:text="Secured by YAP"
+            tools:text="@string/screen_payment_card_detail_text_secure"
+            android:text="@{Strings.screen_payment_card_detail_text_secure}"
             android:layout_marginStart="@dimen/margin_small"
             app:layout_constraintLeft_toRightOf="@+id/ivSecure"
             app:layout_constraintBottom_toBottomOf="parent"

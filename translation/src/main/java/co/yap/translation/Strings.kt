@@ -400,4 +400,6 @@ object Strings {
         "screen_add_funds_display_text_available_balance"
     const val screen_add_card_display_text_spare_card: String =
         "screen_add_card_display_text_spare_card"
+    const val screen_payment_card_detail_text_secure: String =
+        "screen_payment_card_detail_text_secure"
 }
