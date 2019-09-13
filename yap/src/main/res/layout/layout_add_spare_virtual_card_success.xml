@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite"
+        android:paddingBottom="@dimen/margin_medium"
+        android:paddingTop="@dimen/margin_medium">
+
+
+        <TextView
+            android:id="@+id/tvTransactionComplete"
+            style="@style/Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/screen_add_spare_card_completion_display_text_complete_transaction_virtual"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.496"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{Strings.screen_add_spare_card_completion_display_text_complete_transaction_virtual}" />
+
+        <FrameLayout
+            android:id="@+id/flTransactionComplete"
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:background="@drawable/transaction_complete_selector"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionComplete">
+
+
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_vertical|center"
+                android:src="@drawable/ic_check"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
+        </FrameLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnDone"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+            android:layout_marginTop="@dimen/_25sdp"
+            android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{() -> viewModel.handlePressOnAddVirtualCardSuccess()}"
+            android:text="@string/screen_phone_number_button_send"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

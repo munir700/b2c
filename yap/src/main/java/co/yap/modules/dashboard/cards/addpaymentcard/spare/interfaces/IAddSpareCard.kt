@@ -11,6 +11,8 @@ interface IAddSpareCard{
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var cardType: String
+        fun handlePressOnAddVirtualCardSuccess(id: Int)
+        fun handlePressOnAddPhysicalCardSuccess(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

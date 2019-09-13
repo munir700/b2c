@@ -26,7 +26,22 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
         viewModel.state.cardType = viewModel.cardType
         viewModel.clickEvent.observe(this, Observer {
+            when (it) {
 
+                R.id.btnDone -> {
+// hide tha success layout or kill this fragment and go back
+
+//                    val action =
+//                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+//                            getString(R.string.screen_spare_card_landing_display_text_virtual_card)
+//                        )
+//                    findNavController().navigate(action)
+
+
+                }
+
+
+            }
         })
     }
 

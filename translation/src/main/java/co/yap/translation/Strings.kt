@@ -387,8 +387,18 @@ object Strings {
         "screen_spare_card_landing_display_text_physical_card"
 
     // spare cards Benefit detail Screen
-  const val screen_spare_card_benefit_display_text_title: String =
+    const val screen_spare_card_benefit_display_text_title: String =
         "screen_spare_card_benefit_display_text_title"
+
+    // add spare cards Benefit detail Screen
+    const val screen_add_spare_card_completion_display_text_complete_transaction_virtual: String =
+        "screen_add_spare_card_completion_display_text_complete_transaction_virtual"
+    const val screen_add_spare_card_completion_display_text_delivery_info: String =
+        "screen_add_spare_card_completion_display_text_delivery_info"
+    const val screen_add_spare_card_completion_display_text_complete_transaction: String =
+        "screen_add_spare_card_completion_display_text_complete_transaction"
+    const val screen_add_spare_card_completion_button_done: String =
+        "screen_add_spare_card_completion_button_done"
 
 
 }

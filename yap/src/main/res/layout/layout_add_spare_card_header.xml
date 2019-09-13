@@ -13,14 +13,13 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:paddingBottom="@dimen/margin_medium">
+        android:layout_height="wrap_content"
+        android:background="@color/colorWhite">
 
         <LinearLayout
             android:id="@+id/cardView"
             android:layout_width="@dimen/_181sdp"
-            android:layout_height="@dimen/_270sdp"
+            android:layout_height="@dimen/_260sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/card_spare"
             android:orientation="vertical"
