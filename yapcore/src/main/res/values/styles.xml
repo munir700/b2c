@@ -253,7 +253,17 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
-    <style name="RectangleBtnStyle" parent="AppFontMedium">
+    <style name="purpleLabel" parent="AppFontRegular">
+        <item name="btn_text_size">@dimen/text_size_h2</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="android:paddingLeft">@dimen/margin_medium</item>
+        <item name="android:paddingRight">@dimen/margin_medium</item>
+          <item name="btn_round_radius">50dp</item>
+
+    </style>
+
+ <style name="RectangleBtnStyle" parent="AppFontMedium">
         <item name="btn_text_size">@dimen/text_size_h3</item>
         <item name="btn_shape_type">rectangle</item>
         <item name="android:enabled">true</item>

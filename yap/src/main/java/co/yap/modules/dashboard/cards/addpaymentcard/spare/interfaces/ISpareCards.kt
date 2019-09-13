@@ -11,6 +11,9 @@ interface ISpareCards {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun loadJSONDummyList(): ArrayList<BenefitsModel>
+        fun handlePressOnAddVirtualCard(id: Int)
+        fun handlePressOnAddPhysicalCard(id: Int)
+
     }
 
     interface View : IBase.View<ViewModel>

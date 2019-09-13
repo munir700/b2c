@@ -9,7 +9,7 @@ import co.yap.yapcore.BaseState
 class LoginState : BaseState(), ILogin.State {
 
     @get:Bindable
-    override var email: String = ""
+    override var email: String = "ha@ha.co"
         set(value) {
             field = value
             notifyPropertyChanged(BR.email)

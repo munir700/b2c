@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.ICardBenefit
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.CardBenfitsDetailViewModel
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
@@ -24,7 +23,8 @@ class CardsBenefitsFragment : YapDashboardChildFragment<ICardBenefit.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.benefitsModel = arguments?.let { CardsBenefitsFragmentArgs.fromBundle(it).benefitsModel }
+        viewModel.state.benefitsModel =
+            arguments?.let { CardsBenefitsFragmentArgs.fromBundle(it).benefitsModel }
 
         viewModel.clickEvent.observe(this, Observer {
 

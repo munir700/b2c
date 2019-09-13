@@ -20,6 +20,13 @@ class SpareCardLandingViewModel(application: Application) :
     override val state: SpareCardLandingState =
         SpareCardLandingState()
 
+    override fun handlePressOnAddVirtualCard(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override fun handlePressOnAddPhysicalCard(id: Int) {
+        clickEvent.setValue(id)
+    }
 
     override fun onResume() {
         super.onResume()

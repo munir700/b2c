@@ -21,8 +21,11 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     SpareCardsLandingAdapter.OnItemClickedListener {
 
     override fun onItemClick(benefitsModel: BenefitsModel) {
-//        val action = SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToBenefitsFragment(benefitsModel)
-//        findNavController().navigate(action)
+        val action =
+            SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToBenefitsFragment(
+                benefitsModel
+            )
+        findNavController().navigate(action)
 
     }
 
@@ -35,10 +38,36 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer {
 
-        })
         addBenefitRecyclerView()
+
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+
+                R.id.llAddVirtualCard -> {
+//
+                    val action =
+                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+                            getString(R.string.screen_spare_card_landing_display_text_virtual_card)
+                        )
+                    findNavController().navigate(action)
+
+
+                }
+
+                R.id.llAddPhysicalCard -> {
+
+                    val action =
+                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+                            getString(R.string.screen_spare_card_landing_display_text_physical_card)
+                        )
+                    findNavController().navigate(action)
+                }
+
+            }
+        })
+
+
     }
 
     private fun addBenefitRecyclerView() {
