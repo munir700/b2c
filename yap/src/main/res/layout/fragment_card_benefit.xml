@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/margin_xl"
-            android:src="@drawable/ic_benfit_illustration" />
+            android:src="@drawable/ic_benefit_illustration" />
 
         <TextView
             android:id="@+id/tvBenefitTitle"
