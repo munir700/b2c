@@ -11,7 +11,8 @@ import co.yap.yapcore.SingleClickEvent
 class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel {
 
-    override var cardType: String=""
+
+    override var cardType: String = ""
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: AddSpareCardState =
@@ -22,6 +23,10 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun handlePressOnAddPhysicalCardSuccess(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override fun handlePressOnConfirmPhysicalCardPurchase(id: Int) {
         clickEvent.setValue(id)
     }
 

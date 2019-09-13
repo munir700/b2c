@@ -399,6 +399,10 @@ object Strings {
         "screen_add_spare_card_completion_display_text_complete_transaction"
     const val screen_add_spare_card_completion_button_done: String =
         "screen_add_spare_card_completion_button_done"
+    const val screen_add_spare_card_display_text_available_balance: String =
+        "screen_add_spare_card_display_text_available_balance"
+    const val screen_add_spare_card_button_confirm_purchase: String =
+        "screen_add_spare_card_button_confirm_purchase"
 
 
 }

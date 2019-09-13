@@ -13,6 +13,7 @@ interface IAddSpareCard{
         var cardType: String
         fun handlePressOnAddVirtualCardSuccess(id: Int)
         fun handlePressOnAddPhysicalCardSuccess(id: Int)
+        fun handlePressOnConfirmPhysicalCardPurchase(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

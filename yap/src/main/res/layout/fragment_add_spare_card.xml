@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <!--YOU NEED TO PART ITS WEIGHT INTO TWO -->
     <data>
 
         <import type="co.yap.translation.Strings" />
@@ -38,16 +38,32 @@
 
 
         <include
+            android:id="@+id/layoutVirtualCardConfirmPurchase"
+            layout="@layout/layout_add_spare_virtaul_card_confirm_purchase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@color/green"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include"
+            app:viewModel="@{viewModel}" />
+
+        <include
+            android:id="@+id/layoutVirtualCardOnSuccess"
             layout="@layout/layout_add_spare_virtual_card_success"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:background="@color/green"
-            app:cardType="@{viewModel.state.cardType}"
+            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include" />
+            app:layout_constraintTop_toBottomOf="@+id/include"
+            app:viewModel="@{viewModel}" />
 
         <!--            <include layout="@layout/layout_add_spare_card_header"-->
         <!--                app:cardType="@{viewModel.state.cardType}"/>-->

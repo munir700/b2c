@@ -7,9 +7,9 @@
 
         <import type="co.yap.translation.Strings" />
 
-                <variable
-                    name="viewModel"
-                    type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.SpareCardLandingViewModel" />
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.SpareCardLandingViewModel" />
 
     </data>
 
@@ -174,11 +174,7 @@
                         android:text="per month" />
 
                 </LinearLayout>
-
-
             </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
 </layout>
