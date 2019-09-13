@@ -32,7 +32,7 @@
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
             android:paddingTop="@dimen/margin_medium"
-            android:text="@{viewModel.state.benefitTitle}"
+            android:text="@{viewModel.state.benefitsModel.benfitTitle}"
             android:textSize="@dimen/text_size_h5"
             tools:text="A card for every need" />
 
@@ -45,7 +45,7 @@
             android:gravity="center"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
-            android:text="@{viewModel.state.benefitDetail}"
+            android:text="@{viewModel.state.benefitsModel.benfitDetail}"
             tools:text="Use your spare card as backup or as a card for when you’re away for a few days and don’t want to travel with your primary card. Note that your spare card can only be used by you." />
 
     </LinearLayout>

@@ -4,7 +4,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface ICards {
+interface ISpareCards {
 
     interface State : IBase.State
 

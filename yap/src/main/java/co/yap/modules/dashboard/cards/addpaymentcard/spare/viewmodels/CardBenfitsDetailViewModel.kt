@@ -8,8 +8,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
 class CardBenfitsDetailViewModel(application: Application) :
-    AddPaymentChildViewModel<ICardBenefit.State>(application), ICardBenefit.ViewModel/*,
-    IRepositoryHolder<CustomersRepository>*/ {
+    AddPaymentChildViewModel<ICardBenefit.State>(application), ICardBenefit.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: CardBenefitState =

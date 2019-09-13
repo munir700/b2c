@@ -5,22 +5,32 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ICards
+import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ISpareCards
+import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
 import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.SpareCardLandingViewModel
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
 
 
-class SpareCardLandingFragment : AddPaymentChildFragment<ICards.ViewModel>(), ICards.View {
+class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(), ISpareCards.View,
+    SpareCardsLandingAdapter.OnItemClickedListener {
+
+    override fun onItemClick(benefitsModel: BenefitsModel) {
+//        val action = SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToBenefitsFragment(benefitsModel)
+//        findNavController().navigate(action)
+
+    }
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_spare_card_landing
 
-    override val viewModel: ICards.ViewModel
+    override val viewModel: ISpareCards.ViewModel
         get() = ViewModelProviders.of(this).get(SpareCardLandingViewModel::class.java)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,7 +38,6 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ICards.ViewModel>(), IC
         viewModel.clickEvent.observe(this, Observer {
 
         })
-
         addBenefitRecyclerView()
     }
 
@@ -37,7 +46,8 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ICards.ViewModel>(), IC
         rvBenefits.layoutManager = layoutManager
         rvBenefits.adapter =
             SpareCardsLandingAdapter(
-                viewModel.loadJSONDummyList()
+                viewModel.loadJSONDummyList(),
+                this
             )
     }
 }

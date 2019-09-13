@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.viewmodels
 
 import android.app.Application
 import android.content.Context
-import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ICards
+import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ISpareCards
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.states.SpareCardLandingState
 import co.yap.translation.Strings
@@ -13,7 +13,7 @@ import java.nio.charset.StandardCharsets
 
 
 class SpareCardLandingViewModel(application: Application) :
-    AddPaymentChildViewModel<ICards.State>(application), ICards.ViewModel/*,
+    AddPaymentChildViewModel<ISpareCards.State>(application), ISpareCards.ViewModel/*,
     IRepositoryHolder<CustomersRepository>*/ {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()

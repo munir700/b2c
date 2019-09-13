@@ -1,12 +1,12 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces
 
+import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface ICardBenefit {
     interface State : IBase.State {
-        var benefitTitle: String
-        var benefitDetail: String
+        var benefitsModel: BenefitsModel?
     }
 
     interface ViewModel : IBase.ViewModel<State> {

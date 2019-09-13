@@ -12,15 +12,32 @@
         android:label="@string/screen_spare_card_landing_display_text_title"
         tools:layout="@layout/fragment_spare_card_landing">
 
+        <action
+            android:id="@+id/action_spareCardLandingFragment_to_benefitsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:popEnterAnim="@anim/slide_in_from_bottom"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popExitAnim="@anim/slide_out_right"
+            app:destination="@id/benefitsFragment"/>
+
     </fragment>
 
     <fragment
         android:id="@+id/benefitsFragment"
         android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.CardsBenefitsFragment"
-        android:label="Spare card benefits"
-        tools:layout="@layout/fragment_benefits">
+        tools:layout="@layout/fragment_card_benefit">
 
+        <argument
+            android:name="benefitsModel"
+            app:argType="co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel"/>
 
+<!--        <action-->
+<!--            android:id="@+id/action_spareCardLandingFragment_to_benefitsFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:popEnterAnim="@anim/slide_in_from_bottom"-->
+<!--            app:exitAnim="@anim/slide_out_to_bottom"-->
+<!--            app:popExitAnim="@anim/slide_out_right"-->
+<!--            app:destination="@id/spareCardLandingFragment"/>-->
     </fragment>
 
 </navigation>
