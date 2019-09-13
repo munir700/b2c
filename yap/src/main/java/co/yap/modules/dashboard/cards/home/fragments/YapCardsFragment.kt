@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.home.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
@@ -25,11 +26,19 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupPager()
         viewModel.clickEvent.observe(this, Observer {
 
         })
 
-        val adapter = YapCardsAdaptor(DummyCardData.dummyData)
+        viewModel.state.cards.observe(this, Observer {
+            (viewPager2.adapter as YapCardsAdaptor).setItem(it)
+        })
+
+    }
+
+    private fun setupPager() {
+        val adapter = YapCardsAdaptor(mutableListOf())
         viewPager2.adapter = adapter
 
         with(viewPager2) {
@@ -38,11 +47,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             offscreenPageLimit = 3
         }
 
-        val pageMarginPx = 400
-        val offsetPx = 10
+        val pageMarginPx = resources.getDimensionPixelOffset(R.dimen._38sdp)
+        val offsetPx = resources.getDimensionPixelOffset(R.dimen._38sdp)
+        Log.i("viewPager2 MarginsPx ->", pageMarginPx.toString())
+        Log.i("viewPager2 offsetPx ->", offsetPx.toString())
+       // val pageMarginPx = 500
+        //val offsetPx = 10
         viewPager2.setPageTransformer { page, position ->
             val viewPager = page.parent.parent as ViewPager2
             val offset = position * -(2 * offsetPx + pageMarginPx)
+            Log.i("viewPager2 offset ->", offset.toString())
             if (viewPager.orientation == ViewPager2.ORIENTATION_HORIZONTAL) {
                 if (ViewCompat.getLayoutDirection(viewPager) == ViewCompat.LAYOUT_DIRECTION_RTL) {
                     page.translationX = -offset

@@ -226,6 +226,15 @@
     <!--    fragment home transaction-->
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
 
+    <!--    Card Home Screen-->
+    <string name="screen_cards_display_text_pending_delivery">This card is on the way</string>
+    <string name="screen_cards_display_text_expired_card">This card has expired</string>
+    <string name="screen_cards_display_text_freeze_card">This card is frozen</string>
+    <string name="screen_cards_display_text_see_details">See details</string>
+    <string name="screen_cards_button_update_card">Update card</string>
+    <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>
+    <string name="screen_cards_display_text_cards_count">You have %d cards</string>
+
     <!-- Spare Card Landing Screen -->
 
     <string name="screen_spare_card_landing_display_text_title">Add a spare card</string>
@@ -234,6 +243,6 @@
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
 
-<!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
+    <!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
 
 </resources>

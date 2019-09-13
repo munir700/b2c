@@ -369,6 +369,18 @@ object Strings {
     const val screen_yap_store_display_text_heading: String =
         "screen_yap_store_display_text_heading"
 
+    //Yap card home screen
+    const val screen_cards_display_text_pending_delivery: String =
+        "screen_cards_display_text_pending_delivery"
+    const val screen_cards_display_text_expired_card: String =
+        "screen_cards_display_text_expired_card"
+    const val screen_cards_display_text_freeze_card: String =
+        "screen_cards_display_text_freeze_card"
+    const val screen_cards_display_text_see_details: String =
+        "screen_cards_display_text_see_details"
+    const val screen_cards_button_update_card: String = "screen_cards_button_update_card"
+    const val screen_cards_button_unfreeze_card: String = "screen_cards_button_unfreeze_card"
+    const val screen_cards_display_text_cards_count: String = "screen_cards_display_text_cards_count"
 
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
