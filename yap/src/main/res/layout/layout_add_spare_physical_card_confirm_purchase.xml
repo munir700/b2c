@@ -78,7 +78,6 @@
 
             </LinearLayout>
 
-            // add location box here
 
             <LinearLayout
                 android:id="@+id/llAddPhysicalLocationCard"
@@ -224,10 +223,10 @@
 
         <include
             android:id="@+id/layoutPhysicalCardOnSuccess"
-            layout="@layout/layout_add_spare_virtual_card_success"
+            layout="@layout/layout_add_spare_physical_card_success"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"

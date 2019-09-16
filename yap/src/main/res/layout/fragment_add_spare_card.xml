@@ -34,16 +34,6 @@
 
                 />
 
-            <!--            <FrameLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="@dimen/_100sdp"-->
-            <!--                android:layout_marginTop="8dp"-->
-            <!--                android:background="@color/green"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintHorizontal_bias="0.498"-->
-            <!--                app:layout_constraintStart_toStartOf="parent"-->
-            <!--                app:layout_constraintTop_toBottomOf="@+id/include" />-->
-
 
             <include
                 android:id="@+id/layoutVirtualCardConfirmPurchase"
