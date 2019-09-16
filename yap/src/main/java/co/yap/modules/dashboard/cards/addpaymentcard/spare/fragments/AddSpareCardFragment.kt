@@ -32,9 +32,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
         viewModel.state.cardType = viewModel.cardType
         if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))){
+            layoutPhysicalCardConfirmPurchase.visibility=View.GONE
             layoutVirtualCardConfirmPurchase.visibility=View.VISIBLE
         }else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))){
             layoutVirtualCardConfirmPurchase.visibility=View.GONE
+            layoutPhysicalCardConfirmPurchase.visibility=View.VISIBLE
+
         }
 
         fadeOutView(tvTransactionComplete)

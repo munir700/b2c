@@ -89,70 +89,116 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:background="@drawable/card_border_selector"
-                android:clickable="true"
                 android:gravity="top"
-                android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
-                android:orientation="horizontal"
+                android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_large"
                 android:paddingRight="@dimen/margin_small"
                 android:paddingBottom="@dimen/margin_large"
                 android:weightSum="1">
 
-                <FrameLayout
-                    android:id="@+id/flLocationPin"
-                    android:layout_width="@dimen/_42sdp"
-                    android:layout_height="@dimen/_42sdp"
-                    android:background="@drawable/bg_round_purple">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
+
+                    <FrameLayout
+                        android:id="@+id/flLocationPin"
+                        android:layout_width="@dimen/_42sdp"
+                        android:layout_height="@dimen/_42sdp"
+                        android:background="@drawable/bg_round_purple">
+
+
+                        <ImageView
+                            android:layout_width="@dimen/_26sdp"
+                            android:layout_height="@dimen/_26sdp"
+                            android:layout_gravity="center_vertical|center"
+                            android:src="@drawable/ic_pin_card_location"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llAddPhysicalCard"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:layout_weight=".9"
+                        android:clickable="true"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvPhysicalCardLocationTitle"
+                            style="@style/Regular"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="start"
+                            android:text="12 Street Road 10" />
+
+                        <TextView
+                            android:id="@+id/tvPhysicalCardLocationSubTitle"
+                            style="@style/RegularGrey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_extra_small"
+                            android:gravity="start"
+                            android:text="Suite 102. Dubai, UAE" />
+
+                    </LinearLayout>
 
                     <ImageView
-                        android:layout_width="@dimen/_26sdp"
-                        android:layout_height="@dimen/_26sdp"
-                        android:layout_gravity="center_vertical|center"
-                        android:src="@drawable/ic_pin_card_location"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
-                </FrameLayout>
-
-                <LinearLayout
-                    android:id="@+id/llAddPhysicalCard"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_medium"
-                    android:layout_marginRight="@dimen/margin_small"
-                    android:layout_weight=".9"
-                    android:clickable="true"
-                    android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/tvPhysicalCardLocationTitle"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="start"
-                        android:text="12 Street Road 10" />
-
-                    <TextView
-                        android:id="@+id/tvPhysicalCardLocationSubTitle"
-                        style="@style/RegularGrey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_extra_small"
-                        android:gravity="start"
-                        android:text="Suite 102. Dubai, UAE" />
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_check"
+                        android:tint="@color/colorPrimary" />
 
 
                 </LinearLayout>
 
-                <ImageView
+                <LinearLayout
+                    android:id="@+id/llLocationButtton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_check"
-                    android:tint="@color/colorPrimary" />
+                    android:layout_gravity="end"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/margin_medium"
+                    android:paddingRight="@dimen/margin_small">
+
+                    <TextView
+                        android:id="@+id/tvChangeLocation"
+                        style="@style/RegularGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:layout_marginRight="@dimen/margin_small"
+                        android:gravity="start"
+                        android:text="@string/screen_add_spare_card_button_change_location"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="@dimen/text_size_c3"
+                        app:text="@{Strings.screen_add_spare_card_button_change_location}" />
+
+                    <co.yap.widgets.CoreButton
+                        android:id="@+id/btnConfirm"
+                        style="@style/confirmLocationBtnStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_22sdp"
+                        android:layout_marginTop="7dp"
+                        android:onClick="@{(v) -> viewModel.handlePressOnConfirmPhysicalCardLocation(v.id)}"
+                        android:paddingLeft="0dp"
+                        android:paddingTop="0dp"
+                        android:paddingRight="0dp"
+                        android:paddingBottom="0dp"
+                        android:text="@{Strings.screen_add_spare_card_button_confirm_location}"
+                        android:textColor="@color/white"
+                        app:btn_has_bold_text="false"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.366"
+                        app:text="@{Strings.screen_add_spare_card_button_confirm_location}" />
+                </LinearLayout>
             </LinearLayout>
 
             <co.yap.widgets.CoreButton

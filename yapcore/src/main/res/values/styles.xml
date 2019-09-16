@@ -295,6 +295,15 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+  <style name="confirmLocationBtnStyle" parent="AppFontRegular">
+        <item name="btn_text_size">@dimen/text_size_c2</item>
+      <item name="android:lineSpacingExtra">8sp</item>
+      <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="btn_round_radius">50dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
     <style name="FragmentsBtnStyle" parent="AppFontMedium">
         <item name="btn_text_size">@dimen/text_size_h4</item>
         <item name="btn_shape_type">rectangle</item>

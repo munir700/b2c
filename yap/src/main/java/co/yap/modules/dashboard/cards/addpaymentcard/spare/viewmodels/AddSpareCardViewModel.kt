@@ -27,6 +27,10 @@ class AddSpareCardViewModel(application: Application) :
 
     }
 
+    override fun handlePressOnConfirmPhysicalCardLocation(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun handlePressOnAddPhysicalCardSuccess(id:Int) {
         clickEvent.setValue(id)
 //        clickEvent.value = true

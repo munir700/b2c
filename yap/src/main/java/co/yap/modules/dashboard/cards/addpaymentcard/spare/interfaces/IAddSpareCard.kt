@@ -16,6 +16,8 @@ interface IAddSpareCard{
         fun handlePressOnConfirmVirtualCardPurchase(id: Int)
         fun handlePressOnConfirmPhysicalCardPurchase(id: Int)
 
+        fun handlePressOnConfirmPhysicalCardLocation(id: Int)
+
     }
 
     interface View : IBase.View<ViewModel>
