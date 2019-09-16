@@ -11,70 +11,71 @@
             type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
 
     </data>
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clContainer"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-         android:paddingBottom="@dimen/margin_medium"
-        android:onClick="@{(v) -> viewModel.handlePressOnConfirmVirtualCardPurchase(v.id)}"
+        android:layout_height="match_parent">
 
-        >
-
-
-        <include
-            android:id="@+id/include"
-            layout="@layout/layout_add_spare_card_header"
-             app:cardType="@{viewModel.state.cardType}"
-
-            />
-
-        <!--            <FrameLayout-->
-        <!--                android:layout_width="match_parent"-->
-        <!--                android:layout_height="@dimen/_100sdp"-->
-        <!--                android:layout_marginTop="8dp"-->
-        <!--                android:background="@color/green"-->
-        <!--                app:layout_constraintEnd_toEndOf="parent"-->
-        <!--                app:layout_constraintHorizontal_bias="0.498"-->
-        <!--                app:layout_constraintStart_toStartOf="parent"-->
-        <!--                app:layout_constraintTop_toBottomOf="@+id/include" />-->
-
-
-        <include
-            android:id="@+id/layoutVirtualCardConfirmPurchase"
-            layout="@layout/layout_add_spare_virtaul_card_confirm_purchase"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clContainer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-             android:visibility="visible"
-             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/include"
-            app:viewModel="@{viewModel}" />
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:onClick="@{(v) -> viewModel.handlePressOnConfirmVirtualCardPurchase(v.id)}"
+            android:paddingBottom="@dimen/margin_medium"
 
-<!--        <include-->
-<!--            android:id="@+id/layoutVirtualCardOnSuccess"-->
-<!--            layout="@layout/layout_add_spare_virtual_card_success"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginTop="8dp"-->
-<!--            android:background="@color/green"-->
-<!--            android:visibility="gone"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintHorizontal_bias="0.498"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/include"-->
-<!--            app:viewModel="@{viewModel}" />-->
-
-        <!--            <include layout="@layout/layout_add_spare_card_header"-->
-        <!--                app:cardType="@{viewModel.state.cardType}"/>-->
+            >
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+            <include
+                android:id="@+id/include"
+                layout="@layout/layout_add_spare_card_header"
+                app:cardType="@{viewModel.state.cardType}"
+
+                />
+
+            <!--            <FrameLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="@dimen/_100sdp"-->
+            <!--                android:layout_marginTop="8dp"-->
+            <!--                android:background="@color/green"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintHorizontal_bias="0.498"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/include" />-->
+
+
+            <include
+                android:id="@+id/layoutVirtualCardConfirmPurchase"
+                layout="@layout/layout_add_spare_virtaul_card_confirm_purchase"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/include"
+                app:viewModel="@{viewModel}" />
+
+            <!--        <include-->
+            <!--            android:id="@+id/layoutVirtualCardOnSuccess"-->
+            <!--            layout="@layout/layout_add_spare_virtual_card_success"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="wrap_content"-->
+            <!--            android:layout_marginTop="8dp"-->
+            <!--            android:background="@color/green"-->
+            <!--            android:visibility="gone"-->
+            <!--            app:layout_constraintEnd_toEndOf="parent"-->
+            <!--            app:layout_constraintHorizontal_bias="0.498"-->
+            <!--            app:layout_constraintStart_toStartOf="parent"-->
+            <!--            app:layout_constraintTop_toBottomOf="@+id/include"-->
+            <!--            app:viewModel="@{viewModel}" />-->
+
+            <!--            <include layout="@layout/layout_add_spare_card_header"-->
+            <!--                app:cardType="@{viewModel.state.cardType}"/>-->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </layout>
