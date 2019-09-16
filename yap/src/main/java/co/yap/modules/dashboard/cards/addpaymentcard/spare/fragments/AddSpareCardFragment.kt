@@ -44,7 +44,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
                 }
                 R.id.btnDoneAddingSpareVirtualCard -> {
-
+                     onBackPressed()
                 }
                 R.id.btnConfirmVirtualCardPurchase -> {
 // hide tha success layout or kill this fragment and go back
