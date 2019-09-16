@@ -21,10 +21,12 @@ class SpareCardLandingViewModel(application: Application) :
         SpareCardLandingState()
 
     override fun handlePressOnAddVirtualCard(id: Int) {
+
         clickEvent.setValue(id)
     }
 
     override fun handlePressOnAddPhysicalCard(id: Int) {
+
         clickEvent.setValue(id)
     }
 
@@ -32,7 +34,6 @@ class SpareCardLandingViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_spare_card_landing_display_text_title))
     }
-
 
     override fun loadJSONDummyList(): ArrayList<BenefitsModel> {
         val benefitsModelList: ArrayList<BenefitsModel> = ArrayList<BenefitsModel>()

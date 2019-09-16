@@ -45,8 +45,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
             when (it) {
 
                 R.id.llAddVirtualCard -> {
-//
-                    val action =
+                     val action =
                         SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
                             getString(R.string.screen_spare_card_landing_display_text_virtual_card)
                         )
@@ -62,7 +61,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                             getString(R.string.screen_spare_card_landing_display_text_physical_card)
                         )
                     findNavController().navigate(action)
-                }
+                 }
 
             }
         })
@@ -78,5 +77,15 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                 viewModel.loadJSONDummyList(),
                 this
             )
+    }
+    
+    override fun onPause() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onPause()
+
+    }
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
     }
 }

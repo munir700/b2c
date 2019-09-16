@@ -25,24 +25,39 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardType } as String
 
         viewModel.state.cardType = viewModel.cardType
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-
-                R.id.btnDone -> {
-// hide tha success layout or kill this fragment and go back
-
-//                    val action =
-//                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-//                            getString(R.string.screen_spare_card_landing_display_text_virtual_card)
-//                        )
-//                    findNavController().navigate(action)
-
-
-                }
-
-
-            }
-        })
+//        viewModel.clickEvent.observe(this, Observer {
+//            when (it) {
+//
+//                R.id.btnDoneAddingSpareVirtualCard -> {
+//// hide tha success layout or kill this fragment and go back
+//
+////                    val action =
+////                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+////                            getString(R.string.screen_spare_card_landing_display_text_virtual_card)
+////                        )
+////                    findNavController().navigate(action)
+//
+//
+//                }
+//                R.id.btnConfirmVirtualCardPurchase -> {
+//// hide tha success layout or kill this fragment and go back
+//
+////                    val action =
+////                        SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+////                            getString(R.string.screen_spare_card_landing_display_text_virtual_card)
+////                        )
+////                    findNavController().navigate(action)
+//
+//
+//                }
+//
+//
+//            }
+//        })
     }
+//    override fun onDestroy() {
+//        viewModel.clickEvent.removeObservers(this)
+//        super.onDestroy()
+//    }
 
 }
