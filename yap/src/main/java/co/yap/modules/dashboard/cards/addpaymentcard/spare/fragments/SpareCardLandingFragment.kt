@@ -78,7 +78,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                 this
             )
     }
-    
+
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()

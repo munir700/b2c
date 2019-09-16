@@ -13,20 +13,19 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+         android:layout_height="wrap_content"
         android:background="@color/colorWhite">
 
-        <LinearLayout
+        <ImageView
             android:id="@+id/cardView"
             android:layout_width="@dimen/_181sdp"
-            android:layout_height="@dimen/_260sdp"
+            android:layout_height="@dimen/_250sdp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/card_spare"
             android:orientation="vertical"
-            android:textSize="@dimen/_13sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints" />
+             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/labelCardType"

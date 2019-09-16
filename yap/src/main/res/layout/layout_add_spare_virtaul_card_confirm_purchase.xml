@@ -11,15 +11,22 @@
         <import type="co.yap.translation.Strings" />
 
     </data>
+<LinearLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+     android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/margin_medium"
+    android:paddingBottom="@dimen/margin_medium">
 
     <LinearLayout
+        android:id="@+id/llConfirmVirtualCardPurchase"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
         android:gravity="center"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_medium">
+        android:orientation="vertical"  >
 
         <TextView
             android:id="@+id/tvVirtualCardMonths"
@@ -80,15 +87,28 @@
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{() -> viewModel.handlePressOnConfirmVirtualCardPurchase()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnConfirmVirtualCardPurchase(v.id)}"
             android:text="@string/screen_add_spare_card_button_confirm_purchase"
             android:textAllCaps="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:btn_enable="true"
             app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
             app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
 
     </LinearLayout>
+    <include
+        android:id="@+id/layoutVirtualCardOnSuccess"
+        layout="@layout/layout_add_spare_virtual_card_success"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+          android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/include"
+        app:viewModel="@{viewModel}" />
+</LinearLayout>
 
 </layout>
