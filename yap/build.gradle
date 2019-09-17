@@ -11,7 +11,7 @@ dependencies {
         add(it.configuration, it.dependency)
     }
 
-    // shared dependencies to all modules
+    //shared dependencies to all modules
     project.commonDependencies.each {
         add(it.configuration, it.dependency)
     }

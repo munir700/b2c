@@ -51,6 +51,9 @@
             android:theme="@style/AppTheme.NoActionBar">
             <nav-graph android:value="@navigation/spare_cards_navigation"/>
         </activity>
+        <activity
+            android:name="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity"
+            android:screenOrientation="portrait" />
 
         <!--<activity-->
             <!--android:name=".modules.kyc.activities.AddressSelectionFragment"-->
