@@ -10,6 +10,15 @@
         <variable
             name="cardNumber"
             type="String" />
+        <variable
+            name="fundActionViewModel"
+            type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel" />
+        <variable
+            name="addFundViewModel"
+            type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel" />
+      <variable
+          name="viewModelThree"
+          type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel" />
         <import type="co.yap.translation.Strings"/>
     </data>
 
@@ -26,9 +35,10 @@
             android:layout_height="@dimen/_100sdp"
             android:background="@drawable/card_spare"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/empty_string"/>
 
-        <TextView
+      <!--  <TextView
             android:id="@+id/tvCardName"
             style="@style/ASmall"
             android:layout_width="wrap_content"
@@ -36,6 +46,17 @@
             android:layout_marginStart="@dimen/margin_extra_large"
             android:layout_marginTop="@dimen/margin_small"
             android:text="@{cardName}"
+            app:layout_constraintLeft_toRightOf="@+id/ivCard"
+            app:layout_constraintTop_toTopOf="@+id/ivCard"
+            tools:text="Primary card" />-->
+        <TextView
+            android:id="@+id/tvCardName"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_extra_large"
+            android:layout_marginTop="@dimen/margin_small"
+            android:text="@{fundActionViewModel.state.cardName != null ? fundActionViewModel.state.cardName : addFundViewModel.state.cardName != null ? addFundViewModel.state.cardName :viewModelThree.state.cardName != null ? viewModelThree.state.cardName : viewModelThree.state.cardName}"
             app:layout_constraintLeft_toRightOf="@+id/ivCard"
             app:layout_constraintTop_toTopOf="@+id/ivCard"
             tools:text="Primary card" />
@@ -52,12 +73,13 @@
 
         <ImageView
             android:id="@+id/ivSecure"
-            android:layout_width="@dimen/_10sdp"
-            android:layout_height="@dimen/_10sdp"
-            android:background="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_secured_by_yap"
             app:layout_constraintTop_toTopOf="@+id/tvSecuredByYap"
             app:layout_constraintStart_toStartOf="@+id/tvCardNumber"
             app:layout_constraintBottom_toBottomOf="@+id/tvSecuredByYap"
+            android:contentDescription="@string/empty_string"
             />
 
         <TextView
@@ -65,9 +87,9 @@
             style="@style/AMicroGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/margin_small"
+            android:layout_marginBottom="@dimen/margin_medium"
             tools:text="@string/screen_payment_card_detail_text_secure"
-            android:text="@{Strings.screen_payment_card_detail_text_secure}"
+            app:text="@{Strings.screen_payment_card_detail_text_secure}"
             android:layout_marginStart="@dimen/margin_small"
             app:layout_constraintLeft_toRightOf="@+id/ivSecure"
             app:layout_constraintBottom_toBottomOf="parent"
