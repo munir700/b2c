@@ -5,6 +5,7 @@ import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
@@ -12,6 +13,8 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
+import co.yap.networking.store.responsedtos.Store
+import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
@@ -61,5 +64,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 page.translationY = offset
             }
         }
+
+        adapter.setItemListener(object : BaseBindingRecyclerAdapter.OnItemClickListener {
+            override fun onItemClick(view: View, data: Any, pos: Int) {
+                val action =
+                    YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment()
+                view.findNavController().navigate(action)
+            }
+        })
     }
 }

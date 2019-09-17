@@ -50,8 +50,12 @@
     <fragment
         android:id="@+id/yapCards"
         android:name="co.yap.modules.dashboard.cards.home.fragments.YapCardsFragment"
-        android:label="YapCardsFragment"
-        tools:layout="@layout/fragment_yap_cards" />
+        android:label="YapCardFragment"
+        tools:layout="@layout/fragment_yap_cards">
+        <action
+            android:id="@+id/action_yapCards_to_yapCardStatusFragment"
+            app:destination="@id/yapCardStatusFragment" />
+    </fragment>
     <fragment
         android:id="@+id/yapDashboardHome"
         android:name="co.yap.modules.dashboard.fragments.YapDashboardHome"
@@ -83,10 +87,15 @@
 
     <activity
         android:id="@+id/addPaymentCardActivity"
-        tools:layout="@layout/activity_add_payment_cards"
         android:name="co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
-        android:label="AddPaymentCardActivity">
+        android:label="AddPaymentCardActivity"
+        tools:layout="@layout/activity_add_payment_cards">
 
     </activity>
+    <fragment
+        android:id="@+id/yapCardStatusFragment"
+        android:name="co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment"
+        android:label="YapCardStatusFragment"
+        tools:layout="@layout/fragment_card_status" />
 
 </navigation>
