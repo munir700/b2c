@@ -22,15 +22,22 @@ class AddSparePhysicalCardViewHelper(
 
         })
 
+        view.tvChangeLocation.setOnClickListener(object :
+            View.OnClickListener {
+
+            override fun onClick(v: View?) {
+                //start location screen
+
+                viewModel.state.toggleVisibility = true
+            }
+
+        })
+
         view.btnConfirm.setOnClickListener(object :
             View.OnClickListener {
 
             override fun onClick(v: View?) {
-
-                val VISIBLE: Int = 0x00000000
-                val GONE: Int = 0x00000008
-
-                viewModel.state.toggleVisibility=true
+                viewModel.state.toggleVisibility = true
             }
 
         })
