@@ -20,6 +20,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
@@ -104,12 +105,19 @@ object UIBinder {
         val text1 = SpannableString(text)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             text1.setSpan(
-                ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark, null)), start, end,
+                ForegroundColorSpan(
+                    view.context.resources.getColor(
+                        R.color.colorPrimaryDark,
+                        null
+                    )
+                ), start, end,
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE
             )
         } else {
             text1.setSpan(
-                ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark)), start, end,
+                ForegroundColorSpan(view.context.resources.getColor(R.color.colorPrimaryDark)),
+                start,
+                end,
                 Spannable.SPAN_INCLUSIVE_INCLUSIVE
             )
         }
@@ -155,10 +163,12 @@ object UIBinder {
     ) {
         viewGroup.removeAllViews()
         if (entries != null) {
-            val inflater = viewGroup.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val inflater =
+                viewGroup.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             for (i in entries.indices) {
                 val entry = entries[i]
-                val binding = DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, viewGroup, true)
+                val binding =
+                    DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, viewGroup, true)
                 binding.setVariable(entry.bindingVariable, entry)
                 binding.executePendingBindings()
             }
@@ -245,20 +255,27 @@ object UIBinder {
         )
     }
 
+    @BindingAdapter("src")
+    @JvmStatic
+    fun setImageResId(view: ImageView, path: String) {
+        Glide.with(view.context)
+            .load(path).centerCrop()
+            .into(view)
+    }
 
     @BindingAdapter("src", "circular")
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
         if (circular) {
 
-            Glide.with(view.getContext())
+            Glide.with(view.context)
                 .asBitmap().load(resId)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
 
         } else {
 
-            Glide.with(view.getContext())
+            Glide.with(view.context)
                 .asBitmap().load(resId)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
@@ -315,7 +332,7 @@ object UIBinder {
     @BindingAdapter("drawableClick")
     fun setDrawableRightListener(view: EditText, onDrawableClick: Boolean) {
         if (onDrawableClick) {
-            view.setCompoundDrawablesWithIntrinsicBounds(0,0,R.drawable.ic_clear_field,0)
+            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_clear_field, 0)
 
             view.setOnTouchListener(object : View.OnTouchListener {
                 override fun onTouch(v: View, m: MotionEvent): Boolean {
@@ -325,16 +342,16 @@ object UIBinder {
                             if (m.action == MotionEvent.ACTION_UP) {
                                 view.text.clear()
 
-                                view.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+                                view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
                             }
                             hasConsumed = true
                         }
                     }
-                     return hasConsumed
+                    return hasConsumed
                 }
             })
-        }else{
-            view.setCompoundDrawablesWithIntrinsicBounds(0,0,0,0)
+        } else {
+            view.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
 
         }
     }

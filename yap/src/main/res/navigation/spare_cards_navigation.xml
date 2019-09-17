@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/spare_cards_navigation"
+    app:startDestination="@id/spareCardLandingFragment">
+
+
+    <fragment
+        android:id="@+id/spareCardLandingFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.SpareCardLandingFragment"
+        android:label="@string/screen_spare_card_landing_display_text_title"
+        tools:layout="@layout/fragment_spare_card_landing">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/benefitsFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.CardsBenefitsFragment"
+        android:label="Spare card benefits"
+        tools:layout="@layout/fragment_benefits">
+
+
+    </fragment>
+
+</navigation>

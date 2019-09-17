@@ -12,12 +12,15 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 
 class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
-     override val navigator: IBaseNavigator get() = DefaultNavigator(this@MainActivity, R.id.main_nav_host_fragment)
+    override val navigator: IBaseNavigator
+        get() = DefaultNavigator(
+            this@MainActivity,
+            R.id.main_nav_host_fragment
+        )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
     }
 
     override fun onBackPressed() {

@@ -17,6 +17,7 @@ project.ext {
     okhttpLoggerVersion = "3.10.0"
     okhttpGsonVersion = "2.5.0"
     arch = "2.0.0"
+    paging_version = "2.1.0"
     modules = [
             app        : ':app',
             networking : ':networking',
@@ -74,6 +75,9 @@ project.ext {
             navigationFragmentKtx    : "androidx.navigation:navigation-fragment-ktx:$navigationVersion",
             navigationUItKtx         : "androidx.navigation:navigation-ui-ktx:$navigationVersion",
 
+            // paging
+            paging                   : "androidx.paging:paging-runtime:$paging_version",
+
             // Androidx Architecture
             lifecycleRuntime         : "androidx.lifecycle:lifecycle-runtime:$arch",
             lifecycleCommonJava      : "androidx.lifecycle:lifecycle-common-java8:$arch",
@@ -116,6 +120,7 @@ project.ext {
             [configuration: "kapt", dependency: libraries.daggerAndroidProcessor],
             [configuration: "implementation", dependency: libraries.appcompat],
             [configuration: "implementation", dependency: libraries.coreKtx],
+            [configuration: "implementation", dependency: libraries.paging],
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
