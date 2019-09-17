@@ -81,6 +81,15 @@ object Utils {
             ""
         }
     }
+    fun getFormattedCurrencyWithoutComma(num: String?): String {
+        return if ("" != num && null != num) {
+            val m = java.lang.Double.parseDouble(num)
+            val formatter = DecimalFormat("########0.00")
+            formatter.format(m)
+        } else {
+            ""
+        }
+    }
 
     fun convertDpToPx(context: Context, dp: Float): Float {
         return dp * context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT

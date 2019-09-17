@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFun
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 import java.util.*
 
@@ -165,7 +166,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                     context,
                     Strings.screen_add_funds_display_text_max_limit_error,
                     currencyType,
-                    availableBalance
+                    Utils.getFormattedCurrency(maxLimit.toString())
                 )
                 return errorDescription
 
@@ -179,11 +180,11 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
 
     private fun clearError() {
         if (amount != "") {
-            valid = amount?.toDouble()!! > minLimit
-           // if (amount?.toDouble()!! < availableBalance.toDouble() || amount?.toDouble()!! < maxLimit) {
+            if (amount!="."){
+            valid = amount?.toDouble()!! >= minLimit
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
-            //}
+            }
         }
     }
 }

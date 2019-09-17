@@ -5,6 +5,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFun
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 
 open class FundActionsViewModel(application: Application) :
     BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
@@ -18,14 +19,14 @@ open class FundActionsViewModel(application: Application) :
     override fun denominationFirstAmountClick() {
         state.amount = ""
         if (state.denominationFirstAmount.contains("+")) {
-            state.amount = state.denominationFirstAmount.replace("+", "")
+            state.amount =  Utils.getFormattedCurrencyWithoutComma(state.denominationFirstAmount.replace("+", ""))
         }
     }
 
     override fun denominationSecondAmount() {
         state.amount = ""
         if (state.denominationSecondAmount.contains("+")) {
-            state.amount = state.denominationSecondAmount.replace("+", "")
+            state.amount = Utils.getFormattedCurrencyWithoutComma(state.denominationSecondAmount.replace("+", ""))
         }
 
     }
@@ -33,7 +34,7 @@ open class FundActionsViewModel(application: Application) :
     override fun denominationThirdAmount() {
         state.amount = ""
         if (state.denominationThirdAmount.contains("+")) {
-            state.amount =  state.denominationThirdAmount.replace("+", "")
+            state.amount =   Utils.getFormattedCurrencyWithoutComma(state.denominationThirdAmount.replace("+", ""))
         }
     }
 
