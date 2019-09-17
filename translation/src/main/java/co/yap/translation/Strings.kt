@@ -134,6 +134,11 @@ object Strings {
     const val screen_onboarding_congratulations_button_complete_verification: String =
         "screen_onboarding_congratulations_button_complete_verification"
 
+    const val screen_meeting_location_display_text_add_new_address_title: String =
+        "screen_meeting_location_display_text_add_new_address_title"
+    const val screen_meeting_location_display_text_add_new_address_subtitle: String =
+        "screen_meeting_location_display_text_add_new_address_subtitle"
+
     //System permission screen
     const val screen_system_permission_text_title: String = "screen_system_permission_text_title"
     const val screen_notification_permission_text_title: String =

@@ -14,4 +14,12 @@ class AddPaymentCardsState : BaseState(), IAddPaymentCard.State {
             notifyPropertyChanged(BR.tootlBarTitle)
 
         }
+
+    @get:Bindable
+    override var tootlBarVisibility: Int = 0x00000000
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.tootlBarVisibility)
+
+        }
 }

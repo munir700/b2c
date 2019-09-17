@@ -138,6 +138,9 @@
     <string name="screen_meeting_location_text_accept_terms">I accept the </string>
     <string name="screen_meeting_location_text_terms_and_conditions"> CRS and FATCA Terms and Conditions</string>
 
+    <string name="screen_meeting_location_display_text_add_new_address_title">Add new delivery address</string>
+    <string name="screen_meeting_location_display_text_add_new_address_subtitle">Where can we deliever your spare card?</string>
+
 
     <!-- Eid details review screen -->
     <string name="screen_b2c_eid_info_review_display_text_title">Almost there!</string>
@@ -251,6 +254,8 @@
     <string name="screen_add_spare_card_button_confirm_location">Confirm location</string>
     <string name="screen_add_spare_card_display_text_address_confirmation">Is this your adress?</string>
     <string name="screen_add_spare_card_button_change_location">Change location</string>
+
+    <!-- Add Spare card location -->
 
 
 </resources>

@@ -26,6 +26,7 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.translation.Strings
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
@@ -77,10 +78,16 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     ): View? {
         val checkSender =
             arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
-        if (checkSender!!){
+        if (checkSender!!) {
             viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
 
-        }else{
+      viewModel.state.headingTitle =
+                getString(Strings.screen_meeting_location_display_text_add_new_address_title)
+            viewModel.state.subHeadingTitle =
+                getString(Strings.screen_meeting_location_display_text_add_new_address_subtitle)
+            viewModel.state.nextActionBtnText =
+                getString(Strings.screen_meeting_location_button_confirm_selected_location)
+        } else {
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
@@ -300,7 +307,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    viewModel.getDeviceLocation(activity as DocumentsDashboardActivity)
+                    viewModel.getDeviceLocation(viewModel!!.mapDetailViewActivity)
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {

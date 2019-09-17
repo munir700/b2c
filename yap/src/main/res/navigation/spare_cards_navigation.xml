@@ -62,11 +62,6 @@
         android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
         android:label="AddressSelectionActivity"
         tools:layout="@layout/fragment_address_selection">
-        <!--        <argument-->
-        <!--            android:name="cardType"-->
-        <!--            app:argType="string"-->
-        <!--           -->
-        <!--            />-->
 
         <argument
             android:name="isFromPhysicalCardsScreen"

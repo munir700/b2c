@@ -17,6 +17,7 @@
 
         <include
             layout="@layout/layout_cards_toolbar"
+            android:visibility="@{viewModel.state.tootlBarVisibility}"
             app:viewModel="@{viewModel}"/>
 
         <fragment

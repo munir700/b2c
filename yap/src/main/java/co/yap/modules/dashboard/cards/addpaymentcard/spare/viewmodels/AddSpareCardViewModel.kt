@@ -55,6 +55,17 @@ class AddSpareCardViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_spare_card_benefit_display_text_title))
+        toggleToolBarVisibility(true)}
+
+    override fun onPause() {
+        super.onPause()
+        toggleToolBarVisibility(false)
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+//        layout_cards_toolbar.setVisibility
+        toggleToolBarVisibility(false)
+
+    }
 }

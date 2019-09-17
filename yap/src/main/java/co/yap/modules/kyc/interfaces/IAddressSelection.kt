@@ -44,6 +44,7 @@ interface IAddressSelection {
         var addressField: String
         var landmarkField: String
         var locationBtnText: String
+        var nextActionBtnText: String
         var valid: Boolean
         var checked: Boolean
 
