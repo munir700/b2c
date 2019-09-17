@@ -34,7 +34,7 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
         get() = ViewModelProviders.of(this).get(AddPaymentCardViewModel::class.java)
 
     override val navigator: IBaseNavigator
-        get() = DefaultNavigator(this, R.id.main_cards_nav_host_fragment)
+        get() = DefaultNavigator(this@AddPaymentCardActivity, R.id.main_cards_nav_host_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
