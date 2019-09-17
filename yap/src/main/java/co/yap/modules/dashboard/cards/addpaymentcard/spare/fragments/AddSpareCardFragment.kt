@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 
 import android.os.Bundle
 import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -28,12 +27,13 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
         viewModel.cardType =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardType } as String
+        val navController: NavController = findNavController()
 
         viewModel.state.cardType = viewModel.cardType
         if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
             layoutPhysicalCardConfirmPurchase.visibility = View.GONE
             layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
-            val navController: NavController = findNavController()
+
             AddSpareVirtualCardViewHelper(
                 this!!.activity!!,
                 navController,
@@ -43,30 +43,13 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         } else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))) {
             layoutVirtualCardConfirmPurchase.visibility = View.GONE
             layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
-
+            AddSparePhysicalCardViewHelper(
+                this!!.activity!!,
+                navController,
+                view,
+                viewModel
+            )
         }
-
-
-        setUpViewHelpers(view)
-
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.btnConfirmPhysicalCardPurchase -> {
-                    findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
-
-                }
-            }
-        })
-
-    }
-
-    private fun setUpViewHelpers(view: View) {
-
-        AddSparePhysicalCardViewHelper(
-            this!!.activity!!,
-            view,
-            viewModel
-        )
     }
 
     override fun onDestroy() {

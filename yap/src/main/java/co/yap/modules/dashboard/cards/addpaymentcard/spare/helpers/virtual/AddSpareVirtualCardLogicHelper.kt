@@ -11,6 +11,6 @@ class AddSpareVirtualCardLogicHelper(
     var transactionList: ArrayList<TransactionModel> = arrayListOf()
 
     init {
-//        transactionList = loadJSONDummyList()
+// work on api call and updating state values regarding virtual card view
     }
 }

@@ -15,18 +15,11 @@ class AddSpareVirtualCardViewHelper(
     val context: Context, val navController: NavController, val virtualCardView: View,
     val viewModel: IAddSpareCard.ViewModel
 ) {
-
-//    var checkScroll: Boolean = false
-//    var horizontalScrollPosition: Int = 0
-//    private var toolbarCollapsed = false
-
     init {
 
         fadeOutView(virtualCardView.tvTransactionComplete)
         fadeOutView(virtualCardView.flTransactionComplete)
         fadeOutView(virtualCardView.btnDoneAddingSpareVirtualCard)
-
-
 
         virtualCardView.btnConfirmVirtualCardPurchase.setOnClickListener(object :
             View.OnClickListener {
@@ -91,28 +84,6 @@ class AddSpareVirtualCardViewHelper(
 
     }
 
-    fun slideInDownTitle() {
-        YoYo.with(Techniques.SlideInDown)
-            .withListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {
-                }
-
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
-
-                override fun onAnimationEnd(animation: Animator?) {
-                    FadeInSuccessImage()
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
-                }
-            })
-            .duration(800)
-            .repeat(0)
-            .playOn(virtualCardView.tvTransactionComplete)
-    }
-
-
     fun FadeInSuccessImage() {
 
         YoYo.with(Techniques.ZoomIn)
@@ -134,29 +105,6 @@ class AddSpareVirtualCardViewHelper(
             .repeat(0)
             .playOn(virtualCardView.flTransactionComplete)
     }
-
-
-    fun slideInDownImage() {
-        YoYo.with(Techniques.SlideInDown)
-            .withListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(animation: Animator?) {
-                }
-
-                override fun onAnimationRepeat(animation: Animator?) {
-                }
-
-                override fun onAnimationEnd(animation: Animator?) {
-                    slideInBtn()
-                }
-
-                override fun onAnimationCancel(animation: Animator?) {
-                }
-            })
-            .duration(1000)
-            .repeat(0)
-            .playOn(virtualCardView.flTransactionComplete)
-    }
-
 
     fun slideInBtn() {
 
