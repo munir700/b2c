@@ -4,10 +4,6 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
-
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -56,7 +52,6 @@
             android:layout_marginTop="@dimen/_25sdp"
             android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCardSuccess(v.id)}"
             android:text="@string/screen_add_spare_card_completion_button_done"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"

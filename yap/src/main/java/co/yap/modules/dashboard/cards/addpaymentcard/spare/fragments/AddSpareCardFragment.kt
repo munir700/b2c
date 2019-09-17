@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
@@ -31,12 +32,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardType } as String
 
         viewModel.state.cardType = viewModel.cardType
-        if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))){
-            layoutPhysicalCardConfirmPurchase.visibility=View.GONE
-            layoutVirtualCardConfirmPurchase.visibility=View.VISIBLE
-        }else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))){
-            layoutVirtualCardConfirmPurchase.visibility=View.GONE
-            layoutPhysicalCardConfirmPurchase.visibility=View.VISIBLE
+        if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
+            layoutPhysicalCardConfirmPurchase.visibility = View.GONE
+            layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
+        } else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))) {
+            layoutVirtualCardConfirmPurchase.visibility = View.GONE
+            layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
 
         }
 
@@ -45,9 +46,14 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         fadeOutView(btnDoneAddingSpareVirtualCard)
 
 
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
+                R.id.btnConfirmPhysicalCardPurchase -> {
+                    findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+
+                }
                 R.id.clContainer -> {
                     activity!!.recreate()
 
