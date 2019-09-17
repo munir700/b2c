@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--YOU NEED TO PART ITS WEIGHT INTO TWO -->
+
     <data>
 
         <import type="co.yap.translation.Strings" />
@@ -22,10 +22,7 @@
             android:layout_height="match_parent"
             android:background="@color/white"
             android:onClick="@{(v) -> viewModel.handlePressOnConfirmVirtualCardPurchase(v.id)}"
-            android:paddingBottom="@dimen/margin_medium"
-
-            >
-
+            android:paddingBottom="@dimen/margin_medium">
 
             <include
                 android:id="@+id/include"

@@ -50,18 +50,17 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
+                R.id.btnDoneAddingSpareVirtualCard -> {
+                    onBackPressed()
+//                    findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+
+                }
+
                 R.id.btnConfirmPhysicalCardPurchase -> {
                     findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
 
                 }
-                R.id.clContainer -> {
-                    activity!!.recreate()
 
-
-                }
-                R.id.btnDoneAddingSpareVirtualCard -> {
-                    onBackPressed()
-                }
                 R.id.btnConfirmVirtualCardPurchase -> {
                     llConfirmVirtualCardPurchase.visibility = View.GONE
                     layoutVirtualCardOnSuccess.visibility = View.VISIBLE
@@ -212,4 +211,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         super.onDestroy()
     }
 
+    override fun onBackPressed(): Boolean {
+        return super.onBackPressed()
+    }
 }
