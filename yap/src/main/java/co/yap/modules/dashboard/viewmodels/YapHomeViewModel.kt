@@ -15,7 +15,7 @@ class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IY
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
     override val transactionLogicHelper: TransactionLogicHelper =
-        TransactionLogicHelper(context, this)
+        TransactionLogicHelper(context)
 
     private val cardsRepository: CardsRepository = CardsRepository
 
