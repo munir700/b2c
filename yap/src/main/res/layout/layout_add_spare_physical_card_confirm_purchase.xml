@@ -90,6 +90,7 @@
                 android:layout_marginRight="@dimen/margin_medium"
                 android:background="@drawable/card_border_selector"
                 android:gravity="top"
+                android:clickable="false"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_large"

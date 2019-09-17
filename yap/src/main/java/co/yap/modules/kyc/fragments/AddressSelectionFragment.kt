@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
@@ -46,7 +47,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
 
     companion object {
-        fun newIntent(context: Context): Intent = Intent(context, AddressSelectionFragment::class.java)
+        fun newIntent(context: Context): Intent =
+            Intent(context, AddressSelectionFragment::class.java)
     }
 
 
@@ -68,16 +70,31 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     private lateinit var viewDataBinding: ViewDataBinding
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val checkSender =
+            arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
+        if (checkSender!!){
+            viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
+
+        }else{
+            viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
+
+        }
 
         performDataBinding(inflater, container)
         initMapFragment()
 
+        showToast(checkSender.toString())
         return viewDataBinding.root
     }
 
     private fun initMapFragment() {
-        viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
+//        viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
+//        viewModel!!.mapDetailViewActivity = activity!!.parent
         displayLocationSettingsRequest(requireContext())
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
@@ -107,7 +124,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         if (!shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
                             val intent = Intent()
                             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS;
-                            val uri: Uri = Uri.fromParts("package", requireContext()!!.packageName, null)
+                            val uri: Uri =
+                                Uri.fromParts("package", requireContext()!!.packageName, null)
                             intent.data = uri
                             this.startActivity(intent)
 
@@ -155,7 +173,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                     if (!viewModel.state.error.isNullOrEmpty()) {
                         showToast(viewModel.state.error)
                     } else {
-                        MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_MEETING_SCHEDULED
+                        MyUserManager.user?.notificationStatuses =
+                            Constants.USER_STATUS_MEETING_SCHEDULED
                         findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
                     }
                 }
@@ -192,7 +211,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             val builder = LocationSettingsRequest.Builder().addLocationRequest(locationRequest)
             builder.setAlwaysShow(true)
 
-            val result = LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
+            val result =
+                LocationServices.SettingsApi.checkLocationSettings(googleApiClient, builder.build())
             result.setResultCallback(object : ResultCallback<LocationSettingsResult> {
                 override fun onResult(result: LocationSettingsResult) {
                     val status = result.status
@@ -247,7 +267,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun performDataBinding(inflater: LayoutInflater, container: ViewGroup?) {
-        viewDataBinding = DataBindingUtil.inflate(inflater, R.layout.fragment_address_selection, container, false)
+        viewDataBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_address_selection, container, false)
         viewDataBinding.setVariable(getBindingVariable(), viewModel)
         viewDataBinding.executePendingBindings()
     }

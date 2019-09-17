@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragmentDirections
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import kotlinx.android.synthetic.main.layout_add_spare_physical_card_confirm_purchase.view.*
 
@@ -29,6 +30,20 @@ class AddSparePhysicalCardViewHelper(
                 //start location screen
 
                 viewModel.state.toggleVisibility = true
+//                navController.navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+
+                val action =
+                    AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddressSelectionFragment(
+                        true
+                    )
+                navController.navigate(action)
+//
+//                val action =
+//                    SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+//                        getString(R.string.screen_spare_card_landing_display_text_virtual_card)
+//                    )
+//                navController.navigate(action)
+
             }
 
         })

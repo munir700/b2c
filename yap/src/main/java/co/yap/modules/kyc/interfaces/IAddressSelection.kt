@@ -1,5 +1,6 @@
 package co.yap.modules.kyc.interfaces
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
@@ -17,7 +18,8 @@ interface IAddressSelection {
     interface ViewModel : IBase.ViewModel<State> {
         var checkGps: Boolean
         var mapFragment: SupportMapFragment?
-        var mapDetailViewActivity: DocumentsDashboardActivity
+//        var mapDetailViewActivity: DocumentsDashboardActivity
+        var mapDetailViewActivity: Activity
         val clickEvent: SingleClickEvent
         val MARKER_CLICK_ID: Int
         val GPS_CLICK_EEVENT: Int
@@ -27,8 +29,10 @@ interface IAddressSelection {
         fun handlePressOnCloseMap(id: Int)
         fun initMap()
         fun onMapInit(p0: GoogleMap?)
-        fun getDeviceLocation(activity: DocumentsDashboardActivity)
-        fun getDefaultLocationMap(activity: DocumentsDashboardActivity)
+//        fun getDeviceLocation(activity: DocumentsDashboardActivity)
+//        fun getDefaultLocationMap(activity: DocumentsDashboardActivity)
+        fun getDeviceLocation(activity: Activity)
+        fun getDefaultLocationMap(activity: Activity)
         fun onLocatioenSelected()
         fun toggleMarkerVisibility()
         fun setUpCardFields()

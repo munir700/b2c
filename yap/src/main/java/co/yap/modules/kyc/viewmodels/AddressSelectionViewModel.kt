@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
@@ -10,7 +11,6 @@ import android.location.Location
 import android.util.Log
 import androidx.core.content.ContextCompat
 import co.yap.R
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
 import co.yap.networking.cards.CardsRepository
@@ -38,7 +38,8 @@ import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse
 import com.google.android.libraries.places.api.net.PlacesClient
 import java.util.*
 
-class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddressSelection.State>(application),
+class AddressSelectionViewModel(application: Application) :
+    BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel, IRepositoryHolder<CardsRepository> {
 
     private val TAG = "AddressSelectionFragment"
@@ -75,11 +76,11 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
-    fun mapDetailViewActivity(): DocumentsDashboardActivity {
-        return DocumentsDashboardActivity()
+    fun mapDetailViewActivity(): Activity {
+        return Activity()
     }
 
-    override var mapDetailViewActivity: DocumentsDashboardActivity = mapDetailViewActivity()
+    override var mapDetailViewActivity: Activity = mapDetailViewActivity()
         get() = field
         set(value) {
 
@@ -174,9 +175,15 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
         toggleMarkerVisibility()
         state.placePhoto = this.placePhoto
         state.subHeadingTitle =
-            Translator.getString(getApplication(), R.string.screen_meeting_location_display_text_selected_subtitle)
+            Translator.getString(
+                getApplication(),
+                R.string.screen_meeting_location_display_text_selected_subtitle
+            )
         state.locationBtnText =
-            Translator.getString(getApplication(), R.string.screen_meeting_location_button_change_location)
+            Translator.getString(
+                getApplication(),
+                R.string.screen_meeting_location_button_change_location
+            )
     }
 
     override fun handlePressOnCloseMap(id: Int) {
@@ -202,7 +209,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
     @SuppressLint("MissingPermission")
-    override fun getDefaultLocationMap(activity: DocumentsDashboardActivity) {
+    override fun getDefaultLocationMap(activity: Activity) {
         try {
             val locationResult = mFusedLocationProviderClient.getLastLocation()
             activity?.let {
@@ -212,9 +219,15 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                         if (location != null) {
                             mLastKnownLocation = location
                             mDefaultLocation =
-                                LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
+                                LatLng(
+                                    mLastKnownLocation.getLatitude(),
+                                    mLastKnownLocation.getLongitude()
+                                )
                             mMap.animateCamera(
-                                CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+                                CameraUpdateFactory.newLatLngZoom(
+                                    mDefaultLocation,
+                                    DEFAULT_ZOOM.toFloat()
+                                ),
                                 animationFrequency,
                                 null
                             )
@@ -228,7 +241,7 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     }
 
     @SuppressLint("MissingPermission")
-    override fun getDeviceLocation(activity: DocumentsDashboardActivity) {
+    override fun getDeviceLocation(activity: Activity) {
 
         try {
 
@@ -240,9 +253,15 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
                         if (location != null) {
                             mLastKnownLocation = location
                             mDefaultLocation =
-                                LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude())
+                                LatLng(
+                                    mLastKnownLocation.getLatitude(),
+                                    mLastKnownLocation.getLongitude()
+                                )
                             mMap.animateCamera(
-                                CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM.toFloat()),
+                                CameraUpdateFactory.newLatLngZoom(
+                                    mDefaultLocation,
+                                    DEFAULT_ZOOM.toFloat()
+                                ),
                                 animationFrequency,
                                 null
                             )
@@ -260,7 +279,8 @@ class AddressSelectionViewModel(application: Application) : BaseViewModel<IAddre
     private fun bitmapDescriptorFromVector(context: Context, vectorResId: Int): BitmapDescriptor? {
         return ContextCompat.getDrawable(context, vectorResId)?.run {
             setBounds(0, 0, intrinsicWidth, intrinsicHeight)
-            val bitmap = Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
+            val bitmap =
+                Bitmap.createBitmap(intrinsicWidth, intrinsicHeight, Bitmap.Config.ARGB_8888)
             draw(Canvas(bitmap))
             BitmapDescriptorFactory.fromBitmap(bitmap)
         }
