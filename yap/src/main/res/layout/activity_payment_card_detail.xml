@@ -12,6 +12,7 @@
     </data>
 
     <RelativeLayout
+        android:background="@color/white"
         android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_height="match_parent">
@@ -70,8 +71,175 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
+    <RelativeLayout
+        android:id="@+id/rlCardActions"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:id="@+id/rlSpareCardActions"
+            android:background="@color/white"
+            android:layout_margin="@dimen/margin_extra_small"
+            android:layout_width="match_parent"
+            android:visibility="visible"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/llAddFunds"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_add_funds"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Micro"
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Add Funds"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llFreezeSpareCard"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_freeze_card"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Micro"
+                        android:textAlignment="center"
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Freeze card"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llRemoveFunds"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_remove_funds"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Micro"
+                        android:textAlignment="center"
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Remove funds"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rlPrimaryCardActions"
+            android:background="@color/white"
+            android:layout_margin="@dimen/margin_extra_small"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:orientation="horizontal">
+
+
+                <LinearLayout
+                    android:id="@+id/llFreezePrimaryCard"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_freeze_card"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Micro"
+                        android:textAlignment="center"
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Freeze card"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llCardLimits"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:src="@drawable/ic_card_limits"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        style="@style/Micro"
+                        android:textAlignment="center"
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Set limits"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </RelativeLayout>
+
         <LinearLayout
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/rlCardActions"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"

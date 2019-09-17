@@ -34,6 +34,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             when (it) {
                 R.id.ivBack-> { showToast("Back Pressed") }
                 R.id.ivMenu -> { showToast("More Pressed") }
+                R.id.llAddFunds -> { showToast("Add Funds") }
+                R.id.llFreezeSpareCard -> { showToast("Freeze Spare Card") }
+                R.id.llFreezePrimaryCard -> { showToast("Freeze Primary Card") }
+                R.id.llRemoveFunds -> { showToast("Remove Funds") }
+                R.id.llCardLimits -> { showToast("Set Limits") }
 
             }
         })
