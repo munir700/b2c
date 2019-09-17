@@ -8,12 +8,17 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.Interfaces.IPaymentCardDetail
+import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
+import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
+import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
+import co.yap.modules.dashboard.constants.Constants
 import co.yap.yapcore.BaseBindingActivity
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 
 
-class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(), IPaymentCardDetail.View {
+class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
+    IPaymentCardDetail.View, CardClickListener {
 
     override val viewModel: IPaymentCardDetail.ViewModel
         get() = ViewModelProviders.of(this).get(PaymentCardDetailViewModel::class.java)
@@ -32,16 +37,41 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.ivBack-> { showToast("Back Pressed") }
-                R.id.ivMenu -> { showToast("More Pressed") }
-                R.id.llAddFunds -> { showToast("Add Funds") }
-                R.id.llFreezeSpareCard -> { showToast("Freeze Spare Card") }
-                R.id.llFreezePrimaryCard -> { showToast("Freeze Primary Card") }
-                R.id.llRemoveFunds -> { showToast("Remove Funds") }
-                R.id.llCardLimits -> { showToast("Set Limits") }
+                R.id.ivBack -> {
+                    showToast("Back Pressed")
+                }
+                R.id.ivMenu -> {
+                    SpareCardBottomSheet(this).show(supportFragmentManager, "")
+                    //PrimaryCardBottomSheet(this).show(supportFragmentManager, "")
+                }
+                R.id.llAddFunds -> {
+                    showToast("Add Funds")
+                }
+                R.id.llFreezeSpareCard -> {
+                    showToast("Freeze Spare Card")
+                }
+                R.id.llFreezePrimaryCard -> {
+                    showToast("Freeze Primary Card")
+                }
+                R.id.llRemoveFunds -> {
+                    showToast("Remove Funds")
+                }
+                R.id.llCardLimits -> {
+                    showToast("Set Limits")
+                }
 
             }
         })
+    }
+
+    override fun onClick(eventType: Int) {
+      when(eventType){
+          Constants.EVENT_ADD_CARD_NAME->{showToast("Add card name")}
+          Constants.EVENT_CHANGE_PIN->{showToast("Change PIN")}
+          Constants.EVENT_VIEW_STATEMENTS->{showToast("View statements")}
+          Constants.EVENT_REPORT_CARD->{showToast("Report card")}
+          Constants.EVENT_REMOVE_CARD->{showToast("Remove card")}
+      }
     }
 
     private fun setUpTransactionsListRecyclerView() {
