@@ -88,7 +88,7 @@
                 android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:layout_marginRight="@dimen/margin_medium"
-                android:background="@drawable/card_border_selector"
+                android:background="@drawable/card_border_container"
                 android:gravity="top"
                 android:clickable="false"
                 android:orientation="vertical"
