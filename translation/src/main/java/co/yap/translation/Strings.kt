@@ -12,6 +12,8 @@ object Strings {
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
     const val common_button_activate: String = "common_button_activate"
+    const val common_text_currency_type: String = "common_text_currency_type"
+    const val common_amount_hint: String = "common_amount_hint"
 
 
     //Home screen
@@ -386,5 +388,24 @@ object Strings {
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
 
+    // Add funds Screen
+    const val screen_add_funds_display_text_add_funds: String =
+        "screen_add_funds_display_text_add_funds"
 
+    const val screen_add_funds_button_add: String =
+        "screen_add_funds_button_add"
+
+    const val screen_add_funds_display_text_enter_amount: String =
+        "screen_add_funds_display_text_enter_amount"
+
+    const val screen_add_funds_display_text_available_balance: String =
+        "screen_add_funds_display_text_available_balance"
+    const val screen_add_card_display_text_spare_card: String =
+        "screen_add_card_display_text_spare_card"
+    const val screen_payment_card_detail_text_secure: String =
+        "screen_payment_card_detail_text_secure"
+    const val screen_add_funds_display_text_available_balance_error: String =
+        "screen_add_funds_display_text_available_balance_error"
+    const val screen_add_funds_display_text_max_limit_error: String =
+        "screen_add_funds_display_text_max_limit_error"
 }

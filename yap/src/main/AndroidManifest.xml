@@ -1,59 +1,67 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="co.yap">
+    package="co.yap">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 
     <application>
         <activity
             android:name=".modules.onboarding.activities.LiteDashboardActivity"
             android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/kyc_navigation"/>
+            <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
             android:name=".modules.dashboard.activities.YapDashboardActivity"
             android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/yap_navigation"/>
+            <nav-graph android:value="@navigation/yap_navigation" />
         </activity>
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".modules.onboarding.activities.OnboardingActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
-            <nav-graph android:value="@navigation/onboarding_navigation"/>
+            <nav-graph android:value="@navigation/onboarding_navigation" />
         </activity>
 
         <activity
             android:name=".modules.onboarding.activities.CreatePasscodeActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.onboarding.activities.InformationErrorActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.onboarding.activities.EidInfoReviewActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.kyc.activities.DocumentsDashboardActivity"
             android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/kyc_navigation"/>
+            <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
             android:name=".modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <nav-graph android:value="@navigation/spare_cards_navigation"/>
+            <nav-graph android:value="@navigation/spare_cards_navigation" />
         </activity>
+        <activity
+            android:name="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity"
+            android:screenOrientation="portrait" />
 
         <!--<activity-->
-            <!--android:name=".modules.kyc.activities.AddressSelectionFragment"-->
-            <!--android:screenOrientation="portrait"/>-->
+        <!--android:name=".modules.kyc.activities.AddressSelectionFragment"-->
+        <!--android:screenOrientation="portrait"/>-->
     </application>
 </manifest>
+
+
+
+
+

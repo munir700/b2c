@@ -19,6 +19,7 @@
     <color name="greyNormalDark">#809391b1</color>
     <color name="colorPrimaryAlt">#bb42eb</color>
     <color name="error">#ff3b30</color>
+    <color name="errorLightBackground">#fde9ee</color>
     <color name="white">#ffffff</color>
     <color name="success">#44d389</color>
     <color name="warning">#ffc430</color>
