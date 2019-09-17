@@ -23,7 +23,10 @@
             android:id="@+id/imgCard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_24sdp"
+            android:background="@drawable/white_round_card_background"
             android:contentDescription="@string/empty_string"
+            android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,14 +34,14 @@
 
         <ImageView
             android:id="@+id/imgStatus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:layout_marginEnd="@dimen/_6sdp"
+            android:layout_width="@dimen/_48sdp"
+            android:layout_height="@dimen/_48sdp"
             android:contentDescription="@string/empty_string"
             app:cardStatus="@{viewModel.paymentCard}"
-            app:layout_constraintEnd_toEndOf="@+id/imgCard"
-            app:layout_constraintTop_toTopOf="@+id/imgCard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.71"
+            app:layout_constraintStart_toStartOf="@+id/imgCard"
+            app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@drawable/ic_status_ontheway" />
 
         <TextView
@@ -46,6 +49,7 @@
             style="@style/ARegular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
             android:gravity="center"
             android:text="@{viewModel.paymentCard.cardName}"
             app:layout_constraintEnd_toEndOf="@+id/imgCard"
@@ -57,6 +61,7 @@
             android:id="@+id/layoutStatusSection"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center"
             android:orientation="vertical"
             android:visibility="@{viewModel.paymentCard.active ? View.GONE: View.VISIBLE}"
