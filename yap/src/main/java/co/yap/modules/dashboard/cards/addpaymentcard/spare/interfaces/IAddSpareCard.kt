@@ -17,9 +17,9 @@ interface IAddSpareCard {
         var physicalCardAvaialableBalance: String
         var physicalCardAddressTitle: String
         var physicalCardAddressSubTitle: String
-        var physicalCardAddressConfirmed: Boolean
-        var physicalCardAddressCheckVisibility: Boolean
-        var physicalCardAddressButtonsVisibility: Boolean
+        var physicalCardAddressCheckVisibility: Int
+        var physicalCardAddressButtonsVisibility: Int
+        var toggleVisibility: Boolean
 
     }
 

@@ -10,5 +10,6 @@ class AddSparePhysicalCardLogicHelper(
 
     init {
 //        transactionList = loadJSONDummyList()
+
     }
 }

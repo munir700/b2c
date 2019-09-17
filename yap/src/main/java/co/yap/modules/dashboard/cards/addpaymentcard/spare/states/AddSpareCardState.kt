@@ -7,6 +7,9 @@ import co.yap.yapcore.BaseState
 
 class AddSpareCardState : BaseState(), IAddSpareCard.State {
 
+    val VISIBLE: Int = 0x00000000
+    val GONE: Int = 0x00000008
+
     @get:Bindable
     override var cardType: String = ""
         set(value) {
@@ -23,7 +26,7 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
         }
 
     @get:Bindable
-    override var virtualCardAvaialableBalance: String = "AED 29.99"
+    override var virtualCardAvaialableBalance: String = "AED 39.99"
         set(value) {
             field = value
             notifyPropertyChanged(BR.virtualCardAvaialableBalance)
@@ -38,36 +41,43 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
         }
 
     @get:Bindable
-    override var physicalCardAvaialableBalance: String = "AED 29.99"
+    override var physicalCardAvaialableBalance: String = "AED 39.99"
         set(value) {
             field = value
             notifyPropertyChanged(BR.physicalCardAvaialableBalance)
         }
 
     @get:Bindable
-    override var physicalCardAddressTitle: String = ""
+    override var physicalCardAddressTitle: String = "12 Street Road 10"
         set(value) {
             field = value
             notifyPropertyChanged(BR.physicalCardAddressTitle)
         }
 
     @get:Bindable
-    override var physicalCardAddressSubTitle: String = ""
+    override var physicalCardAddressSubTitle: String = "Suite 102. Dubai, UAE"
         set(value) {
             field = value
             notifyPropertyChanged(BR.physicalCardAddressSubTitle)
         }
 
     @get:Bindable
-    override var physicalCardAddressConfirmed: Boolean = false
+    override var toggleVisibility: Boolean = false
         set(value) {
             field = value
-            notifyPropertyChanged(BR.physicalCardAddressConfirmed)
+            notifyPropertyChanged(BR.toggleVisibility)
+            if (!field) {
+                physicalCardAddressButtonsVisibility = VISIBLE
+                physicalCardAddressCheckVisibility = GONE
+            } else {
+                physicalCardAddressButtonsVisibility = GONE
+                physicalCardAddressCheckVisibility = VISIBLE
+            }
+
         }
 
-
     @get:Bindable
-    override var physicalCardAddressCheckVisibility: Boolean = false
+    override var physicalCardAddressCheckVisibility: Int = GONE
         set(value) {
             field = value
             notifyPropertyChanged(BR.physicalCardAddressCheckVisibility)
@@ -75,10 +85,10 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
 
 
     @get:Bindable
-    override var physicalCardAddressButtonsVisibility: Boolean = false
+    override var physicalCardAddressButtonsVisibility: Int = VISIBLE
         set(value) {
             field = value
             notifyPropertyChanged(BR.physicalCardAddressButtonsVisibility)
-        }
 
+        }
 }

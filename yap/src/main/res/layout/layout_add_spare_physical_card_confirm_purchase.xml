@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -44,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:gravity="center"
-                android:text="AED 29.99"
+                android:text="@{viewModel.state.physicalCardFee}"
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/text_size_h5" />
 
@@ -72,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/_4sdp"
-                    android:text="AED 29.99"
+                    android:text="@{viewModel.state.physicalCardAvaialableBalance}"
                     android:textColor="@color/colorPrimary" />
 
 
@@ -135,7 +136,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="start"
-                            android:text="12 Street Road 10" />
+                            android:text="@{viewModel.state.physicalCardAddressTitle}" />
 
                         <TextView
                             android:id="@+id/tvPhysicalCardLocationSubTitle"
@@ -144,16 +145,18 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/margin_extra_small"
                             android:gravity="start"
-                            android:text="Suite 102. Dubai, UAE" />
+                            android:text="@{viewModel.state.physicalCardAddressSubTitle}" />
 
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/ivCheck"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_check"
-                        android:tint="@color/colorPrimary" />
+                        android:tint="@color/colorPrimary"
+                        android:visibility="@{viewModel.state.physicalCardAddressCheckVisibility}"/>
 
 
                 </LinearLayout>
@@ -164,8 +167,10 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:paddingLeft="@dimen/margin_medium"
-                    android:paddingRight="@dimen/margin_small">
+                    android:paddingRight="@dimen/margin_small"
+                    android:visibility="@{viewModel.state.physicalCardAddressButtonsVisibility}">
 
                     <TextView
                         android:id="@+id/tvChangeLocation"
@@ -175,7 +180,7 @@
                         android:layout_marginTop="@dimen/margin_extra_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
-                        android:text="@string/screen_add_spare_card_button_change_location"
+                        tools:text="@string/screen_add_spare_card_button_change_location"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_c3"
                         app:text="@{Strings.screen_add_spare_card_button_change_location}" />
@@ -191,7 +196,7 @@
                         android:paddingTop="0dp"
                         android:paddingRight="0dp"
                         android:paddingBottom="0dp"
-                        android:text="@{Strings.screen_add_spare_card_button_confirm_location}"
+                        tools:text="@string/screen_add_spare_card_button_confirm_location"
                         android:textColor="@color/white"
                         app:btn_has_bold_text="false"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -205,9 +210,9 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                android:layout_marginLeft="@dimen/margin_btn_side_paddings"
                 android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                android:layout_marginRight="@dimen/margin_btn_side_paddings"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnConfirmPhysicalCardPurchase(v.id)}"
                 android:text="@string/screen_add_spare_card_button_confirm_purchase"
@@ -217,7 +222,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
-                app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
+                app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}"
+                android:visibility="@{viewModel.state.physicalCardAddressCheckVisibility}"/>
 
         </LinearLayout>
     </LinearLayout>
