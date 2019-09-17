@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces
 
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardLogicHelper
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -40,8 +42,15 @@ interface IAddSpareCard {
         fun handlePressOnChangeLocation(id: Int)
         fun handlePressOnConfirmPhysicalCardLocation(id: Int)
 
+        val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper
+        val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper
+
 
     }
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> /*{
+        var addSparePhysicalCardViewHelper: AddSparePhysicalCardViewHelper?
+        var addSpareVirtualCardViewHelper: AddSpareVirtualCardViewHelper?
+
+    }*/
 }

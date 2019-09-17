@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels
 
 import android.app.Application
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardLogicHelper
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.states.AddSpareCardState
 import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
@@ -10,6 +12,10 @@ import co.yap.yapcore.SingleClickEvent
 
 class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel {
+
+    override val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper= AddSparePhysicalCardLogicHelper(context, this)
+
+    override val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper= AddSpareVirtualCardLogicHelper(context, this)
 
     override var cardType: String = ""
 
