@@ -31,4 +31,6 @@ interface CardsApi {
         addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest
     ): RetroApiResponse<ApiResponse>
 
+    suspend fun getUserAddressRequest(): RetroApiResponse<ApiResponse>
+
 }

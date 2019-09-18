@@ -6,6 +6,7 @@ import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
+import co.yap.networking.cards.responsedtos.GetPhysicalAddress
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -20,7 +21,7 @@ interface CardsRetroService {
     @GET(CardsRepository.URL_GET_CARDS)
     suspend fun getDebitCards(@Query("cardType") cardType: String): Response<GetCardsResponse>
 
-    //    Order Card
+    // Order Card
     @POST(CardsRepository.URL_ORDER_CARD)
     suspend fun orderCard(@Body orderCardRequest: OrderCardRequest): Response<ApiResponse>
 
@@ -32,9 +33,12 @@ interface CardsRetroService {
     @POST(CardsRepository.URL_ADD_SPARE_VIRTUAL_CARD)
     suspend fun addSpareVirtualCardRequest(@Body addVirtualSpareCardRequest: AddVirtualSpareCardRequest): Response<ApiResponse>
 
-
     // add spare physical card
     @POST(CardsRepository.URL_ADD_SPARE_PHYSICAL_CARD)
     suspend fun addSparePhysicalCardRequest(@Body addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest): Response<ApiResponse>
+
+    // add spare physical card
+    @GET(CardsRepository.URL_GET_PHYSICAL_CARD_ADDRESS)
+    suspend fun getPhysicalCardAddress(): Response<GetPhysicalAddress>
 
 }

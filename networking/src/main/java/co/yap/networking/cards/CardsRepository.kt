@@ -13,6 +13,9 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 object CardsRepository : BaseRepository(), CardsApi {
+    override suspend fun getUserAddressRequest(): RetroApiResponse<ApiResponse> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
 
     const val URL_CREATE_PIN = "/cards/api/cards/create-pin/{card-serial-number}"
@@ -22,6 +25,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_ADD_SPARE_VIRTUAL_CARD =
         "https://dev.yap.co/cards/api/cards/supplementary/virtual"
     const val URL_ADD_SPARE_PHYSICAL_CARD = "https://dev.yap.co/cards/api/cards/supplementary"
+    const val URL_GET_PHYSICAL_CARD_ADDRESS = "https://dev.yap.co/cards/api/user-address"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 

@@ -120,7 +120,6 @@ class AddSpareCardViewModel(application: Application) :
         }
     }
 
-
     override fun getCardFeeRequest() {
 
     }
