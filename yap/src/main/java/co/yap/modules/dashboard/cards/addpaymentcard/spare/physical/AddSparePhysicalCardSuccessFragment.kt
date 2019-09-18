@@ -38,10 +38,9 @@ class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
                 screen_spare_card_landing_display_text_physical_card
             )
         )
+
         btnDoneAddingSparePhysicalCard.setOnClickListener {
             activity!!.onBackPressed()
         }
-
     }
-
 }

@@ -16,7 +16,7 @@
             android:id="@+id/action_spareCardLandingFragment_to_benefitsFragment"
             app:destination="@id/benefitsFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_to_bottom" />
+            app:exitAnim="@anim/slide_out_left" />
 
         <action
             android:id="@+id/action_spareCardLandingFragment_to_addSpareCardFragment"
@@ -45,24 +45,13 @@
             android:defaultValue=" "
             app:argType="string" />
 
-        <!-- <argument-->
-        <!--            android:name="newDeliveryAddress"-->
-        <!--            android:defaultValue=" "-->
-        <!--            app:argType="string" />-->
-
-
         <action
             android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"
             app:destination="@id/addSparePhysicalCardSuccessFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_to_bottom"
-            app:popEnterAnim="@anim/slide_in_from_bottom"
-            app:popExitAnim="@anim/slide_out_right"
+            app:popExitAnim="@anim/slide_out_to_bottom"
             app:popUpToInclusive="true" />
-
-        <!--        <argument-->
-        <!--            android:name="isFromPhysicalCardsLayout"-->
-        <!--            app:argType="string" />-->
 
         <action
             android:id="@+id/action_addSpareCardFragment_to_addressSelectionFragment"
@@ -115,7 +104,7 @@
             app:destination="@id/addSpareCardFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_addSparePhysicalCardSuccessFragment_to_spareCardLandingFragment"
