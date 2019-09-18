@@ -4,13 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.translation.Strings.screen_spare_card_landing_display_text_physical_card
+import co.yap.translation.Translator
+import co.yap.yapcore.defaults.DefaultFragment
+import kotlinx.android.synthetic.main.fragment_add_physical_spare_card_success.*
+import kotlinx.android.synthetic.main.layout_add_spare_card_header.view.*
 import kotlinx.android.synthetic.main.layout_add_spare_physical_card_success.*
 
 
-class AddSparePhysicalCardSuccessFragment : Fragment() {
+class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -27,9 +32,26 @@ class AddSparePhysicalCardSuccessFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        include.labelCardType.setText(
+            Translator.getString(
+                context!!,
+                screen_spare_card_landing_display_text_physical_card
+            )
+        )
         btnDoneAddingSparePhysicalCard.setOnClickListener {
-            findNavController().navigate(R.id.action_addSparePhysicalCardSuccessFragment_to_spareCardLandingFragment)
+            goBack()
         }
+
+    }
+
+    fun goBack() {
+
+        val action =
+            AddSparePhysicalCardSuccessFragmentDirections.actionAddSparePhysicalCardSuccessFragmentToAddSpareCardFragment(
+                getString(R.string.screen_spare_card_landing_display_text_physical_card)
+            )
+        findNavController().navigate(action)
     }
 
 }
