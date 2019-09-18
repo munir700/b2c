@@ -1,5 +1,7 @@
 package co.yap.networking.cards
 
+import co.yap.networking.cards.requestdtos.AddPhysicalSpareCardRequest
+import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
@@ -25,4 +27,14 @@ interface CardsRetroService {
     // get card balance
     @GET(CardsRepository.URL_GET_DEBIT_CARD_BALANCE)
     suspend fun getAccountBalanceRequest(): Response<DebitCardBalanceResponseDTO>
+
+    // add spare virtual card
+    @POST(CardsRepository.URL_ADD_SPARE_VIRTUAL_CARD)
+    suspend fun addSpareVirtualCardRequest(@Body addVirtualSpareCardRequest: AddVirtualSpareCardRequest): Response<ApiResponse>
+
+
+    // add spare physical card
+    @POST(CardsRepository.URL_ADD_SPARE_PHYSICAL_CARD)
+    suspend fun addSparePhysicalCardRequest(@Body addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest): Response<ApiResponse>
+
 }

@@ -27,7 +27,13 @@ interface IAddSpareCard {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var cardType: String
-        //add virtual card layout\
+        val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper
+        val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper
+
+        val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int
+        val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int
+
+        //add virtual card layout
         fun handlePressOnAddVirtualCardSuccess(id: Int)
 
         fun handlePressOnConfirmVirtualCardPurchase(id: Int)
@@ -43,10 +49,17 @@ interface IAddSpareCard {
         fun handlePressOnChangeLocation(id: Int)
         fun handlePressOnConfirmPhysicalCardLocation(id: Int)
 
-        val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper
-        val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper
 
+        //api
+        fun getAccountBalanceRequest()
 
+        fun getCardFeeRequest()
+
+        fun addSpareVirtualCard()
+
+        fun addSparePhysicalCard()
+        fun getAddressForPhysicalCard()
+        fun updateAddressForPhysicalCard()
     }
 
     interface View : IBase.View<ViewModel> /*{
