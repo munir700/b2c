@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_physical_card
 import co.yap.translation.Translator
@@ -40,18 +39,9 @@ class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
             )
         )
         btnDoneAddingSparePhysicalCard.setOnClickListener {
-            goBack()
+            activity!!.onBackPressed()
         }
 
-    }
-
-    fun goBack() {
-
-        val action =
-            AddSparePhysicalCardSuccessFragmentDirections.actionAddSparePhysicalCardSuccessFragmentToAddSpareCardFragment(
-                getString(R.string.screen_spare_card_landing_display_text_physical_card)
-            )
-        findNavController().navigate(action)
     }
 
 }
