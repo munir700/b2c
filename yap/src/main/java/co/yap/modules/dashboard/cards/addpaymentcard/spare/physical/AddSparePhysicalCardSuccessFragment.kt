@@ -31,4 +31,5 @@ class AddSparePhysicalCardSuccessFragment : Fragment() {
             findNavController().navigate(R.id.action_addSparePhysicalCardSuccessFragment_to_spareCardLandingFragment)
         }
     }
+
 }

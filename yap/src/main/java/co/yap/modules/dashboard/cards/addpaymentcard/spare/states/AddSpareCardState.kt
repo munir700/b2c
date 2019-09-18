@@ -76,6 +76,15 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
 
         }
 
+  @get:Bindable
+    override var onChangeLocationClick: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.onChangeLocationClick)
+
+        }
+
+
     @get:Bindable
     override var physicalCardAddressCheckVisibility: Int = GONE
         set(value) {

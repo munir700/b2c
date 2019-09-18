@@ -78,15 +78,18 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     ): View? {
         val checkSender =
             arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
+
         if (checkSender!!) {
             viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
-
-      viewModel.state.headingTitle =
+            viewModel.state.isFromPhysicalCardsLayout = true
+            viewModel.state.headingTitle =
                 getString(Strings.screen_meeting_location_display_text_add_new_address_title)
             viewModel.state.subHeadingTitle =
                 getString(Strings.screen_meeting_location_display_text_add_new_address_subtitle)
             viewModel.state.nextActionBtnText =
                 getString(Strings.screen_meeting_location_button_confirm_selected_location)
+
+
         } else {
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
@@ -100,9 +103,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun initMapFragment() {
-//        viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
-//        viewModel!!.mapDetailViewActivity = activity!!.parent
-        displayLocationSettingsRequest(requireContext())
+         displayLocationSettingsRequest(requireContext())
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -177,12 +178,24 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 }
 
                 R.id.nextButton -> {
-                    if (!viewModel.state.error.isNullOrEmpty()) {
-                        showToast(viewModel.state.error)
+                    if (viewModel.state.isFromPhysicalCardsLayout) {
+                        val action =
+                            AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
+                                getString(R.string.screen_spare_card_landing_display_text_physical_card),
+                                viewModel.state.placeTitle, viewModel.state.placeSubTitle
+
+                            )
+                        findNavController().navigate(action)
+
+
                     } else {
-                        MyUserManager.user?.notificationStatuses =
-                            Constants.USER_STATUS_MEETING_SCHEDULED
-                        findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
+                        if (!viewModel.state.error.isNullOrEmpty()) {
+                            showToast(viewModel.state.error)
+                        } else {
+                            MyUserManager.user?.notificationStatuses =
+                                Constants.USER_STATUS_MEETING_SCHEDULED
+                            findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
+                        }
                     }
                 }
 

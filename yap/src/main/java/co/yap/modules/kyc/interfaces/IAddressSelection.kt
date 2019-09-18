@@ -47,6 +47,7 @@ interface IAddressSelection {
         var nextActionBtnText: String
         var valid: Boolean
         var checked: Boolean
+        var isFromPhysicalCardsLayout: Boolean
 
         //map detail
 

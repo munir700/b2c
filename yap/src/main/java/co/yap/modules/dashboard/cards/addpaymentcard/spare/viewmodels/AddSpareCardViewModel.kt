@@ -13,9 +13,11 @@ import co.yap.yapcore.SingleClickEvent
 class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel {
 
-    override val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper= AddSparePhysicalCardLogicHelper(context, this)
+    override val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper =
+        AddSparePhysicalCardLogicHelper(context, this)
 
-    override val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper= AddSpareVirtualCardLogicHelper(context, this)
+    override val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper =
+        AddSpareVirtualCardLogicHelper(context, this)
 
     override var cardType: String = ""
 
@@ -54,18 +56,24 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(getString(Strings.screen_spare_card_benefit_display_text_title))
-        toggleToolBarVisibility(true)}
+        setToolBarTitle(getString(Strings.screen_spare_card_landing_display_text_title))
+        toggleToolBarVisibility(true)
+        state.onChangeLocationClick = false
+        toggleToolBarVisibility(true)
+    }
 
     override fun onPause() {
         super.onPause()
-        toggleToolBarVisibility(false)
+        if (state.onChangeLocationClick) {
+            toggleToolBarVisibility(false)
+        }
     }
 
     override fun onDestroy() {
         super.onDestroy()
-//        layout_cards_toolbar.setVisibility
-        toggleToolBarVisibility(false)
+        if (state.onChangeLocationClick) {
+            toggleToolBarVisibility(false)
+        }
 
     }
 }

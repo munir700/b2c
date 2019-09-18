@@ -205,7 +205,13 @@ class AddressSelectionViewModel(application: Application) :
     }
 
     override fun handlePressOnNext(id: Int) {
-        requestOrderCard(id)
+        if (state.isFromPhysicalCardsLayout){
+//           start old fragment by taking address data
+            clickEvent.setValue(id)
+
+        }else{
+            requestOrderCard(id)
+        }
     }
 
     @SuppressLint("MissingPermission")
@@ -312,8 +318,8 @@ class AddressSelectionViewModel(application: Application) :
                             var markerSnippet = currentPlace.address
 
                             if (currentPlace.address != null) {
-                                markerSnippet = markerSnippet + "\n" + currentPlace.address
-                                placeSubTitle = markerSnippet
+                                markerSnippet = currentPlace.address
+                                placeSubTitle = markerSnippet.toString()
                             }
                             placeName = currentPlace.name!!
                             placeTitle = currentPlace.address!!

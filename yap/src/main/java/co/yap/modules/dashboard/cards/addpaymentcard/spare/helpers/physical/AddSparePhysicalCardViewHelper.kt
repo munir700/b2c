@@ -18,6 +18,7 @@ class AddSparePhysicalCardViewHelper(
             View.OnClickListener {
 
             override fun onClick(v: View?) {
+                viewModel.state.onChangeLocationClick = true
                 navController.navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
             }
 
@@ -27,14 +28,12 @@ class AddSparePhysicalCardViewHelper(
             View.OnClickListener {
 
             override fun onClick(v: View?) {
-                //start location screen
+                viewModel.state.onChangeLocationClick = true
                 val action =
                     AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddressSelectionFragment(
                         true
                     )
                 navController.navigate(action)
-
-                viewModel.state.toggleVisibility = true
             }
         })
 

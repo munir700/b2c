@@ -20,6 +20,7 @@ interface IAddSpareCard {
         var physicalCardAddressCheckVisibility: Int
         var physicalCardAddressButtonsVisibility: Int
         var toggleVisibility: Boolean
+        var onChangeLocationClick: Boolean
 
     }
 
