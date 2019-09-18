@@ -67,6 +67,12 @@ class AddSpareCardViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override fun onCreate() {
+        super.onCreate()
+//        getAddressForPhysicalCard()
+        getAccountBalanceRequest()
+    }
+
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_spare_card_landing_display_text_title))
@@ -93,15 +99,20 @@ class AddSpareCardViewModel(application: Application) :
     //api
     override fun getAccountBalanceRequest() {
         launch {
+            state.loading = true
             when (val response = repository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
-                    state.virtualCardAvaialableBalance =
-                        response.data.data.availableBalance.toString()
+
+                    state.avaialableCardBalance =
+                        response.data.data.currencyCode.toString() + " " + response.data.data.availableBalance.toString()
 
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
         }
+        getAddressForPhysicalCard()
+
+//        state.loading = false
     }
 
     override fun addSpareVirtualCard() {
@@ -144,7 +155,20 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun getAddressForPhysicalCard() {
+        launch {
+            //            state.loading = true
+            when (val response = repository.getUserAddressRequest()) {
+                is RetroApiResponse.Success -> {
+                    val address = response.data.data
+                    state.physicalCardAddressTitle = address.address1
+                    state.physicalCardAddressSubTitle = address.address2!!
 
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+
+            state.loading = false
+        }
     }
 
     override fun updateAddressForPhysicalCard() {

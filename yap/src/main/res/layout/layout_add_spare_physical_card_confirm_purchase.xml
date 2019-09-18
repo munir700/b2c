@@ -73,7 +73,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/_4sdp"
-                    android:text="@{viewModel.state.physicalCardAvaialableBalance}"
+                    android:text="@{viewModel.state.avaialableCardBalance}"
                     android:textColor="@color/colorPrimary" />
 
 

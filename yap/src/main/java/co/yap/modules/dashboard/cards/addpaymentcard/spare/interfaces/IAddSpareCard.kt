@@ -10,11 +10,10 @@ interface IAddSpareCard {
         var cardType: String
         //add virtual card layout fields
         var virtualCardFee: String
-        var virtualCardAvaialableBalance: String
 
         //add physical card layout fields
         var physicalCardFee: String
-        var physicalCardAvaialableBalance: String
+        var avaialableCardBalance: String
         var physicalCardAddressTitle: String
         var physicalCardAddressSubTitle: String
         var physicalCardAddressCheckVisibility: Int

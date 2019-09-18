@@ -25,13 +25,6 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
             notifyPropertyChanged(BR.virtualCardFee)
         }
 
-    @get:Bindable
-    override var virtualCardAvaialableBalance: String = "AED 39.99"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.virtualCardAvaialableBalance)
-        }
-
     //add physical card layout fields
     @get:Bindable
     override var physicalCardFee: String = "AED 29.99"
@@ -41,10 +34,10 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
         }
 
     @get:Bindable
-    override var physicalCardAvaialableBalance: String = "AED 39.99"
+    override var avaialableCardBalance: String = "AED 39.99"
         set(value) {
             field = value
-            notifyPropertyChanged(BR.physicalCardAvaialableBalance)
+            notifyPropertyChanged(BR.avaialableCardBalance)
         }
 
     @get:Bindable
