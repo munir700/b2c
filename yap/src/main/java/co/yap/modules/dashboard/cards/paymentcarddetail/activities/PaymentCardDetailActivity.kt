@@ -1,9 +1,14 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -69,6 +74,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
                 R.id.llAddFunds -> {
                     showToast("Add Funds")
+                    //showCardDetailsPopup()
                 }
                 R.id.llFreezeSpareCard -> {
                     showToast("Freeze Spare Card")
@@ -120,6 +126,19 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 showToast("Remove card")
             }
         }
+    }
+
+    private fun showCardDetailsPopup() {
+        val dialog = Dialog(this)
+        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog .setCancelable(false)
+        dialog .setContentView(R.layout.dialog_card_details)
+        dialog .window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnClose = dialog .findViewById(R.id.ivCross) as ImageView
+        btnClose.setOnClickListener {
+            dialog .dismiss()
+        }
+        dialog .show()
     }
 
     private fun setUpTransactionsListRecyclerView() {
