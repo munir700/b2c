@@ -78,7 +78,7 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-//
+
         if (!sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE).isNullOrEmpty() && !sharedPreferenceManager.getValueString(
                 SharedPreferenceManager.KEY_AVAILABLE_BALANCE
             ).equals("AVAILABLE_BALANCE")
@@ -86,10 +86,7 @@ class AddSpareCardViewModel(application: Application) :
             availableBalance =
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE) as String
         } else {
-//            if (!cardType.isNullOrEmpty() && !cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))){
             requestGetAccountBalanceRequest()
-//            }
-
         }
 
     }

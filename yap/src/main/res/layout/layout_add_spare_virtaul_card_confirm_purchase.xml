@@ -18,8 +18,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_medium">
+        android:paddingTop="@dimen/margin_medium">
 
         <LinearLayout
             android:id="@+id/llConfirmVirtualCardPurchase"

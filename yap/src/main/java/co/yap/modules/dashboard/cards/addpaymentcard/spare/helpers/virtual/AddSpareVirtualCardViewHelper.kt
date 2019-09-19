@@ -3,12 +3,18 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual
 import android.animation.Animator
 import android.content.Context
 import android.view.View
+import android.widget.ScrollView
 import androidx.navigation.NavController
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import kotlinx.android.synthetic.main.fragment_add_spare_card.view.*
 import kotlinx.android.synthetic.main.layout_add_spare_virtaul_card_confirm_purchase.view.*
 import kotlinx.android.synthetic.main.layout_add_spare_virtual_card_success.view.*
+import android.opengl.ETC1.getHeight
+import android.util.Log
+import android.view.ViewTreeObserver
+
 
 class AddSpareVirtualCardViewHelper(
     val context: Context, val navController: NavController, val virtualCardView: View,
@@ -45,9 +51,14 @@ class AddSpareVirtualCardViewHelper(
 
 
     fun slideInTitle() {
-        YoYo.with(Techniques.SlideInUp)
+        YoYo.with(Techniques.BounceInUp)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
+
+//                    virtualCardView.svContainer.fullScroll( ScrollView.FOCUS_DOWN)
+//                    virtualCardView.svContainer.smoothScrollBy(0, virtualCardView.svContainer.maxScrollAmount)
+                    Log.i("height",virtualCardView.svContainer.getChildAt(0).height.toString() + " ")
+                    virtualCardView.svContainer.smoothScrollBy(0, virtualCardView.svContainer.getChildAt(0).height)
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {
@@ -60,7 +71,7 @@ class AddSpareVirtualCardViewHelper(
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(800)
+            .duration(500)
             .repeat(0)
             .playOn(virtualCardView.tvTransactionComplete)
 
@@ -83,14 +94,14 @@ class AddSpareVirtualCardViewHelper(
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(800)
+            .duration(700)
             .repeat(0)
             .playOn(virtualCardView.flTransactionComplete)
     }
 
     fun slideInBtn() {
 
-        YoYo.with(Techniques.SlideInUp)
+        YoYo.with(Techniques.BounceInUp)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
                 }
@@ -104,7 +115,7 @@ class AddSpareVirtualCardViewHelper(
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(800)
+            .duration(500)
             .repeat(0)
             .playOn(virtualCardView.btnDoneAddingSpareVirtualCard)
     }
