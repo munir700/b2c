@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
@@ -13,6 +15,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddS
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
@@ -24,6 +27,14 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     override val viewModel: IAddSpareCard.ViewModel
         get() = ViewModelProviders.of(this).get(AddSpareCardViewModel::class.java)
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        return super.onCreateView(inflater, container, savedInstanceState)
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.avaialableCardBalance = viewModel.availableBalance.toString()
@@ -35,12 +46,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             layoutPhysicalCardConfirmPurchase.visibility = View.GONE
             layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
 
-            AddSpareVirtualCardViewHelper(
-                this!!.activity!!,
-                navController,
-                view,
-                viewModel
-            )
+//            AddSpareVirtualCardViewHelper(
+//                this!!.activity!!,
+//                navController,
+//                view,
+//                viewModel
+//            )
         } else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))) {
             layoutVirtualCardConfirmPurchase.visibility = View.GONE
             layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
@@ -61,6 +72,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
 //                    findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+                    AddSpareVirtualCardViewHelper(
+                        this!!.activity!!,
+                        navController,
+                        view,
+                        viewModel
+                    )
                 }
 
             }

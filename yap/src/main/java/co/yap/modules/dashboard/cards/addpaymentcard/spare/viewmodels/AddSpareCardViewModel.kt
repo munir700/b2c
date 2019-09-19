@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels
 
 import android.app.Application
+import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
@@ -60,13 +61,10 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun handlePressOnConfirmVirtualCardPurchase(id: Int) {
-        clickEvent.setValue(id)
-
+        requestAddSpareVirtualCard()
     }
 
     override fun handlePressOnConfirmPhysicalCardPurchase(id: Int) {
-
-        //btnConfirmPhysicalCardPurchase request here
         requestAddSparePhysicalCard(id)
     }
 
@@ -80,7 +78,7 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-
+//
         if (!sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE).isNullOrEmpty() && !sharedPreferenceManager.getValueString(
                 SharedPreferenceManager.KEY_AVAILABLE_BALANCE
             ).equals("AVAILABLE_BALANCE")
@@ -88,7 +86,10 @@ class AddSpareCardViewModel(application: Application) :
             availableBalance =
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE) as String
         } else {
+//            if (!cardType.isNullOrEmpty() && !cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))){
             requestGetAccountBalanceRequest()
+//            }
+
         }
 
     }
@@ -136,9 +137,11 @@ class AddSpareCardViewModel(application: Application) :
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
         }
-        requestGetAddressForPhysicalCard()
-
-//        state.loading = false
+        if (!cardType.isNullOrEmpty() && !cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
+            requestGetAddressForPhysicalCard()
+        } else {
+            state.loading = false
+        }
     }
 
     override fun requestAddSpareVirtualCard() {
@@ -177,10 +180,6 @@ class AddSpareCardViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(ADD_PHYSICAL_SPARE_CLICK_EVENT)
-//                clickEvent.setValue(id)
-//                navController.navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
-//                ADD_PHYSICAL_SPARE_CLICK_EVENT
-
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
@@ -191,7 +190,6 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun requestGetAddressForPhysicalCard() {
         launch {
-            //            state.loading = true
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
                     if (null != response.data.data) {
