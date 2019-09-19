@@ -75,11 +75,24 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+        <include
+            android:id="@+id/cardInfoLayout"
+            layout="@layout/layout_card_info"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_centerHorizontal="true"
+            app:cardNumber="@{viewModel.state.cardPanNumber}"
+            app:cardName="@{viewModel.state.cardName}"
+            android:layout_marginBottom="@dimen/margin_medium"/>
+
         <RelativeLayout
             android:id="@+id/rlCardBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/cardInfoLayout"
             android:layout_centerHorizontal="true">
 
 

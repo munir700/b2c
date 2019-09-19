@@ -27,12 +27,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     IPaymentCardDetail.View, CardClickListener {
 
     companion object {
-        private val CARD_TYPE = "cardType"
-        private val CARD_BALANCE = "cardBalance"
-        fun newIntent(context: Context, cardType: String, cardBalance: String): Intent {
+        private const val CARD_TYPE = "cardType"
+        private const val CARD_BALANCE = "cardBalance"
+        private const val CARD_NAME = "cardName"
+        private const val CARD_NUMBER = "cardNumber"
+        fun newIntent(context: Context, cardType: String, cardBalance: String, cardName: String, cardNumber: String): Intent {
             val intent = Intent(context, PaymentCardDetailActivity::class.java)
             intent.putExtra(CARD_TYPE, cardType)
             intent.putExtra(CARD_BALANCE, cardBalance)
+            intent.putExtra(CARD_NAME, cardName)
+            intent.putExtra(CARD_NUMBER, cardNumber)
             return intent
         }
     }
@@ -86,6 +90,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun setupView() {
         viewModel.state.cardType =  intent.getStringExtra(CARD_TYPE)
         viewModel.state.cardBalance =  "AED "+Utils.getFormattedCurrency(intent.getStringExtra(CARD_BALANCE))
+        viewModel.state.cardPanNumber =  intent.getStringExtra(CARD_NUMBER)
+        viewModel.state.cardName =  intent.getStringExtra(CARD_NAME)
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType)  rlPrimaryCardActions.visibility = View.VISIBLE
         else rlSpareCardActions.visibility = View.VISIBLE

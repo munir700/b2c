@@ -10,15 +10,6 @@
         <variable
             name="cardNumber"
             type="String" />
-        <variable
-            name="fundActionViewModel"
-            type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel" />
-        <variable
-            name="addFundViewModel"
-            type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel" />
-      <variable
-          name="viewModelThree"
-          type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel" />
         <import type="co.yap.translation.Strings"/>
     </data>
 
@@ -56,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_extra_large"
             android:layout_marginTop="@dimen/margin_small"
-            android:text="@{fundActionViewModel.state.cardName != null ? fundActionViewModel.state.cardName : addFundViewModel.state.cardName != null ? addFundViewModel.state.cardName :viewModelThree.state.cardName != null ? viewModelThree.state.cardName : viewModelThree.state.cardName}"
+            android:text="@{cardName}"
             app:layout_constraintLeft_toRightOf="@+id/ivCard"
             app:layout_constraintTop_toTopOf="@+id/ivCard"
             tools:text="Primary card" />
