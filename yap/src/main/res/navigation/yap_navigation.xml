@@ -47,23 +47,20 @@
             app:destination="@id/setCardPinWelcomeActivity" />
     </fragment>
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/yapCards"-->
-    <!--        android:name="co.yap.modules.dashboard.fragments.YapCardsFragment"-->
-    <!--        android:label="YapCardsFragment"-->
-    <!--        tools:layout="@layout/fragment_yap_cards" >-->
-
-    <!--        <action-->
-    <!--            android:id="@+id/action_yapCard_to_addPaymentCardActivity"-->
-    <!--            app:destination="@id/addPaymentCardActivity" />-->
-
-    <!--    </fragment>-->
     <fragment
         android:id="@+id/yapCards"
-        android:name="co.yap.modules.dashboard.fragments.YapCardsFragment"
-        android:label="YapCardsFragment"
+        android:name="co.yap.modules.dashboard.cards.home.fragments.YapCardsFragment"
+        android:label="YapCardFragment"
         tools:layout="@layout/fragment_yap_cards">
-
+        <action
+            android:id="@+id/action_yapCards_to_yapCardStatusFragment"
+            app:destination="@id/yapCardStatusFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/yapDashboardHome"
+        android:name="co.yap.modules.dashboard.fragments.YapDashboardHome"
+        android:label="YapDashboardHome"
+        tools:layout="@layout/fragment_yap_dashboard_home">
         <action
             android:id="@+id/action_yapCards_to_addPaymentCardActivity"
             app:destination="@id/addPaymentCardActivity" />
@@ -96,4 +93,14 @@
         tools:layout="@layout/activity_add_payment_cards">
 
     </activity>
- </navigation>
+    <fragment
+        android:id="@+id/yapCardStatusFragment"
+        android:name="co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment"
+        android:label="YapCardStatusFragment"
+        tools:layout="@layout/fragment_card_status">
+        <argument
+            android:name="cardInfo"
+            app:argType="co.yap.networking.cards.responsedtos.Card" />
+    </fragment>
+
+</navigation>

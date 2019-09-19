@@ -6,9 +6,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
+import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
-import co.yap.modules.dashboard.interfaces.IYapCards
-import co.yap.modules.dashboard.viewmodels.YapCardsViewModel
 
 class CardsBenefitsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
     override fun getBindingVariable(): Int = BR.viewModel

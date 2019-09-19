@@ -11,9 +11,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class TransactionLogicHelper(
-    val context: Context,
-    val viewModel: IYapHome.ViewModel
-) {
+    val context: Context) {
     var transactionList: ArrayList<TransactionModel> = arrayListOf()
 
     init {

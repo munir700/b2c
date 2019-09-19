@@ -1,16 +1,16 @@
 package co.yap.yapcore
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>(private val list: MutableList<T>) :
     RecyclerView.Adapter<VH>() {
 
-    private var onItemClickListener: OnItemClickListener? = null
+    var onItemClickListener: OnItemClickListener? = null
 
     protected abstract fun onCreateViewHolder(binding: ViewDataBinding): VH
 
@@ -54,13 +54,6 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
 
     fun setItemListener(onItemClickListener: OnItemClickListener) {
         this.onItemClickListener = onItemClickListener
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(view: View, data: Any, pos: Int)
-//        companion object {
-//            val DEFAULT = { view, pos -> }
-//        }
     }
 
     abstract inner class ViewHolder(private val binding: ViewDataBinding) :

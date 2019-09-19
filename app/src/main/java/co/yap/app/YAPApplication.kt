@@ -9,6 +9,7 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import java.util.*
 
+
 class YAPApplication : Application() {
 
     override fun onCreate() {
@@ -17,7 +18,7 @@ class YAPApplication : Application() {
         NetworkConnectionManager.init(this) // TODO: handle destroy of NetworkConnectionManager when app destroys
         setAppUniqueId(this)
 
-        RetroNetwork.listenNetworkConstraints(object: NetworkConstraintsListener {
+        RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
             override fun onInternetUnavailable() {
             }
 
