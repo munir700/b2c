@@ -42,4 +42,11 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State{
             field = value
             notifyPropertyChanged(BR.cardName)
         }
+
+    @get:Bindable
+    override var blocked: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.blocked)
+        }
 }
