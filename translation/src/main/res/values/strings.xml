@@ -254,7 +254,7 @@
     <string name="screen_card_status_display_text_shipping">Shipping</string>
     <string name="screen_card_status_display_text_activate_card">Activate card</string>
 
-<!--    Add funds Screen-->
+    <!--    Add funds Screen-->
     <string name="screen_add_funds_display_text_add_funds">Add funds</string>
     <string name="screen_add_card_display_text_spare_card">Spare card</string>
     <string name="screen_add_funds_button_add">Add</string>
@@ -263,5 +263,16 @@
     <string name="screen_payment_card_detail_text_secure">Secured by YAP</string>
     <string name="screen_add_funds_display_text_available_balance_error">You can only add an amount less than or equal to your current balance of %1$s %2$s</string>
     <string name="screen_add_funds_display_text_max_limit_error">You cannot add an amount more than %1$s %2$s</string>
+
+    <!--    Set Limits Screen-->
+    <string name="screen_set_limits_display_text_title">Set limits</string>
+    <string name="screen_set_limits_display_text_atm_withdrawal">ATM withdrawal</string>
+    <string name="screen_set_limits_display_text_atm_withdrawal_desc">Allow your card to withdraw from cash machines</string>
+    <string name="screen_set_limits_display_text_online_transaction">Online transactions</string>
+    <string name="screen_set_limits_display_text_online_transaction_desc">Allow your card to be used for purchases made over the internet</string>
+    <string name="screen_set_limits_display_text_payment_abroad">Payments abroad</string>
+    <string name="screen_set_limits_display_text_payment_abroad_desc">Allow your card to be used for payments outside your current country</string>
+    <string name="screen_set_limits_display_text_retail_payments">Retail payments</string>
+    <string name="screen_set_limits_display_text_retail_payments_desc">Allow your card to be used at retail outlets. This includes restaurants, petrol stations and hospitality venues</string>
 
 </resources>

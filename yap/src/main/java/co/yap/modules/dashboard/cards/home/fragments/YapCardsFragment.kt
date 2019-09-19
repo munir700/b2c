@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.home.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.core.view.ViewCompat
@@ -12,6 +13,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
+import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -75,7 +77,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         view.findNavController().navigate(action)
                     }
                     R.id.lySeeDetail -> {
-                        showToast("Details Section")
+                        startActivity(Intent(requireContext(), CardLimitsActivity::class.java))
                     }
                 }
             }
