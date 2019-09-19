@@ -4,6 +4,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddS
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 interface IAddSpareCard {
     interface State : IBase.State {
@@ -31,6 +32,9 @@ interface IAddSpareCard {
 
         val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int
         val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int
+        var isFromaddressScreen: Boolean
+        var availableBalance: String
+        var sharedPreferenceManager: SharedPreferenceManager
 
         //add virtual card layout
         fun handlePressOnAddVirtualCardSuccess(id: Int)

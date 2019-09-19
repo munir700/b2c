@@ -25,11 +25,11 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.state.avaialableCardBalance = viewModel.availableBalance.toString()
         getUpArguments()
 
         val navController: NavController = findNavController()
 
-//        viewModel.state.cardType = viewModel.cardType
         if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
             layoutPhysicalCardConfirmPurchase.visibility = View.GONE
             layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
@@ -60,15 +60,16 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         val physicalCardAddressTitle = arguments?.let {
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressTitle
         } as String
-        if (physicalCardAddressTitle.isNotEmpty()) {
+        if (!physicalCardAddressTitle.isNullOrEmpty()) {
             viewModel.state.physicalCardAddressTitle = physicalCardAddressTitle
         }
         val physicalCardAddressSubTitle = arguments?.let {
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressSubTitle
         } as String
 
-        if (physicalCardAddressSubTitle.isNotEmpty()) {
+        if (!physicalCardAddressSubTitle.isNullOrEmpty() && !physicalCardAddressSubTitle.equals(" ")) {
             viewModel.state.physicalCardAddressSubTitle = physicalCardAddressSubTitle
+            viewModel.isFromaddressScreen = true
         }
     }
 

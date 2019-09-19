@@ -13,11 +13,18 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
 class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
+
+    override var availableBalance: String = ""
+    override var sharedPreferenceManager = SharedPreferenceManager(context)
+
+
+    override var isFromaddressScreen: Boolean = false
 
     override val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int = 0
 
@@ -70,8 +77,14 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-//        requestGetAddressForPhysicalCard()
-        if (state.avaialableCardBalance.isNullOrEmpty()){
+
+        if (!sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE).isNullOrEmpty() && !sharedPreferenceManager.getValueString(
+                SharedPreferenceManager.KEY_AVAILABLE_BALANCE
+            ).equals("AVAILABLE_BALANCE")
+        ) {
+            availableBalance =
+                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE) as String
+        } else {
             requestGetAccountBalanceRequest()
         }
 
@@ -83,6 +96,7 @@ class AddSpareCardViewModel(application: Application) :
         toggleToolBarVisibility(true)
         state.onChangeLocationClick = false
         toggleToolBarVisibility(true)
+
     }
 
     override fun onPause() {
@@ -106,6 +120,11 @@ class AddSpareCardViewModel(application: Application) :
             state.loading = true
             when (val response = repository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
+
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_AVAILABLE_BALANCE,
+                        response.data.data.currencyCode.toString() + " " + response.data.data.availableBalance.toString()
+                    )
 
                     state.avaialableCardBalance =
                         response.data.data.currencyCode.toString() + " " + response.data.data.availableBalance.toString()
@@ -166,9 +185,9 @@ class AddSpareCardViewModel(application: Application) :
                     if (null != response.data.data) {
                         val address = response.data.data
                         state.physicalCardAddressSubTitle = address.address1!!
-                        if (!address.address2.isNullOrEmpty()){
+                        if (!address.address2.isNullOrEmpty()) {
                             state.physicalCardAddressTitle = address.address2!!
-                        }else{
+                        } else {
                             state.physicalCardAddressTitle = " "
                         }
                     }

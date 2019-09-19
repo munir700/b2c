@@ -16,6 +16,7 @@ class SharedPreferenceManager(val context: Context) {
         const val KEY_IS_USER_LOGGED_IN: String = "KEY_IS_USER_LOGGED_IN"
         const val KEY_IS_FIRST_TIME_USER: String = "KEY_IS_FIRST_TIME_USER"
         const val KEY_IS_FINGERPRINT_PERMISSION_SHOWN: String = "KEY_IS_FINGERPRINT_PERMISSION_SHOWN"
+        const val KEY_AVAILABLE_BALANCE: String = "AVAILABLE_BALANCE"
     }
 
     fun save(KEY_NAME: String, text: String) {
