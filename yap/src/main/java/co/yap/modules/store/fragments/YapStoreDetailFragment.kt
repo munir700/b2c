@@ -16,7 +16,7 @@ import co.yap.modules.store.interfaces.IYapStoreDetail
 import co.yap.modules.store.viewmodels.YapStoreDetailViewModel
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
 class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
@@ -68,7 +68,7 @@ class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
         storeAdaptor.setItemListener(listener)
     }
 
-    val listener = object : BaseBindingRecyclerAdapter.OnItemClickListener {
+    val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             showToast("List item $pos clicked")
         }

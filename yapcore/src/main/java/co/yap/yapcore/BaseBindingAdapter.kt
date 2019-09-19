@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 abstract class BaseBindingAdapter<VH : BaseBindingHolder>(val context: Context) : BaseAdapter() {
@@ -31,7 +32,12 @@ abstract class BaseBindingAdapter<VH : BaseBindingHolder>(val context: Context) 
         if (view == null) {
             val layoutInflater = LayoutInflater.from(context)
             val binding =
-                DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, getLayoutForPos(position), parent, false)
+                DataBindingUtil.inflate<ViewDataBinding>(
+                    layoutInflater,
+                    getLayoutForPos(position),
+                    parent,
+                    false
+                )
             view = binding.root
             holder = createViewHolder(binding)
             view.tag = holder
@@ -41,7 +47,12 @@ abstract class BaseBindingAdapter<VH : BaseBindingHolder>(val context: Context) 
 
         holder.adapterPosition = position
         holder.bind(getDataForPosition(position) as Object)
-        view.setOnClickListener(View.OnClickListener { view -> onItemClickListener?.onItemClick(view, holder.adapterPosition) })
+        view.setOnClickListener(View.OnClickListener { view ->
+            onItemClickListener?.onItemClick(
+                view, getItem(position),
+                holder.adapterPosition
+            )
+        })
 
         return view
     }
@@ -51,19 +62,4 @@ abstract class BaseBindingAdapter<VH : BaseBindingHolder>(val context: Context) 
     abstract fun getLayoutForPos(pos: Int): Int
 
     protected abstract fun getDataForPosition(position: Int): Any
-
-    interface OnItemClickListener {
-        fun onItemClick(view: View, pos: Int)
-
-        companion object {
-            operator fun invoke(): OnItemClickListener {
-                return object: OnItemClickListener {
-                    override fun onItemClick(view: View, pos: Int) {
-
-                    }
-                }
-            }
-        }
-
-    }
 }

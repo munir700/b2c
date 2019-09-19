@@ -22,7 +22,7 @@ class YapCardsAdaptor(context: Context, private val list: MutableList<Card>) :
 
     override fun onBindViewHolder(holder: YapCardItemViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        holder.onBind(list[position], dimensions)
+        holder.onBind(position, list[position], dimensions, onItemClickListener)
     }
 
     fun setItem(lists: List<Card>) {

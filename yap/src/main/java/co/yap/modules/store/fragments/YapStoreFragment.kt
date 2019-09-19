@@ -12,8 +12,8 @@ import co.yap.modules.store.interfaces.IYapStore
 import co.yap.modules.store.viewmodels.YapStoreViewModel
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BasePagingBindingRecyclerAdapter
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_store.*
 
 class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.View {
@@ -61,8 +61,8 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         })
     }
 
-    val listener = object : BasePagingBindingRecyclerAdapter.OnItemClickListener {
-        override fun onItemClick(view: View, data: Any?, pos: Int) {
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
             val action =
                 YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((data as Store).id.toString())
             view.findNavController().navigate(action)

@@ -8,12 +8,13 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
     context: Context,
     private val resourceId: Int,
-    objects: List<T>
+    private val objects: List<T>
 ) :
     ArrayAdapter<T>(context, resourceId, objects) {
 
@@ -35,17 +36,28 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
     override fun getView(position: Int, view: View?, parent: ViewGroup): View {
         val v = createViewFromResource(position, view, parent, resourceId)
         val holder = v.tag as VH
-        v.setOnClickListener(View.OnClickListener { v -> onItemClickListener?.onItemClick(v, holder.adapterPosition) })
+        v.setOnClickListener { v ->
+            onItemClickListener?.onItemClick(
+                v, objects[position]!!,
+                holder.adapterPosition
+            )
+        }
 
 
         return v
     }
 
-    private fun createViewFromResource(position: Int, view: View?, parent: ViewGroup, resource: Int): View {
+    private fun createViewFromResource(
+        position: Int,
+        view: View?,
+        parent: ViewGroup,
+        resource: Int
+    ): View {
         var view = view
         var holder: VH? = null
         if (view == null) {
-            val binding = DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, resource, parent, false)
+            val binding =
+                DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, resource, parent, false)
             view = binding.root
             holder = createViewHolder(binding)
             view.tag = holder
@@ -65,7 +77,8 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
         return view
     }
 
-    internal inner class ItemOnClickListener(parent: ViewGroup, private val holder: VH) : View.OnClickListener {
+    internal inner class ItemOnClickListener(parent: ViewGroup, private val holder: VH) :
+        View.OnClickListener {
         private val _parent: View
 
         init {
@@ -77,22 +90,13 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
             val root = _parent.rootView
             root.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_BACK))
             root.dispatchKeyEvent(KeyEvent(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_BACK))
-            holder.itemView?.let { onItemClickListener?.onItemClick(it, holder.adapterPosition) }
-        }
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(view: View, pos: Int)
-
-        companion object {
-            operator fun invoke(): OnItemClickListener {
-                return object : OnItemClickListener {
-                    override fun onItemClick(view: View, pos: Int) {
-
-                    }
-                }
+            holder.itemView?.let {
+                onItemClickListener?.onItemClick(
+                    it,
+                    objects[holder.adapterPosition]!!,
+                    holder.adapterPosition
+                )
             }
         }
-
     }
 }

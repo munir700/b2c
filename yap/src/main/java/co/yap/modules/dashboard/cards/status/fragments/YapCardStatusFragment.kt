@@ -19,7 +19,7 @@ import co.yap.modules.store.fragments.YapStoreFragmentDirections
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.BasePagingBindingRecyclerAdapter
+import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
 
 
@@ -59,8 +59,8 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         viewModel.clickEvent.observe(this, observer)
     }
 
-    val listener = object : BasePagingBindingRecyclerAdapter.OnItemClickListener {
-        override fun onItemClick(view: View, data: Any?, pos: Int) {
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
             val action =
                 YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((data as Store).id.toString())
             view.findNavController().navigate(action)

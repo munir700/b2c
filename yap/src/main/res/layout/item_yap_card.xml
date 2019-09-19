@@ -26,6 +26,7 @@
             android:layout_marginTop="@dimen/_24sdp"
             android:background="@drawable/white_round_card_background"
             android:contentDescription="@string/empty_string"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +69,7 @@
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/tvCardStatus"
@@ -86,27 +87,30 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+
                 android:paddingTop="@dimen/_10sdp"
                 app:btn_enable="true"
                 app:cardStatus="@{viewModel.paymentCard}"
                 tools:text="Update Card" />
+            <!--            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"-->
+            <!--            android:onClick="@{(v) -> viewModel.onItemClickListener(v,viewModel.paymentCard,viewModel.position)}"-->
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/layoutDetail"
+            android:id="@+id/lySeeDetail"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_20sdp"
             android:gravity="center"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:orientation="vertical"
             android:visibility="@{viewModel.paymentCard.active ? View.VISIBLE: View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:text="Update Card"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <ImageView
                 android:id="@+id/imgDetail"

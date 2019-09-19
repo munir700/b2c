@@ -13,8 +13,8 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
-import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
@@ -64,12 +64,20 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
         }
 
-        adapter.setItemListener(object : BaseBindingRecyclerAdapter.OnItemClickListener {
+        adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                val action = YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
-                    viewModel.state.cards.value?.get(pos)!!
-                )
-                view.findNavController().navigate(action)
+                when (view.id) {
+                    R.id.imgCard -> {
+                        val action =
+                            YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
+                                viewModel.state.cards.value?.get(pos)!!
+                            )
+                        view.findNavController().navigate(action)
+                    }
+                    R.id.lySeeDetail -> {
+                        showToast("Details Section")
+                    }
+                }
             }
         })
     }
