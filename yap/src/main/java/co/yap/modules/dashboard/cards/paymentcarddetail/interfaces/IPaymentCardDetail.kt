@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.cards.paymentcarddetail.Interfaces
+package co.yap.modules.dashboard.cards.paymentcarddetail.interfaces
 
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.yapcore.IBase
@@ -17,5 +17,11 @@ interface IPaymentCardDetail {
         fun handlePressOnView(id: Int)
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var accountType: String
+        var cardType: String
+        var cardPanNumber: String
+        var cardBalance: String
+        var cardName: String
+    }
 }

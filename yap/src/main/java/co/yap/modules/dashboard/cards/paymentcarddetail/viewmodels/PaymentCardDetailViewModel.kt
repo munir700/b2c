@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.cards.paymentcarddetail.Interfaces.IPaymentCardDetail
+import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.states.PaymentCardDetailState
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.yapcore.BaseViewModel

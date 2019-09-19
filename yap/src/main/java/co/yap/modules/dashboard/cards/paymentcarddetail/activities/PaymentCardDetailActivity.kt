@@ -7,9 +7,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
-import co.yap.modules.dashboard.cards.paymentcarddetail.Interfaces.IPaymentCardDetail
+import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
-import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.constants.Constants
