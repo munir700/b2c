@@ -132,16 +132,16 @@ class AddSpareCardViewModel(application: Application) :
 
                     state.avaialableCardBalance =
                         response.data.data.currencyCode.toString() + " " + response.data.data.availableBalance.toString()
-
+                    if (!cardType.isNullOrEmpty() && !cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
+                        requestGetAddressForPhysicalCard()
+                    } else {
+                        state.loading = false
+                    }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
         }
-        if (!cardType.isNullOrEmpty() && !cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
-            requestGetAddressForPhysicalCard()
-        } else {
-            state.loading = false
-        }
+
     }
 
     override fun requestAddSpareVirtualCard() {
