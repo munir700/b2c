@@ -8,9 +8,9 @@ import co.yap.yapcore.BaseState
 class CardLimitState : BaseState(), ICardLimits.State {
 
     @get:Bindable
-    override var message: String = ""
+    override var serialNumber: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.message)
+            notifyPropertyChanged(BR.serialNumber)
         }
 }

@@ -17,6 +17,6 @@ interface ICardLimits {
     }
 
     interface State : IBase.State {
-        var message: String
+        var serialNumber: String
     }
 }

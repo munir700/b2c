@@ -77,7 +77,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         view.findNavController().navigate(action)
                     }
                     R.id.lySeeDetail -> {
-                        startActivity(Intent(requireContext(), CardLimitsActivity::class.java))
+                        startActivity(
+                            CardLimitsActivity.getIntent(
+                                requireContext(),
+                                viewModel.state.cards.value?.get(pos)!!.cardSerialNumber
+                            )
+                        )
                     }
                 }
             }

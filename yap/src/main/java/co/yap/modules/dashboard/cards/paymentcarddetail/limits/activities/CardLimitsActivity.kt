@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -14,6 +16,16 @@ import co.yap.yapcore.BaseBindingActivity
 class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
     ICardLimits.View, CardClickListener {
 
+    companion object {
+
+        val key = "serialNUmber"
+        fun getIntent(context: Context, serial: String): Intent {
+            val intent = Intent(context, CardLimitsActivity::class.java)
+            intent.putExtra(key, serial)
+            return intent
+        }
+    }
+
     override val viewModel: ICardLimits.ViewModel
         get() = ViewModelProviders.of(this).get(CardLimitViewModel::class.java)
 
@@ -24,6 +36,7 @@ class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
+        viewModel.state.serialNumber = intent.getStringExtra(key)
     }
 
     override fun setObservers() {

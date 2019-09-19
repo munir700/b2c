@@ -15,7 +15,11 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_CREATE_PIN = "/cards/api/cards/create-pin/{card-serial-number}"
     const val URL_GET_CARDS = "/cards/api/cards"
     const val URL_ORDER_CARD = "/cards/api/cards/b2c/physical"
-    const val URL_GET_DEBIT_CARD_BALANCE = "cards/api/cards/debit/balance"
+    const val URL_GET_DEBIT_CARD_BALANCE = "/cards/api/cards/debit/balance"
+    const val URL_ALLOW_ATM = "/cards/api/cards/atm-allow/{card-serial-number}"
+    const val URL_ONLINE_BANKING = "/cards/api/cards/online-banking/{card-serial-number}"
+    const val URL_ABROAD_PAYMENT = "/cards/api/cards/payment-abroad/{card-serial-number}"
+    const val URL_RETAIL_PAYMENT = "/cards/api/cards/retail-payment/{card-serial-number}"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -23,7 +27,12 @@ object CardsRepository : BaseRepository(), CardsApi {
         createCardPinRequest: CreateCardPinRequest,
         cardSerialNumber: String
     ): RetroApiResponse<ApiResponse> =
-        AuthRepository.executeSafely(call = { API.createCardPin(cardSerialNumber, createCardPinRequest) })
+        AuthRepository.executeSafely(call = {
+            API.createCardPin(
+                cardSerialNumber,
+                createCardPinRequest
+            )
+        })
 
     override suspend fun getDebitCards(cardType: String): RetroApiResponse<GetCardsResponse> =
         AuthRepository.executeSafely(call = { API.getDebitCards(cardType) })
@@ -36,5 +45,18 @@ object CardsRepository : BaseRepository(), CardsApi {
 
     override suspend fun getAccountBalanceRequest(): RetroApiResponse<DebitCardBalanceResponseDTO> =
         AuthRepository.executeSafely(call = { API.getAccountBalanceRequest() })
+
+
+    override suspend fun configAllowAtm(cardSerialNumber: String): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configAllowAtm(cardSerialNumber) })
+
+    override suspend fun configAbroadPayment(cardSerialNumber: String): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configAbroadPayment(cardSerialNumber) })
+
+    override suspend fun configRetailPayment(cardSerialNumber: String): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configRetailPayment(cardSerialNumber) })
+
+    override suspend fun configOnlineBanking(cardSerialNumber: String): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configOnlineBanking(cardSerialNumber) })
 
 }

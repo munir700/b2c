@@ -25,4 +25,17 @@ interface CardsRetroService {
     // get card balance
     @GET(CardsRepository.URL_GET_DEBIT_CARD_BALANCE)
     suspend fun getAccountBalanceRequest(): Response<DebitCardBalanceResponseDTO>
+
+    @POST(CardsRepository.URL_ALLOW_ATM)
+    suspend fun configAllowAtm(@Path("card-serial-number") cardSerialNumber: String): Response<ApiResponse>
+
+    @POST(CardsRepository.URL_ABROAD_PAYMENT)
+    suspend fun configAbroadPayment(@Path("card-serial-number") cardSerialNumber: String): Response<ApiResponse>
+
+    @POST(CardsRepository.URL_ONLINE_BANKING)
+    suspend fun configOnlineBanking(@Path("card-serial-number") cardSerialNumber: String): Response<ApiResponse>
+
+    @POST(CardsRepository.URL_RETAIL_PAYMENT)
+    suspend fun configRetailPayment(@Path("card-serial-number") cardSerialNumber: String): Response<ApiResponse>
+
 }

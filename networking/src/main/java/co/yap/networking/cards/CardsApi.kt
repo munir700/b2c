@@ -19,5 +19,9 @@ interface CardsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getAccountBalanceRequest():RetroApiResponse<DebitCardBalanceResponseDTO>
+    suspend fun configAllowAtm(cardSerialNumber: String): RetroApiResponse<ApiResponse>
+    suspend fun configAbroadPayment(cardSerialNumber: String): RetroApiResponse<ApiResponse>
+    suspend fun configRetailPayment(cardSerialNumber: String): RetroApiResponse<ApiResponse>
+    suspend fun configOnlineBanking(cardSerialNumber: String): RetroApiResponse<ApiResponse>
 }
 
