@@ -10,6 +10,8 @@
             name="viewModel"
             type="co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel" />
 
+        <import type="android.view.View"/>
+        <import type="co.yap.modules.dashboard.constants.Constants"/>
     </data>
 
     <RelativeLayout
@@ -73,11 +75,24 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+        <include
+            android:id="@+id/cardInfoLayout"
+            layout="@layout/layout_card_info"
+            android:layout_below="@+id/toolbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_centerHorizontal="true"
+            app:cardNumber="@{viewModel.state.cardPanNumber}"
+            app:cardName="@{viewModel.state.cardName}"
+            android:layout_marginBottom="@dimen/margin_medium"/>
+
         <RelativeLayout
             android:id="@+id/rlCardBalance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/toolbar"
+            android:layout_below="@+id/cardInfoLayout"
             android:layout_centerHorizontal="true">
 
 
@@ -100,7 +115,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="AED 738.10" />
+                    tools:text="AED 738.10"
+                    android:text="@={viewModel.state.cardBalance}" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -118,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_extra_small"
                 android:background="@color/white"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -153,7 +169,7 @@
                         android:id="@+id/llFreezeSpareCard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                         android:orientation="vertical">
 
@@ -178,7 +194,7 @@
                         android:id="@+id/llRemoveFunds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                         android:orientation="vertical">
 

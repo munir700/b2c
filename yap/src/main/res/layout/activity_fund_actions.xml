@@ -57,7 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_large"
             app:cardNumber="@{viewModel.state.cardNumber}"
-            app:fundActionViewModel="@{viewModel}"
+            app:cardName="@{viewModel.state.cardName}"
             app:buttonVisibility="@{false}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
