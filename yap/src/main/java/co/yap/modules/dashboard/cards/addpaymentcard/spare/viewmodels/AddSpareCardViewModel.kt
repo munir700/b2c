@@ -9,6 +9,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildV
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.AddPhysicalSpareCardRequest
 import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -20,6 +21,7 @@ class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
+    lateinit var address: Address
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
 
@@ -63,8 +65,9 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun handlePressOnConfirmPhysicalCardPurchase(id: Int) {
-        clickEvent.setValue(id)
+
         //btnConfirmPhysicalCardPurchase request here
+        requestAddSparePhysicalCard(id)
     }
 
     override fun handlePressOnConfirmLocation(id: Int) {
@@ -158,9 +161,14 @@ class AddSpareCardViewModel(application: Application) :
 
     }
 
-    override fun requestAddSparePhysicalCard() {
+    override fun requestAddSparePhysicalCard(id: Int) {
         val addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest =
-            AddPhysicalSpareCardRequest(" ", 0.00, 0.00, " ")
+            AddPhysicalSpareCardRequest(
+                " ",
+                address.latitude.toString(),
+                address.longitude.toString(),
+                address.address1
+            )
 
         launch {
             state.loading = true
@@ -169,6 +177,10 @@ class AddSpareCardViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(ADD_PHYSICAL_SPARE_CLICK_EVENT)
+//                clickEvent.setValue(id)
+//                navController.navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+//                ADD_PHYSICAL_SPARE_CLICK_EVENT
+
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
@@ -183,7 +195,7 @@ class AddSpareCardViewModel(application: Application) :
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
                     if (null != response.data.data) {
-                        val address = response.data.data
+                        address = response.data.data
                         state.physicalCardAddressSubTitle = address.address1!!
                         if (!address.address2.isNullOrEmpty()) {
                             state.physicalCardAddressTitle = address.address2!!

@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
@@ -50,6 +51,20 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 viewModel
             )
         }
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+
+                viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
+                    viewModel.state.onChangeLocationClick = true
+                    findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+                }
+
+                viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
+//                    findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
+                }
+
+            }
+        })
     }
 
     private fun getUpArguments() {

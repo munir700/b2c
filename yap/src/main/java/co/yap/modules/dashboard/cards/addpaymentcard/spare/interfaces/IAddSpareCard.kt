@@ -60,7 +60,7 @@ interface IAddSpareCard {
 
         fun requestAddSpareVirtualCard()
 
-        fun requestAddSparePhysicalCard()
+        fun requestAddSparePhysicalCard(id: Int)
         fun requestGetAddressForPhysicalCard()
         fun updateAddressForPhysicalCard()
     }

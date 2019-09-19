@@ -1,8 +1,8 @@
 package co.yap.networking.cards.responsedtos
 
 data class Address(
-    val address1: String? = null,
-    val address2: String? = null,
-    val latitude: Double? = null,
-    val longitude: Double? = null
+    var address1: String? = null,
+    var address2: String? = null,
+    var latitude: Double? = null,
+    var longitude: Double? = null
 )
