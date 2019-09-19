@@ -19,10 +19,9 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_GET_CARDS = "/cards/api/cards"
     const val URL_ORDER_CARD = "/cards/api/cards/b2c/physical"
     const val URL_GET_DEBIT_CARD_BALANCE = "cards/api/cards/debit/balance"
-    const val URL_ADD_SPARE_VIRTUAL_CARD =
-        "https://dev.yap.co/cards/api/cards/supplementary/virtual"
-    const val URL_ADD_SPARE_PHYSICAL_CARD = "https://dev.yap.co/cards/api/cards/supplementary"
-    const val URL_GET_PHYSICAL_CARD_ADDRESS = "https://dev.yap.co/cards/api/user-address"
+    const val URL_ADD_SPARE_VIRTUAL_CARD = "/cards/api/cards/supplementary/virtual"
+    const val URL_ADD_SPARE_PHYSICAL_CARD = "/cards/api/cards/supplementary"
+    const val URL_GET_PHYSICAL_CARD_ADDRESS = "/cards/api/user-address"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 

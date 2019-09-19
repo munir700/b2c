@@ -206,7 +206,7 @@ class AddressSelectionViewModel(application: Application) :
 
     override fun handlePressOnNext(id: Int) {
         if (state.isFromPhysicalCardsLayout){
-//           start old fragment by taking address data
+//           start old fragment by taking address address
             clickEvent.setValue(id)
 
         }else{

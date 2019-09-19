@@ -57,6 +57,7 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun handlePressOnConfirmPhysicalCardPurchase(id: Int) {
         clickEvent.setValue(id)
+        //btnConfirmPhysicalCardPurchase request here
     }
 
     override fun handlePressOnConfirmLocation(id: Int) {
@@ -69,8 +70,11 @@ class AddSpareCardViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-//        getAddressForPhysicalCard()
-        getAccountBalanceRequest()
+//        requestGetAddressForPhysicalCard()
+        if (state.avaialableCardBalance.isNullOrEmpty()){
+            requestGetAccountBalanceRequest()
+        }
+
     }
 
     override fun onResume() {
@@ -97,7 +101,7 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     //api
-    override fun getAccountBalanceRequest() {
+    override fun requestGetAccountBalanceRequest() {
         launch {
             state.loading = true
             when (val response = repository.getAccountBalanceRequest()) {
@@ -110,12 +114,12 @@ class AddSpareCardViewModel(application: Application) :
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
         }
-        getAddressForPhysicalCard()
+        requestGetAddressForPhysicalCard()
 
 //        state.loading = false
     }
 
-    override fun addSpareVirtualCard() {
+    override fun requestAddSpareVirtualCard() {
         launch {
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
@@ -131,11 +135,11 @@ class AddSpareCardViewModel(application: Application) :
         }
     }
 
-    override fun getCardFeeRequest() {
+    override fun requestGetCardFeeRequest() {
 
     }
 
-    override fun addSparePhysicalCard() {
+    override fun requestAddSparePhysicalCard() {
         val addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest =
             AddPhysicalSpareCardRequest(" ", 0.00, 0.00, " ")
 
@@ -154,14 +158,20 @@ class AddSpareCardViewModel(application: Application) :
         }
     }
 
-    override fun getAddressForPhysicalCard() {
+    override fun requestGetAddressForPhysicalCard() {
         launch {
             //            state.loading = true
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
-                    val address = response.data.data
-                    state.physicalCardAddressTitle = address.address1
-                    state.physicalCardAddressSubTitle = address.address2!!
+                    if (null != response.data.data) {
+                        val address = response.data.data
+                        state.physicalCardAddressSubTitle = address.address1!!
+                        if (!address.address2.isNullOrEmpty()){
+                            state.physicalCardAddressTitle = address.address2!!
+                        }else{
+                            state.physicalCardAddressTitle = " "
+                        }
+                    }
 
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message

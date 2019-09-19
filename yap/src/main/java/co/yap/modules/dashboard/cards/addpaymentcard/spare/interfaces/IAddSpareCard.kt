@@ -50,14 +50,14 @@ interface IAddSpareCard {
 
 
         //api
-        fun getAccountBalanceRequest()
+        fun requestGetAccountBalanceRequest()
 
-        fun getCardFeeRequest()
+        fun requestGetCardFeeRequest()
 
-        fun addSpareVirtualCard()
+        fun requestAddSpareVirtualCard()
 
-        fun addSparePhysicalCard()
-        fun getAddressForPhysicalCard()
+        fun requestAddSparePhysicalCard()
+        fun requestGetAddressForPhysicalCard()
         fun updateAddressForPhysicalCard()
     }
 

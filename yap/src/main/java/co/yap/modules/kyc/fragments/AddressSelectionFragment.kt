@@ -98,7 +98,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         performDataBinding(inflater, container)
         initMapFragment()
 
-        showToast(checkSender.toString())
         return viewDataBinding.root
     }
 

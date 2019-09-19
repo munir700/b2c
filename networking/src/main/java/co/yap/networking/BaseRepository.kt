@@ -63,7 +63,7 @@ abstract class BaseRepository : IRepository {
 
 
                 } catch (e: JSONException) {
-                    // return "Server sent some malformed data :o"
+                    // return "Server sent some malformed address :o"
                 }
             }
         }
