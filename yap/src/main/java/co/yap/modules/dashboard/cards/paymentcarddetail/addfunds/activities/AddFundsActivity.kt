@@ -26,8 +26,9 @@ import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
 
 
-class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
+open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     IFundActions.View {
+
     var amount: String? = null
     private val windowSize: Rect = Rect()
 
@@ -46,6 +47,13 @@ class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         etAmount.filters = arrayOf<InputFilter>(
             DecimalDigitsInputFilter(2)
         )
+        setObservers()
+        viewModel.errorEvent.observe(this, Observer {
+            showErrorSnackBar()
+        })
+    }
+
+    override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
@@ -66,9 +74,6 @@ class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
 
         })
-        viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar()
-        })
     }
 
     private fun showErrorSnackBar() {
@@ -79,7 +84,7 @@ class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         )
     }
 
-    private fun performSuccessOperations() {
+    fun performSuccessOperations() {
         YoYo.with(Techniques.FadeOut)
             .duration(300)
             .repeat(0)
@@ -140,6 +145,11 @@ class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     override fun onBackPressed() {
+    }
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+
     }
 
 }

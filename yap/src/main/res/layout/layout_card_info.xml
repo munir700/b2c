@@ -12,6 +12,10 @@
             type="String" />
 
         <variable
+            name="buttonVisibility"
+            type="Boolean" />
+
+        <variable
             name="fundActionViewModel"
             type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel" />
 
@@ -23,6 +27,7 @@
             name="viewModelThree"
             type="co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel" />
 
+        <import type="android.view.View" />
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -42,25 +47,14 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--  <TextView
-              android:id="@+id/tvCardName"
-              style="@style/ASmall"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_marginStart="@dimen/margin_extra_large"
-              android:layout_marginTop="@dimen/margin_small"
-              android:text="@{cardName}"
-              app:layout_constraintLeft_toRightOf="@+id/ivCard"
-              app:layout_constraintTop_toTopOf="@+id/ivCard"
-              tools:text="Primary card" />-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clRightData"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_marginStart="@dimen/margin_extra_large"
             android:layout_marginTop="@dimen/margin_small"
-            app:layout_constraintLeft_toRightOf="@+id/ivCustomCard"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/ivCustomCard"
             app:layout_constraintTop_toTopOf="@+id/ivCustomCard">
 
             <TextView
@@ -83,6 +77,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCardName"
                 tools:text="4040 3318 **** 3456" />
 
+
             <ImageView
                 android:id="@+id/ivSecure"
                 android:layout_width="wrap_content"
@@ -99,11 +94,26 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_small"
-                android:layout_marginBottom="@dimen/margin_medium"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="@dimen/margin_small"
+                app:layout_constraintBottom_toTopOf="@+id/btnCardDetails"
                 app:layout_constraintLeft_toRightOf="@+id/ivSecure"
                 app:text="@{Strings.screen_payment_card_detail_text_secure}"
                 tools:text="@string/screen_payment_card_detail_text_secure" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnCardDetails"
+                style="@style/RectangleBtnSmallStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Card Details"
+                android:textSize="@dimen/text_size_c1"
+                android:visibility="@{buttonVisibility? View.VISIBLE:View.GONE}"
+                app:btn_drawable_padding_top="5.5"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
