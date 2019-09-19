@@ -12,6 +12,8 @@ object Strings {
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
     const val common_button_activate: String = "common_button_activate"
+    const val common_text_currency_type: String = "common_text_currency_type"
+    const val common_amount_hint: String = "common_amount_hint"
 
 
     //Home screen
@@ -374,6 +376,19 @@ object Strings {
     const val screen_yap_store_display_text_heading: String =
         "screen_yap_store_display_text_heading"
 
+    //Yap card home screen
+    const val screen_cards_display_text_pending_delivery: String =
+        "screen_cards_display_text_pending_delivery"
+    const val screen_cards_display_text_expired_card: String =
+        "screen_cards_display_text_expired_card"
+    const val screen_cards_display_text_freeze_card: String =
+        "screen_cards_display_text_freeze_card"
+    const val screen_cards_display_text_see_details: String =
+        "screen_cards_display_text_see_details"
+    const val screen_cards_button_update_card: String = "screen_cards_button_update_card"
+    const val screen_cards_button_unfreeze_card: String = "screen_cards_button_unfreeze_card"
+    const val screen_cards_display_text_cards_count: String =
+        "screen_cards_display_text_cards_count"
 
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
@@ -391,7 +406,7 @@ object Strings {
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
 
-    // spare cards Benefit detail Screen
+     // spare cards Benefit detail Screen
     const val screen_spare_card_benefit_display_text_title: String =
         "screen_spare_card_benefit_display_text_title"
 
@@ -421,4 +436,44 @@ object Strings {
         "screen_add_spare_card_button_change_location"
 
 
-}
+     // Add funds Screen
+    const val screen_add_funds_display_text_add_funds: String =
+        "screen_add_funds_display_text_add_funds"
+
+    const val screen_add_funds_button_add: String =
+        "screen_add_funds_button_add"
+    //card status screen transaction
+    const val screen_card_status_display_text_ordered: String =
+        "screen_card_status_display_text_ordered"
+    const val screen_card_status_display_text_building: String =
+        "screen_card_status_display_text_building"
+    const val screen_card_status_display_text_shipping: String =
+        "screen_card_status_display_text_shipping"
+    const val screen_card_status_display_text_activate_card: String =
+        "screen_card_status_display_text_activate_card"
+
+    const val screen_add_funds_display_text_enter_amount: String =
+        "screen_add_funds_display_text_enter_amount"
+
+    const val screen_add_funds_display_text_available_balance: String =
+        "screen_add_funds_display_text_available_balance"
+    const val screen_add_card_display_text_spare_card: String =
+        "screen_add_card_display_text_spare_card"
+    const val screen_payment_card_detail_text_secure: String =
+        "screen_payment_card_detail_text_secure"
+    const val screen_add_funds_display_text_available_balance_error: String =
+        "screen_add_funds_display_text_available_balance_error"
+    const val screen_add_funds_display_text_max_limit_error: String =
+        "screen_add_funds_display_text_max_limit_error"
+
+
+    // Success funds transaction Screen
+    const val screen_success_funds_transaction_display_text_top_up: String =
+        "screen_success_funds_transaction_display_text_top_up"
+    const val screen_success_funds_transaction_display_text_primary_balance: String =
+        "screen_success_funds_transaction_display_text_primary_balance"
+    const val screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance: String =
+        "screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance"
+    const val screen_success_funds_transaction_display_text_button: String =
+        "screen_success_funds_transaction_display_text_button"
+ }

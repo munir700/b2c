@@ -5,6 +5,7 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.content.res.Resources
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -81,6 +82,15 @@ object Utils {
             ""
         }
     }
+    fun getFormattedCurrencyWithoutComma(num: String?): String {
+        return if ("" != num && null != num) {
+            val m = java.lang.Double.parseDouble(num)
+            val formatter = DecimalFormat("########0.00")
+            formatter.format(m)
+        } else {
+            ""
+        }
+    }
 
     fun convertDpToPx(context: Context, dp: Float): Float {
         return dp * context.resources.displayMetrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT
@@ -102,4 +112,39 @@ object Utils {
             0
     }
 
+    fun getCardDimensions(context: Context, width: Int, height: Int): IntArray {
+        val dimensions = IntArray(2)
+        dimensions[0] = getDimensionInPercent(context, true, width)
+        dimensions[1] = getDimensionInPercent(context, false, height)
+        return dimensions
+    }
+
+    fun getDimensionInPercent(context: Context, isWidth: Boolean, percent: Int): Int {
+        val displayMetrics = context.resources.displayMetrics
+        return if (isWidth) {
+            ((displayMetrics.widthPixels.toDouble() / 100) * percent).toInt()
+        } else {
+            if (hasNavBar(context.resources)) {
+                //val h = getNavBarHeight(context.resources)
+                //val bottom = convertDpToPx(context, 56f)
+                (((displayMetrics.heightPixels.toDouble() - getNavBarHeight(context.resources)) / 100) * percent).toInt()
+            } else {
+                ((displayMetrics.heightPixels.toDouble() / 100) * percent).toInt()
+            }
+        }
+    }
+
+    private fun hasNavBar(resources: Resources): Boolean {
+        val id = resources.getIdentifier("config_showNavigationBar", "bool", "android")
+        return id > 0 && resources.getBoolean(id)
+    }
+
+    private fun getNavBarHeight(resources: Resources): Int {
+
+        val resourceId: Int = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        if (resourceId > 0) {
+            return resources.getDimensionPixelSize(resourceId)
+        }
+        return 0
+    }
 }

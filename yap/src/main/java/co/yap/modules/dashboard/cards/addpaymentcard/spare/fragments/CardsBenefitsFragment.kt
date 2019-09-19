@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.ICardBenef
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.CardBenfitsDetailViewModel
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 
+
 class CardsBenefitsFragment : YapDashboardChildFragment<ICardBenefit.ViewModel>(),
     ICardBenefit.View {
 

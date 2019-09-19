@@ -20,7 +20,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
-import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
@@ -33,6 +33,8 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 object UIBinder {
@@ -42,6 +44,77 @@ object UIBinder {
     fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
         if (bitmap != null)
             view.setImageBitmap(bitmap)
+    }
+
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(imageView: ImageView, card: Card) {
+        if (card.active)
+            imageView.visibility = View.GONE
+        else
+            if (card.delivered) {
+                if (isExpire(card.expiryDate))
+                    imageView.setImageResource(R.drawable.ic_status_expired)
+                else
+                    if (card.blocked)
+                        imageView.setImageResource(R.drawable.ic_status_frozen)
+            } else
+                imageView.setImageResource(R.drawable.ic_status_ontheway)
+    }
+
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(text: TextView, card: Card) {
+        if (card.delivered) {
+            if (isExpire(card.expiryDate))
+                text.text = Translator.getString(
+                    text.context,
+                    R.string.screen_cards_display_text_expired_card
+                )
+            else
+                if (card.blocked)
+                    text.text = Translator.getString(
+                        text.context,
+                        R.string.screen_cards_display_text_freeze_card
+                    )
+        } else
+            text.text = Translator.getString(
+                text.context,
+                R.string.screen_cards_display_text_pending_delivery
+            )
+    }
+
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(text: CoreButton, card: Card) {
+        if (card.delivered) {
+            if (isExpire(card.expiryDate))
+                text.text = Translator.getString(
+                    text.context,
+                    R.string.screen_cards_button_update_card
+                )
+            else
+                if (card.blocked)
+                    text.text = Translator.getString(
+                        text.context,
+                        R.string.screen_cards_button_unfreeze_card
+                    )
+        } else
+            text.visibility = View.GONE
+    }
+
+    private fun isExpire(expiryDate: String): Boolean {
+        val today = Calendar.getInstance()
+        val dateFormatter = SimpleDateFormat("MM/YY", Locale.ENGLISH)
+        val expireDate = Calendar.getInstance()
+        expireDate.time = dateFormatter.parse(expiryDate)
+
+        var year = expireDate.get(Calendar.YEAR) - today.get(Calendar.YEAR)
+        var month = expireDate.get(Calendar.MONTH) - today.get(Calendar.MONTH)
+        return if (year > 0)
+            false
+        else
+            !(year == 0 && month > 0)
     }
 
     @BindingAdapter("src")
@@ -90,13 +163,15 @@ object UIBinder {
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textKey: String, concat: String) {
-        view.text = Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
+        view.text =
+            Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textId: Int, concat: String) {
-        view.text = Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
+        view.text =
+            Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("text", "start", "end")
@@ -168,7 +243,12 @@ object UIBinder {
             for (i in entries.indices) {
                 val entry = entries[i]
                 val binding =
-                    DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, viewGroup, true)
+                    DataBindingUtil.inflate<ViewDataBinding>(
+                        inflater,
+                        layoutId,
+                        viewGroup,
+                        true
+                    )
                 binding.setVariable(entry.bindingVariable, entry)
                 binding.executePendingBindings()
             }

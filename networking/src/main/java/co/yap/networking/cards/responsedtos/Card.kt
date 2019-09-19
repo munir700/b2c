@@ -1,6 +1,12 @@
 package co.yap.networking.cards.responsedtos
 
+import android.os.Parcelable
+import androidx.annotation.Keep
+import kotlinx.android.parcel.Parcelize
 
+
+@Keep
+@Parcelize
 data class Card(
     val newPin: String,
 
@@ -51,4 +57,4 @@ data class Card(
     val productCode: String,
 
     val pinCreated: Boolean
-)
+) : Parcelable

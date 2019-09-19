@@ -8,6 +8,9 @@
     <string name="common_button_cancel">Cancel</string>
     <string name="common_button_settings">Settings</string>
     <string name="common_button_activate">Activate</string>
+    <string name="common_text_currency_type">AED</string>
+    <string name="common_amount_hint">0.00</string>
+
 
     <!-- Home Screen -->
     <string name="screen_home_display_text_tag_line">The Personalized Banking App</string>
@@ -229,6 +232,15 @@
     <!--    fragment home transaction-->
     <string name="screen_fragment_home_transaction_time_category">%1$s \u2022 %2$s</string>
 
+    <!--    Card Home Screen-->
+    <string name="screen_cards_display_text_pending_delivery">This card is on the way</string>
+    <string name="screen_cards_display_text_expired_card">This card has expired</string>
+    <string name="screen_cards_display_text_freeze_card">This card is frozen</string>
+    <string name="screen_cards_display_text_see_details">See details</string>
+    <string name="screen_cards_button_update_card">Update card</string>
+    <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>
+    <string name="screen_cards_display_text_cards_count">You have %d cards</string>
+
     <!-- Spare Card Landing Screen -->
 
     <string name="screen_spare_card_landing_display_text_title">Add a spare card</string>
@@ -237,7 +249,7 @@
     <string name="screen_spare_card_landing_display_text_virtual_card">Virtual card</string>
     <string name="screen_spare_card_landing_display_text_physical_card">Physical card</string>
 
-    <!-- Spare Card Benefit Screen -->
+     <!-- Spare Card Benefit Screen -->
     <string name="screen_spare_card_benefit_display_text_title">Spare card benefits</string>
 
 
@@ -257,5 +269,28 @@
 
     <!-- Add Spare card location -->
 
+     <!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
+
+    <!-- Card Status Screen -->
+    <string name="screen_card_status_display_text_ordered">Ordered</string>
+    <string name="screen_card_status_display_text_building">Building</string>
+    <string name="screen_card_status_display_text_shipping">Shipping</string>
+    <string name="screen_card_status_display_text_activate_card">Activate card</string>
+
+    <!--    Add funds Screen-->
+    <string name="screen_add_funds_display_text_add_funds">Add funds</string>
+    <string name="screen_add_card_display_text_spare_card">Spare card</string>
+    <string name="screen_add_funds_button_add">Add</string>
+    <string name="screen_add_funds_display_text_enter_amount">Enter the amount to Add</string>
+    <string name="screen_add_funds_display_text_available_balance">Your available balance is</string>
+    <string name="screen_payment_card_detail_text_secure">Secured by YAP</string>
+    <string name="screen_add_funds_display_text_available_balance_error">You can only add an amount less than or equal to your current balance of %1$s %2$s</string>
+    <string name="screen_add_funds_display_text_max_limit_error">You cannot add an amount more than %1$s %2$s</string>
+
+    <!--    Success funds transaction Screen-->
+    <string name="screen_success_funds_transaction_display_text_top_up">You have topped up with %1$s %2$s \nfrom your main debit card</string>
+    <string name="screen_success_funds_transaction_display_text_primary_balance">Now, your primary card balance is \n%1$s %2$s</string>
+    <string name="screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance">Your new spare card balance is \n %1$s %2$s</string>
+    <string name="screen_success_funds_transaction_display_text_button">Back to card</string>
 
 </resources>

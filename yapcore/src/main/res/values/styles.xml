@@ -323,6 +323,14 @@
 
     </style>
 
+    <!-- Progress bar with change width -->
+    <style name="YAPProgressBarStatus" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:minWidth">@dimen/_80sdp</item>
+        <item name="android:progressDrawable">@drawable/yap_progress_bar</item>
+        <item name="android:layout_height">@dimen/_6sdp</item>
+
+    </style>
+
     <style name="YAPProgressBarIndeterminate" parent="@style/Widget.AppCompat.ProgressBar">
         <item name="android:color">@color/colorPrimaryDark</item>
     </style>

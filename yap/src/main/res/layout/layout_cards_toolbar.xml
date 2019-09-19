@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel" />
+            type="co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel" />
     </data>
 
     <RelativeLayout
@@ -27,11 +27,10 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_back_arrow_left" />
-
+            app:srcCompat="@drawable/ic_search" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -40,10 +39,24 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_toStartOf="@id/tbBtnAddCard"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
-            android:text="@{viewModel.state.tootlBarTitle}" />
+            android:text="Your cards" />
+
+        <ImageView
+            android:id="@+id/tbBtnAddCard"
+            android:layout_width="@dimen/_28sdp"
+            android:layout_height="@dimen/_28sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/_5sdp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_add_sign" />
 
     </RelativeLayout>
 </layout>
