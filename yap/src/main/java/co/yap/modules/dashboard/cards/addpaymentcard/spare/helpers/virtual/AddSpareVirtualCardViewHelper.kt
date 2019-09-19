@@ -4,7 +4,6 @@ import android.animation.Animator
 import android.content.Context
 import android.view.View
 import androidx.navigation.NavController
-import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
@@ -21,44 +20,27 @@ class AddSpareVirtualCardViewHelper(
         fadeOutView(virtualCardView.flTransactionComplete)
         fadeOutView(virtualCardView.btnDoneAddingSpareVirtualCard)
 
-        virtualCardView.btnConfirmVirtualCardPurchase.setOnClickListener(object :
-            View.OnClickListener {
-            override fun onClick(v: View?) {
+        virtualCardView.llConfirmVirtualCardPurchase.visibility = View.GONE
+        virtualCardView.layoutVirtualCardOnSuccess.visibility = View.VISIBLE
+        YoYo.with(Techniques.FadeOut)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+                }
 
-                virtualCardView.llConfirmVirtualCardPurchase.visibility = View.GONE
-                virtualCardView.layoutVirtualCardOnSuccess.visibility = View.VISIBLE
-                YoYo.with(Techniques.FadeOut)
-                    .withListener(object : Animator.AnimatorListener {
-                        override fun onAnimationStart(animation: Animator?) {
-                        }
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
 
-                        override fun onAnimationRepeat(animation: Animator?) {
-                        }
+                override fun onAnimationEnd(animation: Animator?) {
 
-                        override fun onAnimationEnd(animation: Animator?) {
+                    slideInTitle()
+                }
 
-                            slideInTitle()
-                        }
-
-                        override fun onAnimationCancel(animation: Animator?) {
-                        }
-                    })
-                    .duration(50)
-                    .repeat(0)
-                    .playOn(virtualCardView.llConfirmVirtualCardPurchase)
-
-            }
-
-        })
-
-
-        virtualCardView.btnDoneAddingSpareVirtualCard.setOnClickListener(object :
-            View.OnClickListener {
-            override fun onClick(v: View?) {
-                navController.navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
-            }
-
-        })
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
+            .duration(50)
+            .repeat(0)
+            .playOn(virtualCardView.llConfirmVirtualCardPurchase)
     }
 
 

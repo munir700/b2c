@@ -15,7 +15,6 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddS
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
-import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
@@ -35,6 +34,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
         return super.onCreateView(inflater, container, savedInstanceState)
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.state.avaialableCardBalance = viewModel.availableBalance.toString()
@@ -46,12 +46,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             layoutPhysicalCardConfirmPurchase.visibility = View.GONE
             layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
 
-//            AddSpareVirtualCardViewHelper(
-//                this!!.activity!!,
-//                navController,
-//                view,
-//                viewModel
-//            )
         } else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))) {
             layoutVirtualCardConfirmPurchase.visibility = View.GONE
             layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
@@ -62,22 +56,25 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 viewModel
             )
         }
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
-                    viewModel.state.onChangeLocationClick = true
                     findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
-//                    findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
                     AddSpareVirtualCardViewHelper(
                         this!!.activity!!,
                         navController,
                         view,
                         viewModel
                     )
+                }
+
+                R.id.btnDoneAddingSpareVirtualCard -> {
+                    activity!!.onBackPressed()
                 }
 
             }

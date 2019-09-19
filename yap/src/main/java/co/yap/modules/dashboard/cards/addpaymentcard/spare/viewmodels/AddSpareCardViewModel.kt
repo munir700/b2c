@@ -29,10 +29,10 @@ class AddSpareCardViewModel(application: Application) :
 
     override var isFromaddressScreen: Boolean = false
 
-    override val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int = 0
+    override val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int = 1000
 
 
-    override val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int = 0
+    override val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int = 5000
 
     override val repository: CardsRepository = CardsRepository
 
