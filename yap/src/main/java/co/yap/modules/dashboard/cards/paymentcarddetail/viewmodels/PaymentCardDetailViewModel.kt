@@ -11,7 +11,7 @@ class PaymentCardDetailViewModel(application: Application) :
     BaseViewModel<IPaymentCardDetail.State>(application),
     IPaymentCardDetail.ViewModel {
 
-    override val state: IPaymentCardDetail.State = PaymentCardDetailState()
+    override val state: PaymentCardDetailState = PaymentCardDetailState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val transactionLogicHelper: TransactionLogicHelper =
         TransactionLogicHelper(context)

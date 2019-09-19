@@ -10,6 +10,8 @@
             name="viewModel"
             type="co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel" />
 
+        <import type="android.view.View"/>
+        <import type="co.yap.modules.dashboard.constants.Constants"/>
     </data>
 
     <RelativeLayout
@@ -100,7 +102,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="AED 738.10" />
+                    tools:text="AED 738.10"
+                    android:text="@={viewModel.state.cardBalance}" />
 
             </LinearLayout>
         </RelativeLayout>
@@ -118,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/margin_extra_small"
                 android:background="@color/white"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -153,7 +156,7 @@
                         android:id="@+id/llFreezeSpareCard"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                         android:orientation="vertical">
 
@@ -178,7 +181,7 @@
                         android:id="@+id/llRemoveFunds"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:layout_marginStart="@dimen/margin_medium"
                         android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                         android:orientation="vertical">
 
