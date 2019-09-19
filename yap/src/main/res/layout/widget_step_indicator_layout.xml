@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -33,11 +34,9 @@
                 android:id="@+id/tbBtnOneOrdered"
                 android:layout_width="@dimen/_28sdp"
                 android:layout_height="@dimen/_28sdp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                app:src="@{viewModel.state.ordered}" />
+                android:clickable="false"
+                android:focusable="false"
+                android:src="@drawable/ic_tick" />
 
             <TextView
                 android:id="@+id/tvOrdered"
@@ -46,10 +45,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
-                android:text="Ordered"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCardTitle"
+                app:text="@{Strings.screen_card_status_display_text_ordered}"
+                tools:text="@string/screen_card_status_display_text_ordered" />
 
         </LinearLayout>
 
@@ -59,14 +59,17 @@
             android:layout_width="0dp"
             android:layout_height="@dimen/_5sdp"
             android:layout_gravity="center_horizontal"
-            android:max="@{viewModel.state.totalProgress}"
-            android:progress="@{viewModel.state.buildingProgress}"
+            android:max="100"
+            android:progress="100"
             app:layout_constraintBottom_toBottomOf="@+id/lyOrdered"
             app:layout_constraintEnd_toStartOf="@+id/lyBuilding"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/lyOrdered"
             app:layout_constraintTop_toTopOf="@+id/lyOrdered"
             app:layout_constraintVertical_bias="0.25" />
+
+        <!--        android:max="@{viewModel.state.totalProgress}"-->
+        <!--        android:progress="@{viewModel.state.buildingProgress}"-->
 
         <LinearLayout
             android:id="@+id/lyBuilding"
@@ -83,11 +86,9 @@
                 android:id="@+id/tbBtnBuilding"
                 android:layout_width="@dimen/_28sdp"
                 android:layout_height="@dimen/_28sdp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                app:src="@{viewModel.state.building}" />
+                android:clickable="false"
+                android:focusable="false"
+                android:src="@drawable/ic_tick" />
 
             <TextView
                 android:id="@+id/tvBuilding"
@@ -96,10 +97,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
-                android:text="Building"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCardTitle"
+                app:text="@{Strings.screen_card_status_display_text_building}"
+                tools:text="@string/screen_card_status_display_text_building" />
 
         </LinearLayout>
 
@@ -133,11 +135,9 @@
                 android:id="@+id/tbBtnShipping"
                 android:layout_width="@dimen/_28sdp"
                 android:layout_height="@dimen/_28sdp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                app:src="@{viewModel.state.shipping}" />
+                android:clickable="false"
+                android:focusable="false"
+                tools:src="@drawable/ic_tick" />
 
             <TextView
                 android:id="@+id/tvShipping"
@@ -146,10 +146,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_10sdp"
                 android:gravity="center"
-                android:text="Shipping"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCardTitle"
+                app:text="@{Strings.screen_card_status_display_text_shipping}"
+                tools:text="@string/screen_card_status_display_text_shipping" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

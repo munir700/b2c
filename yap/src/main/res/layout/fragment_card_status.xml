@@ -28,12 +28,9 @@
             android:layout_width="@dimen/_171sdp"
             android:layout_height="@dimen/_260sdp"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:orientation="vertical"
             android:padding="@dimen/_10sdp"
             android:src="@drawable/card_spare"
-            android:textSize="@dimen/_13sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -47,12 +44,12 @@
             android:layout_marginTop="@dimen/_15sdp"
             android:background="@drawable/round_light_gery_background"
             android:gravity="center"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:text="Primary Card"
+            android:text="@{viewModel.state.cardType}"
             android:textColor="@color/colorPrimary"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imgCard" />
+            app:layout_constraintTop_toBottomOf="@+id/imgCard"
+            tools:text="Primary Card" />
 
         <TextView
             android:id="@+id/tvCardStatus"
@@ -61,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_15sdp"
             android:gravity="center"
-            android:text="Your Primary card is shipped"
+            android:text="@{viewModel.state.message}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCardTitle" />
@@ -70,7 +67,7 @@
             android:id="@+id/lyIndicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/_15sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvCardStatus">
@@ -81,20 +78,20 @@
         </LinearLayout>
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnVerifyPasscode"
+            android:id="@+id/btnActivateCard"
             style="@style/FragmentsBtnStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
             android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
-            android:text="Activate Card"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lyIndicator"
-            tools:text="@string/screen_verify_passcode_button_sign_in" />
+            app:text="@{Strings.screen_card_status_display_text_activate_card}"
+            tools:text="@string/screen_card_status_display_text_activate_card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

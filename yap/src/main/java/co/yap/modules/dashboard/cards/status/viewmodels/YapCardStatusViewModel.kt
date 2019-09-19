@@ -11,7 +11,7 @@ class YapCardStatusViewModel(application: Application) :
     IYapCardStatus.ViewModel {
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val state: IYapCardStatus.State = YapCardStatusState()
+    override val state: YapCardStatusState = YapCardStatusState()
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }

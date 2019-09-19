@@ -13,7 +13,6 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
-import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
@@ -67,8 +66,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         adapter.setItemListener(object : BaseBindingRecyclerAdapter.OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                val action =
-                    YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment()
+                val action = YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
+                    viewModel.state.cards.value?.get(pos)!!
+                )
                 view.findNavController().navigate(action)
             }
         })

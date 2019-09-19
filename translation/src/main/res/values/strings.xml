@@ -245,4 +245,10 @@
 
     <!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->
 
+    <!-- Card Status Screen -->
+    <string name="screen_card_status_display_text_ordered">Ordered</string>
+    <string name="screen_card_status_display_text_building">Building</string>
+    <string name="screen_card_status_display_text_shipping">Shipping</string>
+    <string name="screen_card_status_display_text_activate_card">Activate card</string>
+
 </resources>

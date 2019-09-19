@@ -96,6 +96,10 @@
         android:id="@+id/yapCardStatusFragment"
         android:name="co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment"
         android:label="YapCardStatusFragment"
-        tools:layout="@layout/fragment_card_status" />
+        tools:layout="@layout/fragment_card_status">
+        <argument
+            android:name="cardInfo"
+            app:argType="co.yap.networking.cards.responsedtos.Card" />
+    </fragment>
 
 </navigation>
