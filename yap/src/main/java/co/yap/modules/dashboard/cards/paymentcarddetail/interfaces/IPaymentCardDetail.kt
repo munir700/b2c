@@ -24,5 +24,6 @@ interface IPaymentCardDetail {
         var cardBalance: String
         var cardName: String
         var blocked: Boolean
+        var physical: Boolean
     }
 }
