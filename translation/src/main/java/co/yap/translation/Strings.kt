@@ -430,4 +430,15 @@ object Strings {
         "screen_add_funds_display_text_available_balance_error"
     const val screen_add_funds_display_text_max_limit_error: String =
         "screen_add_funds_display_text_max_limit_error"
+
+
+    // Success funds transaction Screen
+    const val screen_success_funds_transaction_display_text_top_up: String =
+        "screen_success_funds_transaction_display_text_top_up"
+    const val screen_success_funds_transaction_display_text_primary_balance: String =
+        "screen_success_funds_transaction_display_text_primary_balance"
+    const val screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance: String =
+        "screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance"
+    const val screen_success_funds_transaction_display_text_button: String =
+        "screen_success_funds_transaction_display_text_button"
 }

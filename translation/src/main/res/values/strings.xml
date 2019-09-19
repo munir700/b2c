@@ -254,7 +254,7 @@
     <string name="screen_card_status_display_text_shipping">Shipping</string>
     <string name="screen_card_status_display_text_activate_card">Activate card</string>
 
-<!--    Add funds Screen-->
+    <!--    Add funds Screen-->
     <string name="screen_add_funds_display_text_add_funds">Add funds</string>
     <string name="screen_add_card_display_text_spare_card">Spare card</string>
     <string name="screen_add_funds_button_add">Add</string>
@@ -263,5 +263,11 @@
     <string name="screen_payment_card_detail_text_secure">Secured by YAP</string>
     <string name="screen_add_funds_display_text_available_balance_error">You can only add an amount less than or equal to your current balance of %1$s %2$s</string>
     <string name="screen_add_funds_display_text_max_limit_error">You cannot add an amount more than %1$s %2$s</string>
+
+    <!--    Success funds transaction Screen-->
+    <string name="screen_success_funds_transaction_display_text_top_up">You have topped up with %1$s %2$s \nfrom your main debit card</string>
+    <string name="screen_success_funds_transaction_display_text_primary_balance">Now, your primary card balance is \n%1$s %2$s</string>
+    <string name="screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance">Your new spare card balance is \n %1$s %2$s</string>
+    <string name="screen_success_funds_transaction_display_text_button">Back to card</string>
 
 </resources>
