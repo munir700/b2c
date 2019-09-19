@@ -41,14 +41,14 @@ class AddSpareCardState : BaseState(), IAddSpareCard.State {
         }
 
     @get:Bindable
-    override var physicalCardAddressTitle: String = "12 Street Road 10"
+    override var physicalCardAddressTitle: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.physicalCardAddressTitle)
         }
 
     @get:Bindable
-    override var physicalCardAddressSubTitle: String = "Suite 102. Dubai, UAE"
+    override var physicalCardAddressSubTitle: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.physicalCardAddressSubTitle)

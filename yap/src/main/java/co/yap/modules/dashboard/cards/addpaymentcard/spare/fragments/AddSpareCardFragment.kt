@@ -15,6 +15,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddS
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
+import co.yap.networking.cards.responsedtos.Address
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
@@ -76,6 +77,18 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     activity!!.onBackPressed()
                 }
+                R.id.btnConfirm -> {
+                    viewModel.state.toggleVisibility = true
+
+                    if (viewModel.isFromaddressScreen) {
+                        viewModel.address = Address(
+                            viewModel.state.physicalCardAddressSubTitle,
+                            viewModel.state.physicalCardAddressTitle,
+                            viewModel.latitude.toDouble(),
+                            viewModel.longitude.toDouble()
+                        )
+                    }
+                }
 
             }
         })
@@ -90,16 +103,37 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressTitle
         } as String
         if (!physicalCardAddressTitle.isNullOrEmpty()) {
-            viewModel.state.physicalCardAddressTitle = physicalCardAddressTitle
+            viewModel.state.physicalCardAddressSubTitle = physicalCardAddressTitle
         }
         val physicalCardAddressSubTitle = arguments?.let {
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressSubTitle
         } as String
 
         if (!physicalCardAddressSubTitle.isNullOrEmpty() && !physicalCardAddressSubTitle.equals(" ")) {
-            viewModel.state.physicalCardAddressSubTitle = physicalCardAddressSubTitle
+            viewModel.state.physicalCardAddressTitle = physicalCardAddressSubTitle
             viewModel.isFromaddressScreen = true
         }
+        //
+
+        val latitude = arguments?.let {
+            AddSpareCardFragmentArgs.fromBundle(it).latitude
+        } as String
+        if (!latitude.isNullOrEmpty()) {
+            viewModel.latitude = latitude
+        }
+        val longitude = arguments?.let {
+            AddSpareCardFragmentArgs.fromBundle(it).longitude
+        } as String
+        if (!longitude.isNullOrEmpty()) {
+            viewModel.longitude = longitude
+        }
+//        if (!viewModel.state.physicalCardAddressSubTitle.equals(viewModel.address.address1)){
+//            viewModel.address= Address(
+//                viewModel.state.physicalCardAddressSubTitle,
+//                viewModel.state.physicalCardAddressTitle,
+//                viewModel.latitude.toDouble(),
+//                viewModel.longitude.toDouble())
+//        }
     }
 
     override fun onDestroy() {

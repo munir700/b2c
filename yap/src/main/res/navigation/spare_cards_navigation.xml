@@ -44,6 +44,14 @@
             android:name="newDeliveryAddressSubTitle"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="latitude"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="longitude"
+            android:defaultValue=" "
+            app:argType="string" />
 
         <action
             android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"
@@ -59,8 +67,7 @@
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_to_bottom"
             app:popEnterAnim="@anim/slide_in_from_bottom"
-            app:popExitAnim="@anim/slide_out_right"
-            app:popUpToInclusive="false"/>
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
@@ -75,7 +82,9 @@
             app:argType="boolean" />
         <action
             android:id="@+id/action_addressSelectionFragment_to_addSpareCardFragment"
-            app:destination="@id/addSpareCardFragment" />
+            app:destination="@id/addSpareCardFragment"
+            app:popUpTo="@+id/addSpareCardFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

@@ -26,14 +26,14 @@ class AddSparePhysicalCardViewHelper(
                 navController.navigate(action)
             }
         })
-
-        view.btnConfirm.setOnClickListener(object :
-            View.OnClickListener {
-
-            override fun onClick(v: View?) {
-                viewModel.state.toggleVisibility = true
-            }
-
-        })
+//
+//        view.btnConfirm.setOnClickListener(object :
+//            View.OnClickListener {
+//
+//            override fun onClick(v: View?) {
+//                viewModel.state.toggleVisibility = true
+//            }
+//
+//        })
     }
 }

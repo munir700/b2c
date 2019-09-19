@@ -3,6 +3,7 @@ package co.yap.modules.kyc.interfaces
 import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.location.Location
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -18,6 +19,7 @@ interface IAddressSelection {
     interface ViewModel : IBase.ViewModel<State> {
         var checkGps: Boolean
         var mapFragment: SupportMapFragment?
+        var  mLastKnownLocation: Location
 //        var mapDetailViewActivity: DocumentsDashboardActivity
         var mapDetailViewActivity: Activity
         val clickEvent: SingleClickEvent

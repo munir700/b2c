@@ -22,7 +22,11 @@ class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
-    lateinit var address: Address
+    override var latitude: String=""
+
+    override var longitude: String=""
+
+   override lateinit var address: Address
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
 
@@ -191,11 +195,11 @@ class AddSpareCardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (null != response.data.data) {
                         address = response.data.data
-                        state.physicalCardAddressSubTitle = address.address1!!
+                        state.physicalCardAddressTitle = address.address1!!
                         if (!address.address2.isNullOrEmpty()) {
-                            state.physicalCardAddressTitle = address.address2!!
+                            state.physicalCardAddressSubTitle = address.address2!!
                         } else {
-                            state.physicalCardAddressTitle = " "
+                            state.physicalCardAddressSubTitle = " "
                         }
                     }
 

@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces
 
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardLogicHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardLogicHelper
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -13,6 +14,7 @@ interface IAddSpareCard {
         var virtualCardFee: String
 
         //add physical card layout fields
+
         var physicalCardFee: String
         var avaialableCardBalance: String
         var physicalCardAddressTitle: String
@@ -29,6 +31,9 @@ interface IAddSpareCard {
         var cardType: String
         val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper
         val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper
+        var latitude: String
+        var longitude: String
+        var address: Address
 
         val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int
         val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int

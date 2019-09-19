@@ -49,7 +49,7 @@ class AddressSelectionViewModel(application: Application) :
     lateinit var icon: BitmapDescriptor
     private lateinit var placesClient: PlacesClient
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
-    lateinit var mLastKnownLocation: Location
+    override lateinit var mLastKnownLocation: Location
     var animationFrequency: Int = 1
     var markerSnippet: String = ""
     var placeName: String = ""
@@ -205,6 +205,10 @@ class AddressSelectionViewModel(application: Application) :
     }
 
     override fun handlePressOnNext(id: Int) {
+
+        mLastKnownLocation.latitude= mDefaultLocation.latitude
+        mLastKnownLocation.longitude= mDefaultLocation.longitude
+
         if (state.isFromPhysicalCardsLayout){
 //           start old fragment by taking address address
             clickEvent.setValue(id)
