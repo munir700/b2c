@@ -93,8 +93,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.state.cardPanNumber =  intent.getStringExtra(CARD_NUMBER)
         viewModel.state.cardName =  intent.getStringExtra(CARD_NAME)
 
-        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType)  rlPrimaryCardActions.visibility = View.VISIBLE
-        else rlSpareCardActions.visibility = View.VISIBLE
+        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType)  {
+            rlPrimaryCardActions.visibility = View.VISIBLE
+            rlCardBalance.visibility = View.GONE
+        }
+        else {
+            rlSpareCardActions.visibility = View.VISIBLE
+        }
     }
 
     override fun onClick(eventType: Int) {
