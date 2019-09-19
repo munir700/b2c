@@ -19,14 +19,24 @@ open class FundActionsViewModel(application: Application) :
     override fun denominationFirstAmountClick() {
         state.amount = ""
         if (state.denominationFirstAmount.contains("+")) {
-            state.amount =  Utils.getFormattedCurrencyWithoutComma(state.denominationFirstAmount.replace("+", ""))
+            state.amount = Utils.getFormattedCurrencyWithoutComma(
+                state.denominationFirstAmount.replace(
+                    "+",
+                    ""
+                )
+            )
         }
     }
 
     override fun denominationSecondAmount() {
         state.amount = ""
         if (state.denominationSecondAmount.contains("+")) {
-            state.amount = Utils.getFormattedCurrencyWithoutComma(state.denominationSecondAmount.replace("+", ""))
+            state.amount = Utils.getFormattedCurrencyWithoutComma(
+                state.denominationSecondAmount.replace(
+                    "+",
+                    ""
+                )
+            )
         }
 
     }
@@ -34,7 +44,12 @@ open class FundActionsViewModel(application: Application) :
     override fun denominationThirdAmount() {
         state.amount = ""
         if (state.denominationThirdAmount.contains("+")) {
-            state.amount =   Utils.getFormattedCurrencyWithoutComma(state.denominationThirdAmount.replace("+", ""))
+            state.amount = Utils.getFormattedCurrencyWithoutComma(
+                state.denominationThirdAmount.replace(
+                    "+",
+                    ""
+                )
+            )
         }
     }
 
@@ -45,6 +60,10 @@ open class FundActionsViewModel(application: Application) :
         } else {
             errorEvent.postValue(id)
         }
+    }
+
+    override fun crossButtonClickEvent(id: Int) {
+        clickEvent.postValue(id)
     }
 
 

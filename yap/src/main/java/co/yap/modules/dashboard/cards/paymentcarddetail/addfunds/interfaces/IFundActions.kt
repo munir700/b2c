@@ -10,6 +10,7 @@ interface IFundActions {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun buttonClickEvent(id: Int)
+        fun crossButtonClickEvent(id: Int)
         fun denominationFirstAmountClick()
         fun denominationSecondAmount()
         fun denominationThirdAmount()
@@ -37,5 +38,10 @@ interface IFundActions {
         var minLimit: Double
         var amountBackground: Drawable?
         var errorDescription: String
+
+        //success screen variables
+        var topUpSuccess: String
+        var primaryCardUpdatedBalance: String
+        var spareCardUpdatedBalance: String
     }
 }
