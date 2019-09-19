@@ -16,7 +16,7 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/layout_cards_toolbar"
+            layout="@layout/layout_add_payment_cards_toolbar"
             app:viewModel="@{viewModel}"/>
 
         <fragment

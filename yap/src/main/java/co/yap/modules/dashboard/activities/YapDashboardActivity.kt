@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.activities
 
 import android.os.Bundle
+import android.view.View
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -66,6 +67,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         }
 
+    }
+
+    // it should be done using data binding with observable field
+    fun showHideBottomBar(show: Boolean) {
+        rlYapIt.visibility = if (show) View.VISIBLE else View.GONE
+        bottomNav.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     override fun onDestroy() {

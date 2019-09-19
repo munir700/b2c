@@ -371,6 +371,19 @@ object Strings {
     const val screen_yap_store_display_text_heading: String =
         "screen_yap_store_display_text_heading"
 
+    //Yap card home screen
+    const val screen_cards_display_text_pending_delivery: String =
+        "screen_cards_display_text_pending_delivery"
+    const val screen_cards_display_text_expired_card: String =
+        "screen_cards_display_text_expired_card"
+    const val screen_cards_display_text_freeze_card: String =
+        "screen_cards_display_text_freeze_card"
+    const val screen_cards_display_text_see_details: String =
+        "screen_cards_display_text_see_details"
+    const val screen_cards_button_update_card: String = "screen_cards_button_update_card"
+    const val screen_cards_button_unfreeze_card: String = "screen_cards_button_unfreeze_card"
+    const val screen_cards_display_text_cards_count: String =
+        "screen_cards_display_text_cards_count"
 
     //fragment home transaction
     const val screen_fragment_home_transaction_time_category: String =
@@ -394,6 +407,15 @@ object Strings {
 
     const val screen_add_funds_button_add: String =
         "screen_add_funds_button_add"
+    //card status screen transaction
+    const val screen_card_status_display_text_ordered: String =
+        "screen_card_status_display_text_ordered"
+    const val screen_card_status_display_text_building: String =
+        "screen_card_status_display_text_building"
+    const val screen_card_status_display_text_shipping: String =
+        "screen_card_status_display_text_shipping"
+    const val screen_card_status_display_text_activate_card: String =
+        "screen_card_status_display_text_activate_card"
 
     const val screen_add_funds_display_text_enter_amount: String =
         "screen_add_funds_display_text_enter_amount"

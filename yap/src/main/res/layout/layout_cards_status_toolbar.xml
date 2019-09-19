@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel" />
+            type="co.yap.modules.dashboard.cards.status.viewmodels.YapCardStatusViewModel" />
     </data>
 
     <RelativeLayout
@@ -30,7 +30,7 @@
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_search" />
+            app:srcCompat="@drawable/ic_back_arrow_left" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -42,7 +42,8 @@
             android:layout_toStartOf="@id/tbBtnAddCard"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
-            android:text="Your cards" />
+            android:text="@{viewModel.state.title}"
+            tools:text="Card Name" />
 
         <ImageView
             android:id="@+id/tbBtnAddCard"
@@ -54,6 +55,7 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:visibility="invisible"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_add_sign" />
