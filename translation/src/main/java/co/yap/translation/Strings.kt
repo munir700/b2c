@@ -476,4 +476,16 @@ object Strings {
         "screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance"
     const val screen_success_funds_transaction_display_text_button: String =
         "screen_success_funds_transaction_display_text_button"
- }
+
+    // Remove funds Screen
+    const val screen_remove_funds_display_text_remove_funds: String =
+        "screen_remove_funds_display_text_remove_funds"
+    const val screen_remove_funds_button_remove: String =
+        "screen_remove_funds_button_remove"
+    const val screen_remove_funds_display_text_enter_amount: String =
+        "screen_remove_funds_display_text_enter_amount"
+    const val screen_remove_funds_display_text_available_balance: String =
+        "screen_remove_funds_display_text_available_balance"
+    const val screen_success_remove_funds_transaction_display_text_moved_success: String =
+        "screen_success_remove_funds_transaction_display_text_moved_success"
+}

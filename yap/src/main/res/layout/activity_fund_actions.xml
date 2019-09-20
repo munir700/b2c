@@ -58,6 +58,7 @@
             android:layout_marginTop="@dimen/margin_medium_large"
             app:cardNumber="@{viewModel.state.cardNumber}"
             app:cardName="@{viewModel.state.cardName}"
+            app:buttonVisibility="@{false}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvToolBarHeader" />
@@ -65,6 +66,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clBottom"
             android:layout_width="match_parent"
+
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardInfoLayout">
