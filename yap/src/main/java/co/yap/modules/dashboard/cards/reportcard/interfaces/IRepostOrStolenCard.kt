@@ -7,7 +7,13 @@ interface IRepostOrStolenCard {
     interface State : IBase.State {
         var tootlBarTitle: String
         var tootlBarVisibility: Int
-     }
+
+        var cardType: String
+        var maskedCardNumber: String
+//        var report: String
+
+
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnBackButton()

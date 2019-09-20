@@ -14,7 +14,6 @@ class ReportOrStolenCardState : BaseState(), IRepostOrStolenCard.State {
             notifyPropertyChanged(BR.tootlBarTitle)
 
         }
-
     @get:Bindable
     override var tootlBarVisibility: Int = 0x00000000
         set(value) {
@@ -22,4 +21,19 @@ class ReportOrStolenCardState : BaseState(), IRepostOrStolenCard.State {
             notifyPropertyChanged(BR.tootlBarVisibility)
 
         }
+    @get:Bindable
+    override var cardType: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardType)
+
+        }
+    @get:Bindable
+    override var maskedCardNumber: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.maskedCardNumber)
+
+        }
+
 }

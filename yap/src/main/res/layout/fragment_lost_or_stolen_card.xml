@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.SpareCardLandingViewModel" />
+            type="co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels" />
 
     </data>
 
@@ -23,157 +23,224 @@
             android:background="@color/colorWhite"
             android:paddingBottom="@dimen/margin_medium">
 
-<!--            <LinearLayout-->
-<!--                android:id="@+id/linearLayout2"-->
-<!--                android:layout_width="@dimen/_181sdp"-->
-<!--                android:layout_height="@dimen/_250sdp"-->
-<!--                android:layout_gravity="center_horizontal"-->
-<!--                android:background="@drawable/card_spare"-->
-<!--                android:orientation="vertical"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                tools:ignore="MissingConstraints" />-->
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="@dimen/_181sdp"
+                android:layout_height="@dimen/_250sdp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/card_spare"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="MissingConstraints" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/tvSpareCardTile"-->
-<!--                style="@style/Regular"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/screen_spare_card_landing_display_text_spare_card"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"-->
-<!--                app:text="@{Strings.screen_spare_card_landing_display_text_spare_card}" />-->
+            <TextView
+                android:id="@+id/tvSpareCardTile"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/screen_spare_card_landing_display_text_spare_card"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+                app:text="@{viewModel.state.cardType}"
+                tools:text="Spare Card" />
 
-<!--            <androidx.recyclerview.widget.RecyclerView-->
-<!--                android:id="@+id/rvBenefits"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.0"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"-->
-<!--                tools:listitem="@layout/item_benefits" />-->
+            <TextView
+                android:id="@+id/tvCardNumber"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_h2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"
+                app:text="@{viewModel.state.maskedCardNumber}"
+                tools:text="4044 2345 **** 1234" />
 
-<!--            <TextView-->
-<!--                android:id="@+id/tvCardType"-->
-<!--                style="@style/Regular"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:gravity="center"-->
-<!--                android:text="@string/screen_spare_card_landing_display_text_select_card_type"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/rvBenefits"-->
-<!--                app:text="@{Strings.screen_spare_card_landing_display_text_select_card_type}" />-->
+            <LinearLayout
+                android:id="@+id/llSecuredByYap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCardNumber">
 
-<!--            <LinearLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="16dp"-->
-<!--                android:gravity="center"-->
-<!--                android:orientation="horizontal"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintHorizontal_bias="0.513"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/tvCardType">-->
 
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/llAddVirtualCard"-->
-<!--                    android:layout_width="@dimen/_130sdp"-->
-<!--                    android:layout_height="@dimen/_140sdp"-->
-<!--                    android:layout_marginRight="@dimen/margin_medium"-->
-<!--                    android:background="@drawable/card_border_selector"-->
-<!--                    android:clickable="true"-->
-<!--                    android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:paddingTop="@dimen/margin_medium">-->
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_secured" />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tvVirtualCardTitle"-->
-<!--                        style="@style/Regular"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="@string/screen_spare_card_landing_display_text_virtual_card"-->
-<!--                        app:text="@{Strings.screen_spare_card_landing_display_text_virtual_card}" />-->
+                <TextView
+                    style="@style/MicroGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_h2"
+                    app:text="@{Strings.screen_payment_card_detail_text_secure}"
+                    tools:text="@string/screen_payment_card_detail_text_secure" />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tvVirtualCardMonths"-->
-<!--                        style="@style/MicroGrey"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/margin_small"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="12 months" />-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tvPrice"-->
-<!--                        style="@style/Large"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/margin_medium_large"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="AED 29.99"-->
-<!--                        android:textColor="@color/colorPrimary" />-->
+            </LinearLayout>
+            <!--            <TextView-->
+            <!--                android:id="@+id/tvVirtualCardTitle"-->
+            <!--                style="@style/Regular"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:gravity="center"-->
+            <!--                android:text="@string/screen_spare_card_landing_display_text_virtual_card"-->
+            <!--                app:text="@{Strings.screen_spare_card_landing_display_text_virtual_card}" />-->
 
-<!--                    <TextView-->
-<!--                        style="@style/MicroGrey"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="per month" />-->
+            <TextView
+                android:id="@+id/tvHeading"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@string/screen_report_card_display_text_block_note"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llSecuredByYap"
+                app:text="@{Strings.screen_report_card_display_text_block_note}" />
 
-<!--                </LinearLayout>-->
+            <TextView
+                android:id="@+id/tvWarning"
+                style="@style/Regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_medium"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:background="@drawable/colored_background_selector"
+                android:gravity="center"
+                android:padding="@dimen/margin_medium"
+                android:text="@string/screen_report_card_display_text_block_footnote"
+                android:textColor="@color/colorSecondaryMagenta"
+                android:textSize="@dimen/text_size_h2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvHeading"
+                app:text="@{Strings.screen_report_card_display_text_block_footnote}" />
 
-<!--                <LinearLayout-->
-<!--                    android:id="@+id/llAddPhysicalCard"-->
-<!--                    android:layout_width="@dimen/_130sdp"-->
-<!--                    android:layout_height="@dimen/_140sdp"-->
-<!--                    android:background="@drawable/card_border_selector"-->
-<!--                    android:clickable="true"-->
-<!--                    android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:paddingTop="@dimen/margin_medium">-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.513"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCardType">
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tvPhysicalCardTitle"-->
-<!--                        style="@style/Regular"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="@string/screen_spare_card_landing_display_text_physical_card"-->
-<!--                        app:text="@{Strings.screen_spare_card_landing_display_text_physical_card}" />-->
+                <LinearLayout
+                    android:id="@+id/llAddVirtualCard"
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_140sdp"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:background="@drawable/card_border_selector"
+                    android:clickable="true"
+                    android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/margin_medium">
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tvPhysicalCardMonths"-->
-<!--                        style="@style/MicroGrey"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/margin_small"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="12 months" />-->
+                    <TextView
+                        android:id="@+id/tvVirtualCardTitle"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/screen_spare_card_landing_display_text_virtual_card"
+                        app:text="@{Strings.screen_spare_card_landing_display_text_virtual_card}" />
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/tvPhysicalCardPrice"-->
-<!--                        style="@style/Large"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_marginTop="@dimen/margin_medium_large"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="AED 29.99"-->
-<!--                        android:textColor="@color/colorPrimary" />-->
+                    <TextView
+                        android:id="@+id/tvVirtualCardMonths"
+                        style="@style/MicroGrey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:gravity="center"
+                        android:text="12 months" />
 
-<!--                    <TextView-->
-<!--                        style="@style/MicroGrey"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:gravity="center"-->
-<!--                        android:text="per month" />-->
+                    <TextView
+                        android:id="@+id/tvPrice"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:gravity="center"
+                        android:text="AED 29.99"
+                        android:textColor="@color/colorPrimary" />
 
-<!--                </LinearLayout>-->
-<!--            </LinearLayout>-->
+                    <TextView
+                        style="@style/MicroGrey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="per month" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/llAddPhysicalCard"
+                    android:layout_width="@dimen/_130sdp"
+                    android:layout_height="@dimen/_140sdp"
+                    android:background="@drawable/card_border_selector"
+                    android:clickable="true"
+                    android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
+                    android:orientation="vertical"
+                    android:paddingTop="@dimen/margin_medium">
+
+                    <TextView
+                        android:id="@+id/tvPhysicalCardTitle"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/screen_spare_card_landing_display_text_physical_card"
+                        app:text="@{Strings.screen_spare_card_landing_display_text_physical_card}" />
+
+                    <TextView
+                        android:id="@+id/tvPhysicalCardMonths"
+                        style="@style/MicroGrey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:gravity="center"
+                        android:text="12 months" />
+
+                    <TextView
+                        android:id="@+id/tvPhysicalCardPrice"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:gravity="center"
+                        android:text="AED 29.99"
+                        android:textColor="@color/colorPrimary" />
+
+                    <TextView
+                        style="@style/MicroGrey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="per month" />
+
+                </LinearLayout>
+                
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
