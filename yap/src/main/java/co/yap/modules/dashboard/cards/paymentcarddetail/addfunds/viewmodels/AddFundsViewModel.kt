@@ -21,9 +21,10 @@ class AddFundsViewModel(application: Application) : FundActionsViewModel(applica
         state.maxLimit = 1000.00
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
-        state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency("1500")
         state.availableBalance = "1500"
+        state.availableBalanceText =
+            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(state.availableBalance)
+
         state.buttonTitle = getString(Strings.screen_add_funds_button_add)
 
         //success screen strings

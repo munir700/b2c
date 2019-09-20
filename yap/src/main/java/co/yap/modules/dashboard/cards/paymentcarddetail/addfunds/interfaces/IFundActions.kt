@@ -6,7 +6,9 @@ import co.yap.yapcore.SingleClickEvent
 
 interface IFundActions {
 
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        fun setObservers()
+    }
 
     interface ViewModel : IBase.ViewModel<State> {
         fun buttonClickEvent(id: Int)
