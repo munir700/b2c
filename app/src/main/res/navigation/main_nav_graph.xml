@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/addPaymentCardActivity">
+    app:startDestination="@id/reportLostOrStolenCardActivity">
 
     <activity
-        android:id="@+id/addPaymentCardActivity"
-        android:name="co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
-        android:label="AddPaymentCardActivity"
-        tools:layout="@layout/activity_add_payment_cards">
+        android:id="@+id/reportLostOrStolenCardActivity"
+        android:name="co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
+        android:label="ReportLostOrStolenCardActivity"
+        tools:layout="@layout/activity_report_or_stolen_cards">
 
     </activity>
 

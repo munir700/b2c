@@ -20,13 +20,6 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IRepostOrStolenCard.V
     INavigator,
     IFragmentHolder {
 
-    companion object {
-        fun newIntent(context: Context): Intent {
-            val intent = Intent(context, ReportLostOrStolenCardActivity::class.java)
-            return intent
-        }
-    }
-
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_report_or_stolen_cards
@@ -42,7 +35,7 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IRepostOrStolenCard.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+//        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
     }
 
     override fun onDestroy() {

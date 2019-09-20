@@ -56,7 +56,7 @@
             android:name=".modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <nav-graph android:value="@navigation/spare_cards_navigation"/>
+            <nav-graph android:value="@navigation/report_card_navigation"/>
         </activity>
 
         <activity

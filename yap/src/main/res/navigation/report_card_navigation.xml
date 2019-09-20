@@ -12,7 +12,7 @@
 
         <action
             android:id="@+id/action_spareCardLandingFragment_to_addSpareCardFragment"
-            app:destination="@id/spareCardLandingFragment"
+            app:destination="@id/addSpareCardFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
     </fragment>
@@ -44,13 +44,13 @@
             android:defaultValue=" "
             app:argType="string" />
 
-        <action
-            android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"
-            app:destination="@id/addSparePhysicalCardSuccessFragment"
-            app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_to_bottom"
-            app:popExitAnim="@anim/slide_out_to_bottom"
-            app:popUpToInclusive="true" />
+<!--        <action-->
+<!--            android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"-->
+<!--            app:destination="@id/addSparePhysicalCardSuccessFragment"-->
+<!--            app:enterAnim="@anim/slide_in_left"-->
+<!--            app:exitAnim="@anim/slide_out_to_bottom"-->
+<!--            app:popExitAnim="@anim/slide_out_to_bottom"-->
+<!--            app:popUpToInclusive="true" />-->
 
     </fragment>
 

@@ -8,7 +8,7 @@ import co.yap.yapcore.BaseState
 class ReportOrStolenCardState : BaseState(), IRepostOrStolenCard.State {
 
     @get:Bindable
-    override var tootlBarTitle: String = ""
+    override var tootlBarTitle: String = "4044 2345 **** 1234"
         set(value) {
             field = value
             notifyPropertyChanged(BR.tootlBarTitle)
@@ -22,7 +22,7 @@ class ReportOrStolenCardState : BaseState(), IRepostOrStolenCard.State {
 
         }
     @get:Bindable
-    override var cardType: String = ""
+    override var cardType: String = "Spare Card"
         set(value) {
             field = value
             notifyPropertyChanged(BR.cardType)
