@@ -1,6 +1,6 @@
 package co.yap.networking.cards.responsedtos
 
-data class DebitCardBalance(
+data class CardBalance(
     var accountNumber: String? = null,
     var availableBalance: String? = null,
     var currencyCode: String? = null,
