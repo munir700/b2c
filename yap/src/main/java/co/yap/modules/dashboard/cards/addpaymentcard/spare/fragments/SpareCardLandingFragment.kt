@@ -42,13 +42,13 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
         addBenefitRecyclerView()
 
-        SharedPreferenceManager(this!!.context!!).removeValue(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
+        SharedPreferenceManager(context!!).removeValue(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
                 R.id.llAddVirtualCard -> {
-                     val action =
+                    val action =
                         SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
                             getString(R.string.screen_spare_card_landing_display_text_virtual_card)
                         )
@@ -64,7 +64,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                             getString(R.string.screen_spare_card_landing_display_text_physical_card)
                         )
                     findNavController().navigate(action)
-                 }
+                }
 
             }
         })
@@ -75,6 +75,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
     private fun addBenefitRecyclerView() {
         val layoutManager = LinearLayoutManager(context)
         rvBenefits.layoutManager = layoutManager
+        rvBenefits.isNestedScrollingEnabled = false
         rvBenefits.adapter =
             SpareCardsLandingAdapter(
                 viewModel.loadJSONDummyList(),
@@ -87,6 +88,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         super.onPause()
 
     }
+
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()

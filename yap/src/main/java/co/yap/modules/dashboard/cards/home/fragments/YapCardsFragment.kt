@@ -15,8 +15,10 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
@@ -77,17 +79,20 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 when (view.id) {
                     R.id.imgCard -> {
-                        val action =
-                            YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
-                                viewModel.state.cards.value?.get(pos)!!
-                            )
-                        view.findNavController().navigate(action)
+                        if (getCard(pos).active) {
+                            //startActivity(PaymentCardDetailActivity.newIntent())
+                        } else {
+                            val action =
+                                YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
+                                    getCard(pos)
+                                )
+                            view.findNavController().navigate(action)
+                        }
                     }
                     R.id.lySeeDetail -> {
                         startActivity(
                             CardLimitsActivity.getIntent(
-                                requireContext(),
-                                viewModel.state.cards.value?.get(pos)!!
+                                requireContext(), getCard(pos)
                             )
                         )
                     }
@@ -95,5 +100,9 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 }
             }
         })
+    }
+
+    fun getCard(pos: Int): Card {
+        return viewModel.state.cards.value?.get(pos)!!
     }
 }
