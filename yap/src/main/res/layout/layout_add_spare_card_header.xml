@@ -18,10 +18,10 @@
 
         <ImageView
             android:id="@+id/cardView"
-            android:layout_width="@dimen/_181sdp"
-            android:layout_height="@dimen/_250sdp"
+            android:layout_width="@dimen/_151sdp"
+            android:layout_height="@dimen/_220sdp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/card_spare"
+            android:src="@drawable/card_spare"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
              app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +34,7 @@
             android:layout_height="@dimen/_24sdp"
             android:gravity="center"
             android:text="@{cardType}"
+            android:layout_marginTop="@dimen/margin_normal"
             android:textColor="@color/transparent"
             android:textSize="0dp"
             android:visibility="visible"

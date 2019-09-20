@@ -466,6 +466,26 @@ object Strings {
     const val screen_add_funds_display_text_max_limit_error: String =
         "screen_add_funds_display_text_max_limit_error"
 
+    // Set limits screen
+    const val screen_set_limits_display_text_title: String =
+        "screen_set_limits_display_text_title"
+    const val screen_set_limits_display_text_atm_withdrawal: String =
+        "screen_set_limits_display_text_atm_withdrawal"
+    const val screen_set_limits_display_text_atm_withdrawal_desc: String =
+        "screen_set_limits_display_text_atm_withdrawal_desc"
+    const val screen_set_limits_display_text_online_transaction: String =
+        "screen_set_limits_display_text_online_transaction"
+    const val screen_set_limits_display_text_online_transaction_desc: String =
+        "screen_set_limits_display_text_online_transaction_desc"
+    const val screen_set_limits_display_text_payment_abroad: String =
+        "screen_set_limits_display_text_payment_abroad"
+    const val screen_set_limits_display_text_payment_abroad_desc: String =
+        "screen_set_limits_display_text_payment_abroad_desc"
+    const val screen_set_limits_display_text_retail_payments: String =
+        "screen_set_limits_display_text_retail_payments"
+    const val screen_set_limits_display_text_retail_payments_desc: String =
+        "screen_set_limits_display_text_retail_payments_desc"
+
 
     // Success funds transaction Screen
     const val screen_success_funds_transaction_display_text_top_up: String =

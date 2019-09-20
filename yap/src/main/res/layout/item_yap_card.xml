@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:gravity="center"
-                android:text="@string/screen_cards_display_text_see_details" />
+                app:text="@{Strings.screen_cards_display_text_see_details}" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

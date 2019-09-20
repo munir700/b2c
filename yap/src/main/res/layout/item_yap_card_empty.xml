@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/lycard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_24sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:cardCornerRadius="@dimen/_7sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/imgCard"
+                android:layout_width="@dimen/_200sdp"
+                android:layout_height="@dimen/_300sdp"
+                android:contentDescription="@string/empty_string"
+                android:scaleType="centerCrop"
+                android:src="@drawable/bg_white_round" />
+
+        </androidx.cardview.widget.CardView>
+
+
+        <ImageView
+            android:id="@+id/imgAddCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/empty_string"
+            android:elevation="@dimen/_2sdp"
+            android:src="@drawable/ic_add_funds"
+            app:layout_constraintBottom_toBottomOf="@+id/lycard"
+            app:layout_constraintEnd_toEndOf="@+id/lycard"
+            app:layout_constraintStart_toStartOf="@+id/lycard"
+            app:layout_constraintTop_toTopOf="@+id/lycard" />
+
+        <TextView
+            android:id="@+id/tvAddCard"
+            style="@style/ARegular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:elevation="@dimen/_2sdp"
+            android:gravity="center"
+            android:text="Add or upgrade"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="@+id/lycard"
+            app:layout_constraintStart_toStartOf="@+id/lycard"
+            app:layout_constraintTop_toBottomOf="@+id/imgAddCard" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
