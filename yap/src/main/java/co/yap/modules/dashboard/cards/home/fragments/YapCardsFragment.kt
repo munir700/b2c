@@ -6,6 +6,8 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
@@ -29,17 +31,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         super.onViewCreated(view, savedInstanceState)
         setupPager()
         viewModel.clickEvent.observe(this, Observer {
-
-
-            //
-            when (view.id) {
-                R.id.tbBtnAddCard -> {
-                    view.findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
-
-                }
-
-            }
-
 
         })
 
@@ -88,14 +79,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     R.id.lySeeDetail -> {
                         showToast("Details Section")
                     }
+                    R.id.tbBtnAddCard -> {
+                      findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
 
+                    }
                 }
             }
         })
     }
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
-    }
-
 }
