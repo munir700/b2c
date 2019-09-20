@@ -19,13 +19,13 @@
         android:id="@+id/setCardPinWelcomeActivity"
         android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
         android:label="SetCardPinWelcomeActivity"
-        tools:layout="@layout/activity_set_card_pin_welcome"></activity>
+        tools:layout="@layout/activity_set_card_pin_welcome"/>
 
     <fragment
         android:id="@+id/liteDashboard"
         android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
         android:label="LiteDashboardFragment"
-        tools:layout="@layout/fragment_lite_dashboard"></fragment>
+        tools:layout="@layout/fragment_lite_dashboard"/>
 
     <fragment
         android:id="@+id/yapHome"

@@ -5,6 +5,7 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.requestdtos.AddPhysicalSpareCardRequest
 import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
@@ -18,7 +19,11 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_CREATE_PIN = "/cards/api/cards/create-pin/{card-serial-number}"
     const val URL_GET_CARDS = "/cards/api/cards"
     const val URL_ORDER_CARD = "/cards/api/cards/b2c/physical"
-    const val URL_GET_DEBIT_CARD_BALANCE = "cards/api/cards/debit/balance"
+    const val URL_GET_DEBIT_CARD_BALANCE = "/cards/api/cards/debit/balance"
+    const val URL_ALLOW_ATM = "/cards/api/cards/atm-allow"
+    const val URL_ONLINE_BANKING = "/cards/api/cards/online-banking"
+    const val URL_ABROAD_PAYMENT = "/cards/api/cards/payment-abroad"
+    const val URL_RETAIL_PAYMENT = "/cards/api/cards/retail-payment"
     const val URL_ADD_SPARE_VIRTUAL_CARD = "/cards/api/cards/supplementary/virtual"
     const val URL_ADD_SPARE_PHYSICAL_CARD = "/cards/api/cards/supplementary"
     const val URL_GET_PHYSICAL_CARD_ADDRESS = "/cards/api/user-address"
@@ -47,6 +52,19 @@ object CardsRepository : BaseRepository(), CardsApi {
 
     override suspend fun getAccountBalanceRequest(): RetroApiResponse<DebitCardBalanceResponseDTO> =
         AuthRepository.executeSafely(call = { API.getAccountBalanceRequest() })
+
+
+    override suspend fun configAllowAtm(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configAllowAtm(cardLimitConfigRequest) })
+
+    override suspend fun configAbroadPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configAbroadPayment(cardLimitConfigRequest) })
+
+    override suspend fun configRetailPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configRetailPayment(cardLimitConfigRequest) })
+
+    override suspend fun configOnlineBanking(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configOnlineBanking(cardLimitConfigRequest) })
 
     override suspend fun addSpareVirtualCard(
         addVirtualSpareCardRequest: AddVirtualSpareCardRequest
