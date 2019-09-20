@@ -93,19 +93,19 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 )
                             view.findNavController().navigate(action)
                         }
+
                     }
                     R.id.lySeeDetail -> {
-//                        startActivity(
-//                            CardLimitsActivity.getIntent(
-//                                requireContext(), getCard(pos)
-//                            )
-//                        )
                         startActivity(
                             PaymentCardDetailActivity.newIntent(
                                 requireContext(),
                                 getCard(pos)
                             )
                         )
+                    }
+                    else -> {
+                        if (getCard(pos).cardName == "addCard")
+                            findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
                     }
 
                 }
