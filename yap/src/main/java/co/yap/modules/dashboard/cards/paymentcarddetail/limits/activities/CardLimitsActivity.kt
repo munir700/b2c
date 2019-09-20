@@ -11,17 +11,17 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListe
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.interfaces.ICardLimits
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.viewmodel.CardLimitViewModel
 import co.yap.modules.dashboard.constants.Constants
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 
 class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
-    ICardLimits.View, CardClickListener {
+    ICardLimits.View {
 
     companion object {
-
-        val key = "serialNUmber"
-        fun getIntent(context: Context, serial: String): Intent {
+        const val key = "card"
+        fun getIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, CardLimitsActivity::class.java)
-            intent.putExtra(key, serial)
+            intent.putExtra(key, card)
             return intent
         }
     }
@@ -36,8 +36,11 @@ class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        viewModel.state.serialNumber = intent.getStringExtra(key)
+        val card: Card = intent.getParcelableExtra(key)
+        viewModel.state.card.set(card)
     }
+
+
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
@@ -49,23 +52,4 @@ class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
         })
     }
 
-    override fun onClick(eventType: Int) {
-        when (eventType) {
-            Constants.EVENT_ADD_CARD_NAME -> {
-                showToast("Add card name")
-            }
-            Constants.EVENT_CHANGE_PIN -> {
-                showToast("Change PIN")
-            }
-            Constants.EVENT_VIEW_STATEMENTS -> {
-                showToast("View statements")
-            }
-            Constants.EVENT_REPORT_CARD -> {
-                showToast("Report card")
-            }
-            Constants.EVENT_REMOVE_CARD -> {
-                showToast("Remove card")
-            }
-        }
-    }
 }

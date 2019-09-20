@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 @Keep
 @Parcelize
 data class Card(
-    val newPin: String,
+    val newPin: String?,
 
     val cardType: String,
 

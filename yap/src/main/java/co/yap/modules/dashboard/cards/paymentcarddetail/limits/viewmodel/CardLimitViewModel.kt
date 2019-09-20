@@ -6,6 +6,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.interfaces.ICardLimits
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.states.CardLimitState
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.ConfigAtm
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -25,33 +26,35 @@ class CardLimitViewModel(application: Application) :
     }
 
     fun onSwitchChanged(switch: CompoundButton, isChecked: Boolean) {
-        when (switch.id) {
-            R.id.swWithdrawal -> {
-                allAtm(isChecked)
-            }
-            R.id.swOnlineTra -> {
+        if (switch.isPressed) {
+            when (switch.id) {
+                R.id.swWithdrawal -> {
+                    allAtm(isChecked)
+                }
+                R.id.swOnlineTra -> {
 
-            }
-            R.id.swAbroad -> {
+                }
+                R.id.swAbroad -> {
 
-            }
-            R.id.swRetail -> {
+                }
+                R.id.swRetail -> {
 
+                }
             }
         }
     }
 
-    fun allAtm(allow: Boolean) {
+    private fun allAtm(allow: Boolean) {
         launch {
             state.loading = true
-            when (val response = repository.configAllowAtm(state.serialNumber)) {
+            when (val response = repository.configAllowAtm(ConfigAtm(state.card.get()!!.cardSerialNumber) )) {
                 is RetroApiResponse.Error -> {
                     response.error.message
                     state.loading = false
 
                 }
                 is RetroApiResponse.Success -> {
-                    val data =response.data
+                    val data = response.data
                 }
             }
         }

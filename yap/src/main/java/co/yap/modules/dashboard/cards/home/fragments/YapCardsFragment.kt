@@ -80,7 +80,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         startActivity(
                             CardLimitsActivity.getIntent(
                                 requireContext(),
-                                viewModel.state.cards.value?.get(pos)!!.cardSerialNumber
+                                viewModel.state.cards.value?.get(pos)!!
                             )
                         )
                     }

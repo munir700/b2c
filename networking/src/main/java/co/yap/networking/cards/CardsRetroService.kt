@@ -1,5 +1,6 @@
 package co.yap.networking.cards
 
+import co.yap.networking.cards.requestdtos.ConfigAtm
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
@@ -26,16 +27,16 @@ interface CardsRetroService {
     @GET(CardsRepository.URL_GET_DEBIT_CARD_BALANCE)
     suspend fun getAccountBalanceRequest(): Response<DebitCardBalanceResponseDTO>
 
-    @POST(CardsRepository.URL_ALLOW_ATM)
-    suspend fun configAllowAtm(@Path("card-serial-number") cardSerialNumber: String): Response<ApiResponse>
+    @PUT(CardsRepository.URL_ALLOW_ATM)
+    suspend fun configAllowAtm(@Body configAtm: ConfigAtm): Response<ApiResponse>
 
-    @POST(CardsRepository.URL_ABROAD_PAYMENT)
-    suspend fun configAbroadPayment(@Path("card-serial-number") cardSerialNumber: String): Response<ApiResponse>
+    @PUT(CardsRepository.URL_ABROAD_PAYMENT)
+    suspend fun configAbroadPayment(@Query("cardSerialNumber") cardSerialNumber: String): Response<ApiResponse>
 
-    @POST(CardsRepository.URL_ONLINE_BANKING)
-    suspend fun configOnlineBanking(@Path("card-serial-number") cardSerialNumber: String): Response<ApiResponse>
+    @PUT(CardsRepository.URL_ONLINE_BANKING)
+    suspend fun configOnlineBanking(@Query("cardSerialNumber") cardSerialNumber: String): Response<ApiResponse>
 
-    @POST(CardsRepository.URL_RETAIL_PAYMENT)
-    suspend fun configRetailPayment(@Path("card-serial-number") cardSerialNumber: String): Response<ApiResponse>
+    @PUT(CardsRepository.URL_RETAIL_PAYMENT)
+    suspend fun configRetailPayment(@Query("cardSerialNumber") cardSerialNumber: String): Response<ApiResponse>
 
 }

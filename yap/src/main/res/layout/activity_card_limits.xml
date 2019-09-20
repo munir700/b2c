@@ -65,6 +65,7 @@
                 android:id="@+id/swWithdrawal"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
+                android:checked="@{viewModel.state.card.atmAllowed}"
                 android:layout_height="wrap_content"
                 android:onCheckedChanged="@{viewModel::onSwitchChanged}"
                 android:theme="@style/CustomSwitch"
@@ -122,6 +123,7 @@
             <Switch
                 android:id="@+id/swOnlineTra"
                 style="@style/ASmallGrey"
+                android:checked="@{viewModel.state.card.onlineBankingAllowed}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onCheckedChanged="@{viewModel::onSwitchChanged}"
@@ -180,6 +182,7 @@
             <Switch
                 android:id="@+id/swAbroad"
                 style="@style/ASmallGrey"
+                android:checked="@{viewModel.state.card.paymentAbroadAllowed}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onCheckedChanged="@{viewModel::onSwitchChanged}"
@@ -238,6 +241,7 @@
             <Switch
                 android:id="@+id/swRetail"
                 style="@style/ASmallGrey"
+                android:checked="@{viewModel.state.card.retailPaymentAllowed}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onCheckedChanged="@{viewModel::onSwitchChanged}"
