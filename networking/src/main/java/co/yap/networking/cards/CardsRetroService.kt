@@ -1,6 +1,6 @@
 package co.yap.networking.cards
 
-import co.yap.networking.cards.requestdtos.ConfigAtm
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
@@ -28,15 +28,15 @@ interface CardsRetroService {
     suspend fun getAccountBalanceRequest(): Response<DebitCardBalanceResponseDTO>
 
     @PUT(CardsRepository.URL_ALLOW_ATM)
-    suspend fun configAllowAtm(@Body configAtm: ConfigAtm): Response<ApiResponse>
+    suspend fun configAllowAtm(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
 
     @PUT(CardsRepository.URL_ABROAD_PAYMENT)
-    suspend fun configAbroadPayment(@Query("cardSerialNumber") cardSerialNumber: String): Response<ApiResponse>
+    suspend fun configAbroadPayment(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
 
     @PUT(CardsRepository.URL_ONLINE_BANKING)
-    suspend fun configOnlineBanking(@Query("cardSerialNumber") cardSerialNumber: String): Response<ApiResponse>
+    suspend fun configOnlineBanking(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
 
     @PUT(CardsRepository.URL_RETAIL_PAYMENT)
-    suspend fun configRetailPayment(@Query("cardSerialNumber") cardSerialNumber: String): Response<ApiResponse>
+    suspend fun configRetailPayment(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
 
 }

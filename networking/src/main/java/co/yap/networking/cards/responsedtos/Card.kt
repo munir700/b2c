@@ -30,13 +30,13 @@ data class Card(
 
     val maskedCardNo: String,
 
-    val atmAllowed: Boolean,
+    var atmAllowed: Boolean,
 
-    val onlineBankingAllowed: Boolean,
+    var onlineBankingAllowed: Boolean,
 
-    val retailPaymentAllowed: Boolean,
+    var retailPaymentAllowed: Boolean,
 
-    val paymentAbroadAllowed: Boolean,
+    var paymentAbroadAllowed: Boolean,
 
     val accountType: String,
 

@@ -1,6 +1,6 @@
 package co.yap.networking.cards
 
-import co.yap.networking.cards.requestdtos.ConfigAtm
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
@@ -20,9 +20,9 @@ interface CardsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getAccountBalanceRequest():RetroApiResponse<DebitCardBalanceResponseDTO>
-    suspend fun configAllowAtm(configAtm: ConfigAtm): RetroApiResponse<ApiResponse>
-    suspend fun configAbroadPayment(cardSerialNumber: String): RetroApiResponse<ApiResponse>
-    suspend fun configRetailPayment(cardSerialNumber: String): RetroApiResponse<ApiResponse>
-    suspend fun configOnlineBanking(cardSerialNumber: String): RetroApiResponse<ApiResponse>
+    suspend fun configAllowAtm(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
+    suspend fun configAbroadPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
+    suspend fun configRetailPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
+    suspend fun configOnlineBanking(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
 }
 

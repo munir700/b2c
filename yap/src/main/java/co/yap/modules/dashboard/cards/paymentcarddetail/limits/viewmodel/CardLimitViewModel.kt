@@ -6,8 +6,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.interfaces.ICardLimits
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.states.CardLimitState
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.ConfigAtm
-import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -29,32 +28,89 @@ class CardLimitViewModel(application: Application) :
         if (switch.isPressed) {
             when (switch.id) {
                 R.id.swWithdrawal -> {
-                    allAtm(isChecked)
+                    updateAllowAtm()
                 }
                 R.id.swOnlineTra -> {
-
+                    updateOnlineTransaction()
                 }
                 R.id.swAbroad -> {
-
+                    updateAbroadPayment()
                 }
                 R.id.swRetail -> {
-
+                    updateRetailPayment()
                 }
             }
         }
     }
 
-    private fun allAtm(allow: Boolean) {
+    private fun updateAllowAtm() {
         launch {
             state.loading = true
-            when (val response = repository.configAllowAtm(ConfigAtm(state.card.get()!!.cardSerialNumber) )) {
+            when (val response =
+                repository.configAllowAtm(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
                 is RetroApiResponse.Error -> {
-                    response.error.message
+                    state.loading = false
+                    state.card.notifyChange()
+                }
+
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.card.get()?.atmAllowed = !state.card.get()!!.atmAllowed
+                }
+            }
+        }
+    }
+
+    private fun updateOnlineTransaction() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.configOnlineBanking(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
+                is RetroApiResponse.Error -> {
                     state.loading = false
 
                 }
                 is RetroApiResponse.Success -> {
-                    val data = response.data
+                    state.loading = false
+                    state.card.get()?.onlineBankingAllowed =
+                        !state.card.get()!!.onlineBankingAllowed
+                }
+            }
+        }
+    }
+
+    private fun updateRetailPayment() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.configRetailPayment(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+
+                }
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.card.get()?.retailPaymentAllowed =
+                        !state.card.get()!!.retailPaymentAllowed
+                }
+            }
+        }
+    }
+
+    private fun updateAbroadPayment() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.configAbroadPayment(CardLimitConfigRequest(state.card.get()!!.cardSerialNumber))) {
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+
+                }
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.card.get()?.paymentAbroadAllowed =
+                        !state.card.get()!!.paymentAbroadAllowed
+
                 }
             }
         }

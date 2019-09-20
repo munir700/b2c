@@ -40,13 +40,11 @@ class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
         viewModel.state.card.set(card)
     }
 
-
-
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tbBtnBack -> {
-                    showToast("Back Pressed")
+                    onBackPressed()
                 }
             }
         })

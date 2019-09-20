@@ -3,7 +3,7 @@ package co.yap.networking.cards
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.cards.requestdtos.ConfigAtm
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
@@ -48,16 +48,16 @@ object CardsRepository : BaseRepository(), CardsApi {
         AuthRepository.executeSafely(call = { API.getAccountBalanceRequest() })
 
 
-    override suspend fun configAllowAtm(configAtm: ConfigAtm): RetroApiResponse<ApiResponse> =
-        AuthRepository.executeSafely(call = { API.configAllowAtm(configAtm) })
+    override suspend fun configAllowAtm(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configAllowAtm(cardLimitConfigRequest) })
 
-    override suspend fun configAbroadPayment(cardSerialNumber: String): RetroApiResponse<ApiResponse> =
-        AuthRepository.executeSafely(call = { API.configAbroadPayment(cardSerialNumber) })
+    override suspend fun configAbroadPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configAbroadPayment(cardLimitConfigRequest) })
 
-    override suspend fun configRetailPayment(cardSerialNumber: String): RetroApiResponse<ApiResponse> =
-        AuthRepository.executeSafely(call = { API.configRetailPayment(cardSerialNumber) })
+    override suspend fun configRetailPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configRetailPayment(cardLimitConfigRequest) })
 
-    override suspend fun configOnlineBanking(cardSerialNumber: String): RetroApiResponse<ApiResponse> =
-        AuthRepository.executeSafely(call = { API.configOnlineBanking(cardSerialNumber) })
+    override suspend fun configOnlineBanking(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.configOnlineBanking(cardLimitConfigRequest) })
 
 }

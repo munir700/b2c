@@ -1,5 +1,5 @@
 package co.yap.networking.cards.requestdtos
 
-data class ConfigAtm(
+data class CardLimitConfigRequest(
 	val cardSerialNumber: String
 )
