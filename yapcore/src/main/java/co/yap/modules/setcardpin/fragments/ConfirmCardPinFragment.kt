@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.translation.Strings
@@ -13,17 +14,18 @@ import co.yap.yapcore.R
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_set_card_pin.*
 
-class ConfirmCardPinFragment : SetCardPinFragment() {
+open class ConfirmCardPinFragment : SetCardPinFragment() {
 
+    private val args:ConfirmCardPinFragmentArgs by navArgs()
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(ConfirmCardPinViewModel::class.java)
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        tvTitle.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_display_text_title)
-        btnAction.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_button_create_pin)
-
-        viewModel.pincode = arguments?.let { ConfirmCardPinFragmentArgs.fromBundle(it).pincode } as String
+        loadData()
+       /* tvTitle.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_display_text_title)
+        btnAction.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_button_create_pin)*/
+//        viewModel.pincode = arguments?.let { ConfirmCardPinFragmentArgs.fromBundle(it).pincode } as String
     }
 
     override fun setObservers() {
@@ -44,6 +46,12 @@ class ConfirmCardPinFragment : SetCardPinFragment() {
         })
     }
 
+    override fun loadData() {
+        tvTitle.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_display_text_title)
+        btnAction.text = Translator.getString(requireContext(), Strings.screen_confirm_card_pin_button_create_pin)
+        viewModel.pincode = arguments?.let { ConfirmCardPinFragmentArgs.fromBundle(it).pincode } as String
+
+    }
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()

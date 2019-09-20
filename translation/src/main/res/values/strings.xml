@@ -303,4 +303,27 @@
     <!--    Success remove funds Screen-->
     <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s %2$s \nto your main debit card </string>
 
+
+<!--    Enter current pin screen-->
+    <string name="screen_current_card_pin_display_text_heading">Enter your current \nPIN code</string>
+    <string name="screen_current_card_pin_display_button_next">Next</string>
+
+<!--    Enter new pin screen-->
+    <string name="screen_create_card_pin_display_text_heading">Enter your new \nPIN code</string>
+    <string name="screen_create_card_pin_display_button_create_pin">Create PIN</string>
+
+<!--    confirm PIN screen-->
+    <string name="screen_confirm_card_pin_display_text_heading">Re-enter your \nPIN code</string>
+    <string name="screen_confirm_card_pin_display_button_confirm_pin">Confirm PIN</string>
+
+<!--    Change PIN success screen-->
+    <string name="screen_change_pin_success_display_text_heading">PIN code has been updated successfully!</string>
+
+
+
+
+
+
+
+
 </resources>
