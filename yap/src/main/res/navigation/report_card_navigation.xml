@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/spare_cards_navigation"
+    app:startDestination="@id/reportLostOrStolenCardFragment">
+
+    <fragment
+        android:id="@+id/reportLostOrStolenCardFragment"
+        android:name="co.yap.modules.dashboard.cards.reportcard.fragments.ReportLostOrStolenCardFragment"
+        tools:layout="@layout/fragment_lost_or_stolen_card">
+
+        <action
+            android:id="@+id/action_spareCardLandingFragment_to_addSpareCardFragment"
+            app:destination="@id/spareCardLandingFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/addSpareCardFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragment"
+        tools:layout="@layout/fragment_add_spare_card">
+        <argument
+            android:name="cardType"
+            android:defaultValue=" "
+            app:argType="string" />
+
+        <argument
+            android:name="newDeliveryAddressTitle"
+            android:defaultValue=" "
+            app:argType="string" />
+
+        <argument
+            android:name="newDeliveryAddressSubTitle"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="latitude"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="longitude"
+            android:defaultValue=" "
+            app:argType="string" />
+
+        <action
+            android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"
+            app:destination="@id/addSparePhysicalCardSuccessFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popExitAnim="@anim/slide_out_to_bottom"
+            app:popUpToInclusive="true" />
+
+        <!--        <action-->
+        <!--            android:id="@+id/action_addSpareCardFragment_to_addressSelectionFragment"-->
+        <!--            app:destination="@id/addressSelectionFragment"-->
+        <!--            app:enterAnim="@anim/slide_in_left"-->
+        <!--            app:exitAnim="@anim/slide_out_to_bottom"-->
+        <!--            app:popEnterAnim="@anim/slide_in_from_bottom"-->
+        <!--            app:popExitAnim="@anim/slide_out_right" />-->
+
+    </fragment>
+
+</navigation>

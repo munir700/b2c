@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/splashFragment">
-<!--    <fragment-->
-<!--        android:id="@+id/spareCardLandingFragment"-->
-<!--        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.SpareCardLandingFragment"-->
-<!--        android:label="@string/screen_spare_card_landing_display_text_title"-->
-<!--        tools:layout="@layout/fragment_spare_card_landing">-->
+    app:startDestination="@id/addPaymentCardActivity">
 
-<!--    </fragment>-->
+    <activity
+        android:id="@+id/addPaymentCardActivity"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity"
+        android:label="AddPaymentCardActivity"
+        tools:layout="@layout/activity_add_payment_cards">
+
+    </activity>
 
     <action
         android:id="@+id/action_goto_liteDashboardActivity"

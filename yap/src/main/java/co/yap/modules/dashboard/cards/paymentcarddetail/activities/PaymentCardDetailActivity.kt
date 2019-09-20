@@ -120,7 +120,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 showToast("View statements")
             }
             Constants.EVENT_REPORT_CARD -> {
-                showToast("Report card")
+                showToast("ReportLostOrStolenCardChildViewModels card")
             }
             Constants.EVENT_REMOVE_CARD -> {
                 showToast("Remove card")
