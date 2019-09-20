@@ -176,8 +176,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     override fun onClick(eventType: Int) {
         when (eventType) {
+
             Constants.EVENT_ADD_CARD_NAME -> {
-                showToast("Add card name")
+               startActivity(UpdateCardNameActivity.newIntent(this,viewModel.card))
             }
             Constants.EVENT_CHANGE_PIN -> {
                 startActivity(Intent(this, ChangeCardPinActivity::class.java))

@@ -74,5 +74,9 @@
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.cards.paymentcarddetail.activities.UpdateCardNameActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>
