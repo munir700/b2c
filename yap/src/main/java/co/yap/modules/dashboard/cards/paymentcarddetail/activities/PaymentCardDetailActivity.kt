@@ -16,11 +16,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
@@ -74,7 +76,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     else SpareCardBottomSheet(this).show(supportFragmentManager, "")
                 }
                 R.id.llAddFunds -> {
-                    showToast("Add Funds")
+                    startActivity(Intent(this, AddFundsActivity::class.java))
+                  //  showToast("Add Funds")
                     //showCardDetailsPopup()
                 }
                 R.id.llFreezeSpareCard -> {
@@ -101,7 +104,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     }
                 }
                 R.id.llRemoveFunds -> {
-                    showToast("Remove Funds")
+                    startActivity(Intent(this, RemoveFundsActivity::class.java))
+//                    showToast("Remove Funds")
                 }
                 R.id.llCardLimits -> {
                     startActivity(
@@ -121,7 +125,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.state.cardBalance =
             "AED " + Utils.getFormattedCurrency(viewModel.card.availableBalance)
         viewModel.state.cardPanNumber = viewModel.card.maskedCardNo
-        viewModel.state.cardName = viewModel.card.cardName
+        //todo null and crash
+        viewModel.state.cardName = viewModel.card.cardName.let { "" }
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             rlPrimaryCardActions.visibility = View.VISIBLE
@@ -170,7 +175,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 showToast("Add card name")
             }
             Constants.EVENT_CHANGE_PIN -> {
-                showToast("Change PIN")
+                startActivity(Intent(this, ChangeCardPinActivity::class.java))
             }
             Constants.EVENT_VIEW_STATEMENTS -> {
                 showToast("View statements")

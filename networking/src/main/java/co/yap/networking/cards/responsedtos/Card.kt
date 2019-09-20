@@ -18,7 +18,7 @@ data class Card(
 
     val active: Boolean,
 
-    val cardName: String,
+    val cardName: String?,
 
     val status: String,
 
