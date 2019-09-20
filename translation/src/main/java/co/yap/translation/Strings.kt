@@ -406,7 +406,7 @@ object Strings {
     const val screen_spare_card_landing_display_text_physical_card: String =
         "screen_spare_card_landing_display_text_physical_card"
 
-     // spare cards Benefit detail Screen
+    // spare cards Benefit detail Screen
     const val screen_spare_card_benefit_display_text_title: String =
         "screen_spare_card_benefit_display_text_title"
 
@@ -436,7 +436,7 @@ object Strings {
         "screen_add_spare_card_button_change_location"
 
 
-     // Add funds Screen
+    // Add funds Screen
     const val screen_add_funds_display_text_add_funds: String =
         "screen_add_funds_display_text_add_funds"
 
@@ -508,4 +508,27 @@ object Strings {
         "screen_remove_funds_display_text_available_balance"
     const val screen_success_remove_funds_transaction_display_text_moved_success: String =
         "screen_success_remove_funds_transaction_display_text_moved_success"
+
+    // Enter current pin screen
+    const val screen_current_card_pin_display_text_heading: String =
+        "screen_current_card_pin_display_text_heading"
+    const val screen_current_card_pin_display_button_next: String =
+        "screen_current_card_pin_display_button_next"
+
+    //  Enter new pin screen
+    const val screen_create_card_pin_display_text_heading: String =
+        "screen_create_card_pin_display_text_heading"
+    const val screen_create_card_pin_display_button_create_pin: String =
+        "screen_create_card_pin_display_button_create_pin"
+
+    // confirm PIN screen
+    const val screen_confirm_card_pin_display_text_heading: String =
+        "screen_confirm_card_pin_display_text_heading"
+    const val screen_confirm_card_pin_display_button_confirm_pin: String =
+        "screen_confirm_card_pin_display_button_confirm_pin"
+
+    //Change PIN success screen
+    const val screen_change_pin_success_display_text_heading: String =
+        "screen_change_pin_success_display_text_heading"
+
 }

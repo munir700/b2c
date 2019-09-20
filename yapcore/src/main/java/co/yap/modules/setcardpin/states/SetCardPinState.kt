@@ -46,6 +46,20 @@ class SetCardPinState : BaseState(), ISetCardPin.State {
             notifyPropertyChanged(BR.dialerError)
         }
 
+    @get:Bindable
+    override var titleSetPin: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.titleSetPin)
+        }
+
+    @get:Bindable
+    override var buttonTitle: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.buttonTitle)
+        }
+
 
     fun validate() {
         if (pincode.length == 4) {

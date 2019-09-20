@@ -65,6 +65,9 @@
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity"
+            android:screenOrientation="portrait"/>
 
             android:screenOrientation="portrait" />
 
