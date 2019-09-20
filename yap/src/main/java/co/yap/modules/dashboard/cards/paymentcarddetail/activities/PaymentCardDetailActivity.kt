@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,30 +22,28 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBotto
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.constants.Constants
-import co.yap.modules.onboarding.activities.OnboardingActivity
-import co.yap.modules.onboarding.enums.AccountType
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 
 
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
+    lateinit var snackbar: Snackbar
+
     companion object {
-        private const val CARD_TYPE = "cardType"
-        private const val CARD_BALANCE = "cardBalance"
-        private const val CARD_NAME = "cardName"
-        private const val CARD_NUMBER = "cardNumber"
-        fun newIntent(context: Context, cardType: String, cardBalance: String, cardName: String, cardNumber: String): Intent {
+        private const val CARD = "card"
+        fun newIntent(context: Context, card: Card): Intent {
             val intent = Intent(context, PaymentCardDetailActivity::class.java)
-            intent.putExtra(CARD_TYPE, cardType)
-            intent.putExtra(CARD_BALANCE, cardBalance)
-            intent.putExtra(CARD_NAME, cardName)
-            intent.putExtra(CARD_NUMBER, cardNumber)
+            intent.putExtra(CARD, card)
             return intent
         }
     }
+
     override val viewModel: IPaymentCardDetail.ViewModel
         get() = ViewModelProviders.of(this).get(PaymentCardDetailViewModel::class.java)
 
@@ -77,10 +76,27 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     //showCardDetailsPopup()
                 }
                 R.id.llFreezeSpareCard -> {
-                    showToast("Freeze Spare Card")
+                    if (viewModel.card.blocked) {
+                        viewModel.card.blocked = false
+                        dismissSnackbar()
+                        tvSpareCardStatus.text = "Freeze card"
+                    } else {
+                        viewModel.card.blocked = true
+                        showSnackbar()
+                        tvSpareCardStatus.text = "Unfreeze card"
+                    }
+
                 }
                 R.id.llFreezePrimaryCard -> {
-                    showToast("Freeze Primary Card")
+                    if (viewModel.card.blocked) {
+                        viewModel.card.blocked = false
+                        dismissSnackbar()
+                        tvPrimaryCardStatus.text = "Freeze card"
+                    } else {
+                        viewModel.card.blocked = true
+                        showSnackbar()
+                        tvPrimaryCardStatus.text = "Unfreeze card"
+                    }
                 }
                 R.id.llRemoveFunds -> {
                     showToast("Remove Funds")
@@ -94,19 +110,51 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupView() {
-        viewModel.state.cardType =  intent.getStringExtra(CARD_TYPE)
-        viewModel.state.cardBalance =  "AED "+Utils.getFormattedCurrency(intent.getStringExtra(CARD_BALANCE))
-        viewModel.state.cardPanNumber =  intent.getStringExtra(CARD_NUMBER)
-        viewModel.state.cardName =  intent.getStringExtra(CARD_NAME)
+        viewModel.card = intent.getParcelableExtra(CARD)
+        viewModel.state.cardType = viewModel.card.cardType
+        viewModel.state.cardBalance =
+            "AED " + Utils.getFormattedCurrency(viewModel.card.availableBalance)
+        viewModel.state.cardPanNumber = viewModel.card.maskedCardNo
+        viewModel.state.cardName = viewModel.card.cardName
 
-        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType)  {
+        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
-        }
-        else {
+        } else {
             rlSpareCardActions.visibility = View.VISIBLE
         }
+
+        if (viewModel.card.blocked) {
+            showSnackbar()
+            if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                tvPrimaryCardStatus.text = "Unfreeze card"
+            } else {
+                tvSpareCardStatus.text = "Unfreeze card"
+            }
+
+        }
     }
+
+    private fun showSnackbar() {
+        snackbar = CustomSnackbar.getCustomSnackbarSticky(this, clSnackbar, " This card is frozen")
+        snackbar.show()
+
+        val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
+        tvAction.setOnClickListener {
+            viewModel.card.blocked = false
+            dismissSnackbar()
+            if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                tvPrimaryCardStatus.text = "Freeze card"
+            } else {
+                tvSpareCardStatus.text = "Freeze card"
+            }
+        }
+    }
+
+    fun dismissSnackbar() {
+        snackbar.dismiss()
+    }
+
 
     override fun onClick(eventType: Int) {
         when (eventType) {
@@ -130,15 +178,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)
-        dialog .requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog .setCancelable(false)
-        dialog .setContentView(R.layout.dialog_card_details)
-        dialog .window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val btnClose = dialog .findViewById(R.id.ivCross) as ImageView
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_card_details)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
         btnClose.setOnClickListener {
-            dialog .dismiss()
+            dialog.dismiss()
         }
-        dialog .show()
+        dialog.show()
     }
 
     private fun setUpTransactionsListRecyclerView() {

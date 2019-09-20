@@ -2,6 +2,7 @@ package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.AddPhysicalSpareCardRequest
 import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
+import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
 import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
@@ -22,7 +23,10 @@ interface CardsApi {
     ): RetroApiResponse<ApiResponse>
 
     suspend fun getAccountBalanceRequest(): RetroApiResponse<DebitCardBalanceResponseDTO>
-
+    suspend fun configAllowAtm(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
+    suspend fun configAbroadPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
+    suspend fun configRetailPayment(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
+    suspend fun configOnlineBanking(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun addSpareVirtualCard(
         addVirtualSpareCardRequest: AddVirtualSpareCardRequest
     ): RetroApiResponse<ApiResponse>

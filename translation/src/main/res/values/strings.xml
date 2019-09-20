@@ -303,4 +303,15 @@
     <!--    Success remove funds Screen-->
     <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s %2$s \nto your main debit card </string>
 
+    <!--    Set Limits Screen-->
+    <string name="screen_set_limits_display_text_title">Set limits</string>
+    <string name="screen_set_limits_display_text_atm_withdrawal">ATM withdrawal</string>
+    <string name="screen_set_limits_display_text_atm_withdrawal_desc">Allow your card to withdraw from cash machines</string>
+    <string name="screen_set_limits_display_text_online_transaction">Online transactions</string>
+    <string name="screen_set_limits_display_text_online_transaction_desc">Allow your card to be used for purchases made over the internet</string>
+    <string name="screen_set_limits_display_text_payment_abroad">Payments abroad</string>
+    <string name="screen_set_limits_display_text_payment_abroad_desc">Allow your card to be used for payments outside your current country</string>
+    <string name="screen_set_limits_display_text_retail_payments">Retail payments</string>
+    <string name="screen_set_limits_display_text_retail_payments_desc">Allow your card to be used at retail outlets. This includes restaurants, petrol stations and hospitality venues</string>
+
 </resources>

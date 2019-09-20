@@ -30,9 +30,9 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                 is RetroApiResponse.Success -> {
                     if (response.data.data.size != 0) {
                         val dummyList = response.data.data
-                        dummyList.add(getDummyCards(1))
-                        dummyList.add(getDummyCards(2))
-                        dummyList.add(getDummyCards(3))
+                        //dummyList.add(getDummyCards(1))
+                        //dummyList.add(getDummyCards(2))
+                        //dummyList.add(getDummyCards(3))
                         state.cards.value = dummyList
                         state.noOfCard = Translator.getString(
                             context,
