@@ -20,6 +20,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListe
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
+import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
@@ -102,7 +103,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     showToast("Remove Funds")
                 }
                 R.id.llCardLimits -> {
-                    showToast("Set Limits")
+                    startActivity(
+                        CardLimitsActivity.getIntent(
+                            this, viewModel.card
+                        )
+                    )
                 }
 
             }

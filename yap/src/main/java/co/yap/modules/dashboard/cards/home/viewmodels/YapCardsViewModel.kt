@@ -26,7 +26,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     override fun getCards() {
         launch {
             state.loading = true
-            when (val response = repository.getDebitCards("DEBIT")) {
+            when (val response = repository.getDebitCards("")) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.size != 0) {
                         val dummyList = response.data.data

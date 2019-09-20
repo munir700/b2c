@@ -80,7 +80,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 when (view.id) {
                     R.id.imgCard -> {
                         if (getCard(pos).active) {
-                            //startActivity(PaymentCardDetailActivity.newIntent())
+                            startActivity(
+                                PaymentCardDetailActivity.newIntent(
+                                    requireContext(),
+                                    getCard(pos)
+                                )
+                            )
                         } else {
                             val action =
                                 YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
@@ -90,9 +95,15 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         }
                     }
                     R.id.lySeeDetail -> {
+//                        startActivity(
+//                            CardLimitsActivity.getIntent(
+//                                requireContext(), getCard(pos)
+//                            )
+//                        )
                         startActivity(
-                            CardLimitsActivity.getIntent(
-                                requireContext(), getCard(pos)
+                            PaymentCardDetailActivity.newIntent(
+                                requireContext(),
+                                getCard(pos)
                             )
                         )
                     }
