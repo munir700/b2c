@@ -66,6 +66,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 R.id.ivBack -> {
                     finish()
                 }
+
+                R.id.btnCardDetails -> {
+                    showCardDetailsPopup()
+                }
+
                 R.id.ivMenu -> {
                     if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) PrimaryCardBottomSheet(
                         this
