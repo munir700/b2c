@@ -29,6 +29,7 @@ import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
+import kotlinx.android.synthetic.main.layout_card_info.*
 
 
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
@@ -66,11 +67,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 R.id.ivBack -> {
                     finish()
                 }
-
-                R.id.btnCardDetails -> {
-                    showCardDetailsPopup()
-                }
-
                 R.id.ivMenu -> {
                     if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) PrimaryCardBottomSheet(
                         this
@@ -143,6 +139,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
         }
+
+        btnCardDetails.setOnClickListener { showCardDetailsPopup() }
     }
 
     private fun showSnackbar() {
