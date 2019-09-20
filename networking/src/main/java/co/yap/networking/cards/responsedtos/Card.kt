@@ -22,7 +22,7 @@ data class Card(
 
     val status: String,
 
-    val blocked: Boolean,
+    var blocked: Boolean,
 
     val delivered: Boolean,
 

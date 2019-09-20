@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.interfaces
 
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -13,6 +14,7 @@ interface IPaymentCardDetail {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        var card: Card
         val transactionLogicHelper: TransactionLogicHelper
         fun handlePressOnView(id: Int)
     }

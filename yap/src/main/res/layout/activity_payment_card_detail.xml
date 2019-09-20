@@ -58,6 +58,7 @@
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
@@ -74,7 +75,13 @@
                 app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/clSnackbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:layout_below="@+id/tvTitle"
+            android:rotation="180"/>
 
         <include
             android:id="@+id/cardInfoLayout"
@@ -180,6 +187,7 @@
                             android:src="@drawable/ic_freeze_card" />
 
                         <TextView
+                            android:id="@+id/tvSpareCardStatus"
                             style="@style/Micro"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -248,6 +256,7 @@
                             android:src="@drawable/ic_freeze_card" />
 
                         <TextView
+                            android:id="@+id/tvPrimaryCardStatus"
                             style="@style/Micro"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
