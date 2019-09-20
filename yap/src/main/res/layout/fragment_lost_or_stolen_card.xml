@@ -40,12 +40,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
-                android:text="@string/screen_spare_card_landing_display_text_spare_card"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
                 app:text="@{viewModel.state.cardType}"
-                tools:text="Spare Card" />
+                tools:text="@string/screen_spare_card_landing_display_text_spare_card" />
 
             <TextView
                 android:id="@+id/tvCardNumber"
