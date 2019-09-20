@@ -60,7 +60,7 @@ interface CardsRetroService {
     suspend fun getCardBalance(@Query("cardSerialNumber") cardSerialNumber: String): Response<CardBalanceResponseDTO>
 
     // Freeze / Unfreeze Card
-    @POST(CardsRepository.URL_CARD_FREEZE_UNFREEZE)
+    @PUT(CardsRepository.URL_CARD_FREEZE_UNFREEZE)
     suspend fun freezeUnfreezeCard(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
 
     // Get Card Details
