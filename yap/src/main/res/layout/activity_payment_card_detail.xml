@@ -91,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:layout_centerHorizontal="true"
+            app:buttonVisibility="@{true}"
             app:cardNumber="@{viewModel.state.cardPanNumber}"
             app:cardName="@{viewModel.state.cardName}"
             android:layout_marginBottom="@dimen/margin_medium"/>
