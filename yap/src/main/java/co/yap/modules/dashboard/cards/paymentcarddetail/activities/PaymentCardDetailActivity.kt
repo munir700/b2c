@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -196,7 +197,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         when (eventType) {
 
             Constants.EVENT_ADD_CARD_NAME -> {
-                startActivity(UpdateCardNameActivity.newIntent(this, viewModel.card))
+                startActivityForResult(UpdateCardNameActivity.newIntent(this, viewModel.card), Constants.REQUEST_CARD_NAME_UPDATED)
             }
             Constants.EVENT_CHANGE_PIN -> {
                 startActivity(Intent(this, ChangeCardPinActivity::class.java))
@@ -213,6 +214,17 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when(requestCode){
+            Constants.REQUEST_CARD_NAME_UPDATED-> {
+                if(resultCode == Activity.RESULT_OK){
+                  viewModel.state.cardName = data?.getStringExtra("name").toString()
+                }
+            }
+        }
+    }
     private fun showCardDetailsPopup() {
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -248,5 +260,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 this,
                 viewModel.transactionLogicHelper.transactionList
             )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.removeObservers(this)
     }
 }

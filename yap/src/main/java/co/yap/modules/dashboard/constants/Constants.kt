@@ -11,4 +11,7 @@ object Constants {
     const val EVENT_REPORT_CARD: Int = 4
     const val EVENT_REMOVE_CARD: Int = 5
 
+
+    const val REQUEST_CARD_NAME_UPDATED: Int = 55
+
 }

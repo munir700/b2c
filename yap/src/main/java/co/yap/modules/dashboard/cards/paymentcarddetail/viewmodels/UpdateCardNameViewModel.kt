@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels
 
 import android.app.Application
+import android.os.Handler
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IUpdateCardName
 import co.yap.modules.dashboard.cards.paymentcarddetail.states.UpdateCardNameState
 import co.yap.networking.cards.CardsRepository
@@ -28,13 +29,18 @@ class UpdateCardNameViewModel (application: Application) :
             state.loading = true
             when (val response = cardsRepository.updateCardName(state.cardName, card.cardSerialNumber)) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.setValue(EVENT_UPDATE_CARD_NAME)
+                    Handler().postDelayed({
+                        clickEvent.setValue(EVENT_UPDATE_CARD_NAME)
+                        state.loading = false
+                    }, 400)
+
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.loading = false
                 }
             }
-            state.loading = false
+
         }
     }
 

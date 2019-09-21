@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +14,7 @@ import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 import kotlinx.android.synthetic.main.activity_update_card_name.*
+
 
 class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
     IUpdateCardName.View {
@@ -46,7 +48,10 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
                 R.id.ivCross -> finish()
                 R.id.btnConfirm -> viewModel.updateCardName()
                 viewModel.EVENT_UPDATE_CARD_NAME -> {
-                    showToast("Update card name successful!")
+                    showToast("Card name successfully updated!")
+                    val returnIntent = Intent()
+                    returnIntent.putExtra("name", viewModel.state.cardName)
+                    setResult(Activity.RESULT_OK, returnIntent)
                     finish()
                 }
             }
@@ -62,6 +67,11 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
         } else {
             tvCardType.text = "Spare card"
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.removeObservers(this)
     }
 
 }
