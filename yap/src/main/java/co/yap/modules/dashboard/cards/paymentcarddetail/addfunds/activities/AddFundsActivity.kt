@@ -144,8 +144,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         )
     }
 
-    override fun onBackPressed() {
-    }
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()

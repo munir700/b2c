@@ -36,7 +36,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="card fee" />
+                android:text="Card fee" />
 
             <TextView
                 android:id="@+id/tvPrice"
@@ -146,7 +146,6 @@
                             style="@style/RegularGrey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_extra_small"
                             android:singleLine="true"
                             android:textSize="@dimen/text_size_h2"
                             android:gravity="start"
