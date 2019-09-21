@@ -25,7 +25,6 @@ interface IPaymentCardDetail {
         fun freezeUnfreezeCard()
         fun getCardDetails()
         fun removeCard()
-        fun updateCardName()
     }
 
     interface State : IBase.State {

@@ -17,7 +17,7 @@ class PaymentCardDetailViewModel(application: Application) :
     IPaymentCardDetail.ViewModel {
 
     override val state: PaymentCardDetailState = PaymentCardDetailState()
-    val cardsRepository: CardsRepository = CardsRepository
+    private val cardsRepository: CardsRepository = CardsRepository
     override lateinit var card: Card
     override lateinit var cardDetail : CardDetail
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -66,8 +66,6 @@ class PaymentCardDetailViewModel(application: Application) :
     override fun removeCard() {
     }
 
-    override fun updateCardName() {
-    }
 
 
 }

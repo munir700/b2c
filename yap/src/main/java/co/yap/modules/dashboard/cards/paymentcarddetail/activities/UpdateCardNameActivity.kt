@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IUpdateCardNa
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.UpdateCardNameViewModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
+import kotlinx.android.synthetic.main.activity_update_card_name.*
 
 class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
     IUpdateCardName.View {
@@ -41,14 +42,19 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
+                R.id.ivCross -> finish()
+                R.id.btnConfirm -> viewModel.updateCardName()
+                viewModel.EVENT_UPDATE_CARD_NAME -> {
+                    showToast("Update card name successful!")
+                    finish()
+                }
             }
         })
     }
 
     private fun setupView() {
         viewModel.card = intent.getParcelableExtra(CARD)
-        showToast(viewModel.card.cardName)
+        etName.append(viewModel.card.cardName)
     }
 
 }
