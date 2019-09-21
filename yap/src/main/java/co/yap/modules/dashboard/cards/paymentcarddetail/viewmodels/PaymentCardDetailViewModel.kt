@@ -64,6 +64,18 @@ class PaymentCardDetailViewModel(application: Application) :
     }
 
     override fun removeCard() {
+        launch {
+            state.loading = true
+            when (val response = cardsRepository.removeCard(CardLimitConfigRequest(card.cardSerialNumber))) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.setValue(EVENT_REMOVE_CARD)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
     }
 
 

@@ -68,7 +68,7 @@ interface CardsRetroService {
     suspend fun getCardDetails(@Query("cardSerialNumber") cardSerialNumber: String): Response<CardDetailResponseDTO>
 
     // Remove Card
-    @POST(CardsRepository.URL_REMOVE_CARD)
+    @PUT(CardsRepository.URL_REMOVE_CARD)
     suspend fun removeCard(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
 
     // Update Card name

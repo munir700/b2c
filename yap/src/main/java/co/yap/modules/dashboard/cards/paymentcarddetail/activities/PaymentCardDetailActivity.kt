@@ -125,6 +125,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     showCardDetailsPopup()
                 }
 
+                viewModel.EVENT_REMOVE_CARD -> {
+                    showToast("Card successfully removed!")
+                    finish()
+                }
+
+
+
             }
         })
     }
@@ -204,7 +211,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 showToast("Report card")
             }
             Constants.EVENT_REMOVE_CARD -> {
-                showToast("Remove card")
+               viewModel.removeCard()
             }
         }
     }
