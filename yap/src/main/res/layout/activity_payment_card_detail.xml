@@ -105,30 +105,43 @@
             android:layout_centerHorizontal="true">
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tvBalanceTitle"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_extra_small"
                     android:text="Card balance" />
 
                 <TextView
                     android:id="@+id/tvCardBalance"
                     style="@style/ALarge"
+                    android:layout_below="@+id/tvBalanceTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
                     tools:text="AED 738.10"
                     android:text="@={viewModel.state.cardBalance}" />
 
-            </LinearLayout>
+            </RelativeLayout>
+
         </RelativeLayout>
+
+        <ProgressBar
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_below="@+id/cardInfoLayout"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:backgroundTint="@color/colorPrimary"
+            android:foregroundTint="@color/colorPrimary"
+            android:visibility="@{viewModel.state.balanceLoading ? View.VISIBLE : View.GONE}"
+            android:layout_toStartOf="@+id/rlCardBalance"/>
 
         <RelativeLayout
             android:id="@+id/rlCardActions"

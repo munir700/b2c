@@ -30,7 +30,7 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State{
         }
 
     @get:Bindable
-    override var cardBalance: String = ""
+    override var cardBalance: String = "AED 0.00"
         set(value) {
             field = value
             notifyPropertyChanged(BR.cardBalance)
@@ -55,5 +55,12 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State{
         set(value) {
             field = value
             notifyPropertyChanged(BR.physical)
+        }
+
+    @get:Bindable
+    override var balanceLoading: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.balanceLoading)
         }
 }

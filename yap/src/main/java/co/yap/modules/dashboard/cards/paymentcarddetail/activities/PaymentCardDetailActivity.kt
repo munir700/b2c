@@ -130,8 +130,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     finish()
                 }
 
-
-
             }
         })
     }
@@ -139,8 +137,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private fun setupView() {
         viewModel.card = intent.getParcelableExtra(CARD)
         viewModel.state.cardType = viewModel.card.cardType
-        viewModel.state.cardBalance =
-            "AED " + Utils.getFormattedCurrency(viewModel.card.availableBalance)
         viewModel.state.cardPanNumber = viewModel.card.maskedCardNo
         viewModel.state.cardName = viewModel.card.cardName
 
@@ -149,6 +145,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
         } else {
+            viewModel.getCardBalance()
             tvTitle.text = "Spare card"
             rlSpareCardActions.visibility = View.VISIBLE
         }

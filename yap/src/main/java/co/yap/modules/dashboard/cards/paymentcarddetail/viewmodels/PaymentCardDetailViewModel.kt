@@ -7,10 +7,12 @@ import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.cards.responsedtos.CardDetail
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 
 class PaymentCardDetailViewModel(application: Application) :
     BaseViewModel<IPaymentCardDetail.State>(application),
@@ -30,6 +32,24 @@ class PaymentCardDetailViewModel(application: Application) :
     }
 
     override fun getCardBalance() {
+        launch {
+            state.balanceLoading = true
+            when (val response = cardsRepository.getCardBalance(card.cardSerialNumber)) {
+                is RetroApiResponse.Success -> {
+                    try {
+                        val cardBalance : CardBalance = response.data.data
+                        state.cardBalance =
+                            cardBalance.currencyCode+ " " + Utils.getFormattedCurrency(cardBalance.availableBalance)
+                    } catch (e:Exception){
+                        e.printStackTrace()
+                    }
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.balanceLoading = false
+        }
     }
 
     override fun freezeUnfreezeCard() {
