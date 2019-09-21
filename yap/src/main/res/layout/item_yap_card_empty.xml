@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:contentDescription="@string/empty_string"
             android:elevation="2dp"
-            android:src="@drawable/ic_add_funds"
+            android:src="@drawable/ic_add_card"
             app:layout_constraintBottom_toBottomOf="@+id/lycard"
             app:layout_constraintEnd_toEndOf="@+id/lycard"
             app:layout_constraintStart_toStartOf="@+id/lycard"
@@ -43,14 +43,14 @@
 
         <TextView
             android:id="@+id/tvAddCard"
-            style="@style/ARegular"
+            style="@style/ASmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_15sdp"
+            android:layout_marginTop="@dimen/_10sdp"
             android:elevation="2dp"
             android:gravity="center"
             android:text="Add or upgrade"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="@+id/lycard"
             app:layout_constraintStart_toStartOf="@+id/lycard"
             app:layout_constraintTop_toBottomOf="@+id/imgAddCard" />

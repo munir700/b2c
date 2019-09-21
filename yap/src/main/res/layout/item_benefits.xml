@@ -4,12 +4,12 @@
     android:layout_height="wrap_content"
     android:background="@color/colorWhite"
     android:orientation="horizontal"
-
-    android:padding="@dimen/margin_small">
+    android:padding="@dimen/_6sdp">
 
     <TextView
         android:id="@+id/tvBenefit"
-        style="@style/Regular"
+        style="@style/ASmall"
+        android:textSize="@dimen/_13sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_checked_icon"

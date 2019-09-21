@@ -22,11 +22,11 @@ class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
-    override var latitude: String=""
+    override var latitude: String = ""
 
-    override var longitude: String=""
+    override var longitude: String = ""
 
-   override lateinit var address: Address
+    override lateinit var address: Address
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
 
@@ -139,7 +139,10 @@ class AddSpareCardViewModel(application: Application) :
                         state.loading = false
                     }
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
             }
         }
 

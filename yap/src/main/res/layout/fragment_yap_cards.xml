@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
@@ -18,11 +19,13 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_cards_toolbar"
-            app:viewModel="@{viewModel}" />
+            app:viewModel="@{viewModel}"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="1dp" />
 
         <TextView
             android:id="@+id/tvCardQty"
-            style="@style/ATitle2"
+            style="@style/Large"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"

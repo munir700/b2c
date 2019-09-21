@@ -22,6 +22,7 @@
 
         <fragment
             android:id="@+id/main_cards_nav_host_fragment"
+            android:layout_marginTop="@dimen/margin_small"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"
