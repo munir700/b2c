@@ -38,6 +38,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     IPaymentCardDetail.View, CardClickListener {
 
     lateinit var snackbar: Snackbar
+    lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
+    lateinit var spareCardBottomSheet: SpareCardBottomSheet
 
     companion object {
         private const val CARD = "card"
@@ -70,10 +72,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     finish()
                 }
                 R.id.ivMenu -> {
-                    if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) PrimaryCardBottomSheet(
-                        this
-                    ).show(supportFragmentManager, "")
-                    else SpareCardBottomSheet(this).show(supportFragmentManager, "")
+                    if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                        primaryCardBottomSheet = PrimaryCardBottomSheet(this)
+                        primaryCardBottomSheet.show(supportFragmentManager, "")
+                    } else {
+                        spareCardBottomSheet = SpareCardBottomSheet(this)
+                            spareCardBottomSheet.show(supportFragmentManager, "")
+                    }
                 }
                 R.id.llAddFunds -> {
                     startActivity(Intent(this, AddFundsActivity::class.java))
@@ -133,9 +138,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.state.cardName = viewModel.card.cardName
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+            tvTitle.text = "Primary card"
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
         } else {
+            tvTitle.text = "Spare card"
             rlSpareCardActions.visibility = View.VISIBLE
         }
 
@@ -158,13 +165,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
         val tvAction = snackbar.view.findViewById(co.yap.yapcore.R.id.tvAction) as TextView
         tvAction.setOnClickListener {
-           /* viewModel.card.blocked = false
-            dismissSnackbar()
-            if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-                tvPrimaryCardStatus.text = "Freeze card"
-            } else {
-                tvSpareCardStatus.text = "Freeze card"
-            }*/
+            /* viewModel.card.blocked = false
+             dismissSnackbar()
+             if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+                 tvPrimaryCardStatus.text = "Freeze card"
+             } else {
+                 tvSpareCardStatus.text = "Freeze card"
+             }*/
             viewModel.freezeUnfreezeCard()
         }
     }
@@ -175,10 +182,17 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
 
     override fun onClick(eventType: Int) {
+
+        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+            primaryCardBottomSheet.dismiss()
+        } else {
+            spareCardBottomSheet.dismiss()
+        }
+
         when (eventType) {
 
             Constants.EVENT_ADD_CARD_NAME -> {
-               startActivity(UpdateCardNameActivity.newIntent(this,viewModel.card))
+                startActivity(UpdateCardNameActivity.newIntent(this, viewModel.card))
             }
             Constants.EVENT_CHANGE_PIN -> {
                 startActivity(Intent(this, ChangeCardPinActivity::class.java))

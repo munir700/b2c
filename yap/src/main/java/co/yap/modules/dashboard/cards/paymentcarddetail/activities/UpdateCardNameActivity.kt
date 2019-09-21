@@ -9,6 +9,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IUpdateCardName
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.UpdateCardNameViewModel
+import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 import kotlinx.android.synthetic.main.activity_update_card_name.*
@@ -55,6 +56,12 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
     private fun setupView() {
         viewModel.card = intent.getParcelableExtra(CARD)
         etName.append(viewModel.card.cardName)
+
+        if (Constants.CARD_TYPE_DEBIT == viewModel.card.cardType) {
+            tvCardType.text = "Primary card"
+        } else {
+            tvCardType.text = "Spare card"
+        }
     }
 
 }
