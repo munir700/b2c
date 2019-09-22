@@ -20,8 +20,8 @@
 
         <ImageView
             android:id="@+id/imgNote"
-            android:layout_width="@dimen/_26sdp"
-            android:layout_height="@dimen/_26sdp"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
             android:layout_marginStart="@dimen/margin_normal"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginBottom="@dimen/margin_medium"
@@ -31,7 +31,7 @@
 
         <TextView
             android:id="@+id/tvStoreName"
-            style="@style/ALarge"
+            style="@style/Regular"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
@@ -45,7 +45,7 @@
 
         <TextView
             android:id="@+id/tvStoreDesc"
-            style="@style/ARegular"
+            style="@style/ASmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_17sdp"

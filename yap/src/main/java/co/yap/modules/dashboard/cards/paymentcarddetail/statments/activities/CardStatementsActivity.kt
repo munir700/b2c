@@ -19,7 +19,7 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     companion object {
         private const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
-            val intent = Intent(context, PaymentCardDetailActivity::class.java)
+            val intent = Intent(context, CardStatementsActivity::class.java)
             intent.putExtra(CARD, card)
             return intent
         }

@@ -69,14 +69,16 @@
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity"
             android:screenOrientation="portrait"/>
 
-            android:screenOrientation="portrait" />
-
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.UpdateCardNameActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity"
             android:screenOrientation="portrait" />
     </application>
 </manifest>
