@@ -138,7 +138,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 }
 
                 if(cardFreezeUnfreeze!!){
-                    showToast("cardFreezeUnfreeze$cardBlocked")
+                    if (cardBlocked != null) {
+                        viewModel.state.cards.value?.get(selectedCardPosition)?.blocked = cardBlocked
+                    }
+                    viewPager2.adapter?.notifyDataSetChanged()
                 }
 
                 if(cardRemoved!!){
