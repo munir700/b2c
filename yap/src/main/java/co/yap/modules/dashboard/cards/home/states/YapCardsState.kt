@@ -17,7 +17,7 @@ class YapCardsState : BaseState(), IYapCards.State {
         }
 
     @get:Bindable
-    override var cards: MutableLiveData<List<Card>> = MutableLiveData()
+    override var cards: MutableLiveData<ArrayList<Card>> = MutableLiveData()
         set(value) {
             field = value
             notifyPropertyChanged(BR.cards)

@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
@@ -24,6 +25,10 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
+
+    val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
+    var selectedCardPosition : Int = 0
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_cards
@@ -80,11 +85,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 when (view.id) {
                     R.id.imgCard -> {
                         if (getCard(pos).active) {
-                            startActivity(
+                            selectedCardPosition = pos
+                            startActivityForResult(
                                 PaymentCardDetailActivity.newIntent(
                                     requireContext(),
                                     getCard(pos)
-                                )
+                                ), EVENT_PAYMENT_CARD_DETAIL
                             )
                         } else {
                             val action =
@@ -96,11 +102,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
                     }
                     R.id.lySeeDetail -> {
-                        startActivity(
+                        selectedCardPosition = pos
+                        startActivityForResult(
                             PaymentCardDetailActivity.newIntent(
                                 requireContext(),
                                 getCard(pos)
-                            )
+                            ), EVENT_PAYMENT_CARD_DETAIL
                         )
                     }
                     else -> {
@@ -112,6 +119,36 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
         })
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            EVENT_PAYMENT_CARD_DETAIL -> {
+                val cardNameUpdated = data?.getBooleanExtra("cardNameUpdated", false)
+                val updatedCardName = data?.getStringExtra("updatedCardName")
+                val cardFreezeUnfreeze = data?.getBooleanExtra("cardFreezeUnfreeze", false)
+                val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
+                val cardRemoved = data?.getBooleanExtra("cardRemoved", false)
+
+                if(cardNameUpdated!!){
+                    viewModel.state.cards.value?.get(selectedCardPosition)?.cardName = updatedCardName.toString()
+                    viewPager2.adapter?.notifyDataSetChanged()
+                }
+
+                if(cardFreezeUnfreeze!!){
+                    showToast("cardFreezeUnfreeze$cardBlocked")
+                }
+
+                if(cardRemoved!!){
+                    viewModel.state.cards.value?.clear()
+                    viewModel.getCards()
+                }
+
+                }
+            }
+        }
 
     fun getCard(pos: Int): Card {
         return viewModel.state.cards.value?.get(pos)!!

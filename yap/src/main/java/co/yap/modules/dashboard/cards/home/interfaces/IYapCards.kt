@@ -8,7 +8,7 @@ import co.yap.yapcore.SingleClickEvent
 interface IYapCards {
 
     interface State : IBase.State {
-        var cards: MutableLiveData<List<Card>>
+        var cards: MutableLiveData<ArrayList<Card>>
         var noOfCard: String
     }
 

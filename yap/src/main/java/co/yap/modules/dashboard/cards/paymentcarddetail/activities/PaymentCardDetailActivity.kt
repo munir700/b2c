@@ -38,9 +38,13 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
-    lateinit var snackbar: Snackbar
-    lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
-    lateinit var spareCardBottomSheet: SpareCardBottomSheet
+    private lateinit var snackbar: Snackbar
+    private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
+    private lateinit var spareCardBottomSheet: SpareCardBottomSheet
+
+    private var cardNameUpdated : Boolean = false
+    private var cardFreezeUnfreeze : Boolean = false
+    private var cardRemoved : Boolean = false
 
     companion object {
         private const val CARD = "card"
@@ -70,6 +74,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.ivBack -> {
+                    setupActionsIntent()
                     finish()
                 }
                 R.id.ivMenu -> {
@@ -103,6 +108,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
 
                 viewModel.EVENT_FREEZE_UNFREEZE_CARD -> {
+                    cardFreezeUnfreeze = true
                     if (viewModel.card.blocked) {
                         viewModel.card.blocked = false
                         dismissSnackbar()
@@ -127,7 +133,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
 
                 viewModel.EVENT_REMOVE_CARD -> {
+                    cardRemoved = true
                     showToast("Card successfully removed!")
+                    setupActionsIntent()
                     finish()
                 }
 
@@ -220,6 +228,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         when(requestCode){
             Constants.REQUEST_CARD_NAME_UPDATED-> {
                 if(resultCode == Activity.RESULT_OK){
+                    cardNameUpdated = true
                   viewModel.state.cardName = data?.getStringExtra("name").toString()
                 }
             }
@@ -265,5 +274,19 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
+    }
+
+    override fun onBackPressed() {
+        setupActionsIntent()
+        super.onBackPressed()
+    }
+    private fun setupActionsIntent(){
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardNameUpdated", cardNameUpdated)
+        returnIntent.putExtra("updatedCardName", viewModel.state.cardName)
+        returnIntent.putExtra("cardFreezeUnfreeze", cardFreezeUnfreeze)
+        returnIntent.putExtra("cardBlocked", viewModel.card.blocked)
+        returnIntent.putExtra("cardRemoved", cardRemoved)
+        setResult(Activity.RESULT_OK, returnIntent)
     }
 }

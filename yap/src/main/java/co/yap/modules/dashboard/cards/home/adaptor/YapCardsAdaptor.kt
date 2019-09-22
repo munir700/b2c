@@ -40,6 +40,7 @@ class YapCardsAdaptor(context: Context, private val list: MutableList<Card>) :
     }
 
     fun setItem(lists: List<Card>) {
+        list.clear()
         list.addAll(lists)
         notifyDataSetChanged()
     }
