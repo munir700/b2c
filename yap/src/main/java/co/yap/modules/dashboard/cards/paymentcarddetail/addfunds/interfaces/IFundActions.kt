@@ -16,6 +16,10 @@ interface IFundActions {
         fun denominationFirstAmountClick()
         fun denominationSecondAmount()
         fun denominationThirdAmount()
+        fun addFunds()
+        fun removeFunds()
+        fun getFundTransferLimits(productCode: String)
+        fun getFundTransferDenominations(productCode: String)
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
         var error: String

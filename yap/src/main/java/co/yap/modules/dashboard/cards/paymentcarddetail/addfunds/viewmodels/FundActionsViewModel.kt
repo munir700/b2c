@@ -3,6 +3,10 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.AddFundsRequest
+import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
@@ -10,6 +14,7 @@ import co.yap.yapcore.helpers.Utils
 open class FundActionsViewModel(application: Application) :
     BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
 
+    private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val state: FundActionsState = FundActionsState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
@@ -39,6 +44,62 @@ open class FundActionsViewModel(application: Application) :
             )
         }
 
+    }
+
+    override fun addFunds() {
+        launch {
+            state.loading = true
+            when (val response = transactionsRepository.addFunds(AddFundsRequest(state.amount.toString() , ""))) {
+                is RetroApiResponse.Success -> {
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun removeFunds() {
+        launch {
+            state.loading = true
+            when (val response = transactionsRepository.removeFunds(RemoveFundsRequest(state.amount.toString() , ""))) {
+                is RetroApiResponse.Success -> {
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun getFundTransferLimits(productCode: String) {
+        launch {
+            state.loading = true
+            when (val response = transactionsRepository.getFundTransferLimits(productCode)) {
+                is RetroApiResponse.Success -> {
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun getFundTransferDenominations(productCode: String) {
+        launch {
+            state.loading = true
+            when (val response = transactionsRepository.getFundTransferDenominations(productCode)) {
+                is RetroApiResponse.Success -> {
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
     }
 
     override fun denominationThirdAmount() {
