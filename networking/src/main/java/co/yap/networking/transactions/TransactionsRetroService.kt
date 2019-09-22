@@ -8,16 +8,17 @@ import co.yap.networking.transactions.responsedtos.FundTransferLimitsResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 interface TransactionsRetroService {
 
     // Add funds
-    @GET(TransactionsRepository.URL_ADD_FUNDS)
+    @POST(TransactionsRepository.URL_ADD_FUNDS)
     suspend fun addFunds(@Body addFundsRequest: AddFundsRequest): Response<AddRemoveFundsResponse>
 
     // Remove funds
-    @GET(TransactionsRepository.URL_REMOVE_FUNDS)
+    @POST(TransactionsRepository.URL_REMOVE_FUNDS)
     suspend fun removeFunds(@Body removeFundsResponse: RemoveFundsRequest): Response<AddRemoveFundsResponse>
 
     // Get fund transfer limits

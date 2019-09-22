@@ -11,8 +11,8 @@ class RemoveFundsViewModel(application: Application) : FundActionsViewModel(appl
     override fun onCreate() {
         super.onCreate()
         state.toolBarHeader = getString(Strings.screen_remove_funds_display_text_remove_funds)
-        state.cardName = getString(Strings.screen_add_card_display_text_spare_card)
-        state.cardNumber = "4040 3318 **** 3456"
+        //state.cardName = getString(Strings.screen_add_card_display_text_spare_card)
+        //state.cardNumber = "4040 3318 **** 3456"
         state.enterAmountHeading = getString(Strings.screen_remove_funds_display_text_enter_amount)
         state.currencyType = getString(Strings.common_text_currency_type)
         state.denominationFirstAmount = "+100"
@@ -23,10 +23,10 @@ class RemoveFundsViewModel(application: Application) : FundActionsViewModel(appl
         state.availableBalance = "1500"
         state.availableBalanceGuide =
             getString(Strings.screen_remove_funds_display_text_available_balance)
-        state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
-                state.availableBalance
-            )
+        //state.availableBalanceText =
+          //  " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
+           //     state.availableBalance
+           // )
         state.buttonTitle = getString(Strings.screen_remove_funds_button_remove)
 
         // Success screen strings

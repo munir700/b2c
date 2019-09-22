@@ -19,6 +19,7 @@ open class FundActionsViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
+    override var cardSerialNumber: String = ""
 
 
     override fun denominationFirstAmountClick() {
@@ -49,8 +50,9 @@ open class FundActionsViewModel(application: Application) :
     override fun addFunds() {
         launch {
             state.loading = true
-            when (val response = transactionsRepository.addFunds(AddFundsRequest(state.amount.toString() , ""))) {
+            when (val response = transactionsRepository.addFunds(AddFundsRequest(state.amount.toString() ,cardSerialNumber))) {
                 is RetroApiResponse.Success -> {
+                    clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -63,8 +65,9 @@ open class FundActionsViewModel(application: Application) :
     override fun removeFunds() {
         launch {
             state.loading = true
-            when (val response = transactionsRepository.removeFunds(RemoveFundsRequest(state.amount.toString() , ""))) {
+            when (val response = transactionsRepository.removeFunds(RemoveFundsRequest(state.amount.toString() , cardSerialNumber))) {
                 is RetroApiResponse.Success -> {
+                    clickEvent.setValue(EVENT_REMOVE_FUNDS_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

@@ -60,7 +60,7 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
 
     private fun setupView() {
         viewModel.card = intent.getParcelableExtra(CARD)
-        etName.append(viewModel.card.cardName)
+        etName.append(viewModel.card.cardName.trim())
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.card.cardType) {
             tvCardType.text = "Primary card"
