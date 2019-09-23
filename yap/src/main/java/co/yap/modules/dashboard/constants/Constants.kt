@@ -19,5 +19,6 @@ object Constants {
 
 
     const val REQUEST_CARD_NAME_UPDATED: Int = 55
+    const val REQUEST_ADD_REMOVE_FUNDS: Int = 56
 
 }

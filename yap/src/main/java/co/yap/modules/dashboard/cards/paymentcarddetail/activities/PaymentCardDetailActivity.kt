@@ -30,6 +30,7 @@ import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.CustomSnackbar
+import co.yap.yapcore.helpers.Utils
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 import kotlinx.android.synthetic.main.layout_card_info.*
@@ -87,7 +88,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     }
                 }
                 R.id.llAddFunds -> {
-                    startActivity(AddFundsActivity.newIntent(this, viewModel.card))
+                    startActivityForResult(AddFundsActivity.newIntent(this, viewModel.card),Constants.REQUEST_ADD_REMOVE_FUNDS)
                 }
                 R.id.llFreezeSpareCard -> {
                     viewModel.freezeUnfreezeCard()
@@ -97,7 +98,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     viewModel.freezeUnfreezeCard()
                 }
                 R.id.llRemoveFunds -> {
-                    startActivity(RemoveFundsActivity.newIntent(this, viewModel.card))
+                    startActivityForResult(RemoveFundsActivity.newIntent(this, viewModel.card),Constants.REQUEST_ADD_REMOVE_FUNDS)
                 }
                 R.id.llCardLimits -> {
                     startActivity(
@@ -234,6 +235,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     cardNameUpdated = true
                     viewModel.state.cardName = data?.getStringExtra("name").toString()
                     viewModel.card.cardName = viewModel.state.cardName
+                }
+            }
+
+            Constants.REQUEST_ADD_REMOVE_FUNDS -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    viewModel.card.availableBalance = data?.getStringExtra("newBalance").toString()
+                    viewModel.state.cardBalance = "AED "+ Utils.getFormattedCurrency(data?.getStringExtra("newBalance").toString())
                 }
             }
         }
