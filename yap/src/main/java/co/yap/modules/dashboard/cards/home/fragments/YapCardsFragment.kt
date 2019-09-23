@@ -20,6 +20,8 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -28,7 +30,7 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
     val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
-    var selectedCardPosition : Int = 0
+    var selectedCardPosition: Int = 0
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -85,22 +87,49 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 when (view.id) {
                     R.id.imgCard -> {
-                        if (getCard(pos).active) {
-                            selectedCardPosition = pos
-                            startActivityForResult(
-                                PaymentCardDetailActivity.newIntent(
-                                    requireContext(),
-                                    getCard(pos)
-                                ), EVENT_PAYMENT_CARD_DETAIL
-                            )
-                        } else {
-                            val action =
-                                YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
-                                    getCard(pos)
-                                )
-                            view.findNavController().navigate(action)
-                        }
+                        if (getCard(pos).cardName == Constants.addCard)
+                            findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        else
+                            when (CardStatus.valueOf(getCard(pos).status)) {
+                                CardStatus.ACTIVE -> {
+                                    selectedCardPosition = pos
+                                    startActivityForResult(
+                                        PaymentCardDetailActivity.newIntent(
+                                            requireContext(),
+                                            getCard(pos)
+                                        ), EVENT_PAYMENT_CARD_DETAIL
+                                    )
+                                }
+                                CardStatus.BLOCKED -> {
+                                    selectedCardPosition = pos
+                                    startActivityForResult(
+                                        PaymentCardDetailActivity.newIntent(
+                                            requireContext(),
+                                            getCard(pos)
+                                        ), EVENT_PAYMENT_CARD_DETAIL
+                                    )
+                                }
+                                CardStatus.INACTIVE -> {
+                                    when (getCard(pos).shipmentStatus?.let {
+                                        CardDeliveryStatus.valueOf(
+                                            it
+                                        )
+                                    }) {
+                                        CardDeliveryStatus.SHIPPED -> {
+                                            // set pin state
+                                            //imageView.setImageResource(co.yap.yapcore.R.drawable.ic_status_ontheway)
+                                        }
+                                        else -> {
+                                            view.findNavController().navigate(
+                                                YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
+                                                    getCard(pos)
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
 
+                            }
                     }
                     R.id.lySeeDetail -> {
                         selectedCardPosition = pos
@@ -111,11 +140,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             ), EVENT_PAYMENT_CARD_DETAIL
                         )
                     }
-                    else -> {
-                        if (getCard(pos).cardName == "addCard")
-                            findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
-                    }
-
                 }
             }
         })
@@ -133,27 +157,29 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
                 val cardRemoved = data?.getBooleanExtra("cardRemoved", false)
 
-                if(cardNameUpdated!!){
-                    viewModel.state.cards.value?.get(selectedCardPosition)?.cardName = updatedCardName.toString()
+                if (cardNameUpdated!!) {
+                    viewModel.state.cards.value?.get(selectedCardPosition)?.cardName =
+                        updatedCardName.toString()
                     viewPager2.adapter?.notifyDataSetChanged()
                 }
 
-                if(cardFreezeUnfreeze!!){
+                if (cardFreezeUnfreeze!!) {
                     if (cardBlocked != null) {
-                        viewModel.state.cards.value?.get(selectedCardPosition)?.blocked = cardBlocked
+                        viewModel.state.cards.value?.get(selectedCardPosition)?.blocked =
+                            cardBlocked
                         viewModel.state.cards.value?.get(selectedCardPosition)?.status = "BLOCKED"
                     }
                     viewPager2.adapter?.notifyDataSetChanged()
                 }
 
-                if(cardRemoved!!){
+                if (cardRemoved!!) {
                     viewModel.state.cards.value?.clear()
                     viewModel.getCards()
                 }
 
-                }
             }
         }
+    }
 
     fun getCard(pos: Int): Card {
         return viewModel.state.cards.value?.get(pos)!!

@@ -240,6 +240,8 @@
     <string name="screen_cards_button_update_card">Update card</string>
     <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>
     <string name="screen_cards_display_text_cards_count">You have %d cards</string>
+    <string name="screen_cards_display_text_set_pin">Set Pin</string>
+    <string name="screen_cards_display_text_set_message">Set your card pin</string>
 
     <!-- Spare Card Landing Screen -->
 
@@ -264,7 +266,7 @@
     <string name="screen_add_spare_card_display_text_card_fee">Card fee</string>
     <string name="screen_add_spare_card_button_confirm_purchase">Confirm purchase</string>
     <string name="screen_add_spare_card_button_confirm_location">Confirm location</string>
-    <string name="screen_add_spare_card_display_text_address_confirmation">Is this your adress?</string>
+    <string name="screen_add_spare_card_display_text_address_confirmation">Is this your address?</string>
     <string name="screen_add_spare_card_button_change_location">Change location</string>
 
     <!-- Add Spare card location -->

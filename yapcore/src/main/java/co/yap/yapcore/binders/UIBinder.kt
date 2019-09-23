@@ -89,14 +89,18 @@ object UIBinder {
                     CardDeliveryStatus.SHIPPED -> {
                         text.text = Translator.getString(
                             text.context,
+                            R.string.screen_cards_display_text_set_message
+                        )
+                    }
+                    else -> {
+                        text.text = Translator.getString(
+                            text.context,
                             R.string.screen_cards_display_text_pending_delivery
                         )
                     }
                 }
             }
-
         }
-
     }
 
     @BindingAdapter("cardStatus")
@@ -116,6 +120,12 @@ object UIBinder {
             CardStatus.INACTIVE -> {
                 when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
                     CardDeliveryStatus.SHIPPED -> {
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_set_pin
+                        )
+                    }
+                    else -> {
                         text.text = Translator.getString(
                             text.context,
                             R.string.screen_cards_button_update_card

@@ -1,3 +1,5 @@
 package co.yap.yapcore.constants
 
-object Constants
+object Constants {
+    const val addCard = "addCard"
+}
