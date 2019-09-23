@@ -40,8 +40,12 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
             }
     }
 
-    private fun getDataForPosition(position: Int): T {
+    fun getDataForPosition(position: Int): T {
         return list[position]
+    }
+
+    fun getDataList(): MutableList<T> {
+        return list
     }
 
     override fun getItemCount(): Int {
@@ -52,6 +56,16 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
         this.list.clear()
         this.list.addAll(list)
         notifyDataSetChanged()
+    }
+
+    fun setItemAt(position: Int, item: Any) {
+        this.list[position] = item as T
+        notifyItemChanged(position)
+    }
+
+    fun removeItemAt(position: Int) {
+        this.list.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     fun setItemListener(onItemClickListener: OnItemClickListener) {

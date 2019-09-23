@@ -389,6 +389,7 @@ object Strings {
     const val screen_cards_button_unfreeze_card: String = "screen_cards_button_unfreeze_card"
 
     const val screen_cards_display_text_set_pin: String = "screen_cards_display_text_set_pin"
+    const val screen_cards_display_text_add_card: String = "screen_cards_display_text_add_card"
     const val screen_cards_display_text_set_message: String =
         "screen_cards_display_text_set_message"
 

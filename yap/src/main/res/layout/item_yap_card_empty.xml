@@ -3,6 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+    </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -49,11 +53,12 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:elevation="2dp"
             android:gravity="center"
-            android:text="Add or upgrade"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="@+id/lycard"
             app:layout_constraintStart_toStartOf="@+id/lycard"
-            app:layout_constraintTop_toBottomOf="@+id/imgAddCard" />
+            app:layout_constraintTop_toBottomOf="@+id/imgAddCard"
+            app:text="@{Strings.screen_cards_display_text_add_card}"
+            tools:text="@string/screen_cards_display_text_add_card" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

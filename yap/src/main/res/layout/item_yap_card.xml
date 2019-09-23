@@ -13,6 +13,8 @@
         <import type="co.yap.modules.dashboard.constants.Constants"/>
 
         <import type="android.view.View" />
+
+        <import type="co.yap.yapcore.enums.CardStatus" />
     </data>
 
 
@@ -66,7 +68,7 @@
             android:layout_marginTop="@dimen/_5sdp"
             android:gravity="center"
             android:orientation="vertical"
-            android:visibility="@{viewModel.paymentCard.active ? View.GONE: View.VISIBLE}"
+            app:cardStatus="@{viewModel.paymentCard}"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
@@ -88,8 +90,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:paddingTop="@dimen/_10sdp"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
+                android:paddingTop="@dimen/_10sdp"
                 app:btn_enable="true"
                 app:cardStatus="@{viewModel.paymentCard}"
                 tools:text="Update Card" />
@@ -106,7 +108,7 @@
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:orientation="vertical"
-            android:visibility="@{viewModel.paymentCard.active ? View.VISIBLE: View.GONE}"
+            android:visibility="@{CardStatus.valueOf(viewModel.paymentCard.status).equals(CardStatus.ACTIVE) ? View.VISIBLE: View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"

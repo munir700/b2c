@@ -59,7 +59,7 @@
 
         <TextView
             android:id="@+id/tvYapStoreTitle"
-            style="@style/ALarge"
+            style="@style/Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_small"
@@ -76,7 +76,7 @@
 
         <TextView
             android:id="@+id/tvYapStoreHeading"
-            style="@style/ATitle3"
+            style="@style/Large"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_btn_side_paddings"
