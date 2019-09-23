@@ -3,13 +3,9 @@ package co.yap.modules.store.paging
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import co.yap.R
-import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.store.StoresRepository
-import co.yap.networking.store.requestdtos.CreateStoreRequest
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.helpers.PagingState
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class StoreDataSource(
     private val storeRepo: StoresRepository
@@ -30,52 +26,58 @@ class StoreDataSource(
         params: LoadInitialParams<Long>,
         callback: LoadInitialCallback<Long, Store>
     ) {
-        updateState(PagingState.LOADING)
-        GlobalScope.launch {
-            when (val response =
-                storeRepo.getYapStores(CreateStoreRequest())) {
-                is RetroApiResponse.Success -> {
-                    callback.onResult(
-                        response.data.stores,
-                        null,
-                        2
-                    )
-                    updateState(PagingState.DONE)
-                }
-                is RetroApiResponse.Error -> {
-                    callback.onResult(
-                        getDummyList().take(2),
-                        null,
-                        null
-                    )
-                    updateState(PagingState.DONE)
+//        updateState(PagingState.LOADING)
+//        GlobalScope.launch {
+//            when (val response =
+//                storeRepo.getYapStores(CreateStoreRequest())) {
+//                is RetroApiResponse.Success -> {
+//                    callback.onResult(
+//                        response.data.stores,
+//                        null,
+//                        2
+//                    )
+//                    updateState(PagingState.DONE)
+//                }
+//                is RetroApiResponse.Error -> {
+//                    callback.onResult(
+//                        getDummyList().take(2),
+//                        null,
+//                        null
+//                    )
+//                    updateState(PagingState.DONE)
+//
+//                    //setRetry(Action { loadInitial(params, callback) })
+//                    //callback.onResult(listOf(), 111L, 1221L)
+//                    //updateState(PagingState.ERROR)
+//                }
+//            }
+//        }
 
-                    //setRetry(Action { loadInitial(params, callback) })
-                    //callback.onResult(listOf(), 111L, 1221L)
-                    //updateState(PagingState.ERROR)
-                }
-            }
-        }
+        callback.onResult(
+            getDummyList().take(2),
+            null,
+            null
+        )
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, Store>) {
-        updateState(PagingState.LOADING)
-        GlobalScope.launch {
-            when (val response =
-                storeRepo.getYapStores(CreateStoreRequest())) {
-                is RetroApiResponse.Success -> {
-                    callback.onResult(
-                        response.data.stores,
-                        params.key + 1
-                    )
-                    updateState(PagingState.DONE)
-                }
-                is RetroApiResponse.Error -> {
-                    callback.onResult(listOf(), 111L)
-                    updateState(PagingState.ERROR)
-                }
-            }
-        }
+//        updateState(PagingState.LOADING)
+//        GlobalScope.launch {
+//            when (val response =
+//                storeRepo.getYapStores(CreateStoreRequest())) {
+//                is RetroApiResponse.Success -> {
+//                    callback.onResult(
+//                        response.data.stores,
+//                        params.key + 1
+//                    )
+//                    updateState(PagingState.DONE)
+//                }
+//                is RetroApiResponse.Error -> {
+//                    callback.onResult(listOf(), 111L)
+//                    updateState(PagingState.ERROR)
+//                }
+//            }
+//        }
     }
 
     //Assume sample response

@@ -2,15 +2,9 @@ package co.yap.networking.transactions
 
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
-import co.yap.networking.transactions.responsedtos.AddRemoveFundsResponse
-import co.yap.networking.transactions.responsedtos.CardFeeResponse
-import co.yap.networking.transactions.responsedtos.FundTransferDenominationsResponse
-import co.yap.networking.transactions.responsedtos.FundTransferLimitsResponse
+import co.yap.networking.transactions.responsedtos.*
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 interface TransactionsRetroService {
 
@@ -34,4 +28,7 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_CARD_FEE)
     suspend fun getCardFee(@Path("card-type") cardType: String): Response<CardFeeResponse>
 
+    // Get Card Statements
+    @GET(TransactionsRepository.URL_GET_CARD_STATEMENTS)
+    suspend fun getCardStatements(@Query("cardSerialNumber") cardSerialNumber: String): Response<CardStatementsResponse>
 }

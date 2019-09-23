@@ -242,6 +242,7 @@
     <string name="screen_cards_display_text_cards_count">You have %d cards</string>
     <string name="screen_cards_display_text_set_pin">Set Pin</string>
     <string name="screen_cards_display_text_set_message">Set your card pin</string>
+    <string name="screen_cards_display_text_add_card">Add Card</string>
 
     <!-- Spare Card Landing Screen -->
 

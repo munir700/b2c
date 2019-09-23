@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -18,6 +19,9 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 
 class RemoveFundsActivity : AddFundsActivity() {
+
+    private var fundsRemoved : Boolean = false
+    private lateinit var updatedSpareCardBalance: String
 
     companion object {
         private const val CARD = "card"
@@ -43,12 +47,15 @@ class RemoveFundsActivity : AddFundsActivity() {
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                     viewModel.removeFunds()
                 } else {
+                    if(fundsRemoved){
+                        setupActionsIntent()
+                    }
                     this.finish()
                 })
                 R.id.ivCross -> this.finish()
 
                 viewModel.EVENT_REMOVE_FUNDS_SUCCESS -> {
-
+                    fundsRemoved = true
                     setUpSuccessData()
                     performSuccessOperations()
                     etAmount.visibility = View.GONE
@@ -96,7 +103,7 @@ class RemoveFundsActivity : AddFundsActivity() {
                 MyUserManager.cardBalance.value?.availableBalance.toString()
             )
 
-        val updatedSpareCardBalance: String =
+         updatedSpareCardBalance =
             (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
 
         viewModel.state.spareCardUpdatedBalance =
@@ -107,4 +114,15 @@ class RemoveFundsActivity : AddFundsActivity() {
 
     }
 
+    override fun onBackPressed() {
+        if(fundsRemoved){
+            setupActionsIntent()
+        }
+        super.onBackPressed()
+    }
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("newBalance", updatedSpareCardBalance)
+        setResult(Activity.RESULT_OK, returnIntent)
+    }
 }

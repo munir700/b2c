@@ -1,12 +1,9 @@
 package co.yap.modules.dashboard.cards.home.viewholder
 
 import android.widget.FrameLayout
-import androidx.cardview.widget.CardView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
-import co.yap.databinding.ItemYapCardBinding
 import co.yap.databinding.ItemYapCardEmptyBinding
-import co.yap.modules.dashboard.cards.home.viewmodels.YapCardItemViewModel
+import co.yap.modules.dashboard.cards.home.viewmodels.YapCardEmptyItemViewModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -25,5 +22,9 @@ class YapCardEmptyItemViewHolder(private val itemYapCardEmptyBinding: ItemYapCar
         params.width = dimensions[0]
         params.height = dimensions[1]
         itemYapCardEmptyBinding.imgCard.layoutParams = params
+
+        itemYapCardEmptyBinding.viewModel =
+            YapCardEmptyItemViewModel(paymentCard, position, onItemClickListener)
+        itemYapCardEmptyBinding.executePendingBindings()
     }
 }

@@ -7,9 +7,7 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
@@ -17,7 +15,6 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.constants.Constants
@@ -31,6 +28,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     var selectedCardPosition: Int = 0
+    lateinit var adapter: YapCardsAdaptor
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -43,22 +41,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         super.onViewCreated(view, savedInstanceState)
         setupPager()
         viewModel.clickEvent.observe(this, observer)
-
-        viewModel.state.cards.observe(this, Observer {
-            (viewPager2.adapter as YapCardsAdaptor).setItem(it)
-        })
-    }
-
-    val observer = Observer<Int> {
-        when (it) {
-            R.id.tbBtnAddCard -> {
-                findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
-            }
-        }
     }
 
     private fun setupPager() {
-        val adapter = YapCardsAdaptor(requireContext(), mutableListOf())
+        adapter = YapCardsAdaptor(requireContext(), mutableListOf())
         viewPager2.adapter = adapter
 
         with(viewPager2) {
@@ -117,6 +103,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                     }) {
                                         CardDeliveryStatus.SHIPPED -> {
                                             // set pin state
+                                            //todo
                                             //imageView.setImageResource(co.yap.yapcore.R.drawable.ic_status_ontheway)
                                         }
                                         else -> {
@@ -140,48 +127,54 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             ), EVENT_PAYMENT_CARD_DETAIL
                         )
                     }
+                    R.id.lycard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+                    R.id.imgAddCard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+                    R.id.tvAddCard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+
                 }
             }
         })
     }
 
+    val observer = Observer<Int> {
+        when (it) {
+            R.id.tbBtnAddCard -> {
+                findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+            }
+        }
+    }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
             EVENT_PAYMENT_CARD_DETAIL -> {
-                val cardNameUpdated = data?.getBooleanExtra("cardNameUpdated", false)
-                val updatedCardName = data?.getStringExtra("updatedCardName")
-                val cardFreezeUnfreeze = data?.getBooleanExtra("cardFreezeUnfreeze", false)
-                val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
-                val cardRemoved = data?.getBooleanExtra("cardRemoved", false)
+                val updatedCard = data?.getParcelableExtra<Card>("card")
+                val removed = data?.getBooleanExtra("cardRemoved", false)
 
-                if (cardNameUpdated!!) {
-                    viewModel.state.cards.value?.get(selectedCardPosition)?.cardName =
-                        updatedCardName.toString()
-                    viewPager2.adapter?.notifyDataSetChanged()
+                if (removed!!) {
+                    adapter.removeItemAt(selectedCardPosition)
+                    adapter.notifyDataSetChanged()
+                    updateCardCount()
+                } else {
+                    adapter.setItemAt(selectedCardPosition, updatedCard!!)
                 }
-
-                if (cardFreezeUnfreeze!!) {
-                    if (cardBlocked != null) {
-                        viewModel.state.cards.value?.get(selectedCardPosition)?.blocked =
-                            cardBlocked
-                        viewModel.state.cards.value?.get(selectedCardPosition)?.status = "BLOCKED"
-                    }
-                    viewPager2.adapter?.notifyDataSetChanged()
-                }
-
-                if (cardRemoved!!) {
-                    viewModel.state.cards.value?.clear()
-                    viewModel.getCards()
-                }
-
             }
         }
     }
 
+    private fun updateCardCount() {
+        viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
+    }
+
     fun getCard(pos: Int): Card {
-        return viewModel.state.cards.value?.get(pos)!!
+        //return viewModel.state.cardList.get()?.get(pos)!!
+        return adapter.getDataForPosition(pos)
     }
 }

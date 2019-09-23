@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities
 
 import android.animation.AnimatorSet
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Rect
@@ -37,7 +38,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     var amount: String? = null
     private val windowSize: Rect = Rect()
     var card: Card? = null
-
+    private lateinit var updatedSpareCardBalance: String
+    private var fundsAdded : Boolean = false
     companion object {
         private const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
@@ -75,12 +77,16 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                     viewModel.addFunds()
                 } else {
+                    if(fundsAdded){
+                        setupActionsIntent()
+                    }
                     this.finish()
                 })
 
                 R.id.ivCross -> this.finish()
 
                 viewModel.EVENT_ADD_FUNDS_SUCCESS -> {
+                    fundsAdded = true
                     setUpSuccessData()
                     performSuccessOperations()
                     etAmount.visibility = View.GONE
@@ -196,7 +202,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 MyUserManager.cardBalance.value?.availableBalance.toString()
             )
 
-        val updatedSpareCardBalance: String =
+        updatedSpareCardBalance =
             (card!!.availableBalance.toDouble() + viewModel.state.amount!!.toDouble()).toString()
 
         viewModel.state.spareCardUpdatedBalance =
@@ -204,6 +210,19 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 viewModel.state.currencyType,
                 updatedSpareCardBalance
             )
+    }
+
+    override fun onBackPressed() {
+        if(fundsAdded){
+            setupActionsIntent()
+        }
+        super.onBackPressed()
+    }
+
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("newBalance", updatedSpareCardBalance)
+        setResult(Activity.RESULT_OK, returnIntent)
     }
 
 }

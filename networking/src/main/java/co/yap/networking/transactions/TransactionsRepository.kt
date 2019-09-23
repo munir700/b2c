@@ -4,11 +4,8 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
-import co.yap.networking.transactions.responsedtos.AddRemoveFundsResponse
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
-import co.yap.networking.transactions.responsedtos.CardFeeResponse
-import co.yap.networking.transactions.responsedtos.FundTransferDenominationsResponse
-import co.yap.networking.transactions.responsedtos.FundTransferLimitsResponse
+import co.yap.networking.transactions.responsedtos.*
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 
@@ -17,6 +14,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_FUND_TRANSFER_LIMITS = "/transactions/api/product/{product-code}/limits"
     const val URL_FUND_TRANSFER_DENOMINATIONS = "/transactions/api/product/{product-code}/denominations"
     const val URL_GET_CARD_FEE = "/transactions/api/fees/spare-card/subscription/{card-type}"
+    const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -35,5 +33,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse> =
         executeSafely(call = { api.getCardFee(cardType)})
+
+    override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =
+        executeSafely(call = { api.getCardStatements(cardSerialNumber)})
 
 }
