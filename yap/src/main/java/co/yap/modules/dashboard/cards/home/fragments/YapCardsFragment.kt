@@ -20,6 +20,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
@@ -140,6 +141,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 if(cardFreezeUnfreeze!!){
                     if (cardBlocked != null) {
                         viewModel.state.cards.value?.get(selectedCardPosition)?.blocked = cardBlocked
+                        viewModel.state.cards.value?.get(selectedCardPosition)?.status = "BLOCKED"
                     }
                     viewPager2.adapter?.notifyDataSetChanged()
                 }

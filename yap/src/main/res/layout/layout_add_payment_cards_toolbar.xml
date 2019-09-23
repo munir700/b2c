@@ -43,7 +43,7 @@
             android:layout_marginEnd="@dimen/_14sdp"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
-            android:text="Add a spare card" />
+            android:text="@={viewModel.state.tootlBarTitle}" />
 
     </RelativeLayout>
 </layout>
