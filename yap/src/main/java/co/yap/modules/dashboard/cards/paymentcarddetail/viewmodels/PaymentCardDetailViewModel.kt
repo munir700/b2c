@@ -38,6 +38,7 @@ class PaymentCardDetailViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     try {
                         val cardBalance : CardBalance = response.data.data
+                        card.availableBalance = cardBalance.availableBalance.toString()
                         state.cardBalance =
                             cardBalance.currencyCode+ " " + Utils.getFormattedCurrency(cardBalance.availableBalance)
                     } catch (e:Exception){

@@ -22,16 +22,16 @@ class RemoveFundsViewModel(application: Application) : FundActionsViewModel(appl
 
         // Success screen strings
 
-        state.primaryCardUpdatedBalance =
+        /*state.primaryCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_primary_balance).format(
                 state.currencyType,
                 "800.00"
-            )
-        state.spareCardUpdatedBalance =
+            )*/
+        /*state.spareCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance).format(
                 state.currencyType,
                 "500.00"
-            )
+            )*/
     }
 
     override fun buttonClickEvent(id: Int) {

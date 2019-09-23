@@ -32,6 +32,13 @@ open class FundActionsViewModel(application: Application) :
                     ""
                 )
             )
+        }else if (state.denominationFirstAmount.contains("-")){
+            state.amount = Utils.getFormattedCurrencyWithoutComma(
+                state.denominationFirstAmount.replace(
+                    "-",
+                    ""
+                )
+            )
         }
     }
 
@@ -41,6 +48,13 @@ open class FundActionsViewModel(application: Application) :
             state.amount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationSecondAmount.replace(
                     "+",
+                    ""
+                )
+            )
+        }else if (state.denominationSecondAmount.contains("-")){
+            state.amount = Utils.getFormattedCurrencyWithoutComma(
+                state.denominationSecondAmount.replace(
+                    "-",
                     ""
                 )
             )
@@ -133,6 +147,13 @@ open class FundActionsViewModel(application: Application) :
             state.amount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationThirdAmount.replace(
                     "+",
+                    ""
+                )
+            )
+        }else if (state.denominationThirdAmount.contains("-")){
+            state.amount = Utils.getFormattedCurrencyWithoutComma(
+                state.denominationThirdAmount.replace(
+                    "-",
                     ""
                 )
             )

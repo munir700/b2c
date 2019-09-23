@@ -44,13 +44,13 @@ data class Card(
 
     val expiryDate: String,
 
-    val cardBalance: String,
+    var cardBalance: String,
 
     val cardScheme: String,
 
     val currentBalance: String,
 
-    val availableBalance: String,
+    var availableBalance: String,
 
     val customerId: String,
 
