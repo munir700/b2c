@@ -30,6 +30,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_GET_CARD_DETAILS = "/cards/api/cards/details"
     const val URL_REMOVE_CARD = "/cards/api/cards/close"
     const val URL_UPDATE_CARD_NAME = "/cards/api/cards/card-name"
+    const val URL_CHANGE_CARD_PIN = "/cards/api/cards/change-pin"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -107,4 +108,6 @@ object CardsRepository : BaseRepository(), CardsApi {
     ): RetroApiResponse<CardDetailResponseDTO> =
         AuthRepository.executeSafely(call = { API.updateCardName(cardName, cardSerialNumber) })
 
+    override suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.changeCardPinRequest(changeCardCardPinRequest) })
 }
