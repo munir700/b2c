@@ -69,7 +69,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
         }
 
-        (viewPager2.adapter as YapCardsAdaptor).setItemListener(object : OnItemClickListener {
+        adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 when (view.id) {
                     R.id.imgCard -> {
@@ -103,6 +103,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                     }) {
                                         CardDeliveryStatus.SHIPPED -> {
                                             // set pin state
+                                            //todo
                                             //imageView.setImageResource(co.yap.yapcore.R.drawable.ic_status_ontheway)
                                         }
                                         else -> {
@@ -126,6 +127,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             ), EVENT_PAYMENT_CARD_DETAIL
                         )
                     }
+                    R.id.lycard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+                    R.id.imgAddCard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+                    R.id.tvAddCard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+
                 }
             }
         })
