@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.cards.home.interfaces
 
+import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
-import androidx.lifecycle.MutableLiveData
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -12,6 +12,7 @@ interface IYapCards {
         //var cards: MutableLiveData<ArrayList<Card>>
         var cardList: ObservableField<ArrayList<Card>>
         var noOfCard: String
+        var enableAddCard: ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

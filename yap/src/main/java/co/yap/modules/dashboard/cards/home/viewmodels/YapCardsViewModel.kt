@@ -12,6 +12,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.managers.MyUserManager
 
 class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.State>(application),
     IYapCards.ViewModel, IRepositoryHolder<CardsRepository> {
@@ -22,6 +23,9 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
 
     init {
         getCards()
+        state.enableAddCard.set(
+            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+        )
     }
 
     override fun getCards() {
@@ -31,7 +35,8 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
                 is RetroApiResponse.Success -> {
                     if (response.data.data.size != 0) {
                         updateCardCount(response.data.data.size)
-                        response.data.data.add(getAddCard())
+                        if (state.enableAddCard.get())
+                            response.data.data.add(getAddCard())
                         state.cardList.set(response.data.data)
                     }
                 }

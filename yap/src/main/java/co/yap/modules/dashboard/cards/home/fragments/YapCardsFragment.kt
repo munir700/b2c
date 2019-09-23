@@ -149,6 +149,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
                 if (removed!!) {
                     adapter.removeItemAt(selectedCardPosition)
+                    adapter.notifyDataSetChanged()
                     updateCardCount()
                 } else {
                     adapter.setItemAt(selectedCardPosition, updatedCard!!)
@@ -158,9 +159,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun updateCardCount() {
-        viewModel.updateCardCount(adapter.itemCount - 1)
+        viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
-
 
     fun getCard(pos: Int): Card {
         //return viewModel.state.cardList.get()?.get(pos)!!

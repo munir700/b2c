@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <RelativeLayout
@@ -54,6 +56,7 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:visibility="@{viewModel.state.enableAddCard ? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_add_sign" />
