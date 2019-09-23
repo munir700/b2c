@@ -11,6 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 
 class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.State>(application),
     IYapCards.ViewModel, IRepositoryHolder<CardsRepository> {
@@ -52,7 +53,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             uuid = "542 d2ef0 -9903 - 4 a19 -a691 - 12331357f f15",
             physical = false,
             active = false,
-            cardName = "addCard",
+            cardName = Constants.addCard,
             status = "ACTIVE",
             shipmentStatus = "SHIPPED",
             blocked = false,

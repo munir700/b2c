@@ -67,6 +67,7 @@ class RemoveFundsActivity : AddFundsActivity() {
         viewModel.state.cardNumber = card.maskedCardNo
         viewModel.cardSerialNumber = card.cardSerialNumber
         viewModel.state.cardName = card.cardName
+        viewModel.state.availableBalance = card.availableBalance
         viewModel.state.availableBalanceText =  " " + getString(Strings.common_text_currency_type) + " "+ card.availableBalance
     }
 

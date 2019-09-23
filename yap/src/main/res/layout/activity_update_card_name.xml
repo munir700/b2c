@@ -114,16 +114,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            app:btn_enable="true"
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_marginRight="@dimen/margin_xxl"
+            app:enableCoreButton="@{viewModel.state.valid}"
             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
             android:layout_marginBottom="@dimen/margin_medium_large"
             app:layout_constraintVertical_bias="0.988"
             app:layout_goneMarginTop="@dimen/margin_extra_large"
             android:text="Confirm"
-            app:view_focusable="true"
             tools:layout_editor_absoluteX="34dp" />
     </RelativeLayout>
 

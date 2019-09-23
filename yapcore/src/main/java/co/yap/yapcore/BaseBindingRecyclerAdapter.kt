@@ -11,6 +11,7 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     RecyclerView.Adapter<VH>() {
 
     var onItemClickListener: OnItemClickListener? = null
+    var allowFullItemClickListener: Boolean = false
 
     protected abstract fun onCreateViewHolder(binding: ViewDataBinding): VH
 
@@ -29,13 +30,14 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemClick(
-                it,
-                getDataForPosition(position),
-                position
-            )
-        }
+        if (allowFullItemClickListener)
+            holder.itemView.setOnClickListener {
+                onItemClickListener?.onItemClick(
+                    it,
+                    getDataForPosition(position),
+                    position
+                )
+            }
     }
 
     private fun getDataForPosition(position: Int): T {
