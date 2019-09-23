@@ -19,7 +19,13 @@ interface ISetCardPin {
         val clickEvent: SingleClickEvent
         fun handlePressOnNextButton(id: Int)
         fun setCardPin()
-        fun changeCardPinRequest(oldPin: String, newPin: String, confirmPin: String)
+        fun changeCardPinRequest(
+            oldPin: String,
+            newPin: String,
+            confirmPin: String,
+            cardSerialNumber: String,
+            id: Int
+        )
     }
 
     interface State : IBase.State {
@@ -35,5 +41,6 @@ interface ISetCardPin {
         var oldPin: String
         var newPin: String
         var confirmPin: String
+        var cardSerialNumber: String
     }
 }

@@ -32,7 +32,13 @@ open class SetCardPinViewModel(application: Application) :
     }
 
     override fun setCardPin() {}
-    override fun changeCardPinRequest(oldPin: String, newPin: String, confirmPin: String) {
+    override fun changeCardPinRequest(
+        oldPin: String,
+        newPin: String,
+        confirmPin: String,
+        cardSerialNumber: String,
+        id: Int
+    ) {
     }
 
     fun validateAggressively(): Boolean {

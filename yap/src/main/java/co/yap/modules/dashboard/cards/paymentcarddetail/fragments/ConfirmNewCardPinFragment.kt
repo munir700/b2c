@@ -24,6 +24,7 @@ class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
     override fun loadData() {
         viewModel.state.oldPin = args.oldPinCode
         viewModel.state.newPin = args.newPinCode
+        viewModel.state.cardSerialNumber="sdasda"
 
     }
 

@@ -80,6 +80,13 @@ open class SetCardPinState : BaseState(), ISetCardPin.State {
             notifyPropertyChanged(BR.confirmPin)
         }
 
+    @get:Bindable
+    override var cardSerialNumber: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardSerialNumber)
+        }
+
     fun validate() {
         if (pincode.length == 4) {
             valid = true

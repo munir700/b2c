@@ -20,23 +20,23 @@ class ConfirmNewCardPinViewModel(application: Application) :
 
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {
-            changeCardPinRequest(state.oldPin, state.newPin, state.pincode)
+            changeCardPinRequest(state.oldPin, state.newPin, state.pincode,state.cardSerialNumber, id)
         }
     }
 
 
-    override fun changeCardPinRequest(oldPin: String, newPin: String, confirmPin: String) {
+    override fun changeCardPinRequest(oldPin: String, newPin: String, confirmPin: String,cardSerialNumber:String, id: Int) {
         launch {
             state.loading = true
             when (val response = cardsRepository.changeCardPinRequest(
                 ChangeCardPinRequest(
                     oldPin,
                     newPin,
-                    confirmPin
+                    confirmPin,cardSerialNumber
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.call()
+                    clickEvent.postValue(id)
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
