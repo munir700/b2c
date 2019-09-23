@@ -20,7 +20,9 @@ data class Card(
 
     var cardName: String,
 
-    val status: String,
+    var status: String,
+
+    val shipmentStatus: String?,
 
     var blocked: Boolean,
 

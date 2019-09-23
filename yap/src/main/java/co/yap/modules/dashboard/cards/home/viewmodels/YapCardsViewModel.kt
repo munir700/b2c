@@ -54,6 +54,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             active = false,
             cardName = "addCard",
             status = "ACTIVE",
+            shipmentStatus = "SHIPPED",
             blocked = false,
             delivered = false,
             cardSerialNumber = "1000000000612",
@@ -75,7 +76,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
         )
     }
 
-    private fun getDummyCards(type: Int): Card {
+/*    private fun getDummyCards(type: Int): Card {
 
         return when (type) {
             1 -> return Card(
@@ -161,7 +162,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             )
         }
 
-    }
+    }*/
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
