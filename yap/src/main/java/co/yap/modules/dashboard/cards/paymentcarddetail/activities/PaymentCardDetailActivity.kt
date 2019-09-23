@@ -82,7 +82,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         primaryCardBottomSheet = PrimaryCardBottomSheet(this)
                         primaryCardBottomSheet.show(supportFragmentManager, "")
                     } else {
-                        spareCardBottomSheet = SpareCardBottomSheet(this)
+                        spareCardBottomSheet = SpareCardBottomSheet(viewModel.card.physical,this)
                         spareCardBottomSheet.show(supportFragmentManager, "")
                     }
                 }

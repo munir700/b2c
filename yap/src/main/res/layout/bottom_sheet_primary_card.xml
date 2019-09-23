@@ -12,7 +12,7 @@
         android:textColor="@color/black"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_medium_large"
-        android:text="Add card's name"/>
+        android:text="Change card's name"/>
 
     <TextView
         android:id="@+id/tvChangePin"

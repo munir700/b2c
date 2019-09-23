@@ -16,6 +16,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.MyUserManager
 
 
 class AddSpareCardViewModel(application: Application) :
@@ -140,7 +141,7 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
-                AddVirtualSpareCardRequest(" ")
+                AddVirtualSpareCardRequest(MyUserManager.user?.customer?.firstName +" "+MyUserManager.user?.customer?.lastName)
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(ADD_VIRTUAL_SPARE_CLICK_EVENT)
@@ -159,7 +160,7 @@ class AddSpareCardViewModel(application: Application) :
     override fun requestAddSparePhysicalCard(id: Int) {
         val addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest =
             AddPhysicalSpareCardRequest(
-                " ",
+                MyUserManager.user?.customer?.firstName +" "+MyUserManager.user?.customer?.lastName,
                 address.latitude.toString(),
                 address.longitude.toString(),
                 address.address1

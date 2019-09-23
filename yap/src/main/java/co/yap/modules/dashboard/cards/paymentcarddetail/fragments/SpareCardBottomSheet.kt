@@ -9,11 +9,15 @@ import co.yap.modules.dashboard.constants.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet_spare_card.view.*
 
-class SpareCardBottomSheet(private val mListener: CardClickListener) : BottomSheetDialogFragment() {
+class SpareCardBottomSheet(private val physical : Boolean, private val mListener: CardClickListener) : BottomSheetDialogFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_spare_card, container, false)
+
+        if(!physical){
+            view.tvChangePin.visibility  =View.GONE
+        }
         view.tvAddCardName.setOnClickListener { mListener.onClick(Constants.EVENT_ADD_CARD_NAME)}
         view.tvChangePin.setOnClickListener { mListener.onClick(Constants.EVENT_CHANGE_PIN)}
         view.tvViewStatements.setOnClickListener { mListener.onClick(Constants.EVENT_VIEW_STATEMENTS)}
