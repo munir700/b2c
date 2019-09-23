@@ -13,12 +13,11 @@
     </data>
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
-        android:paddingTop="@dimen/margin_medium">
+        android:paddingTop="@dimen/margin_large">
 
         <LinearLayout
             android:id="@+id/llConfirmVirtualCardPurchase"
@@ -34,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="card fee" />
+                android:text="Card fee" />
 
             <TextView
                 android:id="@+id/tvPrice"
@@ -44,20 +43,21 @@
                 android:layout_marginTop="@dimen/margin_extra_small"
                 android:gravity="center"
                 android:text="@{viewModel.state.virtualCardFee}"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/text_size_h5" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/margin_large"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tvAvailableBalanceTitle"
                     style="@style/RegularGrey"
+                    android:textSize="@dimen/text_size_h2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -67,6 +67,7 @@
                 <TextView
                     android:id="@+id/tvAvailableBalance"
                     style="@style/Regular"
+                    android:textSize="@dimen/text_size_h2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"

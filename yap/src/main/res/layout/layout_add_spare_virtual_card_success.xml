@@ -20,7 +20,7 @@
 
         <TextView
             android:id="@+id/tvTransactionComplete"
-            style="@style/Regular"
+            style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -33,8 +33,8 @@
 
         <FrameLayout
             android:id="@+id/flTransactionComplete"
-            android:layout_width="@dimen/_80sdp"
-            android:layout_height="@dimen/_80sdp"
+            android:layout_width="@dimen/_70sdp"
+            android:layout_height="@dimen/_70sdp"
             android:layout_marginTop="@dimen/_20sdp"
             android:background="@drawable/transaction_complete_selector"
             app:layout_constraintEnd_toEndOf="parent"
@@ -43,8 +43,8 @@
 
 
             <ImageView
-                android:layout_width="@dimen/_50sdp"
-                android:layout_height="@dimen/_50sdp"
+                android:layout_width="@dimen/_45sdp"
+                android:layout_height="@dimen/_45sdp"
                 android:layout_gravity="center_vertical|center"
                 android:src="@drawable/ic_check"
                 app:layout_constraintEnd_toEndOf="parent"

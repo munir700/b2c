@@ -58,17 +58,19 @@
         </androidx.appcompat.widget.Toolbar>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/tvTitle"
+            android:id="@+id/ccTitle"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize">
 
             <TextView
+                android:id="@+id/tvTitle"
                 style="@style/Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:gravity="center"
-                android:text="Spare Card"
+                tools:text="Spare Card"
+                android:text="@={viewModel.state.cardName}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:layout_below="@+id/tvTitle"
+            android:layout_below="@+id/ccTitle"
             android:rotation="180"/>
 
         <include
@@ -91,8 +93,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium_large"
             android:layout_centerHorizontal="true"
+            app:buttonVisibility="@{true}"
             app:cardNumber="@{viewModel.state.cardPanNumber}"
-            app:cardName="@{viewModel.state.cardName}"
+            app:cardName="@{viewModel.state.cardTypeText}"
             android:layout_marginBottom="@dimen/margin_medium"/>
 
         <RelativeLayout
@@ -103,30 +106,43 @@
             android:layout_centerHorizontal="true">
 
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
                 <TextView
+                    android:id="@+id/tvBalanceTitle"
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginTop="@dimen/margin_extra_small"
                     android:text="Card balance" />
 
                 <TextView
                     android:id="@+id/tvCardBalance"
                     style="@style/ALarge"
+                    android:layout_below="@+id/tvBalanceTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_centerHorizontal="true"
                     tools:text="AED 738.10"
                     android:text="@={viewModel.state.cardBalance}" />
 
-            </LinearLayout>
+            </RelativeLayout>
+
         </RelativeLayout>
+
+        <ProgressBar
+            android:layout_width="@dimen/_17sdp"
+            android:layout_height="@dimen/_17sdp"
+            android:layout_below="@+id/cardInfoLayout"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginTop="@dimen/_23sdp"
+            android:backgroundTint="@color/colorPrimary"
+            android:foregroundTint="@color/colorPrimary"
+            android:visibility="@{viewModel.state.balanceLoading ? View.VISIBLE : View.GONE}"
+            android:layout_toStartOf="@+id/rlCardBalance"/>
 
         <RelativeLayout
             android:id="@+id/rlCardActions"

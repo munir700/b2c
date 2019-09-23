@@ -20,11 +20,14 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
+import androidx.viewpager2.widget.ViewPager2
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBindable
@@ -48,59 +51,120 @@ object UIBinder {
 
     @BindingAdapter("cardStatus")
     @JvmStatic
+    fun setCardStatus(linearLayout: LinearLayout, card: Card) {
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                linearLayout.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                linearLayout.visibility = View.VISIBLE
+            }
+            CardStatus.INACTIVE -> {
+                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                    CardDeliveryStatus.SHIPPED -> {
+                        linearLayout.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+        }
+    }
+
+    @BindingAdapter("cardStatus")
+    @JvmStatic
     fun setCardStatus(imageView: ImageView, card: Card) {
-        if (card.active)
-            imageView.visibility = View.GONE
-        else
-            if (card.delivered) {
-                if (isExpire(card.expiryDate))
-                    imageView.setImageResource(R.drawable.ic_status_expired)
-                else
-                    if (card.blocked)
-                        imageView.setImageResource(R.drawable.ic_status_frozen)
-            } else
-                imageView.setImageResource(R.drawable.ic_status_ontheway)
+
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                imageView.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_status_frozen)
+            }
+            CardStatus.INACTIVE -> {
+                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                    CardDeliveryStatus.SHIPPED -> {
+                        imageView.visibility = View.VISIBLE
+                        imageView.setImageResource(R.drawable.ic_status_ontheway)
+                    }
+                }
+            }
+
+        }
     }
 
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(text: TextView, card: Card) {
-        if (card.delivered) {
-            if (isExpire(card.expiryDate))
+
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                text.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                text.visibility = View.VISIBLE
                 text.text = Translator.getString(
                     text.context,
-                    R.string.screen_cards_display_text_expired_card
+                    R.string.screen_cards_display_text_freeze_card
                 )
-            else
-                if (card.blocked)
-                    text.text = Translator.getString(
-                        text.context,
-                        R.string.screen_cards_display_text_freeze_card
-                    )
-        } else
-            text.text = Translator.getString(
-                text.context,
-                R.string.screen_cards_display_text_pending_delivery
-            )
+            }
+            CardStatus.INACTIVE -> {
+                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                    CardDeliveryStatus.SHIPPED -> {
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_set_message
+                        )
+                    }
+                    else -> {
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_pending_delivery
+                        )
+                    }
+                }
+            }
+        }
     }
 
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(text: CoreButton, card: Card) {
-        if (card.delivered) {
-            if (isExpire(card.expiryDate))
+
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                text.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                text.visibility = View.VISIBLE
                 text.text = Translator.getString(
                     text.context,
-                    R.string.screen_cards_button_update_card
+                    R.string.screen_cards_button_unfreeze_card
                 )
-            else
-                if (card.blocked)
-                    text.text = Translator.getString(
-                        text.context,
-                        R.string.screen_cards_button_unfreeze_card
-                    )
-        } else
-            text.visibility = View.GONE
+            }
+            CardStatus.INACTIVE -> {
+                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                    CardDeliveryStatus.SHIPPED -> {
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_set_pin
+                        )
+                    }
+                    else -> {
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_button_update_card
+                        )
+                    }
+                }
+            }
+
+        }
     }
 
     private fun isExpire(expiryDate: String): Boolean {
@@ -347,7 +411,6 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
         if (circular) {
-
             Glide.with(view.context)
                 .asBitmap().load(resId)
                 .transforms(CenterCrop(), RoundedCorners(15))

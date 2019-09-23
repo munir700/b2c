@@ -28,7 +28,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
 
     init {
         storeSourceFactory = StoreDataSourceFactory(repository)
-        storesLiveData = LivePagedListBuilder<Long, Store>(
+        storesLiveData = LivePagedListBuilder(
             storeSourceFactory,
             getPagingConfigs()
         ).build()
@@ -51,10 +51,10 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
 
     private fun getPagingConfigs(): PagedList.Config {
         return PagedList.Config.Builder()
-            .setPageSize(30)
-            .setPrefetchDistance(1)
+            .setPageSize(20)
+            .setPrefetchDistance(10)
             .setInitialLoadSizeHint(30 * 2)
-            .setEnablePlaceholders(true)
+            .setEnablePlaceholders(false)
             .build()
     }
 }

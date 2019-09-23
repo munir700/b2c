@@ -17,7 +17,7 @@
 
         <TextView
             android:id="@+id/tvTransactionComplete"
-            style="@style/Large"
+            style="@style/ASmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -30,7 +30,7 @@
 
         <TextView
             android:id="@+id/tvPhysicalCardLocationSubTitle"
-            style="@style/RegularGrey"
+            style="@style/ASmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_extra_small"

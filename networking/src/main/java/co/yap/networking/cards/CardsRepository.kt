@@ -3,12 +3,9 @@ package co.yap.networking.cards
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
-import co.yap.networking.cards.requestdtos.AddPhysicalSpareCardRequest
-import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
-import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
-import co.yap.networking.cards.requestdtos.CreateCardPinRequest
-import co.yap.networking.cards.requestdtos.OrderCardRequest
-import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
+import co.yap.networking.cards.requestdtos.*
+import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
+import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
 import co.yap.networking.cards.responsedtos.GetPhysicalAddress
 import co.yap.networking.models.ApiResponse
@@ -27,6 +24,12 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_ADD_SPARE_VIRTUAL_CARD = "/cards/api/cards/supplementary/virtual"
     const val URL_ADD_SPARE_PHYSICAL_CARD = "/cards/api/cards/supplementary"
     const val URL_GET_PHYSICAL_CARD_ADDRESS = "/cards/api/user-address"
+
+    const val URL_GET_CARD_BALANCE = "/cards/api/cards/balance"
+    const val URL_CARD_FREEZE_UNFREEZE = "/cards/api/cards/block-unblock"
+    const val URL_GET_CARD_DETAILS = "/cards/api/cards/details"
+    const val URL_REMOVE_CARD = "/cards/api/cards/close"
+    const val URL_UPDATE_CARD_NAME = "/cards/api/cards/card-name"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -50,7 +53,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.orderCard(orderCardRequest) })
 
-    override suspend fun getAccountBalanceRequest(): RetroApiResponse<DebitCardBalanceResponseDTO> =
+    override suspend fun getAccountBalanceRequest(): RetroApiResponse<CardBalanceResponseDTO> =
         AuthRepository.executeSafely(call = { API.getAccountBalanceRequest() })
 
 
@@ -84,4 +87,24 @@ object CardsRepository : BaseRepository(), CardsApi {
 
     override suspend fun getUserAddressRequest(): RetroApiResponse<GetPhysicalAddress> =
         AuthRepository.executeSafely(call = { API.getPhysicalCardAddress() })
+
+
+    override suspend fun getCardBalance(cardSerialNumber: String): RetroApiResponse<CardBalanceResponseDTO> =
+        AuthRepository.executeSafely(call = { API.getCardBalance(cardSerialNumber) })
+
+    override suspend fun freezeUnfreezeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.freezeUnfreezeCard(cardLimitConfigRequest) })
+
+    override suspend fun getCardDetails(cardSerialNumber: String): RetroApiResponse<CardDetailResponseDTO> =
+        AuthRepository.executeSafely(call = { API.getCardDetails(cardSerialNumber) })
+
+    override suspend fun removeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.removeCard(cardLimitConfigRequest) })
+
+    override suspend fun updateCardName(
+        cardName: String,
+        cardSerialNumber: String
+    ): RetroApiResponse<CardDetailResponseDTO> =
+        AuthRepository.executeSafely(call = { API.updateCardName(cardName, cardSerialNumber) })
+
 }

@@ -387,6 +387,12 @@ object Strings {
         "screen_cards_display_text_see_details"
     const val screen_cards_button_update_card: String = "screen_cards_button_update_card"
     const val screen_cards_button_unfreeze_card: String = "screen_cards_button_unfreeze_card"
+
+    const val screen_cards_display_text_set_pin: String = "screen_cards_display_text_set_pin"
+    const val screen_cards_display_text_add_card: String = "screen_cards_display_text_add_card"
+    const val screen_cards_display_text_set_message: String =
+        "screen_cards_display_text_set_message"
+
     const val screen_cards_display_text_cards_count: String =
         "screen_cards_display_text_cards_count"
 
@@ -509,7 +515,6 @@ object Strings {
     const val screen_success_remove_funds_transaction_display_text_moved_success: String =
         "screen_success_remove_funds_transaction_display_text_moved_success"
 
-
     //     Report lost or stolen cards screen
 
     // Remove funds Screen
@@ -550,5 +555,27 @@ object Strings {
         "screen_card_blocked_button_reorder_new_card"
     const val screen_card_blocked_button_order_later: String =
         "screen_card_blocked_button_order_later"
+
+    // Enter current pin screen
+    const val screen_current_card_pin_display_text_heading: String =
+        "screen_current_card_pin_display_text_heading"
+    const val screen_current_card_pin_display_button_next: String =
+        "screen_current_card_pin_display_button_next"
+
+    //  Enter new pin screen
+    const val screen_create_card_pin_display_text_heading: String =
+        "screen_create_card_pin_display_text_heading"
+    const val screen_create_card_pin_display_button_create_pin: String =
+        "screen_create_card_pin_display_button_create_pin"
+
+    // confirm PIN screen
+    const val screen_confirm_card_pin_display_text_heading: String =
+        "screen_confirm_card_pin_display_text_heading"
+    const val screen_confirm_card_pin_display_button_confirm_pin: String =
+        "screen_confirm_card_pin_display_button_confirm_pin"
+
+    //Change PIN success screen
+    const val screen_change_pin_success_display_text_heading: String =
+        "screen_change_pin_success_display_text_heading"
 
 }

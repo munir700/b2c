@@ -7,7 +7,6 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
@@ -15,13 +14,22 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
-import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
+import co.yap.networking.cards.responsedtos.Card
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
+
+    val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
+    var selectedCardPosition: Int = 0
+    lateinit var adapter: YapCardsAdaptor
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_cards
@@ -33,22 +41,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         super.onViewCreated(view, savedInstanceState)
         setupPager()
         viewModel.clickEvent.observe(this, observer)
-
-        viewModel.state.cards.observe(this, Observer {
-            (viewPager2.adapter as YapCardsAdaptor).setItem(it)
-        })
-    }
-
-    val observer = Observer<Int> {
-        when (it) {
-            R.id.tbBtnAddCard -> {
-                findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
-            }
-        }
     }
 
     private fun setupPager() {
-        val adapter = YapCardsAdaptor(requireContext(), mutableListOf())
+        adapter = YapCardsAdaptor(requireContext(), mutableListOf())
         viewPager2.adapter = adapter
 
         with(viewPager2) {
@@ -77,23 +73,108 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 when (view.id) {
                     R.id.imgCard -> {
-                        val action =
-                            YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
-                                viewModel.state.cards.value?.get(pos)!!
-                            )
-                        view.findNavController().navigate(action)
+                        if (getCard(pos).cardName == Constants.addCard)
+                            findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        else
+                            when (CardStatus.valueOf(getCard(pos).status)) {
+                                CardStatus.ACTIVE -> {
+                                    selectedCardPosition = pos
+                                    startActivityForResult(
+                                        PaymentCardDetailActivity.newIntent(
+                                            requireContext(),
+                                            getCard(pos)
+                                        ), EVENT_PAYMENT_CARD_DETAIL
+                                    )
+                                }
+                                CardStatus.BLOCKED -> {
+                                    selectedCardPosition = pos
+                                    startActivityForResult(
+                                        PaymentCardDetailActivity.newIntent(
+                                            requireContext(),
+                                            getCard(pos)
+                                        ), EVENT_PAYMENT_CARD_DETAIL
+                                    )
+                                }
+                                CardStatus.INACTIVE -> {
+                                    when (getCard(pos).shipmentStatus?.let {
+                                        CardDeliveryStatus.valueOf(
+                                            it
+                                        )
+                                    }) {
+                                        CardDeliveryStatus.SHIPPED -> {
+                                            // set pin state
+                                            //todo
+                                            //imageView.setImageResource(co.yap.yapcore.R.drawable.ic_status_ontheway)
+                                        }
+                                        else -> {
+                                            view.findNavController().navigate(
+                                                YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
+                                                    getCard(pos)
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+
+                            }
                     }
                     R.id.lySeeDetail -> {
-                        startActivity(
-                            CardLimitsActivity.getIntent(
+                        selectedCardPosition = pos
+                        startActivityForResult(
+                            PaymentCardDetailActivity.newIntent(
                                 requireContext(),
-                                viewModel.state.cards.value?.get(pos)!!
-                            )
+                                getCard(pos)
+                            ), EVENT_PAYMENT_CARD_DETAIL
                         )
+                    }
+                    R.id.lycard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+                    R.id.imgAddCard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+                    R.id.tvAddCard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
                     }
 
                 }
             }
         })
+    }
+
+    val observer = Observer<Int> {
+        when (it) {
+            R.id.tbBtnAddCard -> {
+                findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            EVENT_PAYMENT_CARD_DETAIL -> {
+                val updatedCard = data?.getParcelableExtra<Card>("card")
+                val removed = data?.getBooleanExtra("cardRemoved", false)
+
+                if (removed!!) {
+                    adapter.removeItemAt(selectedCardPosition)
+                    adapter.notifyDataSetChanged()
+                    updateCardCount()
+                } else {
+                    adapter.setItemAt(selectedCardPosition, updatedCard!!)
+                }
+            }
+        }
+    }
+
+    private fun updateCardCount() {
+        viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
+    }
+
+    fun getCard(pos: Int): Card {
+        //return viewModel.state.cardList.get()?.get(pos)!!
+        return adapter.getDataForPosition(pos)
     }
 }

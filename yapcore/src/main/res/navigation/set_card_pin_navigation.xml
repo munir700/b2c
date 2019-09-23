@@ -38,7 +38,8 @@
         android:label="ConfirmCardPinFragment">
         <argument
             android:name="pincode"
-            app:argType="string"/>
+            app:argType="string"
+            android:defaultValue=" "/>
         <action
             android:id="@+id/action_confirmCardPinFragment_to_setCardPinSuccessFragment"
             app:enterAnim="@anim/slide_in_right"

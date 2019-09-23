@@ -261,9 +261,10 @@
             <TextView
                 android:id="@+id/tvTopUp"
                 style="@style/ASmallGrey"
+                android:lineSpacingExtra="@dimen/_1sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:gravity="center"
                 android:text="@{viewModel.state.topUpSuccess}"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -274,6 +275,7 @@
             <TextView
                 android:id="@+id/tvPrimaryCardBalance"
                 style="@style/ASmallGrey"
+                android:lineSpacingExtra="@dimen/_1sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
@@ -286,8 +288,8 @@
 
             <ImageView
                 android:id="@+id/ivSuccessCheckMark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_checkmark"

@@ -1,6 +1,9 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities
 
 import android.animation.AnimatorSet
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
@@ -15,11 +18,14 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
+import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_fund_actions.*
@@ -31,6 +37,17 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
     var amount: String? = null
     private val windowSize: Rect = Rect()
+    var card: Card? = null
+    private lateinit var updatedSpareCardBalance: String
+    private var fundsAdded : Boolean = false
+    companion object {
+        private const val CARD = "card"
+        fun newIntent(context: Context, card: Card): Intent {
+            val intent = Intent(context, AddFundsActivity::class.java)
+            intent.putExtra(CARD, card)
+            return intent
+        }
+    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -48,6 +65,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
             DecimalDigitsInputFilter(2)
         )
         setObservers()
+        setupData()
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
         })
@@ -57,23 +75,41 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
-                    viewModel.state.topUpSuccess =
-                        getString(Strings.screen_success_funds_transaction_display_text_top_up).format(
-                            viewModel.state.currencyType,
-                            viewModel.state.amount
-                        )
+                    viewModel.addFunds()
+                } else {
+                    if(fundsAdded){
+                        setupActionsIntent()
+                    }
+                    this.finish()
+                })
+
+                R.id.ivCross -> this.finish()
+
+                viewModel.EVENT_ADD_FUNDS_SUCCESS -> {
+                    fundsAdded = true
+                    setUpSuccessData()
                     performSuccessOperations()
                     etAmount.visibility = View.GONE
                     viewModel.state.buttonTitle =
                         getString(Strings.screen_success_funds_transaction_display_text_button)
-                } else {
-                    this.finish()
-                })
-                R.id.ivCross -> this.finish()
+                }
+
             }
 
 
         })
+    }
+
+    private fun setupData() {
+        card = intent.getParcelableExtra(CARD)
+        viewModel.state.cardNumber = card!!.maskedCardNo
+        viewModel.cardSerialNumber = card!!.cardSerialNumber
+        viewModel.state.cardName = card!!.cardName
+//        viewModel.state.availableBalance = card.availableBalance
+        viewModel.state.availableBalance =
+            MyUserManager.cardBalance.value?.availableBalance.toString()
+        viewModel.state.availableBalanceText =
+            " " + getString(Strings.common_text_currency_type) + " " + viewModel.state.availableBalance
     }
 
     private fun showErrorSnackBar() {
@@ -144,12 +180,49 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         )
     }
 
-    override fun onBackPressed() {
-    }
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
 
+    private fun setUpSuccessData() {
+        viewModel.state.topUpSuccess =
+            getString(Strings.screen_success_funds_transaction_display_text_top_up).format(
+                viewModel.state.currencyType,
+                viewModel.state.amount
+            )
+
+        val updatedCardBalance: String =
+            (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
+
+        MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance)
+        viewModel.state.primaryCardUpdatedBalance =
+            getString(Strings.screen_success_funds_transaction_display_text_primary_balance).format(
+                viewModel.state.currencyType,
+                MyUserManager.cardBalance.value?.availableBalance.toString()
+            )
+
+        updatedSpareCardBalance =
+            (card!!.availableBalance.toDouble() + viewModel.state.amount!!.toDouble()).toString()
+
+        viewModel.state.spareCardUpdatedBalance =
+            getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance).format(
+                viewModel.state.currencyType,
+                updatedSpareCardBalance
+            )
+    }
+
+    override fun onBackPressed() {
+        if(fundsAdded){
+            setupActionsIntent()
+        }
+        super.onBackPressed()
+    }
+
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("newBalance", updatedSpareCardBalance)
+        setResult(Activity.RESULT_OK, returnIntent)
     }
 
 }

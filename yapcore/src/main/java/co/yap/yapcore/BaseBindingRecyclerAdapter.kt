@@ -11,6 +11,7 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     RecyclerView.Adapter<VH>() {
 
     var onItemClickListener: OnItemClickListener? = null
+    var allowFullItemClickListener: Boolean = false
 
     protected abstract fun onCreateViewHolder(binding: ViewDataBinding): VH
 
@@ -29,17 +30,22 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.itemView.setOnClickListener {
-            onItemClickListener?.onItemClick(
-                it,
-                getDataForPosition(position),
-                position
-            )
-        }
+        if (allowFullItemClickListener)
+            holder.itemView.setOnClickListener {
+                onItemClickListener?.onItemClick(
+                    it,
+                    getDataForPosition(position),
+                    position
+                )
+            }
     }
 
-    private fun getDataForPosition(position: Int): T {
+    fun getDataForPosition(position: Int): T {
         return list[position]
+    }
+
+    fun getDataList(): MutableList<T> {
+        return list
     }
 
     override fun getItemCount(): Int {
@@ -50,6 +56,16 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
         this.list.clear()
         this.list.addAll(list)
         notifyDataSetChanged()
+    }
+
+    fun setItemAt(position: Int, item: Any) {
+        this.list[position] = item as T
+        notifyItemChanged(position)
+    }
+
+    fun removeItemAt(position: Int) {
+        this.list.removeAt(position)
+        notifyItemRemoved(position)
     }
 
     fun setItemListener(onItemClickListener: OnItemClickListener) {

@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
+import android.os.Handler
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
@@ -181,9 +182,13 @@ class EmailViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()){
                     parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
-                    nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
+                        Handler().postDelayed({
+                            nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
+                        }, 400)
                     MyUserManager.user = response.data.data[0]
                     state.valid = true
+
+
                     }
                 }
                 is RetroApiResponse.Error -> {

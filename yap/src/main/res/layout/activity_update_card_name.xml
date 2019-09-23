@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.UpdateCardNameViewModel" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/ivCross"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:layout_centerVertical="true"
+                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                    android:contentDescription="@string/empty_string"
+                    android:src="@drawable/ic_close_dark" />
+
+
+                <TextView
+                    android:id="@+id/tvTitle"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:text="Add card's name" />
+
+            </RelativeLayout>
+
+        </androidx.appcompat.widget.Toolbar>
+
+        <RelativeLayout
+            android:id="@+id/rlCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar">
+
+            <ImageView
+                android:id="@+id/ivCard"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:contentDescription="@string/empty_string"
+                android:src="@drawable/card_spare" />
+
+            <TextView
+                android:id="@+id/tvCardType"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ivCard"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="Spare Card" />
+
+        </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rlCard"
+        android:layout_above="@+id/btnConfirm">
+
+        <EditText
+            android:id="@+id/etName"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_42sdp"
+            android:inputType="textPersonName"
+            android:hint="Add name"
+            android:text="@={viewModel.state.cardName}"
+            style="@style/ALarge"
+            android:textColorHint="@color/grey"
+            android:gravity="left"
+            tools:ignore="MissingConstraints"
+            android:layout_marginStart="@dimen/_13sdp"
+            android:layout_marginEnd="@dimen/margin_medium"
+            android:layout_marginTop="4dp"
+            android:maxLength="100"
+            android:paddingEnd="@dimen/margin_medium"
+            android:textSize="@dimen/text_size_h3"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_centerVertical="true"/>
+
+    </RelativeLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnConfirm"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_xxl"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            app:layout_constraintVertical_bias="0.988"
+            app:layout_goneMarginTop="@dimen/margin_extra_large"
+            android:text="Confirm"
+            tools:layout_editor_absoluteX="34dp" />
+    </RelativeLayout>
+
+</layout>

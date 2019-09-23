@@ -16,38 +16,27 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.MyUserManager
 
 
 class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
-    override var latitude: String=""
-
-    override var longitude: String=""
-
-   override lateinit var address: Address
+    override var latitude: String = ""
+    override var longitude: String = ""
+    override lateinit var address: Address
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
-
-
     override var isFromaddressScreen: Boolean = false
-
     override val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int = 1000
-
-
     override val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int = 5000
-
     override val repository: CardsRepository = CardsRepository
-
     override val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper =
         AddSparePhysicalCardLogicHelper(context, this)
-
     override val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper =
         AddSpareVirtualCardLogicHelper(context, this)
-
     override var cardType: String = ""
-
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: AddSpareCardState =
         AddSpareCardState()
@@ -139,7 +128,10 @@ class AddSpareCardViewModel(application: Application) :
                         state.loading = false
                     }
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
             }
         }
 
@@ -149,7 +141,7 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
-                AddVirtualSpareCardRequest(" ")
+                AddVirtualSpareCardRequest(MyUserManager.user?.customer?.firstName +" "+MyUserManager.user?.customer?.lastName)
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(ADD_VIRTUAL_SPARE_CLICK_EVENT)
@@ -168,7 +160,7 @@ class AddSpareCardViewModel(application: Application) :
     override fun requestAddSparePhysicalCard(id: Int) {
         val addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest =
             AddPhysicalSpareCardRequest(
-                " ",
+                MyUserManager.user?.customer?.firstName +" "+MyUserManager.user?.customer?.lastName,
                 address.latitude.toString(),
                 address.longitude.toString(),
                 address.address1

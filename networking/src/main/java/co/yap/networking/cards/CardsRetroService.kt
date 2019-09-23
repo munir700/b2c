@@ -5,7 +5,8 @@ import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.requestdtos.CreateCardPinRequest
 import co.yap.networking.cards.requestdtos.OrderCardRequest
-import co.yap.networking.cards.responsedtos.DebitCardBalanceResponseDTO
+import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
+import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
 import co.yap.networking.cards.responsedtos.GetPhysicalAddress
 import co.yap.networking.models.ApiResponse
@@ -28,7 +29,7 @@ interface CardsRetroService {
 
     // get card balance
     @GET(CardsRepository.URL_GET_DEBIT_CARD_BALANCE)
-    suspend fun getAccountBalanceRequest(): Response<DebitCardBalanceResponseDTO>
+    suspend fun getAccountBalanceRequest(): Response<CardBalanceResponseDTO>
 
     @PUT(CardsRepository.URL_ALLOW_ATM)
     suspend fun configAllowAtm(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
@@ -54,4 +55,23 @@ interface CardsRetroService {
     @GET(CardsRepository.URL_GET_PHYSICAL_CARD_ADDRESS)
     suspend fun getPhysicalCardAddress(): Response<GetPhysicalAddress>
 
+    // Get Card Balance
+    @GET(CardsRepository.URL_GET_CARD_BALANCE)
+    suspend fun getCardBalance(@Query("cardSerialNumber") cardSerialNumber: String): Response<CardBalanceResponseDTO>
+
+    // Freeze / Unfreeze Card
+    @PUT(CardsRepository.URL_CARD_FREEZE_UNFREEZE)
+    suspend fun freezeUnfreezeCard(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
+
+    // Get Card Details
+    @GET(CardsRepository.URL_GET_CARD_DETAILS)
+    suspend fun getCardDetails(@Query("cardSerialNumber") cardSerialNumber: String): Response<CardDetailResponseDTO>
+
+    // Remove Card
+    @PUT(CardsRepository.URL_REMOVE_CARD)
+    suspend fun removeCard(@Body cardLimitConfigRequest: CardLimitConfigRequest): Response<ApiResponse>
+
+    // Update Card name
+    @PUT(CardsRepository.URL_UPDATE_CARD_NAME)
+    suspend fun updateCardName(@Query("cardName") cardName: String, @Query("cardSerialNumber") cardSerialNumber: String): Response<CardDetailResponseDTO>
 }

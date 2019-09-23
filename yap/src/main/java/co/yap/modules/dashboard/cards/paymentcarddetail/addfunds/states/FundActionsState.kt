@@ -78,7 +78,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         }
 
     @get:Bindable
-    override var availableBalance: String = "500"
+    override var availableBalance: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.availableBalance)
