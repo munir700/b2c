@@ -70,6 +70,7 @@
                 android:layout_gravity="center"
                 android:gravity="center"
                 tools:text="Spare Card"
+                android:text="@={viewModel.state.cardName}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +95,7 @@
             android:layout_centerHorizontal="true"
             app:buttonVisibility="@{true}"
             app:cardNumber="@{viewModel.state.cardPanNumber}"
-            app:cardName="@{viewModel.state.cardName}"
+            app:cardName="@{viewModel.state.cardTypeText}"
             android:layout_marginBottom="@dimen/margin_medium"/>
 
         <RelativeLayout

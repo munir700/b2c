@@ -3,6 +3,7 @@ package co.yap.networking.transactions
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.AddRemoveFundsResponse
+import co.yap.networking.transactions.responsedtos.CardFeeResponse
 import co.yap.networking.transactions.responsedtos.FundTransferDenominationsResponse
 import co.yap.networking.transactions.responsedtos.FundTransferLimitsResponse
 import retrofit2.Response
@@ -28,5 +29,9 @@ interface TransactionsRetroService {
     // Get fund transfer denominations
     @GET(TransactionsRepository.URL_FUND_TRANSFER_DENOMINATIONS)
     suspend fun getFundTransferDenominations(@Path("product-code") productCode: String): Response<FundTransferDenominationsResponse>
+
+    // Get fund transfer denominations
+    @GET(TransactionsRepository.URL_GET_CARD_FEE)
+    suspend fun getCardFee(@Path("card-type") cardType: String): Response<CardFeeResponse>
 
 }

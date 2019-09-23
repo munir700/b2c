@@ -13,7 +13,8 @@ interface ISpareCards {
         fun loadJSONDummyList(): ArrayList<BenefitsModel>
         fun handlePressOnAddVirtualCard(id: Int)
         fun handlePressOnAddPhysicalCard(id: Int)
-
+        fun getVirtualCardFee()
+        fun getPhysicalCardFee()
     }
 
     interface State : IBase.State{
