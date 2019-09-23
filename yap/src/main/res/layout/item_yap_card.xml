@@ -69,7 +69,7 @@
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/tvCardStatus"
@@ -87,8 +87,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_22sdp"
                 android:layout_marginTop="@dimen/margin_normal"
-
                 android:paddingTop="@dimen/_10sdp"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
                 app:btn_enable="true"
                 app:cardStatus="@{viewModel.paymentCard}"
                 tools:text="Update Card" />
@@ -110,7 +110,7 @@
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
             tools:text="Update Card"
-            tools:visibility="visible">
+            tools:visibility="invisible">
 
             <ImageView
                 android:id="@+id/imgDetail"

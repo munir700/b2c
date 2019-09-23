@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
+import co.yap.R
 import co.yap.modules.store.interfaces.IYapStore
 import co.yap.modules.store.paging.StoreDataSource
 import co.yap.modules.store.paging.StoreDataSourceFactory
@@ -28,7 +29,7 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
 
     init {
         storeSourceFactory = StoreDataSourceFactory(repository)
-        storesLiveData = LivePagedListBuilder<Long, Store>(
+        storesLiveData = LivePagedListBuilder(
             storeSourceFactory,
             getPagingConfigs()
         ).build()

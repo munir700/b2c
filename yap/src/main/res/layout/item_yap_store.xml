@@ -51,7 +51,7 @@
                 android:contentDescription="@string/empty_string"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imgStoreCover"
-                app:src="@{viewModel.storeData.image}"
+                app:src="@{viewModel.storeData.storeIcon}"
                 tools:srcCompat="@drawable/ic_young_smile" />
             <!--            app:src="@{viewModel.storeData.storeIcon}"-->
             <TextView
