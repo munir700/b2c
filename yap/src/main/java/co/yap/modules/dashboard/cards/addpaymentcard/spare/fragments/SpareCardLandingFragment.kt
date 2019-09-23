@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFr
 import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ISpareCards
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
+import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.SpareCardLandingViewModel
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_spare_card_landing.*
@@ -41,8 +42,12 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
         super.onViewCreated(view, savedInstanceState)
 
         addBenefitRecyclerView()
-
         SharedPreferenceManager(context!!).removeValue(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
+
+        activity?.let {
+            ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java)
+                .state.tootlBarTitle = "Add a spare card"
+        }
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
