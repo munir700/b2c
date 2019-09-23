@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,6 +22,8 @@ import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     IAddSpareCard.View {
+
+    private var cardAdded : Boolean= false
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_spare_card
@@ -66,6 +70,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
+                    cardAdded = true
                     AddSpareVirtualCardViewHelper(
                         this!!.activity!!,
                         navController,
@@ -75,7 +80,9 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 R.id.btnDoneAddingSpareVirtualCard -> {
-                    activity!!.onBackPressed()
+                    // Spare virtual card added event
+                    setupActionsIntent()
+                    activity!!.finish()
                 }
                 R.id.btnConfirm -> {
                     viewModel.state.toggleVisibility = true
@@ -142,6 +149,18 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     }
 
     override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
+        return if (cardAdded) {
+            setupActionsIntent()
+            activity!!.finish()
+            true
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardAdded", true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

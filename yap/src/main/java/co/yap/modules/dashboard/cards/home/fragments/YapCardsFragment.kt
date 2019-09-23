@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.home.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -7,10 +8,10 @@ import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
@@ -27,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_yap_cards.*
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
 
     val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
+    val EVENT_CARD_ADDED: Int get() = 12
     var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
@@ -73,9 +75,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 when (view.id) {
                     R.id.imgCard -> {
-                        if (getCard(pos).cardName == Constants.addCard)
-                            findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
-                        else
+                        if (getCard(pos).cardName == Constants.addCard) {
+                            startActivityForResult(
+                                AddPaymentCardActivity.newIntent(requireContext()),
+                                EVENT_CARD_ADDED
+                            )
+                            //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        } else
                             when (CardStatus.valueOf(getCard(pos).status)) {
                                 CardStatus.ACTIVE -> {
                                     selectedCardPosition = pos
@@ -128,13 +134,25 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         )
                     }
                     R.id.lycard -> {
-                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        startActivityForResult(
+                            AddPaymentCardActivity.newIntent(requireContext()),
+                            EVENT_CARD_ADDED
+                        )
+                        //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
                     }
                     R.id.imgAddCard -> {
-                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        startActivityForResult(
+                            AddPaymentCardActivity.newIntent(requireContext()),
+                            EVENT_CARD_ADDED
+                        )
+                        //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
                     }
                     R.id.tvAddCard -> {
-                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        startActivityForResult(
+                            AddPaymentCardActivity.newIntent(requireContext()),
+                            EVENT_CARD_ADDED
+                        )
+                        //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
                     }
 
                 }
@@ -145,7 +163,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     val observer = Observer<Int> {
         when (it) {
             R.id.tbBtnAddCard -> {
-                findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                startActivityForResult(
+                    AddPaymentCardActivity.newIntent(requireContext()),
+                    EVENT_CARD_ADDED
+                )
             }
         }
     }
@@ -164,6 +186,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     updateCardCount()
                 } else {
                     adapter.setItemAt(selectedCardPosition, updatedCard!!)
+                }
+            }
+
+            EVENT_CARD_ADDED -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val updatedCard: Boolean? = data?.getBooleanExtra("cardAdded", false)
+                    if (updatedCard!!) {
+                        viewModel.state.cardList.get()?.clear()
+                        viewModel.getCards()
+                    }
                 }
             }
         }
