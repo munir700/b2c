@@ -77,7 +77,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
                 R.id.ivCross -> this.finish()
 
-                viewModel.EVENT_ADD_FUNDS_SUCCESS ->{
+                viewModel.EVENT_ADD_FUNDS_SUCCESS -> {
                     viewModel.state.topUpSuccess =
                         getString(Strings.screen_success_funds_transaction_display_text_top_up).format(
                             viewModel.state.currencyType,
@@ -96,11 +96,13 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     private fun setupData() {
-        val card : Card = intent.getParcelableExtra(CARD)
+        val card: Card = intent.getParcelableExtra(CARD)
         viewModel.state.cardNumber = card.maskedCardNo
         viewModel.cardSerialNumber = card.cardSerialNumber
         viewModel.state.cardName = card.cardName
-        viewModel.state.availableBalanceText = " " + getString(Strings.common_text_currency_type) + " "+ card.availableBalance
+        viewModel.state.availableBalance = card.availableBalance
+        viewModel.state.availableBalanceText =
+            " " + getString(Strings.common_text_currency_type) + " " + card.availableBalance
     }
 
     private fun showErrorSnackBar() {

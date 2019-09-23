@@ -21,5 +21,6 @@ interface IUpdateCardName {
 
     interface State : IBase.State {
         var cardName: String
+        var valid: Boolean
     }
 }

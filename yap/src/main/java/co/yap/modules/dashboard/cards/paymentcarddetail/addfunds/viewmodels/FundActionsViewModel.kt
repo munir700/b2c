@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
+import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
@@ -50,7 +51,12 @@ open class FundActionsViewModel(application: Application) :
     override fun addFunds() {
         launch {
             state.loading = true
-            when (val response = transactionsRepository.addFunds(AddFundsRequest(state.amount.toString() ,cardSerialNumber))) {
+            when (val response = transactionsRepository.addFunds(
+                AddFundsRequest(
+                    state.amount.toString(),
+                    cardSerialNumber
+                )
+            )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
                 }
@@ -65,7 +71,12 @@ open class FundActionsViewModel(application: Application) :
     override fun removeFunds() {
         launch {
             state.loading = true
-            when (val response = transactionsRepository.removeFunds(RemoveFundsRequest(state.amount.toString() , cardSerialNumber))) {
+            when (val response = transactionsRepository.removeFunds(
+                RemoveFundsRequest(
+                    state.amount.toString(),
+                    cardSerialNumber
+                )
+            )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(EVENT_REMOVE_FUNDS_SUCCESS)
                 }
@@ -96,6 +107,15 @@ open class FundActionsViewModel(application: Application) :
             state.loading = true
             when (val response = transactionsRepository.getFundTransferDenominations(productCode)) {
                 is RetroApiResponse.Success -> {
+                    var fundsType: String? = null
+                    if (productCode == Constants.ADD_FUNDS_PRODUCT_CODE) {
+                        fundsType = "+"
+                    } else if (productCode == Constants.REMOVE_FUNDS_PRODUCT_CODE) {
+                        fundsType = "-"
+                    }
+                    state.denominationFirstAmount = fundsType + response.data.data[0].amount
+                    state.denominationSecondAmount = fundsType + response.data.data[1].amount
+                    state.denominationThirdAmount = fundsType + response.data.data[2].amount
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
