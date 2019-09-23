@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.reportcard.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -23,36 +24,47 @@ class ReportLostOrStolenCardFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-//        SharedPreferenceManager(this!!.context!!).removeValue(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-                /* R.id.llAddVirtualCard -> {
-                     val action =
-                         ReportLostOrStolenCardFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                             getString(R.string.screen_spare_card_landing_display_text_virtual_card)
-                         )
-                     findNavController().navigate(action)
+                R.id.llDamagedCard -> {
+                    showDialog()
 
 
-                 }
+                }
 
-                 R.id.llAddPhysicalCard -> {
+                R.id.llStolenCard -> {
 
-                     val action =
-                         ReportLostOrStolenCardFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                             getString(R.string.screen_spare_card_landing_display_text_physical_card)
-                         )
-                     findNavController().navigate(action)
-                 }*/
+
+                }
 
             }
         })
 
 
     }
+
+    private fun showDialog() {
+
+        val builder = AlertDialog.Builder(this.requireActivity())
+        builder.setTitle(getString(R.string.screen_report_card_display_text_block_alert_title))
+        builder.setMessage(R.string.screen_report_card_display_text_block_alert_message)
+        builder.setPositiveButton(R.string.screen_report_card_display_button_block_alert_confirm) { dialog, which ->
+            // call api
+            showToast("ok")
+
+        }
+
+        builder.setNegativeButton(R.string.screen_report_card_display_button_block_alert_cancel) { dialog, which ->
+            //dismiss
+            showToast("no")
+        }
+
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
 
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)

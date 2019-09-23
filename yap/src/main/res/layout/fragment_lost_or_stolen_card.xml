@@ -26,8 +26,8 @@
 
             <LinearLayout
                 android:id="@+id/linearLayout2"
-                android:layout_width="@dimen/_181sdp"
-                android:layout_height="@dimen/_250sdp"
+                android:layout_width="@dimen/_175sdp"
+                android:layout_height="@dimen/_240sdp"
                 android:layout_gravity="center_horizontal"
                 android:background="@drawable/card_spare"
                 android:orientation="vertical"
@@ -37,7 +37,7 @@
 
             <TextView
                 android:id="@+id/tvSpareCardTile"
-                style="@style/Regular"
+                style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
@@ -88,6 +88,7 @@
                     android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_h2"
+                    android:layout_marginLeft="-7dp"
                     app:text="@{Strings.screen_payment_card_detail_text_secure}"
                     tools:text="@string/screen_payment_card_detail_text_secure" />
 
@@ -123,7 +124,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCaption">
 
                 <LinearLayout
-                    android:id="@+id/llAddVirtualCard"
+                    android:id="@+id/llDamagedCard"
                     android:layout_width="@dimen/_125sdp"
                     android:layout_height="@dimen/_115sdp"
                     android:layout_marginRight="@dimen/margin_medium"
@@ -140,7 +141,7 @@
 
                     <TextView
                         android:id="@+id/tvVirtualCardTitle"
-                        style="@style/Regular"
+                        style="@style/ASmall"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium"
@@ -153,7 +154,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/llAddPhysicalCard"
+                    android:id="@+id/llStolenCard"
                     android:layout_width="@dimen/_125sdp"
                     android:layout_height="@dimen/_115sdp"
                     android:background="@drawable/card_border_selector"
@@ -169,7 +170,7 @@
                         android:src="@drawable/ic_stolen" />
 
                     <TextView
-                        style="@style/Regular"
+                        style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium"
@@ -182,7 +183,7 @@
 
             <TextView
                 android:id="@+id/tvHeading"
-                style="@style/Regular"
+                style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
@@ -196,7 +197,7 @@
 
             <TextView
                 android:id="@+id/tvWarning"
-                style="@style/Regular"
+                style="@style/ASmall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
@@ -218,9 +219,9 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings"
+                android:layout_marginLeft="@dimen/margin_extra_large"
                 android:layout_marginTop="@dimen/_25sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings"
+                android:layout_marginRight="@dimen/margin_extra_large"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnReportAndBlockButton(v.id)}"
                 android:textAllCaps="false"
