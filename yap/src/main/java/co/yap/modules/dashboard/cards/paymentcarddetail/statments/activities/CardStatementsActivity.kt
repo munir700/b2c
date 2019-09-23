@@ -34,9 +34,9 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.card = intent.getParcelableExtra(CARD)
     }
 
     override fun onClick(eventType: Int) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
