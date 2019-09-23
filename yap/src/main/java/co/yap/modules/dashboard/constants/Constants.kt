@@ -6,7 +6,8 @@ object Constants {
     const val CARD_TYPE_PREPAID: String = "PREPAID"
 
     const val TEXT_PRIMARY_CARD: String = "Primary card"
-    const val TEXT_SPARE_CARD: String = "Spare card"
+    const val TEXT_SPARE_CARD_VIRTUAL: String = "Spare virtual card"
+    const val TEXT_SPARE_CARD_PHYSICAL: String = "Spare physical card"
 
     const val EVENT_ADD_CARD_NAME: Int = 1
     const val EVENT_CHANGE_PIN: Int = 2

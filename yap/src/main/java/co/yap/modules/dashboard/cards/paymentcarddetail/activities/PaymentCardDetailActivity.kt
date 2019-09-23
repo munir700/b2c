@@ -154,7 +154,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
         } else {
-            viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD
+            if(viewModel.card.physical){
+                viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_PHYSICAL
+            }else{
+                viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_VIRTUAL
+            }
             viewModel.getCardBalance()
             rlSpareCardActions.visibility = View.VISIBLE
         }
