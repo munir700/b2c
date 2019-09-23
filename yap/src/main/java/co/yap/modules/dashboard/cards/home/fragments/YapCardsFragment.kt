@@ -144,34 +144,23 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         when (requestCode) {
             EVENT_PAYMENT_CARD_DETAIL -> {
-                val cardNameUpdated = data?.getBooleanExtra("cardNameUpdated", false)
-                val updatedCardName = data?.getStringExtra("updatedCardName")
-                val cardFreezeUnfreeze = data?.getBooleanExtra("cardFreezeUnfreeze", false)
+                val updatedCard = data?.getParcelableExtra<Card>("card")
+                val removed = data?.getBooleanExtra("cardRemoved", false)
 
-
-                val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
-                val cardRemoved = data?.getBooleanExtra("cardRemoved", false)
-
-                if (cardNameUpdated!!) {
-                    getCard(selectedCardPosition).cardName = updatedCardName.toString()
-                    adapter.notifyItemChanged(selectedCardPosition)
-                }
-
-                if (cardFreezeUnfreeze!!) {
-                    if (cardBlocked != null) {
-                        getCard(selectedCardPosition).blocked = cardBlocked
-                        getCard(selectedCardPosition).status = "BLOCKED"
-                        adapter.notifyItemChanged(selectedCardPosition)
-                    }
-                }
-
-                if (cardRemoved!!) {
-                    adapter.getDataList().clear()
-                    viewModel.getCards()
+                if (removed!!) {
+                    adapter.removeItemAt(selectedCardPosition)
+                    updateCardCount()
+                } else {
+                    adapter.setItemAt(selectedCardPosition, updatedCard!!)
                 }
             }
         }
     }
+
+    private fun updateCardCount() {
+        viewModel.updateCardCount(adapter.itemCount - 1)
+    }
+
 
     fun getCard(pos: Int): Card {
         //return viewModel.state.cardList.get()?.get(pos)!!

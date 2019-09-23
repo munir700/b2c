@@ -30,12 +30,8 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             when (val response = repository.getDebitCards("")) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.size != 0) {
-                        state.noOfCard = Translator.getString(
-                            context,
-                            R.string.screen_cards_display_text_cards_count
-                        ).replace("%d", response.data.data.size.toString())
+                        updateCardCount(response.data.data.size)
                         response.data.data.add(getAddCard())
-                        //state.cards.value = response.data.data
                         state.cardList.set(response.data.data)
                     }
                 }
@@ -43,7 +39,13 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             }
             state.loading = false
         }
+    }
 
+    override fun updateCardCount(size: Int) {
+        state.noOfCard = Translator.getString(
+            context,
+            R.string.screen_cards_display_text_cards_count
+        ).replace("%d", size.toString())
     }
 
     private fun getAddCard(): Card {

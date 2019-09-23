@@ -29,6 +29,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDe
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
@@ -42,7 +43,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet
 
-    private var cardNameUpdated: Boolean = false
     private var cardFreezeUnfreeze: Boolean = false
     private var cardRemoved: Boolean = false
 
@@ -68,7 +68,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         setObservers()
         setupView()
     }
-
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
@@ -231,7 +230,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         when (requestCode) {
             Constants.REQUEST_CARD_NAME_UPDATED -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    cardNameUpdated = true
                     viewModel.state.cardName = data?.getStringExtra("name").toString()
                     viewModel.card.cardName = viewModel.state.cardName
                 }
@@ -287,11 +285,25 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupActionsIntent() {
+
+        val updateCard = viewModel.card
+
+        updateCard.physical = viewModel.state.physical
+        updateCard.cardType = viewModel.state.cardType
+        updateCard.maskedCardNo = viewModel.state.cardPanNumber
+        updateCard.cardBalance = viewModel.state.cardBalance
+        updateCard.cardName = viewModel.state.cardName
+        updateCard.accountType = viewModel.state.accountType
+
+        if (cardFreezeUnfreeze) {
+            if (viewModel.card.blocked)
+                updateCard.status = "BLOCKED"
+            else
+                updateCard.status = "ACTIVE"
+        }
+
         val returnIntent = Intent()
-        returnIntent.putExtra("cardNameUpdated", cardNameUpdated)
-        returnIntent.putExtra("updatedCardName", viewModel.state.cardName)
-        returnIntent.putExtra("cardFreezeUnfreeze", cardFreezeUnfreeze)
-        returnIntent.putExtra("cardBlocked", viewModel.card.blocked)
+        returnIntent.putExtra("card", updateCard)
         returnIntent.putExtra("cardRemoved", cardRemoved)
         setResult(Activity.RESULT_OK, returnIntent)
     }

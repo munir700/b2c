@@ -18,6 +18,7 @@ interface IYapCards {
         val clickEvent: SingleClickEvent
         fun getCards()
         fun handlePressOnView(id: Int)
+        fun updateCardCount(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

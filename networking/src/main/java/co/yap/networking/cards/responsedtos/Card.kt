@@ -10,11 +10,11 @@ import kotlinx.android.parcel.Parcelize
 data class Card(
     val newPin: String?,
 
-    val cardType: String,
+    var cardType: String,
 
     val uuid: String,
 
-    val physical: Boolean,
+    var physical: Boolean,
 
     val active: Boolean,
 
@@ -28,9 +28,9 @@ data class Card(
 
     val delivered: Boolean,
 
-    val cardSerialNumber: String,
+    var cardSerialNumber: String,
 
-    val maskedCardNo: String,
+    var maskedCardNo: String,
 
     var atmAllowed: Boolean,
 
@@ -40,17 +40,17 @@ data class Card(
 
     var paymentAbroadAllowed: Boolean,
 
-    val accountType: String,
+    var accountType: String,
 
     val expiryDate: String,
 
-    val cardBalance: String,
+    var cardBalance: String,
 
     val cardScheme: String,
 
     val currentBalance: String,
 
-    val availableBalance: String,
+    var availableBalance: String,
 
     val customerId: String,
 

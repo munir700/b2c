@@ -51,6 +51,27 @@ object UIBinder {
 
     @BindingAdapter("cardStatus")
     @JvmStatic
+    fun setCardStatus(linearLayout: LinearLayout, card: Card) {
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                linearLayout.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                linearLayout.visibility = View.VISIBLE
+            }
+            CardStatus.INACTIVE -> {
+                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                    CardDeliveryStatus.SHIPPED -> {
+                        linearLayout.visibility = View.VISIBLE
+                    }
+                }
+            }
+
+        }
+    }
+
+    @BindingAdapter("cardStatus")
+    @JvmStatic
     fun setCardStatus(imageView: ImageView, card: Card) {
 
         when (CardStatus.valueOf(card.status)) {
