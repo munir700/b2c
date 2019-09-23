@@ -22,7 +22,7 @@ class ReportOrStolenCardState : BaseState(), IRepostOrStolenCard.State {
 
         }
     @get:Bindable
-    override var cardType: String = "Spare Card"
+    override var cardType: String = "Primary Card"
         set(value) {
             field = value
             notifyPropertyChanged(BR.cardType)

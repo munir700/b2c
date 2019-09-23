@@ -40,10 +40,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
+                android:text="@{viewModel.state.cardType}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                app:text="@{viewModel.state.cardType}"
                 tools:text="@string/screen_spare_card_landing_display_text_spare_card" />
 
             <TextView
@@ -53,12 +53,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
+                android:text="@{viewModel.state.maskedCardNumber}"
                 android:textSize="@dimen/text_size_h2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile"
-                app:text="@{viewModel.state.maskedCardNumber}"
                 tools:text="4044 2345 **** 1234" />
 
             <LinearLayout

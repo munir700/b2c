@@ -10,9 +10,12 @@ import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
 import co.yap.yapcore.BaseBindingFragment
 
-class ReportLostOrStolenCardFragment : BaseBindingFragment<IRepostOrStolenCard.ViewModel>(),
-    IRepostOrStolenCard.View {
+//class ReportLostOrStolenCardFragment : BaseBindingFragment<IRepostOrStolenCard.ViewModel>(),
+//    IRepostOrStolenCard.View {
 
+//    }
+
+class ReportLostOrStolenCardFragment : ReportOrLOstCardChildFragment<IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View{
 
     override fun getBindingVariable(): Int = BR.viewModel
 
