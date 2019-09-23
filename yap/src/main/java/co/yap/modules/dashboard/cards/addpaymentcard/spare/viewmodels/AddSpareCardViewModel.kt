@@ -174,7 +174,9 @@ class AddSpareCardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(ADD_PHYSICAL_SPARE_CLICK_EVENT)
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toggleVisibility =  false
+                    state.toast = response.error.message}
             }
             state.loading = false
 
