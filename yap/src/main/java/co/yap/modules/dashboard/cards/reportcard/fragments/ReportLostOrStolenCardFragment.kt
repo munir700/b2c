@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
@@ -33,6 +34,7 @@ class ReportLostOrStolenCardFragment :
             when (it) {
 
                 R.id.llDamagedCard -> {
+
                     showDialog()
 
 
@@ -43,10 +45,15 @@ class ReportLostOrStolenCardFragment :
 
                 }
 
+                viewModel.CARD_REORDER_SUCCESS -> {
+                    val action =
+                        ReportLostOrStolenCardFragmentDirections.actionReportLostOrStolenCardFragmentToBlockCardSuccessFragment(
+                            viewModel.cardFee
+                        )
+                    findNavController().navigate(action)
+                }
             }
         })
-
-
     }
 
     private fun showDialog() {
@@ -67,8 +74,8 @@ class ReportLostOrStolenCardFragment :
                 context!!, screen_report_card_display_button_block_alert_confirm
             )
         ) { dialog, which ->
-            // call api
-            showToast("ok")
+
+            viewModel.requestConfirmBlockCard()
 
         }
 
