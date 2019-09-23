@@ -5,7 +5,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
-import co.yap.R
 import co.yap.modules.store.interfaces.IYapStore
 import co.yap.modules.store.paging.StoreDataSource
 import co.yap.modules.store.paging.StoreDataSourceFactory
@@ -52,10 +51,10 @@ class YapStoreViewModel(application: Application) : BaseViewModel<IYapStore.Stat
 
     private fun getPagingConfigs(): PagedList.Config {
         return PagedList.Config.Builder()
-            .setPageSize(30)
-            .setPrefetchDistance(1)
+            .setPageSize(20)
+            .setPrefetchDistance(10)
             .setInitialLoadSizeHint(30 * 2)
-            .setEnablePlaceholders(true)
+            .setEnablePlaceholders(false)
             .build()
     }
 }

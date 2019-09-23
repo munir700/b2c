@@ -69,7 +69,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
         }
 
-        (viewPager2.adapter as YapCardsAdaptor).setItemListener(object : OnItemClickListener {
+        adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
                 when (view.id) {
                     R.id.imgCard -> {
@@ -103,6 +103,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                     }) {
                                         CardDeliveryStatus.SHIPPED -> {
                                             // set pin state
+                                            //todo
                                             //imageView.setImageResource(co.yap.yapcore.R.drawable.ic_status_ontheway)
                                         }
                                         else -> {
@@ -126,6 +127,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             ), EVENT_PAYMENT_CARD_DETAIL
                         )
                     }
+                    R.id.lycard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+                    R.id.imgAddCard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+                    R.id.tvAddCard -> {
+                        findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                    }
+
                 }
             }
         })
@@ -149,6 +160,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
                 if (removed!!) {
                     adapter.removeItemAt(selectedCardPosition)
+                    adapter.notifyDataSetChanged()
                     updateCardCount()
                 } else {
                     adapter.setItemAt(selectedCardPosition, updatedCard!!)
@@ -158,9 +170,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun updateCardCount() {
-        viewModel.updateCardCount(adapter.itemCount - 1)
+        viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
-
 
     fun getCard(pos: Int): Card {
         //return viewModel.state.cardList.get()?.get(pos)!!

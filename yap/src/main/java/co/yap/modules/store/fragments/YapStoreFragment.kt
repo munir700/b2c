@@ -40,6 +40,7 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         viewModel.clickEvent.observe(this, observer)
         viewModel.storesLiveData.observe(this, Observer {
             (recycler_stores.adapter as YapStoreAdaptor).submitList(it)
+            getRecycleViewAdaptor()?.setState(PagingState.DONE)
         })
     }
 
