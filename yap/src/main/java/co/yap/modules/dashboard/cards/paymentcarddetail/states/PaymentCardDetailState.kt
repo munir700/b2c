@@ -23,6 +23,13 @@ class PaymentCardDetailState : BaseState(), IPaymentCardDetail.State{
         }
 
     @get:Bindable
+    override var cardTypeText: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardTypeText)
+        }
+
+    @get:Bindable
     override var cardPanNumber: String = ""
         set(value) {
             field = value

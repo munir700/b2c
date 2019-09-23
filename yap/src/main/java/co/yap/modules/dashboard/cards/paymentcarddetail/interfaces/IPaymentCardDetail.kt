@@ -31,6 +31,7 @@ interface IPaymentCardDetail {
     interface State : IBase.State {
         var accountType: String
         var cardType: String
+        var cardTypeText: String
         var cardPanNumber: String
         var cardBalance: String
         var cardName: String

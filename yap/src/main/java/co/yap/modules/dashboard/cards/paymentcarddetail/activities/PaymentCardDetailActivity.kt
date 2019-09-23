@@ -150,12 +150,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         viewModel.state.cardName = viewModel.card.cardName
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-            tvTitle.text = "Primary card"
+            viewModel.state.cardTypeText = Constants.TEXT_PRIMARY_CARD
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
         } else {
+            viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD
             viewModel.getCardBalance()
-            tvTitle.text = "Spare card"
             rlSpareCardActions.visibility = View.VISIBLE
         }
 
