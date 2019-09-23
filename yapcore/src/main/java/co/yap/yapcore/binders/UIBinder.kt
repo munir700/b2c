@@ -20,6 +20,7 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
+import androidx.viewpager2.widget.ViewPager2
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
@@ -57,11 +58,13 @@ object UIBinder {
                 imageView.visibility = View.GONE
             }
             CardStatus.BLOCKED -> {
+                imageView.visibility = View.VISIBLE
                 imageView.setImageResource(R.drawable.ic_status_frozen)
             }
             CardStatus.INACTIVE -> {
                 when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
                     CardDeliveryStatus.SHIPPED -> {
+                        imageView.visibility = View.VISIBLE
                         imageView.setImageResource(R.drawable.ic_status_ontheway)
                     }
                 }
@@ -79,6 +82,7 @@ object UIBinder {
                 text.visibility = View.GONE
             }
             CardStatus.BLOCKED -> {
+                text.visibility = View.VISIBLE
                 text.text = Translator.getString(
                     text.context,
                     R.string.screen_cards_display_text_freeze_card
@@ -87,12 +91,14 @@ object UIBinder {
             CardStatus.INACTIVE -> {
                 when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
                     CardDeliveryStatus.SHIPPED -> {
+                        text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
                             R.string.screen_cards_display_text_set_message
                         )
                     }
                     else -> {
+                        text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
                             R.string.screen_cards_display_text_pending_delivery
@@ -112,6 +118,7 @@ object UIBinder {
                 text.visibility = View.GONE
             }
             CardStatus.BLOCKED -> {
+                text.visibility = View.VISIBLE
                 text.text = Translator.getString(
                     text.context,
                     R.string.screen_cards_button_unfreeze_card
@@ -120,12 +127,14 @@ object UIBinder {
             CardStatus.INACTIVE -> {
                 when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
                     CardDeliveryStatus.SHIPPED -> {
+                        text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
                             R.string.screen_cards_display_text_set_pin
                         )
                     }
                     else -> {
+                        text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
                             R.string.screen_cards_button_update_card

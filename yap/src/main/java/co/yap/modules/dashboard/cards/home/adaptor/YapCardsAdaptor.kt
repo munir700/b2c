@@ -15,12 +15,12 @@ import co.yap.yapcore.helpers.Utils
 class YapCardsAdaptor(context: Context, private val list: MutableList<Card>) :
     BaseBindingRecyclerAdapter<Card, RecyclerView.ViewHolder>(list) {
 
-    private val EMPTY = 1
-    private val ACTUAL = 2
+    private val empty = 1
+    private val actual = 2
     private var dimensions: IntArray = Utils.getCardDimensions(context, 50, 45)
 
     override fun getLayoutIdForViewType(viewType: Int): Int =
-        if (viewType == ACTUAL) R.layout.item_yap_card else R.layout.item_yap_card_empty
+        if (viewType == actual) R.layout.item_yap_card else R.layout.item_yap_card_empty
 
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
@@ -39,13 +39,7 @@ class YapCardsAdaptor(context: Context, private val list: MutableList<Card>) :
         }
     }
 
-    fun setItem(lists: List<Card>) {
-        list.clear()
-        list.addAll(lists)
-        notifyDataSetChanged()
-    }
-
     override fun getItemViewType(position: Int): Int {
-        return if (list[position].cardName == "addCard") EMPTY else ACTUAL
+        return if (list[position].cardName == "addCard") empty else actual
     }
 }
