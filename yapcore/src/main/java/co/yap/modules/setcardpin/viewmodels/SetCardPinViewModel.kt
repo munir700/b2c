@@ -13,6 +13,7 @@ open class SetCardPinViewModel(application: Application) :
     BaseViewModel<ISetCardPin.State>(application),
     ISetCardPin.ViewModel {
 
+
     override var pincode: String = ""
     override val state: SetCardPinState = SetCardPinState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -31,6 +32,8 @@ open class SetCardPinViewModel(application: Application) :
     }
 
     override fun setCardPin() {}
+    override fun changeCardPinRequest(oldPin: String, newPin: String, confirmPin: String) {
+    }
 
     fun validateAggressively(): Boolean {
         val isSame = StringUtils.hasAllSameChars(state.pincode)

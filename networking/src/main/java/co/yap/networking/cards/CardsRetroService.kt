@@ -1,10 +1,6 @@
 package co.yap.networking.cards
 
-import co.yap.networking.cards.requestdtos.AddPhysicalSpareCardRequest
-import co.yap.networking.cards.requestdtos.AddVirtualSpareCardRequest
-import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
-import co.yap.networking.cards.requestdtos.CreateCardPinRequest
-import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.cards.requestdtos.*
 import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
@@ -74,4 +70,8 @@ interface CardsRetroService {
     // Update Card name
     @PUT(CardsRepository.URL_UPDATE_CARD_NAME)
     suspend fun updateCardName(@Query("cardName") cardName: String, @Query("cardSerialNumber") cardSerialNumber: String): Response<CardDetailResponseDTO>
+
+    @POST(CardsRepository.URL_CHANGE_CARD_PIN)
+    suspend fun changeCardPinRequest(@Body changeCardPinRequest: ChangeCardPinRequest): Response<ApiResponse>
+
 }

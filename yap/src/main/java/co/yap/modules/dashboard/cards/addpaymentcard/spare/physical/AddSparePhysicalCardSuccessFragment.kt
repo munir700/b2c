@@ -16,15 +16,8 @@ import kotlinx.android.synthetic.main.layout_add_spare_physical_card_success.*
 class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater?.inflate(
-            R.layout.fragment_add_physical_spare_card_success,
-            container, false
-        )
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = inflater?.inflate(R.layout.fragment_add_physical_spare_card_success, container, false)
 
         return view
     }

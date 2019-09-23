@@ -331,6 +331,7 @@
 
 <!--    Change PIN success screen-->
     <string name="screen_change_pin_success_display_text_heading">PIN code has been updated successfully!</string>
+    <string name="screen_change_pin_success_display_text_button">Done</string>
 
 
 
