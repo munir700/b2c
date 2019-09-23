@@ -8,14 +8,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
-import co.yap.yapcore.BaseBindingFragment
 
-//class ReportLostOrStolenCardFragment : BaseBindingFragment<IRepostOrStolenCard.ViewModel>(),
-//    IRepostOrStolenCard.View {
 
-//    }
-
-class ReportLostOrStolenCardFragment : ReportOrLOstCardChildFragment<IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View{
+class ReportLostOrStolenCardFragment :
+    ReportOrLOstCardChildFragment<IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -33,24 +29,24 @@ class ReportLostOrStolenCardFragment : ReportOrLOstCardChildFragment<IRepostOrSt
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-               /* R.id.llAddVirtualCard -> {
-                    val action =
-                        ReportLostOrStolenCardFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                            getString(R.string.screen_spare_card_landing_display_text_virtual_card)
-                        )
-                    findNavController().navigate(action)
+                /* R.id.llAddVirtualCard -> {
+                     val action =
+                         ReportLostOrStolenCardFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+                             getString(R.string.screen_spare_card_landing_display_text_virtual_card)
+                         )
+                     findNavController().navigate(action)
 
 
-                }
+                 }
 
-                R.id.llAddPhysicalCard -> {
+                 R.id.llAddPhysicalCard -> {
 
-                    val action =
-                        ReportLostOrStolenCardFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                            getString(R.string.screen_spare_card_landing_display_text_physical_card)
-                        )
-                    findNavController().navigate(action)
-                }*/
+                     val action =
+                         ReportLostOrStolenCardFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
+                             getString(R.string.screen_spare_card_landing_display_text_physical_card)
+                         )
+                     findNavController().navigate(action)
+                 }*/
 
             }
         })

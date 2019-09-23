@@ -6,13 +6,9 @@ import co.yap.yapcore.SingleLiveEvent
 
 interface IRepostOrStolenCard {
     interface State : IBase.State {
-        var tootlBarTitle: String
-        var tootlBarVisibility: Int
 
         var cardType: String
         var maskedCardNumber: String
-//        var report: String
-
 
     }
 

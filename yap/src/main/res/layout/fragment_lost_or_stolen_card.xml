@@ -20,6 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/colorWhite"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium">
 
             <LinearLayout
@@ -98,6 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -110,9 +113,10 @@
                 android:id="@+id/llReason"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="center|center_horizontal"
                 android:orientation="horizontal"
-                android:padding="@dimen/margin_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.513"
                 app:layout_constraintStart_toStartOf="parent"
@@ -120,8 +124,8 @@
 
                 <LinearLayout
                     android:id="@+id/llAddVirtualCard"
-                    android:layout_width="@dimen/_132sdp"
-                    android:layout_height="@dimen/_120sdp"
+                    android:layout_width="@dimen/_125sdp"
+                    android:layout_height="@dimen/_115sdp"
                     android:layout_marginRight="@dimen/margin_medium"
                     android:background="@drawable/card_border_selector"
                     android:clickable="true"
@@ -141,6 +145,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:gravity="center"
+                        android:textSize="@dimen/text_size_h2"
                         app:text="@{Strings.screen_report_card_button_damage_card}"
                         tools:text="@string/screen_report_card_button_damage_card" />
 
@@ -149,8 +154,8 @@
 
                 <LinearLayout
                     android:id="@+id/llAddPhysicalCard"
-                    android:layout_width="@dimen/_132sdp"
-                    android:layout_height="@dimen/_120sdp"
+                    android:layout_width="@dimen/_125sdp"
+                    android:layout_height="@dimen/_115sdp"
                     android:background="@drawable/card_border_selector"
                     android:clickable="true"
                     android:gravity="center"
@@ -168,12 +173,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium"
+                        android:textSize="@dimen/text_size_h2"
                         app:text="@{Strings.screen_report_card_button_lost_stolen_card}"
                         tools:text="@string/screen_report_card_button_lost_stolen_card" />
 
-
                 </LinearLayout>
-
             </LinearLayout>
 
             <TextView
@@ -181,7 +185,8 @@
                 style="@style/Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -194,10 +199,8 @@
                 style="@style/Regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_medium"
-                android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
                 android:background="@drawable/colored_background_selector"
                 android:gravity="center"
                 android:padding="@dimen/margin_medium"
