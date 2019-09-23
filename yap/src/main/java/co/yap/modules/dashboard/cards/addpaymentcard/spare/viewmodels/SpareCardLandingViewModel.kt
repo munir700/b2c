@@ -1,10 +1,13 @@
-package co.yap.modules.dashboard.cards.addpaymentcard.viewmodels
+package co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels
 
 import android.app.Application
 import android.content.Context
 import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ISpareCards
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.states.SpareCardLandingState
+import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import org.json.JSONObject
@@ -16,18 +19,49 @@ class SpareCardLandingViewModel(application: Application) :
     AddPaymentChildViewModel<ISpareCards.State>(application), ISpareCards.ViewModel/*,
     IRepositoryHolder<CustomersRepository>*/ {
 
+    private val transactionRepository : TransactionsRepository = TransactionsRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: SpareCardLandingState =
         SpareCardLandingState()
 
+    override fun onCreate() {
+        super.onCreate()
+        getVirtualCardFee()
+        getPhysicalCardFee()
+    }
     override fun handlePressOnAddVirtualCard(id: Int) {
-
         clickEvent.setValue(id)
     }
 
     override fun handlePressOnAddPhysicalCard(id: Int) {
-
         clickEvent.setValue(id)
+    }
+
+    override fun getVirtualCardFee() {
+        launch {
+            state.loading = true
+            when (val response = transactionRepository.getCardFee("virtual")) {
+                is RetroApiResponse.Success -> {
+                   state.virtualCardFee = response.data.data.currency +" "+response.data.data.amount
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+    override fun getPhysicalCardFee() {
+        launch {
+            when (val response = transactionRepository.getCardFee("physical")) {
+                is RetroApiResponse.Success -> {
+                    state.physicalCardFee = response.data.data.currency +" "+response.data.data.amount
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
     }
 
     override fun onResume() {

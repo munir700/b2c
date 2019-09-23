@@ -23,31 +23,19 @@ class AddSpareCardViewModel(application: Application) :
     IRepositoryHolder<CardsRepository> {
 
     override var latitude: String = ""
-
     override var longitude: String = ""
-
     override lateinit var address: Address
     override var availableBalance: String = ""
     override var sharedPreferenceManager = SharedPreferenceManager(context)
-
-
     override var isFromaddressScreen: Boolean = false
-
     override val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int = 1000
-
-
     override val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int = 5000
-
     override val repository: CardsRepository = CardsRepository
-
     override val addSparePhysicalCardLogicHelper: AddSparePhysicalCardLogicHelper =
         AddSparePhysicalCardLogicHelper(context, this)
-
     override val addSpareVirtualCardLogicHelper: AddSpareVirtualCardLogicHelper =
         AddSpareVirtualCardLogicHelper(context, this)
-
     override var cardType: String = ""
-
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: AddSpareCardState =
         AddSpareCardState()
