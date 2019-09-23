@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import co.yap.modules.dashboard.cards.addpaymentcard.interfaces.ISpareCards
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
-import co.yap.modules.dashboard.cards.addpaymentcard.states.SpareCardLandingState
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.states.SpareCardLandingState
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import org.json.JSONObject

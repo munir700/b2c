@@ -6,7 +6,7 @@ import co.yap.yapcore.SingleClickEvent
 
 interface ISpareCards {
 
-    interface State : IBase.State
+    interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
@@ -16,5 +16,8 @@ interface ISpareCards {
 
     }
 
-    interface View : IBase.View<ViewModel>
+    interface State : IBase.State{
+        var virtualCardFee: String
+        var physicalCardFee: String
+    }
 }

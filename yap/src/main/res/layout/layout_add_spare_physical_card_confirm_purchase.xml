@@ -59,7 +59,7 @@
 
                 <TextView
                     android:id="@+id/tvAvailableBalanceTitle"
-                    style="@style/RegularGrey"
+                    style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -68,7 +68,7 @@
 
                 <TextView
                     android:id="@+id/tvAvailableBalance"
-                    style="@style/Regular"
+                    style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
@@ -81,12 +81,31 @@
 
 
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_normal_large"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/MicroGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="Is this your address?" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
                 android:id="@+id/llAddPhysicalLocationCard"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_marginLeft="@dimen/margin_medium"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:background="@drawable/card_border_container"
                 android:gravity="top"
