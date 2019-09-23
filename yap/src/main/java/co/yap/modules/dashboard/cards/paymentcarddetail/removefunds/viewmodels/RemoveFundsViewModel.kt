@@ -14,13 +14,12 @@ class RemoveFundsViewModel(application: Application) : FundActionsViewModel(appl
         state.toolBarHeader = getString(Strings.screen_remove_funds_display_text_remove_funds)
         state.enterAmountHeading = getString(Strings.screen_remove_funds_display_text_enter_amount)
         state.currencyType = getString(Strings.common_text_currency_type)
+        getFundTransferLimits(Constants.REMOVE_FUNDS_PRODUCT_CODE)
         getFundTransferDenominations(Constants.REMOVE_FUNDS_PRODUCT_CODE)
-        state.minLimit = 1.00
-        state.maxLimit = 1000.00
-//        state.availableBalance = "1500"
         state.availableBalanceGuide =
             getString(Strings.screen_remove_funds_display_text_available_balance)
         state.buttonTitle = getString(Strings.screen_remove_funds_button_remove)
+
         // Success screen strings
 
         state.primaryCardUpdatedBalance =

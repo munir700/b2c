@@ -90,15 +90,17 @@ open class FundActionsViewModel(application: Application) :
 
     override fun getFundTransferLimits(productCode: String) {
         launch {
-            state.loading = true
+//            state.loading = true
             when (val response = transactionsRepository.getFundTransferLimits(productCode)) {
                 is RetroApiResponse.Success -> {
+                    state.maxLimit = response.data.data.maxLimit.toDouble()
+                    state.minLimit = response.data.data.minLimit.toDouble()
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
+//            state.loading = false
         }
     }
 
