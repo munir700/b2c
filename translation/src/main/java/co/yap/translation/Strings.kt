@@ -544,8 +544,8 @@ object Strings {
         "screen_card_blocked_display_text_heading"
     const val screen_card_blocked_display_text_subheading: String =
         "screen_card_blocked_display_text_subheading"
-    const val screen_card_blocked_display_text_note: String =
-        "screen_card_blocked_display_text_note"
+    const val screen_card_blocked_display_text_note_android: String =
+        "screen_card_blocked_display_text_note_android"
     const val screen_card_blocked_button_reorder_new_card: String =
         "screen_card_blocked_button_reorder_new_card"
     const val screen_card_blocked_button_order_later: String =

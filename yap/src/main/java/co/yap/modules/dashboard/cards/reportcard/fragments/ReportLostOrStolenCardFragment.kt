@@ -9,6 +9,11 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
+import co.yap.translation.Strings.screen_report_card_display_button_block_alert_cancel
+import co.yap.translation.Strings.screen_report_card_display_button_block_alert_confirm
+import co.yap.translation.Strings.screen_report_card_display_text_block_alert_message
+import co.yap.translation.Strings.screen_report_card_display_text_block_alert_title
+import co.yap.translation.Translator
 
 
 class ReportLostOrStolenCardFragment :
@@ -47,15 +52,31 @@ class ReportLostOrStolenCardFragment :
     private fun showDialog() {
 
         val builder = AlertDialog.Builder(this.requireActivity())
-        builder.setTitle(getString(R.string.screen_report_card_display_text_block_alert_title))
-        builder.setMessage(R.string.screen_report_card_display_text_block_alert_message)
-        builder.setPositiveButton(R.string.screen_report_card_display_button_block_alert_confirm) { dialog, which ->
+        builder.setTitle(
+            Translator.getString(
+                context!!, screen_report_card_display_text_block_alert_title
+            )
+        )
+        builder.setMessage(
+            Translator.getString(
+                context!!, screen_report_card_display_text_block_alert_message
+            )
+        )
+        builder.setPositiveButton(
+            Translator.getString(
+                context!!, screen_report_card_display_button_block_alert_confirm
+            )
+        ) { dialog, which ->
             // call api
             showToast("ok")
 
         }
 
-        builder.setNegativeButton(R.string.screen_report_card_display_button_block_alert_cancel) { dialog, which ->
+        builder.setNegativeButton(
+            Translator.getString(
+                context!!, screen_report_card_display_button_block_alert_cancel
+            )
+        ) { dialog, which ->
             //dismiss
             showToast("no")
         }

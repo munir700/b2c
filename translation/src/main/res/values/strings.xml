@@ -333,7 +333,7 @@
     <!--    Card Blocked Screen-->
     <string name="screen_card_blocked_display_text_heading">Your card has been blocked</string>
     <string name="screen_card_blocked_display_text_subheading">Do you want to order a new card?</string>
-    <string name="screen_card_blocked_display_text_note">%@ will be deducted from your account for the delivery of your new card.</string>
+    <string name="screen_card_blocked_display_text_note_android"> will be deducted from your account for the delivery of your new card.</string>
     <string name="screen_card_blocked_button_reorder_new_card">Reorder new card</string>
     <string name="screen_card_blocked_button_order_later">Order later</string>
 
