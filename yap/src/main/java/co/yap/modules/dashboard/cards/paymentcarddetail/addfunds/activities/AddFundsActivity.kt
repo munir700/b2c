@@ -18,11 +18,13 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.AnimationUtils
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
+import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_fund_actions.*
@@ -34,6 +36,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
     var amount: String? = null
     private val windowSize: Rect = Rect()
+    var card: Card? = null
 
     companion object {
         private const val CARD = "card"
@@ -78,11 +81,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 R.id.ivCross -> this.finish()
 
                 viewModel.EVENT_ADD_FUNDS_SUCCESS -> {
-                    viewModel.state.topUpSuccess =
-                        getString(Strings.screen_success_funds_transaction_display_text_top_up).format(
-                            viewModel.state.currencyType,
-                            viewModel.state.amount
-                        )
+                    setUpSuccessData()
                     performSuccessOperations()
                     etAmount.visibility = View.GONE
                     viewModel.state.buttonTitle =
@@ -96,13 +95,15 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     private fun setupData() {
-        val card: Card = intent.getParcelableExtra(CARD)
-        viewModel.state.cardNumber = card.maskedCardNo
-        viewModel.cardSerialNumber = card.cardSerialNumber
-        viewModel.state.cardName = card.cardName
-        viewModel.state.availableBalance = card.availableBalance
+        card = intent.getParcelableExtra(CARD)
+        viewModel.state.cardNumber = card!!.maskedCardNo
+        viewModel.cardSerialNumber = card!!.cardSerialNumber
+        viewModel.state.cardName = card!!.cardName
+//        viewModel.state.availableBalance = card.availableBalance
+        viewModel.state.availableBalance =
+            MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + card.availableBalance
+            " " + getString(Strings.common_text_currency_type) + " " + viewModel.state.availableBalance
     }
 
     private fun showErrorSnackBar() {
@@ -176,7 +177,33 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
 
+    private fun setUpSuccessData() {
+        viewModel.state.topUpSuccess =
+            getString(Strings.screen_success_funds_transaction_display_text_top_up).format(
+                viewModel.state.currencyType,
+                viewModel.state.amount
+            )
+
+        val updatedCardBalance: String =
+            (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
+
+        MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance)
+        viewModel.state.primaryCardUpdatedBalance =
+            getString(Strings.screen_success_funds_transaction_display_text_primary_balance).format(
+                viewModel.state.currencyType,
+                MyUserManager.cardBalance.value?.availableBalance.toString()
+            )
+
+        val updatedSpareCardBalance: String =
+            (card!!.availableBalance.toDouble() + viewModel.state.amount!!.toDouble()).toString()
+
+        viewModel.state.spareCardUpdatedBalance =
+            getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance).format(
+                viewModel.state.currencyType,
+                updatedSpareCardBalance
+            )
     }
 
 }
