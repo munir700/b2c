@@ -129,4 +129,26 @@
     </fragment>
 
 
+    <fragment
+        android:id="@+id/addSparePhysicalCardSuccessFragment"
+        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.physical.AddSparePhysicalCardSuccessFragment"
+        tools:layout="@layout/fragment_add_physical_spare_card_success">
+
+        <action
+            android:id="@+id/action_addSparePhysicalCardSuccessFragment_to_addSpareCardFragment"
+            app:destination="@id/addSpareCardFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_addSparePhysicalCardSuccessFragment_to_spareCardLandingFragment"
+            app:destination="@id/spareCardLandingFragment"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@+id/spare_cards_navigation"
+            app:popUpToInclusive="true"
+
+            />
+    </fragment>
 </navigation>
