@@ -241,8 +241,8 @@
     <string name="screen_cards_button_unfreeze_card">Unfreeze card</string>
     <string name="screen_cards_display_text_cards_count">You have %d cards</string>
     <string name="screen_cards_display_text_set_pin">Set Pin</string>
-    <string name="screen_cards_display_text_set_message">Set your card pin</string>
-    <string name="screen_cards_display_text_add_card">Add Card</string>
+    <string name="screen_cards_display_text_set_message">Set pin to activate card</string>
+    <string name="screen_cards_display_text_add_card">Add card</string>
 
     <!-- Spare Card Landing Screen -->
 
