@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.reportcard.viewmodels
 
 import android.app.Application
+import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.states.ReportOrStolenCardState
 import co.yap.translation.Strings
@@ -8,7 +9,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 class ReportLostOrStolenCardViewModels(application: Application) :
-    ReportLostOrStolenCardChildViewModels<IRepostOrStolenCard.State>(application),
+    AddPaymentChildViewModel<IRepostOrStolenCard.State>(application),
     IRepostOrStolenCard.ViewModel {
 
   override var HOT_LIST_REASON: Int= 2

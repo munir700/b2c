@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.cards.reportcard.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IReportOrLostBase
 import co.yap.modules.dashboard.cards.reportcard.states.ReportOrLostStolenCardState
-import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 

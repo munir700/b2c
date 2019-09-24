@@ -38,6 +38,7 @@ interface IAddSpareCard {
         val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int
         val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int
         var isFromaddressScreen: Boolean
+        var isFromBlockCardScreen: Boolean
         var availableBalance: String
         var sharedPreferenceManager: SharedPreferenceManager
 

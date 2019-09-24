@@ -23,6 +23,7 @@ class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
+    override var isFromBlockCardScreen: Boolean= false
     override var latitude: String = ""
     override var longitude: String = ""
     override lateinit var address: Address
@@ -78,6 +79,10 @@ class AddSpareCardViewModel(application: Application) :
         ) {
             availableBalance =
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE) as String
+            if(isFromBlockCardScreen){
+                state.loading = true
+                requestGetAddressForPhysicalCard()
+            }
         } else {
             requestGetAccountBalanceRequest()
         }
@@ -87,8 +92,7 @@ class AddSpareCardViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_spare_card_landing_display_text_title))
-        toggleToolBarVisibility(true)
-        state.onChangeLocationClick = false
+         state.onChangeLocationClick = false
         toggleToolBarVisibility(true)
 
     }

@@ -3,12 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/spare_cards_navigation"
-    app:startDestination="@id/reportLostOrStolenCardFragment">
+    app:startDestination="@id/reportLostOrStolenCardFragment"
+
+    >
 
     <fragment
         android:id="@+id/reportLostOrStolenCardFragment"
         android:name="co.yap.modules.dashboard.cards.reportcard.fragments.ReportLostOrStolenCardFragment"
         tools:layout="@layout/fragment_lost_or_stolen_card">
+
+        <argument
+            android:name="card"
+            app:argType="co.yap.networking.cards.responsedtos.Card" />
+
 
         <action
             android:id="@+id/action_reportLostOrStolenCardFragment_to_blockCardSuccessFragment"
@@ -42,6 +49,7 @@
         android:id="@+id/addSpareCardFragment"
         android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragment"
         tools:layout="@layout/fragment_add_spare_card">
+
         <argument
             android:name="cardType"
             android:defaultValue=" "
@@ -64,6 +72,10 @@
             android:name="longitude"
             android:defaultValue=" "
             app:argType="string" />
+
+        <argument
+            android:name="isFromBlockCardScreen"
+            app:argType="boolean" />
 
         <!--        <action-->
         <!--            android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"-->

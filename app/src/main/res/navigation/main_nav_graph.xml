@@ -3,15 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/reportLostOrStolenCardActivity">
+    app:startDestination="@id/splashFragment">
 
-    <activity
-        android:id="@+id/reportLostOrStolenCardActivity"
-        android:name="co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
-        android:label="ReportLostOrStolenCardActivity"
-        tools:layout="@layout/activity_report_or_stolen_cards">
-
-    </activity>
 
     <action
         android:id="@+id/action_goto_liteDashboardActivity"

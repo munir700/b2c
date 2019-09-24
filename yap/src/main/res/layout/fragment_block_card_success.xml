@@ -13,13 +13,15 @@
 
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:background="@color/colorWhite"
+        android:orientation="vertical"
+        android:paddingRight="@dimen/margin_medium">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorWhite"
+            android:paddingLeft="@dimen/margin_medium"
             android:paddingTop="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium">
 
@@ -27,9 +29,12 @@
             <TextView
                 android:id="@+id/tvCardBlockedCaption"
                 style="@style/ATitle3"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
+                android:paddingLeft="@dimen/margin_medium"
+                android:paddingRight="@dimen/margin_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.496"
                 app:layout_constraintStart_toStartOf="parent"
@@ -42,9 +47,11 @@
                 style="@style/Regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_extra_small"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
+                android:paddingLeft="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_medium"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCardBlockedCaption"
@@ -56,7 +63,9 @@
                 style="@style/RegularGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_extra_small"
+                android:layout_marginRight="@dimen/margin_medium"
                 android:gravity="center"
                 android:paddingTop="@dimen/margin_small"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -70,8 +79,8 @@
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                android:layout_marginLeft="@dimen/margin_xl"
+                android:layout_marginRight="@dimen/margin_xl"
                 android:gravity="center"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -88,7 +97,7 @@
                 style="@style/ALarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
                 android:paddingTop="@dimen/margin_small"
                 android:textColor="@color/colorPrimary"

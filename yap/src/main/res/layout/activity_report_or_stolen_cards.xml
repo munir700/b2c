@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardBaseViewModels" />
+            type="co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel" />
     </data>
 
     <LinearLayout

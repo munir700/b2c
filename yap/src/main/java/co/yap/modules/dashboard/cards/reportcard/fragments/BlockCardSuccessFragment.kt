@@ -7,6 +7,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.BlockCardSuccessViewModel
 import co.yap.translation.Strings
+import co.yap.translation.Strings.screen_spare_card_landing_display_text_physical_card
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.defaults.IDefault
@@ -37,11 +38,21 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
 
         btnReOrder.setOnClickListener {
             //        start reorder physical card flow from here
-            findNavController().navigate(R.id.action_blockCardSuccessFragment_to_addSpareCardFragment)
+            val action =
+                BlockCardSuccessFragmentDirections.actionBlockCardSuccessFragmentToAddSpareCardFragment(
+                    Translator.getString(
+                        requireContext(),
+                        screen_spare_card_landing_display_text_physical_card
+                    ),"","","","",true
+                )
+
+            findNavController().navigate(action)
+
         }
 
         tvAddLater.setOnClickListener {
-            activity!!.onBackPressed()
+            //            activity!!.onBackPressed()
+            activity!!.finish()
             //        finish and go back to detail screen from here
 
         }
