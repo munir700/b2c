@@ -106,6 +106,9 @@ class AddSpareCardViewModel(application: Application) :
         if (state.onChangeLocationClick) {
             toggleToolBarVisibility(false)
         }
+        if (isFromBlockCardScreen) {
+            toggleToolBarVisibility(false)
+        }
     }
 
     override fun onDestroy() {
@@ -113,7 +116,6 @@ class AddSpareCardViewModel(application: Application) :
         if (state.onChangeLocationClick) {
             toggleToolBarVisibility(false)
         }
-
     }
 
     //api
