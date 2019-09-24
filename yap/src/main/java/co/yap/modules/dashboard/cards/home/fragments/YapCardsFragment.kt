@@ -19,11 +19,13 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_yap_cards.*
 
 class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapCards.View {
@@ -130,8 +132,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 openDetailScreen(pos)
                             }
                             CardStatus.INACTIVE -> {
+                                if(getCard(pos).cardType=="DEBIT"){
+                                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                                        openSetPinScreen()
+                                    }
+                                }else {
                                 if (getCard(pos).deliveryStatus == null) {
-
                                 } else {
                                     when (getCard(pos).deliveryStatus?.let {
                                         CardDeliveryStatus.valueOf(it)
@@ -145,6 +151,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                     }
                                 }
                             }
+                        }
                         }
                     }
                 }
