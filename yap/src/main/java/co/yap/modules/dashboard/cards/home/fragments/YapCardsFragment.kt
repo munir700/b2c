@@ -243,6 +243,5 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-
     }
 }
