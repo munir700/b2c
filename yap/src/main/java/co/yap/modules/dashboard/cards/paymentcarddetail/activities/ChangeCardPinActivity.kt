@@ -18,7 +18,7 @@ class ChangeCardPinActivity : DefaultActivity(), INavigator, IFragmentHolder {
     companion object {
         private const val CARD_SERIAL_NUMBER = "cardSerialNumber"
         fun newIntent(context: Context, cardSerialNumber: String): Intent {
-            val intent = Intent(context, PaymentCardDetailActivity::class.java)
+            val intent = Intent(context, ChangeCardPinActivity::class.java)
             intent.putExtra(CARD_SERIAL_NUMBER, cardSerialNumber)
             return intent
         }
