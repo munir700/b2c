@@ -413,6 +413,9 @@
                             app:cardNumber="@{viewModel.state.cardPanNumber}" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/clSnackbar"
             android:layout_width="match_parent"
@@ -421,8 +424,6 @@
             android:background="@android:color/transparent"
             android:rotation="180" />
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
-        </com.google.android.material.appbar.AppBarLayout>
         <!--    </RelativeLayout>-->
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
