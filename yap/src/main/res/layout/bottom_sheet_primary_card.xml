@@ -38,7 +38,7 @@
         android:textColor="@color/black"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_normal_large"
-        android:text="View statements"/>
+        android:text="View statement"/>
 
     <TextView
         android:id="@+id/tvReportCard"

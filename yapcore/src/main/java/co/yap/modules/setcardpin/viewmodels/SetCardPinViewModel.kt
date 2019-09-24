@@ -31,7 +31,7 @@ open class SetCardPinViewModel(application: Application) :
         }
     }
 
-    override fun setCardPin() {}
+    override fun setCardPin(cardSerialName : String) {}
     override fun changeCardPinRequest(
         oldPin: String,
         newPin: String,

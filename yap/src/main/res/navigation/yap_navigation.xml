@@ -44,7 +44,14 @@
         </action>
         <action
             android:id="@+id/action_yapHome_to_setCardPinWelcomeActivity"
-            app:destination="@id/setCardPinWelcomeActivity" />
+            app:destination="@id/setCardPinWelcomeActivity" >
+
+            <argument
+                android:name="cardSerialNumber"
+                android:defaultValue=" "
+                app:argType="string" />
+
+        </action>
     </fragment>
 
     <fragment

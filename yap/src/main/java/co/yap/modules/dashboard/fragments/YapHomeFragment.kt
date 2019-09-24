@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.models.Notification
 import co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
@@ -57,7 +58,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 viewModel.EVENT_SET_CARD_PIN -> {
-                    findNavController().navigate(R.id.action_yapHome_to_setCardPinWelcomeActivity)
+                    startActivity(SetCardPinWelcomeActivity.newIntent(requireContext(), viewModel.debitCardSerialNumber))
+                    //findNavController().navigate(R.id.action_yapHome_to_setCardPinWelcomeActivity)
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
             }
