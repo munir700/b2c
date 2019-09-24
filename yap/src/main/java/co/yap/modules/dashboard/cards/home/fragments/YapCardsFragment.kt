@@ -77,93 +77,70 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 when (view.id) {
                     R.id.imgCard -> {
                         if (getCard(pos).cardName == Constants.addCard) {
-                            startActivityForResult(
-                                AddPaymentCardActivity.newIntent(requireContext()),
-                                EVENT_CARD_ADDED
-                            )
-                            //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                            openAddCard()
                         } else
                             when (CardStatus.valueOf(getCard(pos).status)) {
                                 CardStatus.ACTIVE -> {
-                                    selectedCardPosition = pos
-                                    startActivityForResult(
-                                        PaymentCardDetailActivity.newIntent(
-                                            requireContext(),
-                                            getCard(pos)
-                                        ), EVENT_PAYMENT_CARD_DETAIL
-                                    )
+                                    openDetailScreen(pos)
                                 }
                                 CardStatus.BLOCKED -> {
-                                    selectedCardPosition = pos
-                                    startActivityForResult(
-                                        PaymentCardDetailActivity.newIntent(
-                                            requireContext(),
-                                            getCard(pos)
-                                        ), EVENT_PAYMENT_CARD_DETAIL
-                                    )
+                                    openDetailScreen(pos)
                                 }
                                 CardStatus.INACTIVE -> {
-                                  if(getCard(pos).shipmentStatus==null){
-                                      selectedCardPosition = pos
-                                      startActivityForResult(
-                                          PaymentCardDetailActivity.newIntent(
-                                              requireContext(),
-                                              getCard(pos)
-                                          ), EVENT_PAYMENT_CARD_DETAIL
-                                      )
-                                  }else{
-                                      when (getCard(pos).shipmentStatus?.let {
-                                          CardDeliveryStatus.valueOf(
-                                              it
-                                          )
-                                      }) {
-                                          CardDeliveryStatus.SHIPPED -> {
-                                              startActivity(Intent(requireContext(), SetCardPinWelcomeActivity::class.java))
-                                          }
-                                          else -> {
-                                              view.findNavController().navigate(
-                                                  YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
-                                                      getCard(pos)
-                                                  )
-                                              )
-                                          }
-                                      }
-                                  }
+                                    if (getCard(pos).deliveryStatus == null) {
+                                        openDetailScreen(pos)
+                                    } else {
+                                        when (getCard(pos).deliveryStatus?.let {
+                                            CardDeliveryStatus.valueOf(it)
+                                        }) {
+                                            CardDeliveryStatus.SHIPPED -> {
+                                                openSetPinScreen()
+                                            }
+                                            else -> {
+                                                openStatusScreen(view, pos)
+                                            }
+                                        }
+                                    }
                                 }
-
                             }
                     }
                     R.id.lySeeDetail -> {
-                        selectedCardPosition = pos
-                        startActivityForResult(
-                            PaymentCardDetailActivity.newIntent(
-                                requireContext(),
-                                getCard(pos)
-                            ), EVENT_PAYMENT_CARD_DETAIL
-                        )
+                        openDetailScreen(pos)
                     }
                     R.id.lycard -> {
-                        startActivityForResult(
-                            AddPaymentCardActivity.newIntent(requireContext()),
-                            EVENT_CARD_ADDED
-                        )
-                        //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        openAddCard()
                     }
                     R.id.imgAddCard -> {
-                        startActivityForResult(
-                            AddPaymentCardActivity.newIntent(requireContext()),
-                            EVENT_CARD_ADDED
-                        )
-                        //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        openAddCard()
                     }
                     R.id.tvAddCard -> {
-                        startActivityForResult(
-                            AddPaymentCardActivity.newIntent(requireContext()),
-                            EVENT_CARD_ADDED
-                        )
-                        //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
+                        openAddCard()
                     }
+                    R.id.tvCardStatusAction -> {
+                        when (CardStatus.valueOf(getCard(pos).status)) {
+                            CardStatus.ACTIVE -> {
+                            }
+                            CardStatus.BLOCKED -> {
+                                openDetailScreen(pos)
+                            }
+                            CardStatus.INACTIVE -> {
+                                if (getCard(pos).deliveryStatus == null) {
 
+                                } else {
+                                    when (getCard(pos).deliveryStatus?.let {
+                                        CardDeliveryStatus.valueOf(it)
+                                    }) {
+                                        CardDeliveryStatus.SHIPPED -> {
+                                            openSetPinScreen()
+                                        }
+                                        else -> {
+                                            openStatusScreen(view, pos)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
             }
         })
@@ -214,6 +191,40 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     private fun updateCardCount() {
         viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
+    }
+
+    fun openDetailScreen(pos: Int) {
+        selectedCardPosition = pos
+        startActivityForResult(
+            PaymentCardDetailActivity.newIntent(
+                requireContext(),
+                getCard(pos)
+            ), EVENT_PAYMENT_CARD_DETAIL
+        )
+    }
+
+    fun openAddCard() {
+        startActivityForResult(
+            AddPaymentCardActivity.newIntent(requireContext()),
+            EVENT_CARD_ADDED
+        )
+    }
+
+    fun openStatusScreen(view: View, pos: Int) {
+        view.findNavController().navigate(
+            YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
+                getCard(pos)
+            )
+        )
+    }
+
+    fun openSetPinScreen() {
+        startActivity(
+            Intent(
+                requireContext(),
+                SetCardPinWelcomeActivity::class.java
+            )
+        )
     }
 
     fun getCard(pos: Int): Card {
