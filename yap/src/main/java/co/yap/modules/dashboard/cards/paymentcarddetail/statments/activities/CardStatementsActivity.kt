@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,7 +22,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_card_statements.*
 
 class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
-    ICardStatments.View, CardClickListener {
+    ICardStatments.View {
 
     lateinit var adaptor: CardStatementsAdaptor
 
@@ -46,6 +47,11 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
         viewModel.card = intent.getParcelableExtra(CARD)
         viewModel.state.year.set("2019")
         viewModel.loadStatements(viewModel.card.cardSerialNumber)
+        viewModel.clickEvent.observe(this, Observer {
+            if (it == R.id.tbBtnBack) {
+                onBackPressed()
+            }
+        })
         setupRecycleView()
     }
 
@@ -66,8 +72,5 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
                 )
             startActivity(browserIntent)
         }
-    }
-
-    override fun onClick(eventType: Int) {
     }
 }
