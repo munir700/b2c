@@ -298,25 +298,22 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupActionsIntent() {
 
-        val updateCard = viewModel.card
+        if (cardFreezeUnfreeze || cardRemoved ) {
+            val updateCard = viewModel.card
+            updateCard.cardBalance = viewModel.state.cardBalance
+            updateCard.cardName = viewModel.state.cardName
 
-        updateCard.physical = viewModel.state.physical
-        updateCard.cardType = viewModel.state.cardType
-        updateCard.maskedCardNo = viewModel.state.cardPanNumber
-        updateCard.cardBalance = viewModel.state.cardBalance
-        updateCard.cardName = viewModel.state.cardName
-        updateCard.accountType = viewModel.state.accountType
+            if (cardFreezeUnfreeze) {
+                if (viewModel.card.blocked)
+                    updateCard.status = "BLOCKED"
+                else
+                    updateCard.status = "ACTIVE"
+            }
 
-        if (cardFreezeUnfreeze) {
-            if (viewModel.card.blocked)
-                updateCard.status = "BLOCKED"
-            else
-                updateCard.status = "ACTIVE"
+            val returnIntent = Intent()
+            returnIntent.putExtra("card", updateCard)
+            returnIntent.putExtra("cardRemoved", cardRemoved)
+            setResult(Activity.RESULT_OK, returnIntent)
         }
-
-        val returnIntent = Intent()
-        returnIntent.putExtra("card", updateCard)
-        returnIntent.putExtra("cardRemoved", cardRemoved)
-        setResult(Activity.RESULT_OK, returnIntent)
     }
 }

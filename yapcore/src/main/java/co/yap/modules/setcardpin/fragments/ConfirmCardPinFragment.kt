@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.translation.Strings
@@ -32,8 +33,8 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    if (viewModel.pincode.equals(viewModel.state.pincode)) {
-                       viewModel.setCardPin()
+                    if (viewModel.pincode == viewModel.state.pincode) {
+                       viewModel.setCardPin((activity as SetCardPinWelcomeActivity).cardSerialNumber)
                     } else {
                         dialer.startAnimationDigits()
                     }

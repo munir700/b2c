@@ -1,5 +1,7 @@
 package co.yap.modules.setcardpin.activities
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.R
@@ -12,12 +14,24 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 
 class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder {
 
+    lateinit var cardSerialNumber : String
+
+    companion object {
+        private const val CARD_SERIAL_NUMBER = "cardSerialNumber"
+        fun newIntent(context: Context, cardSerialNumber: String): Intent {
+            val intent = Intent(context, SetCardPinWelcomeActivity::class.java)
+            intent.putExtra(CARD_SERIAL_NUMBER, cardSerialNumber)
+            return intent
+        }
+    }
+
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this@SetCardPinWelcomeActivity, R.id.main_nav_host_fragment)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_set_card_pin_welcome)
+        setupData()
     }
 
     override fun onBackPressed() {
@@ -25,5 +39,9 @@ class SetCardPinWelcomeActivity : DefaultActivity(), INavigator, IFragmentHolder
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
         }
+    }
+
+    private fun setupData(){
+        cardSerialNumber = intent.getStringExtra(CARD_SERIAL_NUMBER)
     }
 }

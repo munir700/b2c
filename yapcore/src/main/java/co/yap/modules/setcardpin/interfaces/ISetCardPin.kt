@@ -18,7 +18,7 @@ interface ISetCardPin {
         var pincode: String
         val clickEvent: SingleClickEvent
         fun handlePressOnNextButton(id: Int)
-        fun setCardPin()
+        fun setCardPin(cardSerialNumber: String)
         fun changeCardPinRequest(
             oldPin: String,
             newPin: String,

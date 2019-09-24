@@ -102,7 +102,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                             CardDeliveryStatus.valueOf(it)
                                         }) {
                                             CardDeliveryStatus.SHIPPED -> {
-                                                openSetPinScreen()
+                                                openSetPinScreen(getCard(pos).cardSerialNumber)
                                             }
                                             else -> {
                                                 openStatusScreen(view, pos)
@@ -134,7 +134,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                             CardStatus.INACTIVE -> {
                                 if(getCard(pos).cardType=="DEBIT"){
                                     if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
-                                        openSetPinScreen()
+                                        openSetPinScreen(getCard(pos).cardSerialNumber)
                                     }
                                 }else {
                                 if (getCard(pos).deliveryStatus == null) {
@@ -143,7 +143,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                         CardDeliveryStatus.valueOf(it)
                                     }) {
                                         CardDeliveryStatus.SHIPPED -> {
-                                            openSetPinScreen()
+                                            openSetPinScreen(getCard(pos).cardSerialNumber)
                                         }
                                         else -> {
                                             openStatusScreen(view, pos)
@@ -227,13 +227,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    fun openSetPinScreen() {
-        startActivity(
-            Intent(
-                requireContext(),
-                SetCardPinWelcomeActivity::class.java
-            )
-        )
+    fun openSetPinScreen(cardSerialNumber : String) {
+        startActivity(SetCardPinWelcomeActivity.newIntent(requireContext(), cardSerialNumber))
     }
 
     fun getCard(pos: Int): Card {

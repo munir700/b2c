@@ -18,12 +18,12 @@ open class ConfirmCardPinViewModel(application: Application) : SetCardPinViewMod
         clickEvent.setValue(id)
     }
 
-    override fun setCardPin() {
+    override fun setCardPin(cardSerialName : String) {
         launch {
             state.loading = true
             when (val response = repository.createCardPin(
                 CreateCardPinRequest(state.pincode),
-                MyUserManager.cardSerialNumber.toString()
+                cardSerialName
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(EVENT_SET_CARD_PIN_SUCCESS)
