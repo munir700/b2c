@@ -2,19 +2,28 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
+import co.yap.modules.dashboard.cards.paymentcarddetail.statments.adaptor.CardStatementsAdaptor
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.interfaces.ICardStatments
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.viewmodels.CardStatementsViewModel
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.transactions.responsedtos.CardStatement
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.android.synthetic.main.activity_card_statements.*
 
 class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     ICardStatments.View, CardClickListener {
+
+    lateinit var adaptor: CardStatementsAdaptor
 
     companion object {
         private const val CARD = "card"
@@ -35,6 +44,28 @@ class CardStatementsActivity : BaseBindingActivity<ICardStatments.ViewModel>(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.card = intent.getParcelableExtra(CARD)
+        viewModel.state.year.set("2019")
+        viewModel.loadStatements(viewModel.card.cardSerialNumber)
+        setupRecycleView()
+    }
+
+    private fun setupRecycleView() {
+        adaptor = CardStatementsAdaptor(mutableListOf())
+        recyclerStatements.layoutManager = LinearLayoutManager(this, RecyclerView.HORIZONTAL, false)
+        recyclerStatements.adapter = adaptor
+        adaptor.allowFullItemClickListener = true
+        adaptor.setItemListener(listener)
+    }
+
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            val browserIntent =
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("http://docs.google.com/gview?embedded=true&url=" + (data as CardStatement).statementURL)
+                )
+            startActivity(browserIntent)
+        }
     }
 
     override fun onClick(eventType: Int) {

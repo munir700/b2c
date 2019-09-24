@@ -26,11 +26,13 @@ import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBindable
+import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -105,23 +107,39 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                if(card.deliveryStatus==null){
-                    text.visibility = View.GONE
-                }else{
-                    when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                        CardDeliveryStatus.SHIPPED -> {
-                            text.visibility = View.VISIBLE
-                            text.text = Translator.getString(
-                                text.context,
-                                R.string.screen_cards_display_text_set_message
-                            )
-                        }
-                        else -> {
-                            text.visibility = View.VISIBLE
-                            text.text = Translator.getString(
-                                text.context,
-                                R.string.screen_cards_display_text_pending_delivery
-                            )
+                if(card.cardType=="DEBIT"){
+                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_set_message
+                        )
+                    } else {
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_pending_delivery
+                        )
+                    }
+                }else {
+                    if (card.deliveryStatus == null) {
+                        text.visibility = View.GONE
+                    } else {
+                        when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                            CardDeliveryStatus.SHIPPED -> {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_set_message
+                                )
+                            }
+                            else -> {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_pending_delivery
+                                )
+                            }
                         }
                     }
                 }
@@ -146,9 +164,20 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                if(card.deliveryStatus==null){
+                if(card.cardType=="DEBIT"){
+                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                        coreButton.visibility = View.VISIBLE
+                        coreButton.text = Translator.getString(
+                            coreButton.context,
+                            R.string.screen_cards_display_text_set_pin
+                        )
+                    } else {
+                        coreButton.visibility = View.GONE
+                    }
+                }else {
+                if (card.deliveryStatus == null) {
                     coreButton.visibility = View.GONE
-                }else{
+                } else {
                     when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
                         CardDeliveryStatus.SHIPPED -> {
                             coreButton.visibility = View.VISIBLE
@@ -156,11 +185,13 @@ object UIBinder {
                                 coreButton.context,
                                 R.string.screen_cards_display_text_set_pin
                             )
-                        }else ->{
-                        coreButton.visibility = View.GONE
-                    }
+                        }
+                        else -> {
+                            coreButton.visibility = View.GONE
+                        }
                     }
                 }
+            }
             }
 
         }

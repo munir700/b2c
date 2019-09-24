@@ -29,7 +29,7 @@
             android:layout_marginEnd="@dimen/_30sdp"
             android:contentDescription="@string/empty_string"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_back_arrow_left"
+            android:src="@drawable/ic_back_arrow_left_gery"
             app:layout_constraintBottom_toBottomOf="@+id/tvYear"
             app:layout_constraintEnd_toStartOf="@+id/tvYear"
             app:layout_constraintTop_toTopOf="@+id/tvYear" />
@@ -43,6 +43,7 @@
             android:gravity="center"
             android:lineSpacingExtra="0dp"
             android:textAlignment="center"
+            android:text="@{viewModel.state.year}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -56,7 +57,7 @@
             android:contentDescription="@string/empty_string"
             android:rotation="180"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_back_arrow_left"
+            android:src="@drawable/ic_back_arrow_right_gery"
             app:layout_constraintBottom_toBottomOf="@+id/tvYear"
             app:layout_constraintStart_toEndOf="@+id/tvYear"
             app:layout_constraintTop_toTopOf="@+id/tvYear" />
@@ -68,6 +69,7 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:dividerHeight="2dp"
             android:visibility="visible"
+            app:adaptorList="@{viewModel.state.statements}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
