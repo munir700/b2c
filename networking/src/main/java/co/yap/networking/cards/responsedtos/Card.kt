@@ -24,6 +24,8 @@ data class Card(
 
     val shipmentStatus: String?,
 
+    val deliveryStatus: String?,
+
     var blocked: Boolean,
 
     val delivered: Boolean,

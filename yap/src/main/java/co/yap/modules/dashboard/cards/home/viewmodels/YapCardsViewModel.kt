@@ -64,6 +64,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             cardName = Constants.addCard,
             status = "ACTIVE",
             shipmentStatus = "SHIPPED",
+            deliveryStatus = "BOOKED",
             blocked = false,
             delivered = false,
             cardSerialNumber = "1000000000612",
