@@ -32,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/tbBtnOneOrdered"
-                android:layout_width="@dimen/_28sdp"
-                android:layout_height="@dimen/_28sdp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
                 android:clickable="false"
                 android:focusable="false"
                 android:src="@drawable/ic_tick" />
@@ -84,8 +84,8 @@
 
             <ImageView
                 android:id="@+id/tbBtnBuilding"
-                android:layout_width="@dimen/_28sdp"
-                android:layout_height="@dimen/_28sdp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
                 android:clickable="false"
                 android:focusable="false"
                 android:src="@drawable/ic_tick" />
@@ -133,8 +133,8 @@
 
             <ImageView
                 android:id="@+id/tbBtnShipping"
-                android:layout_width="@dimen/_28sdp"
-                android:layout_height="@dimen/_28sdp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
                 android:clickable="false"
                 android:focusable="false"
                 tools:src="@drawable/ic_tick" />
