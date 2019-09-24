@@ -17,9 +17,9 @@
         style="@style/CardViewLight"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginStart= "@dimen/margin_normal_large"
         android:layout_marginTop="@dimen/margin_small"
-        android:layout_marginEnd="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal_large"
         android:layout_marginBottom="@dimen/margin_normal"
         android:background="@color/white"
         android:gravity="center_vertical">
@@ -32,7 +32,7 @@
             <ImageView
                 android:id="@+id/imgStoreCover"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_160sdp"
+                android:layout_height="@dimen/_150sdp"
                 android:contentDescription="@string/empty_string"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
             <!--            app:src="@{viewModel.storeData.storeIcon}"-->
             <TextView
                 android:id="@+id/tvStoreName"
-                style="@style/ALarge"
+                style="@style/Regular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium"

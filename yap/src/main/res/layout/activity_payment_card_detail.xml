@@ -418,7 +418,7 @@
             android:id="@+id/clSnackbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/ccTitle"
+            android:layout_marginTop="?attr/actionBarSize"
             android:background="@android:color/transparent"
             android:rotation="180" />
 
