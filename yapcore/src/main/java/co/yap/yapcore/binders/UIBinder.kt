@@ -60,13 +60,16 @@ object UIBinder {
                 linearLayout.visibility = View.VISIBLE
             }
             CardStatus.INACTIVE -> {
-                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
-                        linearLayout.visibility = View.VISIBLE
+                if(card.shipmentStatus==null){
+                    linearLayout.visibility = View.VISIBLE
+                }else{
+                    when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                        CardDeliveryStatus.SHIPPED -> {
+                            linearLayout.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
-
         }
     }
 
@@ -110,20 +113,24 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
-                        text.visibility = View.VISIBLE
-                        text.text = Translator.getString(
-                            text.context,
-                            R.string.screen_cards_display_text_set_message
-                        )
-                    }
-                    else -> {
-                        text.visibility = View.VISIBLE
-                        text.text = Translator.getString(
-                            text.context,
-                            R.string.screen_cards_display_text_pending_delivery
-                        )
+                if(card.shipmentStatus==null){
+                    text.visibility = View.GONE
+                }else{
+                    when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                        CardDeliveryStatus.SHIPPED -> {
+                            text.visibility = View.VISIBLE
+                            text.text = Translator.getString(
+                                text.context,
+                                R.string.screen_cards_display_text_set_message
+                            )
+                        }
+                        else -> {
+                            text.visibility = View.VISIBLE
+                            text.text = Translator.getString(
+                                text.context,
+                                R.string.screen_cards_display_text_pending_delivery
+                            )
+                        }
                     }
                 }
             }
@@ -132,34 +139,39 @@ object UIBinder {
 
     @BindingAdapter("cardStatus")
     @JvmStatic
-    fun setCardStatus(text: CoreButton, card: Card) {
+    fun setCardStatus(coreButton: CoreButton, card: Card) {
 
         when (CardStatus.valueOf(card.status)) {
             CardStatus.ACTIVE -> {
-                text.visibility = View.GONE
+                coreButton.visibility = View.GONE
             }
             CardStatus.BLOCKED -> {
-                text.visibility = View.VISIBLE
-                text.text = Translator.getString(
-                    text.context,
+                coreButton.visibility = View.VISIBLE
+                coreButton.text = Translator.getString(
+                    coreButton.context,
                     R.string.screen_cards_button_unfreeze_card
                 )
             }
             CardStatus.INACTIVE -> {
-                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
-                        text.visibility = View.VISIBLE
-                        text.text = Translator.getString(
-                            text.context,
-                            R.string.screen_cards_display_text_set_pin
-                        )
-                    }
-                    else -> {
-                        text.visibility = View.VISIBLE
-                        text.text = Translator.getString(
-                            text.context,
-                            R.string.screen_cards_button_update_card
-                        )
+
+                if(card.shipmentStatus==null){
+                    coreButton.visibility = View.GONE
+                }else{
+                    when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                        CardDeliveryStatus.SHIPPED -> {
+                            coreButton.visibility = View.VISIBLE
+                            coreButton.text = Translator.getString(
+                                coreButton.context,
+                                R.string.screen_cards_display_text_set_pin
+                            )
+                        }
+                        else -> {
+                            coreButton.visibility = View.VISIBLE
+                            coreButton.text = Translator.getString(
+                                coreButton.context,
+                                R.string.screen_cards_button_update_card
+                            )
+                        }
                     }
                 }
             }

@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
+import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
@@ -102,24 +103,32 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                     )
                                 }
                                 CardStatus.INACTIVE -> {
-                                    when (getCard(pos).shipmentStatus?.let {
-                                        CardDeliveryStatus.valueOf(
-                                            it
-                                        )
-                                    }) {
-                                        CardDeliveryStatus.SHIPPED -> {
-                                            // set pin state
-                                            //todo
-                                            //imageView.setImageResource(co.yap.yapcore.R.drawable.ic_status_ontheway)
-                                        }
-                                        else -> {
-                                            view.findNavController().navigate(
-                                                YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
-                                                    getCard(pos)
-                                                )
-                                            )
-                                        }
-                                    }
+                                  if(getCard(pos).shipmentStatus==null){
+                                      selectedCardPosition = pos
+                                      startActivityForResult(
+                                          PaymentCardDetailActivity.newIntent(
+                                              requireContext(),
+                                              getCard(pos)
+                                          ), EVENT_PAYMENT_CARD_DETAIL
+                                      )
+                                  }else{
+                                      when (getCard(pos).shipmentStatus?.let {
+                                          CardDeliveryStatus.valueOf(
+                                              it
+                                          )
+                                      }) {
+                                          CardDeliveryStatus.SHIPPED -> {
+                                              startActivity(Intent(requireContext(), SetCardPinWelcomeActivity::class.java))
+                                          }
+                                          else -> {
+                                              view.findNavController().navigate(
+                                                  YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
+                                                      getCard(pos)
+                                                  )
+                                              )
+                                          }
+                                      }
+                                  }
                                 }
 
                             }

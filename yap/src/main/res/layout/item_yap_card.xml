@@ -109,7 +109,7 @@
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:orientation="vertical"
-            android:visibility="@{CardStatus.valueOf(viewModel.paymentCard.status).equals(CardStatus.ACTIVE) ? View.VISIBLE: View.GONE}"
+            android:visibility="@{CardStatus.valueOf(viewModel.paymentCard.status).equals(CardStatus.ACTIVE) ? View.VISIBLE: CardStatus.valueOf(viewModel.paymentCard.status).equals(CardStatus.INACTIVE) ? (viewModel.paymentCard.shipmentStatus == null ? View.VISIBLE : View.GONE) : View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/tvCardName"
             app:layout_constraintStart_toStartOf="@+id/tvCardName"
             app:layout_constraintTop_toBottomOf="@+id/tvCardName"
