@@ -43,6 +43,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupPager()
+        if (viewModel.state.cardList?.get().isNullOrEmpty()) {
+            viewModel.getCards()
+        } else {
+            viewModel.state.cardList.set(viewModel.state.cardList.get())
+        }
         viewModel.clickEvent.observe(this, observer)
     }
 
