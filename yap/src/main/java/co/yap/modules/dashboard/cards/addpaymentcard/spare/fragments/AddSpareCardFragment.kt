@@ -102,7 +102,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
 //        arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
 
-        viewModel.isFromBlockCardScreen = arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCardScreen }  as Boolean
+        viewModel.isFromBlockCardScreen = arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCard } as Boolean
+        viewModel.requestInitialData()
 
         val physicalCardAddressTitle = arguments?.let {
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressTitle

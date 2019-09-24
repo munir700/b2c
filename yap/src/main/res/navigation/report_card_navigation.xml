@@ -74,7 +74,8 @@
             app:argType="string" />
 
         <argument
-            android:name="isFromBlockCardScreen"
+            android:name="isFromBlockCard"
+            android:defaultValue="false"
             app:argType="boolean" />
 
         <!--        <action-->
@@ -85,58 +86,25 @@
         <!--            app:popExitAnim="@anim/slide_out_to_bottom"-->
         <!--            app:popUpToInclusive="true" />-->
 
+        <action
+            android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"
+            app:destination="@id/addSparePhysicalCardSuccessFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popExitAnim="@anim/slide_out_to_bottom"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_addSpareCardFragment_to_addressSelectionFragment"
+            app:destination="@id/addressSelectionFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_to_bottom"
+            app:popEnterAnim="@anim/slide_in_from_bottom"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
 
-
-    //
-
-
-
-<!--    <fragment-->
-<!--        android:id="@+id/addSpareCardFragment"-->
-<!--        android:name="co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragment"-->
-<!--        tools:layout="@layout/fragment_add_spare_card">-->
-<!--        <argument-->
-<!--            android:name="cardType"-->
-<!--            android:defaultValue=" "-->
-<!--            app:argType="string" />-->
-
-<!--        <argument-->
-<!--            android:name="newDeliveryAddressTitle"-->
-<!--            android:defaultValue=" "-->
-<!--            app:argType="string" />-->
-
-<!--        <argument-->
-<!--            android:name="newDeliveryAddressSubTitle"-->
-<!--            android:defaultValue=" "-->
-<!--            app:argType="string" />-->
-<!--        <argument-->
-<!--            android:name="latitude"-->
-<!--            android:defaultValue=" "-->
-<!--            app:argType="string" />-->
-<!--        <argument-->
-<!--            android:name="longitude"-->
-<!--            android:defaultValue=" "-->
-<!--            app:argType="string" />-->
-
-<!--&lt;!&ndash;        <action&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment"&ndash;&gt;-->
-<!--&lt;!&ndash;            app:destination="@id/addSparePhysicalCardSuccessFragment"&ndash;&gt;-->
-<!--&lt;!&ndash;            app:enterAnim="@anim/slide_in_left"&ndash;&gt;-->
-<!--&lt;!&ndash;            app:exitAnim="@anim/slide_out_to_bottom"&ndash;&gt;-->
-<!--&lt;!&ndash;            app:popExitAnim="@anim/slide_out_to_bottom"&ndash;&gt;-->
-<!--&lt;!&ndash;            app:popUpToInclusive="true" />&ndash;&gt;-->
-
-<!--        <action-->
-<!--            android:id="@+id/action_addSpareCardFragment_to_addressSelectionFragment"-->
-<!--            app:destination="@id/addressSelectionFragment"-->
-<!--            app:enterAnim="@anim/slide_in_left"-->
-<!--            app:exitAnim="@anim/slide_out_to_bottom"-->
-<!--            app:popEnterAnim="@anim/slide_in_from_bottom"-->
-<!--            app:popExitAnim="@anim/slide_out_right" />-->
-
-<!--    </fragment>-->
 
     <fragment
         android:id="@+id/addressSelectionFragment"

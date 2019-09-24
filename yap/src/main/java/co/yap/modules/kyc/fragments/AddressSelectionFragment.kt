@@ -181,7 +181,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         val action =
                             AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
                                 getString(R.string.screen_spare_card_landing_display_text_physical_card),
-                                viewModel.state.placeTitle, viewModel.state.placeSubTitle,  viewModel.mLastKnownLocation.latitude.toString(),  viewModel.mLastKnownLocation.longitude.toString()
+                                viewModel.state.placeTitle, viewModel.state.placeSubTitle,  viewModel.mLastKnownLocation.latitude.toString(),  viewModel.mLastKnownLocation.longitude.toString(),false
 
                             )
                         findNavController().navigate(action)

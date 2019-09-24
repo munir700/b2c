@@ -69,6 +69,7 @@ interface IAddSpareCard {
         fun requestAddSparePhysicalCard(id: Int)
         fun requestGetAddressForPhysicalCard()
         fun updateAddressForPhysicalCard()
+        fun requestInitialData()
     }
 
     interface View : IBase.View<ViewModel> /*{

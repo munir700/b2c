@@ -73,21 +73,25 @@ class AddSpareCardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
 
+
+    }
+
+   override fun requestInitialData() {
         if (!sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE).isNullOrEmpty() && !sharedPreferenceManager.getValueString(
                 SharedPreferenceManager.KEY_AVAILABLE_BALANCE
             ).equals("AVAILABLE_BALANCE")
         ) {
             availableBalance =
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE) as String
-            if(isFromBlockCardScreen){
+            if (isFromBlockCardScreen) {
                 state.loading = true
                 requestGetAddressForPhysicalCard()
             }
         } else {
             requestGetAccountBalanceRequest()
         }
-
     }
+
 
     override fun onResume() {
         super.onResume()
