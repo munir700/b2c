@@ -40,15 +40,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override val viewModel: IYapCards.ViewModel
         get() = ViewModelProviders.of(this).get(YapCardsViewModel::class.java)
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, observer)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupPager()
-        if (viewModel.state.cardList?.get().isNullOrEmpty()) {
-            viewModel.getCards()
-        } else {
-            viewModel.state.cardList.set(viewModel.state.cardList.get())
-        }
-        viewModel.clickEvent.observe(this, observer)
+        viewModel.getCards()
     }
 
     private fun setupPager() {
@@ -154,11 +155,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     val observer = Observer<Int> {
         when (it) {
             R.id.tbBtnAddCard -> {
-                //findNavController().navigate(R.id.action_yapCards_to_addPaymentCardActivity)
-                startActivityForResult(
-                    AddPaymentCardActivity.newIntent(requireContext()),
-                    EVENT_CARD_ADDED
-                )
+                openAddCard()
             }
         }
     }
@@ -235,5 +232,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     fun getCard(pos: Int): Card {
         //return viewModel.state.cardList.get()?.get(pos)!!
         return adapter.getDataForPosition(pos)
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+
     }
 }

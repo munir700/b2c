@@ -22,13 +22,21 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     override val repository: CardsRepository = CardsRepository
 
     init {
-        getCards()
         state.enableAddCard.set(
             MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
         )
     }
 
     override fun getCards() {
+        if (state.cardList?.get().isNullOrEmpty()) {
+            getCardsList()
+        } else {
+            state.cardList.notifyChange()
+        }
+    }
+
+    private fun getCardsList() {
+
         launch {
             state.loading = true
             when (val response = repository.getDebitCards("")) {
