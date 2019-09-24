@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.store.viewmodels.YapStoreItemViewModel" />
+            type="co.yap.modules.dashboard.cards.paymentcarddetail.statments.viewmodels.CardStatementItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -20,14 +20,13 @@
 
         <ImageView
             android:id="@+id/imgNote"
-            android:layout_width="@dimen/_24sdp"
-            android:layout_height="@dimen/_24sdp"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_margin="@dimen/margin_normal"
             android:contentDescription="@string/empty_string"
             app:layout_constraintStart_toStartOf="parent"
-            tools:srcCompat="@drawable/ic_note" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_note" />
 
         <TextView
             android:id="@+id/tvStoreName"
@@ -37,7 +36,7 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:singleLine="true"
-            android:textColor="@color/colorPrimary"
+            android:text="@{viewModel.cardStatement.month}"
             app:layout_constraintBottom_toBottomOf="@+id/imgNote"
             app:layout_constraintStart_toEndOf="@+id/imgNote"
             app:layout_constraintTop_toTopOf="@+id/imgNote"
@@ -48,12 +47,13 @@
             style="@style/ASmall"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            tools:text="@string/screen_card_statement_display_text_view"
+            app:text="@{Strings.screen_card_statement_display_text_view}"
             android:layout_marginEnd="@dimen/_17sdp"
-            android:text="@{viewModel.storeData.desc}"
             app:layout_constraintBottom_toBottomOf="@+id/imgNote"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgNote"
-            tools:text="View" />
+            app:layout_constraintTop_toTopOf="@+id/imgNote"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
