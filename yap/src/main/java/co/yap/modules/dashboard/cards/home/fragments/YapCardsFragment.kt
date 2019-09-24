@@ -186,15 +186,17 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         when (requestCode) {
             EVENT_PAYMENT_CARD_DETAIL -> {
-                val updatedCard = data?.getParcelableExtra<Card>("card")
-                val removed = data?.getBooleanExtra("cardRemoved", false)
+                if (resultCode == Activity.RESULT_OK) {
+                    val updatedCard = data?.getParcelableExtra<Card>("card")
+                    val removed = data?.getBooleanExtra("cardRemoved", false)
 
-                if (removed!!) {
-                    adapter.removeItemAt(selectedCardPosition)
-                    adapter.notifyDataSetChanged()
-                    updateCardCount()
-                } else {
-                    adapter.setItemAt(selectedCardPosition, updatedCard!!)
+                    if (removed!!) {
+                        adapter.removeItemAt(selectedCardPosition)
+                        adapter.notifyDataSetChanged()
+                        updateCardCount()
+                    } else {
+                        adapter.setItemAt(selectedCardPosition, updatedCard!!)
+                    }
                 }
             }
 

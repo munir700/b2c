@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
+import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ConfirmNewCardPinViewModel
 import co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
@@ -24,7 +25,7 @@ class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
     override fun loadData() {
         viewModel.state.oldPin = args.oldPinCode
         viewModel.state.newPin = args.newPinCode
-        viewModel.state.cardSerialNumber="sdasda"
+        viewModel.state.cardSerialNumber= (activity as ChangeCardPinActivity).cardSerialNumber
 
     }
 

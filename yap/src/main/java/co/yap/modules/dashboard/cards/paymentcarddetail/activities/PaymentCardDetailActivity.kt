@@ -215,7 +215,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 )
             }
             Constants.EVENT_CHANGE_PIN -> {
-                startActivity(Intent(this, ChangeCardPinActivity::class.java))
+                startActivity(ChangeCardPinActivity.newIntent(this, viewModel.card.cardSerialNumber))
             }
             Constants.EVENT_VIEW_STATEMENTS -> {
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card))
