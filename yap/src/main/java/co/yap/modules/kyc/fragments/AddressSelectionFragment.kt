@@ -22,6 +22,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
@@ -76,10 +77,22 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        val isFromBlockCardsScreen = arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromBlockCardsScreen }
+
         val checkSender =
             arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
 
-        if (checkSender!!) {
+        if (isFromBlockCardsScreen!!) {
+            viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
+            viewModel.state.isFromPhysicalCardsLayout = true
+            viewModel.state.headingTitle =
+                getString(Strings.screen_meeting_location_display_text_add_new_address_title)
+            viewModel.state.subHeadingTitle =
+                getString(Strings.screen_meeting_location_display_text_add_new_address_subtitle)
+            viewModel.state.nextActionBtnText =
+                getString(Strings.screen_meeting_location_button_confirm_selected_location)
+        }
+      else  if (checkSender!!) {
             viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
             viewModel.state.isFromPhysicalCardsLayout = true
             viewModel.state.headingTitle =
@@ -102,7 +115,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun initMapFragment() {
-         displayLocationSettingsRequest(requireContext())
+        displayLocationSettingsRequest(requireContext())
         val mapFragment =
             childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
@@ -181,7 +194,11 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         val action =
                             AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
                                 getString(R.string.screen_spare_card_landing_display_text_physical_card),
-                                viewModel.state.placeTitle, viewModel.state.placeSubTitle,  viewModel.mLastKnownLocation.latitude.toString(),  viewModel.mLastKnownLocation.longitude.toString(),false
+                                viewModel.state.placeTitle,
+                                viewModel.state.placeSubTitle,
+                                viewModel.mLastKnownLocation.latitude.toString(),
+                                viewModel.mLastKnownLocation.longitude.toString(),
+                                false
 
                             )
                         findNavController().navigate(action)

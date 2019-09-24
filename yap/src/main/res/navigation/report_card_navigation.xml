@@ -115,6 +115,12 @@
         <argument
             android:name="isFromPhysicalCardsScreen"
             app:argType="boolean" />
+
+        <argument
+            android:name="isFromBlockCardsScreen"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
         <action
             android:id="@+id/action_addressSelectionFragment_to_addSpareCardFragment"
             app:destination="@id/addSpareCardFragment"
