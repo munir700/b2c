@@ -539,4 +539,9 @@ object Strings {
     const val screen_change_pin_success_display_text_button: String =
         "screen_change_pin_success_display_text_button"
 
+    const val screen_card_statement_display_text_view: String =
+        "screen_card_statement_display_text_view"
+    const val screen_card_statement_display_text_title: String =
+        "screen_card_statement_display_text_title"
+
 }
