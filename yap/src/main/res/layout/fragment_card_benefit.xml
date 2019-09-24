@@ -25,14 +25,13 @@
 
         <TextView
             android:id="@+id/tvBenefitTitle"
-            style="@style/Regular"
+            style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
             android:paddingTop="@dimen/margin_medium"
             android:text="@{viewModel.state.benefitsModel.benfitTitle}"
-            android:textSize="@dimen/text_size_h5"
             tools:text="A card for every need" />
 
         <TextView

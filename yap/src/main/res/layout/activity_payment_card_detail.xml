@@ -358,9 +358,8 @@
 
                         <ImageView
                             android:id="@+id/ivBack"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
-                            android:layout_marginEnd="@dimen/margin_small"
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_24sdp"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                             app:layout_constraintBottom_toBottomOf="@+id/ccTitle"
                             app:layout_constraintStart_toStartOf="parent"
@@ -369,8 +368,8 @@
 
                         <ImageView
                             android:id="@+id/ivMenu"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
+                            android:layout_width="@dimen/_23sdp"
+                            android:layout_height="@dimen/_24sdp"
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginEnd="@dimen/margin_small"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"

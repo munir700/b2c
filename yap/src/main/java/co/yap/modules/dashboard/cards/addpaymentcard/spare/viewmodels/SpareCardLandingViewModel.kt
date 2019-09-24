@@ -24,11 +24,6 @@ class SpareCardLandingViewModel(application: Application) :
     override val state: SpareCardLandingState =
         SpareCardLandingState()
 
-    override fun onCreate() {
-        super.onCreate()
-        getVirtualCardFee()
-        getPhysicalCardFee()
-    }
     override fun handlePressOnAddVirtualCard(id: Int) {
         clickEvent.setValue(id)
     }

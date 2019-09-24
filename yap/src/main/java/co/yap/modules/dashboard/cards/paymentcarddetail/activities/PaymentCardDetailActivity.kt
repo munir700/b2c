@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -224,7 +225,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 showToast("Report card")
             }
             Constants.EVENT_REMOVE_CARD -> {
-                viewModel.removeCard()
+               showRemoveCardPopup()
             }
         }
     }
@@ -316,4 +317,21 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             setResult(Activity.RESULT_OK, returnIntent)
         }
     }
+
+    private fun showRemoveCardPopup(){
+        val builder = AlertDialog.Builder(this@PaymentCardDetailActivity)
+        builder.setTitle("Remove card from YAP account")
+        builder.setMessage("Once removed, the balance from this card will be transferred to your main card.")
+        builder.setPositiveButton("CONFIRM"){ _, _ ->
+            viewModel.removeCard()
+        }
+
+        builder.setNeutralButton("CANCEL"){_,_ ->
+
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
+
 }
