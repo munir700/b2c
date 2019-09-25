@@ -61,7 +61,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
                 R.id.llAddVirtualCard -> {
                     val action =
                         SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                            getString(R.string.screen_spare_card_landing_display_text_virtual_card)
+                            getString(R.string.screen_spare_card_landing_display_text_virtual_card),"","","","",false
                         )
                     findNavController().navigate(action)
 
@@ -72,7 +72,7 @@ class SpareCardLandingFragment : AddPaymentChildFragment<ISpareCards.ViewModel>(
 
                     val action =
                         SpareCardLandingFragmentDirections.actionSpareCardLandingFragmentToAddSpareCardFragment(
-                            getString(R.string.screen_spare_card_landing_display_text_physical_card)
+                            getString(R.string.screen_spare_card_landing_display_text_physical_card),"","","","",false
                         )
                     findNavController().navigate(action)
                 }

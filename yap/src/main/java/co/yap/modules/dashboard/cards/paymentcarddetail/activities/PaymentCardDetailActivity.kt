@@ -27,11 +27,11 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities.CardLi
 import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
@@ -85,12 +85,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                         primaryCardBottomSheet = PrimaryCardBottomSheet(this)
                         primaryCardBottomSheet.show(supportFragmentManager, "")
                     } else {
-                        spareCardBottomSheet = SpareCardBottomSheet(viewModel.card.physical,this)
+                        spareCardBottomSheet = SpareCardBottomSheet(viewModel.card.physical, this)
                         spareCardBottomSheet.show(supportFragmentManager, "")
                     }
                 }
                 R.id.llAddFunds -> {
-                    startActivityForResult(AddFundsActivity.newIntent(this, viewModel.card),Constants.REQUEST_ADD_REMOVE_FUNDS)
+                    startActivityForResult(
+                        AddFundsActivity.newIntent(this, viewModel.card),
+                        Constants.REQUEST_ADD_REMOVE_FUNDS
+                    )
                 }
                 R.id.llFreezeSpareCard -> {
                     viewModel.freezeUnfreezeCard()
@@ -100,7 +103,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     viewModel.freezeUnfreezeCard()
                 }
                 R.id.llRemoveFunds -> {
-                    startActivityForResult(RemoveFundsActivity.newIntent(this, viewModel.card),Constants.REQUEST_ADD_REMOVE_FUNDS)
+                    startActivityForResult(
+                        RemoveFundsActivity.newIntent(this, viewModel.card),
+                        Constants.REQUEST_ADD_REMOVE_FUNDS
+                    )
                 }
                 R.id.llCardLimits -> {
                     startActivity(
@@ -138,10 +144,14 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                 viewModel.EVENT_REMOVE_CARD -> {
                     try {
-                        val updatedCardBalance = ( MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.minus(viewModel.card.availableBalance.toDouble()))
-                        MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
+                        val updatedCardBalance =
+                            (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.minus(
+                                viewModel.card.availableBalance.toDouble()
+                            ))
+                        MyUserManager.cardBalance.value =
+                            CardBalance(availableBalance = updatedCardBalance.toString())
                     } catch (e: Exception) {
-                    e.printStackTrace()
+                        e.printStackTrace()
                     }
                     cardRemoved = true
                     showToast("Card successfully removed!")
@@ -164,9 +174,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             rlPrimaryCardActions.visibility = View.VISIBLE
             rlCardBalance.visibility = View.GONE
         } else {
-            if(viewModel.card.physical){
+            if (viewModel.card.physical) {
                 viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_PHYSICAL
-            }else{
+            } else {
                 viewModel.state.cardTypeText = Constants.TEXT_SPARE_CARD_VIRTUAL
             }
             viewModel.getCardBalance()
@@ -225,17 +235,30 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 )
             }
             Constants.EVENT_CHANGE_PIN -> {
-                startActivity(ChangeCardPinActivity.newIntent(this, viewModel.card.cardSerialNumber))
+                startActivity(
+                    ChangeCardPinActivity.newIntent(
+                        this,
+                        viewModel.card.cardSerialNumber
+                    )
+                )
             }
             Constants.EVENT_VIEW_STATEMENTS -> {
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card))
             }
             Constants.EVENT_REPORT_CARD -> {
-                showToast("Report card")
+                startActivity(ReportLostOrStolenCardActivity.newIntent(this, viewModel.card))
+
             }
             Constants.EVENT_REMOVE_CARD -> {
-               showRemoveCardPopup()
+                showRemoveCardPopup()
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ReportLostOrStolenCardActivity.reportCardSuccess) {
+            finish()
         }
     }
 
@@ -253,7 +276,8 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             Constants.REQUEST_ADD_REMOVE_FUNDS -> {
                 if (resultCode == Activity.RESULT_OK) {
                     viewModel.card.availableBalance = data?.getStringExtra("newBalance").toString()
-                    viewModel.state.cardBalance = "AED "+ Utils.getFormattedCurrency(data?.getStringExtra("newBalance").toString())
+                    viewModel.state.cardBalance =
+                        "AED " + Utils.getFormattedCurrency(data?.getStringExtra("newBalance").toString())
                 }
             }
         }
@@ -308,7 +332,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupActionsIntent() {
 
-        if (cardFreezeUnfreeze || cardRemoved ) {
+        if (cardFreezeUnfreeze || cardRemoved) {
             val updateCard = viewModel.card
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
@@ -327,15 +351,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
     }
 
-    private fun showRemoveCardPopup(){
+    private fun showRemoveCardPopup() {
         val builder = AlertDialog.Builder(this@PaymentCardDetailActivity)
         builder.setTitle("Remove card from YAP account")
         builder.setMessage("Once removed, the balance from this card will be transferred to your main card.")
-        builder.setPositiveButton("CONFIRM"){ _, _ ->
+        builder.setPositiveButton("CONFIRM") { _, _ ->
             viewModel.removeCard()
         }
 
-        builder.setNeutralButton("CANCEL"){_,_ ->
+        builder.setNeutralButton("CANCEL") { _, _ ->
 
         }
         val dialog: AlertDialog = builder.create()

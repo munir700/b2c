@@ -515,6 +515,47 @@ object Strings {
     const val screen_success_remove_funds_transaction_display_text_moved_success: String =
         "screen_success_remove_funds_transaction_display_text_moved_success"
 
+    //     Report lost or stolen cards screen
+
+    // Remove funds Screen
+    const val screen_report_card_display_text_title: String =
+        "screen_report_card_display_text_title"
+    const val screen_report_card_display_text_complete_transaction: String =
+        "screen_report_card_display_text_complete_transaction"
+    const val screen_report_card_display_text_block_note: String =
+        "screen_report_card_display_text_block_note"
+    const val screen_report_card_display_text_block_footnote: String =
+        "screen_report_card_display_text_block_footnote"
+    const val screen_report_card_button_block_report: String =
+        "screen_report_card_button_block_report"
+    const val screen_report_card_display_text_block_card_title: String =
+        "screen_report_card_display_text_block_card_title"
+    const val screen_report_card_button_damage_card: String =
+        "screen_report_card_button_damage_card"
+    const val screen_report_card_button_lost_stolen_card: String =
+        "screen_report_card_button_lost_stolen_card"
+    const val screen_report_card_display_text_block_alert_title: String =
+        "screen_report_card_display_text_block_alert_title"
+    const val screen_report_card_display_text_block_alert_message: String =
+        "screen_report_card_display_text_block_alert_message"
+
+    const val screen_report_card_display_button_block_alert_confirm: String =
+        "screen_report_card_display_button_block_alert_confirm"
+    const val screen_report_card_display_button_block_alert_cancel: String =
+        "screen_report_card_display_button_block_alert_cancel"
+
+    //   Card Blocked Screen
+    const val screen_card_blocked_display_text_heading: String =
+        "screen_card_blocked_display_text_heading"
+    const val screen_card_blocked_display_text_subheading: String =
+        "screen_card_blocked_display_text_subheading"
+    const val screen_card_blocked_display_text_note_android: String =
+        "screen_card_blocked_display_text_note_android"
+    const val screen_card_blocked_button_reorder_new_card: String =
+        "screen_card_blocked_button_reorder_new_card"
+    const val screen_card_blocked_button_order_later: String =
+        "screen_card_blocked_button_order_later"
+
     // Enter current pin screen
     const val screen_current_card_pin_display_text_heading: String =
         "screen_current_card_pin_display_text_heading"
