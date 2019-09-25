@@ -242,7 +242,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     fun getCard(pos: Int): Card {
-        //return viewModel.state.cardList.get()?.get(pos)!!
         return adapter.getDataForPosition(pos)
     }
 
