@@ -29,6 +29,7 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
         }
 
         lateinit var reportCard: Card
+        var reportCardSuccess: Boolean = false
 
 
     }
@@ -69,4 +70,5 @@ class ReportLostOrStolenCardActivity : BaseBindingActivity<IAddPaymentCard.ViewM
             super.onBackPressed()
         }
     }
+
 }

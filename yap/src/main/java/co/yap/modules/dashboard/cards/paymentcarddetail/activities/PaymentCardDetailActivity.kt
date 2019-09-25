@@ -144,10 +144,14 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                 viewModel.EVENT_REMOVE_CARD -> {
                     try {
-                        val updatedCardBalance = ( MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.minus(viewModel.card.availableBalance.toDouble()))
-                        MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
+                        val updatedCardBalance =
+                            (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.minus(
+                                viewModel.card.availableBalance.toDouble()
+                            ))
+                        MyUserManager.cardBalance.value =
+                            CardBalance(availableBalance = updatedCardBalance.toString())
                     } catch (e: Exception) {
-                    e.printStackTrace()
+                        e.printStackTrace()
                     }
                     cardRemoved = true
                     showToast("Card successfully removed!")
@@ -231,27 +235,30 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 )
             }
             Constants.EVENT_CHANGE_PIN -> {
-                startActivity(ChangeCardPinActivity.newIntent(this, viewModel.card.cardSerialNumber))
+                startActivity(
+                    ChangeCardPinActivity.newIntent(
+                        this,
+                        viewModel.card.cardSerialNumber
+                    )
+                )
             }
             Constants.EVENT_VIEW_STATEMENTS -> {
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card))
             }
             Constants.EVENT_REPORT_CARD -> {
-                //start lost/stolen card
-//                showToast("ReportLostOrStolenCardChildViewModels card")
                 startActivity(ReportLostOrStolenCardActivity.newIntent(this, viewModel.card))
 
-//                <!--    <activity-->
-//                <!--        android:id="@+id/reportLostOrStolenCardActivity"-->
-//                <!--        android:name="co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"-->
-//                <!--        android:label="ReportLostOrStolenCardActivity"-->
-//                <!--        tools:layout="@layout/activity_report_or_stolen_cards">-->
-//
-//                <!--    </activity>-->
             }
             Constants.EVENT_REMOVE_CARD -> {
-               showRemoveCardPopup()
+                showRemoveCardPopup()
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (ReportLostOrStolenCardActivity.reportCardSuccess) {
+            finish()
         }
     }
 
@@ -325,7 +332,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupActionsIntent() {
 
-        if (cardFreezeUnfreeze || cardRemoved ) {
+        if (cardFreezeUnfreeze || cardRemoved) {
             val updateCard = viewModel.card
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
@@ -344,15 +351,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
     }
 
-    private fun showRemoveCardPopup(){
+    private fun showRemoveCardPopup() {
         val builder = AlertDialog.Builder(this@PaymentCardDetailActivity)
         builder.setTitle("Remove card from YAP account")
         builder.setMessage("Once removed, the balance from this card will be transferred to your main card.")
-        builder.setPositiveButton("CONFIRM"){ _, _ ->
+        builder.setPositiveButton("CONFIRM") { _, _ ->
             viewModel.removeCard()
         }
 
-        builder.setNeutralButton("CANCEL"){_,_ ->
+        builder.setNeutralButton("CANCEL") { _, _ ->
 
         }
         val dialog: AlertDialog = builder.create()

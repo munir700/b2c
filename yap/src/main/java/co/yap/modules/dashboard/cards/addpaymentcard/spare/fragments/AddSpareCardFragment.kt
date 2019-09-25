@@ -19,6 +19,7 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddS
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.networking.cards.responsedtos.Address
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
@@ -70,13 +71,19 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             when (it) {
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
+//                    if (!viewModel.isFromBlockCardScreen ){
+////                        (activity as AddPaymentCardActivity).hideToolbar()
+////                    }else{
+//                        (activity as AddPaymentCardActivity).hideToolbar()
+//                    }
 
-                    (activity as AddPaymentCardActivity).hideToolbar()
                     findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
-                    (activity as AddPaymentCardActivity).hideToolbar()
+//                    if (!viewModel.isFromBlockCardScreen ){
+//                        (activity as AddPaymentCardActivity).hideToolbar()
+//                    }
                     cardAdded = true
                     AddSpareVirtualCardViewHelper(
                         this!!.activity!!,

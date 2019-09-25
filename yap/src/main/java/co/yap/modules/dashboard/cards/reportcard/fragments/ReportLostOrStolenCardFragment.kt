@@ -10,6 +10,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
 import co.yap.modules.dashboard.constants.Constants
@@ -90,6 +91,7 @@ class ReportLostOrStolenCardFragment :
                             )
                         )
                     ) {
+                        reportCardSuccess = true
                         activity!!.finish()
                     } else {
 

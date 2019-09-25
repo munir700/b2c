@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.BlockCardSuccessViewModel
 import co.yap.translation.Strings
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_physical_card
@@ -51,6 +52,7 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
         }
 
         tvAddLater.setOnClickListener {
+            reportCardSuccess=true
              activity!!.finish()
 
         }
