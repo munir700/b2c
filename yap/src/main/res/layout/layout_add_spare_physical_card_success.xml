@@ -34,13 +34,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:gravity="center"
             android:paddingTop="@dimen/margin_small"
-            android:text="@string/screen_add_spare_card_completion_display_text_complete_transaction"
+            android:text="@string/screen_add_spare_card_completion_display_text_delivery_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionComplete"
-            app:text="@{Strings.screen_add_spare_card_completion_display_text_complete_transaction}" />
+            app:text="@{Strings.screen_add_spare_card_completion_display_text_delivery_info}" />
 
 
         <co.yap.widgets.CoreButton

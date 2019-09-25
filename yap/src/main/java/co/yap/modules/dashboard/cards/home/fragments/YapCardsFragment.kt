@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.cards.home.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.os.SystemClock
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
@@ -20,6 +19,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDe
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
@@ -32,7 +32,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     val EVENT_CARD_ADDED: Int get() = 12
-    val EVENT_CREATE_CARD_PIN : Int get() = 13
+    val EVENT_CREATE_CARD_PIN: Int get() = 13
     var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
@@ -81,79 +81,106 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
         }
 
-        var mLastClickTime = 0L
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                if (SystemClock.elapsedRealtime() - mLastClickTime < 600) {
-                    return
-                }
-                mLastClickTime = SystemClock.elapsedRealtime()
-                when (view.id) {
-                    R.id.imgCard -> {
-                        if (getCard(pos).cardName == Constants.addCard) {
-                            openAddCard()
-                        } else
-                            when (CardStatus.valueOf(getCard(pos).status)) {
-                                CardStatus.ACTIVE -> {
-                                    openDetailScreen(pos)
-                                }
-                                CardStatus.BLOCKED -> {
-                                    openDetailScreen(pos)
-                                }
-                                CardStatus.INACTIVE -> {
-                                    if (getCard(pos).deliveryStatus == null) {
-                                        openDetailScreen(pos)
-                                    } else {
-                                        when (getCard(pos).deliveryStatus?.let {
-                                            CardDeliveryStatus.valueOf(it)
-                                        }) {
-                                            CardDeliveryStatus.SHIPPED -> {
-                                                openSetPinScreen(getCard(pos).cardSerialNumber)
-                                            }
-                                            else -> {
-                                                openStatusScreen(view, pos)
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                    }
-                    R.id.lySeeDetail -> {
-                        openDetailScreen(pos)
-                    }
-                    R.id.lycard -> {
+                //Log.d("adapter click ", " position ${pos}")
+                viewModel.clickEvent.setPayload(
+                    SingleClickEvent.AdaptorPayLoadHolder(
+                        view,
+                        data,
+                        pos
+                    )
+                )
+                viewModel.clickEvent.setValue(view.id)
+            }
+        })
+
+
+//        var mLastClickTime = 0L
+//        adapter.setItemListener(object : OnItemClickListener {
+//            override fun onItemClick(view: View, data: Any, pos: Int) {
+//                if (SystemClock.elapsedRealtime() - mLastClickTime < 600) {
+//                    return
+//                }
+//                mLastClickTime = SystemClock.elapsedRealtime()
+//
+//            }
+//        })
+    }
+
+    val observer = Observer<Int> {
+        val pos = viewModel.clickEvent.getPayload()?.position
+        val view = viewModel.clickEvent.getPayload()?.view
+        viewModel.clickEvent.setPayload(null)
+        if (pos != null && view != null) {
+            when (it) {
+                R.id.imgCard -> {
+                    if (getCard(pos).cardName == Constants.addCard) {
                         openAddCard()
-                    }
-                    R.id.imgAddCard -> {
-                        openAddCard()
-                    }
-                    R.id.tvAddCard -> {
-                        openAddCard()
-                    }
-                    R.id.tvCardStatusAction -> {
+                    } else
                         when (CardStatus.valueOf(getCard(pos).status)) {
                             CardStatus.ACTIVE -> {
+                                openDetailScreen(pos)
                             }
                             CardStatus.BLOCKED -> {
                                 openDetailScreen(pos)
                             }
                             CardStatus.INACTIVE -> {
-                                if (getCard(pos).cardType == "DEBIT") {
-                                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
-                                        openSetPinScreen(getCard(pos).cardSerialNumber)
-                                    }
+                                if (getCard(pos).deliveryStatus == null) {
+                                    openDetailScreen(pos)
                                 } else {
-                                    if (getCard(pos).deliveryStatus == null) {
-                                    } else {
-                                        when (getCard(pos).deliveryStatus?.let {
-                                            CardDeliveryStatus.valueOf(it)
-                                        }) {
-                                            CardDeliveryStatus.SHIPPED -> {
-                                                openSetPinScreen(getCard(pos).cardSerialNumber)
-                                            }
-                                            else -> {
-                                                openStatusScreen(view, pos)
-                                            }
+                                    when (getCard(pos).deliveryStatus?.let {
+                                        CardDeliveryStatus.valueOf(it)
+                                    }) {
+                                        CardDeliveryStatus.SHIPPED -> {
+                                            openSetPinScreen(getCard(pos).cardSerialNumber)
+                                        }
+                                        else -> {
+                                            openStatusScreen(view, pos)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                }
+                R.id.lySeeDetail -> {
+                    openDetailScreen(pos)
+                }
+                R.id.lycard -> {
+                    openAddCard()
+                }
+                R.id.imgAddCard -> {
+                    openAddCard()
+                }
+                R.id.tvAddCard -> {
+                    openAddCard()
+                }
+                R.id.tbBtnAddCard -> {
+                    openAddCard()
+                }
+                R.id.tvCardStatusAction -> {
+                    when (CardStatus.valueOf(getCard(pos).status)) {
+                        CardStatus.ACTIVE -> {
+                        }
+                        CardStatus.BLOCKED -> {
+                            openDetailScreen(pos)
+                        }
+                        CardStatus.INACTIVE -> {
+                            if (getCard(pos).cardType == "DEBIT") {
+                                if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
+                                    openSetPinScreen(getCard(pos).cardSerialNumber)
+                                }
+                            } else {
+                                if (getCard(pos).deliveryStatus == null) {
+                                } else {
+                                    when (getCard(pos).deliveryStatus?.let {
+                                        CardDeliveryStatus.valueOf(it)
+                                    }) {
+                                        CardDeliveryStatus.SHIPPED -> {
+                                            openSetPinScreen(getCard(pos).cardSerialNumber)
+                                        }
+                                        else -> {
+                                            openStatusScreen(view, pos)
                                         }
                                     }
                                 }
@@ -162,12 +189,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     }
                 }
             }
-        })
-    }
-
-    val observer = Observer<Int> {
-        when (it) {
-            R.id.tbBtnAddCard -> {
+        } else {
+            if (it == R.id.tbBtnAddCard) {
                 openAddCard()
             }
         }
