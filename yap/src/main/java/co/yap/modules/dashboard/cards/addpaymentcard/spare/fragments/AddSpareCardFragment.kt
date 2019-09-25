@@ -115,6 +115,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     // Spare virtual card added event
                     setupActionsIntent()
+                    activity!!.finish()
                 }
 
                 R.id.btnConfirm -> {
