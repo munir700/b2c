@@ -32,6 +32,8 @@ import kotlinx.android.synthetic.main.layout_add_spare_physical_card_confirm_pur
 
 class ReportLostOrStolenCardFragment :
     AddPaymentChildFragment<IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View {
+    val REASON_DAMAGE: Int = 2
+    val REASON_LOST_STOLEN: Int = 4
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -68,16 +70,21 @@ class ReportLostOrStolenCardFragment :
             View.OnClickListener {
 
             override fun onClick(v: View?) {
+                viewModel.state.valid = true
+                viewModel.HOT_LIST_REASON =REASON_DAMAGE
 
                 llDamagedCard.isActivated = true
                 llStolenCard.isActivated = false
 
             }
         })
+
         llStolenCard.setOnClickListener(object :
             View.OnClickListener {
 
             override fun onClick(v: View?) {
+                viewModel.state.valid = true
+                viewModel.HOT_LIST_REASON = REASON_LOST_STOLEN
 
                 llDamagedCard.isActivated = false
                 llStolenCard.isActivated = true
