@@ -21,4 +21,12 @@ class ReportOrStolenCardState : BaseState(), IRepostOrStolenCard.State {
             notifyPropertyChanged(BR.maskedCardNumber)
 
         }
+
+    @get:Bindable
+    override var valid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
+
 }

@@ -42,12 +42,14 @@ class ReportLostOrStolenCardViewModels(application: Application) :
     }
 
     override fun handlePressOnDamagedCard(id: Int) {
+        state.valid = true
         HOT_LIST_REASON = REASON_DAMAGE
         clickEvent.setValue(id)
 
     }
 
     override fun handlePressOnLostOrStolen(id: Int) {
+        state.valid = true
         HOT_LIST_REASON = REASON_LOST_STOLEN
         clickEvent.setValue(id)
 

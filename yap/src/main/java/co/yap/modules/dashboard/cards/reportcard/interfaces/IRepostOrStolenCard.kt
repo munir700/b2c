@@ -10,6 +10,8 @@ interface IRepostOrStolenCard {
 
         var cardType: String
         var maskedCardNumber: String
+        var valid: Boolean
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {
