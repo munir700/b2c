@@ -25,7 +25,7 @@ import kotlinx.android.synthetic.main.activity_fund_actions.*
 
 class RemoveFundsActivity : AddFundsActivity() {
 
-    private var fundsRemoved : Boolean = false
+    private var fundsRemoved: Boolean = false
     private lateinit var updatedSpareCardBalance: String
 
     companion object {
@@ -52,7 +52,7 @@ class RemoveFundsActivity : AddFundsActivity() {
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                     viewModel.removeFunds()
                 } else {
-                    if(fundsRemoved){
+                    if (fundsRemoved) {
                         setupActionsIntent()
                     }
                     this.finish()
@@ -88,7 +88,9 @@ class RemoveFundsActivity : AddFundsActivity() {
         viewModel.state.availableBalance = card.availableBalance
 //        viewModel.state.availableBalance =  MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + card.availableBalance
+            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
+                card.availableBalance
+            )
     }
 
     override fun onDestroy() {
@@ -104,20 +106,20 @@ class RemoveFundsActivity : AddFundsActivity() {
                 Utils.getFormattedCurrency(viewModel.state.amount)
             )
 
-        val  fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
 
-        val separated = viewModel.state.topUpSuccess.split( viewModel.state.currencyType)
+        val separated = viewModel.state.topUpSuccess.split(viewModel.state.currencyType)
         val str = SpannableStringBuilder(viewModel.state.topUpSuccess)
 
         str.setSpan(
             fcs,
             separated[0].length,
-            separated[0].length+ viewModel.state.currencyType.length+ Utils.getFormattedCurrency(
+            separated[0].length + viewModel.state.currencyType.length + Utils.getFormattedCurrency(
                 viewModel.state.amount
-            ).length +1,
+            ).length + 1,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        tvTopUp.text =str
+        tvTopUp.text = str
 
         val updatedCardBalance: String =
             (MyUserManager.cardBalance.value?.availableBalance.toString().toDouble() + viewModel.state.amount!!.toDouble()).toString()
@@ -130,7 +132,8 @@ class RemoveFundsActivity : AddFundsActivity() {
                 Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
             )
 
-        val separatedPrimary = viewModel.state.primaryCardUpdatedBalance.split( viewModel.state.currencyType)
+        val separatedPrimary =
+            viewModel.state.primaryCardUpdatedBalance.split(viewModel.state.currencyType)
         val primaryStr = SpannableStringBuilder(viewModel.state.primaryCardUpdatedBalance)
 
         primaryStr.setSpan(
@@ -141,7 +144,7 @@ class RemoveFundsActivity : AddFundsActivity() {
         )
         tvPrimaryCardBalance.text = primaryStr
 
-         updatedSpareCardBalance =
+        updatedSpareCardBalance =
             (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
 
         viewModel.state.spareCardUpdatedBalance =
@@ -150,7 +153,8 @@ class RemoveFundsActivity : AddFundsActivity() {
                 Utils.getFormattedCurrency(updatedSpareCardBalance)
             )
 
-        val separatedSpare= viewModel.state.spareCardUpdatedBalance.split( viewModel.state.currencyType)
+        val separatedSpare =
+            viewModel.state.spareCardUpdatedBalance.split(viewModel.state.currencyType)
         val spareStr = SpannableStringBuilder(viewModel.state.spareCardUpdatedBalance)
 
         spareStr.setSpan(
@@ -163,11 +167,12 @@ class RemoveFundsActivity : AddFundsActivity() {
     }
 
     override fun onBackPressed() {
-        if(fundsRemoved){
+        if (fundsRemoved) {
             setupActionsIntent()
         }
         super.onBackPressed()
     }
+
     private fun setupActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("newBalance", updatedSpareCardBalance)

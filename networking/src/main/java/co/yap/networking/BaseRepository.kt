@@ -51,7 +51,12 @@ abstract class BaseRepository : IRepository {
                     if (obj.has("errors")) {
                         val errors = obj.getJSONArray("errors")
                         if (errors.length() > 0) {
-                            return errors.getJSONObject(0).getString("message")
+                            val message = errors.getJSONObject(0).getString("message")
+                            return if (message!="null") {
+                                errors.getJSONObject(0).getString("message")
+                            } else {
+                                "Something went wrong"
+                            }
                         }
                     } else if (obj.has("error")) {
                         // most probably.. unauthorised error

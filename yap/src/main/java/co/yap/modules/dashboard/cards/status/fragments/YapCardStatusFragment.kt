@@ -43,14 +43,9 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
     private fun updateBindings() {
         card = args.cardInfo
-        viewModel.state.title.set(card.cardName)
-        viewModel.state.cardType.set(if (card.cardType == "DEBIT") "Primary card" else "Spare card")
-        viewModel.state.message.set(
-            Translator.getString(
-                requireContext(),
-                R.string.screen_cards_display_text_pending_delivery
-            )
-        )
+        viewModel.state.title.set(if (card.cardType == "DEBIT") "Primary card" else "Spare physical card")
+        viewModel.state.cardType.set(if (card.cardType == "DEBIT") "Primary card" else "Spare physical card")
+        viewModel.state.message.set(if (card.cardType == "DEBIT") "Your Primary card is on its way" else "Your Spare physical card is on its way")
 
         when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
             CardDeliveryStatus.BOOKED -> {

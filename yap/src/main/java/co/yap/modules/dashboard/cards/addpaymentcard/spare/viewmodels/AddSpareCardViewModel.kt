@@ -164,7 +164,8 @@ class AddSpareCardViewModel(application: Application) :
                 MyUserManager.user?.customer?.firstName +" "+MyUserManager.user?.customer?.lastName,
                 address.latitude.toString(),
                 address.longitude.toString(),
-                address.address1
+               "Address 1"
+               // address.address1
             )
 
         launch {

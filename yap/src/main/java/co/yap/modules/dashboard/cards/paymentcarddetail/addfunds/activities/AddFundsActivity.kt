@@ -123,7 +123,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.state.availableBalance =
             MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + viewModel.state.availableBalance
+            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(viewModel.state.availableBalance)
     }
 
     private fun showErrorSnackBar() {

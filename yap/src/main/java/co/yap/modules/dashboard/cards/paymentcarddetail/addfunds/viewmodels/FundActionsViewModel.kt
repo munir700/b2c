@@ -75,7 +75,8 @@ open class FundActionsViewModel(application: Application) :
                     clickEvent.setValue(EVENT_ADD_FUNDS_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
+                    errorEvent.postValue(2)
                 }
             }
             state.loading = false
