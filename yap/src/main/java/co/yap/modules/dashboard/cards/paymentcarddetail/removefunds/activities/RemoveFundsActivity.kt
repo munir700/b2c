@@ -15,6 +15,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.viewmodels.RemoveFundsViewModel
+import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
@@ -77,7 +78,13 @@ class RemoveFundsActivity : AddFundsActivity() {
         val card: Card = intent.getParcelableExtra(CARD)
         viewModel.state.cardNumber = card.maskedCardNo
         viewModel.cardSerialNumber = card.cardSerialNumber
-        viewModel.state.cardName = card.cardName
+        if (Constants.CARD_TYPE_PREPAID == card?.cardType) {
+            if(card?.physical!!){
+                viewModel.state.cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
+            }else{
+                viewModel.state.cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
+            }
+        }
         viewModel.state.availableBalance = card.availableBalance
 //        viewModel.state.availableBalance =  MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =

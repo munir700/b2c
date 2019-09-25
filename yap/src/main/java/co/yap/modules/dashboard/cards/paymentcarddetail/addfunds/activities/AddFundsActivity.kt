@@ -35,6 +35,7 @@ import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
+import co.yap.modules.dashboard.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
 open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
@@ -109,7 +110,15 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         card = intent.getParcelableExtra(CARD)
         viewModel.state.cardNumber = card!!.maskedCardNo
         viewModel.cardSerialNumber = card!!.cardSerialNumber
-        viewModel.state.cardName = card!!.cardName
+
+        if (Constants.CARD_TYPE_PREPAID == card?.cardType) {
+            if(card?.physical!!){
+                viewModel.state.cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
+            }else{
+                viewModel.state.cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
+            }
+        }
+
 //        viewModel.state.availableBalance = card.availableBalance
         viewModel.state.availableBalance =
             MyUserManager.cardBalance.value?.availableBalance.toString()
