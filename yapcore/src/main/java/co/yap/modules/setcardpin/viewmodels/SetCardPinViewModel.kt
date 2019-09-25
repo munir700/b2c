@@ -13,10 +13,11 @@ open class SetCardPinViewModel(application: Application) :
     BaseViewModel<ISetCardPin.State>(application),
     ISetCardPin.ViewModel {
 
-
     override var pincode: String = ""
     override val state: SetCardPinState = SetCardPinState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var errorEvent: SingleClickEvent = SingleClickEvent()
+
 
     override fun onCreate() {
         super.onCreate()
@@ -31,7 +32,7 @@ open class SetCardPinViewModel(application: Application) :
         }
     }
 
-    override fun setCardPin(cardSerialName : String) {}
+    override fun setCardPin(cardSerialName: String) {}
     override fun changeCardPinRequest(
         oldPin: String,
         newPin: String,
@@ -50,4 +51,5 @@ open class SetCardPinViewModel(application: Application) :
             getString(Strings.screen_confirm_card_pin_display_text_error_same_digits)
         return !isSame && !isSequenced
     }
+
 }

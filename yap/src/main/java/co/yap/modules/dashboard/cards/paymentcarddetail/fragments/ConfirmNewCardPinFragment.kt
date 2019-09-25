@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPin
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ConfirmNewCardPinViewModel
 import co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
+import kotlinx.android.synthetic.main.activity_create_passcode.*
 
 class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
@@ -25,7 +26,7 @@ class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
     override fun loadData() {
         viewModel.state.oldPin = args.oldPinCode
         viewModel.state.newPin = args.newPinCode
-        viewModel.state.cardSerialNumber= (activity as ChangeCardPinActivity).cardSerialNumber
+        viewModel.state.cardSerialNumber = (activity as ChangeCardPinActivity).cardSerialNumber
 
     }
 
@@ -33,17 +34,12 @@ class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-
-
-//                    viewModel.state. = args.newPinCode
-                    //    val action = ChangeCardPinFragmentDirections.actionChangeCardPinFragmentToSetNewCardPinFragment(viewModel.state.pincode)
-                    //   findNavController().navigate(action)
-                    //   viewModel.state.toast = newPinCode
-                    /*   val action=SetNewCardPinFragmentDirections.actionSetNewCardPinFragmentToConfirmNewCardPinFragment(newPinCode.toString())
-                       findNavController().navigate(action)*/
                     findNavController().navigate(R.id.action_confirmNewCardPinFragment_to_changePinSuccessFragment)
                 }
             }
+        })
+        viewModel.errorEvent.observe(this, Observer {
+            dialer.startAnimationDigits()
         })
     }
 }

@@ -34,6 +34,9 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
                 }
             }
         })
+        viewModel.errorEvent.observe(this, Observer {
+
+        })
     }
     override fun loadData() {
 
