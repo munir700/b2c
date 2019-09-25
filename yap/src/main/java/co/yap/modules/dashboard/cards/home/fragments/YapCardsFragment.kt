@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.home.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.SystemClock
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
@@ -80,8 +81,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             }
         }
 
+        var mLastClickTime = 0L
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime < 600) {
+                    return
+                }
+                mLastClickTime = SystemClock.elapsedRealtime()
                 when (view.id) {
                     R.id.imgCard -> {
                         if (getCard(pos).cardName == Constants.addCard) {
@@ -132,26 +138,26 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 openDetailScreen(pos)
                             }
                             CardStatus.INACTIVE -> {
-                                if(getCard(pos).cardType=="DEBIT"){
-                                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                                if (getCard(pos).cardType == "DEBIT") {
+                                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
                                         openSetPinScreen(getCard(pos).cardSerialNumber)
                                     }
-                                }else {
-                                if (getCard(pos).deliveryStatus == null) {
                                 } else {
-                                    when (getCard(pos).deliveryStatus?.let {
-                                        CardDeliveryStatus.valueOf(it)
-                                    }) {
-                                        CardDeliveryStatus.SHIPPED -> {
-                                            openSetPinScreen(getCard(pos).cardSerialNumber)
-                                        }
-                                        else -> {
-                                            openStatusScreen(view, pos)
+                                    if (getCard(pos).deliveryStatus == null) {
+                                    } else {
+                                        when (getCard(pos).deliveryStatus?.let {
+                                            CardDeliveryStatus.valueOf(it)
+                                        }) {
+                                            CardDeliveryStatus.SHIPPED -> {
+                                                openSetPinScreen(getCard(pos).cardSerialNumber)
+                                            }
+                                            else -> {
+                                                openStatusScreen(view, pos)
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
                         }
                     }
                 }
@@ -196,9 +202,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 }
             }
 
-            EVENT_CREATE_CARD_PIN->{
+            EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
-                    val isPinCreated: Boolean? = data?.getBooleanExtra(Constants.isPinCreated, false)
+                    val isPinCreated: Boolean? =
+                        data?.getBooleanExtra(Constants.isPinCreated, false)
                     if (isPinCreated!!) {
                         viewModel.state.cardList.get()?.clear()
                         viewModel.getCards()
@@ -237,12 +244,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    fun openSetPinScreen(cardSerialNumber : String) {
-        startActivityForResult(SetCardPinWelcomeActivity.newIntent(requireContext(), cardSerialNumber),EVENT_CREATE_CARD_PIN)
+    fun openSetPinScreen(cardSerialNumber: String) {
+        startActivityForResult(
+            SetCardPinWelcomeActivity.newIntent(
+                requireContext(),
+                cardSerialNumber
+            ), EVENT_CREATE_CARD_PIN
+        )
     }
 
     fun getCard(pos: Int): Card {
-        //return viewModel.state.cardList.get()?.get(pos)!!
         return adapter.getDataForPosition(pos)
     }
 
