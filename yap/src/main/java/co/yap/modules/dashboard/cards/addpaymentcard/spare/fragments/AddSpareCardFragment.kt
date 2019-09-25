@@ -94,7 +94,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     )
                 }
 
-                viewModel.CONFIRM_PURCHASE -> {
+                viewModel.CONFIRM_PHYSICAL_PURCHASE -> {
 
                     if (viewModel.state.physicalCardFee > viewModel.state.avaialableCardBalance) {
                         showDialog()
@@ -103,9 +103,19 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     }
                 }
 
+                viewModel.CONFIRM_VIRTUAL_PURCHASE -> {
+
+                    if (viewModel.state.virtualCardFee > viewModel.state.avaialableCardBalance) {
+                        showDialog()
+                    } else {
+                        viewModel.requestAddSpareVirtualCard()
+                    }
+                }
+
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     // Spare virtual card added event
                     setupActionsIntent()
+                    activity!!.finish()
                 }
 
                 R.id.btnConfirm -> {

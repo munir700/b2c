@@ -24,7 +24,9 @@ class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
-    override val CONFIRM_PURCHASE: Int=2000
+    override val CONFIRM_VIRTUAL_PURCHASE: Int=3000
+
+    override val CONFIRM_PHYSICAL_PURCHASE: Int=2000
     override var isFromBlockCardScreen: Boolean= false
     override var latitude: String = ""
     override var longitude: String = ""
@@ -57,12 +59,13 @@ class AddSpareCardViewModel(application: Application) :
     }
 
     override fun handlePressOnConfirmVirtualCardPurchase(id: Int) {
-        requestAddSpareVirtualCard()
+        clickEvent.setValue(CONFIRM_VIRTUAL_PURCHASE)
+//        requestAddSpareVirtualCard()
     }
 
     override fun handlePressOnConfirmPhysicalCardPurchase(id: Int) {
 
-        clickEvent.setValue(CONFIRM_PURCHASE)
+        clickEvent.setValue(CONFIRM_PHYSICAL_PURCHASE)
     }
 
     override fun handlePressOnConfirmLocation(id: Int) {
