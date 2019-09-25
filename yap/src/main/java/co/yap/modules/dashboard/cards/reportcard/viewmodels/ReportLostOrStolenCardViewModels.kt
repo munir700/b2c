@@ -11,6 +11,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
@@ -70,7 +71,20 @@ class ReportLostOrStolenCardViewModels(application: Application) :
             state.loading = true
             when (val response = repository.reportAndBlockCard(cardsHotlistReequest)) {
                 is RetroApiResponse.Success -> {
-                    getPhysicalCardFee()
+
+                    if (state.cardType.equals(
+                            Translator.getString(
+                                context!!,
+                                Strings.screen_spare_card_landing_display_text_virtual_card
+                            )
+                        )
+                    ) {
+                        state.loading = false
+                        toggleToolBarVisibility(false)
+                        clickEvent.setValue(CARD_REORDER_SUCCESS)
+                    } else {
+                        getPhysicalCardFee()
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

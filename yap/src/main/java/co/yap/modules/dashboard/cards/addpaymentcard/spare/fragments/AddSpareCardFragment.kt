@@ -147,17 +147,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     override fun onDetach() {
         super.onDetach()
-        onBackPressCheck=true
+        onBackPressCheck = true
 
     }
+
     override fun onBackPressed(): Boolean {
-//
-//        if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
-//            onBackPressCheck=false
-//            return false
-//        } else {
-            return super.onBackPressed()
-//        }
+        return super.onBackPressed()
 
     }
 }

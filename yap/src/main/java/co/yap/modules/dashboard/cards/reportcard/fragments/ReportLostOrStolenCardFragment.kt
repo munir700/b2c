@@ -14,6 +14,7 @@ import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.translation.Strings
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_cancel
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_confirm
 import co.yap.translation.Strings.screen_report_card_display_text_block_alert_message
@@ -78,14 +79,26 @@ class ReportLostOrStolenCardFragment :
                 }
 
                 viewModel.CARD_REORDER_SUCCESS -> {
+
                     llDamagedCard.isActivated = false
                     llStolenCard.isActivated = false
 
-                    val action =
-                        ReportLostOrStolenCardFragmentDirections.actionReportLostOrStolenCardFragmentToBlockCardSuccessFragment(
-                            viewModel.cardFee
+                    if (viewModel.state.cardType.equals(
+                            Translator.getString(
+                                context!!,
+                                Strings.screen_spare_card_landing_display_text_virtual_card
+                            )
                         )
-                    findNavController().navigate(action)
+                    ) {
+                        activity!!.finish()
+                    } else {
+
+                        val action =
+                            ReportLostOrStolenCardFragmentDirections.actionReportLostOrStolenCardFragmentToBlockCardSuccessFragment(
+                                viewModel.cardFee
+                            )
+                        findNavController().navigate(action)
+                    }
                 }
             }
         })
@@ -120,7 +133,7 @@ class ReportLostOrStolenCardFragment :
             )
         ) { dialog, which ->
             //dismiss
-         }
+        }
 
 
         val dialog: AlertDialog = builder.create()
