@@ -202,6 +202,8 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
             }
+        }else if (amount==""){
+            valid=false
         }
     }
 }
