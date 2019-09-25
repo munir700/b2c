@@ -365,7 +365,7 @@
                             app:layout_constraintBottom_toBottomOf="@+id/ccTitle"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="@id/ccTitle"
-                            app:srcCompat="@drawable/ic_back_arrow_left" />
+                            app:srcCompat="@drawable/ic_close_dark" />
 
                         <ImageView
                             android:id="@+id/ivMenu"
