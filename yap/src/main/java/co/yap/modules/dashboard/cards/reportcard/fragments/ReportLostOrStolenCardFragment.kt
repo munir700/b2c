@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.reportcard.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -114,6 +116,7 @@ class ReportLostOrStolenCardFragment :
                         )
                     ) {
                         reportCardSuccess = true
+                        setupActionsIntent()
                         activity!!.finish()
                     } else {
 
@@ -174,5 +177,11 @@ class ReportLostOrStolenCardFragment :
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardBlocked", true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

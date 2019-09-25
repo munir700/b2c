@@ -246,7 +246,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card))
             }
             Constants.EVENT_REPORT_CARD -> {
-                startActivity(ReportLostOrStolenCardActivity.newIntent(this, viewModel.card))
+                startActivityForResult(ReportLostOrStolenCardActivity.newIntent(this, viewModel.card),Constants.REQUEST_REPORT_LOST_OR_STOLEN)
 
             }
             Constants.EVENT_REMOVE_CARD -> {
@@ -255,12 +255,14 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         }
     }
 
+/*
     override fun onResume() {
         super.onResume()
         if (ReportLostOrStolenCardActivity.reportCardSuccess) {
             finish()
         }
     }
+*/
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -278,6 +280,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     viewModel.card.availableBalance = data?.getStringExtra("newBalance").toString()
                     viewModel.state.cardBalance =
                         "AED " + Utils.getFormattedCurrency(data?.getStringExtra("newBalance").toString())
+                }
+            }
+
+            Constants.REQUEST_REPORT_LOST_OR_STOLEN-> {
+                if (resultCode == Activity.RESULT_OK) {
+                    setupCardBlockActionsIntent()
+                    finish()
                 }
             }
         }
@@ -349,6 +358,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             returnIntent.putExtra("cardRemoved", cardRemoved)
             setResult(Activity.RESULT_OK, returnIntent)
         }
+    }
+
+    private fun setupCardBlockActionsIntent() {
+            val returnIntent = Intent()
+            returnIntent.putExtra("cardBlocked", true)
+            setResult(Activity.RESULT_OK, returnIntent)
     }
 
     private fun showRemoveCardPopup() {
