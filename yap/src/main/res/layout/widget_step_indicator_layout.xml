@@ -36,7 +36,7 @@
                 android:layout_height="@dimen/_28sdp"
                 android:clickable="false"
                 android:focusable="false"
-                android:src="@drawable/ic_tick" />
+                android:src="@drawable/ic_tick_disabled" />
 
             <TextView
                 android:id="@+id/tvOrdered"
@@ -60,7 +60,7 @@
             android:layout_height="@dimen/_5sdp"
             android:layout_gravity="center_horizontal"
             android:max="100"
-            android:progress="100"
+            android:progress="0"
             app:layout_constraintBottom_toBottomOf="@+id/lyOrdered"
             app:layout_constraintEnd_toStartOf="@+id/lyBuilding"
             app:layout_constraintHorizontal_bias="0.5"
@@ -88,7 +88,7 @@
                 android:layout_height="@dimen/_28sdp"
                 android:clickable="false"
                 android:focusable="false"
-                android:src="@drawable/ic_tick" />
+                android:src="@drawable/ic_tick_disabled" />
 
             <TextView
                 android:id="@+id/tvBuilding"
@@ -137,7 +137,7 @@
                 android:layout_height="@dimen/_28sdp"
                 android:clickable="false"
                 android:focusable="false"
-                tools:src="@drawable/ic_tick" />
+                android:src="@drawable/ic_tick_disabled" />
 
             <TextView
                 android:id="@+id/tvShipping"
