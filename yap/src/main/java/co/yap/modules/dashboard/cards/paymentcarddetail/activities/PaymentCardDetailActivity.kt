@@ -29,10 +29,12 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.Car
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 import kotlinx.android.synthetic.main.layout_card_info.*
@@ -131,9 +133,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                 viewModel.EVENT_CARD_DETAILS -> {
                     showCardDetailsPopup()
+
                 }
 
                 viewModel.EVENT_REMOVE_CARD -> {
+                    try {
+                        val updatedCardBalance = ( MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.minus(viewModel.card.availableBalance.toDouble()))
+                        MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
+                    } catch (e: Exception) {
+                    e.printStackTrace()
+                    }
                     cardRemoved = true
                     showToast("Card successfully removed!")
                     setupActionsIntent()
