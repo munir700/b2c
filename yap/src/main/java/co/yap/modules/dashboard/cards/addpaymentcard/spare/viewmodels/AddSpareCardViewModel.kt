@@ -16,6 +16,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 
@@ -117,11 +118,11 @@ class AddSpareCardViewModel(application: Application) :
 
                     sharedPreferenceManager.save(
                         SharedPreferenceManager.KEY_AVAILABLE_BALANCE,
-                        response.data.data.currencyCode.toString() + " " + response.data.data.availableBalance.toString()
+                        response.data.data.currencyCode.toString() + " " + Utils.getFormattedCurrency(response.data.data.availableBalance.toString())
                     )
 
                     state.avaialableCardBalance =
-                        response.data.data.currencyCode.toString() + " " + response.data.data.availableBalance.toString()
+                        response.data.data.currencyCode.toString() + " " + Utils.getFormattedCurrency(response.data.data.availableBalance.toString())
                     if (!cardType.isNullOrEmpty() && !cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
                         requestGetAddressForPhysicalCard()
                     } else {
