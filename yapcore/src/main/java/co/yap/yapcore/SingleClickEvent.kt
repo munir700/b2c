@@ -3,6 +3,7 @@ package co.yap.yapcore
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.View
 import androidx.annotation.MainThread
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
@@ -17,6 +18,7 @@ class SingleClickEvent : MutableLiveData<Int>() {
     private val defaultValue: Int = -1
     private val debounceDelay: Long = 600L
     private val mPending = AtomicInteger(defaultValue)
+    private var payload: AdaptorPayLoadHolder? = null
 
     @MainThread
     override fun observe(owner: LifecycleOwner, observer: Observer<in Int>) {
@@ -28,7 +30,10 @@ class SingleClickEvent : MutableLiveData<Int>() {
         super.observe(owner, Observer { t ->
             if (mPending.get() != defaultValue) {
                 observer.onChanged(t)
-                Handler(Looper.getMainLooper()).postDelayed({ mPending.set(defaultValue) }, debounceDelay)
+                Handler(Looper.getMainLooper()).postDelayed(
+                    { mPending.set(defaultValue) },
+                    debounceDelay
+                )
             }
         })
     }
@@ -52,7 +57,19 @@ class SingleClickEvent : MutableLiveData<Int>() {
      */
     @MainThread
     fun call() {
-       setValue(0)
+        setValue(0)
     }
+
+    fun setPayload(payload: AdaptorPayLoadHolder?) {
+        if (mPending.get() == defaultValue) {
+            this.payload = payload
+        }
+    }
+
+    fun getPayload(): AdaptorPayLoadHolder? {
+        return payload
+    }
+
+    data class AdaptorPayLoadHolder(val view: View, val itemData: Any, val position: Int)
 
 }
