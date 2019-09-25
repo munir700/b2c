@@ -4,7 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -92,6 +96,22 @@ class RemoveFundsActivity : AddFundsActivity() {
                 viewModel.state.currencyType,
                 Utils.getFormattedCurrency(viewModel.state.amount)
             )
+
+        val  fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+
+        val separated = viewModel.state.topUpSuccess.split( viewModel.state.currencyType)
+        val str = SpannableStringBuilder(viewModel.state.topUpSuccess)
+
+        str.setSpan(
+            fcs,
+            separated[0].length,
+            separated[0].length+ viewModel.state.currencyType.length+ Utils.getFormattedCurrency(
+                viewModel.state.amount
+            ).length +1,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        tvTopUp.text =str
+
         val updatedCardBalance: String =
             (MyUserManager.cardBalance.value?.availableBalance.toString().toDouble() + viewModel.state.amount!!.toDouble()).toString()
         MyUserManager.cardBalance.value =
@@ -100,8 +120,19 @@ class RemoveFundsActivity : AddFundsActivity() {
         viewModel.state.primaryCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_primary_balance).format(
                 viewModel.state.currencyType,
-                MyUserManager.cardBalance.value?.availableBalance.toString()
+                Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
             )
+
+        val separatedPrimary = viewModel.state.primaryCardUpdatedBalance.split( viewModel.state.currencyType)
+        val primaryStr = SpannableStringBuilder(viewModel.state.primaryCardUpdatedBalance)
+
+        primaryStr.setSpan(
+            fcs,
+            separatedPrimary[0].length,
+            primaryStr.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        tvPrimaryCardBalance.text = primaryStr
 
          updatedSpareCardBalance =
             (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
@@ -109,9 +140,19 @@ class RemoveFundsActivity : AddFundsActivity() {
         viewModel.state.spareCardUpdatedBalance =
             getString(Strings.screen_success_funds_transaction_display_text_success_updated_prepaid_card_balance).format(
                 viewModel.state.currencyType,
-                updatedSpareCardBalance
+                Utils.getFormattedCurrency(updatedSpareCardBalance)
             )
 
+        val separatedSpare= viewModel.state.spareCardUpdatedBalance.split( viewModel.state.currencyType)
+        val spareStr = SpannableStringBuilder(viewModel.state.spareCardUpdatedBalance)
+
+        spareStr.setSpan(
+            fcs,
+            separatedSpare[0].length,
+            spareStr.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        tvNewSpareCardBalance.text = spareStr
     }
 
     override fun onBackPressed() {

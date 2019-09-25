@@ -300,6 +300,7 @@
             <TextView
                 android:id="@+id/tvNewSpareCardBalance"
                 style="@style/ASmallGrey"
+                android:lineSpacingExtra="@dimen/_1sdp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
