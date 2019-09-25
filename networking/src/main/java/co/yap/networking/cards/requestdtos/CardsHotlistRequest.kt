@@ -1,6 +1,6 @@
 package co.yap.networking.cards.requestdtos
 
-data class CardsHotlistReequest(
+data class CardsHotlistRequest(
     val cardSerialNumber: String,
     val hotListReason: String
 )

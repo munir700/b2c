@@ -113,7 +113,7 @@ class ReportLostOrStolenCardFragment :
             )
         ) { dialog, which ->
 
-            viewModel.requestConfirmBlockCard()
+            viewModel.requestConfirmBlockCard(reportCard)
 
         }
 

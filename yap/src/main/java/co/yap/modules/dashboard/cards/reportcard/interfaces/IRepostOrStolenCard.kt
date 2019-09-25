@@ -10,8 +10,6 @@ interface IRepostOrStolenCard {
 
         var cardType: String
         var maskedCardNumber: String
-
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -27,6 +25,7 @@ interface IRepostOrStolenCard {
         fun handlePressOnReportAndBlockButton(id: Int)
 
         fun requestConfirmBlockCard(card: Card)
+        fun getPhysicalCardFee()
     }
 
     interface View : IBase.View<ViewModel>

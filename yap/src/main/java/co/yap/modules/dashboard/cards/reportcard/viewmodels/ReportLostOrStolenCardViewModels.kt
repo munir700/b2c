@@ -5,10 +5,11 @@ import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildV
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.states.ReportOrStolenCardState
 import co.yap.networking.cards.CardsRepository
-import co.yap.networking.cards.requestdtos.CardsHotlistReequest
+import co.yap.networking.cards.requestdtos.CardsHotlistRequest
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -18,12 +19,14 @@ class ReportLostOrStolenCardViewModels(application: Application) :
     IRepostOrStolenCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
+    private val transactionRepository: TransactionsRepository = TransactionsRepository
+
     override var HOT_LIST_REASON: Int = 2
     val REASON_DAMAGE: Int = 2
     val REASON_LOST_STOLEN: Int = 4
 
     override val CARD_REORDER_SUCCESS: Int = 5000
-    override val cardFee: String = "50"
+    override var cardFee: String = "50"
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -60,12 +63,28 @@ class ReportLostOrStolenCardViewModels(application: Application) :
 
     override fun requestConfirmBlockCard(card: Card) {
 
-        val cardsHotlistReequest: CardsHotlistReequest = CardsHotlistReequest(card.cardSerialNumber, HOT_LIST_REASON.toString())
+        val cardsHotlistReequest: CardsHotlistRequest =
+            CardsHotlistRequest(card.cardSerialNumber, HOT_LIST_REASON.toString())
 
         launch {
             state.loading = true
             when (val response = repository.reportAndBlockCard(cardsHotlistReequest)) {
                 is RetroApiResponse.Success -> {
+                    getPhysicalCardFee()
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun getPhysicalCardFee() {
+        launch {
+            when (val response = transactionRepository.getCardFee("physical")) {
+                is RetroApiResponse.Success -> {
+                    cardFee = response.data.data.currency + " " + response.data.data.amount
                     toggleToolBarVisibility(false)
                     clickEvent.setValue(CARD_REORDER_SUCCESS)
 
@@ -74,7 +93,6 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
         }
     }
 

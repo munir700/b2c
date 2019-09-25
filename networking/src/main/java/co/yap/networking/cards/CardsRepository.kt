@@ -111,7 +111,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     ): RetroApiResponse<CardDetailResponseDTO> =
         AuthRepository.executeSafely(call = { API.updateCardName(cardName, cardSerialNumber) })
 
-    override suspend fun reportAndBlockCard(cardsHotlistReequest: CardsHotlistReequest): RetroApiResponse<ApiResponse> =
+    override suspend fun reportAndBlockCard(cardsHotlistReequest: CardsHotlistRequest): RetroApiResponse<ApiResponse> =
 
         AuthRepository.executeSafely(call = {
             API.reportAndBlockCard(
