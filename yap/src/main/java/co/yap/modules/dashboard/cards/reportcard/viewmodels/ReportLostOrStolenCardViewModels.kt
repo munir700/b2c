@@ -44,14 +44,14 @@ class ReportLostOrStolenCardViewModels(application: Application) :
     override fun handlePressOnDamagedCard(id: Int) {
         state.valid = true
         HOT_LIST_REASON = REASON_DAMAGE
-        clickEvent.setValue(id)
+//        clickEvent.setValue(id)
 
     }
 
     override fun handlePressOnLostOrStolen(id: Int) {
         state.valid = true
         HOT_LIST_REASON = REASON_LOST_STOLEN
-        clickEvent.setValue(id)
+//        clickEvent.setValue(id)
 
     }
 
@@ -91,10 +91,10 @@ class ReportLostOrStolenCardViewModels(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
 
-//                  //remove
-//                    state.loading = false
-//                    toggleToolBarVisibility(false)
-//                    clickEvent.setValue(CARD_REORDER_SUCCESS)
+/*                  //remove
+                    state.loading = false
+                    toggleToolBarVisibility(false)
+                    clickEvent.setValue(CARD_REORDER_SUCCESS)*/
                 }
             }
             state.loading = false

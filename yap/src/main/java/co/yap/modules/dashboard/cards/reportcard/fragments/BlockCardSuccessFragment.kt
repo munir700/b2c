@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.reportcard.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -53,6 +55,7 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
 
         tvAddLater.setOnClickListener {
             reportCardSuccess=true
+            setupActionsIntent()
              activity!!.finish()
 
         }
@@ -60,5 +63,11 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
 
     override fun onBackPressed(): Boolean {
         return false
+    }
+
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardBlocked", true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

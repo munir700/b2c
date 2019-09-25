@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.reportcard.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
@@ -9,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
+import co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragmentDirections
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
@@ -24,10 +27,13 @@ import co.yap.translation.Strings.screen_spare_card_landing_display_text_physica
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual_card
 import co.yap.translation.Translator
 import kotlinx.android.synthetic.main.fragment_lost_or_stolen_card.*
+import kotlinx.android.synthetic.main.layout_add_spare_physical_card_confirm_purchase.view.*
 
 
 class ReportLostOrStolenCardFragment :
     AddPaymentChildFragment<IRepostOrStolenCard.ViewModel>(), IRepostOrStolenCard.View {
+    val REASON_DAMAGE: Int = 2
+    val REASON_LOST_STOLEN: Int = 4
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -60,20 +66,45 @@ class ReportLostOrStolenCardFragment :
                 )
             }
         }
+        llDamagedCard.setOnClickListener(object :
+            View.OnClickListener {
+
+            override fun onClick(v: View?) {
+                viewModel.state.valid = true
+                viewModel.HOT_LIST_REASON =REASON_DAMAGE
+
+                llDamagedCard.isActivated = true
+                llStolenCard.isActivated = false
+
+            }
+        })
+
+        llStolenCard.setOnClickListener(object :
+            View.OnClickListener {
+
+            override fun onClick(v: View?) {
+                viewModel.state.valid = true
+                viewModel.HOT_LIST_REASON = REASON_LOST_STOLEN
+
+                llDamagedCard.isActivated = false
+                llStolenCard.isActivated = true
+
+            }
+        })
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-                R.id.llDamagedCard -> {
-                    llDamagedCard.isActivated = true
-                    llStolenCard.isActivated = false
-                }
-
-                R.id.llStolenCard -> {
-                    llDamagedCard.isActivated = false
-                    llStolenCard.isActivated = true
-
-                }
+//                R.id.llDamagedCard -> {
+//                    llDamagedCard.isActivated = true
+//                    llStolenCard.isActivated = false
+//                }
+//
+//                R.id.llStolenCard -> {
+//                    llDamagedCard.isActivated = false
+//                    llStolenCard.isActivated = true
+//
+//                }
 
                 R.id.btnBlockAndReport -> {
                     showDialog()
@@ -92,6 +123,7 @@ class ReportLostOrStolenCardFragment :
                         )
                     ) {
                         reportCardSuccess = true
+                        setupActionsIntent()
                         activity!!.finish()
                     } else {
 
@@ -152,5 +184,11 @@ class ReportLostOrStolenCardFragment :
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardBlocked", true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

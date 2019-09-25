@@ -204,12 +204,16 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard = data?.getParcelableExtra<Card>("card")
                     val removed = data?.getBooleanExtra("cardRemoved", false)
+                    val cardBlocked = data?.getBooleanExtra("cardBlocked", false)
 
                     if (removed!!) {
                         adapter.removeItemAt(selectedCardPosition)
                         adapter.notifyDataSetChanged()
                         updateCardCount()
-                    } else {
+                    } else if(cardBlocked!!){
+                        viewModel.state.cardList.get()?.clear()
+                        viewModel.getCards()
+                    }else {
                         adapter.setItemAt(selectedCardPosition, updatedCard!!)
                     }
                 }

@@ -270,6 +270,10 @@
     <string name="screen_add_spare_card_display_text_address_confirmation">Is this your address?</string>
     <string name="screen_add_spare_card_button_change_location">Change location</string>
 
+    <string name="screen_add_spare_card_display_text_alert_title">Looks like you don\'t have enough funds in your account. Top up now to continue with this purchase</string>
+    <string name="screen_add_spare_card_display_button_block_alert_top_up">Top up</string>
+    <string name="screen_add_spare_card_display_button_block_alert_skip">Skip for now</string>
+
     <!-- Add Spare card location -->
 
     <!--    <string name="screen_spare_card_landing_display_text_physical_card">Spare card benefits</string>-->

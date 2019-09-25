@@ -6,21 +6,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
-import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 
@@ -93,14 +94,36 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     )
                 }
 
+                viewModel.CONFIRM_PHYSICAL_PURCHASE -> {
+
+                    if (viewModel.state.physicalCardFee > viewModel.state.avaialableCardBalance) {
+                        showDialog()
+                    } else {
+                        viewModel.requestAddSparePhysicalCard()
+                    }
+                }
+
+                viewModel.CONFIRM_VIRTUAL_PURCHASE -> {
+
+                    if (viewModel.state.virtualCardFee > viewModel.state.avaialableCardBalance) {
+                        showDialog()
+                    } else {
+                        viewModel.requestAddSpareVirtualCard()
+                    }
+                }
+
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     // Spare virtual card added event
                     setupActionsIntent()
+                    activity!!.finish()
                 }
 
                 R.id.btnConfirm -> {
+//                      if (viewModel.state.physicalCardFee > viewModel.state.avaialableCardBalance) {
+//                        showDialog()
+//                    } else {
                     viewModel.state.toggleVisibility = true
-
+//
                     if (viewModel.isFromaddressScreen) {
                         viewModel.address = Address(
                             viewModel.state.physicalCardAddressSubTitle,
@@ -109,6 +132,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                             viewModel.longitude.toDouble()
                         )
                     }
+//                    }
                 }
 
             }
@@ -184,4 +208,37 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         returnIntent.putExtra("cardAdded", true)
         activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
+
+
+    private fun showDialog() {
+
+        val builder = AlertDialog.Builder(this.requireActivity())
+
+        builder.setMessage(
+            Translator.getString(
+                context!!, Strings.screen_add_spare_card_display_text_alert_title
+            )
+        )
+        builder.setPositiveButton(
+            Translator.getString(
+                context!!, Strings.screen_add_spare_card_display_button_block_alert_top_up
+            )
+        ) { dialog, which ->
+
+
+        }
+
+        builder.setNegativeButton(
+            Translator.getString(
+                context!!, Strings.screen_add_spare_card_display_button_block_alert_skip
+            )
+        ) { dialog, which ->
+            //dismiss
+        }
+
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
+    }
+
 }

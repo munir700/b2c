@@ -35,6 +35,8 @@ interface IAddSpareCard {
         var longitude: String
         var address: Address
 
+        val CONFIRM_PHYSICAL_PURCHASE: Int
+        val CONFIRM_VIRTUAL_PURCHASE: Int
         val ADD_VIRTUAL_SPARE_CLICK_EVENT: Int
         val ADD_PHYSICAL_SPARE_CLICK_EVENT: Int
         var isFromaddressScreen: Boolean
@@ -66,7 +68,7 @@ interface IAddSpareCard {
 
         fun requestAddSpareVirtualCard()
 
-        fun requestAddSparePhysicalCard(id: Int)
+        fun requestAddSparePhysicalCard()
         fun requestGetAddressForPhysicalCard()
         fun updateAddressForPhysicalCard()
         fun requestInitialData()

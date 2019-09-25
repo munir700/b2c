@@ -54,6 +54,16 @@
         tools:layout="@layout/fragment_address_selection"
         android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
         android:label="AddressSelectionActivity">
+
+     <argument
+         android:name="isFromPhysicalCardsScreen"
+         android:defaultValue="false"
+         app:argType="boolean" />
+     <argument
+         android:name="isFromBlockCardsScreen"
+         android:defaultValue="false"
+         app:argType="boolean" />
+
         <action
             android:id="@+id/action_AddressSelectionActivity_to_MeetingConfirmationFragment"
             app:destination="@id/MeetingConfirmationFragment"/>

@@ -438,8 +438,15 @@ object Strings {
         "screen_add_spare_card_button_confirm_location"
     const val screen_add_spare_card_display_text_address_confirmation: String =
         "screen_add_spare_card_display_text_address_confirmation"
+
     const val screen_add_spare_card_button_change_location: String =
         "screen_add_spare_card_button_change_location"
+    const val screen_add_spare_card_display_text_alert_title: String =
+        "screen_add_spare_card_display_text_alert_title"
+    const val screen_add_spare_card_display_button_block_alert_top_up: String =
+        "screen_add_spare_card_display_button_block_alert_top_up"
+    const val screen_add_spare_card_display_button_block_alert_skip: String =
+        "screen_add_spare_card_display_button_block_alert_skip"
 
 
     // Add funds Screen

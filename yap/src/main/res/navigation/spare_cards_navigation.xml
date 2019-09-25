@@ -83,6 +83,7 @@
 
         <argument
             android:name="isFromPhysicalCardsScreen"
+            android:defaultValue="false"
             app:argType="boolean" />
         <argument
             android:name="isFromBlockCardsScreen"
