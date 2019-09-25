@@ -55,10 +55,14 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     }
 
     override fun updateCardCount(size: Int) {
-        state.noOfCard = Translator.getString(
+        val message = Translator.getString(
             context,
             R.string.screen_cards_display_text_cards_count
         ).replace("%d", size.toString())
+        if (size == 1)
+            state.noOfCard = message.substring(0, message.length - 1)
+        else
+            state.noOfCard = message
     }
 
     private fun getAddCard(): Card {

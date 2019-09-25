@@ -131,26 +131,26 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                 openDetailScreen(pos)
                             }
                             CardStatus.INACTIVE -> {
-                                if(getCard(pos).cardType=="DEBIT"){
-                                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                                if (getCard(pos).cardType == "DEBIT") {
+                                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
                                         openSetPinScreen()
                                     }
-                                }else {
-                                if (getCard(pos).deliveryStatus == null) {
                                 } else {
-                                    when (getCard(pos).deliveryStatus?.let {
-                                        CardDeliveryStatus.valueOf(it)
-                                    }) {
-                                        CardDeliveryStatus.SHIPPED -> {
-                                            openSetPinScreen()
-                                        }
-                                        else -> {
-                                            openStatusScreen(view, pos)
+                                    if (getCard(pos).deliveryStatus == null) {
+                                    } else {
+                                        when (getCard(pos).deliveryStatus?.let {
+                                            CardDeliveryStatus.valueOf(it)
+                                        }) {
+                                            CardDeliveryStatus.SHIPPED -> {
+                                                openSetPinScreen()
+                                            }
+                                            else -> {
+                                                openStatusScreen(view, pos)
+                                            }
                                         }
                                     }
                                 }
                             }
-                        }
                         }
                     }
                 }
@@ -236,7 +236,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     fun getCard(pos: Int): Card {
-        //return viewModel.state.cardList.get()?.get(pos)!!
         return adapter.getDataForPosition(pos)
     }
 
