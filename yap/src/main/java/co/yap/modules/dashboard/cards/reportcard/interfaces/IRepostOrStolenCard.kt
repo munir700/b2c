@@ -17,7 +17,7 @@ interface IRepostOrStolenCard {
     interface ViewModel : IBase.ViewModel<State> {
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         val clickEvent: SingleClickEvent
-        val HOT_LIST_REASON: Int
+        var HOT_LIST_REASON: Int
         val CARD_REORDER_SUCCESS: Int
         val cardFee: String
 
