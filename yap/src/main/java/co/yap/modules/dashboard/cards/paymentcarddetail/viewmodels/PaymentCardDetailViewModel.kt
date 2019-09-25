@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels
 
 import android.app.Application
+import android.os.Handler
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.states.PaymentCardDetailState
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
@@ -58,13 +59,18 @@ class PaymentCardDetailViewModel(application: Application) :
             state.loading = true
             when (val response = cardsRepository.freezeUnfreezeCard(CardLimitConfigRequest(card.cardSerialNumber))) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.setValue(EVENT_FREEZE_UNFREEZE_CARD)
+                    Handler().postDelayed({
+                        state.loading = false
+                        clickEvent.setValue(EVENT_FREEZE_UNFREEZE_CARD)
+                    }, 400)
+
                 }
                 is RetroApiResponse.Error -> {
+                    state.loading = false
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
+
         }
     }
 

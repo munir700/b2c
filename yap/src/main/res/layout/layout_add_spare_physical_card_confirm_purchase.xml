@@ -86,6 +86,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_normal_large"
                 android:gravity="center"
+                android:visibility="@{viewModel.state.physicalCardAddressButtonsVisibility}"
                 android:orientation="horizontal">
 
                 <TextView
