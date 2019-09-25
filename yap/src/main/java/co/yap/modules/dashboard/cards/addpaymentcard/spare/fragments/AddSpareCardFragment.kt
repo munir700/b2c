@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
@@ -47,6 +48,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             layoutPhysicalCardConfirmPurchase.visibility = View.GONE
             layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
 
+
         } else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))) {
             layoutVirtualCardConfirmPurchase.visibility = View.GONE
             layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
@@ -76,7 +78,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 R.id.btnDoneAddingSpareVirtualCard -> {
-                    activity!!.onBackPressed()
+                    activity!!.finish()
                 }
 
                 R.id.btnConfirm -> {
@@ -104,7 +106,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
 //        arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
 
-        viewModel.isFromBlockCardScreen = arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCard } as Boolean
+        viewModel.isFromBlockCardScreen =
+            arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCard } as Boolean
         viewModel.requestInitialData()
 
         val physicalCardAddressTitle = arguments?.let {
@@ -135,13 +138,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         if (!longitude.isNullOrEmpty()) {
             viewModel.longitude = longitude
         }
-//        if (!viewModel.state.physicalCardAddressSubTitle.equals(viewModel.address.address1)){
-//            viewModel.address= Address(
-//                viewModel.state.physicalCardAddressSubTitle,
-//                viewModel.state.physicalCardAddressTitle,
-//                viewModel.latitude.toDouble(),
-//                viewModel.longitude.toDouble())
-//        }
     }
 
     override fun onDestroy() {
@@ -149,7 +145,19 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         super.onDestroy()
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        onBackPressCheck=true
+
+    }
     override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
+//
+//        if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
+//            onBackPressCheck=false
+//            return false
+//        } else {
+            return super.onBackPressed()
+//        }
+
     }
 }

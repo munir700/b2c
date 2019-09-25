@@ -24,6 +24,8 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
             val intent = Intent(context, AddPaymentCardActivity::class.java)
             return intent
         }
+
+        var onBackPressCheck: Boolean =true
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -51,7 +53,13 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_cards_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
-            super.onBackPressed()
+            if (onBackPressCheck)  {
+                super.onBackPressed()
+            }
+
         }
+//        if (!onBackPressCheck) {
+//            return false
+//        }
     }
 }

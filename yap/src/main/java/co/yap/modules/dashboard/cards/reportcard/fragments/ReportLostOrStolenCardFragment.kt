@@ -65,14 +65,11 @@ class ReportLostOrStolenCardFragment :
                 R.id.llDamagedCard -> {
                     llDamagedCard.isActivated = true
                     llStolenCard.isActivated = false
-
-//
                 }
 
                 R.id.llStolenCard -> {
                     llDamagedCard.isActivated = false
                     llStolenCard.isActivated = true
-
 
                 }
 

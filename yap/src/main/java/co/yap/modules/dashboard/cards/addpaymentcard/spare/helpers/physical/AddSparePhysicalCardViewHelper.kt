@@ -21,7 +21,7 @@ class AddSparePhysicalCardViewHelper(
                 viewModel.state.onChangeLocationClick = true
                 val action =
                     AddSpareCardFragmentDirections.actionAddSpareCardFragmentToAddressSelectionFragment(
-                        !viewModel.isFromBlockCardScreen , viewModel.isFromBlockCardScreen
+                        !viewModel.isFromBlockCardScreen, viewModel.isFromBlockCardScreen
                     )
                 navController.navigate(action)
             }
