@@ -113,7 +113,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         val view = viewModel.clickEvent.getPayload()?.view
         viewModel.clickEvent.setPayload(null)
         if (pos != null && view != null) {
-            when (view.id) {
+            when (it) {
                 R.id.imgCard -> {
                     if (getCard(pos).cardName == Constants.addCard) {
                         openAddCard()
