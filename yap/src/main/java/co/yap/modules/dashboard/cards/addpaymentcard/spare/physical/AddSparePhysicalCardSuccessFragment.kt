@@ -40,7 +40,12 @@ class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
         )
 
         btnDoneAddingSparePhysicalCard.setOnClickListener {
-            activity!!.onBackPressed()
+            activity!!.finish()
         }
+    }
+
+    override fun onBackPressed(): Boolean {
+
+        return false
     }
 }

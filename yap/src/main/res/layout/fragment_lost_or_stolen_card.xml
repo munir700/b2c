@@ -24,13 +24,15 @@
             android:paddingRight="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_medium">
 
-            <LinearLayout
+
+            <ImageView
                 android:id="@+id/linearLayout2"
-                android:layout_width="@dimen/_175sdp"
-                android:layout_height="@dimen/_240sdp"
+                android:layout_width="@dimen/_121sdp"
+                android:layout_height="@dimen/_190sdp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/card_spare"
+                android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
+                android:src="@drawable/card_spare"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints" />

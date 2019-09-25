@@ -72,6 +72,6 @@ interface CardsRetroService {
     suspend fun updateCardName(@Query("cardName") cardName: String, @Query("cardSerialNumber") cardSerialNumber: String): Response<CardDetailResponseDTO>
 
     // report & block Card
-    @PUT(CardsRepository.URL_REPORT_LOST_OR_STOLEN_CARD)
+    @POST(CardsRepository.URL_REPORT_LOST_OR_STOLEN_CARD)
     suspend fun reportAndBlockCard(@Body cardsHotlistReequest: CardsHotlistRequest): Response<ApiResponse>
 }

@@ -51,9 +51,7 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
         }
 
         tvAddLater.setOnClickListener {
-            //            activity!!.onBackPressed()
-            activity!!.finish()
-            //        finish and go back to detail screen from here
+             activity!!.finish()
 
         }
     }
