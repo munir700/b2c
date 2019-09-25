@@ -57,4 +57,8 @@ class BlockCardSuccessFragment : BaseBindingFragment<IDefault.ViewModel>() {
 
         }
     }
+
+    override fun onBackPressed(): Boolean {
+        return false
+    }
 }

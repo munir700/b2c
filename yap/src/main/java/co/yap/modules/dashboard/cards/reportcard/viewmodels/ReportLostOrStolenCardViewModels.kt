@@ -4,17 +4,23 @@ import android.app.Application
 import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentChildViewModel
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.states.ReportOrStolenCardState
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.requestdtos.CardsHotlistReequest
+import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 class ReportLostOrStolenCardViewModels(application: Application) :
     AddPaymentChildViewModel<IRepostOrStolenCard.State>(application),
-    IRepostOrStolenCard.ViewModel {
+    IRepostOrStolenCard.ViewModel,
+    IRepositoryHolder<CardsRepository> {
 
-  override var HOT_LIST_REASON: Int= 2
-    val REASON_DAMAGE: Int= 2
-    val REASON_LOST_STOLEN: Int= 4
+    override var HOT_LIST_REASON: Int = 2
+    val REASON_DAMAGE: Int = 2
+    val REASON_LOST_STOLEN: Int = 4
 
     override val CARD_REORDER_SUCCESS: Int = 5000
     override val cardFee: String = "50"
@@ -22,6 +28,7 @@ class ReportLostOrStolenCardViewModels(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: ReportOrStolenCardState = ReportOrStolenCardState()
+    override val repository: CardsRepository = CardsRepository
 
     override fun onResume() {
         super.onResume()
@@ -31,13 +38,13 @@ class ReportLostOrStolenCardViewModels(application: Application) :
     }
 
     override fun handlePressOnDamagedCard(id: Int) {
-        HOT_LIST_REASON= REASON_DAMAGE
+        HOT_LIST_REASON = REASON_DAMAGE
         clickEvent.setValue(id)
 
     }
 
     override fun handlePressOnLostOrStolen(id: Int) {
-        HOT_LIST_REASON= REASON_LOST_STOLEN
+        HOT_LIST_REASON = REASON_LOST_STOLEN
         clickEvent.setValue(id)
 
     }
@@ -51,9 +58,24 @@ class ReportLostOrStolenCardViewModels(application: Application) :
         backButtonPressEvent.value = true
     }
 
-    override fun requestConfirmBlockCard() {
-        toggleToolBarVisibility(false)
-        clickEvent.setValue(CARD_REORDER_SUCCESS)
+    override fun requestConfirmBlockCard(card: Card) {
 
+        val cardsHotlistReequest: CardsHotlistReequest = CardsHotlistReequest(card.cardSerialNumber, HOT_LIST_REASON.toString())
+
+        launch {
+            state.loading = true
+            when (val response = repository.reportAndBlockCard(cardsHotlistReequest)) {
+                is RetroApiResponse.Success -> {
+                    toggleToolBarVisibility(false)
+                    clickEvent.setValue(CARD_REORDER_SUCCESS)
+
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
     }
+
 }

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.reportcard.interfaces
 
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -25,7 +26,7 @@ interface IRepostOrStolenCard {
         fun handlePressOnLostOrStolen(id: Int)
         fun handlePressOnReportAndBlockButton(id: Int)
 
-        fun requestConfirmBlockCard()
+        fun requestConfirmBlockCard(card: Card)
     }
 
     interface View : IBase.View<ViewModel>
