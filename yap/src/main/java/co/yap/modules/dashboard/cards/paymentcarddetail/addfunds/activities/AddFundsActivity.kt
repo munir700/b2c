@@ -147,7 +147,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
 
     private fun runAnimations() {
-        startCheckMarkAnimation()
+
         AnimationUtils.runSequentially(
             AnimationUtils.runTogether(
                 AnimationUtils.jumpInAnimation(tvCardNameSuccess),
@@ -156,14 +156,17 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 AnimationUtils.jumpInAnimation(tvPrimaryCardBalance).apply { startDelay = 300 },
                 AnimationUtils.jumpInAnimation(tvNewSpareCardBalance).apply { startDelay = 400 },
                 AnimationUtils.jumpInAnimation(btnAction).apply { startDelay = 600 }
+
             )
         ).apply {
             addListener(onEnd = {
+                startCheckMarkAnimation()
             })
         }.start()
     }
 
     private fun startCheckMarkAnimation() {
+
         YoYo.with(Techniques.BounceIn)
             .duration(1000)
             .repeat(0)
