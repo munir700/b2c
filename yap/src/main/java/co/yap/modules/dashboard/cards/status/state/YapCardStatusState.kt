@@ -13,7 +13,7 @@ class YapCardStatusState : BaseState(), IYapCardStatus.State {
     override val cardType: ObservableField<String> = ObservableField()
 
     @get:Bindable
-    override var valid: Boolean = true
+    override var valid: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
