@@ -78,6 +78,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     activity!!.onBackPressed()
                 }
+
                 R.id.btnConfirm -> {
                     viewModel.state.toggleVisibility = true
 

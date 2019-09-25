@@ -25,6 +25,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CoreInputField
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
@@ -498,4 +499,15 @@ object UIBinder {
 
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("isLayoutActivated")
+    fun setisLayoutActivated(view: LinearLayout, value: Boolean) {
+//        if (!value) {
+            view.isActivated = value
+
+//        }
+    }
+
+
 }

@@ -21,6 +21,7 @@ import co.yap.translation.Strings.screen_report_card_display_text_block_alert_ti
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_physical_card
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual_card
 import co.yap.translation.Translator
+import kotlinx.android.synthetic.main.fragment_lost_or_stolen_card.*
 
 
 class ReportLostOrStolenCardFragment :
@@ -62,18 +63,27 @@ class ReportLostOrStolenCardFragment :
             when (it) {
 
                 R.id.llDamagedCard -> {
+                    llDamagedCard.isActivated = true
+                    llStolenCard.isActivated = false
 
-                    showDialog()
-
-
+//
                 }
 
                 R.id.llStolenCard -> {
+                    llDamagedCard.isActivated = false
+                    llStolenCard.isActivated = true
 
 
                 }
 
+                R.id.btnBlockAndReport -> {
+                    showDialog()
+                }
+
                 viewModel.CARD_REORDER_SUCCESS -> {
+                    llDamagedCard.isActivated = false
+                    llStolenCard.isActivated = false
+
                     val action =
                         ReportLostOrStolenCardFragmentDirections.actionReportLostOrStolenCardFragmentToBlockCardSuccessFragment(
                             viewModel.cardFee
@@ -113,8 +123,7 @@ class ReportLostOrStolenCardFragment :
             )
         ) { dialog, which ->
             //dismiss
-            showToast("no")
-        }
+         }
 
 
         val dialog: AlertDialog = builder.create()

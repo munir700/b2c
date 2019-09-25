@@ -128,8 +128,7 @@
                     android:layout_width="@dimen/_125sdp"
                     android:layout_height="@dimen/_115sdp"
                     android:layout_marginRight="@dimen/margin_medium"
-                    android:background="@drawable/card_border_selector"
-                    android:clickable="true"
+                    android:background="@drawable/card_selector"
                     android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handlePressOnDamagedCard(v.id)}"
                     android:orientation="vertical">
@@ -157,12 +156,10 @@
                     android:id="@+id/llStolenCard"
                     android:layout_width="@dimen/_125sdp"
                     android:layout_height="@dimen/_115sdp"
-                    android:background="@drawable/card_border_selector"
-                    android:clickable="true"
+                    android:background="@drawable/card_selector"
                     android:gravity="center"
                     android:onClick="@{(v) -> viewModel.handlePressOnLostOrStolen(v.id)}"
                     android:orientation="vertical">
-
 
                     <ImageView
                         android:layout_width="wrap_content"

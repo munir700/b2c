@@ -22,7 +22,7 @@
             app:destination="@id/blockCardSuccessFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -31,11 +31,13 @@
         android:id="@+id/blockCardSuccessFragment"
         android:name="co.yap.modules.dashboard.cards.reportcard.fragments.BlockCardSuccessFragment"
         tools:layout="@layout/fragment_block_card_success">
+
         <argument
             android:name="cardReorderFee"
             android:defaultValue=" "
             app:argType="string" />
-<!-- start reorder physical card flow from here -->
+
+        <!-- start reorder physical card flow from here -->
 
 
         <action
@@ -103,7 +105,6 @@
             app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
-
 
 
     <fragment

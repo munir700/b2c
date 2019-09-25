@@ -21,5 +21,4 @@ class ReportOrStolenCardState : BaseState(), IRepostOrStolenCard.State {
             notifyPropertyChanged(BR.maskedCardNumber)
 
         }
-
 }
