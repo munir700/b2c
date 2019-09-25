@@ -13,20 +13,21 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
+import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSpareVirtualCardViewHelper
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.networking.cards.responsedtos.Address
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
-
 
 
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     IAddSpareCard.View {
 
-    private var cardAdded : Boolean= false
+    private var cardAdded: Boolean = false
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_spare_card
@@ -54,6 +55,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             layoutPhysicalCardConfirmPurchase.visibility = View.GONE
             layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
 
+
         } else if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_physical_card))) {
             layoutVirtualCardConfirmPurchase.visibility = View.GONE
             layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
@@ -69,12 +71,19 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             when (it) {
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
-                    (activity as AddPaymentCardActivity).hideToolbar()
+//                    if (!viewModel.isFromBlockCardScreen ){
+////                        (activity as AddPaymentCardActivity).hideToolbar()
+////                    }else{
+//                        (activity as AddPaymentCardActivity).hideToolbar()
+//                    }
+
                     findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
-                    (activity as AddPaymentCardActivity).hideToolbar()
+//                    if (!viewModel.isFromBlockCardScreen ){
+//                        (activity as AddPaymentCardActivity).hideToolbar()
+//                    }
                     cardAdded = true
                     AddSpareVirtualCardViewHelper(
                         this!!.activity!!,
@@ -87,8 +96,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 R.id.btnDoneAddingSpareVirtualCard -> {
                     // Spare virtual card added event
                     setupActionsIntent()
-                    activity!!.finish()
                 }
+
                 R.id.btnConfirm -> {
                     viewModel.state.toggleVisibility = true
 
@@ -107,9 +116,16 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     }
 
     private fun getUpArguments() {
+
         viewModel.cardType =
             arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).cardType } as String
         viewModel.state.cardType = viewModel.cardType
+
+//        arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
+
+        viewModel.isFromBlockCardScreen =
+            arguments?.let { AddSpareCardFragmentArgs.fromBundle(it).isFromBlockCard } as Boolean
+        viewModel.requestInitialData()
 
         val physicalCardAddressTitle = arguments?.let {
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressTitle
@@ -139,13 +155,6 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         if (!longitude.isNullOrEmpty()) {
             viewModel.longitude = longitude
         }
-//        if (!viewModel.state.physicalCardAddressSubTitle.equals(viewModel.address.address1)){
-//            viewModel.address= Address(
-//                viewModel.state.physicalCardAddressSubTitle,
-//                viewModel.state.physicalCardAddressTitle,
-//                viewModel.latitude.toDouble(),
-//                viewModel.longitude.toDouble())
-//        }
     }
 
     override fun onDestroy() {
@@ -153,7 +162,14 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         super.onDestroy()
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        onBackPressCheck = true
+
+    }
+
     override fun onBackPressed(): Boolean {
+
         return if (cardAdded) {
             setupActionsIntent()
             activity!!.finish()

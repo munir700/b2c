@@ -13,6 +13,7 @@ import co.yap.networking.models.RetroApiResponse
 
 object CardsRepository : BaseRepository(), CardsApi {
 
+
     const val URL_CREATE_PIN = "/cards/api/cards/create-pin/{card-serial-number}"
     const val URL_GET_CARDS = "/cards/api/cards"
     const val URL_ORDER_CARD = "/cards/api/cards/b2c/physical"
@@ -31,6 +32,8 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_REMOVE_CARD = "/cards/api/cards/close"
     const val URL_UPDATE_CARD_NAME = "/cards/api/cards/card-name"
     const val URL_CHANGE_CARD_PIN = "/cards/api/cards/change-pin"
+
+    const val URL_REPORT_LOST_OR_STOLEN_CARD = "/cards/api/card-hot-list"
 
     private val API: CardsRetroService = RetroNetwork.createService(CardsRetroService::class.java)
 
@@ -86,6 +89,7 @@ object CardsRepository : BaseRepository(), CardsApi {
             )
         })
 
+
     override suspend fun getUserAddressRequest(): RetroApiResponse<GetPhysicalAddress> =
         AuthRepository.executeSafely(call = { API.getPhysicalCardAddress() })
 
@@ -107,6 +111,14 @@ object CardsRepository : BaseRepository(), CardsApi {
         cardSerialNumber: String
     ): RetroApiResponse<CardDetailResponseDTO> =
         AuthRepository.executeSafely(call = { API.updateCardName(cardName, cardSerialNumber) })
+
+    override suspend fun reportAndBlockCard(cardsHotlistReequest: CardsHotlistRequest): RetroApiResponse<ApiResponse> =
+
+        AuthRepository.executeSafely(call = {
+            API.reportAndBlockCard(
+                cardsHotlistReequest
+            )
+        })
 
     override suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.changeCardPinRequest(changeCardCardPinRequest) })

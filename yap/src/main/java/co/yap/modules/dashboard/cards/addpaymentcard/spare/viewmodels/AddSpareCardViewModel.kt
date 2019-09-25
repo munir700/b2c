@@ -24,6 +24,7 @@ class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
+    override var isFromBlockCardScreen: Boolean= false
     override var latitude: String = ""
     override var longitude: String = ""
     override lateinit var address: Address
@@ -73,23 +74,30 @@ class AddSpareCardViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
 
+
+    }
+
+   override fun requestInitialData() {
         if (!sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE).isNullOrEmpty() && !sharedPreferenceManager.getValueString(
                 SharedPreferenceManager.KEY_AVAILABLE_BALANCE
             ).equals("AVAILABLE_BALANCE")
         ) {
             availableBalance =
                 sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE) as String
+            if (isFromBlockCardScreen) {
+                state.loading = true
+                requestGetAddressForPhysicalCard()
+            }
         } else {
             requestGetAccountBalanceRequest()
         }
-
     }
+
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_spare_card_landing_display_text_title))
-        toggleToolBarVisibility(true)
-        state.onChangeLocationClick = false
+         state.onChangeLocationClick = false
         toggleToolBarVisibility(true)
 
     }
@@ -99,6 +107,9 @@ class AddSpareCardViewModel(application: Application) :
         if (state.onChangeLocationClick) {
             toggleToolBarVisibility(false)
         }
+        if (isFromBlockCardScreen) {
+            toggleToolBarVisibility(false)
+        }
     }
 
     override fun onDestroy() {
@@ -106,7 +117,6 @@ class AddSpareCardViewModel(application: Application) :
         if (state.onChangeLocationClick) {
             toggleToolBarVisibility(false)
         }
-
     }
 
     //api
@@ -174,6 +184,7 @@ class AddSpareCardViewModel(application: Application) :
                 addPhysicalSpareCardRequest
             )) {
                 is RetroApiResponse.Success -> {
+                    toggleToolBarVisibility(false)
                     clickEvent.setValue(ADD_PHYSICAL_SPARE_CLICK_EVENT)
                 }
                 is RetroApiResponse.Error -> {

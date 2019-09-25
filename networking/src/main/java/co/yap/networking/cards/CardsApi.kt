@@ -42,5 +42,7 @@ interface CardsApi {
         cardSerialNumber: String
     ): RetroApiResponse<CardDetailResponseDTO>
 
+    suspend fun reportAndBlockCard(cardsHotlistReequest: CardsHotlistRequest): RetroApiResponse<ApiResponse>
+
     suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse>
 }

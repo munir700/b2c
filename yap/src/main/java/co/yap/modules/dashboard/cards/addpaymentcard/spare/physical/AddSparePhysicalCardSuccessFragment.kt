@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import co.yap.R
+import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_physical_card
 import co.yap.translation.Translator
 import co.yap.yapcore.defaults.DefaultFragment
@@ -42,16 +43,18 @@ class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
 
         btnDoneAddingSparePhysicalCard.setOnClickListener {
             // Spare physical card added event
+            reportCardSuccess=true
             setupActionsIntent()
             activity!!.finish()
         }
     }
 
     override fun onBackPressed(): Boolean {
-            setupActionsIntent()
-            activity!!.finish()
+        setupActionsIntent()
+        activity!!.finish()
         return true
     }
+
     private fun setupActionsIntent() {
         val returnIntent = Intent()
         returnIntent.putExtra("cardAdded", true)
