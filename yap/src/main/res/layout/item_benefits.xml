@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/tvBenefit"
         style="@style/ASmall"
-        android:textSize="@dimen/_13sdp"
+        android:textSize="@dimen/_12sdp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:drawableStart="@drawable/ic_checked_icon"

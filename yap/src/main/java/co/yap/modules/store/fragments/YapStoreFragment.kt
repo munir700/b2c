@@ -72,9 +72,7 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.imgStoreShopping -> {
-                showToast("Coming soon")
-            }
+            R.id.imgStoreShopping -> {}
         }
     }
 

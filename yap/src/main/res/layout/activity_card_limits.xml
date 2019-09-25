@@ -38,7 +38,7 @@
 
             <TextView
                 android:id="@+id/tvAtmWithdrawal"
-                style="@style/ALarge"
+                style="@style/Regular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -54,6 +54,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:lineSpacingExtra="2sp"
                 android:gravity="start"
                 app:layout_constraintEnd_toEndOf="@+id/guideline1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -97,7 +98,7 @@
 
             <TextView
                 android:id="@+id/tvOnlineTra"
-                style="@style/ALarge"
+                style="@style/Regular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -110,6 +111,7 @@
             <TextView
                 android:id="@+id/tvOnlineTraDesc"
                 style="@style/ASmallGrey"
+                android:lineSpacingExtra="2sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -156,7 +158,7 @@
 
             <TextView
                 android:id="@+id/tvAbroad"
-                style="@style/ALarge"
+                style="@style/Regular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -169,6 +171,7 @@
             <TextView
                 android:id="@+id/tvAbroadDesc"
                 style="@style/ASmallGrey"
+                android:lineSpacingExtra="2sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"
@@ -215,7 +218,7 @@
 
             <TextView
                 android:id="@+id/tvRetail"
-                style="@style/ALarge"
+                style="@style/Regular"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="start"
@@ -228,6 +231,7 @@
             <TextView
                 android:id="@+id/tvRetailDesc"
                 style="@style/ASmallGrey"
+                android:lineSpacingExtra="2sp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_5sdp"

@@ -27,11 +27,13 @@ import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
 import co.yap.widgets.CoreInputField
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBindable
+import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -50,6 +52,7 @@ object UIBinder {
             view.setImageBitmap(bitmap)
     }
 
+    // Delivery status and core action Button
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(linearLayout: LinearLayout, card: Card) {
@@ -61,16 +64,13 @@ object UIBinder {
                 linearLayout.visibility = View.VISIBLE
             }
             CardStatus.INACTIVE -> {
-                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
-                        linearLayout.visibility = View.VISIBLE
-                    }
-                }
-            }
+                linearLayout.visibility = View.VISIBLE
 
+            }
         }
     }
 
+    // Top right card status image
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(imageView: ImageView, card: Card) {
@@ -84,17 +84,14 @@ object UIBinder {
                 imageView.setImageResource(R.drawable.ic_status_frozen)
             }
             CardStatus.INACTIVE -> {
-                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
                         imageView.visibility = View.VISIBLE
                         imageView.setImageResource(R.drawable.ic_status_ontheway)
-                    }
-                }
             }
 
         }
     }
 
+    // Card status message text
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(text: TextView, card: Card) {
@@ -111,58 +108,91 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
+                if(card.cardType=="DEBIT"){
+                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
                         text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
                             R.string.screen_cards_display_text_set_message
                         )
-                    }
-                    else -> {
+                    } else {
                         text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
                             R.string.screen_cards_display_text_pending_delivery
                         )
                     }
+                }else {
+                    if (card.deliveryStatus == null) {
+                        text.visibility = View.GONE
+                    } else {
+                        when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                            CardDeliveryStatus.SHIPPED -> {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_set_message
+                                )
+                            }
+                            else -> {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_pending_delivery
+                                )
+                            }
+                        }
+                    }
                 }
             }
         }
     }
 
+    //Core action Button text
     @BindingAdapter("cardStatus")
     @JvmStatic
-    fun setCardStatus(text: CoreButton, card: Card) {
+    fun setCardStatus(coreButton: CoreButton, card: Card) {
 
         when (CardStatus.valueOf(card.status)) {
             CardStatus.ACTIVE -> {
-                text.visibility = View.GONE
+                coreButton.visibility = View.GONE
             }
             CardStatus.BLOCKED -> {
-                text.visibility = View.VISIBLE
-                text.text = Translator.getString(
-                    text.context,
+                coreButton.visibility = View.VISIBLE
+                coreButton.text = Translator.getString(
+                    coreButton.context,
                     R.string.screen_cards_button_unfreeze_card
                 )
             }
             CardStatus.INACTIVE -> {
-                when (card.shipmentStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                    CardDeliveryStatus.SHIPPED -> {
-                        text.visibility = View.VISIBLE
-                        text.text = Translator.getString(
-                            text.context,
+                if(card.cardType=="DEBIT"){
+                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                        coreButton.visibility = View.VISIBLE
+                        coreButton.text = Translator.getString(
+                            coreButton.context,
                             R.string.screen_cards_display_text_set_pin
                         )
+                    } else {
+                        coreButton.visibility = View.GONE
                     }
-                    else -> {
-                        text.visibility = View.VISIBLE
-                        text.text = Translator.getString(
-                            text.context,
-                            R.string.screen_cards_button_update_card
-                        )
+                }else {
+                if (card.deliveryStatus == null) {
+                    coreButton.visibility = View.GONE
+                } else {
+                    when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                        CardDeliveryStatus.SHIPPED -> {
+                            coreButton.visibility = View.VISIBLE
+                            coreButton.text = Translator.getString(
+                                coreButton.context,
+                                R.string.screen_cards_display_text_set_pin
+                            )
+                        }
+                        else -> {
+                            coreButton.visibility = View.GONE
+                        }
                     }
                 }
+            }
             }
 
         }

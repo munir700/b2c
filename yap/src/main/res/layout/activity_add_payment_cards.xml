@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <include
+            android:id="@+id/toolbar"
              android:visibility="@{viewModel.state.tootlBarVisibility}"
              layout="@layout/layout_add_payment_cards_toolbar"
              app:viewModel="@{viewModel}"/>

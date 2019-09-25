@@ -13,6 +13,7 @@ import co.yap.modules.setcardpin.interfaces.ISetCardPin
 class SetNewCardPinFragment : SetCardPinFragment() {
     private val args: SetNewCardPinFragmentArgs by navArgs()
 
+    var oldPinCode: String? = null
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(SetNewPinViewModel::class.java)
 
@@ -21,13 +22,17 @@ class SetNewCardPinFragment : SetCardPinFragment() {
         super.onActivityCreated(savedInstanceState)
 
     }
+
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
+                    oldPinCode = args.oldPinCode
                     //    val action = ChangeCardPinFragmentDirections.actionChangeCardPinFragmentToSetNewCardPinFragment(viewModel.state.pincode)
                     //   findNavController().navigate(action)
-                    findNavController().navigate(R.id.action_setNewCardPinFragment_to_confirmNewCardPinFragment)
+                    val action=SetNewCardPinFragmentDirections.actionSetNewCardPinFragmentToConfirmNewCardPinFragment(oldPinCode.toString(),viewModel.state.pincode)
+                    findNavController().navigate(action)
+//                    findNavController().navigate(R.id.action_setNewCardPinFragment_to_confirmNewCardPinFragment)
                 }
             }
         })

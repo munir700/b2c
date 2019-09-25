@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.activities
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -29,9 +30,11 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDe
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_payment_card_detail.*
 import kotlinx.android.synthetic.main.layout_card_info.*
@@ -136,9 +139,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
                 viewModel.EVENT_CARD_DETAILS -> {
                     showCardDetailsPopup()
+
                 }
 
                 viewModel.EVENT_REMOVE_CARD -> {
+                    try {
+                        val updatedCardBalance = ( MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.minus(viewModel.card.availableBalance.toDouble()))
+                        MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
+                    } catch (e: Exception) {
+                    e.printStackTrace()
+                    }
                     cardRemoved = true
                     showToast("Card successfully removed!")
                     setupActionsIntent()
@@ -221,7 +231,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 )
             }
             Constants.EVENT_CHANGE_PIN -> {
-                startActivity(Intent(this, ChangeCardPinActivity::class.java))
+                startActivity(ChangeCardPinActivity.newIntent(this, viewModel.card.cardSerialNumber))
             }
             Constants.EVENT_VIEW_STATEMENTS -> {
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card))
@@ -240,7 +250,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 //                <!--    </activity>-->
             }
             Constants.EVENT_REMOVE_CARD -> {
-                viewModel.removeCard()
+               showRemoveCardPopup()
             }
         }
     }
@@ -315,25 +325,39 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupActionsIntent() {
 
-        val updateCard = viewModel.card
+        if (cardFreezeUnfreeze || cardRemoved ) {
+            val updateCard = viewModel.card
+            updateCard.cardBalance = viewModel.state.cardBalance
+            updateCard.cardName = viewModel.state.cardName
 
-        updateCard.physical = viewModel.state.physical
-        updateCard.cardType = viewModel.state.cardType
-        updateCard.maskedCardNo = viewModel.state.cardPanNumber
-        updateCard.cardBalance = viewModel.state.cardBalance
-        updateCard.cardName = viewModel.state.cardName
-        updateCard.accountType = viewModel.state.accountType
+            if (cardFreezeUnfreeze) {
+                if (viewModel.card.blocked)
+                    updateCard.status = "BLOCKED"
+                else
+                    updateCard.status = "ACTIVE"
+            }
 
-        if (cardFreezeUnfreeze) {
-            if (viewModel.card.blocked)
-                updateCard.status = "BLOCKED"
-            else
-                updateCard.status = "ACTIVE"
+            val returnIntent = Intent()
+            returnIntent.putExtra("card", updateCard)
+            returnIntent.putExtra("cardRemoved", cardRemoved)
+            setResult(Activity.RESULT_OK, returnIntent)
+        }
+    }
+
+    private fun showRemoveCardPopup(){
+        val builder = AlertDialog.Builder(this@PaymentCardDetailActivity)
+        builder.setTitle("Remove card from YAP account")
+        builder.setMessage("Once removed, the balance from this card will be transferred to your main card.")
+        builder.setPositiveButton("CONFIRM"){ _, _ ->
+            viewModel.removeCard()
         }
 
-        val returnIntent = Intent()
-        returnIntent.putExtra("card", updateCard)
-        returnIntent.putExtra("cardRemoved", cardRemoved)
-        setResult(Activity.RESULT_OK, returnIntent)
+        builder.setNeutralButton("CANCEL"){_,_ ->
+
+        }
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
+
+
 }

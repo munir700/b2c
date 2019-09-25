@@ -22,8 +22,8 @@
         android:label="SetNewCardPinFragment"
         tools:layout="@layout/fragment_set_card_pin">
         <argument
-            android:name="pincode"
-            app:argType="string"/>
+            android:name="oldPinCode"
+            app:argType="string" />
         <action
             android:id="@+id/action_setNewCardPinFragment_to_confirmNewCardPinFragment"
             app:destination="@id/confirmNewCardPinFragment"
@@ -34,5 +34,22 @@
         android:id="@+id/confirmNewCardPinFragment"
         android:name="co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment"
         android:label="ConfirmNewCardPinFragment"
-        tools:layout="@layout/fragment_set_card_pin" />
+        tools:layout="@layout/fragment_set_card_pin">
+        <argument
+            android:name="oldPinCode"
+            app:argType="string" />
+        <argument
+            android:name="newPinCode"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_confirmNewCardPinFragment_to_changePinSuccessFragment"
+            app:destination="@id/changePinSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/changePinSuccessFragment"
+        android:name="co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ChangePinSuccessFragment"
+        android:label="ChangePinSuccessFragment"
+        tools:layout="@layout/fragment_change_pin_success" />
 </navigation>

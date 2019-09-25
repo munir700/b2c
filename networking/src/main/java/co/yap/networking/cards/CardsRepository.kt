@@ -31,6 +31,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_GET_CARD_DETAILS = "/cards/api/cards/details"
     const val URL_REMOVE_CARD = "/cards/api/cards/close"
     const val URL_UPDATE_CARD_NAME = "/cards/api/cards/card-name"
+    const val URL_CHANGE_CARD_PIN = "/cards/api/cards/change-pin"
 
     const val URL_REPORT_LOST_OR_STOLEN_CARD = "/cards/api/card-hot-list"
 
@@ -118,4 +119,7 @@ object CardsRepository : BaseRepository(), CardsApi {
                 cardsHotlistReequest
             )
         })
+
+    override suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.changeCardPinRequest(changeCardCardPinRequest) })
 }

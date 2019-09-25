@@ -32,11 +32,11 @@
 
             <ImageView
                 android:id="@+id/tbBtnOneOrdered"
-                android:layout_width="@dimen/_28sdp"
-                android:layout_height="@dimen/_28sdp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
                 android:clickable="false"
                 android:focusable="false"
-                android:src="@drawable/ic_tick" />
+                android:src="@drawable/ic_tick_disabled" />
 
             <TextView
                 android:id="@+id/tvOrdered"
@@ -60,7 +60,7 @@
             android:layout_height="@dimen/_5sdp"
             android:layout_gravity="center_horizontal"
             android:max="100"
-            android:progress="100"
+            android:progress="0"
             app:layout_constraintBottom_toBottomOf="@+id/lyOrdered"
             app:layout_constraintEnd_toStartOf="@+id/lyBuilding"
             app:layout_constraintHorizontal_bias="0.5"
@@ -84,11 +84,11 @@
 
             <ImageView
                 android:id="@+id/tbBtnBuilding"
-                android:layout_width="@dimen/_28sdp"
-                android:layout_height="@dimen/_28sdp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
                 android:clickable="false"
                 android:focusable="false"
-                android:src="@drawable/ic_tick" />
+                android:src="@drawable/ic_tick_disabled" />
 
             <TextView
                 android:id="@+id/tvBuilding"
@@ -133,11 +133,11 @@
 
             <ImageView
                 android:id="@+id/tbBtnShipping"
-                android:layout_width="@dimen/_28sdp"
-                android:layout_height="@dimen/_28sdp"
+                android:layout_width="@dimen/_27sdp"
+                android:layout_height="@dimen/_27sdp"
                 android:clickable="false"
                 android:focusable="false"
-                tools:src="@drawable/ic_tick" />
+                android:src="@drawable/ic_tick_disabled" />
 
             <TextView
                 android:id="@+id/tvShipping"

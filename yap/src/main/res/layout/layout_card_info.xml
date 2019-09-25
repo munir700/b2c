@@ -76,8 +76,8 @@
 
             <ImageView
                 android:id="@+id/ivSecure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
                 android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_secured_by_yap"
                 app:layout_constraintBottom_toBottomOf="@+id/tvSecuredByYap"

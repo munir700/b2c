@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardViewHelper
@@ -19,8 +22,11 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCa
 import co.yap.networking.cards.responsedtos.Address
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
+
 class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     IAddSpareCard.View {
+
+    private var cardAdded: Boolean = false
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_add_spare_card
@@ -65,10 +71,13 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
 
+                    (activity as AddPaymentCardActivity).hideToolbar()
                     findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
+                    (activity as AddPaymentCardActivity).hideToolbar()
+                    cardAdded = true
                     AddSpareVirtualCardViewHelper(
                         this!!.activity!!,
                         navController,
@@ -78,7 +87,8 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 R.id.btnDoneAddingSpareVirtualCard -> {
-                    activity!!.finish()
+                    // Spare virtual card added event
+                    setupActionsIntent()
                 }
 
                 R.id.btnConfirm -> {
@@ -152,7 +162,19 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     }
 
     override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
 
+        return if (cardAdded) {
+            setupActionsIntent()
+            activity!!.finish()
+            true
+        } else {
+            super.onBackPressed()
+        }
+    }
+
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardAdded", true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

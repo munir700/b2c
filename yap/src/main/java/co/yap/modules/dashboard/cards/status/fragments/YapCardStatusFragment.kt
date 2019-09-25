@@ -18,7 +18,9 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.store.fragments.YapStoreFragmentDirections
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.store.responsedtos.Store
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
 
@@ -43,16 +45,82 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         card = args.cardInfo
         viewModel.state.title.set(card.cardName)
         viewModel.state.cardType.set(if (card.cardType == "DEBIT") "Primary card" else "Spare card")
-        viewModel.state.message.set(if (card.status == "ACTIVE") "Your Primary card is shipped" else "Your Spare card is shipped")
-        viewModel.state.valid = card.status == "ACTIVE"
-        viewModel.state.shippingProgress = if (card.delivered) 100 else 0
-        tbBtnShipping.setImageResource(if (card.delivered) R.drawable.ic_tick else R.drawable.ic_tick_disabled)
-        tvShipping.setTextColor(
-            ContextCompat.getColor(
+        viewModel.state.message.set(
+            Translator.getString(
                 requireContext(),
-                if (card.delivered) R.color.colorPrimary else R.color.light_grey
+                R.string.screen_cards_display_text_pending_delivery
             )
         )
+
+        when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+            CardDeliveryStatus.BOOKED -> {
+                tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
+                tvOrdered.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(), R.color.colorPrimary
+                    )
+                )
+            }
+            CardDeliveryStatus.ORDERED -> {
+                tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
+                tvOrdered.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(), R.color.colorPrimary
+                    )
+                )
+
+            }
+            CardDeliveryStatus.SHIPPING -> {
+
+                tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
+                tvOrdered.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(), R.color.colorPrimary
+                    )
+                )
+
+                tbProgressBarBuilding.progress = 100
+                tbBtnBuilding.setImageResource(R.drawable.ic_tick)
+                tvBuilding.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.colorPrimary
+                    )
+                )
+            }
+            CardDeliveryStatus.SHIPPED -> {
+
+                tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
+                tvOrdered.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(), R.color.colorPrimary
+                    )
+                )
+
+                tbProgressBarBuilding.progress = 100
+                tbBtnBuilding.setImageResource(R.drawable.ic_tick)
+                tvBuilding.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.colorPrimary
+                    )
+                )
+
+
+                viewModel.state.shippingProgress = 100
+                tbBtnShipping.setImageResource(R.drawable.ic_tick)
+                tvShipping.setTextColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.colorPrimary
+                    )
+                )
+                viewModel.state.valid = true
+            }
+            CardDeliveryStatus.FAILED -> {
+
+            }
+        }
     }
 
     private fun setObservers() {

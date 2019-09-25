@@ -74,4 +74,8 @@ interface CardsRetroService {
     // report & block Card
     @POST(CardsRepository.URL_REPORT_LOST_OR_STOLEN_CARD)
     suspend fun reportAndBlockCard(@Body cardsHotlistReequest: CardsHotlistRequest): Response<ApiResponse>
+
+    @POST(CardsRepository.URL_CHANGE_CARD_PIN)
+    suspend fun changeCardPinRequest(@Body changeCardPinRequest: ChangeCardPinRequest): Response<ApiResponse>
+
 }

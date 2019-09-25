@@ -22,13 +22,21 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     override val repository: CardsRepository = CardsRepository
 
     init {
-        getCards()
         state.enableAddCard.set(
             MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
         )
     }
 
     override fun getCards() {
+        if (state.cardList?.get().isNullOrEmpty()) {
+            getCardsList()
+        } else {
+            state.cardList.notifyChange()
+        }
+    }
+
+    private fun getCardsList() {
+
         launch {
             state.loading = true
             when (val response = repository.getDebitCards("")) {
@@ -47,10 +55,14 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     }
 
     override fun updateCardCount(size: Int) {
-        state.noOfCard = Translator.getString(
+        val message = Translator.getString(
             context,
             R.string.screen_cards_display_text_cards_count
         ).replace("%d", size.toString())
+        if (size == 1)
+            state.noOfCard = message.substring(0, message.length - 1)
+        else
+            state.noOfCard = message
     }
 
     private fun getAddCard(): Card {
@@ -64,6 +76,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             cardName = Constants.addCard,
             status = "ACTIVE",
             shipmentStatus = "SHIPPED",
+            deliveryStatus = "BOOKED",
             blocked = false,
             delivered = false,
             cardSerialNumber = "1000000000612",

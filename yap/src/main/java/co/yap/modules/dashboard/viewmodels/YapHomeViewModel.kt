@@ -12,6 +12,8 @@ import co.yap.yapcore.managers.MyUserManager
 class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
 
+
+    override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
     override val transactionLogicHelper: TransactionLogicHelper =
@@ -30,7 +32,7 @@ class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IY
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.size != 0) {
-                        MyUserManager.cardSerialNumber = response.data.data[0].cardSerialNumber
+                        debitCardSerialNumber = response.data.data[0].cardSerialNumber
                         clickEvent.setValue(EVENT_SET_CARD_PIN)
                     }
                 }

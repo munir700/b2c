@@ -6,6 +6,5 @@ import co.yap.networking.customers.responsedtos.AccountInfo
 
 object MyUserManager {
     var user: AccountInfo? = null
-    var cardSerialNumber: String? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
 }

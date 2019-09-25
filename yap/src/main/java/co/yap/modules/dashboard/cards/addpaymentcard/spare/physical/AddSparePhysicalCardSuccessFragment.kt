@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.cards.addpaymentcard.spare.physical
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,7 +16,6 @@ import kotlinx.android.synthetic.main.layout_add_spare_physical_card_success.*
 
 
 class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,12 +41,21 @@ class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
         )
 
         btnDoneAddingSparePhysicalCard.setOnClickListener {
-            activity!!.finish()
+            // Spare physical card added event
+            setupActionsIntent()
+            //            activity!!.finish()
         }
     }
 
     override fun onBackPressed(): Boolean {
+        setupActionsIntent()
+        activity!!.finish()
+        return true
+    }
 
-        return false
+    private fun setupActionsIntent() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardAdded", true)
+        activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

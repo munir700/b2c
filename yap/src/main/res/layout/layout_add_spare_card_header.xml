@@ -27,26 +27,22 @@
              app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <co.yap.widgets.CoreButton
+
+        <TextView
             android:id="@+id/labelCardType"
-            style="@style/purpleLabel"
             android:layout_width="@dimen/_90sdp"
-            android:layout_height="@dimen/_16sdp"
+            android:layout_height="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:textSize="@dimen/_9sdp"
+            android:background="@drawable/round_light_gery_background"
             android:gravity="center"
             android:text="@{cardType}"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:textColor="@color/transparent"
-            android:visibility="visible"
-            app:btn_pressed_color="@color/disabledLight"
-            app:btn_shape_type="rectangle"
-            app:btn_text_color="@color/colorPrimary"
-            app:btn_text_size="@dimen/text_size_c2"
+            android:textColor="@color/colorPrimary"
             app:btn_unpressed_color="@color/disabledLight"
-            app:btn_drawable_padding_top="5.5"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
+            app:layout_constraintTop_toBottomOf="@+id/cardView"
+            tools:text="Primary Card" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
