@@ -162,27 +162,20 @@ class AddressSelectionViewModel(application: Application) :
 
                     var geocoder: Geocoder = Geocoder(getApplication())
                     list = geocoder.getFromLocation(p0!!.latitude, p0!!.longitude, 1)
-                    var selectedAddres: Address = list.get(0)
-                    setUpMarker(p0, selectedAddres.subLocality, selectedAddres.getAddressLine(0))
-//                  before   first comma is place name selectedAddres.getAddressLine(0)
-//                    Log.i("placesCoordinates",  p0.latitude.toString() + " lats, longs ,new " +p0.longitude.toString())
+                    var selectedAddress: Address = list.get(0)
+                    placeName = selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
+                    placeSubTitle = selectedAddress.getAddressLine(0)
 
-                    val strs = selectedAddres.getAddressLine(0).split(",").toTypedArray()
-                    Log.i(
-                        "placesCoordinates", "  place name, " + strs.get(0)
-                    )
-                    Log.i(
-                        "placesCoordinates",
-                        selectedAddres.subLocality + "  subLocality, " + selectedAddres.locality + "  locality " + selectedAddres.getAddressLine(
-                            0
-                        ).toString()
-                    )
-
-//                    if (locationMarker != null) {
                     locationMarker!!.remove()
-                    //                    }
+                    locationMarker!!.isVisible = false
+                    setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
                     locationMarker = mMap.addMarker(markerOptions)
-
+                    state.placeTitle = placeName
+                    state.placePhoto = BitmapFactory.decodeResource(
+                        context.resources,
+                        R.drawable.location_place_holder
+                    )
+                    state.placeSubTitle = placeSubTitle
                 }
 
             })
@@ -367,9 +360,15 @@ class AddressSelectionViewModel(application: Application) :
                             placeName = currentPlace.name!!
                             placeTitle = currentPlace.address!!
                             var currentAddress: String = currentPlace.address!!
-                            setUpMarker(markerLatLng!!, placeName, markerSnippet)
+                            locationMarker!!.remove()
+                            locationMarker!!.isVisible = false
+//                            setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
+                            setUpMarker(markerLatLng!!, "", "")
 
+                            //                    }
                             locationMarker = mMap.addMarker(markerOptions)
+
+//                            locationMarker = mMap.addMarker(markerOptions)
                             mMap.animateCamera(
                                 CameraUpdateFactory.newLatLngZoom(
                                     mDefaultLocation,
