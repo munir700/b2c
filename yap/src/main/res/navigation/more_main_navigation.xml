@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/more_main_navigation"
+    app:startDestination="@id/moreHomeFragment">
+
+
+    <fragment
+        android:id="@+id/moreHomeFragment"
+        android:name="co.yap.modules.dashboard.more.home.fragments.MoreHomeFragment"
+        android:label="home"
+        tools:layout="@layout/fragment_more_home">
+
+
+    </fragment>
+
+
+</navigation>
