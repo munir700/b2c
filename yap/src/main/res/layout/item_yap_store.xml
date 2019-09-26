@@ -29,6 +29,23 @@
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/margin_medium">
 
+
+            <TextView
+                android:id="@+id/labelCardType"
+                android:layout_width="@dimen/_90sdp"
+                android:layout_height="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_7sdp"
+                android:layout_marginEnd="@dimen/_7sdp"
+                android:textSize="@dimen/_10sdp"
+                android:background="@drawable/round_yellow_background"
+                android:gravity="center"
+                android:text="Coming soon"
+                android:elevation="4dp"
+                android:textColor="@color/white"
+                app:btn_unpressed_color="@color/disabledLight"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
             <ImageView
                 android:id="@+id/imgStoreCover"
                 android:layout_width="match_parent"
