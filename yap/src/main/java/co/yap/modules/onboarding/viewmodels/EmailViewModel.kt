@@ -63,6 +63,7 @@ class EmailViewModel(application: Application) :
 
     private fun signUp() {
         launch {
+            state.refreshField = true
             when (val response = repository.signUp(
                 SignUpRequest(
                     parentViewModel!!.onboardingData.firstName,
@@ -130,6 +131,7 @@ class EmailViewModel(application: Application) :
     override fun sendVerificationEmail() {
         launch {
             state.loading = true
+            state.refreshField = true
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
@@ -149,11 +151,13 @@ class EmailViewModel(application: Application) :
     }
 
     override fun postDemographicData() {
+
         val deviceId: String? =
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.valid = false
             state.loading = true
+            state.refreshField = true
             when (val response = repository.postDemographicData(
                 DemographicDataRequest(
                     "SIGNUP",
@@ -178,6 +182,7 @@ class EmailViewModel(application: Application) :
     private fun getAccountInfo() {
         launch {
             state.loading = true
+            state.refreshField = true
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()){
