@@ -86,16 +86,17 @@
                 app:cardStatus="@{viewModel.paymentCard}"
                 tools:text="This card has expired" />
 
-            <co.yap.widgets.CoreButton
+            <TextView
                 android:id="@+id/tvCardStatusAction"
-                style="@style/RectangleBtnSmallStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_22sdp"
+                android:textSize="@dimen/text_size_c3"
+                android:gravity="center"
+                android:background="@drawable/round_purple_background"
+                android:textColor="@color/white"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
-                android:paddingTop="@dimen/_10sdp"
-                app:btn_enable="true"
-                app:cardStatus="@{viewModel.paymentCard}"
+                app:cardButtonStatus="@{viewModel.paymentCard}"
                 tools:text="Update Card" />
         </LinearLayout>
 
