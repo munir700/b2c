@@ -18,6 +18,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -53,7 +54,7 @@ class EmailViewModel(application: Application) :
         }
     }
 
-    override fun stopTimer(){
+    override fun stopTimer() {
         parentViewModel?.onboardingData?.elapsedOnboardingTime =
             TimeUnit.MILLISECONDS.toSeconds(
                 Date().time - (parentViewModel?.onboardingData?.startTime?.time ?: Date().time)
@@ -164,7 +165,7 @@ class EmailViewModel(application: Application) :
                     Build.VERSION.RELEASE,
                     deviceId.toString(),
                     Build.BRAND,
-                    Build.MODEL,
+                    if (Utils.isEmulator()) "generic" else Build.MODEL,
                     "Android"
                 )
             )) {
@@ -185,13 +186,13 @@ class EmailViewModel(application: Application) :
             state.refreshField = true
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty()){
-                    parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
+                    if (response.data.data.isNotEmpty()) {
+                        parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
                         Handler().postDelayed({
                             nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                         }, 400)
-                    MyUserManager.user = response.data.data[0]
-                    state.valid = true
+                        MyUserManager.user = response.data.data[0]
+                        state.valid = true
 
 
                     }
