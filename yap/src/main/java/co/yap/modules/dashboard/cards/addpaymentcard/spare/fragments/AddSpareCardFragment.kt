@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardViewHelper
@@ -72,19 +73,17 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             when (it) {
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
-//                    if (!viewModel.isFromBlockCardScreen ){
-////                        (activity as AddPaymentCardActivity).hideToolbar()
-////                    }else{
-//                        (activity as AddPaymentCardActivity).hideToolbar()
-//                    }
+                    if (!viewModel.isFromBlockCardScreen ){
+                        (activity as AddPaymentCardActivity).hideToolbar()
+                    }
 
                     findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
-//                    if (!viewModel.isFromBlockCardScreen ){
-//                        (activity as AddPaymentCardActivity).hideToolbar()
-//                    }
+                    if (!viewModel.isFromBlockCardScreen ){
+                        (activity as AddPaymentCardActivity).hideToolbar()
+                    }
                     cardAdded = true
                     AddSpareVirtualCardViewHelper(
                         this!!.activity!!,
@@ -195,9 +194,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     override fun onBackPressed(): Boolean {
 
         return if (cardAdded) {
-            setupActionsIntent()
-            activity!!.finish()
-            true
+            return false
         } else {
             super.onBackPressed()
         }
