@@ -3,17 +3,13 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.view.View
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
-import com.google.android.material.snackbar.Snackbar
-import java.util.*
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
 
@@ -82,7 +78,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         }
 
     @get:Bindable
-    override var availableBalance: String = "500"
+    override var availableBalance: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.availableBalance)
@@ -125,7 +121,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
 
     @get:Bindable
     override var amountBackground: Drawable? =
-        context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds,null)
+        context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
         set(value) {
             field = value
             notifyPropertyChanged(BR.amountBackground)
@@ -145,6 +141,27 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.availableBalanceText)
         }
 
+    @get:Bindable
+    override var topUpSuccess: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.topUpSuccess)
+        }
+
+
+    @get:Bindable
+    override var primaryCardUpdatedBalance: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.primaryCardUpdatedBalance)
+        }
+
+    @get:Bindable
+    override var spareCardUpdatedBalance: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.spareCardUpdatedBalance)
+        }
 
     fun checkValidity(): String {
         if (amount != "") {
@@ -180,11 +197,13 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
 
     private fun clearError() {
         if (amount != "") {
-            if (amount!="."){
-            valid = amount?.toDouble()!! >= minLimit
+            if (amount != ".") {
+                valid = amount?.toDouble()!! >= minLimit
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
             }
+        }else if (amount==""){
+            valid=false
         }
     }
 }

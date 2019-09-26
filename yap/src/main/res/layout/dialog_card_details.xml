@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margin_normal"
+    android:background="@drawable/bg_white_round">
+
+    <RelativeLayout
+        android:id="@+id/rlCross"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/margin_medium">
+    <ImageView
+        android:id="@+id/ivCross"
+        android:layout_width="@dimen/_26sdp"
+        android:layout_height="@dimen/_26sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="@dimen/margin_normal_large"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:contentDescription="@string/empty_string"
+        android:src="@drawable/ic_close_dark" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ivCard"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_150sdp"
+        android:layout_below="@+id/rlCross"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/card_spare"
+        android:contentDescription="@string/empty_string" />
+
+    <TextView
+        android:id="@+id/tvCardType"
+        style="@style/Regular"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ivCard"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_normal"
+        android:gravity="center"
+        android:text="Spare Card" />
+
+    <RelativeLayout
+        android:id="@+id/rlCardNumber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvCardType"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_large">
+
+        <TextView
+            android:id="@+id/tvCardNumber"
+            style="@style/AMicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Card number" />
+
+        <TextView
+            android:id="@+id/tvCardNumberValue"
+            style="@style/Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvCardNumber"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="4040 3318 1234 3456" />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rlCardNumber"
+        android:layout_marginBottom="@dimen/margin_large"
+        android:layout_centerHorizontal="true">
+
+        <RelativeLayout
+            android:id="@+id/rlCardValidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_normal">
+
+            <TextView
+                android:id="@+id/tvCardValidity"
+                style="@style/AMicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Valid until" />
+
+            <TextView
+                android:id="@+id/tvCardValidityValue"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCardValidity"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="06/2020" />
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/rlCvv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_60sdp"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_toEndOf="@+id/rlCardValidity">
+
+            <TextView
+                android:id="@+id/tvCvv"
+                style="@style/AMicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CVV" />
+
+            <TextView
+                android:id="@+id/tvCvvValue"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvCvv"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="123" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

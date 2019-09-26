@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 
 open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), ISetCardPin.View {
 
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_set_card_pin
@@ -33,6 +34,12 @@ open class SetCardPinFragment : BaseBindingFragment<ISetCardPin.ViewModel>(), IS
                 }
             }
         })
+        viewModel.errorEvent.observe(this, Observer {
+
+        })
+    }
+    override fun loadData() {
+
     }
 
     override fun onDestroyView() {

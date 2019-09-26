@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -15,6 +16,7 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import kotlinx.android.synthetic.main.activity_add_payment_cards.*
 
 class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -24,6 +26,8 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
             val intent = Intent(context, AddPaymentCardActivity::class.java)
             return intent
         }
+
+        var onBackPressCheck: Boolean =true
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -48,10 +52,20 @@ class AddPaymentCardActivity : BaseBindingActivity<IAddPaymentCard.ViewModel>(),
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
+    fun hideToolbar(){
+        toolbar.visibility = View.INVISIBLE
+    }
+
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_cards_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
-            super.onBackPressed()
+            if (onBackPressCheck)  {
+                super.onBackPressed()
+            }
+
         }
+//        if (!onBackPressCheck) {
+//            return false
+//        }
     }
 }

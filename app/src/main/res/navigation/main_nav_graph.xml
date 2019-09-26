@@ -5,6 +5,7 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/splashFragment">
 
+
     <action
         android:id="@+id/action_goto_liteDashboardActivity"
         app:destination="@id/liteDashboardActivity"

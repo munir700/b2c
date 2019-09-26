@@ -3,6 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.SpareCardLandingViewModel" />
+
+    </data>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -13,23 +23,24 @@
             android:background="@color/colorWhite"
             android:paddingBottom="@dimen/margin_medium">
 
-            <LinearLayout
+            <ImageView
                 android:id="@+id/linearLayout2"
-                android:layout_width="@dimen/_181sdp"
-                android:layout_height="@dimen/_270sdp"
+                android:layout_width="@dimen/_121sdp"
+                android:layout_height="@dimen/_190sdp"
                 android:layout_gravity="center_horizontal"
-                android:background="@drawable/card_spare"
+                android:layout_marginTop="@dimen/margin_small"
                 android:orientation="vertical"
-                android:textSize="@dimen/_13sdp"
+                android:src="@drawable/card_spare"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:ignore="MissingConstraints" />
 
             <TextView
                 android:id="@+id/tvSpareCardTile"
-                style="@style/Regular"
+                style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:gravity="center"
                 android:text="@string/screen_spare_card_landing_display_text_spare_card"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -38,9 +49,11 @@
                 app:text="@{Strings.screen_spare_card_landing_display_text_spare_card}" />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
+                android:id="@+id/rvBenefits"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_150sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_marginTop="@dimen/margin_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -49,14 +62,15 @@
 
             <TextView
                 android:id="@+id/tvCardType"
-                style="@style/Regular"
+                style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
                 android:text="@string/screen_spare_card_landing_display_text_select_card_type"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                app:layout_constraintTop_toBottomOf="@+id/rvBenefits"
                 app:text="@{Strings.screen_spare_card_landing_display_text_select_card_type}" />
 
             <LinearLayout
@@ -71,10 +85,13 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvCardType">
 
                 <LinearLayout
+                    android:id="@+id/llAddVirtualCard"
                     android:layout_width="@dimen/_130sdp"
-                    android:layout_height="@dimen/_140sdp"
+                    android:layout_height="@dimen/_90sdp"
                     android:layout_marginRight="@dimen/margin_medium"
                     android:background="@drawable/card_border_selector"
+                    android:clickable="true"
+                    android:onClick="@{(v) -> viewModel.handlePressOnAddVirtualCard(v.id)}"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/margin_medium">
 
@@ -88,37 +105,25 @@
                         app:text="@{Strings.screen_spare_card_landing_display_text_virtual_card}" />
 
                     <TextView
-                        android:id="@+id/tvVirtualCardMonths"
-                        style="@style/MicroGrey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:gravity="center"
-                        android:text="12 months" />
-
-                    <TextView
                         android:id="@+id/tvPrice"
                         style="@style/Large"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium_large"
                         android:gravity="center"
-                        android:text="AED 29.99"
+                        android:text="@={viewModel.state.virtualCardFee}"
                         android:textColor="@color/colorPrimary" />
 
-                    <TextView
-                        style="@style/MicroGrey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="per month" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/llAddPhysicalCard"
                     android:layout_width="@dimen/_130sdp"
-                    android:layout_height="@dimen/_140sdp"
+                    android:layout_height="@dimen/_90sdp"
                     android:background="@drawable/card_border_selector"
+                    android:clickable="true"
+                    android:onClick="@{(v) -> viewModel.handlePressOnAddPhysicalCard(v.id)}"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/margin_medium">
 
@@ -128,17 +133,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/screen_spare_card_landing_display_text_virtual_card"
-                        app:text="@{Strings.screen_spare_card_landing_display_text_virtual_card}" />
-
-                    <TextView
-                        android:id="@+id/tvPhysicalCardMonths"
-                        style="@style/MicroGrey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:gravity="center"
-                        android:text="12 months" />
+                        android:text="@string/screen_spare_card_landing_display_text_physical_card"
+                        app:text="@{Strings.screen_spare_card_landing_display_text_physical_card}" />
 
                     <TextView
                         android:id="@+id/tvPhysicalCardPrice"
@@ -147,31 +143,12 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_medium_large"
                         android:gravity="center"
-                        android:text="AED 29.99"
+                        android:text="@={viewModel.state.physicalCardFee}"
                         android:textColor="@color/colorPrimary" />
 
-                    <TextView
-                        style="@style/MicroGrey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="per month" />
 
                 </LinearLayout>
-
-
             </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
-
-    <data>
-
-        <import type="co.yap.translation.Strings" />
-
-        <!--        <variable-->
-        <!--            name="viewModel"-->
-        <!--            type="co.yap.modules.dashboard.cards.viewmodels.SpareCardLandingViewModel" />-->
-
-    </data>
 </layout>

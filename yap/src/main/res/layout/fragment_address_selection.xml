@@ -248,7 +248,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         style="@style/FragmentsBtnStyle"
-                        android:text="@string/screen_phone_number_button_send"
+                        android:text="@{viewModel.state.nextActionBtnText}"
                         android:layout_marginTop="@dimen/margin_medium"
                         android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
                         android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"

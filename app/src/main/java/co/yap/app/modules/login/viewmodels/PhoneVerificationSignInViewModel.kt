@@ -17,6 +17,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 
 class PhoneVerificationSignInViewModel(application: Application) :
     BaseViewModel<IPhoneVerificationSignIn.State>(application), IPhoneVerificationSignIn.ViewModel,
@@ -48,12 +49,16 @@ class PhoneVerificationSignInViewModel(application: Application) :
                 messagesRepository.verifyOtpGeneric(
                     VerifyOtpGenericRequest(
                         Constants.ACTION_DEVICE_VERIFICATION,
-                        state.otp)
+                        state.otp
+                    )
                 )) {
                 is RetroApiResponse.Success -> {
                     val sharedPreferenceManager = SharedPreferenceManager(context)
 
-                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, true)
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                        true
+                    )
 
                     sharedPreferenceManager.save(
                         SharedPreferenceManager.KEY_PASSCODE,
@@ -80,7 +85,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
             when (val response =
                 messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.ACTION_DEVICE_VERIFICATION))) {
                 is RetroApiResponse.Success -> {
-                    state.toast = getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    state.toast =
+                        getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
                     state.valid = false
                 }
@@ -94,7 +100,8 @@ class PhoneVerificationSignInViewModel(application: Application) :
 
     override fun postDemographicData() {
         val sharedPreferenceManager = SharedPreferenceManager(context)
-        val deviceId: String? = sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        val deviceId: String? =
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.loading = true
             when (val response =
@@ -104,7 +111,7 @@ class PhoneVerificationSignInViewModel(application: Application) :
                         Build.VERSION.RELEASE,
                         deviceId.toString(),
                         Build.BRAND,
-                        Build.MODEL,
+                        if (Utils.isEmulator()) "generic" else Build.MODEL,
                         "Android"
                     )
                 )) {

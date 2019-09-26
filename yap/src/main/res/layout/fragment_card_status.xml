@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.cards.status.viewmodels.YapCardStatusViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_cards_status_toolbar"
+            app:viewModel="@{viewModel}" />
+
+        <ImageView
+            android:id="@+id/imgCard"
+            android:layout_width="@dimen/_121sdp"
+            android:layout_height="@dimen/_190sdp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:orientation="vertical"
+            android:src="@drawable/card_spare"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:ignore="MissingConstraints" />
+
+        <TextView
+            android:id="@+id/tvCardTitle"
+            style="@style/ASmall"
+            android:textSize="@dimen/_9sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:background="@drawable/round_light_gery_background"
+            android:gravity="center"
+            android:text="@{viewModel.state.cardType}"
+            android:textColor="@color/colorPrimary"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgCard"
+            tools:text="Primary Card" />
+
+        <TextView
+            android:id="@+id/tvCardStatus"
+            style="@style/Regular"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            android:gravity="center"
+            android:text="@{viewModel.state.message}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardTitle" />
+
+        <LinearLayout
+            android:id="@+id/lyIndicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_15sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCardStatus">
+
+            <include
+                layout="@layout/widget_step_indicator_layout"
+                app:viewModel="@{viewModel}" />
+        </LinearLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnActivateCard"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/lyIndicator"
+            app:text="@{Strings.screen_card_status_display_text_activate_card}"
+            tools:text="@string/screen_card_status_display_text_activate_card" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

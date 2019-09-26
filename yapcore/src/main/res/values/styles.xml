@@ -4,7 +4,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -253,6 +252,16 @@
         <item name="android:textColor">@color/greyDark</item>
     </style>
 
+    <style name="purpleLabel" parent="AppFontRegular">
+        <item name="btn_text_size">@dimen/text_size_h2</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="android:paddingLeft">@dimen/margin_medium</item>
+        <item name="android:paddingRight">@dimen/margin_medium</item>
+        <item name="btn_round_radius">50dp</item>
+
+    </style>
+
     <style name="RectangleBtnStyle" parent="AppFontMedium">
         <item name="btn_text_size">@dimen/text_size_h3</item>
         <item name="btn_shape_type">rectangle</item>
@@ -285,6 +294,15 @@
         <item name="android:textColor">@color/colorWhite</item>
     </style>
 
+    <style name="confirmLocationBtnStyle" parent="AppFontRegular">
+        <item name="btn_text_size">@dimen/text_size_c2</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="btn_shape_type">rectangle</item>
+        <item name="android:enabled">true</item>
+        <item name="btn_round_radius">50dp</item>
+        <item name="android:textColor">@color/colorWhite</item>
+    </style>
+
     <style name="FragmentsBtnStyle" parent="AppFontMedium">
         <item name="btn_text_size">@dimen/text_size_h4</item>
         <item name="btn_shape_type">rectangle</item>
@@ -299,6 +317,14 @@
     <!-- Progress bar -->
     <style name="YAPProgressBar" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:minWidth">@dimen/_200sdp</item>
+        <item name="android:progressDrawable">@drawable/yap_progress_bar</item>
+        <item name="android:layout_height">@dimen/_6sdp</item>
+
+    </style>
+
+    <!-- Progress bar with change width -->
+    <style name="YAPProgressBarStatus" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:minWidth">@dimen/_80sdp</item>
         <item name="android:progressDrawable">@drawable/yap_progress_bar</item>
         <item name="android:layout_height">@dimen/_6sdp</item>
 
@@ -353,5 +379,7 @@
         <item name="android:shadowColor">@color/grey</item>
         <item name="cardPreventCornerOverlap">true</item>
     </style>
+
+
 
 </resources>

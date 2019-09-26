@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.interfaces.IYapDashboard
 import co.yap.modules.dashboard.states.YapDashBoardState
 import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -72,8 +73,7 @@ class YapDashBoardViewModel(application: Application) :
         launch {
             when (val response = cardsRepository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
-                    state.availableBalance = response.data.data.availableBalance.toString()
-                    getAccountBalanceSuccess.value = true
+                    MyUserManager.cardBalance.value = CardBalance(availableBalance = response.data.data.availableBalance.toString())
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

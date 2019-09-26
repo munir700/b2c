@@ -1,48 +1,58 @@
 package co.yap.networking.cards.responsedtos
 
+import android.os.Parcelable
+import androidx.annotation.Keep
+import kotlinx.android.parcel.Parcelize
 
+
+@Keep
+@Parcelize
 data class Card(
-    val newPin: String,
+    val newPin: String?,
 
-    val cardType: String,
+    var cardType: String,
 
     val uuid: String,
 
-    val physical: Boolean,
+    var physical: Boolean,
 
     val active: Boolean,
 
-    val cardName: String,
+    var cardName: String,
 
-    val status: String,
+    var status: String,
 
-    val blocked: Boolean,
+    val shipmentStatus: String?,
+
+    val deliveryStatus: String?,
+
+    var blocked: Boolean,
 
     val delivered: Boolean,
 
-    val cardSerialNumber: String,
+    var cardSerialNumber: String,
 
-    val maskedCardNo: String,
+    var maskedCardNo: String,
 
-    val atmAllowed: Boolean,
+    var atmAllowed: Boolean,
 
-    val onlineBankingAllowed: Boolean,
+    var onlineBankingAllowed: Boolean,
 
-    val retailPaymentAllowed: Boolean,
+    var retailPaymentAllowed: Boolean,
 
-    val paymentAbroadAllowed: Boolean,
+    var paymentAbroadAllowed: Boolean,
 
-    val accountType: String,
+    var accountType: String,
 
     val expiryDate: String,
 
-    val cardBalance: String,
+    var cardBalance: String,
 
     val cardScheme: String,
 
     val currentBalance: String,
 
-    val availableBalance: String,
+    var availableBalance: String,
 
     val customerId: String,
 
@@ -51,4 +61,4 @@ data class Card(
     val productCode: String,
 
     val pinCreated: Boolean
-)
+) : Parcelable

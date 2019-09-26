@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -112,6 +113,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
 
     private fun doLogout() {
         AuthUtils.navigateToHardLogin(requireContext())
+        MyUserManager.cardBalance.value = CardBalance()
         activity?.finish()
     }
 

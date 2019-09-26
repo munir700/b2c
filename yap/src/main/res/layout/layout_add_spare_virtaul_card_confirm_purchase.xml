@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/margin_large">
+
+        <LinearLayout
+            android:id="@+id/llConfirmVirtualCardPurchase"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorWhite"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvVirtualCardMonths"
+                style="@style/ASmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Card fee" />
+
+            <TextView
+                android:id="@+id/tvPrice"
+                style="@style/Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:gravity="center"
+                android:text="@{viewModel.state.virtualCardFee}"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/text_size_h5" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_large"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvAvailableBalanceTitle"
+                    style="@style/RegularGrey"
+                    android:textSize="@dimen/text_size_h2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:text="@string/screen_add_spare_card_display_text_available_balance"
+                    app:text="@{Strings.screen_add_spare_card_display_text_available_balance}" />
+
+                <TextView
+                    android:id="@+id/tvAvailableBalance"
+                    style="@style/Regular"
+                    android:textSize="@dimen/text_size_h2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/_4sdp"
+                    android:text="@{viewModel.state.avaialableCardBalance}"
+                    android:textColor="@color/colorPrimary" />
+
+
+            </LinearLayout>
+
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnConfirmVirtualCardPurchase"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_btn_side_paddings"
+                android:layout_marginTop="@dimen/_25sdp"
+                android:layout_marginRight="@dimen/margin_btn_side_paddings"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v) -> viewModel.handlePressOnConfirmVirtualCardPurchase(v.id)}"
+                android:text="@string/screen_add_spare_card_button_confirm_purchase"
+                android:textAllCaps="false"
+                app:btn_enable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
+                app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/layoutVirtualCardOnSuccess"
+            layout="@layout/layout_add_spare_virtual_card_success"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/include"
+            app:viewModel="@{viewModel}" />
+    </LinearLayout>
+
+</layout>

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.databinding.ItemListFooterBinding
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 abstract class BasePagingBindingRecyclerAdapter<T : Any>(
     private val retry: () -> Unit,
@@ -53,7 +54,7 @@ abstract class BasePagingBindingRecyclerAdapter<T : Any>(
         holder.itemView.setOnClickListener {
             onItemClickListener?.onItemClick(
                 it,
-                super.getItem(position),
+                super.getItem(position)!!,
                 position
             )
         }
@@ -65,10 +66,6 @@ abstract class BasePagingBindingRecyclerAdapter<T : Any>(
 
     override fun getItemViewType(position: Int): Int {
         return if (position < super.getItemCount()) contentView else footerView
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(view: View, data: Any?, pos: Int)
     }
 
     override fun getItemCount(): Int {

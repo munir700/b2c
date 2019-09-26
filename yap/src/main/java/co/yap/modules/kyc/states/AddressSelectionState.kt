@@ -17,9 +17,8 @@ import com.google.android.gms.maps.GoogleMap
 
 class AddressSelectionState(application: Application) : BaseState(), IAddressSelection.State {
 
+
     val mContext: Context = application.applicationContext
-
-
     val VISIBLE: Int = 0x00000000
 
     @get:Bindable
@@ -68,6 +67,13 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         set(value) {
             field = value
         }
+
+    @get:Bindable
+    override var isFromPhysicalCardsLayout: Boolean = false
+        set(value) {
+            field = value
+        }
+
 
     @get:Bindable
     override var errorVisibility: Int = VISIBLE
@@ -129,6 +135,14 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         set(value) {
             field = value
             notifyPropertyChanged(BR.subHeadingTitle)
+        }
+
+    @get:Bindable
+    override var nextActionBtnText: String =
+        Translator.getString(application, R.string.screen_phone_number_button_send)
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.nextActionBtnText)
         }
 
     @get:Bindable

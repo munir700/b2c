@@ -1,5 +1,7 @@
 package co.yap.modules.setcardpin.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -8,6 +10,7 @@ import co.yap.modules.setcardpin.viewmodels.SetCardPinSuccessViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 
 class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewModel>(), ISetCardPinSuccess.View {
 
@@ -23,7 +26,10 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
             /*    R.id.btnTopUp -> activity?.finish()*/
-                R.id.tvTopUpLater -> activity?.finish()
+                R.id.tvTopUpLater -> {
+                    setupActionsIntent()
+                    activity?.finish()
+                }
             }
         })
     }
@@ -35,5 +41,11 @@ class SetCardPinSuccessFragment : BaseBindingFragment<ISetCardPinSuccess.ViewMod
 
     override fun onBackPressed(): Boolean {
         return true
+    }
+
+    private fun setupActionsIntent() {
+            val returnIntent = Intent()
+            returnIntent.putExtra(Constants.isPinCreated, true)
+            activity?.setResult(Activity.RESULT_OK, returnIntent)
     }
 }

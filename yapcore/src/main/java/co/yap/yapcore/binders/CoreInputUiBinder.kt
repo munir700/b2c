@@ -20,7 +20,6 @@ import co.yap.widgets.CoreInputField
 
 object CoreInputUiBinder {
 
-
     @JvmStatic
     @BindingAdapter(value = ["realValueAttrChanged"])
     fun setListener(coreInputField: CoreInputField, listener: InverseBindingListener?) {
@@ -28,8 +27,22 @@ object CoreInputUiBinder {
         if (listener != null) {
             coreInputField.editText.addTextChangedListener(
                 object : TextWatcher {
-                    override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-                    override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+                    override fun beforeTextChanged(
+                        charSequence: CharSequence,
+                        i: Int,
+                        i1: Int,
+                        i2: Int
+                    ) {
+                    }
+
+                    override fun onTextChanged(
+                        charSequence: CharSequence,
+                        i: Int,
+                        i1: Int,
+                        i2: Int
+                    ) {
+                    }
+
                     override fun afterTextChanged(editable: Editable) {
                         listener.onChange()
                     }
@@ -72,7 +85,10 @@ object CoreInputUiBinder {
 
     @JvmStatic
     @BindingAdapter("onEditorActionDoneListener")
-    fun setOnEditorActionDoneLitener(view: CoreInputField, listener: TextView.OnEditorActionListener) {
+    fun setOnEditorActionDoneLitener(
+        view: CoreInputField,
+        listener: TextView.OnEditorActionListener
+    ) {
         view.editText.setOnEditorActionListener(listener)
     }
 
@@ -166,7 +182,10 @@ object CoreInputUiBinder {
 
     @JvmStatic
     @BindingAdapter("changeCoreInputFocus")
-    fun setFocusChangeListener(view: CoreInputField, focusChangeListener: View.OnFocusChangeListener) {
+    fun setFocusChangeListener(
+        view: CoreInputField,
+        focusChangeListener: View.OnFocusChangeListener
+    ) {
         view.editText.setOnFocusChangeListener(focusChangeListener)
     }
 
@@ -183,7 +202,7 @@ object CoreInputUiBinder {
     @JvmStatic
     @BindingAdapter("inputText")
     fun setSpannableInputText(view: CoreInputField, text: SpannableStringBuilder) {
-        if (! view.editText.text.contains(text.toString())){
+        if (!view.editText.text.contains(text.toString())) {
 
             view.editText.setText(text)
             view.editText.setSelection(view.editText.text.length)
@@ -249,11 +268,11 @@ object CoreInputUiBinder {
     @JvmStatic
     @BindingAdapter("deactivateEditText")
     fun deactivateEditText(view: CoreInputField, activate: Boolean) {
-        if (activate){
+        if (activate) {
             view.requestKeyboard()
         }
         view.editText.isActivated = activate
-         view.editText.isFocusable = activate
+        view.editText.isFocusable = activate
     }
 
 

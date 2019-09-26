@@ -12,4 +12,16 @@ abstract class AddPaymentChildViewModel<S : IBase.State>(application: Applicatio
     fun setToolBarTitle(title: String) {
         parentViewModel?.state?.tootlBarTitle = title
     }
+
+    fun toggleToolBarVisibility(visibility: Boolean) {
+        val VISIBLE: Int = 0x00000000
+        val GONE: Int = 0x00000008
+        if (visibility) {
+            parentViewModel?.state?.tootlBarVisibility = VISIBLE
+
+        } else {
+            parentViewModel?.state?.tootlBarVisibility = GONE
+
+        }
+    }
 }

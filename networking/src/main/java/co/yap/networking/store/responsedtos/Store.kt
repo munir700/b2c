@@ -13,7 +13,7 @@ data class Store(
     @SerializedName("description")
     var desc: String,
     @SerializedName("urlToImage")
-    var image: String,
+    var image: Int,
     var storeIcon: Int
 ) : Parcelable
 

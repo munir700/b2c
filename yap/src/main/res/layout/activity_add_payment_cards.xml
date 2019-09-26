@@ -16,11 +16,14 @@
         android:orientation="vertical">
 
         <include
-            layout="@layout/layout_cards_toolbar"
-            app:viewModel="@{viewModel}"/>
+            android:id="@+id/toolbar"
+             android:visibility="@{viewModel.state.tootlBarVisibility}"
+             layout="@layout/layout_add_payment_cards_toolbar"
+             app:viewModel="@{viewModel}"/>
 
         <fragment
             android:id="@+id/main_cards_nav_host_fragment"
+            android:layout_marginTop="@dimen/margin_small"
             android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="0dp"

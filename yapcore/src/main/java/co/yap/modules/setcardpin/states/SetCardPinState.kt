@@ -8,7 +8,7 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.BaseState
 
 
-class SetCardPinState : BaseState(), ISetCardPin.State {
+open class SetCardPinState : BaseState(), ISetCardPin.State {
 
     @get:Bindable
     override var sequence: Boolean = false
@@ -46,6 +46,46 @@ class SetCardPinState : BaseState(), ISetCardPin.State {
             notifyPropertyChanged(BR.dialerError)
         }
 
+    @get:Bindable
+    override var titleSetPin: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.titleSetPin)
+        }
+
+    @get:Bindable
+    override var buttonTitle: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.buttonTitle)
+        }
+
+
+    @get:Bindable
+    override var oldPin: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.oldPin)
+        }
+    @get:Bindable
+    override var newPin: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.newPin)
+        }
+    @get:Bindable
+    override var confirmPin: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.confirmPin)
+        }
+
+    @get:Bindable
+    override var cardSerialNumber: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.cardSerialNumber)
+        }
 
     fun validate() {
         if (pincode.length == 4) {

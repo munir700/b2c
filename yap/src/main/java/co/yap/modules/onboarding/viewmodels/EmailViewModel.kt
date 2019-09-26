@@ -2,6 +2,7 @@ package co.yap.modules.onboarding.viewmodels
 
 import android.app.Application
 import android.os.Build
+import android.os.Handler
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
 import co.yap.R
@@ -17,6 +18,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -52,7 +54,7 @@ class EmailViewModel(application: Application) :
         }
     }
 
-    override fun stopTimer(){
+    override fun stopTimer() {
         parentViewModel?.onboardingData?.elapsedOnboardingTime =
             TimeUnit.MILLISECONDS.toSeconds(
                 Date().time - (parentViewModel?.onboardingData?.startTime?.time ?: Date().time)
@@ -62,6 +64,7 @@ class EmailViewModel(application: Application) :
 
     private fun signUp() {
         launch {
+            state.refreshField = true
             when (val response = repository.signUp(
                 SignUpRequest(
                     parentViewModel!!.onboardingData.firstName,
@@ -129,6 +132,7 @@ class EmailViewModel(application: Application) :
     override fun sendVerificationEmail() {
         launch {
             state.loading = true
+            state.refreshField = true
             when (val response = repository.sendVerificationEmail(
                 SendVerificationEmailRequest(
                     state.twoWayTextWatcher,
@@ -148,18 +152,20 @@ class EmailViewModel(application: Application) :
     }
 
     override fun postDemographicData() {
+
         val deviceId: String? =
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
         launch {
             state.valid = false
             state.loading = true
+            state.refreshField = true
             when (val response = repository.postDemographicData(
                 DemographicDataRequest(
                     "SIGNUP",
                     Build.VERSION.RELEASE,
                     deviceId.toString(),
                     Build.BRAND,
-                    Build.MODEL,
+                    if (Utils.isEmulator()) "generic" else Build.MODEL,
                     "Android"
                 )
             )) {
@@ -177,13 +183,18 @@ class EmailViewModel(application: Application) :
     private fun getAccountInfo() {
         launch {
             state.loading = true
+            state.refreshField = true
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty()){
-                    parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
-                    nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
-                    MyUserManager.user = response.data.data[0]
-                    state.valid = true
+                    if (response.data.data.isNotEmpty()) {
+                        parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
+                        Handler().postDelayed({
+                            nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
+                        }, 400)
+                        MyUserManager.user = response.data.data[0]
+                        state.valid = true
+
+
                     }
                 }
                 is RetroApiResponse.Error -> {

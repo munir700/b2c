@@ -19,13 +19,13 @@
         android:id="@+id/setCardPinWelcomeActivity"
         android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
         android:label="SetCardPinWelcomeActivity"
-        tools:layout="@layout/activity_set_card_pin_welcome"></activity>
+        tools:layout="@layout/activity_set_card_pin_welcome"/>
 
     <fragment
         android:id="@+id/liteDashboard"
         android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
         android:label="LiteDashboardFragment"
-        tools:layout="@layout/fragment_lite_dashboard"></fragment>
+        tools:layout="@layout/fragment_lite_dashboard"/>
 
     <fragment
         android:id="@+id/yapHome"
@@ -44,26 +44,33 @@
         </action>
         <action
             android:id="@+id/action_yapHome_to_setCardPinWelcomeActivity"
-            app:destination="@id/setCardPinWelcomeActivity" />
+            app:destination="@id/setCardPinWelcomeActivity" >
+
+            <argument
+                android:name="cardSerialNumber"
+                android:defaultValue=" "
+                app:argType="string" />
+
+        </action>
     </fragment>
 
-    <!--    <fragment-->
-    <!--        android:id="@+id/yapCards"-->
-    <!--        android:name="co.yap.modules.dashboard.fragments.YapCardsFragment"-->
-    <!--        android:label="YapCardsFragment"-->
-    <!--        tools:layout="@layout/fragment_yap_cards" >-->
-
-    <!--        <action-->
-    <!--            android:id="@+id/action_yapCard_to_addPaymentCardActivity"-->
-    <!--            app:destination="@id/addPaymentCardActivity" />-->
-
-    <!--    </fragment>-->
     <fragment
         android:id="@+id/yapCards"
-        android:name="co.yap.modules.dashboard.fragments.YapCardsFragment"
-        android:label="YapCardsFragment"
+        android:name="co.yap.modules.dashboard.cards.home.fragments.YapCardsFragment"
+        android:label="YapCardFragment"
         tools:layout="@layout/fragment_yap_cards">
-
+        <action
+            android:id="@+id/action_yapCards_to_yapCardStatusFragment"
+            app:destination="@id/yapCardStatusFragment" />
+        <action
+            android:id="@+id/action_yapCards_to_addPaymentCardActivity"
+            app:destination="@id/addPaymentCardActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/yapDashboardHome"
+        android:name="co.yap.modules.dashboard.fragments.YapDashboardHome"
+        android:label="YapDashboardHome"
+        tools:layout="@layout/fragment_yap_dashboard_home">
         <action
             android:id="@+id/action_yapCards_to_addPaymentCardActivity"
             app:destination="@id/addPaymentCardActivity" />
@@ -96,4 +103,14 @@
         tools:layout="@layout/activity_add_payment_cards">
 
     </activity>
- </navigation>
+    <fragment
+        android:id="@+id/yapCardStatusFragment"
+        android:name="co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment"
+        android:label="YapCardStatusFragment"
+        tools:layout="@layout/fragment_card_status">
+        <argument
+            android:name="cardInfo"
+            app:argType="co.yap.networking.cards.responsedtos.Card" />
+    </fragment>
+
+</navigation>

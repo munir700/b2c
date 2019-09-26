@@ -20,19 +20,27 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
-import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CoreInputField
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.CardDeliveryStatus
+import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.IBindable
+import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 object UIBinder {
@@ -42,6 +50,166 @@ object UIBinder {
     fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
         if (bitmap != null)
             view.setImageBitmap(bitmap)
+    }
+
+    // Delivery status and core action Button
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(linearLayout: LinearLayout, card: Card) {
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                linearLayout.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                linearLayout.visibility = View.VISIBLE
+            }
+            CardStatus.INACTIVE -> {
+                linearLayout.visibility = View.VISIBLE
+
+            }
+        }
+    }
+
+    // Top right card status image
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(imageView: ImageView, card: Card) {
+
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                imageView.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_status_frozen)
+            }
+            CardStatus.INACTIVE -> {
+                        imageView.visibility = View.VISIBLE
+                        imageView.setImageResource(R.drawable.ic_status_ontheway)
+            }
+
+        }
+    }
+
+    // Card status message text
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(text: TextView, card: Card) {
+
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                text.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                text.visibility = View.VISIBLE
+                text.text = Translator.getString(
+                    text.context,
+                    R.string.screen_cards_display_text_freeze_card
+                )
+            }
+            CardStatus.INACTIVE -> {
+                if(card.cardType=="DEBIT"){
+                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_set_message
+                        )
+                    } else {
+                        text.visibility = View.VISIBLE
+                        text.text = Translator.getString(
+                            text.context,
+                            R.string.screen_cards_display_text_pending_delivery
+                        )
+                    }
+                }else {
+                    if (card.deliveryStatus == null) {
+                        text.visibility = View.GONE
+                    } else {
+                        when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                            CardDeliveryStatus.SHIPPED -> {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_set_message
+                                )
+                            }
+                            else -> {
+                                text.visibility = View.VISIBLE
+                                text.text = Translator.getString(
+                                    text.context,
+                                    R.string.screen_cards_display_text_pending_delivery
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    //Core action Button text
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(coreButton: CoreButton, card: Card) {
+
+        when (CardStatus.valueOf(card.status)) {
+            CardStatus.ACTIVE -> {
+                coreButton.visibility = View.GONE
+            }
+            CardStatus.BLOCKED -> {
+                coreButton.visibility = View.VISIBLE
+                coreButton.text = Translator.getString(
+                    coreButton.context,
+                    R.string.screen_cards_button_unfreeze_card
+                )
+            }
+            CardStatus.INACTIVE -> {
+                if(card.cardType=="DEBIT"){
+                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                        coreButton.visibility = View.VISIBLE
+                        coreButton.text = Translator.getString(
+                            coreButton.context,
+                            R.string.screen_cards_display_text_set_pin
+                        )
+                    } else {
+                        coreButton.visibility = View.GONE
+                    }
+                }else {
+                if (card.deliveryStatus == null) {
+                    coreButton.visibility = View.GONE
+                } else {
+                    when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                        CardDeliveryStatus.SHIPPED -> {
+                            coreButton.visibility = View.VISIBLE
+                            coreButton.text = Translator.getString(
+                                coreButton.context,
+                                R.string.screen_cards_display_text_set_pin
+                            )
+                        }
+                        else -> {
+                            coreButton.visibility = View.GONE
+                        }
+                    }
+                }
+            }
+            }
+
+        }
+    }
+
+    private fun isExpire(expiryDate: String): Boolean {
+        val today = Calendar.getInstance()
+        val dateFormatter = SimpleDateFormat("MM/YY", Locale.ENGLISH)
+        val expireDate = Calendar.getInstance()
+        expireDate.time = dateFormatter.parse(expiryDate)
+
+        var year = expireDate.get(Calendar.YEAR) - today.get(Calendar.YEAR)
+        var month = expireDate.get(Calendar.MONTH) - today.get(Calendar.MONTH)
+        return if (year > 0)
+            false
+        else
+            !(year == 0 && month > 0)
     }
 
     @BindingAdapter("src")
@@ -90,13 +258,15 @@ object UIBinder {
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textKey: String, concat: String) {
-        view.text = Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
+        view.text =
+            Translator.getString(view.context, textKey, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textId: Int, concat: String) {
-        view.text = Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
+        view.text =
+            Translator.getString(view.context, textId, *StringUtils.toStringArray(concat))
     }
 
     @BindingAdapter("text", "start", "end")
@@ -168,7 +338,12 @@ object UIBinder {
             for (i in entries.indices) {
                 val entry = entries[i]
                 val binding =
-                    DataBindingUtil.inflate<ViewDataBinding>(inflater, layoutId, viewGroup, true)
+                    DataBindingUtil.inflate<ViewDataBinding>(
+                        inflater,
+                        layoutId,
+                        viewGroup,
+                        true
+                    )
                 binding.setVariable(entry.bindingVariable, entry)
                 binding.executePendingBindings()
             }
@@ -267,7 +442,6 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
         if (circular) {
-
             Glide.with(view.context)
                 .asBitmap().load(resId)
                 .transforms(CenterCrop(), RoundedCorners(15))
@@ -355,4 +529,15 @@ object UIBinder {
 
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("isLayoutActivated")
+    fun setisLayoutActivated(view: LinearLayout, value: Boolean) {
+//        if (!value) {
+            view.isActivated = value
+
+//        }
+    }
+
+
 }
