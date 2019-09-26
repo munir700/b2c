@@ -73,7 +73,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             when (it) {
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
-                    if (!viewModel.isFromBlockCardScreen ){
+                    if (!viewModel.isFromBlockCardScreen) {
                         (activity as AddPaymentCardActivity).hideToolbar()
                     }
 
@@ -81,7 +81,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
-                    if (!viewModel.isFromBlockCardScreen ){
+                    if (!viewModel.isFromBlockCardScreen) {
                         (activity as AddPaymentCardActivity).hideToolbar()
                     }
                     cardAdded = true
@@ -94,8 +94,13 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 viewModel.CONFIRM_PHYSICAL_PURCHASE -> {
+                    // todo temporary logic added to fix a bug, balance should be stored as double in view model
+                    val physicalCardFee =
+                        viewModel.state.physicalCardFee.replace("AED ", "").replace(",","").toDouble()
+                    val availableCardBalance =
+                        viewModel.state.avaialableCardBalance.replace("AED ", "").replace(",","").toDouble()
 
-                    if (viewModel.state.physicalCardFee > viewModel.state.avaialableCardBalance) {
+                    if (physicalCardFee > availableCardBalance) {
                         showDialog()
                     } else {
                         viewModel.requestAddSparePhysicalCard()
@@ -103,8 +108,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 viewModel.CONFIRM_VIRTUAL_PURCHASE -> {
-
-                    if (viewModel.state.virtualCardFee > viewModel.state.avaialableCardBalance) {
+                    // todo temporary logic added to fix a bug, balance should be stored as double in view model
+                    val virtualCardFee =
+                        viewModel.state.virtualCardFee.replace("AED ", "").replace(",","").toDouble()
+                    val availableCardBalance =
+                        viewModel.state.avaialableCardBalance.replace("AED ", "").replace(",","").toDouble()
+                    if (virtualCardFee > availableCardBalance) {
                         showDialog()
                     } else {
                         viewModel.requestAddSpareVirtualCard()

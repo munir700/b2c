@@ -14,6 +14,8 @@ interface IAddPaymentCard {
         fun handlePressOnBackButton()
         fun handlePressOnTickButton()
         val backButtonPressEvent: SingleLiveEvent<Boolean>
+        var physicalCardFee: String
+        var virtualCardFee: String
     }
 
     interface View : IBase.View<ViewModel>
