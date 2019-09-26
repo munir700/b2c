@@ -7,6 +7,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -62,6 +64,7 @@ class AddressSelectionViewModel(application: Application) :
         application.resources,
         R.drawable.location_place_holder
     )
+    lateinit var list: List<Address>
 
     override val repository: CardsRepository = CardsRepository
 
@@ -149,10 +152,46 @@ class AddressSelectionViewModel(application: Application) :
 
                 getDefaultLocationMap(mapDetailViewActivity)
             }
+
+            mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+                override fun onMapClick(p0: LatLng?) {
+
+                    if (p0 != null) {
+                        mDefaultLocation = p0
+                    }
+
+                    var geocoder: Geocoder = Geocoder(getApplication())
+                    list = geocoder.getFromLocation(p0!!.latitude, p0!!.longitude, 1)
+                    var selectedAddres: Address = list.get(0)
+                    setUpMarker(p0, selectedAddres.subLocality, selectedAddres.getAddressLine(0))
+//                  before   first comma is place name selectedAddres.getAddressLine(0)
+//                    Log.i("placesCoordinates",  p0.latitude.toString() + " lats, longs ,new " +p0.longitude.toString())
+
+                    val strs = selectedAddres.getAddressLine(0).split(",").toTypedArray()
+                    Log.i(
+                        "placesCoordinates", "  place name, " + strs.get(0)
+                    )
+                    Log.i(
+                        "placesCoordinates",
+                        selectedAddres.subLocality + "  subLocality, " + selectedAddres.locality + "  locality " + selectedAddres.getAddressLine(
+                            0
+                        ).toString()
+                    )
+
+//                    if (locationMarker != null) {
+                    locationMarker!!.remove()
+                    //                    }
+                    locationMarker = mMap.addMarker(markerOptions)
+
+                }
+
+            })
+
         } else {
 
         }
     }
+
 
     override fun toggleMarkerVisibility() {
         if (!state.isMapOnScreen) {
@@ -206,14 +245,14 @@ class AddressSelectionViewModel(application: Application) :
 
     override fun handlePressOnNext(id: Int) {
 
-        mLastKnownLocation.latitude= mDefaultLocation.latitude
-        mLastKnownLocation.longitude= mDefaultLocation.longitude
+        mLastKnownLocation.latitude = mDefaultLocation.latitude
+        mLastKnownLocation.longitude = mDefaultLocation.longitude
 
-        if (state.isFromPhysicalCardsLayout){
+        if (state.isFromPhysicalCardsLayout) {
 //           start old fragment by taking address address
             clickEvent.setValue(id)
 
-        }else{
+        } else {
             requestOrderCard(id)
         }
     }
