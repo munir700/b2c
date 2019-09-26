@@ -60,7 +60,8 @@
         <ImageView
             android:id="@+id/ivCard"
             android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_250sdp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_small"
             android:src="@drawable/card_spare"
             app:layout_constraintBottom_toTopOf="@+id/tvIbanTitle"
             app:layout_constraintEnd_toEndOf="parent"
@@ -72,13 +73,16 @@
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
             android:layout_marginBottom="@dimen/margin_small"
             android:gravity="center"
             android:text="@string/screen_onboarding_congratulations_display_text_iban"
             app:layout_constraintBottom_toTopOf="@+id/tvIban"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCard"
             app:text="@{Strings.screen_onboarding_congratulations_display_text_iban}" />
+
 
         <TextView
             android:id="@+id/tvIban"
