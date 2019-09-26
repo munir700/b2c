@@ -25,7 +25,13 @@
         android:id="@+id/liteDashboard"
         android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
         android:label="LiteDashboardFragment"
-        tools:layout="@layout/fragment_lite_dashboard"/>
+        tools:layout="@layout/fragment_lite_dashboard">
+
+        <action
+            android:id="@+id/action_liteDashboard_to_moreActivity"
+            app:destination="@id/moreActivity" />
+
+    </fragment>
 
     <fragment
         android:id="@+id/yapHome"
@@ -103,6 +109,16 @@
         tools:layout="@layout/activity_add_payment_cards">
 
     </activity>
+
+
+    <activity
+        android:id="@+id/moreActivity"
+        android:name="co.yap.modules.dashboard.more.activities.MoreActivity"
+        android:label="MoreActivity"
+        tools:layout="@layout/activity_more">
+
+    </activity>
+
     <fragment
         android:id="@+id/yapCardStatusFragment"
         android:name="co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment"

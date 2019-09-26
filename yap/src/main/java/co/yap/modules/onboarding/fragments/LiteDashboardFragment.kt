@@ -7,12 +7,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
+import co.yap.R
 import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
-import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.biometric.BiometricUtil
@@ -43,21 +43,41 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
             && BiometricUtil.isFingerprintAvailable(requireContext())
         ) {
             val isTouchIdEnabled: Boolean =
-                sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
+                sharedPreferenceManager.getValueBoolien(
+                    SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                    false
+                )
             swTouchId.isChecked = isTouchIdEnabled
             swTouchId.visibility = View.VISIBLE
 
             swTouchId.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
-                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        true
+                    )
                     sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
                 } else {
-                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                        false
+                    )
                 }
             }
         } else {
             swTouchId.visibility = View.INVISIBLE
         }
+
+
+        //
+        tvName.setOnClickListener(object :
+            View.OnClickListener {
+
+            override fun onClick(v: View?) {
+                findNavController().navigate(R.id.action_liteDashboard_to_moreActivity)
+
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -68,17 +88,17 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
     private val observer = Observer<Int> {
         when (it) {
             viewModel.EVENT_LOGOUT_SUCCESS -> doLogout()
-        /*    viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
-                findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
-            }
-            viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
-                findNavController().navigate(
-                    LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity(
-                        MyUserManager.user?.customer?.firstName.toString()
+            /*    viewModel.EVENT_GET_DEBIT_CARDS_SUCCESS -> {
+                    findNavController().navigate(LiteDashboardFragmentDirections.actionLiteDashboardFragmentToSetCardPinWelcomeActivity())
+                }
+                viewModel.EVENT_PRESS_COMPLETE_VERIFICATION -> {
+                    findNavController().navigate(
+                        LiteDashboardFragmentDirections.actionLiteDashboardFragmentToDocumentsDashboardActivity(
+                            MyUserManager.user?.customer?.firstName.toString()
+                        )
                     )
-                )
-                activity?.finish()
-            }*/
+                    activity?.finish()
+                }*/
             viewModel.EVENT_PRESS_SET_CARD_PIN -> {
                 viewModel.getDebitCards()
             }
