@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.activities.YapDashboardActivity
 import co.yap.modules.dashboard.adapters.NotificationAdapter
 import co.yap.modules.dashboard.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.helpers.transaction.TransactionsViewHelper
@@ -58,7 +59,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 viewModel.EVENT_SET_CARD_PIN -> {
-                    startActivity(SetCardPinWelcomeActivity.newIntent(requireContext(), viewModel.debitCardSerialNumber))
+                    startActivity(
+                        SetCardPinWelcomeActivity.newIntent(
+                            requireContext(),
+                            viewModel.debitCardSerialNumber
+                        )
+                    )
                     //findNavController().navigate(R.id.action_yapHome_to_setCardPinWelcomeActivity)
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
@@ -75,8 +81,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         })
 
-       MyUserManager.cardBalance.observe(this, Observer { value ->
-           setAvailableBalance(value.availableBalance.toString())
+        MyUserManager.cardBalance.observe(this, Observer { value ->
+            setAvailableBalance(value.availableBalance.toString())
         })
     }
 
@@ -198,11 +204,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
             checkUserStatus()
         }
+
+        if (activity is YapDashboardActivity)
+            (activity as YapDashboardActivity).enableDrawerSwipe(true)
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         appbar.removeOnOffsetChangedListener(appbarListener)
+
+        if (activity is YapDashboardActivity)
+            (activity as YapDashboardActivity).enableDrawerSwipe(false)
     }
 
     private fun setAvailableBalance(balance: String) {
