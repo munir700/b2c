@@ -20,6 +20,8 @@ data class Card(
 
     var cardName: String,
 
+    var nameUpdated: Boolean?,
+
     var status: String,
 
     val shipmentStatus: String?,

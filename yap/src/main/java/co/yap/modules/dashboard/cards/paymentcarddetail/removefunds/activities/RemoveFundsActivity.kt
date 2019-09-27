@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
 import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
@@ -44,6 +45,18 @@ class RemoveFundsActivity : AddFundsActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupData()
+        viewModel.firstDenominationClickEvent.observe(this, Observer {
+            hideKeyboard()
+            etAmount.clearFocus()
+        })
+        viewModel.secondDenominationClickEvent.observe(this, Observer {
+            hideKeyboard()
+            etAmount.clearFocus()
+        })
+        viewModel.thirdDenominationClickEvent.observe(this, Observer {
+            hideKeyboard()
+            etAmount.clearFocus()
+        })
     }
 
     override fun setObservers() {
@@ -96,7 +109,6 @@ class RemoveFundsActivity : AddFundsActivity() {
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-
     }
 
     private fun setUpSuccessData() {
