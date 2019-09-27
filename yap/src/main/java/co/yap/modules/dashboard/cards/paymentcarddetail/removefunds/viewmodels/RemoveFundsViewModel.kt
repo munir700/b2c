@@ -35,7 +35,7 @@ class RemoveFundsViewModel(application: Application) : FundActionsViewModel(appl
     }
 
     override fun buttonClickEvent(id: Int) {
-        if (state.checkValidity() == "") {
+        if (state.checkValidity(co.yap.yapcore.constants.Constants.TYPE_REMOVE_FUNDS) == "") {
             clickEvent.postValue(id)
         } else {
             errorEvent.postValue(id)

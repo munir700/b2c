@@ -306,6 +306,7 @@
     <string name="screen_remove_funds_button_remove">Remove</string>
     <string name="screen_remove_funds_display_text_enter_amount">Enter the amount to remove</string>
     <string name="screen_remove_funds_display_text_available_balance">Your available balance is </string>
+    <string name="screen_remove_funds_display_text_available_balance_error">You can only move an amount less than or equal to your current balance of %1$s %2$s</string>
 
     <!--    Success remove funds Screen-->
     <string name="screen_success_remove_funds_transaction_display_text_moved_success">You have moved %1$s %2$s \nto your main debit card </string>

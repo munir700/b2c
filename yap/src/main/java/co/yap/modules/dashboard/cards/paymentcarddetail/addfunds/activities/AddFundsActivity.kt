@@ -268,10 +268,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     override fun onBackPressed() {
-        if(fundsAdded){
-            setupActionsIntent()
-        }
-        super.onBackPressed()
     }
 
     private fun setupActionsIntent() {
