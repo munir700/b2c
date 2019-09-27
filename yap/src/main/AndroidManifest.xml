@@ -69,7 +69,8 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            />
 
         <!--<activity-->
         <!--android:name=".modules.kyc.activities.AddressSelectionFragment"-->
