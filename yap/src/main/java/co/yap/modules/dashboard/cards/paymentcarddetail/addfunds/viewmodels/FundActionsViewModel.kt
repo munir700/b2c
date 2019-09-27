@@ -167,7 +167,7 @@ open class FundActionsViewModel(application: Application) :
 
 
     override fun buttonClickEvent(id: Int) {
-        if (state.checkValidity() == "") {
+        if (state.checkValidity("") == "") {
             clickEvent.postValue(id)
         } else {
             errorEvent.postValue(id)

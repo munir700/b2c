@@ -7,6 +7,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.location.Address
+import android.location.Geocoder
 import android.location.Location
 import android.util.Log
 import androidx.core.content.ContextCompat
@@ -62,6 +64,7 @@ class AddressSelectionViewModel(application: Application) :
         application.resources,
         R.drawable.location_place_holder
     )
+    lateinit var list: List<Address>
 
     override val repository: CardsRepository = CardsRepository
 
@@ -149,10 +152,39 @@ class AddressSelectionViewModel(application: Application) :
 
                 getDefaultLocationMap(mapDetailViewActivity)
             }
+
+            mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
+                override fun onMapClick(p0: LatLng?) {
+
+                    if (p0 != null) {
+                        mDefaultLocation = p0
+                    }
+
+                    var geocoder: Geocoder = Geocoder(getApplication())
+                    list = geocoder.getFromLocation(p0!!.latitude, p0!!.longitude, 1)
+                    var selectedAddress: Address = list.get(0)
+                    placeName = selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
+                    placeSubTitle = selectedAddress.getAddressLine(0)
+
+                    locationMarker!!.remove()
+                    locationMarker!!.isVisible = false
+                    setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
+                    locationMarker = mMap.addMarker(markerOptions)
+                    state.placeTitle = placeName
+                    state.placePhoto = BitmapFactory.decodeResource(
+                        context.resources,
+                        R.drawable.location_place_holder
+                    )
+                    state.placeSubTitle = placeSubTitle
+                }
+
+            })
+
         } else {
 
         }
     }
+
 
     override fun toggleMarkerVisibility() {
         if (!state.isMapOnScreen) {
@@ -206,14 +238,14 @@ class AddressSelectionViewModel(application: Application) :
 
     override fun handlePressOnNext(id: Int) {
 
-        mLastKnownLocation.latitude= mDefaultLocation.latitude
-        mLastKnownLocation.longitude= mDefaultLocation.longitude
+        mLastKnownLocation.latitude = mDefaultLocation.latitude
+        mLastKnownLocation.longitude = mDefaultLocation.longitude
 
-        if (state.isFromPhysicalCardsLayout){
+        if (state.isFromPhysicalCardsLayout) {
 //           start old fragment by taking address address
             clickEvent.setValue(id)
 
-        }else{
+        } else {
             requestOrderCard(id)
         }
     }
@@ -328,9 +360,15 @@ class AddressSelectionViewModel(application: Application) :
                             placeName = currentPlace.name!!
                             placeTitle = currentPlace.address!!
                             var currentAddress: String = currentPlace.address!!
-                            setUpMarker(markerLatLng!!, placeName, markerSnippet)
+                            locationMarker!!.remove()
+                            locationMarker!!.isVisible = false
+//                            setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
+                            setUpMarker(markerLatLng!!, "", "")
 
+                            //                    }
                             locationMarker = mMap.addMarker(markerOptions)
+
+//                            locationMarker = mMap.addMarker(markerOptions)
                             mMap.animateCamera(
                                 CameraUpdateFactory.newLatLngZoom(
                                     mDefaultLocation,

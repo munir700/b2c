@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import co.yap.BR
 import co.yap.R
@@ -66,7 +67,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 ExpandableLayout.State.COLLAPSED -> ivChevron.setImageResource(R.drawable.ic_chevron_down)
             }
         }
-
+        addListeners(navController)
     }
 
     // it should be done using data binding with observable field
@@ -118,4 +119,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         else super.onBackPressed()
     }
 
+    private fun addListeners(navController: NavController) {
+        bottomNav.setOnNavigationItemSelectedListener { item ->
+            onNavDestinationSelected(item, navController)
+            true
+        }
+        //Don't remove it not by mistake
+        bottomNav.setOnNavigationItemReselectedListener { }
+    }
 }
