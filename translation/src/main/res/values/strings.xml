@@ -291,7 +291,7 @@
     <string name="screen_add_funds_display_text_enter_amount">Enter the amount to Add</string>
     <string name="screen_add_funds_display_text_available_balance">Your available balance is</string>
     <string name="screen_payment_card_detail_text_secure">Secured by YAP</string>
-    <string name="screen_add_funds_display_text_available_balance_error">You can only add an amount less than or equal to your current balance of %1$s %2$s available on your main debit card</string>
+    <string name="screen_add_funds_display_text_available_balance_error">You can only top up an amount less than or equal to your current balance of %1$s %2$s available on your main debit card</string>
     <string name="screen_add_funds_display_text_max_limit_error">You cannot add an amount more than %1$s %2$s</string>
 
     <!--    Success funds transaction Screen-->
