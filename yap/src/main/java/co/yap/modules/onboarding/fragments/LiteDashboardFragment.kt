@@ -134,6 +134,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
     private fun doLogout() {
         AuthUtils.navigateToHardLogin(requireContext())
         MyUserManager.cardBalance.value = CardBalance()
+        MyUserManager.cards.value?.clear()
         activity?.finish()
     }
 
