@@ -40,6 +40,7 @@ open class ConfirmCardPinFragment : SetCardPinFragment() {
                     }
                 }
                 viewModel.EVENT_SET_CARD_PIN_SUCCESS ->  {
+                    // todo move all constants in yapcore
                     findNavController().navigate(R.id.action_confirmCardPinFragment_to_setCardPinSuccessFragment)
                     MyUserManager.user?.notificationStatuses = "CARD_ACTIVATED"
                 }

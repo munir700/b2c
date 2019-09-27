@@ -281,6 +281,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     override fun onResume() {
+
+        viewModel.state.enableAddCard.set(
+            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+        )
+
         if( co.yap.modules.dashboard.constants.Constants.isPinCreated){
             co.yap.modules.dashboard.constants.Constants.isPinCreated =false
             viewModel.state.cardList.get()?.clear()
