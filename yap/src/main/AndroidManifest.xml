@@ -92,6 +92,7 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.UpdateCardNameActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
         <activity
