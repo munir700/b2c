@@ -26,11 +26,12 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
         )
     }
+
     override fun getCards() {
-        if (state.cardList?.get().isNullOrEmpty()) {
+        if (MyUserManager.getCards() == null || MyUserManager.getCards()?.isEmpty()!!) {
             getCardsList()
         } else {
-            state.cardList.notifyChange()
+            manipulateList(MyUserManager.getCards()!!)
         }
     }
 
@@ -40,17 +41,27 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             state.loading = true
             when (val response = repository.getDebitCards("")) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.size != 0) {
-                        updateCardCount(response.data.data.size)
+                    if (response.data.data.isNotEmpty()) {
+
+                        MyUserManager.cards.value = response.data.data
+
                         if (state.enableAddCard.get())
-                            response.data.data.add(getAddCard())
-                        state.cardList.set(response.data.data)
+                            MyUserManager.cards.value?.add(getAddCard())
+
+                        manipulateList(MyUserManager.getCards()!!)
+
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
         }
+    }
+
+    private fun manipulateList(data: ArrayList<Card>) {
+        updateCardCount(data.size - 1)
+        state.cardList.set(data)
+        state.cardList.notifyChange()
     }
 
     override fun updateCardCount(size: Int) {
