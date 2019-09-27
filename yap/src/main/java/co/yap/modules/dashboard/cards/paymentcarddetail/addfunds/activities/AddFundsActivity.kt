@@ -155,6 +155,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
             .repeat(0)
             .playOn(ivCross)
         clBottom.children.forEach { it.alpha = 0f }
+        btnAction.alpha = 0f
         clRightData.children.forEach { it.alpha = 0f }
         Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 1500)
         runCardAnimation()
