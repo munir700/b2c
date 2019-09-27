@@ -279,6 +279,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     nameUpdated = true
                     viewModel.state.cardName = data?.getStringExtra("name").toString()
                     viewModel.card.cardName = viewModel.state.cardName
+                    viewModel.card.nameUpdated = true
                 }
             }
 
@@ -337,11 +338,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             tvCardType.text = "Primary card"
         } else {
-            if (viewModel.card.physical) {
-                tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
-            } else {
-                tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
-            }
+           if(viewModel.card.nameUpdated!!){
+               tvCardType.text = viewModel.card.cardName
+           }else{
+               if (viewModel.card.physical) {
+                   tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
+               } else {
+                   tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
+               }
+           }
         }
         btnClose.setOnClickListener {
             dialog.dismiss()
