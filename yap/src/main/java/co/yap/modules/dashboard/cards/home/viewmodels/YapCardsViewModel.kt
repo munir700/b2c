@@ -73,6 +73,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             physical = false,
             active = false,
             cardName = Constants.addCard,
+            nameUpdated = false,
             status = "ACTIVE",
             shipmentStatus = "SHIPPED",
             deliveryStatus = "BOOKED",

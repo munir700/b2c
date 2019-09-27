@@ -50,6 +50,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private var cardFreezeUnfreeze: Boolean = false
     private var cardRemoved: Boolean = false
     private var limitsUpdated: Boolean = false
+    private var nameUpdated: Boolean = false
 
     companion object {
         private const val CARD = "card"
@@ -275,6 +276,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         when (requestCode) {
             Constants.REQUEST_CARD_NAME_UPDATED -> {
                 if (resultCode == Activity.RESULT_OK) {
+                    nameUpdated = true
                     viewModel.state.cardName = data?.getStringExtra("name").toString()
                     viewModel.card.cardName = viewModel.state.cardName
                 }
@@ -352,10 +354,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupActionsIntent() {
 
-        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated) {
+        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated || nameUpdated) {
             val updateCard = viewModel.card
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
+            updateCard.nameUpdated = nameUpdated
 
             if (cardFreezeUnfreeze) {
                 if (viewModel.card.blocked)
