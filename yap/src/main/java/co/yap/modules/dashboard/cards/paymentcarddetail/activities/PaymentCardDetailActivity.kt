@@ -49,6 +49,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private var cardFreezeUnfreeze: Boolean = false
     private var cardRemoved: Boolean = false
+    private var limitsUpdated: Boolean = false
 
     companion object {
         private const val CARD = "card"
@@ -109,10 +110,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     )
                 }
                 R.id.llCardLimits -> {
-                    startActivity(
-                        CardLimitsActivity.getIntent(
-                            this, viewModel.card
-                        )
+                    startActivityForResult(
+                        CardLimitsActivity.getIntent(this, viewModel.card),
+                        Constants.REQUEST_SET_LIMITS
                     )
                 }
 
@@ -246,7 +246,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card))
             }
             Constants.EVENT_REPORT_CARD -> {
-                startActivityForResult(ReportLostOrStolenCardActivity.newIntent(this, viewModel.card),Constants.REQUEST_REPORT_LOST_OR_STOLEN)
+                startActivityForResult(
+                    ReportLostOrStolenCardActivity.newIntent(
+                        this,
+                        viewModel.card
+                    ), Constants.REQUEST_REPORT_LOST_OR_STOLEN
+                )
 
             }
             Constants.EVENT_REMOVE_CARD -> {
@@ -283,10 +288,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
             }
 
-            Constants.REQUEST_REPORT_LOST_OR_STOLEN-> {
+            Constants.REQUEST_REPORT_LOST_OR_STOLEN -> {
                 if (resultCode == Activity.RESULT_OK) {
                     setupCardBlockActionsIntent()
                     finish()
+                }
+            }
+            Constants.REQUEST_SET_LIMITS -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    limitsUpdated = true
+                    viewModel.card = data?.getParcelableExtra<Card>("card")!!
                 }
             }
         }
@@ -341,7 +352,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupActionsIntent() {
 
-        if (cardFreezeUnfreeze || cardRemoved) {
+        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated) {
             val updateCard = viewModel.card
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
@@ -361,9 +372,9 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     }
 
     private fun setupCardBlockActionsIntent() {
-            val returnIntent = Intent()
-            returnIntent.putExtra("cardBlocked", true)
-            setResult(Activity.RESULT_OK, returnIntent)
+        val returnIntent = Intent()
+        returnIntent.putExtra("cardBlocked", true)
+        setResult(Activity.RESULT_OK, returnIntent)
     }
 
     private fun showRemoveCardPopup() {

@@ -19,8 +19,10 @@ object Constants {
     const val REMOVE_FUNDS_PRODUCT_CODE: String = "P004"
 
 
+    var isPinCreated = false
     const val REQUEST_CARD_NAME_UPDATED: Int = 55
     const val REQUEST_ADD_REMOVE_FUNDS: Int = 56
     const val REQUEST_REPORT_LOST_OR_STOLEN: Int = 57
+    const val REQUEST_SET_LIMITS: Int = 58
 
 }

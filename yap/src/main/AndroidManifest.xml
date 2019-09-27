@@ -52,6 +52,14 @@
             <nav-graph android:value="@navigation/spare_cards_navigation" />
         </activity>
 
+
+        <activity
+            android:name=".modules.dashboard.more.activities.MoreActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <nav-graph android:value="@navigation/more_main_navigation" />
+        </activity>
+
         <activity
             android:name=".modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
             android:screenOrientation="portrait"

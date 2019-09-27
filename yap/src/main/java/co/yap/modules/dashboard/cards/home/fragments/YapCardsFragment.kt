@@ -133,7 +133,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                         CardDeliveryStatus.valueOf(it)
                                     }) {
                                         CardDeliveryStatus.SHIPPED -> {
-                                            openSetPinScreen(getCard(pos).cardSerialNumber)
+                                            openStatusScreen(view, pos)
                                         }
                                         else -> {
                                             openStatusScreen(view, pos)
@@ -278,6 +278,15 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 cardSerialNumber
             ), EVENT_CREATE_CARD_PIN
         )
+    }
+
+    override fun onResume() {
+        if( co.yap.modules.dashboard.constants.Constants.isPinCreated){
+            co.yap.modules.dashboard.constants.Constants.isPinCreated =false
+            viewModel.state.cardList.get()?.clear()
+            viewModel.getCards()
+        }
+        super.onResume()
     }
 
     fun getCard(pos: Int): Card {

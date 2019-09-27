@@ -167,10 +167,6 @@ class RemoveFundsActivity : AddFundsActivity() {
     }
 
     override fun onBackPressed() {
-        if (fundsRemoved) {
-            setupActionsIntent()
-        }
-        super.onBackPressed()
     }
 
     private fun setupActionsIntent() {

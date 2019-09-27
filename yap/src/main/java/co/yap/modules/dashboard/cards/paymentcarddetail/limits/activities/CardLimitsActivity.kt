@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.limits.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -44,10 +45,21 @@ class CardLimitsActivity : BaseBindingActivity<ICardLimits.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tbBtnBack -> {
-                    onBackPressed()
+                    setData()
+                    finish()
                 }
             }
         })
     }
 
+    override fun onBackPressed() {
+        setData()
+        super.onBackPressed()
+    }
+
+    private fun setData() {
+        val returnIntent = Intent()
+        returnIntent.putExtra("card", viewModel.state.card.get())
+        setResult(Activity.RESULT_OK, returnIntent)
+    }
 }

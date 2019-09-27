@@ -9,6 +9,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFun
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
@@ -163,17 +164,26 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.spareCardUpdatedBalance)
         }
 
-    fun checkValidity(): String {
+    fun checkValidity(type :String): String {
         if (amount != "") {
             if (amount?.toDouble()!! > availableBalance.toDouble()) {
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-                errorDescription = Translator.getString(
-                    context,
-                    Strings.screen_add_funds_display_text_available_balance_error,
-                    currencyType,
-                    availableBalance
-                )
+                if (Constants.TYPE_REMOVE_FUNDS == type) {
+                    errorDescription = Translator.getString(
+                        context,
+                        Strings.screen_remove_funds_display_text_available_balance_error,
+                        currencyType,
+                        availableBalance)
+
+                } else {
+                    errorDescription = Translator.getString(
+                        context,
+                        Strings.screen_add_funds_display_text_available_balance_error,
+                        currencyType,
+                        availableBalance
+                    )
+                }
                 return errorDescription
             } else if (amount?.toDouble()!! > maxLimit) {
                 amountBackground =
