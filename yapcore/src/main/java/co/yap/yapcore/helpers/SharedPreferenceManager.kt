@@ -38,7 +38,7 @@ class SharedPreferenceManager(val context: Context) {
     }
 
     fun getValueString(KEY_NAME: String): String? {
-        return sharedPref.getString(KEY_NAME, null)
+        return sharedPref.getString(KEY_NAME, "")
     }
 
     fun getValueInt(KEY_NAME: String): Int {
