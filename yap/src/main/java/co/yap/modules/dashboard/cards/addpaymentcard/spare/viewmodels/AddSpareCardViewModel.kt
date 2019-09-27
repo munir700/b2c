@@ -24,10 +24,10 @@ class AddSpareCardViewModel(application: Application) :
     AddPaymentChildViewModel<IAddSpareCard.State>(application), IAddSpareCard.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
-    override val CONFIRM_VIRTUAL_PURCHASE: Int=3000
+    override val CONFIRM_VIRTUAL_PURCHASE: Int = 3000
 
-    override val CONFIRM_PHYSICAL_PURCHASE: Int=2000
-    override var isFromBlockCardScreen: Boolean= false
+    override val CONFIRM_PHYSICAL_PURCHASE: Int = 2000
+    override var isFromBlockCardScreen: Boolean = false
     override var latitude: String = ""
     override var longitude: String = ""
     override lateinit var address: Address
@@ -83,19 +83,21 @@ class AddSpareCardViewModel(application: Application) :
 
     }
 
-   override fun requestInitialData() {
+    override fun requestInitialData() {
         if (!sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE).isNullOrEmpty() && !sharedPreferenceManager.getValueString(
                 SharedPreferenceManager.KEY_AVAILABLE_BALANCE
             ).equals("AVAILABLE_BALANCE")
         ) {
-            availableBalance =
-                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE) as String
+            state.avaialableCardBalance =
+                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
+                    .toString()
             if (isFromBlockCardScreen) {
                 state.loading = true
                 requestGetAddressForPhysicalCard()
             }
         } else {
             requestGetAccountBalanceRequest()
+
         }
     }
 
@@ -103,7 +105,7 @@ class AddSpareCardViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_spare_card_landing_display_text_title))
-         state.onChangeLocationClick = false
+        state.onChangeLocationClick = false
         toggleToolBarVisibility(true)
 
     }
@@ -134,11 +136,15 @@ class AddSpareCardViewModel(application: Application) :
 
                     sharedPreferenceManager.save(
                         SharedPreferenceManager.KEY_AVAILABLE_BALANCE,
-                        response.data.data.currencyCode.toString() + " " + Utils.getFormattedCurrency(response.data.data.availableBalance.toString())
+                        response.data.data.currencyCode.toString() + " " + Utils.getFormattedCurrency(
+                            response.data.data.availableBalance.toString()
+                        )
                     )
 
                     state.avaialableCardBalance =
-                        response.data.data.currencyCode.toString() + " " + Utils.getFormattedCurrency(response.data.data.availableBalance.toString())
+                        response.data.data.currencyCode.toString() + " " + Utils.getFormattedCurrency(
+                            response.data.data.availableBalance.toString()
+                        )
                     if (!cardType.isNullOrEmpty() && !cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
                         requestGetAddressForPhysicalCard()
                     } else {
@@ -158,7 +164,7 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
-                AddVirtualSpareCardRequest(MyUserManager.user?.customer?.firstName +" "+MyUserManager.user?.customer?.lastName)
+                AddVirtualSpareCardRequest(MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName)
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(ADD_VIRTUAL_SPARE_CLICK_EVENT)
@@ -177,11 +183,11 @@ class AddSpareCardViewModel(application: Application) :
     override fun requestAddSparePhysicalCard() {
         val addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest =
             AddPhysicalSpareCardRequest(
-                MyUserManager.user?.customer?.firstName +" "+MyUserManager.user?.customer?.lastName,
+                MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName,
                 address.latitude.toString(),
                 address.longitude.toString(),
-               "Address 1"
-               // address.address1
+                "Address 1"
+                // address.address1
             )
 
         launch {
@@ -194,8 +200,9 @@ class AddSpareCardViewModel(application: Application) :
                     clickEvent.setValue(ADD_PHYSICAL_SPARE_CLICK_EVENT)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toggleVisibility =  false
-                    state.toast = response.error.message}
+                    state.toggleVisibility = false
+                    state.toast = response.error.message
+                }
             }
             state.loading = false
 
