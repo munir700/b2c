@@ -86,8 +86,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_normal_large"
                 android:gravity="center"
-                android:visibility="@{viewModel.state.physicalCardAddressButtonsVisibility}"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="@{viewModel.state.physicalCardAddressButtonsVisibility}">
 
                 <TextView
                     style="@style/MicroGrey"
@@ -109,8 +109,8 @@
                 android:layout_marginTop="@dimen/margin_small"
                 android:layout_marginRight="@dimen/margin_medium"
                 android:background="@drawable/card_border_container"
-                android:gravity="top"
                 android:clickable="false"
+                android:gravity="top"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingTop="@dimen/margin_large"
@@ -158,18 +158,18 @@
                             android:layout_height="wrap_content"
                             android:gravity="start"
                             android:singleLine="true"
-                            android:textSize="@dimen/text_size_h2"
-                            android:text="@{viewModel.state.physicalCardAddressTitle}" />
+                            android:text="@{viewModel.state.physicalCardAddressTitle}"
+                            android:textSize="@dimen/text_size_h2" />
 
                         <TextView
                             android:id="@+id/tvPhysicalCardLocationSubTitle"
                             style="@style/RegularGrey"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:singleLine="true"
-                            android:textSize="@dimen/text_size_h2"
                             android:gravity="start"
-                            android:text="@{viewModel.state.physicalCardAddressSubTitle}" />
+                            android:singleLine="true"
+                            android:text="@{viewModel.state.physicalCardAddressSubTitle}"
+                            android:textSize="@dimen/text_size_h2" />
 
                     </LinearLayout>
 
@@ -180,7 +180,7 @@
                         android:layout_gravity="center_vertical"
                         android:src="@drawable/ic_check"
                         android:tint="@color/colorPrimary"
-                        android:visibility="@{viewModel.state.physicalCardAddressCheckVisibility}"/>
+                        android:visibility="@{viewModel.state.physicalCardAddressCheckVisibility}" />
 
 
                 </LinearLayout>
@@ -190,8 +190,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:orientation="horizontal"
                     android:layout_marginTop="@dimen/margin_small"
+                    android:orientation="horizontal"
                     android:paddingLeft="@dimen/margin_medium"
                     android:paddingRight="@dimen/margin_small"
                     android:visibility="@{viewModel.state.physicalCardAddressButtonsVisibility}">
@@ -204,10 +204,10 @@
                         android:layout_marginTop="@dimen/margin_extra_small"
                         android:layout_marginRight="@dimen/margin_small"
                         android:gravity="start"
-                        tools:text="@string/screen_add_spare_card_button_change_location"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_c3"
-                        app:text="@{Strings.screen_add_spare_card_button_change_location}" />
+                        app:text="@{Strings.screen_add_spare_card_button_change_location}"
+                        tools:text="@string/screen_add_spare_card_button_change_location" />
 
                     <co.yap.widgets.CoreButton
                         android:id="@+id/btnConfirm"
@@ -220,12 +220,14 @@
                         android:paddingTop="0dp"
                         android:paddingRight="0dp"
                         android:paddingBottom="0dp"
-                        tools:text="@string/screen_add_spare_card_button_confirm_location"
                         android:textColor="@color/white"
+                        app:btn_enable="false"
                         app:btn_has_bold_text="false"
+                        app:enableCoreButton="@{viewModel.state.enableConfirmLocation}"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.366"
-                        app:text="@{Strings.screen_add_spare_card_button_confirm_location}" />
+                        app:text="@{Strings.screen_add_spare_card_button_confirm_location}"
+                        tools:text="@string/screen_add_spare_card_button_confirm_location" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -241,13 +243,13 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnConfirmPhysicalCardPurchase(v.id)}"
                 android:text="@string/screen_add_spare_card_button_confirm_purchase"
                 android:textAllCaps="false"
+                android:visibility="@{viewModel.state.physicalCardAddressCheckVisibility}"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
-                app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}"
-                android:visibility="@{viewModel.state.physicalCardAddressCheckVisibility}"/>
+                app:text="@{Strings.screen_add_spare_card_button_confirm_purchase}" />
 
         </LinearLayout>
     </LinearLayout>
