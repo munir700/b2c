@@ -21,8 +21,10 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSp
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 
@@ -73,6 +75,15 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             when (it) {
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
+                    val availableBalance =
+                        MyUserManager.cardBalance.value?.availableBalance?.toDouble()
+                    val physicalCardFee =
+                        viewModel.state.physicalCardFee.replace("AED ", "").replace(",","").toDouble()
+                    val updatedCardBalance =
+                        (availableBalance?.minus(physicalCardFee))
+
+                    MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
+
                     if (!viewModel.isFromBlockCardScreen) {
                         (activity as AddPaymentCardActivity).hideToolbar()
                     }
@@ -81,6 +92,16 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
+
+                    val availableBalance =
+                        MyUserManager.cardBalance.value?.availableBalance?.toDouble()
+                    val virtualCardFee =
+                        viewModel.state.virtualCardFee.replace("AED ", "").replace(",","").toDouble()
+                    val updatedCardBalance =
+                        (availableBalance?.minus(virtualCardFee))
+
+                    MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
+
                     if (!viewModel.isFromBlockCardScreen) {
                         (activity as AddPaymentCardActivity).hideToolbar()
                     }
