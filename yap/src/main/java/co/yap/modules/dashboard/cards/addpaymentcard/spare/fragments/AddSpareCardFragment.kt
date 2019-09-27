@@ -185,6 +185,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         } as String
         if (!physicalCardAddressTitle.isNullOrEmpty()) {
             viewModel.state.physicalCardAddressSubTitle = physicalCardAddressTitle
+            viewModel.state.enableConfirmLocation=true
         }
         val physicalCardAddressSubTitle = arguments?.let {
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressSubTitle
@@ -193,6 +194,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         if (!physicalCardAddressSubTitle.isNullOrEmpty() && !physicalCardAddressSubTitle.equals(" ")) {
             viewModel.state.physicalCardAddressTitle = physicalCardAddressSubTitle
             viewModel.isFromaddressScreen = true
+            viewModel.state.enableConfirmLocation=true
         }
         //
 

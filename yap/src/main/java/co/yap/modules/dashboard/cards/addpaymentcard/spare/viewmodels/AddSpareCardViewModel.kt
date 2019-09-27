@@ -217,8 +217,10 @@ class AddSpareCardViewModel(application: Application) :
                         state.physicalCardAddressTitle = address.address1!!
                         if (!address.address2.isNullOrEmpty()) {
                             state.physicalCardAddressSubTitle = address.address2!!
+                            state.enableConfirmLocation=true
                         } else {
                             state.physicalCardAddressSubTitle = " "
+                            state.enableConfirmLocation=false
                         }
                     }
 
