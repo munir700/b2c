@@ -201,7 +201,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
 
     private fun cardAnimation(): AnimatorSet {
-        val checkBtnEndPosition = (windowSize.width() / 3) - (ivCustomCard.width / 2)
+        val checkBtnEndPosition = (cardInfoLayout.measuredWidth / 2) - (ivCustomCard.width / 2)
         return AnimationUtils.runSequentially(
             AnimationUtils.slideHorizontal(
                 view = ivCustomCard,
