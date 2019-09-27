@@ -316,14 +316,32 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
         val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
         val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
-        tvCardNumber.text = viewModel.cardDetail.cardNumber
         tvCardValidity.text = viewModel.cardDetail.expiryDate
         tvCvvV.text = viewModel.cardDetail.cvv
+
+
+        if (null!=viewModel.cardDetail.cardNumber) {
+            if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
+                tvCardNumber.text = viewModel.cardDetail.cardNumber
+            } else {
+                if (viewModel.cardDetail.cardNumber?.length==16) {
+                    val formattedCardNumber: StringBuilder = StringBuilder(viewModel.cardDetail.cardNumber)
+                    formattedCardNumber.insert(4, " ")
+                    formattedCardNumber.insert(9, " ")
+                    formattedCardNumber.insert(14, " ")
+                    tvCardNumber.text = formattedCardNumber
+                }
+            }
+        }
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             tvCardType.text = "Primary card"
         } else {
-            tvCardType.text = "Spare card"
+            if (viewModel.card.physical) {
+                tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
+            } else {
+                tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
+            }
         }
         btnClose.setOnClickListener {
             dialog.dismiss()
