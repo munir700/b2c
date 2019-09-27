@@ -45,7 +45,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     private val windowSize: Rect = Rect()
     var card: Card? = null
     private lateinit var updatedSpareCardBalance: String
-    private var fundsAdded : Boolean = false
+    private var fundsAdded: Boolean = false
+
     companion object {
         private const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
@@ -67,13 +68,25 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         val display = this.windowManager.defaultDisplay
         display.getRectSize(windowSize)
         clBottomNew.children.forEach { it.alpha = 0f }
-        etAmount.filters = arrayOf<InputFilter>(
-            DecimalDigitsInputFilter(2)
-        )
+        etAmount.filters =
+            arrayOf<InputFilter>(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
         setObservers()
         setupData()
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
+        })
+
+        viewModel.firstDenominationClickEvent.observe(this, Observer {
+            hideKeyboard()
+            etAmount.clearFocus()
+        })
+        viewModel.secondDenominationClickEvent.observe(this, Observer {
+            hideKeyboard()
+            etAmount.clearFocus()
+        })
+        viewModel.thirdDenominationClickEvent.observe(this, Observer {
+            hideKeyboard()
+            etAmount.clearFocus()
         })
     }
 
@@ -83,7 +96,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                     viewModel.addFunds()
                 } else {
-                    if(fundsAdded){
+                    if (fundsAdded) {
                         setupActionsIntent()
                     }
                     this.finish()
@@ -112,9 +125,9 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.cardSerialNumber = card!!.cardSerialNumber
 
         if (Constants.CARD_TYPE_PREPAID == card?.cardType) {
-            if(card?.physical!!){
+            if (card?.physical!!) {
                 viewModel.state.cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-            }else{
+            } else {
                 viewModel.state.cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
             }
         }
@@ -123,7 +136,9 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.state.availableBalance =
             MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(viewModel.state.availableBalance)
+            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
+                viewModel.state.availableBalance
+            )
     }
 
     private fun showErrorSnackBar() {
@@ -185,7 +200,10 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
 
     private fun cardAnimation(): AnimatorSet {
-        val checkBtnEndPosition = (windowSize.width() / 3) - (ivCustomCard.width / 2)
+        val paddingDp = 24
+        val density = resources.displayMetrics.density
+        val paddingPixel = (paddingDp * density).toInt()
+        val checkBtnEndPosition = (windowSize.width() / 2.27) - (ivCustomCard.width)
         return AnimationUtils.runSequentially(
             AnimationUtils.slideHorizontal(
                 view = ivCustomCard,
@@ -210,20 +228,20 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 Utils.getFormattedCurrency(viewModel.state.amount)
             )
 
-        val  fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
 
-        val separated = viewModel.state.topUpSuccess.split( viewModel.state.currencyType)
+        val separated = viewModel.state.topUpSuccess.split(viewModel.state.currencyType)
         val str = SpannableStringBuilder(viewModel.state.topUpSuccess)
 
         str.setSpan(
             fcs,
             separated[0].length,
-            separated[0].length+ viewModel.state.currencyType.length+ Utils.getFormattedCurrency(
+            separated[0].length + viewModel.state.currencyType.length + Utils.getFormattedCurrency(
                 viewModel.state.amount
-            ).length +1,
+            ).length + 1,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        tvTopUp.text =str
+        tvTopUp.text = str
 
         val updatedCardBalance: String =
             (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
@@ -235,7 +253,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
             )
 
-        val separatedPrimary = viewModel.state.primaryCardUpdatedBalance.split( viewModel.state.currencyType)
+        val separatedPrimary =
+            viewModel.state.primaryCardUpdatedBalance.split(viewModel.state.currencyType)
         val primaryStr = SpannableStringBuilder(viewModel.state.primaryCardUpdatedBalance)
 
         primaryStr.setSpan(
@@ -255,7 +274,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 Utils.getFormattedCurrency(updatedSpareCardBalance)
             )
 
-        val separatedSpare= viewModel.state.spareCardUpdatedBalance.split( viewModel.state.currencyType)
+        val separatedSpare =
+            viewModel.state.spareCardUpdatedBalance.split(viewModel.state.currencyType)
         val spareStr = SpannableStringBuilder(viewModel.state.spareCardUpdatedBalance)
 
         spareStr.setSpan(
@@ -268,7 +288,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     override fun onBackPressed() {
-        if(fundsAdded){
+        if (fundsAdded) {
             setupActionsIntent()
         }
         super.onBackPressed()

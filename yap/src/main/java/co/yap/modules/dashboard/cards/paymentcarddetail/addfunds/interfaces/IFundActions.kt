@@ -24,6 +24,10 @@ interface IFundActions {
         fun getFundTransferDenominations(productCode: String)
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
+        val firstDenominationClickEvent:SingleClickEvent
+        val secondDenominationClickEvent:SingleClickEvent
+        val thirdDenominationClickEvent:SingleClickEvent
+
         var error: String
         var cardSerialNumber: String
     }

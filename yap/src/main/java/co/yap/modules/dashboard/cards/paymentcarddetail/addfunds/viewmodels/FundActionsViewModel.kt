@@ -19,6 +19,9 @@ open class FundActionsViewModel(application: Application) :
     override val state: FundActionsState = FundActionsState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
+    override val firstDenominationClickEvent: SingleClickEvent = SingleClickEvent()
+    override val secondDenominationClickEvent: SingleClickEvent = SingleClickEvent()
+    override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
 
@@ -32,7 +35,7 @@ open class FundActionsViewModel(application: Application) :
                     ""
                 )
             )
-        }else if (state.denominationFirstAmount.contains("-")){
+        } else if (state.denominationFirstAmount.contains("-")) {
             state.amount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationFirstAmount.replace(
                     "-",
@@ -40,6 +43,7 @@ open class FundActionsViewModel(application: Application) :
                 )
             )
         }
+        firstDenominationClickEvent.call()
     }
 
     override fun denominationSecondAmount() {
@@ -51,7 +55,7 @@ open class FundActionsViewModel(application: Application) :
                     ""
                 )
             )
-        }else if (state.denominationSecondAmount.contains("-")){
+        } else if (state.denominationSecondAmount.contains("-")) {
             state.amount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationSecondAmount.replace(
                     "-",
@@ -59,7 +63,26 @@ open class FundActionsViewModel(application: Application) :
                 )
             )
         }
-
+        secondDenominationClickEvent.call()
+    }
+    override fun denominationThirdAmount() {
+        state.amount = ""
+        if (state.denominationThirdAmount.contains("+")) {
+            state.amount = Utils.getFormattedCurrencyWithoutComma(
+                state.denominationThirdAmount.replace(
+                    "+",
+                    ""
+                )
+            )
+        } else if (state.denominationThirdAmount.contains("-")) {
+            state.amount = Utils.getFormattedCurrencyWithoutComma(
+                state.denominationThirdAmount.replace(
+                    "-",
+                    ""
+                )
+            )
+        }
+        thirdDenominationClickEvent.call()
     }
 
     override fun addFunds() {
@@ -105,7 +128,7 @@ open class FundActionsViewModel(application: Application) :
 
     override fun getFundTransferLimits(productCode: String) {
         launch {
-//            state.loading = true
+            //            state.loading = true
             when (val response = transactionsRepository.getFundTransferLimits(productCode)) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data.maxLimit.toDouble()
@@ -139,25 +162,6 @@ open class FundActionsViewModel(application: Application) :
                 }
             }
             state.loading = false
-        }
-    }
-
-    override fun denominationThirdAmount() {
-        state.amount = ""
-        if (state.denominationThirdAmount.contains("+")) {
-            state.amount = Utils.getFormattedCurrencyWithoutComma(
-                state.denominationThirdAmount.replace(
-                    "+",
-                    ""
-                )
-            )
-        }else if (state.denominationThirdAmount.contains("-")){
-            state.amount = Utils.getFormattedCurrencyWithoutComma(
-                state.denominationThirdAmount.replace(
-                    "-",
-                    ""
-                )
-            )
         }
     }
 
