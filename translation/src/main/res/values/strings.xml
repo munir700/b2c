@@ -366,4 +366,23 @@
     <string name="screen_card_statement_display_text_title">Card statements</string>
 
 
+    <!--   Profile Settings screen-->
+    <string name="screen_profile_settings_display_text_title">Settings</string>
+    <string name="screen_profile_settings_display_text_profile">Profile</string>
+    <string name="screen_profile_settings_display_text_personal_detail">Personal details</string>
+    <string name="screen_profile_settings_display_text_view">View</string>
+    <string name="screen_profile_settings_display_text_security">Security</string>
+    <string name="screen_profile_settings_display_text_privacy">Privacy</string>
+    <string name="screen_profile_settings_display_text_passcode">Passcode</string>
+    <string name="screen_profile_settings_display_text_app_notifications">App notifications</string>
+    <string name="screen_profile_settings_display_text_about_us">About us</string>
+    <string name="screen_profile_settings_display_terms_and_conditions">Terms and conditions</string>
+    <string name="screen_profile_settings_display_text_instagram">Instagram</string>
+    <string name="screen_profile_settings_display_text_twitter">Twitter</string>
+    <string name="screen_profile_settings_display_text_facebook">Facebook</string>
+    <string name="screen_profile_settings_display_text_follow_us">Follow us</string>
+    <string name="screen_profile_settings_display_text_like_us">Like us</string>
+    <string name="screen_profile_settings_display_text_logout">Log out</string>
+
+
 </resources>

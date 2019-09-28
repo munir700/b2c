@@ -595,4 +595,68 @@ object Strings {
     const val screen_card_statement_display_text_title: String =
         "screen_card_statement_display_text_title"
 
+
+    //Profile Settings screen
+    const val screen_profile_settings_display_text_title: String =
+        "screen_profile_settings_display_text_title"
+
+    const val screen_profile_settings_display_text_profile: String =
+        "screen_profile_settings_display_text_profile"
+
+
+    const val screen_profile_settings_display_text_personal_detail: String =
+        "screen_profile_settings_display_text_personal_detail"
+
+
+    const val screen_profile_settings_display_text_view: String =
+        "screen_profile_settings_display_text_view"
+
+
+    const val screen_profile_settings_display_text_security: String =
+        "screen_profile_settings_display_text_security"
+
+
+    const val screen_profile_settings_display_text_privacy: String =
+        "screen_profile_settings_display_text_privacy"
+
+
+    const val screen_profile_settings_display_text_passcode: String =
+        "screen_profile_settings_display_text_passcode"
+
+
+    const val screen_profile_settings_display_text_app_notifications: String =
+        "screen_profile_settings_display_text_app_notifications"
+
+
+    const val screen_profile_settings_display_text_about_us: String =
+        "screen_profile_settings_display_text_about_us"
+
+
+    const val screen_profile_settings_display_terms_and_conditions: String =
+        "screen_profile_settings_display_terms_and_conditions"
+
+
+    const val screen_profile_settings_display_text_instagram: String =
+        "screen_profile_settings_display_text_instagram"
+
+
+    const val screen_profile_settings_display_text_twitter: String =
+        "screen_profile_settings_display_text_twitter"
+
+
+    const val screen_profile_settings_display_text_facebook: String =
+        "screen_profile_settings_display_text_facebook"
+
+
+    const val screen_profile_settings_display_text_follow_us: String =
+        "screen_profile_settings_display_text_follow_us"
+
+
+    const val screen_profile_settings_display_text_like_us: String =
+        "screen_profile_settings_display_text_like_us"
+
+
+    const val screen_profile_settings_display_text_logout: String =
+        "screen_profile_settings_display_text_logout"
+
 }
