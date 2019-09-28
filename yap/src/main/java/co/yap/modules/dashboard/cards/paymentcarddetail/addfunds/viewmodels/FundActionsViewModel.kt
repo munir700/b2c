@@ -27,16 +27,16 @@ open class FundActionsViewModel(application: Application) :
 
 
     override fun denominationFirstAmountClick() {
-        state.amount = ""
+//        state.amount = ""
         if (state.denominationFirstAmount.contains("+")) {
-            state.amount = Utils.getFormattedCurrencyWithoutComma(
+            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationFirstAmount.replace(
                     "+",
                     ""
                 )
             )
         } else if (state.denominationFirstAmount.contains("-")) {
-            state.amount = Utils.getFormattedCurrencyWithoutComma(
+            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationFirstAmount.replace(
                     "-",
                     ""
@@ -47,16 +47,17 @@ open class FundActionsViewModel(application: Application) :
     }
 
     override fun denominationSecondAmount() {
-        state.amount = ""
+//        state.amount = ""
+        state.denominationAmount = ""
         if (state.denominationSecondAmount.contains("+")) {
-            state.amount = Utils.getFormattedCurrencyWithoutComma(
+            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationSecondAmount.replace(
                     "+",
                     ""
                 )
             )
         } else if (state.denominationSecondAmount.contains("-")) {
-            state.amount = Utils.getFormattedCurrencyWithoutComma(
+            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationSecondAmount.replace(
                     "-",
                     ""
@@ -66,16 +67,16 @@ open class FundActionsViewModel(application: Application) :
         secondDenominationClickEvent.call()
     }
     override fun denominationThirdAmount() {
-        state.amount = ""
+//        state.amount = ""
         if (state.denominationThirdAmount.contains("+")) {
-            state.amount = Utils.getFormattedCurrencyWithoutComma(
+            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationThirdAmount.replace(
                     "+",
                     ""
                 )
             )
         } else if (state.denominationThirdAmount.contains("-")) {
-            state.amount = Utils.getFormattedCurrencyWithoutComma(
+            state.denominationAmount = Utils.getFormattedCurrencyWithoutComma(
                 state.denominationThirdAmount.replace(
                     "-",
                     ""

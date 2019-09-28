@@ -47,14 +47,26 @@ class RemoveFundsActivity : AddFundsActivity() {
         setupData()
         viewModel.firstDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
+            etAmount.setText("")
+            etAmount.append(viewModel.state.denominationAmount)
+            val position=etAmount.length()
+            etAmount.setSelection(position)
             etAmount.clearFocus()
         })
         viewModel.secondDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
+            etAmount.setText("")
+            etAmount.append(viewModel.state.denominationAmount)
+            val position=etAmount.length()
+            etAmount.setSelection(position)
             etAmount.clearFocus()
         })
         viewModel.thirdDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
+            etAmount.setText("")
+            etAmount.append(viewModel.state.denominationAmount)
+            val position=etAmount.length()
+            etAmount.setSelection(position)
             etAmount.clearFocus()
         })
     }
