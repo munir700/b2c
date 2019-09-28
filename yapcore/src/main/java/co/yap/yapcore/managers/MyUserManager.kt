@@ -9,9 +9,4 @@ object MyUserManager {
     var user: AccountInfo? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var cards: MutableLiveData<ArrayList<Card>> = MutableLiveData()
-
-
-    fun getCards(): ArrayList<Card>? {
-        return cards.value
-    }
 }
