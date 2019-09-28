@@ -83,7 +83,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                //Log.d("adapter click ", " position ${pos}")
                 viewModel.clickEvent.setPayload(
                     SingleClickEvent.AdaptorPayLoadHolder(
                         view,
@@ -94,18 +93,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 viewModel.clickEvent.setValue(view.id)
             }
         })
-
-
-//        var mLastClickTime = 0L
-//        adapter.setItemListener(object : OnItemClickListener {
-//            override fun onItemClick(view: View, data: Any, pos: Int) {
-//                if (SystemClock.elapsedRealtime() - mLastClickTime < 600) {
-//                    return
-//                }
-//                mLastClickTime = SystemClock.elapsedRealtime()
-//
-//            }
-//        })
     }
 
     val observer = Observer<Int> {
@@ -210,10 +197,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         adapter.removeItemAt(selectedCardPosition)
                         adapter.notifyDataSetChanged()
                         updateCardCount()
-                    } else if(cardBlocked!!){
+                    } else if (cardBlocked!!) {
                         viewModel.state.cardList.get()?.clear()
                         viewModel.getCards()
-                    }else {
+                    } else {
                         adapter.setItemAt(selectedCardPosition, updatedCard!!)
                     }
                 }
@@ -249,7 +236,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
 
-    fun openDetailScreen(pos: Int) {
+    private fun openDetailScreen(pos: Int) {
         selectedCardPosition = pos
         startActivityForResult(
             PaymentCardDetailActivity.newIntent(
@@ -259,14 +246,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    fun openAddCard() {
+    private fun openAddCard() {
         startActivityForResult(
             AddPaymentCardActivity.newIntent(requireContext()),
             EVENT_CARD_ADDED
         )
     }
 
-    fun openStatusScreen(view: View, pos: Int) {
+    private fun openStatusScreen(view: View, pos: Int) {
         view.findNavController().navigate(
             YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
                 getCard(pos)
@@ -274,7 +261,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    fun openSetPinScreen(cardSerialNumber: String) {
+    private fun openSetPinScreen(cardSerialNumber: String) {
         startActivityForResult(
             SetCardPinWelcomeActivity.newIntent(
                 requireContext(),
@@ -284,21 +271,26 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     override fun onResume() {
-        if( co.yap.modules.dashboard.constants.Constants.isPinCreated){
-            co.yap.modules.dashboard.constants.Constants.isPinCreated =false
+        if (co.yap.modules.dashboard.constants.Constants.isPinCreated) {
+            co.yap.modules.dashboard.constants.Constants.isPinCreated = false
             viewModel.state.cardList.get()?.clear()
             viewModel.getCards()
         }
         super.onResume()
     }
 
-    fun getCard(pos: Int): Card {
+    private fun getCard(pos: Int): Card {
         return adapter.getDataForPosition(pos)
+    }
+
+    override fun onDestroyView() {
+        MyUserManager.cards.value = adapter.getDataList() as ArrayList<Card>
+        super.onDestroyView()
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-
     }
+
 }

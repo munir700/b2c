@@ -11,6 +11,7 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import okhttp3.internal.Util
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
 
@@ -174,14 +175,14 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                         context,
                         Strings.screen_remove_funds_display_text_available_balance_error,
                         currencyType,
-                        availableBalance)
+                        Utils.getFormattedCurrency(availableBalance))
 
                 } else {
                     errorDescription = Translator.getString(
                         context,
                         Strings.screen_add_funds_display_text_available_balance_error,
                         currencyType,
-                        availableBalance
+                        Utils.getFormattedCurrency(availableBalance)
                     )
                 }
                 return errorDescription

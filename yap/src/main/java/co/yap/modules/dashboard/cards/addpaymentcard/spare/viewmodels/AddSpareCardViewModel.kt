@@ -186,8 +186,7 @@ class AddSpareCardViewModel(application: Application) :
                 MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName,
                 address.latitude.toString(),
                 address.longitude.toString(),
-                "Address 1"
-                // address.address1
+                address.address1
             )
 
         launch {
@@ -216,6 +215,9 @@ class AddSpareCardViewModel(application: Application) :
                     if (null != response.data.data) {
                         address = response.data.data
                         state.physicalCardAddressTitle = address.address1!!
+
+                        state.enableConfirmLocation = !address.address1.isNullOrEmpty()
+
                         if (!address.address2.isNullOrEmpty()) {
                             state.physicalCardAddressSubTitle = address.address2!!
                         } else {

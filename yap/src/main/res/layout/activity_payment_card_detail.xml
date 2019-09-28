@@ -314,7 +314,7 @@
                                 android:id="@+id/llCardLimits"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_medium"
+                                android:layout_marginStart="@dimen/margin_large"
                                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                                 android:orientation="vertical">
 
@@ -387,16 +387,21 @@
                             <TextView
                                 android:id="@+id/tvTitle"
                                 style="@style/Regular"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:gravity="center"
+                                android:layout_marginStart="@dimen/margin_extra_large"
+                                android:layout_marginEnd="@dimen/margin_extra_large"
                                 android:text="@={viewModel.state.cardName}"
+                                android:ellipsize="end"
+                                android:maxLines="1"
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
-                                tools:text="Spare Card" />
+
+                                tools:text="Spare card acaads ads ada sdasd asd assd a" />
 
                         </androidx.constraintlayout.widget.ConstraintLayout>
                         <include
