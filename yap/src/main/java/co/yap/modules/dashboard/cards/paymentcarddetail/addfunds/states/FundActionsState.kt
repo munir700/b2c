@@ -101,6 +101,15 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             clearError()
         }
     @get:Bindable
+    override var denominationAmount: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.denominationAmount)
+            clearError()
+        }
+
+
+    @get:Bindable
     override var valid: Boolean = false
         set(value) {
             field = value
@@ -165,7 +174,7 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.spareCardUpdatedBalance)
         }
 
-    fun checkValidity(type :String): String {
+    fun checkValidity(type: String): String {
         if (amount != "") {
             if (amount?.toDouble()!! > availableBalance.toDouble()) {
                 amountBackground =
@@ -175,7 +184,8 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                         context,
                         Strings.screen_remove_funds_display_text_available_balance_error,
                         currencyType,
-                        Utils.getFormattedCurrency(availableBalance))
+                        Utils.getFormattedCurrency(availableBalance)
+                    )
 
                 } else {
                     errorDescription = Translator.getString(
@@ -213,8 +223,8 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
             }
-        }else if (amount==""){
-            valid=false
+        } else if (amount == "") {
+            valid = false
         }
     }
 }
