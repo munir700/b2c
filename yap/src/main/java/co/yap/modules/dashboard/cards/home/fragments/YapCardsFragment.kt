@@ -51,8 +51,29 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupPager()
-        viewModel.getCards()
+        if (MyUserManager.cards.value == null || MyUserManager.cards.value!!.isEmpty()) {
+            viewModel.getCards()
+        } else {
+            setupList()
+        }
+
+        viewModel.state.listUpdated.observe(this, Observer {
+            if (it)
+                setupList()
+        })
+    }
+
+    private fun setupList() {
+        if (viewModel.state.enableAddCard.get())
+            MyUserManager.cards.value?.add(getAddCard())
+        adapter.setList(MyUserManager.cards.value!!)
+        updateCardCount()
+    }
+
+    private fun updateCardCount() {
+        viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
 
     private fun setupPager() {
@@ -198,7 +219,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         adapter.notifyDataSetChanged()
                         updateCardCount()
                     } else if (cardBlocked!!) {
-                        viewModel.state.cardList.get()?.clear()
+                        adapter.removeAllItems()
                         viewModel.getCards()
                     } else {
                         adapter.setItemAt(selectedCardPosition, updatedCard!!)
@@ -210,7 +231,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard: Boolean? = data?.getBooleanExtra("cardAdded", false)
                     if (updatedCard!!) {
-                        viewModel.state.cardList.get()?.clear()
+                        adapter.removeAllItems()
                         viewModel.getCards()
                     }
                 }
@@ -224,16 +245,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         viewModel.state.enableAddCard.set(
                             MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
                         )
-                        viewModel.state.cardList.get()?.clear()
+                        adapter.removeAllItems()
                         viewModel.getCards()
                     }
                 }
             }
         }
-    }
-
-    private fun updateCardCount() {
-        viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
 
     private fun openDetailScreen(pos: Int) {
@@ -273,7 +290,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     override fun onResume() {
         if (co.yap.modules.dashboard.constants.Constants.isPinCreated) {
             co.yap.modules.dashboard.constants.Constants.isPinCreated = false
-            viewModel.state.cardList.get()?.clear()
+            adapter.removeAllItems()
             viewModel.getCards()
         }
         super.onResume()
@@ -284,13 +301,54 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     override fun onDestroyView() {
-        MyUserManager.cards.value = adapter.getDataList() as ArrayList<Card>
+        if (viewModel.state.enableAddCard.get()) {
+            val list = adapter.getDataList() as ArrayList<Card>
+            list.removeAt(list.size - 1)
+            MyUserManager.cards.value = list
+        } else {
+            MyUserManager.cards.value = adapter.getDataList() as ArrayList<Card>
+        }
+
         super.onDestroyView()
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+    }
+
+    private fun getAddCard(): Card {
+
+        return Card(
+            newPin = "",
+            cardType = "DEBIT",
+            uuid = "542 d2ef0 -9903 - 4 a19 -a691 - 12331357f f15",
+            physical = false,
+            active = false,
+            cardName = Constants.addCard,
+            nameUpdated = false,
+            status = "ACTIVE",
+            shipmentStatus = "SHIPPED",
+            deliveryStatus = "BOOKED",
+            blocked = false,
+            delivered = false,
+            cardSerialNumber = "1000000000612",
+            maskedCardNo = "5381 23 * * * * * * 5744",
+            atmAllowed = true,
+            onlineBankingAllowed = true,
+            retailPaymentAllowed = true,
+            paymentAbroadAllowed = true,
+            accountType = "B2C_ACCOUNT",
+            expiryDate = "09/24",
+            cardBalance = "0.00",
+            cardScheme = "Master Card",
+            currentBalance = "0.00",
+            availableBalance = "0.00",
+            customerId = "1100000000071",
+            accountNumber = "1199999000000071",
+            productCode = "CD",
+            pinCreated = true
+        )
     }
 
 }

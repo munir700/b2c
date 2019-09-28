@@ -24,9 +24,9 @@ interface IFundActions {
         fun getFundTransferDenominations(productCode: String)
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
-        val firstDenominationClickEvent:SingleClickEvent
-        val secondDenominationClickEvent:SingleClickEvent
-        val thirdDenominationClickEvent:SingleClickEvent
+        val firstDenominationClickEvent: SingleClickEvent
+        val secondDenominationClickEvent: SingleClickEvent
+        val thirdDenominationClickEvent: SingleClickEvent
 
         var error: String
         var cardSerialNumber: String
@@ -51,6 +51,7 @@ interface IFundActions {
         var minLimit: Double
         var amountBackground: Drawable?
         var errorDescription: String
+        var denominationAmount: String
 
         //success screen variables
         var topUpSuccess: String
