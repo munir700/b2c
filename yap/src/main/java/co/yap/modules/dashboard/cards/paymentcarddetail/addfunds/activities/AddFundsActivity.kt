@@ -8,7 +8,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.InputFilter
+import android.text.*
 import android.view.View
 import androidx.core.animation.addListener
 import androidx.core.view.children
@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -30,13 +29,18 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
-import android.text.Spannable
-import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import com.google.android.libraries.places.internal.s
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.Gravity
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+
 
 open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     IFundActions.View {
@@ -77,16 +81,30 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         })
 
         viewModel.firstDenominationClickEvent.observe(this, Observer {
+
             hideKeyboard()
-            etAmount.clearFocus()
+            etAmount.setText("")
+            etAmount.setText(viewModel.state.denominationAmount)
+            val position=etAmount.length()
+            etAmount.setSelection(position)
+
+//            etAmount.clearFocus()
         })
         viewModel.secondDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
-            etAmount.clearFocus()
+            etAmount.setText("")
+            etAmount.append(viewModel.state.denominationAmount)
+            val position=etAmount.length()
+            etAmount.setSelection(position)
+//            etAmount.clearFocus()
         })
         viewModel.thirdDenominationClickEvent.observe(this, Observer {
             hideKeyboard()
-            etAmount.clearFocus()
+            etAmount.setText("")
+            etAmount.append(viewModel.state.denominationAmount)
+            val position=etAmount.length()
+            etAmount.setSelection(position)
+//            etAmount.clearFocus()
         })
     }
 
@@ -139,6 +157,23 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
             " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
                 viewModel.state.availableBalance
             )
+
+        etAmount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    // puts the caret after the text when unempty
+                    etAmount.setGravity(Gravity.CENTER)
+                } else {
+                    etAmount.setGravity(Gravity.START or Gravity.CENTER_VERTICAL)
+                }
+            }
+        })
     }
 
     private fun showErrorSnackBar() {
