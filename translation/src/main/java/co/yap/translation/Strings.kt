@@ -550,6 +550,9 @@ object Strings {
         "screen_report_card_display_button_block_alert_confirm"
     const val screen_report_card_display_button_block_alert_cancel: String =
         "screen_report_card_display_button_block_alert_cancel"
+    const val screen_remove_funds_display_text_available_balance_error: String =
+        "screen_remove_funds_display_text_available_balance_error"
+
 
     //   Card Blocked Screen
     const val screen_card_blocked_display_text_heading: String =

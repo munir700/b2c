@@ -8,7 +8,7 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.text.InputFilter
+import android.text.*
 import android.view.View
 import androidx.core.animation.addListener
 import androidx.core.view.children
@@ -16,7 +16,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.AddFundsViewModel
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -30,13 +29,18 @@ import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
-import android.text.Spannable
-import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import com.google.android.libraries.places.internal.s
+import androidx.core.app.ComponentActivity.ExtraData
+import androidx.core.content.ContextCompat.getSystemService
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
+import android.view.Gravity
+import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+
 
 open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     IFundActions.View {
@@ -45,7 +49,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     private val windowSize: Rect = Rect()
     var card: Card? = null
     private lateinit var updatedSpareCardBalance: String
-    private var fundsAdded : Boolean = false
+    private var fundsAdded: Boolean = false
+
     companion object {
         private const val CARD = "card"
         fun newIntent(context: Context, card: Card): Intent {
@@ -67,13 +72,38 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         val display = this.windowManager.defaultDisplay
         display.getRectSize(windowSize)
         clBottomNew.children.forEach { it.alpha = 0f }
-        etAmount.filters = arrayOf<InputFilter>(
-            DecimalDigitsInputFilter(2)
-        )
+        etAmount.filters =
+            arrayOf<InputFilter>(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
         setObservers()
         setupData()
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
+        })
+
+        viewModel.firstDenominationClickEvent.observe(this, Observer {
+
+            hideKeyboard()
+            etAmount.setText("")
+            etAmount.setText(viewModel.state.denominationAmount)
+            val position = etAmount.length()
+            etAmount.setSelection(position)
+            etAmount.clearFocus()
+        })
+        viewModel.secondDenominationClickEvent.observe(this, Observer {
+            hideKeyboard()
+            etAmount.setText("")
+            etAmount.append(viewModel.state.denominationAmount)
+            val position = etAmount.length()
+            etAmount.setSelection(position)
+            etAmount.clearFocus()
+        })
+        viewModel.thirdDenominationClickEvent.observe(this, Observer {
+            hideKeyboard()
+            etAmount.setText("")
+            etAmount.append(viewModel.state.denominationAmount)
+            val position = etAmount.length()
+            etAmount.setSelection(position)
+            etAmount.clearFocus()
         })
     }
 
@@ -83,7 +113,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 R.id.btnAction -> (if (viewModel.state.buttonTitle != getString(Strings.screen_success_funds_transaction_display_text_button)) {
                     viewModel.addFunds()
                 } else {
-                    if(fundsAdded){
+                    if (fundsAdded) {
                         setupActionsIntent()
                     }
                     this.finish()
@@ -112,9 +142,9 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.cardSerialNumber = card!!.cardSerialNumber
 
         if (Constants.CARD_TYPE_PREPAID == card?.cardType) {
-            if(card?.physical!!){
+            if (card?.physical!!) {
                 viewModel.state.cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-            }else{
+            } else {
                 viewModel.state.cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
             }
         }
@@ -123,7 +153,26 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         viewModel.state.availableBalance =
             MyUserManager.cardBalance.value?.availableBalance.toString()
         viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(viewModel.state.availableBalance)
+            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
+                viewModel.state.availableBalance
+            )
+
+        etAmount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    // puts the caret after the text when unempty
+                    etAmount.setGravity(Gravity.CENTER)
+                } else {
+                    etAmount.setGravity(Gravity.START or Gravity.CENTER_VERTICAL)
+                }
+            }
+        })
     }
 
     private fun showErrorSnackBar() {
@@ -140,6 +189,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
             .repeat(0)
             .playOn(ivCross)
         clBottom.children.forEach { it.alpha = 0f }
+        btnAction.alpha = 0f
         clRightData.children.forEach { it.alpha = 0f }
         Handler(Looper.getMainLooper()).postDelayed({ runAnimations() }, 1500)
         runCardAnimation()
@@ -185,7 +235,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
 
 
     private fun cardAnimation(): AnimatorSet {
-        val checkBtnEndPosition = (windowSize.width() / 3) - (ivCustomCard.width / 2)
+        val checkBtnEndPosition = (cardInfoLayout.measuredWidth / 2) - (ivCustomCard.width / 2)
         return AnimationUtils.runSequentially(
             AnimationUtils.slideHorizontal(
                 view = ivCustomCard,
@@ -210,20 +260,20 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 Utils.getFormattedCurrency(viewModel.state.amount)
             )
 
-        val  fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimaryDark))
 
-        val separated = viewModel.state.topUpSuccess.split( viewModel.state.currencyType)
+        val separated = viewModel.state.topUpSuccess.split(viewModel.state.currencyType)
         val str = SpannableStringBuilder(viewModel.state.topUpSuccess)
 
         str.setSpan(
             fcs,
             separated[0].length,
-            separated[0].length+ viewModel.state.currencyType.length+ Utils.getFormattedCurrency(
+            separated[0].length + viewModel.state.currencyType.length + Utils.getFormattedCurrency(
                 viewModel.state.amount
-            ).length +1,
+            ).length + 1,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        tvTopUp.text =str
+        tvTopUp.text = str
 
         val updatedCardBalance: String =
             (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
@@ -235,7 +285,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
             )
 
-        val separatedPrimary = viewModel.state.primaryCardUpdatedBalance.split( viewModel.state.currencyType)
+        val separatedPrimary =
+            viewModel.state.primaryCardUpdatedBalance.split(viewModel.state.currencyType)
         val primaryStr = SpannableStringBuilder(viewModel.state.primaryCardUpdatedBalance)
 
         primaryStr.setSpan(
@@ -255,7 +306,8 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
                 Utils.getFormattedCurrency(updatedSpareCardBalance)
             )
 
-        val separatedSpare= viewModel.state.spareCardUpdatedBalance.split( viewModel.state.currencyType)
+        val separatedSpare =
+            viewModel.state.spareCardUpdatedBalance.split(viewModel.state.currencyType)
         val spareStr = SpannableStringBuilder(viewModel.state.spareCardUpdatedBalance)
 
         spareStr.setSpan(
@@ -268,10 +320,6 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
     }
 
     override fun onBackPressed() {
-        if(fundsAdded){
-            setupActionsIntent()
-        }
-        super.onBackPressed()
     }
 
     private fun setupActionsIntent() {

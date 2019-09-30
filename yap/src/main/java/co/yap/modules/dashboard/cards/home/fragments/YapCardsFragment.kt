@@ -51,8 +51,29 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupPager()
-        viewModel.getCards()
+        if (MyUserManager.cards.value == null || MyUserManager.cards.value!!.isEmpty()) {
+            viewModel.getCards()
+        } else {
+            setupList()
+        }
+
+        viewModel.state.listUpdated.observe(this, Observer {
+            if (it)
+                setupList()
+        })
+    }
+
+    private fun setupList() {
+        if (viewModel.state.enableAddCard.get())
+            MyUserManager.cards.value?.add(getAddCard())
+        adapter.setList(MyUserManager.cards.value!!)
+        updateCardCount()
+    }
+
+    private fun updateCardCount() {
+        viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
     }
 
     private fun setupPager() {
@@ -83,7 +104,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
         adapter.setItemListener(object : OnItemClickListener {
             override fun onItemClick(view: View, data: Any, pos: Int) {
-                //Log.d("adapter click ", " position ${pos}")
                 viewModel.clickEvent.setPayload(
                     SingleClickEvent.AdaptorPayLoadHolder(
                         view,
@@ -94,18 +114,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 viewModel.clickEvent.setValue(view.id)
             }
         })
-
-
-//        var mLastClickTime = 0L
-//        adapter.setItemListener(object : OnItemClickListener {
-//            override fun onItemClick(view: View, data: Any, pos: Int) {
-//                if (SystemClock.elapsedRealtime() - mLastClickTime < 600) {
-//                    return
-//                }
-//                mLastClickTime = SystemClock.elapsedRealtime()
-//
-//            }
-//        })
     }
 
     val observer = Observer<Int> {
@@ -133,7 +141,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                                         CardDeliveryStatus.valueOf(it)
                                     }) {
                                         CardDeliveryStatus.SHIPPED -> {
-                                            openSetPinScreen(getCard(pos).cardSerialNumber)
+                                            openStatusScreen(view, pos)
                                         }
                                         else -> {
                                             openStatusScreen(view, pos)
@@ -210,10 +218,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                         adapter.removeItemAt(selectedCardPosition)
                         adapter.notifyDataSetChanged()
                         updateCardCount()
-                    } else if(cardBlocked!!){
-                        viewModel.state.cardList.get()?.clear()
+                    } else if (cardBlocked!!) {
+                        adapter.removeAllItems()
                         viewModel.getCards()
-                    }else {
+                    } else {
                         adapter.setItemAt(selectedCardPosition, updatedCard!!)
                     }
                 }
@@ -223,7 +231,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 if (resultCode == Activity.RESULT_OK) {
                     val updatedCard: Boolean? = data?.getBooleanExtra("cardAdded", false)
                     if (updatedCard!!) {
-                        viewModel.state.cardList.get()?.clear()
+                        adapter.removeAllItems()
                         viewModel.getCards()
                     }
                 }
@@ -234,7 +242,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
                     if (isPinCreated!!) {
-                        viewModel.state.cardList.get()?.clear()
+                        viewModel.state.enableAddCard.set(
+                            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+                        )
+                        adapter.removeAllItems()
                         viewModel.getCards()
                     }
                 }
@@ -242,11 +253,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         }
     }
 
-    private fun updateCardCount() {
-        viewModel.updateCardCount(adapter.itemCount - if (viewModel.state.enableAddCard.get()) 1 else 0)
-    }
-
-    fun openDetailScreen(pos: Int) {
+    private fun openDetailScreen(pos: Int) {
         selectedCardPosition = pos
         startActivityForResult(
             PaymentCardDetailActivity.newIntent(
@@ -256,14 +263,14 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    fun openAddCard() {
+    private fun openAddCard() {
         startActivityForResult(
             AddPaymentCardActivity.newIntent(requireContext()),
             EVENT_CARD_ADDED
         )
     }
 
-    fun openStatusScreen(view: View, pos: Int) {
+    private fun openStatusScreen(view: View, pos: Int) {
         view.findNavController().navigate(
             YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
                 getCard(pos)
@@ -271,7 +278,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    fun openSetPinScreen(cardSerialNumber: String) {
+    private fun openSetPinScreen(cardSerialNumber: String) {
         startActivityForResult(
             SetCardPinWelcomeActivity.newIntent(
                 requireContext(),
@@ -280,13 +287,68 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
         )
     }
 
-    fun getCard(pos: Int): Card {
+    override fun onResume() {
+        if (co.yap.modules.dashboard.constants.Constants.isPinCreated) {
+            co.yap.modules.dashboard.constants.Constants.isPinCreated = false
+            adapter.removeAllItems()
+            viewModel.getCards()
+        }
+        super.onResume()
+    }
+
+    private fun getCard(pos: Int): Card {
         return adapter.getDataForPosition(pos)
+    }
+
+    override fun onDestroyView() {
+        if (viewModel.state.enableAddCard.get()) {
+            val list = adapter.getDataList() as ArrayList<Card>
+            list.removeAt(list.size - 1)
+            MyUserManager.cards.value = list
+        } else {
+            MyUserManager.cards.value = adapter.getDataList() as ArrayList<Card>
+        }
+
+        super.onDestroyView()
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-
     }
+
+    private fun getAddCard(): Card {
+
+        return Card(
+            newPin = "",
+            cardType = "DEBIT",
+            uuid = "542 d2ef0 -9903 - 4 a19 -a691 - 12331357f f15",
+            physical = false,
+            active = false,
+            cardName = Constants.addCard,
+            nameUpdated = false,
+            status = "ACTIVE",
+            shipmentStatus = "SHIPPED",
+            deliveryStatus = "BOOKED",
+            blocked = false,
+            delivered = false,
+            cardSerialNumber = "1000000000612",
+            maskedCardNo = "5381 23 * * * * * * 5744",
+            atmAllowed = true,
+            onlineBankingAllowed = true,
+            retailPaymentAllowed = true,
+            paymentAbroadAllowed = true,
+            accountType = "B2C_ACCOUNT",
+            expiryDate = "09/24",
+            cardBalance = "0.00",
+            cardScheme = "Master Card",
+            currentBalance = "0.00",
+            availableBalance = "0.00",
+            customerId = "1100000000071",
+            accountNumber = "1199999000000071",
+            productCode = "CD",
+            pinCreated = true
+        )
+    }
+
 }

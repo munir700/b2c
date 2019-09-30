@@ -38,6 +38,7 @@ class SpareCardLandingViewModel(application: Application) :
             when (val response = transactionRepository.getCardFee("virtual")) {
                 is RetroApiResponse.Success -> {
                    state.virtualCardFee = response.data.data.currency +" "+response.data.data.amount
+                    parentViewModel?.virtualCardFee = state.virtualCardFee
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -51,6 +52,7 @@ class SpareCardLandingViewModel(application: Application) :
             when (val response = transactionRepository.getCardFee("physical")) {
                 is RetroApiResponse.Success -> {
                     state.physicalCardFee = response.data.data.currency +" "+response.data.data.amount
+                    parentViewModel?.physicalCardFee = state.physicalCardFee
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

@@ -149,9 +149,9 @@ object UIBinder {
     }
 
     //Core action Button text
-    @BindingAdapter("cardStatus")
+    @BindingAdapter("cardButtonStatus")
     @JvmStatic
-    fun setCardStatus(coreButton: CoreButton, card: Card) {
+    fun setcardButtonStatus(coreButton: TextView, card: Card) {
 
         when (CardStatus.valueOf(card.status)) {
             CardStatus.ACTIVE -> {

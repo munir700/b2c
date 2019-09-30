@@ -61,11 +61,17 @@ class UpdateCardNameActivity : BaseBindingActivity<IUpdateCardName.ViewModel>(),
     private fun setupView() {
         viewModel.card = intent.getParcelableExtra(CARD)
         etName.append(viewModel.card.cardName.trim())
+        etName.requestFocus()
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.card.cardType) {
             tvCardType.text = "Primary card"
         } else {
-            tvCardType.text = "Spare card"
+            if (viewModel.card.physical) {
+                tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
+            } else {
+                tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
+            }
+
         }
     }
 

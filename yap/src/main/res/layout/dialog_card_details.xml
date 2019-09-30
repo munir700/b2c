@@ -33,12 +33,13 @@
     <TextView
         android:id="@+id/tvCardType"
         style="@style/Regular"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivCard"
-        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginEnd="@dimen/margin_large"
         android:gravity="center"
         android:text="Spare Card" />
 
@@ -66,7 +67,7 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="4040 3318 1234 3456" />
+            android:text="5381 2301 0000 7021" />
     </RelativeLayout>
 
 
@@ -107,7 +108,7 @@
             android:id="@+id/rlCvv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_60sdp"
+            android:layout_marginStart="@dimen/_64sdp"
             android:layout_marginTop="@dimen/margin_normal"
             android:layout_toEndOf="@+id/rlCardValidity">
 
@@ -116,7 +117,7 @@
                 style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="CVV" />
+                android:text="CVV " />
 
             <TextView
                 android:id="@+id/tvCvvValue"

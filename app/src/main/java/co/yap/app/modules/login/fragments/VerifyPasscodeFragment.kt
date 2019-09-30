@@ -111,10 +111,14 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         if (!sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
             setUsername()
         } else {
-            viewModel.state.username = EncryptionUtils.decrypt(
-                context as MainActivity,
-                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-            ) as String
+           if(null!=sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)){
+               viewModel.state.username = EncryptionUtils.decrypt(
+                   context as MainActivity,
+                   sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+               ) as String
+           }else{
+               viewModel.state.username = ""
+           }
         }
         viewModel.login()
     }

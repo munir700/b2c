@@ -50,8 +50,8 @@ class AddSparePhysicalCardSuccessFragment : DefaultFragment() {
     }
 
     override fun onBackPressed(): Boolean {
-        setupActionsIntent()
-        activity!!.finish()
+        /*setupActionsIntent()
+        activity!!.finish()*/
         return true
     }
 

@@ -52,6 +52,14 @@
             <nav-graph android:value="@navigation/spare_cards_navigation" />
         </activity>
 
+
+        <activity
+            android:name=".modules.dashboard.more.activities.MoreActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <nav-graph android:value="@navigation/more_main_navigation" />
+        </activity>
+
         <activity
             android:name=".modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
             android:screenOrientation="portrait"
@@ -61,7 +69,8 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <!--<activity-->
         <!--android:name=".modules.kyc.activities.AddressSelectionFragment"-->
@@ -72,7 +81,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity"
             android:screenOrientation="portrait"/>
@@ -83,6 +93,7 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.UpdateCardNameActivity"
+            android:windowSoftInputMode="adjustResize"
             android:screenOrientation="portrait" />
 
         <activity

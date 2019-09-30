@@ -102,7 +102,7 @@
                 android:layout_height="@dimen/margin_large"
                 android:layout_marginEnd="@dimen/margin_small"
                 android:layout_marginBottom="@dimen/margin_extra_small"
-                android:text="Card Details"
+                android:text="Card details"
                 android:textSize="@dimen/text_size_c1"
                 android:visibility="@{buttonVisibility? View.VISIBLE:View.GONE}"
                 app:btn_drawable_padding_top="5.5"

@@ -68,6 +68,11 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
         notifyItemRemoved(position)
     }
 
+    fun removeAllItems() {
+        this.list.clear()
+        notifyDataSetChanged()
+    }
+
     fun setItemListener(onItemClickListener: OnItemClickListener) {
         this.onItemClickListener = onItemClickListener
     }

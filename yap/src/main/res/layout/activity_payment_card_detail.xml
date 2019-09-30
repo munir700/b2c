@@ -314,7 +314,7 @@
                                 android:id="@+id/llCardLimits"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_medium"
+                                android:layout_marginStart="@dimen/margin_large"
                                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                                 android:orientation="vertical">
 
@@ -355,16 +355,17 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_10sdp">
 
                         <ImageView
                             android:id="@+id/ivBack"
                             android:layout_width="@dimen/_23sdp"
                             android:layout_height="@dimen/_24sdp"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                            app:layout_constraintBottom_toBottomOf="@+id/ccTitle"
+                            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/ccTitle"
+                            app:layout_constraintTop_toTopOf="parent"
                             app:srcCompat="@drawable/ic_close_dark" />
 
                         <ImageView
@@ -375,36 +376,34 @@
                             android:layout_marginEnd="@dimen/margin_small"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="@+id/ccTitle"
-                            app:layout_constraintTop_toTopOf="@id/ccTitle"
+                            app:layout_constraintTop_toTopOf="@+id/ivBack"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivBack"
                             app:srcCompat="@drawable/ic_more" />
-                        <androidx.constraintlayout.widget.ConstraintLayout
-                            android:id="@+id/ccTitle"
-                            android:layout_width="match_parent"
-                            android:layout_height="?attr/actionBarSize"
-                            app:layout_constraintTop_toTopOf="parent">
 
-                            <TextView
-                                android:id="@+id/tvTitle"
-                                style="@style/Regular"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center"
-                                android:text="@={viewModel.state.cardName}"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent"
-                                tools:text="Spare Card" />
+                        <TextView
+                            android:id="@+id/tvTitle"
+                            style="@style/Regular"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:gravity="center"
+                            android:layout_marginStart="@dimen/margin_small"
+                            android:layout_marginEnd="@dimen/margin_small"
+                            android:text="@={viewModel.state.cardName}"
+                            android:ellipsize="end"
+                            android:maxLines="1"
+                            app:layout_constraintTop_toTopOf="@+id/ivBack"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivBack"
+                            app:layout_constraintLeft_toRightOf="@+id/ivBack"
+                            app:layout_constraintRight_toLeftOf="@+id/ivMenu"
+                            tools:text="Spare" />
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
                         <include
                             android:id="@+id/cardInfoLayout"
                             layout="@layout/layout_card_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@+id/ccTitle"
+                            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                             android:layout_marginTop="@dimen/margin_medium_large"
                             app:layout_constraintLeft_toLeftOf="parent"
                             app:layout_constraintRight_toRightOf="parent"

@@ -50,6 +50,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
     private var cardFreezeUnfreeze: Boolean = false
     private var cardRemoved: Boolean = false
     private var limitsUpdated: Boolean = false
+    private var nameUpdated: Boolean = false
 
     companion object {
         private const val CARD = "card"
@@ -275,8 +276,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         when (requestCode) {
             Constants.REQUEST_CARD_NAME_UPDATED -> {
                 if (resultCode == Activity.RESULT_OK) {
+                    nameUpdated = true
                     viewModel.state.cardName = data?.getStringExtra("name").toString()
                     viewModel.card.cardName = viewModel.state.cardName
+                    viewModel.card.nameUpdated = true
                 }
             }
 
@@ -314,14 +317,36 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
         val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
         val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
-        tvCardNumber.text = viewModel.cardDetail.cardNumber
         tvCardValidity.text = viewModel.cardDetail.expiryDate
         tvCvvV.text = viewModel.cardDetail.cvv
+
+
+        if (null!=viewModel.cardDetail.cardNumber) {
+            if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
+                tvCardNumber.text = viewModel.cardDetail.cardNumber
+            } else {
+                if (viewModel.cardDetail.cardNumber?.length==16) {
+                    val formattedCardNumber: StringBuilder = StringBuilder(viewModel.cardDetail.cardNumber)
+                    formattedCardNumber.insert(4, " ")
+                    formattedCardNumber.insert(9, " ")
+                    formattedCardNumber.insert(14, " ")
+                    tvCardNumber.text = formattedCardNumber
+                }
+            }
+        }
 
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             tvCardType.text = "Primary card"
         } else {
-            tvCardType.text = "Spare card"
+           if(viewModel.card.nameUpdated!!){
+               tvCardType.text = viewModel.card.cardName
+           }else{
+               if (viewModel.card.physical) {
+                   tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
+               } else {
+                   tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
+               }
+           }
         }
         btnClose.setOnClickListener {
             dialog.dismiss()
@@ -352,10 +377,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private fun setupActionsIntent() {
 
-        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated) {
+        if (cardFreezeUnfreeze || cardRemoved || limitsUpdated || nameUpdated) {
             val updateCard = viewModel.card
             updateCard.cardBalance = viewModel.state.cardBalance
             updateCard.cardName = viewModel.state.cardName
+            updateCard.nameUpdated = nameUpdated
 
             if (cardFreezeUnfreeze) {
                 if (viewModel.card.blocked)

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.cards.status.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -18,8 +19,8 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.store.fragments.YapStoreFragmentDirections
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.store.responsedtos.Store
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
@@ -28,6 +29,7 @@ import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
 class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), IYapCardStatus.View {
 
     private val args: YapCardStatusFragmentArgs by navArgs()
+    val EVENT_CREATE_CARD_PIN: Int get() = 13
     lateinit var card: Card
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_status
@@ -76,6 +78,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
                 tbProgressBarBuilding.progress = 100
                 tbBtnBuilding.setImageResource(R.drawable.ic_tick)
+                tvBuilding.text = "Built"
                 tvBuilding.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -84,7 +87,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                 )
             }
             CardDeliveryStatus.SHIPPED -> {
-
+                viewModel.state.message.set(if (card.cardType == "DEBIT") "Your Primary card is shipped" else "Your Spare physical card is shipped")
                 tbBtnOneOrdered.setImageResource(R.drawable.ic_tick)
                 tvOrdered.setTextColor(
                     ContextCompat.getColor(
@@ -94,6 +97,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
                 tbProgressBarBuilding.progress = 100
                 tbBtnBuilding.setImageResource(R.drawable.ic_tick)
+                tvBuilding.text = "Built"
                 tvBuilding.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -104,6 +108,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
 
                 viewModel.state.shippingProgress = 100
                 tbBtnShipping.setImageResource(R.drawable.ic_tick)
+                tvShipping.text = "Shipped"
                 tvShipping.setTextColor(
                     ContextCompat.getColor(
                         requireContext(),
@@ -133,7 +138,12 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnActivateCard -> {
-                startActivity(Intent(requireContext(), SetCardPinWelcomeActivity::class.java))
+                startActivityForResult(
+                    SetCardPinWelcomeActivity.newIntent(
+                        requireContext(),
+                        card.cardSerialNumber
+                    ), EVENT_CREATE_CARD_PIN
+                )
             }
             R.id.tbBtnBack -> {
                 findNavController().navigateUp()
@@ -156,5 +166,22 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
     override fun onDestroyView() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroyView()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            EVENT_CREATE_CARD_PIN -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val isPinCreated: Boolean? =
+                        data?.getBooleanExtra(Constants.isPinCreated, false)
+                    if (isPinCreated!!) {
+                        co.yap.modules.dashboard.constants.Constants.isPinCreated = true
+                        findNavController().navigateUp()
+                    }
+                }
+            }
+        }
     }
 }

@@ -13,6 +13,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity.Companion.onBackPressCheck
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.physical.AddSparePhysicalCardViewHelper
@@ -20,8 +21,10 @@ import co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual.AddSp
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.viewmodels.AddSpareCardViewModel
 import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
 
@@ -72,19 +75,36 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             when (it) {
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
-//                    if (!viewModel.isFromBlockCardScreen ){
-////                        (activity as AddPaymentCardActivity).hideToolbar()
-////                    }else{
-//                        (activity as AddPaymentCardActivity).hideToolbar()
-//                    }
+                    val availableBalance =
+                        MyUserManager.cardBalance.value?.availableBalance?.toDouble()
+                    val physicalCardFee =
+                        viewModel.state.physicalCardFee.replace("AED ", "").replace(",","").toDouble()
+                    val updatedCardBalance =
+                        (availableBalance?.minus(physicalCardFee))
+
+                    MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
+
+                    if (!viewModel.isFromBlockCardScreen) {
+                        (activity as AddPaymentCardActivity).hideToolbar()
+                    }
 
                     findNavController().navigate(R.id.action_addSpareCardFragment_to_addSparePhysicalCardSuccessFragment)
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
-//                    if (!viewModel.isFromBlockCardScreen ){
-//                        (activity as AddPaymentCardActivity).hideToolbar()
-//                    }
+
+                    val availableBalance =
+                        MyUserManager.cardBalance.value?.availableBalance?.toDouble()
+                    val virtualCardFee =
+                        viewModel.state.virtualCardFee.replace("AED ", "").replace(",","").toDouble()
+                    val updatedCardBalance =
+                        (availableBalance?.minus(virtualCardFee))
+
+                    MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
+
+                    if (!viewModel.isFromBlockCardScreen) {
+                        (activity as AddPaymentCardActivity).hideToolbar()
+                    }
                     cardAdded = true
                     AddSpareVirtualCardViewHelper(
                         this!!.activity!!,
@@ -95,8 +115,13 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 viewModel.CONFIRM_PHYSICAL_PURCHASE -> {
+                    // todo temporary logic added to fix a bug, balance should be stored as double in view model
+                    val physicalCardFee =
+                        viewModel.state.physicalCardFee.replace("AED ", "").replace(",","").toDouble()
+                    val availableCardBalance =
+                        viewModel.state.avaialableCardBalance.replace("AED ", "").replace(",","").toDouble()
 
-                    if (viewModel.state.physicalCardFee > viewModel.state.avaialableCardBalance) {
+                    if (physicalCardFee > availableCardBalance) {
                         showDialog()
                     } else {
                         viewModel.requestAddSparePhysicalCard()
@@ -104,8 +129,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 viewModel.CONFIRM_VIRTUAL_PURCHASE -> {
-
-                    if (viewModel.state.virtualCardFee > viewModel.state.avaialableCardBalance) {
+                    // todo temporary logic added to fix a bug, balance should be stored as double in view model
+                    val virtualCardFee =
+                        viewModel.state.virtualCardFee.replace("AED ", "").replace(",","").toDouble()
+                    val availableCardBalance =
+                        viewModel.state.avaialableCardBalance.replace("AED ", "").replace(",","").toDouble()
+                    if (virtualCardFee > availableCardBalance) {
                         showDialog()
                     } else {
                         viewModel.requestAddSpareVirtualCard()
@@ -156,6 +185,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         } as String
         if (!physicalCardAddressTitle.isNullOrEmpty()) {
             viewModel.state.physicalCardAddressSubTitle = physicalCardAddressTitle
+            viewModel.state.enableConfirmLocation=true
         }
         val physicalCardAddressSubTitle = arguments?.let {
             AddSpareCardFragmentArgs.fromBundle(it).newDeliveryAddressSubTitle
@@ -164,6 +194,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
         if (!physicalCardAddressSubTitle.isNullOrEmpty() && !physicalCardAddressSubTitle.equals(" ")) {
             viewModel.state.physicalCardAddressTitle = physicalCardAddressSubTitle
             viewModel.isFromaddressScreen = true
+            viewModel.state.enableConfirmLocation=true
         }
         //
 
@@ -195,9 +226,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
     override fun onBackPressed(): Boolean {
 
         return if (cardAdded) {
-            setupActionsIntent()
-            activity!!.finish()
-            true
+            return false
         } else {
             super.onBackPressed()
         }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -14,8 +15,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingTop="@dimen/margin_large">
 
@@ -23,6 +23,7 @@
             android:id="@+id/llConfirmVirtualCardPurchase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:background="@color/colorWhite"
             android:gravity="center"
             android:orientation="vertical">
@@ -39,41 +40,44 @@
                 android:id="@+id/tvPrice"
                 style="@style/Large"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="@dimen/margin_extra_small"
-                android:gravity="center"
+                android:layout_weight="1"
+                android:gravity="top|center"
                 android:text="@{viewModel.state.virtualCardFee}"
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="@dimen/text_size_h5" />
+                android:textSize="@dimen/text_size_h5"
+                tools:text="AED 6.00" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_large"
+                android:layout_weight="2"
                 android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/tvAvailableBalanceTitle"
                     style="@style/RegularGrey"
-                    android:textSize="@dimen/text_size_h2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="@string/screen_add_spare_card_display_text_available_balance"
+                    android:textSize="@dimen/text_size_h2"
                     app:text="@{Strings.screen_add_spare_card_display_text_available_balance}" />
 
                 <TextView
                     android:id="@+id/tvAvailableBalance"
                     style="@style/Regular"
-                    android:textSize="@dimen/text_size_h2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:paddingLeft="@dimen/_4sdp"
                     android:text="@{viewModel.state.avaialableCardBalance}"
-                    android:textColor="@color/colorPrimary" />
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/text_size_h2" />
 
 
             </LinearLayout>
@@ -104,7 +108,7 @@
             android:id="@+id/layoutVirtualCardOnSuccess"
             layout="@layout/layout_add_spare_virtual_card_success"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
