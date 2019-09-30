@@ -612,6 +612,10 @@ object Strings {
         "screen_profile_settings_display_text_view"
 
 
+    const val screen_profile_settings_display_text_change: String =
+        "screen_profile_settings_display_text_change"
+
+
     const val screen_profile_settings_display_text_security: String =
         "screen_profile_settings_display_text_security"
 

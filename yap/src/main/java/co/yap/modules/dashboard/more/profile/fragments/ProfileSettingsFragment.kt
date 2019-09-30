@@ -11,7 +11,7 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileViewModel
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
-class ProfileFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
+class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
 
