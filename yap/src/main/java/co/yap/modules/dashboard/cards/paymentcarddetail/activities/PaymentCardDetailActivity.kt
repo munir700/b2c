@@ -146,7 +146,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 viewModel.EVENT_REMOVE_CARD -> {
                     try {
                         val updatedCardBalance =
-                            (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.minus(
+                            (MyUserManager.cardBalance.value?.availableBalance?.toDouble()?.plus(
                                 viewModel.card.availableBalance.toDouble()
                             ))
                         MyUserManager.cardBalance.value =
