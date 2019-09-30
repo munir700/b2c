@@ -50,18 +50,39 @@
             <TextView
                 android:id="@+id/tvPersonalDetailCaption"
                 style="@style/ASmall"
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
                 android:text="@string/screen_profile_settings_display_text_personal_detail"
                 app:text="@{Strings.screen_profile_settings_display_text_personal_detail}" />
+
+            <FrameLayout
+                android:id="@+id/flLocationPin"
+                android:layout_width="@dimen/_16sdp"
+                android:layout_height="@dimen/_16sdp"
+                android:layout_marginLeft="@dimen/margin_normal"
+                android:background="@drawable/bg_round_red"
+                android:backgroundTint="@color/error">
+
+
+                <ImageView
+                    android:layout_width="@dimen/_14sdp"
+                    android:layout_height="@dimen/_14sdp"
+                    android:layout_gravity="center_vertical|center"
+                    android:src="@drawable/ic_exclamation"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
+            </FrameLayout>
+
 
             <TextView
                 android:id="@+id/tvPersonalDetailView"
                 style="@style/ASmall"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight=".1"
+                android:gravity="end"
                 android:text="@string/screen_profile_settings_display_text_view"
                 android:textColor="@color/colorPrimary"
                 app:text="@{Strings.screen_profile_settings_display_text_view}" />
@@ -184,8 +205,8 @@
                 android:id="@+id/switchNotification"
 
                 android:layout_width="0dp"
-                android:layout_weight=".3"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_weight=".3" />
 
         </LinearLayout>
 
