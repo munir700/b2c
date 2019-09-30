@@ -57,6 +57,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.tvLikeUsOnFaceBook -> {
 
                 }
+
+                R.id.ivProfilePic -> {
+                    // change profile picture
+                }
+
+                R.id.rlAddNewProfilePic -> {
+                    // add new profile picture
+
+                }
             }
         })
 

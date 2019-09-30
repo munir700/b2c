@@ -22,15 +22,13 @@
         <include
             android:id="@+id/layoutProfilePic"
             layout="@layout/layout_profile_picture"
-            app:viewModel="@{viewModel}"
-         />
+            app:viewModel="@{viewModel}" />
 
 
         <include
             android:id="@+id/layoutProfileSettings"
             layout="@layout/layout_profile_settings"
             app:viewModel="@{viewModel}" />
-
-
+        
     </LinearLayout>
 </layout>

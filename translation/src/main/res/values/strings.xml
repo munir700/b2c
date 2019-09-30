@@ -385,5 +385,10 @@
     <string name="screen_profile_settings_display_text_like_us">Like us</string>
     <string name="screen_profile_settings_display_text_logout">Log out</string>
 
+    <!-- update profile photo Bottom Sheet -->
+
+    <string name="screen_update_profile_photo_display_text_title">Update profile photo</string>
+    <string name="screen_update_profile_photo_display_text_open_camera">Open camera</string>
+    <string name="screen_update_profile_photo_display_text_choose_photo">Choose photo</string>
 
 </resources>

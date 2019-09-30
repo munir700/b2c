@@ -40,9 +40,11 @@
                 android:id="@+id/ivProfilePic"
                 android:layout_width="@dimen/_65sdp"
                 android:layout_height="@dimen/_65sdp"
-                android:contentDescription="@string/app_name" />
+                android:contentDescription="@string/app_name"
+                android:onClick="@{(v) -> viewModel.handlePressOnPhoto(v.id)}" />
 
             <RelativeLayout
+                android:id="@+id/rlAddNewProfilePic"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_36sdp"
                 android:layout_alignTop="@+id/tvAccountHolderNameInitials"
@@ -53,7 +55,8 @@
                 android:layout_marginBottom="-1dp"
                 android:background="@drawable/bg_round_red"
                 android:backgroundTint="@color/white"
-                android:gravity="right|bottom">
+                android:gravity="right|bottom"
+                android:onClick="@{(v) -> viewModel.handlePressOnAddNewPhoto(v.id)}">
 
                 <FrameLayout
                     android:layout_width="@dimen/_36sdp"
