@@ -20,6 +20,13 @@
         android:paddingBottom="@dimen/margin_medium">
 
         <include
+            android:id="@+id/layoutProfilePic"
+            layout="@layout/layout_profile_picture"
+            app:viewModel="@{viewModel}"
+         />
+
+
+        <include
             android:id="@+id/layoutProfileSettings"
             layout="@layout/layout_profile_settings"
             app:viewModel="@{viewModel}" />
