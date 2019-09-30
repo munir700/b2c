@@ -595,4 +595,8 @@ object Strings {
     const val screen_card_statement_display_text_title: String =
         "screen_card_statement_display_text_title"
 
+    //Yap More
+    const val screen_more_display_text_bank_details: String =
+        "screen_more_display_text_bank_details"
+
 }

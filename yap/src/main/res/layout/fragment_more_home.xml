@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <import type="co.yap.yapcore.managers.MyUserManager" />
         <import type="co.yap.translation.Strings" />
 
         <variable
@@ -13,23 +15,101 @@
     </data>
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/margin_medium">
+        android:background="@color/colorWhite">
+
+        <ImageView
+            android:id="@+id/imgSettings"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:layout_margin="@dimen/margin_small"
+            android:contentDescription="@string/empty_string"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_settings" />
+
+
+        <ImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
+            android:layout_marginTop="@dimen/margin_large"
+            android:contentDescription="@string/empty_string"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_settings" />
 
 
         <TextView
-            style="@style/ASmall"
+            android:id="@+id/tvName"
+            style="@style/ALarge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-             android:gravity="center"
-            android:text="home"
-             />
+            android:layout_marginTop="@dimen/margin_medium"
+            tools:text="Logan Pearson"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
 
+        <TextView
+            android:id="@+id/tvIban"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_small"
+            tools:text="IBAN AE357599475775847"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/tvBic"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            tools:text="BIC NTSBDHF2373"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvIban" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnBankDetails"
+            style="@style/RectangleBtnSmallStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_22sdp"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:paddingTop="@dimen/_10sdp"
+            app:btn_enable="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvBic"
+            app:text="@{Strings.screen_more_display_text_bank_details}"
+            tools:text="@string/screen_more_display_text_bank_details" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_options"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:dividerHeight="2dp"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginEnd="@dimen/margin_small"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnBankDetails"
+            app:spanCount="2"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_yap_more" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
