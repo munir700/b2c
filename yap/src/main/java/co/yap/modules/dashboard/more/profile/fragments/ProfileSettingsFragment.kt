@@ -6,11 +6,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.viewmodels.AddPaymentCardViewModel
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
-import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
 
@@ -29,13 +27,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        SharedPreferenceManager(context!!).removeValue(SharedPreferenceManager.KEY_AVAILABLE_BALANCE)
-
-        activity?.let {
-            ViewModelProviders.of(it).get(AddPaymentCardViewModel::class.java)
-                .state.tootlBarTitle = "Profile"
-        }
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
@@ -46,18 +37,23 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.tvPrivacyView -> {
 
                 }
+
                 R.id.tvChangePasscode -> {
 
                 }
+
                 R.id.tvTermsAndConditionView -> {
 
                 }
+
                 R.id.tvFollowOnInstagram -> {
 
                 }
+
                 R.id.tvFollowOnTwitter -> {
 
                 }
+
                 R.id.tvLikeUsOnFaceBook -> {
 
                 }
