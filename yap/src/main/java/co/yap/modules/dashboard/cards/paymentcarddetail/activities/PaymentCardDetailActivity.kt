@@ -105,10 +105,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     viewModel.freezeUnfreezeCard()
                 }
                 R.id.llRemoveFunds -> {
+                    if (!viewModel.card.blocked) {
                     startActivityForResult(
                         RemoveFundsActivity.newIntent(this, viewModel.card),
                         Constants.REQUEST_ADD_REMOVE_FUNDS
-                    )
+                    ) }else{
+                        showToast("Please unfreeze card to use this feature")
+                    }
                 }
                 R.id.llCardLimits -> {
                     startActivityForResult(
@@ -236,12 +239,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 )
             }
             Constants.EVENT_CHANGE_PIN -> {
-                startActivity(
-                    ChangeCardPinActivity.newIntent(
-                        this,
-                        viewModel.card.cardSerialNumber
+                if (!viewModel.card.blocked) {
+                    startActivity(
+                        ChangeCardPinActivity.newIntent(
+                            this,
+                            viewModel.card.cardSerialNumber
+                        )
                     )
-                )
+                }else{
+                    showToast("Please unfreeze card to use this feature")
+                }
             }
             Constants.EVENT_VIEW_STATEMENTS -> {
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card))
