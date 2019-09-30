@@ -1,6 +1,5 @@
 package co.yap.app.modules.startup.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +10,6 @@ import androidx.navigation.fragment.findNavController
 import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
-import co.yap.modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity
-import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity
-import co.yap.modules.dashboard.changeemailmore.activities.ChangeEmailActivity
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
@@ -33,8 +29,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.splashComplete.observe(this, Observer {
-            startActivity(Intent(context, ChangeEmailActivity::class.java))
-            /*   val sharedPreferenceManager = SharedPreferenceManager(requireContext())
+               val sharedPreferenceManager = SharedPreferenceManager(requireContext())
                if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
                    val action = SplashFragmentDirections.actionSplashFragmentToVerifyPasscodeFragment("")
                    findNavController().navigate(action)
@@ -45,7 +40,7 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                    } else {
                        findNavController().navigate(R.id.action_splashFragment_to_loginFragment)
                    }
-               }*/
+               }
         })
     }
 

@@ -99,9 +99,5 @@
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity"
             android:screenOrientation="portrait" />
-
-        <activity
-            android:name=".modules.dashboard.changeemailmore.activities.ChangeEmailActivity"
-            android:screenOrientation="portrait" />
     </application>
 </manifest>

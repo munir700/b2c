@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.changeemailmore.fragments
+package co.yap.modules.dashboard.more.profile.fragments
 
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.changeemailmore.interfaces.IChangeEmail
-import co.yap.modules.dashboard.changeemailmore.viewmodels.ChangeEmailViewModel
+import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
+import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
 import co.yap.yapcore.BaseBindingFragment
 
 class ChangeEmailFragment : BaseBindingFragment<IChangeEmail.ViewModel>(), IChangeEmail.View {

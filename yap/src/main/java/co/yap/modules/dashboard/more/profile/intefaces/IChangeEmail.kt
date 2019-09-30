@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.changeemailmore.interfaces
+package co.yap.modules.dashboard.more.profile.intefaces
 
 import co.yap.yapcore.IBase
 
