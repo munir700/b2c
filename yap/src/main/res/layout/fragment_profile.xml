@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileViewModel" />
+            type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel" />
 
     </data>
 

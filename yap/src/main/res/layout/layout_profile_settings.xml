@@ -8,12 +8,12 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileViewModel" />
+            type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel" />
 
     </data>
 
     <LinearLayout
-        android:layout_width="match_parent"
+         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
         android:orientation="vertical"
@@ -34,6 +34,7 @@
             app:text="@{Strings.screen_profile_settings_display_text_profile}" />
 
         <LinearLayout
+            android:id="@+id/llPersonalDetail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -110,6 +111,7 @@
             app:text="@{Strings.screen_profile_settings_display_text_security}" />
 
         <LinearLayout
+            android:id="@+id/llPrivacy"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -133,6 +135,7 @@
                 app:text="@{Strings.screen_profile_settings_display_text_privacy}" />
 
             <TextView
+                android:id="@+id/tvPrivacyView"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,6 +146,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llPasscode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
@@ -168,6 +172,7 @@
                 app:text="@{Strings.screen_profile_settings_display_text_passcode}" />
 
             <TextView
+                android:id="@+id/tvChangePasscode"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -179,6 +184,7 @@
 
 
         <LinearLayout
+            android:id="@+id/llNotification"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -203,7 +209,6 @@
 
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/switchNotification"
-
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight=".3" />
@@ -230,6 +235,7 @@
             app:text="@{Strings.screen_profile_settings_display_text_about_us}" />
 
         <LinearLayout
+            android:id="@+id/llTermsAndCondition"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -253,6 +259,7 @@
                 app:text="@{Strings.screen_profile_settings_display_terms_and_conditions}" />
 
             <TextView
+                android:id="@+id/tvTermsAndConditionView"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -263,6 +270,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llInstagram"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
@@ -287,6 +295,7 @@
                 app:text="@{Strings.screen_profile_settings_display_text_instagram}" />
 
             <TextView
+                android:id="@+id/tvFollowOnInstagram"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -297,6 +306,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llTwitter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
@@ -321,6 +331,7 @@
                 app:text="@{Strings.screen_profile_settings_display_text_twitter}" />
 
             <TextView
+                android:id="@+id/tvFollowOnTwitter"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -331,6 +342,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/llFaceBook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
@@ -355,6 +367,7 @@
                 app:text="@{Strings.screen_profile_settings_display_text_facebook}" />
 
             <TextView
+                android:id="@+id/tvLikeUsOnFaceBook"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
