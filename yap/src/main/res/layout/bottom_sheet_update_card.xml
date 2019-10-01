@@ -8,7 +8,6 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel" />
-
     </data>
 
     <LinearLayout
@@ -23,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_normal_large"
             android:paddingTop="@dimen/margin_extra_small"
             android:paddingBottom="@dimen/margin_extra_small"
             android:text="@string/screen_update_profile_photo_display_text_title"
@@ -32,27 +31,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:background="@color/divider" />
-
-        <TextView
-            android:id="@+id/tvChoosePhoto"
-            style="@style/Regular"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_normal_large"
-            android:drawableStart="@drawable/ic_choose_photo"
-            android:drawablePadding="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_extra_small"
-            android:paddingBottom="@dimen/margin_extra_small"
-            android:text="@string/screen_update_profile_photo_display_text_choose_photo"
-            android:textColor="@color/black" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginBottom="@dimen/margin_normal_large"
             android:background="@color/divider" />
 
         <TextView
@@ -61,12 +41,36 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_normal_large"
             android:drawableStart="@drawable/ic_camera"
             android:drawablePadding="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_extra_small"
-            android:paddingBottom="@dimen/margin_extra_small"
+            android:paddingTop="@dimen/margin_normal_large"
+            android:paddingBottom="@dimen/margin_normal_large"
             android:text="@string/screen_update_profile_photo_display_text_open_camera"
             android:textColor="@color/black" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginBottom="@dimen/margin_normal_large"
+            android:background="@color/divider" />
+
+
+        <TextView
+            android:id="@+id/tvChoosePhoto"
+            style="@style/Regular"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:drawableStart="@drawable/ic_choose_photo"
+            android:drawablePadding="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_normal_large"
+            android:paddingBottom="@dimen/margin_normal_large"
+            android:text="@string/screen_update_profile_photo_display_text_choose_photo"
+            android:textColor="@color/black"
+            android:layout_marginBottom="@dimen/margin_normal_large"
+            />
+
+
     </LinearLayout>
 </layout>

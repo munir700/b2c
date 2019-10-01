@@ -6,11 +6,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
+import co.yap.modules.dashboard.constants.Constants
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 
-class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View {
+class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
+    CardClickListener {
+
+
+    private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -65,10 +71,43 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.rlAddNewProfilePic -> {
                     // add new profile picture
 
+                    updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
+                    updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
+
+
                 }
             }
         })
+    }
 
+    override fun onClick(eventType: Int) {
+
+//        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+//            updatePhotoBottomSheet.dismiss()
+//        } else {
+        updatePhotoBottomSheet.dismiss()
+//        }
+
+        when (eventType) {
+
+            Constants.EVENT_ADD_PHOTO -> {
+                showToast(Constants.EVENT_ADD_PHOTO.toString())
+//                startActivityForResult(
+//                    UpdateCardNameActivity.newIntent(activity, viewModel.card),
+//                    Constants.REQUEST_CARD_NAME_UPDATED
+//                )
+            }
+            Constants.EVENT_CHOOSE_PHOTO -> {
+                showToast(Constants.EVENT_CHOOSE_PHOTO.toString())
+
+//                startActivity(
+//                    ChangeCardPinActivity.newIntent(
+//                        activity,
+//                        viewModel.card.cardSerialNumber
+//                    )
+//                )
+            }
+        }
     }
 
     override fun onDestroy() {
