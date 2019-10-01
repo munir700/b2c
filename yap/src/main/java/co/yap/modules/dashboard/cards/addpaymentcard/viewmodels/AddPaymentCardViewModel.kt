@@ -9,8 +9,8 @@ import co.yap.yapcore.SingleLiveEvent
 class AddPaymentCardViewModel(application: Application) :
     BaseViewModel<IAddPaymentCard.State>(application),
     IAddPaymentCard.ViewModel {
-    override lateinit var physicalCardFee: String
-    override lateinit var virtualCardFee: String
+    override var physicalCardFee: String = ""
+    override var virtualCardFee: String = ""
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
     override val state: AddPaymentCardsState =
         AddPaymentCardsState()
