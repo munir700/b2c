@@ -62,6 +62,7 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
     private fun setupRecycleView() {
         adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
         getBinding().recyclerOptions.adapter = adapter
+        adapter.allowFullItemClickListener= true
         adapter.setItemListener(listener)
     }
 

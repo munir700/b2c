@@ -10,68 +10,65 @@
             type="co.yap.modules.dashboard.more.home.viewmodels.YapMoreItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardParent"
-        style="@style/CardViewLight"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_small"
-        android:background="@color/white"
-        android:gravity="center_vertical"
-        app:cardElevation="@dimen/_1sdp">
+        android:layout_margin="@dimen/_6sdp"
+        android:padding="@dimen/margin_medium"
+        android:background="@drawable/cornor_edges_gery">
 
-        <LinearLayout
+        <ImageView
+            android:id="@+id/imgIcon"
+            android:layout_width="@dimen/_43sdp"
+            android:layout_height="@dimen/_43sdp"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:contentDescription="@string/empty_string"
+            android:padding="@dimen/_11sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:src="@{viewModel.moreOption.image}"
+            tools:background="@color/greyDark"
+            tools:src="@drawable/ic_notification" />
+
+        <co.yap.widgets.BadgeTextView
+            android:id="@+id/textBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:background="#f44774"
+            android:text="4"
+            android:textColor="@color/white"
+            android:visibility="@{viewModel.moreOption.hasBadge ? View.VISIBLE:View.GONE}"
+            app:layout_constraintEnd_toEndOf="@+id/imgIcon"
+            app:layout_constraintStart_toStartOf="@+id/imgIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:mbtv_border_color="@color/white"
+            app:mbtv_border_width="@dimen/_2sdp"
+            app:mbtv_type="shadow_gradual" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            style="@style/ASmall"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_medium">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_small"
+            android:gravity="center"
+            android:text="@{viewModel.moreOption.name}"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/imgIcon"
+            tools:text="android:asdasdas" />
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_gravity="center"
-                android:layout_height="match_parent">
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <ImageView
-                    android:id="@+id/imgIcon"
-                    android:layout_width="@dimen/_50sdp"
-                    android:layout_height="@dimen/_50sdp"
-                    android:layout_centerInParent="true"
-                    android:padding="10dp"
-                    android:layout_gravity="center"
-                    android:contentDescription="@string/empty_string"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:src="@{viewModel.moreOption.image}"
-                    tools:srcCompat="@drawable/ic_bulb" />
-
-<!--                <co.yap.widgets.BadgeTextView-->
-<!--                    android:id="@+id/textBadge"-->
-<!--                    android:layout_width="wrap_content"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignTop="@+id/imgIcon"-->
-<!--                    android:layout_alignEnd="@+id/imgIcon"-->
-<!--                    android:background="@drawable/badge_backgound"-->
-<!--                    android:text="4" />-->
-            </RelativeLayout>
-
-
-            <TextView
-                android:id="@+id/tvTitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/ASmall"
-                android:layout_gravity="center"
-                android:gravity="center"
-                tools:text="android:asdasdas"
-                android:text="@{viewModel.moreOption.name}"
-                android:textSize="@dimen/_10sdp" />
-        </LinearLayout>
-
-
-    </androidx.cardview.widget.CardView>
 </layout>

@@ -5,7 +5,6 @@
 
     <data>
 
-        <import type="co.yap.yapcore.managers.MyUserManager" />
         <import type="co.yap.translation.Strings" />
 
         <variable
@@ -51,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             tools:text="Logan Pearson"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -64,6 +64,7 @@
             android:layout_marginTop="@dimen/margin_small"
             tools:text="IBAN AE357599475775847"
             app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvName" />
 
@@ -73,6 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_extra_small"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             tools:text="BIC NTSBDHF2373"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

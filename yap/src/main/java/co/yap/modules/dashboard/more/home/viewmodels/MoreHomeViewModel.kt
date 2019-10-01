@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.home.viewmodels
 
 import android.app.Application
+import androidx.core.content.ContextCompat
 import co.yap.R
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
@@ -22,10 +23,47 @@ class MoreHomeViewModel(application: Application) :
 
     override fun getMoreOptions(): MutableList<MoreOption> {
         val list = mutableListOf<MoreOption>()
-        list.add(MoreOption(1, "Notifications", R.drawable.ic_bulb, false, 0))
-        list.add(MoreOption(2, "Locate ATM and CDM ", R.drawable.ic_bulb, false, 0))
-        list.add(MoreOption(3, "Invite a friend", R.drawable.ic_bulb, false, 0))
-        list.add(MoreOption(4, "Help and support", R.drawable.ic_bulb, false, 0))
+        list.add(
+            MoreOption(
+                1,
+                "Notifications",
+                R.drawable.ic_notification_more,
+                ContextCompat.getColor(context, R.color.colorSecondaryOrange),
+                true,
+                0
+            )
+        )
+        //colorSecondaryGreen
+        list.add(
+            MoreOption(
+                1,
+                "Locate ATM and CDM",
+                R.drawable.ic_home_more,
+                ContextCompat.getColor(context, R.color.colorSecondaryGreen),
+                false,
+                0
+            )
+        )
+        list.add(
+            MoreOption(
+                1,
+                "Invite a friend",
+                R.drawable.ic_gift,
+                ContextCompat.getColor(context, R.color.colorPrimaryAlt),
+                false,
+                0
+            )
+        )
+        list.add(
+            MoreOption(
+                1,
+                "Help and support",
+                R.drawable.ic_support,
+                ContextCompat.getColor(context, R.color.colorSecondaryBlue),
+                false,
+                0
+            )
+        )
         return list
     }
 }
