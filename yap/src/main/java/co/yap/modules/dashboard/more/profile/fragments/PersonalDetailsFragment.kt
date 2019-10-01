@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
@@ -43,6 +44,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.cvCard -> {
+                    if (!viewModel.state.errorVisibility) {
+                        //start kyc flow & get back to this screen
+                        //    else no action to be performed
+                    }
 
                 }
             }
