@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel" />
+            type="co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,6 +87,7 @@
                     android:text="+971 (909) 090 909" />
 
                 <TextView
+                    android:id="@+id/tvEditPhoneNumber"
                     style="@style/ARegular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

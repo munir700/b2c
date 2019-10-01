@@ -391,8 +391,7 @@
     <string name="screen_update_profile_photo_display_text_open_camera">Open camera</string>
     <string name="screen_update_profile_photo_display_text_choose_photo">Choose photo</string>
 
-
-   <!-- personal detail screen -->
+    <!-- personal detail screen -->
 
     <string name="screen_personal_detail_display_text_title">Personal details</string>
     <string name="screen_personal_detail_display_text_full_name">Full name</string>
