@@ -24,7 +24,6 @@
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:orientation="vertical"
-            android:padding="@dimen/margin_medium"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -50,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
-                android:text="Logan Rich Pearson" />
+                android:text="@={viewModel.state.fullName}" />
 
 
             <View
@@ -84,7 +83,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_weight=".7"
-                    android:text="+971 (909) 090 909" />
+                    android:text="@={viewModel.state.phoneNumber}" />
 
                 <TextView
                     android:id="@+id/tvEditPhoneNumber"
@@ -130,7 +129,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_weight=".7"
-                    android:text="+971 (909) 090 909" />
+                    android:text="@={viewModel.state.email}" />
 
                 <TextView
                     android:id="@+id/tvEditEmail"
@@ -176,7 +175,7 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:layout_weight=".7"
                     android:paddingRight="@dimen/margin_extra_small"
-                    tools:text="Burj Residence Tower 1, Suite 1107" />
+                    android:text="@={viewModel.state.address}" />
 
                 <TextView
                     android:id="@+id/tvEditAddress"
@@ -216,9 +215,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/llParent"
             app:layout_constraintVertical_bias="1.0"
-            tools:layout_editor_absoluteX="16dp"
-
-            >
+            tools:layout_editor_absoluteX="16dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -267,11 +264,10 @@
                     style="@style/ASmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:maxWidth="@dimen/_140sdp"
+                    android:maxWidth="@dimen/_150sdp"
+                    android:text="@={viewModel.state.verificationText}"
                     app:layout_constraintStart_toStartOf="@+id/tvEid"
-                    app:layout_constraintTop_toBottomOf="@+id/tvEid"
-                    app:text="@{Strings.screen_personal_detail_display_text_verification_expired}"
-                    tools:text="@string/screen_personal_detail_display_text_verification_expired" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvEid" />
 
 
                 <ImageView
@@ -282,7 +278,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/textView5"
                     app:layout_constraintTop_toTopOf="@+id/tvEid"
-                    app:srcCompat="@drawable/ic_doc_error" />
+                    app:src="@{viewModel.state.drawbleRight}" />
                 <!--                    app:srcCompat="@drawable/ic_tick_enabled"-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>

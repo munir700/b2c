@@ -9,6 +9,11 @@ import co.yap.yapcore.SingleClickEvent
 
 class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel {
+
+    override fun handlePressOnScanCard(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun handlePressOnEditPhone(id: Int) {
         clickEvent.setValue(id)
     }
@@ -25,8 +30,7 @@ class PersonalDetailsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override val state: PersonalDetailState =
-        PersonalDetailState()
+    override val state: PersonalDetailState = PersonalDetailState(application)
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 

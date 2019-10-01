@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
@@ -36,7 +37,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             when (it) {
 
                 R.id.tvPersonalDetailView -> {
-//                    findNavController().navigate(R.string.screen_spare_card_landing_display_text_physical_card)
+                    findNavController().navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
                 }
 
                 R.id.tvPrivacyView -> {

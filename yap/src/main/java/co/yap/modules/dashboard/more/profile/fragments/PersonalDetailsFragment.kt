@@ -31,7 +31,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
-//                    findNavController().navigate(R.string.screen_spare_card_landing_display_text_physical_card)
+//                    findNavController().navigate(R.string.action_profileSettingsFragment_to_personalDetailsFragment)
                 }
 
                 R.id.tvEditEmail -> {
@@ -39,6 +39,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
+
+                }
+
+                R.id.cvCard -> {
 
                 }
             }
