@@ -5,7 +5,7 @@ import co.yap.BR
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.yapcore.BaseState
 
-class MoreHomeState : BaseState(), IMoreHome.State {
+class MoreState : BaseState(), IMoreHome.State {
 
 
 }
