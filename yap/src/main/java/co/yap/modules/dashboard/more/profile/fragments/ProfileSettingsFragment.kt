@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -68,6 +70,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     // change profile picture
                 }
 
+                R.id.tvLogOut -> {
+
+                    logoutAlert()
+
+                }
+
                 R.id.rlAddNewProfilePic -> {
                     updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
                     updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
@@ -81,7 +89,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         updatePhotoBottomSheet.dismiss()
 
         when (eventType) {
-//add/update photo
+// add update photo
             Constants.EVENT_ADD_PHOTO -> {
                 showToast(Constants.EVENT_ADD_PHOTO.toString())
             }
@@ -95,5 +103,24 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+
     }
+
+    fun logoutAlert() {
+        AlertDialog.Builder(this!!.activity!!)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
+            .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
+            .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
+                DialogInterface.OnClickListener { dialog, which ->
+
+                })
+
+            .setNegativeButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                null
+            )
+            .show()
+    }
+
 }
