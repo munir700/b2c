@@ -12,178 +12,279 @@
             type="co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel" />
     </data>
 
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:orientation="vertical"
+        android:background="@color/white"
         android:padding="@dimen/margin_medium">
 
-
-        <TextView
-            android:id="@+id/tvNameCaption"
-            style="@style/ASmallGrey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:gravity="start"
-            android:text="@string/screen_personal_detail_display_text_full_name"
-            app:text="@{Strings.screen_personal_detail_display_text_full_name}" />
-
-        <TextView
-            android:id="@+id/tvName"
-            style="@style/ARegular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:gravity="center"
-            android:text="Logan Rich Pearson" />
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/divider" />
-
-
-        <TextView
-            android:id="@+id/tvPhoneCaption"
-            style="@style/ASmallGrey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:gravity="start"
-            android:text="@string/screen_personal_detail_display_text_phone_number"
-            app:text="@{Strings.screen_personal_detail_display_text_phone_number}" />
-
         <LinearLayout
+            android:id="@+id/llParent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:padding="@dimen/margin_medium"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.054">
+
 
             <TextView
-                android:id="@+id/tvPhoneNumber"
-                style="@style/ARegular"
-                android:layout_width="0dp"
+                android:id="@+id/tvNameCaption"
+                style="@style/ASmallGrey"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_weight=".7"
-                android:text="+971 (909) 090 909" />
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:text="@string/screen_personal_detail_display_text_full_name"
+                app:text="@{Strings.screen_personal_detail_display_text_full_name}" />
 
             <TextView
+                android:id="@+id/tvName"
                 style="@style/ARegular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_small"
                 android:gravity="center"
-                android:text="@string/screen_personal_detail_display_text_edit"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_personal_detail_display_text_edit}" />
+                android:text="Logan Rich Pearson" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/divider" />
+
+
+            <TextView
+                android:id="@+id/tvPhoneCaption"
+                style="@style/ASmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="start"
+                android:text="@string/screen_personal_detail_display_text_phone_number"
+                app:text="@{Strings.screen_personal_detail_display_text_phone_number}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvPhoneNumber"
+                    style="@style/ARegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_weight=".7"
+                    android:text="+971 (909) 090 909" />
+
+                <TextView
+                    style="@style/ARegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/screen_personal_detail_display_text_edit"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_personal_detail_display_text_edit}" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/divider" />
+
+
+            <TextView
+                android:id="@+id/tvEmailCaption"
+                style="@style/ASmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="start"
+                android:text="@string/screen_personal_detail_display_text_email"
+                app:text="@{Strings.screen_personal_detail_display_text_email}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvEmail"
+                    style="@style/ARegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_weight=".7"
+                    android:text="+971 (909) 090 909" />
+
+                <TextView
+                    android:id="@+id/tvEditEmail"
+                    style="@style/ARegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/screen_personal_detail_display_text_edit"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_personal_detail_display_text_edit}" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/divider" />
+
+            <TextView
+                android:id="@+id/tvAddressCaption"
+                style="@style/ASmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="start"
+                android:text="@string/screen_personal_detail_display_text_address"
+                app:text="@{Strings.screen_personal_detail_display_text_address}" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tvAddress"
+                    style="@style/ARegular"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:layout_weight=".7"
+                    android:paddingRight="@dimen/margin_extra_small"
+                    tools:text="Burj Residence Tower 1, Suite 1107" />
+
+                <TextView
+                    android:id="@+id/tvEditAddress"
+                    style="@style/ARegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/screen_personal_detail_display_text_edit"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_personal_detail_display_text_edit}" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@color/divider" />
 
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/divider" />
-
-
-        <TextView
-            android:id="@+id/tvEmailCaption"
-            style="@style/ASmallGrey"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:gravity="start"
-            android:text="@string/screen_personal_detail_display_text_email"
-            app:text="@{Strings.screen_personal_detail_display_text_email}" />
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="@{(v) -> viewModel.handlePressOnScanCard(v.id)}"
+            app:cardBackgroundColor="@color/colorPrimaryWarm"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.525"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/llParent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="16dp"
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal">
+            >
 
-            <TextView
-                android:id="@+id/tvEmail"
-                style="@style/ARegular"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_weight=".7"
-                android:text="+971 (909) 090 909" />
-
-            <TextView
-                android:id="@+id/tvEditEmail"
-                style="@style/ARegular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:gravity="center"
-                android:text="@string/screen_personal_detail_display_text_edit"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_personal_detail_display_text_edit}" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/divider" />
-
-        <TextView
-            android:id="@+id/tvAddressCaption"
-            style="@style/ASmallGrey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:gravity="start"
-            android:text="@string/screen_personal_detail_display_text_address"
-            app:text="@{Strings.screen_personal_detail_display_text_address}" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tvAddress"
-                style="@style/ARegular"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:layout_weight=".7"
-                android:paddingRight="@dimen/margin_extra_small"
-                tools:text="Burj Residence Tower 1, Suite 1107" />
-
-            <TextView
-                android:id="@+id/tvEditAddress"
-                style="@style/ARegular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:gravity="center"
-                android:text="@string/screen_personal_detail_display_text_edit"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_personal_detail_display_text_edit}" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@color/divider" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingTop="@dimen/margin_large"
+                android:paddingEnd="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_large">
 
 
-    </LinearLayout>
+                <FrameLayout
+                    android:id="@+id/ivProfile"
+                    android:layout_width="@dimen/_42sdp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:background="@drawable/bg_round_white"
+                    android:backgroundTint="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <ImageView
+                        android:layout_width="@dimen/_26sdp"
+                        android:layout_height="@dimen/_26sdp"
+                        android:layout_gravity="center_vertical|center"
+                        android:src="@drawable/ic_profile"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvEid"
+                    style="@style/ALarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:textColor="@color/white"
+                    app:layout_constraintLeft_toRightOf="@+id/ivProfile"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:text="@{Strings.screen_b2c_eid_info_review_display_text_emirates_id_heading}"
+                    tools:text="@string/screen_b2c_eid_info_review_display_text_emirates_id_heading" />
+
+                <TextView
+                    android:id="@+id/textView5"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxWidth="@dimen/_140sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tvEid"
+                    app:layout_constraintTop_toBottomOf="@+id/tvEid"
+                    app:text="@{Strings.screen_personal_detail_display_text_verification_expired}"
+                    tools:text="@string/screen_personal_detail_display_text_verification_expired" />
+
+
+                <ImageView
+                    android:layout_width="@dimen/_32sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/textView5"
+                    app:layout_constraintTop_toTopOf="@+id/tvEid"
+                    app:srcCompat="@drawable/ic_doc_error" />
+                <!--                    app:srcCompat="@drawable/ic_tick_enabled"-->
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

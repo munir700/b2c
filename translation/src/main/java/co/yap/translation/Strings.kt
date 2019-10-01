@@ -659,5 +659,9 @@ object Strings {
         "screen_personal_detail_display_text_edit"
     const val screen_personal_detail_display_text_emirates_id: String =
         "screen_personal_detail_display_text_emirates_id"
+    const val screen_personal_detail_display_text_verification_completed: String =
+        "screen_personal_detail_display_text_verification_completed"
+    const val screen_personal_detail_display_text_verification_expired: String =
+        "screen_personal_detail_display_text_verification_expired"
 
 }
