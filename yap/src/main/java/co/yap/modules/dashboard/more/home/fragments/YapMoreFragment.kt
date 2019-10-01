@@ -1,0 +1,96 @@
+package co.yap.modules.dashboard.more.home.fragments
+
+import android.os.Bundle
+import android.text.SpannableString
+import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
+import co.yap.BR
+import co.yap.R
+import co.yap.databinding.FragmentMoreHomeBinding
+import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
+import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
+import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
+import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
+
+
+class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View {
+
+    lateinit var adapter: YapMoreAdaptor
+
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.fragment_more_home
+
+    override val viewModel: IMoreHome.ViewModel
+        get() = ViewModelProviders.of(this).get(MoreHomeViewModel::class.java)
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setObservers()
+        initComponents()
+        setupRecycleView()
+    }
+
+
+    private fun initComponents() {
+        getBinding().tvName.text =
+            MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName
+
+        val ibanSpan = SpannableString("IBAN " + MyUserManager.user?.iban)
+        val bicSpan = SpannableString("BIC " + MyUserManager.user?.accountNo)
+
+        getBinding().tvIban.text = Utils.setSpan(
+            0,
+            4,
+            ibanSpan,
+            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+        )
+        getBinding().tvBic.text = Utils.setSpan(
+            0,
+            3,
+            bicSpan,
+            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+        )
+    }
+
+    private fun setupRecycleView() {
+        adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
+        getBinding().recyclerOptions.adapter = adapter
+        adapter.allowFullItemClickListener= true
+        adapter.setItemListener(listener)
+    }
+
+    private fun setObservers() {
+        viewModel.clickEvent.observe(this, observer)
+    }
+
+    private val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            showToast("Clicked $(data as MoreOption).name")
+        }
+    }
+
+    private val observer = Observer<Int> {
+        when (it) {
+            R.id.imgProfile -> {
+            }
+            R.id.tvName -> {
+            }
+            R.id.tvIban -> {
+            }
+            R.id.tvBic -> {
+            }
+        }
+        showToast("Clicked $it")
+    }
+
+    override fun getBinding(): FragmentMoreHomeBinding {
+        return viewDataBinding as FragmentMoreHomeBinding
+    }
+}

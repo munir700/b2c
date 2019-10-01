@@ -66,8 +66,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun setupList() {
-        if (viewModel.state.enableAddCard.get())
-            MyUserManager.cards.value?.add(getAddCard())
+        /* if (viewModel.state.enableAddCard.get())
+             MyUserManager.cards.value?.add(getAddCard())*/
         adapter.setList(MyUserManager.cards.value!!)
         updateCardCount()
     }
@@ -301,54 +301,13 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     override fun onDestroyView() {
-        if (viewModel.state.enableAddCard.get()) {
-            val list = adapter.getDataList() as ArrayList<Card>
-            list.removeAt(list.size - 1)
-            MyUserManager.cards.value = list
-        } else {
-            MyUserManager.cards.value = adapter.getDataList() as ArrayList<Card>
-        }
-
+        MyUserManager.cards.value = adapter.getDataList() as ArrayList<Card>
         super.onDestroyView()
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-    }
-
-    private fun getAddCard(): Card {
-
-        return Card(
-            newPin = "",
-            cardType = "DEBIT",
-            uuid = "542 d2ef0 -9903 - 4 a19 -a691 - 12331357f f15",
-            physical = false,
-            active = false,
-            cardName = Constants.addCard,
-            nameUpdated = false,
-            status = "ACTIVE",
-            shipmentStatus = "SHIPPED",
-            deliveryStatus = "BOOKED",
-            blocked = false,
-            delivered = false,
-            cardSerialNumber = "1000000000612",
-            maskedCardNo = "5381 23 * * * * * * 5744",
-            atmAllowed = true,
-            onlineBankingAllowed = true,
-            retailPaymentAllowed = true,
-            paymentAbroadAllowed = true,
-            accountType = "B2C_ACCOUNT",
-            expiryDate = "09/24",
-            cardBalance = "0.00",
-            cardScheme = "Master Card",
-            currentBalance = "0.00",
-            availableBalance = "0.00",
-            customerId = "1100000000071",
-            accountNumber = "1199999000000071",
-            productCode = "CD",
-            pinCreated = true
-        )
     }
 
 }
