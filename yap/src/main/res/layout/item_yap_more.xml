@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_30sdp"
             android:background="@color/colorSecondaryMagenta"
-            android:text="@{viewModel.moreOption.badgeCount}"
+            android:text="@{Integer.toString(viewModel.moreOption.badgeCount)}"
             android:textColor="@color/white"
             tools:text="4"
             android:visibility="@{viewModel.moreOption.hasBadge ? View.VISIBLE:View.GONE}"
