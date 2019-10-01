@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
+import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
@@ -62,7 +63,7 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
     private fun setupRecycleView() {
         adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
         getBinding().recyclerOptions.adapter = adapter
-        adapter.allowFullItemClickListener= true
+        adapter.allowFullItemClickListener = true
         adapter.setItemListener(listener)
     }
 
@@ -84,10 +85,10 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
             }
             R.id.tvIban -> {
             }
-            R.id.tvBic -> {
+            R.id.btnBankDetails -> {
+                startActivity(BankDetailActivity.newIntent(requireContext()))
             }
         }
-        showToast("Clicked $it")
     }
 
     override fun getBinding(): FragmentMoreHomeBinding {
