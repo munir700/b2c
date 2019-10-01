@@ -47,10 +47,9 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     if (!viewModel.state.errorVisibility) {
                         val action =
                             PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-                                viewModel.state.fullName
+                                viewModel.state.fullName,true
                             )
                         findNavController().navigate(action)
-//                          findNavController().navigate(R.id.action_personalDetailsFragment_to_documentsDashboardActivity)
                     }
 
                 }
