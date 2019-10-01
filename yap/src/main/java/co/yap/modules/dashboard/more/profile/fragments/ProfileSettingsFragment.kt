@@ -15,7 +15,6 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
     CardClickListener {
 
-
     private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -69,12 +68,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.rlAddNewProfilePic -> {
-                    // add new profile picture
-
                     updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
                     updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
-
-
                 }
             }
         })
@@ -82,30 +77,16 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onClick(eventType: Int) {
 
-//        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-//            updatePhotoBottomSheet.dismiss()
-//        } else {
         updatePhotoBottomSheet.dismiss()
-//        }
 
         when (eventType) {
-
+//add/update photo
             Constants.EVENT_ADD_PHOTO -> {
                 showToast(Constants.EVENT_ADD_PHOTO.toString())
-//                startActivityForResult(
-//                    UpdateCardNameActivity.newIntent(activity, viewModel.card),
-//                    Constants.REQUEST_CARD_NAME_UPDATED
-//                )
             }
+
             Constants.EVENT_CHOOSE_PHOTO -> {
                 showToast(Constants.EVENT_CHOOSE_PHOTO.toString())
-
-//                startActivity(
-//                    ChangeCardPinActivity.newIntent(
-//                        activity,
-//                        viewModel.card.cardSerialNumber
-//                    )
-//                )
             }
         }
     }

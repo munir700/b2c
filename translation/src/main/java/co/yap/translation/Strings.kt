@@ -633,7 +633,7 @@ object Strings {
     const val screen_profile_settings_display_text_logout: String =
         "screen_profile_settings_display_text_logout"
 
-//update phot bottom sheet
+//update photo bottom sheet
 
     const val screen_update_profile_photo_display_text_title: String =
         "screen_update_profile_photo_display_text_title"
@@ -641,4 +641,23 @@ object Strings {
         "screen_update_profile_photo_display_text_open_camera"
     const val screen_update_profile_photo_display_text_choose_photo: String =
         "screen_update_profile_photo_display_text_choose_photo"
+
+
+//  personal detail screen
+
+    const val screen_personal_detail_display_text_title: String =
+        "screen_personal_detail_display_text_title"
+    const val screen_personal_detail_display_text_full_name: String =
+        "screen_personal_detail_display_text_full_name"
+    const val screen_personal_detail_display_text_phone_number: String =
+        "screen_personal_detail_display_text_phone_number"
+    const val screen_personal_detail_display_text_email: String =
+        "screen_personal_detail_display_text_email"
+    const val screen_personal_detail_display_text_address: String =
+        "screen_personal_detail_display_text_address"
+    const val screen_personal_detail_display_text_edit: String =
+        "screen_personal_detail_display_text_edit"
+    const val screen_personal_detail_display_text_emirates_id: String =
+        "screen_personal_detail_display_text_emirates_id"
+
 }
