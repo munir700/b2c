@@ -15,7 +15,11 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator, IFragmentHolder {
- var isFromMoreSection:Boolean=false
+
+    companion object{
+        var isFromMoreSection:Boolean=false
+
+    }
 
     override val viewModel: IDocumentsDashboard.ViewModel
         get() = ViewModelProviders.of(this).get(DocumentsDashboardViewModel::class.java)
