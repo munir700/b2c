@@ -403,4 +403,11 @@
     <string name="screen_personal_detail_display_text_verification_completed">Verification completed</string>
     <string name="screen_personal_detail_display_text_verification_expired">Your EID is expired.\nTap to update to ensure account continuity</string>
 
+    <!-- logout dialogue  -->
+
+    <string name="screen_profile_settings_logout_display_text_alert_title">Log out</string>
+    <string name="screen_profile_settings_logout_display_text_alert_message">Are you sure you want to log out?</string>
+    <string name="screen_profile_settings_logout_display_text_alert_cancel">CANCEL</string>
+    <string name="screen_profile_settings_logout_display_text_alert_logout">LOG OUT</string>
+
 </resources>

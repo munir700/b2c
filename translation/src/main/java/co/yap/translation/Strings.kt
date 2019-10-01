@@ -664,4 +664,14 @@ object Strings {
     const val screen_personal_detail_display_text_verification_expired: String =
         "screen_personal_detail_display_text_verification_expired"
 
+
+    // logout dialogue
+    const val screen_profile_settings_logout_display_text_alert_title: String =
+        "screen_profile_settings_logout_display_text_alert_title"
+    const val screen_profile_settings_logout_display_text_alert_message: String =
+        "screen_profile_settings_logout_display_text_alert_message"
+    const val screen_profile_settings_logout_display_text_alert_cancel: String =
+        "screen_profile_settings_logout_display_text_alert_cancel"
+    const val screen_profile_settings_logout_display_text_alert_logout: String =
+        "screen_profile_settings_logout_display_text_alert_logout"
 }
