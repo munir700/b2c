@@ -27,7 +27,9 @@
             android:id="@+id/action_profileSettingsFragment_to_personalDetailsFragment"
             app:destination="@id/personalDetailsFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@id/more_main_navigation"
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -35,10 +37,23 @@
         android:id="@+id/personalDetailsFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment"
         android:label="Settings"
-        tools:layout="@layout/fragment_profile">
+        tools:layout="@layout/fragment_personal_detail">
 
-
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_documentsDashboardActivity"
+            app:destination="@id/documentsDashboardActivity"
+            app:popUpToInclusive="false">
+        </action>
     </fragment>
 
+    <activity
+        android:id="@+id/documentsDashboardActivity"
+        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
+        android:label="DocumentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard">
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </activity>
 
 </navigation>

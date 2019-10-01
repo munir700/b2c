@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.constants.Constants
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment

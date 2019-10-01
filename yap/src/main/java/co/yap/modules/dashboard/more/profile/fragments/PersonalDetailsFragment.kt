@@ -32,7 +32,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
-//                    findNavController().navigate(R.string.action_profileSettingsFragment_to_personalDetailsFragment)
+//                    findNavController().navigate(R.id.action_personalDetailsFragment_to_documentsDashboardActivity)
                 }
 
                 R.id.tvEditEmail -> {
@@ -45,8 +45,12 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.cvCard -> {
                     if (!viewModel.state.errorVisibility) {
-                        //start kyc flow & get back to this screen
-                        //    else no action to be performed
+                        val action =
+                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
+                                viewModel.state.fullName
+                            )
+                        findNavController().navigate(action)
+//                          findNavController().navigate(R.id.action_personalDetailsFragment_to_documentsDashboardActivity)
                     }
 
                 }
