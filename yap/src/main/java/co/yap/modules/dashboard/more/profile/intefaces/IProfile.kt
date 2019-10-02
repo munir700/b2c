@@ -4,7 +4,12 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IProfile {
+
     interface State : IBase.State {
+        var fullName: String
+        var profilePictureUrl: String
+        var nameInitialsVisibility: Int
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -34,7 +39,6 @@ interface IProfile {
         fun handlePressOnAddNewPhoto(id: Int)
 
         fun handlePressOnPhoto(id: Int)
-
 
     }
 

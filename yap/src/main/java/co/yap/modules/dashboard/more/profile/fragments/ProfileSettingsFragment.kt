@@ -30,7 +30,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override val viewModel: IProfile.ViewModel
         get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }

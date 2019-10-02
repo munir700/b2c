@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
@@ -20,14 +21,11 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
-import androidx.viewpager2.widget.ViewPager2
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
-import co.yap.widgets.CoreInputField
 import co.yap.yapcore.R
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.StringUtils
@@ -84,8 +82,8 @@ object UIBinder {
                 imageView.setImageResource(R.drawable.ic_status_frozen)
             }
             CardStatus.INACTIVE -> {
-                        imageView.visibility = View.VISIBLE
-                        imageView.setImageResource(R.drawable.ic_status_ontheway)
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_status_ontheway)
             }
 
         }
@@ -108,8 +106,8 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                if(card.cardType=="DEBIT"){
-                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                if (card.cardType == "DEBIT") {
+                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
                         text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
@@ -122,7 +120,7 @@ object UIBinder {
                             R.string.screen_cards_display_text_pending_delivery
                         )
                     }
-                }else {
+                } else {
                     if (card.deliveryStatus == null) {
                         text.visibility = View.GONE
                     } else {
@@ -165,8 +163,8 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                if(card.cardType=="DEBIT"){
-                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                if (card.cardType == "DEBIT") {
+                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
                         coreButton.visibility = View.VISIBLE
                         coreButton.text = Translator.getString(
                             coreButton.context,
@@ -175,24 +173,24 @@ object UIBinder {
                     } else {
                         coreButton.visibility = View.GONE
                     }
-                }else {
-                if (card.deliveryStatus == null) {
-                    coreButton.visibility = View.GONE
                 } else {
-                    when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                        CardDeliveryStatus.SHIPPED -> {
-                            coreButton.visibility = View.VISIBLE
-                            coreButton.text = Translator.getString(
-                                coreButton.context,
-                                R.string.screen_cards_display_text_set_pin
-                            )
-                        }
-                        else -> {
-                            coreButton.visibility = View.GONE
+                    if (card.deliveryStatus == null) {
+                        coreButton.visibility = View.GONE
+                    } else {
+                        when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                            CardDeliveryStatus.SHIPPED -> {
+                                coreButton.visibility = View.VISIBLE
+                                coreButton.text = Translator.getString(
+                                    coreButton.context,
+                                    R.string.screen_cards_display_text_set_pin
+                                )
+                            }
+                            else -> {
+                                coreButton.visibility = View.GONE
+                            }
                         }
                     }
                 }
-            }
             }
 
         }
@@ -534,10 +532,18 @@ object UIBinder {
     @BindingAdapter("isLayoutActivated")
     fun setisLayoutActivated(view: LinearLayout, value: Boolean) {
 //        if (!value) {
-            view.isActivated = value
+        view.isActivated = value
 
 //        }
     }
 
+    @BindingAdapter("src", "isRound")
+    @JvmStatic
+    fun setProfilePicture(view: ImageView, imageSrc: String, circular: Boolean) {
+        Glide.with(view.context)
+            .load(Uri.parse(imageSrc))
+            .transforms(CenterCrop(), RoundedCorners(115))
+            .into(view)
 
+    }
 }
