@@ -388,7 +388,6 @@
 
             </LinearLayout>
 
-
             <TextView
                 android:id="@+id/tvLogOut"
                 style="@style/Large"
@@ -397,9 +396,9 @@
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
                 android:text="@string/screen_profile_settings_display_text_logout"
+                android:onClick="@{(v) -> viewModel.handlePressOnLogOut(v.id)}"
                 android:textColor="@color/colorPrimary"
                 app:text="@{Strings.screen_profile_settings_display_text_logout}" />
         </LinearLayout>
-
     </ScrollView>
 </layout>
