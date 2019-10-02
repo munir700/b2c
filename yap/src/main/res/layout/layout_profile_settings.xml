@@ -67,6 +67,7 @@
                     android:layout_height="@dimen/_16sdp"
                     android:layout_marginLeft="@dimen/margin_normal"
                     android:background="@drawable/bg_round_red"
+                    android:visibility="@{viewModel.state.errorBadgeVisibility}"
                     android:backgroundTint="@color/error">
 
 

@@ -29,5 +29,7 @@ object Constants {
     const val EVENT_ADD_PHOTO: Int = 6
     const val EVENT_CHOOSE_PHOTO: Int = 7
 
+    const val FINAL_TAKE_PHOTO: Int = 8
+    const val FINAL_CHOOSE_PHOTO: Int = 9
 
 }

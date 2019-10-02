@@ -9,6 +9,7 @@ interface IProfile {
         var fullName: String
         var profilePictureUrl: String
         var nameInitialsVisibility: Int
+        var errorBadgeVisibility: Int
 
     }
 

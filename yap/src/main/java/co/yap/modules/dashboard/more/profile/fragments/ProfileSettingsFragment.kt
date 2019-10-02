@@ -1,9 +1,16 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.Manifest
+import android.app.Activity
 import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -26,6 +33,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_profile
+
+    private var imageUri: Uri? = null
+
+
+    val PICKFILE_REQUEST_CODE = 1
+    val START_CAMERA_REQUEST_CODE = 2
 
     override val viewModel: IProfile.ViewModel
         get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
@@ -94,11 +107,50 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 // add update photo
             Constants.EVENT_ADD_PHOTO -> {
                 showToast(Constants.EVENT_ADD_PHOTO.toString())
+
             }
 
             Constants.EVENT_CHOOSE_PHOTO -> {
-                showToast(Constants.EVENT_CHOOSE_PHOTO.toString())
+                // choose photo
+                val intent = Intent()
+                intent.type = "image/*"
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(
+                    Intent.createChooser(intent, "Select Picture"),
+                    Constants.FINAL_TAKE_PHOTO
+                )
+//                showToast(Constants.EVENT_CHOOSE_PHOTO.toString())
             }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            Constants.FINAL_CHOOSE_PHOTO ->
+                if (resultCode == Activity.RESULT_OK) {
+
+                    showToast(data.toString())
+                    val bitmap = BitmapFactory.decodeStream(
+                        activity!!.getContentResolver().openInputStream(imageUri)
+                    )
+//                    picture!!.setImageBitmap(bitmap)
+
+                }
+
+            Constants.FINAL_TAKE_PHOTO ->
+                if (resultCode == Activity.RESULT_OK) {
+
+                    showToast(data.toString())
+                    val bitmap =
+                        BitmapFactory.decodeStream(
+                            activity!!.getContentResolver().openInputStream(
+                                imageUri
+                            )
+                        )
+//                    picture!!.setImageBitmap(bitmap)
+
+                }
         }
     }
 
@@ -130,4 +182,41 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         MyUserManager.cards.value?.clear()
         activity?.finish()
     }
+
+    //
+
+    private fun openGallery() {
+        val intent = Intent()
+        //        intent.setType("image/*");
+        intent.type = "image/jpeg"
+
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(
+            Intent.createChooser(
+                intent,
+                "Select Picture"
+            ), PICKFILE_REQUEST_CODE
+        )
+    }
+
+    //
+
+    private fun choosePhoto() {
+//        pictureSelectionType = false
+
+        if (ContextCompat.checkSelfPermission(
+                this!!.activity!!,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                this!!.activity!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+//            askPermissions()
+        } else {
+            openGallery()
+        }
+    }
+
 }

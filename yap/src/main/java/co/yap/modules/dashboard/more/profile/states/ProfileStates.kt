@@ -18,6 +18,14 @@ class ProfileStates : BaseState(), IProfile.State {
         }
 
     @get:Bindable
+    override var errorBadgeVisibility: Int = VISIBLE
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.errorBadgeVisibility)
+
+        }
+
+    @get:Bindable
     override var fullName: String = "Logan Rich Pearson"
         set(value) {
             field = value
