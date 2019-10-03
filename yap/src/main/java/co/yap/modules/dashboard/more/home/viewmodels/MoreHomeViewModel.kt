@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.states.MoreState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 class MoreHomeViewModel(application: Application) :
@@ -16,6 +17,11 @@ class MoreHomeViewModel(application: Application) :
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: MoreState = MoreState()
+
+    init {
+        state.image.set("")
+        state.initials.set(Utils.shortName(MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName))
+    }
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

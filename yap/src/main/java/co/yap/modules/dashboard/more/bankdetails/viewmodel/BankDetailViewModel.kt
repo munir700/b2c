@@ -1,14 +1,10 @@
 package co.yap.modules.dashboard.more.bankdetails.viewmodel
 
 import android.app.Application
-import androidx.databinding.ObservableField
 import co.yap.modules.dashboard.more.bankdetails.interfaces.IBankDetail
 import co.yap.modules.dashboard.more.bankdetails.states.BankDetailStates
-import co.yap.modules.dashboard.more.interfaces.IMore
-import co.yap.modules.dashboard.more.states.MoreStates
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.managers.MyUserManager
 
 class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.State>(application),
@@ -23,8 +19,10 @@ class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.
         state.bank.set(MyUserManager.user?.bank?.name)
         state.iban.set(MyUserManager.user?.iban)
         state.swift.set(MyUserManager.user?.bank?.swiftCode)
-        state.name.set(MyUserManager.user?.customer?.firstName +" " +MyUserManager.user?.customer?.lastName)
+        state.name.set(MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName)
         state.title.set("YAP Bank details")
+        state.image.set("")
+        state.initials.set(co.yap.yapcore.helpers.Utils.shortName(state.name.get()!!))
     }
 
     override fun handlePressOnView(id: Int) {

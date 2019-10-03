@@ -52,12 +52,12 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
 
     private fun getBody(): String {
         return viewModel.state.title.get() + "\n\n" +
-                "Name :         ${viewModel.state.name.get()}\n" +
-                "SWIFT/BI:    ${viewModel.state.swift.get()}\n" +
-                "IBAN :        ${viewModel.state.iban.get()}\n" +
-                "Account :     ${viewModel.state.account.get()}\n" +
-                "Bank :           ${viewModel.state.bank.get()}\n" +
-                "Address :     ${viewModel.state.addresse.get()}\n"
+                "Name: ${viewModel.state.name.get()}\n" +
+                "SWIFT/BI: ${viewModel.state.swift.get()}\n" +
+                "IBAN: ${viewModel.state.iban.get()}\n" +
+                "Account: ${viewModel.state.account.get()}\n" +
+                "Bank: ${viewModel.state.bank.get()}\n" +
+                "Address: ${viewModel.state.addresse.get()}\n"
     }
 
     override fun onDestroy() {

@@ -179,4 +179,25 @@ object Utils {
         return wordtoSpan
     }
 
+     fun shortName(cardFullName: String): String {
+        var cardFullName = cardFullName
+        cardFullName = cardFullName.trim { it <= ' ' }
+        var shortName = ""
+        if (cardFullName.isNotEmpty() && cardFullName.contains(" ")) {
+            val nameStr =
+                cardFullName.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val firstName = nameStr[0]
+            val lastName = nameStr[nameStr.size-1]
+            shortName = firstName.substring(0, 1) + lastName.substring(0, 1)
+            return shortName.toUpperCase()
+        } else if (cardFullName.length > 0) {
+            val nameStr =
+                cardFullName.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val firstName = nameStr[0]
+            shortName = firstName.substring(0, 1)
+            return shortName.toUpperCase()
+        }
+        return shortName.toUpperCase()
+    }
+
 }

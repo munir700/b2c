@@ -8,6 +8,8 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -280,16 +282,34 @@
         <ImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
+            android:layout_marginTop="56dp"
             android:background="@drawable/bg_round_purple"
             android:backgroundTint="@color/white"
-            android:layout_height="@dimen/_64sdp"
-            android:layout_marginTop="@dimen/margin_xl"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:visibility="@{viewModel.state.image.empty ? View.INVISIBLE:View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:srcCompat="@drawable/ic_settings" />
+            app:srcCompat="@drawable/ic_settings"
+            tools:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tvNameInitials"
+            style="@style/ALarge"
+            android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
+            android:background="@drawable/bg_round_purple"
+            android:gravity="center"
+            android:text="@{viewModel.state.initials}"
+            android:textColor="@color/colorPrimaryDark"
+            android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
+            app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/imgProfile"
+            tools:text="NM" />
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnConfirm"

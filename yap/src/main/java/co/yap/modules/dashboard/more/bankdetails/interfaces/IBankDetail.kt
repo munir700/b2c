@@ -14,6 +14,8 @@ interface IBankDetail {
         var bank: ObservableField<String>
         var addresse: ObservableField<String>
         var title: ObservableField<String>
+        var image: ObservableField<String>
+        var initials: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
