@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.states.MoreState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
@@ -31,7 +32,7 @@ class MoreHomeViewModel(application: Application) :
         val list = mutableListOf<MoreOption>()
         list.add(
             MoreOption(
-                1,
+                Constants.MORE_NOTIFICATION,
                 "Notifications",
                 R.drawable.ic_notification_more,
                 ContextCompat.getColor(context, R.color.colorSecondaryOrange),
@@ -42,7 +43,7 @@ class MoreHomeViewModel(application: Application) :
         //colorSecondaryGreen
         list.add(
             MoreOption(
-                1,
+                Constants.MORE_LOCATE_ATM,
                 "Locate ATM and CDM",
                 R.drawable.ic_home_more,
                 ContextCompat.getColor(context, R.color.colorSecondaryGreen),
@@ -52,7 +53,7 @@ class MoreHomeViewModel(application: Application) :
         )
         list.add(
             MoreOption(
-                1,
+                Constants.MORE_INVITE_FRIEND,
                 "Invite a friend",
                 R.drawable.ic_gift,
                 ContextCompat.getColor(context, R.color.colorPrimaryAlt),
@@ -62,7 +63,7 @@ class MoreHomeViewModel(application: Application) :
         )
         list.add(
             MoreOption(
-                1,
+                Constants.MORE_HELP_SUPPORT,
                 "Help and support",
                 R.drawable.ic_support,
                 ContextCompat.getColor(context, R.color.colorSecondaryBlue),
