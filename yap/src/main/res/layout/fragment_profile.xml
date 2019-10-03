@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileViewModel" />
+            type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel" />
 
     </data>
 
@@ -20,10 +20,15 @@
         android:paddingBottom="@dimen/margin_medium">
 
         <include
-            android:id="@+id/layoutProfileSettings"
-            layout="@layout/layout_profile_settings"
+            android:id="@+id/layoutProfilePic"
+            layout="@layout/layout_profile_picture"
             app:viewModel="@{viewModel}" />
 
 
+        <include
+            android:id="@+id/layoutProfileSettings"
+            layout="@layout/layout_profile_settings"
+            app:viewModel="@{viewModel}" />
+        
     </LinearLayout>
 </layout>

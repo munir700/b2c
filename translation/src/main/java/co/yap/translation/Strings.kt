@@ -602,65 +602,76 @@ object Strings {
 
     const val screen_profile_settings_display_text_profile: String =
         "screen_profile_settings_display_text_profile"
-
-
     const val screen_profile_settings_display_text_personal_detail: String =
         "screen_profile_settings_display_text_personal_detail"
-
-
     const val screen_profile_settings_display_text_view: String =
         "screen_profile_settings_display_text_view"
-
-
     const val screen_profile_settings_display_text_change: String =
         "screen_profile_settings_display_text_change"
-
-
     const val screen_profile_settings_display_text_security: String =
         "screen_profile_settings_display_text_security"
-
-
     const val screen_profile_settings_display_text_privacy: String =
         "screen_profile_settings_display_text_privacy"
-
-
     const val screen_profile_settings_display_text_passcode: String =
         "screen_profile_settings_display_text_passcode"
-
-
     const val screen_profile_settings_display_text_app_notifications: String =
         "screen_profile_settings_display_text_app_notifications"
-
-
     const val screen_profile_settings_display_text_about_us: String =
         "screen_profile_settings_display_text_about_us"
-
-
     const val screen_profile_settings_display_terms_and_conditions: String =
         "screen_profile_settings_display_terms_and_conditions"
-
-
     const val screen_profile_settings_display_text_instagram: String =
         "screen_profile_settings_display_text_instagram"
-
-
     const val screen_profile_settings_display_text_twitter: String =
         "screen_profile_settings_display_text_twitter"
-
-
     const val screen_profile_settings_display_text_facebook: String =
         "screen_profile_settings_display_text_facebook"
-
-
     const val screen_profile_settings_display_text_follow_us: String =
         "screen_profile_settings_display_text_follow_us"
-
-
     const val screen_profile_settings_display_text_like_us: String =
         "screen_profile_settings_display_text_like_us"
-
-
     const val screen_profile_settings_display_text_logout: String =
         "screen_profile_settings_display_text_logout"
 
+//update photo bottom sheet
+
+    const val screen_update_profile_photo_display_text_title: String =
+        "screen_update_profile_photo_display_text_title"
+    const val screen_update_profile_photo_display_text_open_camera: String =
+        "screen_update_profile_photo_display_text_open_camera"
+    const val screen_update_profile_photo_display_text_choose_photo: String =
+        "screen_update_profile_photo_display_text_choose_photo"
+
+
+//  personal detail screen
+
+    const val screen_personal_detail_display_text_title: String =
+        "screen_personal_detail_display_text_title"
+    const val screen_personal_detail_display_text_full_name: String =
+        "screen_personal_detail_display_text_full_name"
+    const val screen_personal_detail_display_text_phone_number: String =
+        "screen_personal_detail_display_text_phone_number"
+    const val screen_personal_detail_display_text_email: String =
+        "screen_personal_detail_display_text_email"
+    const val screen_personal_detail_display_text_address: String =
+        "screen_personal_detail_display_text_address"
+    const val screen_personal_detail_display_text_edit: String =
+        "screen_personal_detail_display_text_edit"
+    const val screen_personal_detail_display_text_emirates_id: String =
+        "screen_personal_detail_display_text_emirates_id"
+    const val screen_personal_detail_display_text_verification_completed: String =
+        "screen_personal_detail_display_text_verification_completed"
+    const val screen_personal_detail_display_text_verification_expired: String =
+        "screen_personal_detail_display_text_verification_expired"
+
+
+    // logout dialogue
+    const val screen_profile_settings_logout_display_text_alert_title: String =
+        "screen_profile_settings_logout_display_text_alert_title"
+    const val screen_profile_settings_logout_display_text_alert_message: String =
+        "screen_profile_settings_logout_display_text_alert_message"
+    const val screen_profile_settings_logout_display_text_alert_cancel: String =
+        "screen_profile_settings_logout_display_text_alert_cancel"
+    const val screen_profile_settings_logout_display_text_alert_logout: String =
+        "screen_profile_settings_logout_display_text_alert_logout"
 }

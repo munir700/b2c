@@ -8,351 +8,397 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileViewModel" />
+            type="co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel" />
 
     </data>
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhite"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium"
-        android:paddingBottom="@dimen/margin_medium">
-
-
-        <TextView
-            android:id="@+id/tvProfileCaption"
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:gravity="center"
-            android:text="@string/screen_profile_settings_display_text_profile"
-            app:text="@{Strings.screen_profile_settings_display_text_profile}" />
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
+            android:paddingBottom="@dimen/margin_medium">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_profile"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/tvPersonalDetailCaption"
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
-                android:text="@string/screen_profile_settings_display_text_personal_detail"
-                app:text="@{Strings.screen_profile_settings_display_text_personal_detail}" />
-
-            <TextView
-                android:id="@+id/tvPersonalDetailView"
-                style="@style/ASmall"
+                android:id="@+id/tvProfileCaption"
+                style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/screen_profile_settings_display_text_view"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="@string/screen_profile_settings_display_text_profile"
+                app:text="@{Strings.screen_profile_settings_display_text_profile}" />
+
+            <LinearLayout
+                android:id="@+id/llPersonalDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_profile"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvPersonalDetailCaption"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:text="@string/screen_profile_settings_display_text_personal_detail"
+                    app:text="@{Strings.screen_profile_settings_display_text_personal_detail}" />
+
+                <FrameLayout
+                    android:id="@+id/flLocationPin"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:background="@drawable/bg_round_red"
+                    android:backgroundTint="@color/error">
+
+
+                    <ImageView
+                        android:layout_width="@dimen/_14sdp"
+                        android:layout_height="@dimen/_14sdp"
+                        android:layout_gravity="center_vertical|center"
+                        android:src="@drawable/ic_exclamation"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSpareCardTile" />
+                </FrameLayout>
+
+
+                <TextView
+                    android:id="@+id/tvPersonalDetailView"
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".1"
+                    android:gravity="end"
+                    android:onClick="@{(v) -> viewModel.handlePressOnPersonalDetail(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_view"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_profile_settings_display_text_view}" />
+
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:background="@color/divider" />
+
+            <TextView
+                android:id="@+id/tvProfileSecurity"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="@string/screen_profile_settings_display_text_security"
+                app:text="@{Strings.screen_profile_settings_display_text_security}" />
+
+            <LinearLayout
+                android:id="@+id/llPrivacy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_lock"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_text_privacy"
+                    app:text="@{Strings.screen_profile_settings_display_text_privacy}" />
+
+                <TextView
+                    android:id="@+id/tvPrivacyView"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnPrivacy(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_view"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_profile_settings_display_text_view}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llPasscode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_key"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_text_passcode"
+                    app:text="@{Strings.screen_profile_settings_display_text_passcode}" />
+
+                <TextView
+                    android:id="@+id/tvChangePasscode"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnPasscode(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_change"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_profile_settings_display_text_change}" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/llNotification"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_notification_settings"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_text_app_notifications"
+                    app:text="@{Strings.screen_profile_settings_display_text_app_notifications}" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/switchNotification"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight=".3" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginLeft="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:background="@color/divider" />
+
+
+            <TextView
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginBottom="@dimen/margin_normal"
+                android:gravity="center"
+                android:text="@string/screen_profile_settings_display_text_about_us"
+                app:text="@{Strings.screen_profile_settings_display_text_about_us}" />
+
+            <LinearLayout
+                android:id="@+id/llTermsAndCondition"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_file"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_terms_and_conditions"
+                    app:text="@{Strings.screen_profile_settings_display_terms_and_conditions}" />
+
+                <TextView
+                    android:id="@+id/tvTermsAndConditionView"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnTermsAndConditions(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_view"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_profile_settings_display_text_view}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llInstagram"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_instagram"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_text_instagram"
+                    app:text="@{Strings.screen_profile_settings_display_text_instagram}" />
+
+                <TextView
+                    android:id="@+id/tvFollowOnInstagram"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnInstagram(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_follow_us"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_profile_settings_display_text_follow_us}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llTwitter"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_twitter"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_text_twitter"
+                    app:text="@{Strings.screen_profile_settings_display_text_twitter}" />
+
+                <TextView
+                    android:id="@+id/tvFollowOnTwitter"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnTwitter(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_follow_us"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_profile_settings_display_text_follow_us}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFaceBook"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_facebook"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_weight=".7"
+                    android:text="@string/screen_profile_settings_display_text_facebook"
+                    app:text="@{Strings.screen_profile_settings_display_text_facebook}" />
+
+                <TextView
+                    android:id="@+id/tvLikeUsOnFaceBook"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnFaceBook(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_like_us"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_profile_settings_display_text_like_us}" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvLogOut"
+                style="@style/Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@string/screen_profile_settings_display_text_logout"
+                android:onClick="@{(v) -> viewModel.handlePressOnLogOut(v.id)}"
                 android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_profile_settings_display_text_view}" />
-
-
+                app:text="@{Strings.screen_profile_settings_display_text_logout}" />
         </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:background="@color/divider" />
-
-        <TextView
-            android:id="@+id/tvProfileSecurity"
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:gravity="center"
-            android:text="@string/screen_profile_settings_display_text_security"
-            app:text="@{Strings.screen_profile_settings_display_text_security}" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_lock"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
-                android:text="@string/screen_profile_settings_display_text_privacy"
-                app:text="@{Strings.screen_profile_settings_display_text_privacy}" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/screen_profile_settings_display_text_view"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_profile_settings_display_text_view}" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_key"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
-                android:text="@string/screen_profile_settings_display_text_passcode"
-                app:text="@{Strings.screen_profile_settings_display_text_passcode}" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/screen_profile_settings_display_text_change"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_profile_settings_display_text_change}" />
-
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_notification_settings"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
-                android:text="@string/screen_profile_settings_display_text_app_notifications"
-                app:text="@{Strings.screen_profile_settings_display_text_app_notifications}" />
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchNotification"
-
-                android:layout_width="0dp"
-                android:layout_weight=".3"
-                android:layout_height="wrap_content" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/margin_medium_large"
-            android:layout_marginRight="@dimen/margin_medium"
-            android:background="@color/divider" />
-
-
-        <TextView
-            style="@style/ASmallGrey"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginBottom="@dimen/margin_normal"
-            android:gravity="center"
-            android:text="@string/screen_profile_settings_display_text_about_us"
-            app:text="@{Strings.screen_profile_settings_display_text_about_us}" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_file"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
-                android:text="@string/screen_profile_settings_display_terms_and_conditions"
-                app:text="@{Strings.screen_profile_settings_display_terms_and_conditions}" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/screen_profile_settings_display_text_view"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_profile_settings_display_text_view}" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_instagram"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
-                android:text="@string/screen_profile_settings_display_text_instagram"
-                app:text="@{Strings.screen_profile_settings_display_text_instagram}" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/screen_profile_settings_display_text_follow_us"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_profile_settings_display_text_follow_us}" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_twitter"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
-                android:text="@string/screen_profile_settings_display_text_twitter"
-                app:text="@{Strings.screen_profile_settings_display_text_twitter}" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/screen_profile_settings_display_text_follow_us"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_profile_settings_display_text_follow_us}" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_facebook"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_normal"
-                android:layout_weight=".7"
-                android:text="@string/screen_profile_settings_display_text_facebook"
-                app:text="@{Strings.screen_profile_settings_display_text_facebook}" />
-
-            <TextView
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/screen_profile_settings_display_text_like_us"
-                android:textColor="@color/colorPrimary"
-                app:text="@{Strings.screen_profile_settings_display_text_like_us}" />
-
-        </LinearLayout>
-
-
-        <TextView
-            style="@style/Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:gravity="center"
-            android:text="@string/screen_profile_settings_display_text_logout"
-            android:textColor="@color/colorPrimary"
-            app:text="@{Strings.screen_profile_settings_display_text_logout}" />
-
-    </LinearLayout>
+    </ScrollView>
 </layout>
