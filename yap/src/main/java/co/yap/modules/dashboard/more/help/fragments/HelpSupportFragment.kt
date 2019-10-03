@@ -1,39 +1,34 @@
-package co.yap.modules.dashboard.more.home.fragments
+package co.yap.modules.dashboard.more.help.fragments
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.SpannableString
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentMoreHomeBinding
+import co.yap.databinding.FragmentHelpSupportBinding
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
-import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
-import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
+import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
+import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
+import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
 import co.yap.modules.dashboard.more.home.models.MoreOption
-import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
 
 
-class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View {
+class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSupport.View {
 
-    lateinit var adapter: YapMoreAdaptor
+    lateinit var adapter: HelpSupportAdaptor
 
     override fun getBindingVariable(): Int = BR.viewModel
 
-    override fun getLayoutId(): Int = R.layout.fragment_more_home
+    override fun getLayoutId(): Int = R.layout.fragment_help_support
 
-    override val viewModel: IMoreHome.ViewModel
-        get() = ViewModelProviders.of(this).get(MoreHomeViewModel::class.java)
+    override val viewModel: IHelpSupport.ViewModel
+        get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,31 +40,31 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
 
 
     private fun initComponents() {
-        getBinding().tvName.text =
-            MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName
-
-        val ibanSpan = SpannableString("IBAN " + MyUserManager.user?.iban)
-        val bicSpan = SpannableString("BIC " + MyUserManager.user?.accountNo)
-
-        getBinding().tvIban.text = Utils.setSpan(
-            0,
-            4,
-            ibanSpan,
-            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-        )
-        getBinding().tvBic.text = Utils.setSpan(
-            0,
-            3,
-            bicSpan,
-            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-        )
+//        getBinding().tvName.text =
+//            MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName
+//
+//        val ibanSpan = SpannableString("IBAN " + MyUserManager.user?.iban)
+//        val bicSpan = SpannableString("BIC " + MyUserManager.user?.accountNo)
+//
+//        getBinding().tvIban.text = Utils.setSpan(
+//            0,
+//            4,
+//            ibanSpan,
+//            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+//        )
+//        getBinding().tvBic.text = Utils.setSpan(
+//            0,
+//            3,
+//            bicSpan,
+//            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+//        )
     }
 
     private fun setupRecycleView() {
-        adapter = YapMoreAdaptor(requireContext(), viewModel.getMoreOptions())
-        getBinding().recyclerOptions.adapter = adapter
-        adapter.allowFullItemClickListener = true
-        adapter.setItemListener(listener)
+//        adapter = HelpSupportAdaptor(requireContext(), viewModel.getMoreOptions())
+//        getBinding().recyclerOptions.adapter = adapter
+//        adapter.allowFullItemClickListener = true
+//        adapter.setItemListener(listener)
     }
 
     private fun setObservers() {
@@ -90,9 +85,7 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
 
                     }
                     Constants.MORE_HELP_SUPPORT -> {
-                        val action =
-                            YapMoreFragmentDirections.actionYapMoreToHelpSupportFragment()
-                        findNavController().navigate(action)
+
                     }
                 }
             }
@@ -123,7 +116,7 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
         }
     }
 
-    override fun getBinding(): FragmentMoreHomeBinding {
-        return viewDataBinding as FragmentMoreHomeBinding
+    override fun getBinding(): FragmentHelpSupportBinding {
+        return viewDataBinding as FragmentHelpSupportBinding
     }
 }

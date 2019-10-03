@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel" />
+
+        <import type="android.view.View" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorWhite">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_help_support_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_medium"
+
+            android:orientation="vertical"
+            android:padding="@dimen/margin_extra_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+
+
+            <LinearLayout
+                android:id="@+id/lLyFaqs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/imgFaqs"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_round_purple"
+                    android:contentDescription="@string/empty_string"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_support" />
+
+                <TextView
+                    android:id="@+id/tvFaqs"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:lines="1"
+                    android:text="FAQs"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+
+                <ImageView
+                    android:id="@+id/imgFaqsArrow"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_small"
+                    android:contentDescription="@string/empty_string"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:rotation="180"
+                    app:srcCompat="@drawable/ic_back_arrow_left" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyChat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/lLyFaqs">
+
+                <ImageView
+                    android:id="@+id/imgChat"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_round_purple"
+                    android:contentDescription="@string/empty_string"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_phone_vector" />
+
+                <TextView
+                    android:id="@+id/tvChat"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:lines="1"
+                    android:text="Live chat"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+
+                <ImageView
+                    android:id="@+id/imgChatArrow"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_small"
+                    android:contentDescription="@string/empty_string"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:rotation="180"
+                    app:srcCompat="@drawable/ic_back_arrow_left" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lyCall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/lyChat">
+
+                <ImageView
+                    android:id="@+id/imgCall"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_round_purple"
+                    android:contentDescription="@string/empty_string"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_phone_vector" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1">
+
+                    <TextView
+                        android:id="@+id/tvCall"
+                        style="@style/Regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_weight="1"
+                        android:gravity="center|start"
+                        android:lines="1"
+                        android:text="Call us"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <TextView
+                        android:id="@+id/tvCallAvalabile"
+                        style="@style/MicroGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="@dimen/margin_medium"
+                        android:layout_weight="1"
+                        android:gravity="center|start"
+                        android:lines="1"
+                        android:text="Available 24 hours"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvCall" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tvCallPhone"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_weight="1"
+                    android:gravity="center|end"
+                    android:lines="1"
+                    android:text="1800 9090 9090"/>
+
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
