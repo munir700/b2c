@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.more.home.fragments
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.view.View
@@ -13,10 +15,13 @@ import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
+import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import java.net.URLEncoder
 
 
 class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View {
@@ -73,7 +78,32 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
 
     private val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            showToast("Clicked $(data as MoreOption).name")
+            if (data is MoreOption) {
+                when (data.id) {
+                    Constants.MORE_NOTIFICATION -> {
+
+                    }
+                    Constants.MORE_LOCATE_ATM -> {
+                        openMaps()
+                    }
+                    Constants.MORE_INVITE_FRIEND -> {
+
+                    }
+                    Constants.MORE_HELP_SUPPORT -> {
+
+                    }
+                }
+            }
+        }
+    }
+
+    private fun openMaps() {
+        //for zoom level z=zoom
+        val uri = Uri.parse("geo:3.4241,53.847?q=" + Uri.encode("Rakbank Atm"))
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        intent.setPackage("com.google.android.apps.maps")
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            startActivity(intent)
         }
     }
 
