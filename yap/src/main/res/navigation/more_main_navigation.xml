@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/more_main_navigation"
-    app:startDestination="@id/profileSettingsFragment">
+    app:startDestination="@id/changeEmailFragment">
 
 
     <fragment
@@ -21,9 +21,11 @@
         android:name="co.yap.modules.dashboard.more.profile.fragments.ProfileSettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_profile">
-
-
     </fragment>
+    <fragment
+        android:id="@+id/changeEmailFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailFragment"
+        android:label="ChangeEmailFragment" />
 
 
 </navigation>
