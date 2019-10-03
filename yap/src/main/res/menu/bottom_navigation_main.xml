@@ -20,7 +20,7 @@
         android:icon="@drawable/ic_cards"
         android:title="Cards" />
     <item
-        android:id="@+id/liteDashboard"
+        android:id="@+id/yapMore"
         android:icon="@drawable/ic_more"
         android:title="More" />
 

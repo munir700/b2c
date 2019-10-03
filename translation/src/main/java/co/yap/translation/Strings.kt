@@ -674,4 +674,8 @@ object Strings {
         "screen_profile_settings_logout_display_text_alert_cancel"
     const val screen_profile_settings_logout_display_text_alert_logout: String =
         "screen_profile_settings_logout_display_text_alert_logout"
+    //Yap More
+    const val screen_more_display_text_bank_details: String =
+        "screen_more_display_text_bank_details"
+
 }

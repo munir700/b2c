@@ -65,7 +65,7 @@
             android:name=".modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <nav-graph android:value="@navigation/report_card_navigation"/>
+            <nav-graph android:value="@navigation/report_card_navigation" />
         </activity>
 
         <activity
@@ -79,14 +79,14 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity"
@@ -94,11 +94,17 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.UpdateCardNameActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.more.bankdetails.activities.BankDetailActivity"
+            android:screenOrientation="portrait" />
+
+
     </application>
 </manifest>

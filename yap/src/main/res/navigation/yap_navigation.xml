@@ -21,17 +21,17 @@
         android:label="SetCardPinWelcomeActivity"
         tools:layout="@layout/activity_set_card_pin_welcome"/>
 
-    <fragment
-        android:id="@+id/liteDashboard"
-        android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
-        android:label="LiteDashboardFragment"
-        tools:layout="@layout/fragment_lite_dashboard">
+<!--    <fragment-->
+<!--        android:id="@+id/liteDashboard"-->
+<!--        android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"-->
+<!--        android:label="LiteDashboardFragment"-->
+<!--        tools:layout="@layout/fragment_lite_dashboard">-->
 
-        <action
-            android:id="@+id/action_liteDashboard_to_moreActivity"
-            app:destination="@id/moreActivity" />
+<!--        <action-->
+<!--            android:id="@+id/action_liteDashboard_to_moreActivity"-->
+<!--            app:destination="@id/moreActivity" />-->
 
-    </fragment>
+<!--    </fragment>-->
 
     <fragment
         android:id="@+id/yapHome"
@@ -102,13 +102,13 @@
     </activity>
 
 
-    <activity
-        android:id="@+id/moreActivity"
-        android:name="co.yap.modules.dashboard.more.activities.MoreActivity"
-        android:label="MoreActivity"
-        tools:layout="@layout/activity_more">
+<!--    <activity-->
+<!--        android:id="@+id/moreActivity"-->
+<!--        android:name="co.yap.modules.dashboard.more.activities.MoreActivity"-->
+<!--        android:label="MoreActivity"-->
+<!--        tools:layout="@layout/activity_more">-->
 
-    </activity>
+<!--    </activity>-->
 
     <fragment
         android:id="@+id/yapCardStatusFragment"
@@ -118,6 +118,14 @@
         <argument
             android:name="cardInfo"
             app:argType="co.yap.networking.cards.responsedtos.Card" />
+    </fragment>
+
+
+    <fragment
+        android:id="@+id/yapMore"
+        android:name="co.yap.modules.dashboard.more.home.fragments.YapMoreFragment"
+        android:label="YapMoreFragment"
+        tools:layout="@layout/fragment_more_home">
     </fragment>
 
 </navigation>

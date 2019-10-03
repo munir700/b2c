@@ -128,6 +128,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
                 btnSetCardPin.visibility = View.GONE
                 btnCompleteVerification.visibility = View.GONE
             }
+
         }
     }
 
