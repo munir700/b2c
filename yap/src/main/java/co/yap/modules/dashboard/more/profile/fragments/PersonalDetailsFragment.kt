@@ -36,7 +36,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditEmail -> {
-
+                    findNavController().navigate(R.id.action_personalDetailsFragment_to_changeEmailFragment)
                 }
 
                 R.id.tvEditAddress -> {

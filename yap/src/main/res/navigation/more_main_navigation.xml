@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/more_main_navigation"
-    app:startDestination="@id/profileSettingsFragment">
+    app:startDestination="@id/personalDetailsFragment">
 
 
     <fragment
@@ -47,6 +47,11 @@
             app:destination="@id/documentsDashboardActivity"
             app:popUpToInclusive="true">
         </action>
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_changeEmailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/changeEmailFragment" />
     </fragment>
 
     <activity
