@@ -17,6 +17,7 @@ project.ext {
     okhttpLoggerVersion = "3.10.0"
     okhttpGsonVersion = "2.5.0"
     arch = "2.0.0"
+    fresco = "2.0.0"
     paging_version = "2.1.0"
     modules = [
             app        : ':app',
@@ -26,8 +27,7 @@ project.ext {
             yapcore    : ':yapcore',
             kyc        : ':identityscanner'
     ]
-
-    // All libraries that any module can contain
+     // All libraries that any module can contain
 
     libraries = [
             // Android
@@ -99,6 +99,8 @@ project.ext {
             androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar',
             expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
+            fresco                   :  "com.facebook.fresco:fresco:$fresco",
+
 
     ]
     // Test dependencies which need to be added in all modules
@@ -149,6 +151,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.expandableLayout],
             [configuration: "implementation", dependency: libraries.tooltip],
             [configuration: "implementation", dependency: libraries.baloon],
+            [configuration: "implementation", dependency: libraries.fresco],
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies
