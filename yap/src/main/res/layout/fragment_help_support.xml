@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -70,7 +71,8 @@
                     android:layout_weight="1"
                     android:gravity="center|start"
                     android:lines="1"
-                    android:text="FAQs"
+                    app:text="@{Strings.screen_help_support_display_text_faqs}"
+                    tools:text="@string/screen_help_support_display_text_faqs"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
@@ -120,13 +122,66 @@
                     android:layout_weight="1"
                     android:gravity="center|start"
                     android:lines="1"
-                    android:text="Live chat"
+                    app:text="@{Strings.screen_help_support_display_text_live_chat}"
+                    tools:text="@string/screen_help_support_display_text_live_chat"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
 
                 <ImageView
                     android:id="@+id/imgChatArrow"
+                    android:layout_width="@dimen/_26sdp"
+                    android:layout_height="@dimen/_26sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/margin_small"
+                    android:contentDescription="@string/empty_string"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:rotation="180"
+                    app:srcCompat="@drawable/ic_back_arrow_left" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/lyLiveWhatsApp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_normal"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:orientation="horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/lyChat">
+
+                <ImageView
+                    android:id="@+id/imgWhatsApp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/bg_round_purple"
+                    android:contentDescription="@string/empty_string"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    android:padding="@dimen/_10sdp"
+                    android:tint="@color/colorPrimary"
+                    app:srcCompat="@drawable/ic_phone_vector" />
+
+                <TextView
+                    android:id="@+id/tvWhatsApp"
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:lines="1"
+                    app:text="@{Strings.screen_help_support_display_text_chat_via_whatsApp}"
+                    tools:text="@string/screen_help_support_display_text_chat_via_whatsApp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
+
+                <ImageView
+                    android:id="@+id/imgWhatsAppArrow"
                     android:layout_width="@dimen/_26sdp"
                     android:layout_height="@dimen/_26sdp"
                     android:layout_gravity="center"
@@ -146,7 +201,7 @@
                 android:layout_margin="@dimen/margin_normal"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:orientation="horizontal"
-                app:layout_constraintTop_toBottomOf="@+id/lyChat">
+                app:layout_constraintTop_toBottomOf="@+id/lyLiveWhatsApp">
 
                 <ImageView
                     android:id="@+id/imgCall"
@@ -176,7 +231,8 @@
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:lines="1"
-                        android:text="Call us"
+                        app:text="@{Strings.screen_help_support_display_text_call_us}"
+                        tools:text="@string/screen_help_support_display_text_call_us"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -193,7 +249,8 @@
                         android:layout_weight="1"
                         android:gravity="center|start"
                         android:lines="1"
-                        android:text="Available 24 hours"
+                        app:text="@{Strings.screen_help_support_display_text_available_24_hours}"
+                        tools:text="@string/screen_help_support_display_text_available_24_hours"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
@@ -203,15 +260,20 @@
 
                 <TextView
                     android:id="@+id/tvCallPhone"
-                    style="@style/Regular"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_medium"
                     android:layout_weight="1"
+                    android:fontFamily="@font/roboto_regular"
                     android:gravity="center|end"
+                    android:lineSpacingExtra="8sp"
                     android:lines="1"
-                    android:text="1800 9090 9090"/>
+                    android:text="1800 9090 9090"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/text_size_h3"
+                    android:textc="wrap_content" />
 
 
             </LinearLayout>
