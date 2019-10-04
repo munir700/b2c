@@ -1,15 +1,18 @@
 package co.yap.modules.dashboard.more.help.fragments
 
+import android.content.Intent
+import android.content.Intent.ACTION_DIAL
+import android.net.Uri
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.UnderlineSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHelpSupportBinding
-import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
@@ -48,15 +51,32 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     private val observer = Observer<Int> {
         when (it) {
             R.id.lLyFaqs -> {
+                openFaqsPage()
             }
             R.id.lyChat -> {
             }
             R.id.lyLiveWhatsApp -> {
             }
             R.id.lyCall -> {
-
+                openDialer()
+            }
+            R.id.tbBtnBack -> {
+                findNavController().navigateUp()
             }
         }
+    }
+
+    private fun openFaqsPage() {
+        val url = "http://www.example.com"
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
+    }
+
+    private fun openDialer() {
+        val intent = Intent(ACTION_DIAL)
+        intent.data = Uri.parse("tel:" + viewModel.state.contactPhone.get())
+        startActivity(intent)
     }
 
     override fun getBinding(): FragmentHelpSupportBinding {
