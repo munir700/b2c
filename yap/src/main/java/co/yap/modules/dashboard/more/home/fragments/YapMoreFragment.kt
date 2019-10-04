@@ -8,6 +8,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
@@ -21,7 +22,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import java.net.URLEncoder
 
 
 class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View {
@@ -90,7 +90,9 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
 
                     }
                     Constants.MORE_HELP_SUPPORT -> {
-
+                        val action =
+                            YapMoreFragmentDirections.actionYapMoreToHelpSupportFragment()
+                        findNavController().navigate(action)
                     }
                 }
             }
