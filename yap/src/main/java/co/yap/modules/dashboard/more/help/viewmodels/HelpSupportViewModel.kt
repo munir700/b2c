@@ -15,7 +15,7 @@ class HelpSupportViewModel(application: Application) :
     override val state: HelpSupportState = HelpSupportState()
 
     init {
-        state.contactPhone.set("1800 9090 9090")
+        state.contactPhone.set("+971 600 55 1214")
         state.title.set(getString(R.string.screen_help_support_display_text_title))
     }
 
