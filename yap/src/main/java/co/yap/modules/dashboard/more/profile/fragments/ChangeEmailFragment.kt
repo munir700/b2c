@@ -2,7 +2,9 @@ package co.yap.modules.dashboard.more.profile.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
@@ -20,10 +22,8 @@ class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-      //  etNewEmail.setError("dsa")
+        viewModel.clickEvent.observe(this, Observer {
+            //findNavController().navigate(R.id.action_changeEmailFragment_to_forgotPasscodeOtpFragment)
+        })
     }
 }

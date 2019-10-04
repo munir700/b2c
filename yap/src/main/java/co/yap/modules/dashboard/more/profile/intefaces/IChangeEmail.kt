@@ -2,10 +2,12 @@ package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.graphics.drawable.Drawable
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface IChangeEmail {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
+        val clickEvent:SingleClickEvent
         fun onHandlePressOnNextButton()
     }
 
