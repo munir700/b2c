@@ -44,6 +44,12 @@
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/forgot_passcode_navigation"/>
         </activity>
+
+
+        <!--todo  remove duplicate key un comment and build-->
+        <!--        <meta-data-->
+        <!--            android:name="com.google.android.geo.API_KEY"-->
+        <!--            android:value="@string/google_maps_key" />-->
     </application>
 
 </manifest>

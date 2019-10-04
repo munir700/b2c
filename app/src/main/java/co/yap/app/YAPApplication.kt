@@ -1,6 +1,5 @@
 package co.yap.app
 
-import android.app.Application
 import android.content.Context
 import co.yap.networking.RetroNetwork
 import co.yap.networking.interfaces.NetworkConstraintsListener
@@ -10,7 +9,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import java.util.*
 
 
-class YAPApplication : Application() {
+class YAPApplication : ChatApplication() {
 
     override fun onCreate() {
         super.onCreate()
