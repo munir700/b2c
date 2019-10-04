@@ -10,6 +10,7 @@ import co.yap.yapcore.SingleClickEvent
 interface IHelpSupport {
     interface State : IBase.State{
         var title: ObservableField<String>
+        var contactPhone: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

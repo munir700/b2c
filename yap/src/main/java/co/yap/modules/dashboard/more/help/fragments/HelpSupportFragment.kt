@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.more.help.fragments
 
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.UnderlineSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -29,6 +31,13 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
+        initComponents()
+    }
+
+    private fun initComponents() {
+        val content = SpannableString(viewModel.state.contactPhone.get())
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        getBinding().tvCallPhone.text = content
     }
 
     private fun setObservers() {
@@ -45,7 +54,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             R.id.lyLiveWhatsApp -> {
             }
             R.id.lyCall -> {
-                startActivity(BankDetailActivity.newIntent(requireContext()))
+
             }
         }
     }
