@@ -59,7 +59,7 @@ interface CustomersRetroService {
 
 
     // Get More Documents on profile settings fragment
-    @GET(CustomersRepository.URL_GET_DOCUMENTS)
-    suspend fun getMoreDocumentsByType(@Query("EMIRATES_ID") EMIRATES_ID: String): Response<GetMoreDocumentsResponse>
+    @GET(CustomersRepository.URL_GET_MORE_DOCUMENTS)
+    suspend fun getMoreDocumentsByType(@Query("documentType") EMIRATES_ID: String): Response<GetMoreDocumentsResponse>
 
 }

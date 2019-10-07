@@ -83,28 +83,14 @@ class ProfileSettingsViewModel(application: Application) :
 
         setToolBarTitle(getString(Strings.screen_profile_settings_display_text_title))
 
-        val stringVal: String = "2020-10-09"
-        getExpiryDate(stringVal)
-//        val currentDateTimeString = DateFormat.getDateTimeInstance().format(Date())
-//        val dateExpiry = SimpleDateFormat("yyyy-MM-dd").parse(stringVal)
-//        println(dateExpiry.time)
-//        println(dateExpiry)
-//        println(currentDateTimeString)
-
-
-//        val expiryDateString: String = "2017-07-25"
-//
-//        val currDate = SimpleDateFormat("yyyy-mm-dd").format(Calendar.getInstance().time)
-//        println(currDate)
-//
-//        var sdf = SimpleDateFormat("yyyy-mm-dd")
-//        val date = sdf.parse(expiryDateString)
-//
-//        val outputString = sdf.format(date)
-//        println(outputString)
 
     }
 
+    override fun onCreate() {
+        super.onCreate()
+        requestProfileDocumentsInformation()
+
+    }
     override fun requestProfileDocumentsInformation() {
 
         launch {
@@ -115,7 +101,7 @@ class ProfileSettingsViewModel(application: Application) :
                     data = response.data.data
 
                     if (!data.dateExpiry.isNullOrEmpty()) {
-//                        getExpiryDate(data.dateExpiry)
+                        getExpiryDate(data.dateExpiry)
                     }
                 }
                 is RetroApiResponse.Error -> {

@@ -31,9 +31,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "customers/api/demographics/validate/user-device/{device_id}"
     const val URL_GET_DOCUMENTS = "customers/api/customer-documents"
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
-
-//    {{URL_CUSTOMERS_MS}}/api/document-information?documentType=EMIRATES_ID
-//    const val URL_GET_MORE_DOCUMENTS = "customers/api/v2/document-information"
+    const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
