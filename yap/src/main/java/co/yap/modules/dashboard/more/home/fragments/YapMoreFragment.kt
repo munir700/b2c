@@ -112,8 +112,16 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgProfile -> {
+                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+            }
+            R.id.imgSettings -> {
+                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
             }
             R.id.tvName -> {
+                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+            }
+            R.id.tvNameInitials -> {
+                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
             }
             R.id.tvIban -> {
             }

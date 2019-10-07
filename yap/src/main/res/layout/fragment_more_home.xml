@@ -53,6 +53,7 @@
             android:background="@drawable/bg_round_purple"
             android:gravity="center"
             android:text="@{viewModel.state.initials}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:textColor="@color/colorPrimaryDark"
             android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"

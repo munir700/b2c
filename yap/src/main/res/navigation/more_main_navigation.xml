@@ -3,18 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/more_main_navigation"
-    app:startDestination="@id/personalDetailsFragment">
-
-
-    <fragment
-        android:id="@+id/moreHomeFragment"
-        android:name="co.yap.modules.dashboard.more.home.fragments.YapMoreFragment"
-        android:label="home"
-        tools:layout="@layout/fragment_more_home">
-
-
-    </fragment>
-
+    app:startDestination="@id/profileSettingsFragment">
 
     <fragment
         android:id="@+id/profileSettingsFragment"
@@ -41,20 +30,18 @@
         <action
             android:id="@+id/action_personalDetailsFragment_to_documentsDashboardActivity"
             app:destination="@id/documentsDashboardActivity"
-            app:popUpToInclusive="true">
-        </action>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_personalDetailsFragment_to_changeEmailFragment"
             app:destination="@id/changeEmailFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-           />
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_personalDetailsFragment_to_changePhoneNumberFragment"
             app:destination="@id/changePhoneNumberFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <!--    <include app:graph="@navigation/change_email_navigation" />-->
 
@@ -66,25 +53,24 @@
             android:id="@+id/action_changeEmailFragment_to_genericOtpFragment"
             app:destination="@id/genericOtpFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            />
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/changeEmailSuccessFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailSuccessFragment"
         android:label="ChangeEmailSuccessFragment"
-        tools:layout="@layout/fragment_change_email_success" >
+        tools:layout="@layout/fragment_change_email_success">
         <action
             android:id="@+id/action_changeEmailSuccessFragment_to_personalDetailsFragment"
             app:destination="@id/personalDetailsFragment"
-            app:popUpToInclusive="true"
             app:enterAnim="@anim/slide_in_left"
-            app:popUpTo="@id/personalDetailsFragment"/>
+            app:popUpTo="@id/personalDetailsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/genericOtpFragment"
         android:name="co.yap.modules.generic_otp.GenericOtpFragment"
-        android:label="GenericOtpFragment" >
+        android:label="GenericOtpFragment">
         <argument
             android:name="username"
             android:defaultValue=" "
@@ -106,7 +92,7 @@
             app:destination="@id/changeEmailSuccessFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -128,7 +114,7 @@
         android:id="@+id/changePhoneNumberFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragment"
         android:label="ChangePhoneNumberFragment"
-        tools:layout="@layout/fragment_change_phone_number"/>
+        tools:layout="@layout/fragment_change_phone_number" />
 
 
 </navigation>
