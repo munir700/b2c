@@ -126,6 +126,14 @@
         android:name="co.yap.modules.dashboard.more.home.fragments.YapMoreFragment"
         android:label="YapMoreFragment"
         tools:layout="@layout/fragment_more_home">
+        <action
+            android:id="@+id/action_yapMore_to_helpSupportFragment"
+            app:destination="@id/helpSupportFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/helpSupportFragment"
+        tools:layout="@layout/fragment_help_support"
+        android:name="co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment"
+        android:label="HelpSupportFragment" />
 
 </navigation>

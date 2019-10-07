@@ -678,4 +678,17 @@ object Strings {
     const val screen_more_display_text_bank_details: String =
         "screen_more_display_text_bank_details"
 
+    //Help & Suppor
+    const val screen_help_support_display_text_title: String =
+        "screen_help_support_display_text_title"
+    const val screen_help_support_display_text_faqs: String =
+        "screen_help_support_display_text_faqs"
+    const val screen_help_support_display_text_live_chat: String =
+        "screen_help_support_display_text_live_chat"
+    const val screen_help_support_display_text_chat_via_whatsApp: String =
+        "screen_help_support_display_text_chat_via_whatsApp"
+    const val screen_help_support_display_text_call_us: String =
+        "screen_help_support_display_text_call_us"
+    const val screen_help_support_display_text_available_24_hours: String =
+        "screen_help_support_display_text_available_24_hours"
 }

@@ -38,6 +38,9 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
                 R.id.btnConfirm -> {
                     shareInfo()
                 }
+                R.id.tbBtnBack -> {
+                    onBackPressed()
+                }
             }
         })
     }
