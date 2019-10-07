@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
+import co.yap.networking.customers.responsedtos.documents.Data
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -16,6 +17,8 @@ interface IProfile {
     interface ViewModel : IBase.ViewModel<State> {
 
         val clickEvent: SingleClickEvent
+
+        val data: Data
 
         fun handlePressOnBackButton()
 
@@ -40,6 +43,8 @@ interface IProfile {
         fun handlePressOnAddNewPhoto(id: Int)
 
         fun handlePressOnPhoto(id: Int)
+
+        fun requestProfileDocumentsInformation()
 
     }
 

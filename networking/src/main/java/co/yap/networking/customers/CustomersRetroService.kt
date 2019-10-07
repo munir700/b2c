@@ -7,10 +7,10 @@ import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.networking.customers.responsedtos.GetDocumentsResponse
 import co.yap.networking.customers.responsedtos.SignUpResponse
 import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -56,5 +56,10 @@ interface CustomersRetroService {
     // Get Documents
     @GET(CustomersRepository.URL_GET_DOCUMENTS)
     suspend fun getDocuments(): Response<GetDocumentsResponse>
+
+
+    // Get More Documents on profile settings fragment
+    @GET(CustomersRepository.URL_GET_DOCUMENTS)
+    suspend fun getMoreDocumentsByType(@Query("EMIRATES_ID") EMIRATES_ID: String): Response<GetMoreDocumentsResponse>
 
 }
