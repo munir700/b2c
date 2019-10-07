@@ -5,7 +5,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 
 
-class SampleAppStorage private constructor(context: Context) {
+class LivePersonStorage private constructor(context: Context) {
 
     var campaignId: Long? = null
     var engagementId: Long? = null
@@ -13,7 +13,7 @@ class SampleAppStorage private constructor(context: Context) {
     var visitorId: String? = null
     var interactionContextId: String? = null
 
-    private val mDefaultSharedPreferences: SharedPreferences
+    private val mDefaultSharedPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
 
     var lastName: String?
         get() = mDefaultSharedPreferences.getString(LAST_NAME, "")
@@ -80,14 +80,9 @@ class SampleAppStorage private constructor(context: Context) {
     }
 
 
-    init {
-        mDefaultSharedPreferences =
-            PreferenceManager.getDefaultSharedPreferences(context.applicationContext)
-    }
-
     companion object {
 
-        private val TAG = SampleAppStorage::class.java.simpleName
+        private val TAG = LivePersonStorage::class.java.simpleName
 
         val SDK_SAMPLE_APP_ID = "com.liveperson.sdksample"
         val SDK_SAMPLE_FCM_APP_ID = "com.liveperson.sdksampleFcm"
@@ -106,17 +101,17 @@ class SampleAppStorage private constructor(context: Context) {
         private val CONSUMER_ID = "consume_id"
         private val PAGE_ID = "page_id"
         @Volatile
-        private var Instance: SampleAppStorage? = null
+        private var instance: LivePersonStorage? = null
 
-        fun getInstance(context: Context): SampleAppStorage? {
-            if (Instance == null) {
-                synchronized(SampleAppStorage::class.java) {
-                    if (Instance == null) {
-                        Instance = SampleAppStorage(context)
+        fun getInstance(context: Context): LivePersonStorage? {
+            if (instance == null) {
+                synchronized(LivePersonStorage::class.java) {
+                    if (instance == null) {
+                        instance = LivePersonStorage(context)
                     }
                 }
             }
-            return Instance
+            return instance
         }
     }
 }

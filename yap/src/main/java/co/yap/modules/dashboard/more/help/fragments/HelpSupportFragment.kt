@@ -20,7 +20,7 @@ import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
-import co.yap.yapcore.helpers.SampleAppStorage
+import co.yap.yapcore.helpers.LivePersonStorage
 import com.liveperson.infra.*
 import com.liveperson.infra.callbacks.InitLivePersonCallBack
 import com.liveperson.messaging.sdk.api.LivePerson
@@ -79,21 +79,19 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         LivePerson.initialize(
             requireContext().applicationContext,
             InitLivePersonProperties(
-                SampleAppStorage.getInstance(context!!)?.account,
-                SampleAppStorage.SDK_SAMPLE_FCM_APP_ID,
+                LivePersonStorage.getInstance(context!!)?.account,
+                LivePersonStorage.SDK_SAMPLE_FCM_APP_ID,
                 null,
                 object : InitLivePersonCallBack {
 
                     override fun onInitSucceed() {
-                        Toast.makeText(context!!, "Init Sucess", Toast.LENGTH_SHORT).show()
-
-                        SampleAppStorage.getInstance(requireContext())?.sdkMode =
-                            (SampleAppStorage.SDKMode.ACTIVITY)
-                        SampleAppStorage.getInstance(requireContext())?.firstName = ""
-                        SampleAppStorage.getInstance(requireContext())?.lastName = ""
-                        SampleAppStorage.getInstance(requireContext())?.phoneNumber = ""
-                        SampleAppStorage.getInstance(requireContext())?.authCode = ""
-                        SampleAppStorage.getInstance(requireContext())?.publicKey = ""
+                        LivePersonStorage.getInstance(requireContext())?.sdkMode =
+                            (LivePersonStorage.SDKMode.ACTIVITY)
+                        LivePersonStorage.getInstance(requireContext())?.firstName = ""
+                        LivePersonStorage.getInstance(requireContext())?.lastName = ""
+                        LivePersonStorage.getInstance(requireContext())?.phoneNumber = ""
+                        LivePersonStorage.getInstance(requireContext())?.authCode = ""
+                        LivePersonStorage.getInstance(requireContext())?.publicKey = ""
                         activity!!.runOnUiThread(Runnable {
                             openActivity()
                         })
@@ -107,8 +105,8 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     }
 
     private fun storeParams() {
-        SampleAppStorage.getInstance(requireContext())?.account = "17038977"
-        SampleAppStorage.getInstance(requireContext())?.appInstallId = "17038977"
+        LivePersonStorage.getInstance(requireContext())?.account = "17038977"
+        LivePersonStorage.getInstance(requireContext())?.appInstallId = "17038977"
     }
 
     private fun initActivityConversation() {
@@ -116,8 +114,8 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         LivePerson.initialize(
             context!!,
             InitLivePersonProperties(
-                SampleAppStorage.getInstance(context!!)?.account,
-                SampleAppStorage.SDK_SAMPLE_FCM_APP_ID,
+                LivePersonStorage.getInstance(context!!)?.account,
+                LivePersonStorage.SDK_SAMPLE_FCM_APP_ID,
                 object : InitLivePersonCallBack {
                     override fun onInitSucceed() {
 
@@ -133,8 +131,8 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
         //storeData()
 
-        val authCode = SampleAppStorage.getInstance(context!!)?.authCode
-        val publicKey = SampleAppStorage.getInstance(context!!)?.publicKey
+        val authCode = LivePersonStorage.getInstance(context!!)?.authCode
+        val publicKey = LivePersonStorage.getInstance(context!!)?.publicKey
 
         val authParams = LPAuthenticationParams()
         authParams.authKey = authCode
@@ -148,9 +146,9 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         LivePerson.showConversation(requireActivity(), authParams, params)
 
         val consumerProfile = ConsumerProfile.Builder()
-            .setFirstName(SampleAppStorage.getInstance(requireContext())?.firstName)
-            .setLastName(SampleAppStorage.getInstance(requireContext())?.lastName)
-            .setPhoneNumber(SampleAppStorage.getInstance(requireContext())?.phoneNumber)
+            .setFirstName(LivePersonStorage.getInstance(requireContext())?.firstName)
+            .setLastName(LivePersonStorage.getInstance(requireContext())?.lastName)
+            .setPhoneNumber(LivePersonStorage.getInstance(requireContext())?.phoneNumber)
             .build()
 
         LivePerson.setUserProfile(consumerProfile)
@@ -168,28 +166,28 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     }
 
     /**
-     * Get the CampaignInfo stored in the SampleAppStorage (if available). If not available return null
+     * Get the CampaignInfo stored in the LivePersonStorage (if available). If not available return null
      * @param context
      * @return
      */
     @Nullable
     fun getCampaignInfo(context: Context): CampaignInfo? {
         var campaignInfo: CampaignInfo? = null
-        if (SampleAppStorage.getInstance(context)?.campaignId != null || SampleAppStorage.getInstance(
+        if (LivePersonStorage.getInstance(context)?.campaignId != null || LivePersonStorage.getInstance(
                 context
             )?.engagementId != null ||
-            SampleAppStorage.getInstance(context)?.sessionId != null || SampleAppStorage.getInstance(
+            LivePersonStorage.getInstance(context)?.sessionId != null || LivePersonStorage.getInstance(
                 context
             )?.visitorId != null
         ) {
 
             try {
                 campaignInfo = CampaignInfo(
-                    SampleAppStorage.getInstance(context)?.campaignId!!,
-                    SampleAppStorage.getInstance(context)?.engagementId!!,
-                    SampleAppStorage.getInstance(context)?.interactionContextId!!,
-                    SampleAppStorage.getInstance(context)?.sessionId,
-                    SampleAppStorage.getInstance(context)?.visitorId
+                    LivePersonStorage.getInstance(context)?.campaignId!!,
+                    LivePersonStorage.getInstance(context)?.engagementId!!,
+                    LivePersonStorage.getInstance(context)?.interactionContextId!!,
+                    LivePersonStorage.getInstance(context)?.sessionId,
+                    LivePersonStorage.getInstance(context)?.visitorId
                 )
             } catch (e: BadArgumentException) {
                 return null
