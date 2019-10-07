@@ -69,6 +69,7 @@ class CountryCodePicker : RelativeLayout {
 
     var ccpDialogShowFlag = true
     var ccp_onFlagClick = false
+    var ccp_hideFlag = true
 
     var isSearchAllowed = true
     private var showArrow = true
@@ -533,6 +534,12 @@ class CountryCodePicker : RelativeLayout {
             relativeClickConsumer!!.setOnClickListener(countryCodeHolderClickListener)
 
         }
+        if (ccp_hideFlag){
+            imageViewFlag!!.visibility=View.VISIBLE
+        }else{
+            imageViewFlag!!.visibility=View.GONE
+
+        }
         detectCountryWithAreaCode = true
         updateFormattingTextWatcher()
         setDefaultCountryUae()
@@ -545,6 +552,13 @@ class CountryCodePicker : RelativeLayout {
             //hide nameCode. If someone wants only phone code to avoid name collision for same country phone code.
             showNameCode = a.getBoolean(R.styleable.CountryCodePicker_ccp_showNameCode, true)
             ccp_onFlagClick = a.getBoolean(R.styleable.CountryCodePicker_ccp_onFlagClick, false)
+            ccp_hideFlag = a.getBoolean(R.styleable.CountryCodePicker_ccp_hideFlag, true)
+            if (ccp_hideFlag){
+                imageViewFlag!!.visibility=View.VISIBLE
+            }else{
+                imageViewFlag!!.visibility=View.GONE
+
+            }
             //number auto formatting
             numberAutoFormattingEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_autoFormatNumber, true)
             //show phone code.

@@ -48,6 +48,12 @@
             app:destination="@id/changeEmailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
+           />
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_changePhoneNumberFragment"
+            app:destination="@id/changePhoneNumberFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true"/>
     </fragment>
     <!--    <include app:graph="@navigation/change_email_navigation" />-->
@@ -118,6 +124,11 @@
             android:name="isFromMoreSection"
             app:argType="boolean" />
     </activity>
+    <fragment
+        android:id="@+id/changePhoneNumberFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragment"
+        android:label="ChangePhoneNumberFragment"
+        tools:layout="@layout/fragment_change_phone_number"/>
 
 
 </navigation>

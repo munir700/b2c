@@ -33,6 +33,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.tvEditPhoneNumber -> {
 //                    findNavController().navigate(R.id.action_personalDetailsFragment_to_documentsDashboardActivity)
+                    findNavController().navigate(R.id.action_personalDetailsFragment_to_changePhoneNumberFragment)
                 }
 
                 R.id.tvEditEmail -> {
