@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.app.modules.forgotpasscode.viewmodels.CreateNewPasscodeViewModel"/>
+            type="co.yap.modules.forgotpasscode.viewmodels.CreateNewPasscodeViewModel"/>
 
         <import type="co.yap.translation.Strings"/>
     </data>

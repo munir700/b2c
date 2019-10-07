@@ -10,7 +10,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 
-class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
+open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(

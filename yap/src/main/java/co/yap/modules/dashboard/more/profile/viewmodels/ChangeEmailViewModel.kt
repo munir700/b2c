@@ -17,7 +17,7 @@ class ChangeEmailViewModel(application: Application) :
 
     override fun onHandlePressOnNextButton() {
         if (state.checkEmailValidation()) {
-            state.toast = "m validate"
+//            state.toast = "m validate"
             clickEvent.call()
         }
     }

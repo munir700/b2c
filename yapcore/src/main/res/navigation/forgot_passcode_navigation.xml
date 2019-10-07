@@ -7,8 +7,8 @@
 
     <fragment
         android:id="@+id/forgotPasscodeFragment"
-        android:name="co.yap.app.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment"
-        tools:layout="@layout/fragment_phone_verification"
+        android:name="co.yap.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment"
+        tools:layout="@layout/fragment_forgot_passcode_otp"
         android:label="ForgotPasscodeFragment">
         <argument
             android:name="username"
@@ -19,6 +19,11 @@
         <argument
             android:name="mobileNumber"
             app:argType="string"/>
+        <argument
+            android:name="otpType"
+            app:argType="string"
+            android:defaultValue=" "
+            />
 
         <action
             android:id="@+id/action_forgotPasscodeFragment_to_createNewPasscodeFragment"
@@ -30,7 +35,7 @@
     </fragment>
     <fragment
         android:id="@+id/createNewPasscodeFragment"
-        android:name="co.yap.app.modules.forgotpasscode.fragments.CreateNewPasscodeFragment"
+        android:name="co.yap.modules.forgotpasscode.fragments.CreateNewPasscodeFragment"
         tools:layout="@layout/fragment_create_new_passcode"
         android:label="CreateNewPasscodeFragment">
         <argument
@@ -50,7 +55,7 @@
     </fragment>
     <fragment
         android:id="@+id/forgotPasscodeSuccessFragment"
-        android:name="co.yap.app.modules.forgotpasscode.fragments.ForgotPasscodeSuccessFragment"
+        android:name="co.yap.modules.forgotpasscode.fragments.ForgotPasscodeSuccessFragment"
         android:label="ForgotPasscodeSuccessFragment"
         tools:layout="@layout/fragment_forgot_passcode_success"/>
 </navigation>

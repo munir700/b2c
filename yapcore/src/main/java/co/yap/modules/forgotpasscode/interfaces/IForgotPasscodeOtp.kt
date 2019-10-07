@@ -1,4 +1,4 @@
-package co.yap.app.modules.forgotpasscode.interfaces
+package co.yap.modules.forgotpasscode.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -6,6 +6,7 @@ import co.yap.yapcore.SingleClickEvent
 interface IForgotPasscodeOtp {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
+        fun loadData()
     }
 
     interface ViewModel : IBase.ViewModel<State> {

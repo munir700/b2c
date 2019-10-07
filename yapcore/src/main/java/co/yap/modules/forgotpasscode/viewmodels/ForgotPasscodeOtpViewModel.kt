@@ -1,8 +1,8 @@
-package co.yap.app.modules.forgotpasscode.viewmodels
+package co.yap.modules.forgotpasscode.viewmodels
 
 import android.app.Application
-import co.yap.app.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
-import co.yap.app.modules.forgotpasscode.states.ForgotPasscodeOtpState
+import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
+import co.yap.modules.forgotpasscode.states.ForgotPasscodeOtpState
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -12,10 +12,11 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<IForgotPasscodeOtp.State>(application),
+open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<IForgotPasscodeOtp.State>(application),
     IForgotPasscodeOtp.ViewModel, IRepositoryHolder<MessagesRepository> {
 
-    override val state: ForgotPasscodeOtpState = ForgotPasscodeOtpState(application)
+    override val state: ForgotPasscodeOtpState =
+        ForgotPasscodeOtpState(application)
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: MessagesRepository = MessagesRepository
     //override var mobileNumber: String = "scsd"
@@ -34,7 +35,8 @@ class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<IForg
     }
 
     override fun handlePressOnSendButton(id: Int) {
-        verifyOtp(id)
+        nextButtonPressEvent.setValue(id)
+//        verifyOtp(id)
     }
 
     override fun handlePressOnResendOTP(id: Int) {

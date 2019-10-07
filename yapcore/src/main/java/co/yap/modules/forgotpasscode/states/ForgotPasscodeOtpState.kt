@@ -1,13 +1,12 @@
-package co.yap.app.modules.forgotpasscode.states
+package co.yap.modules.forgotpasscode.states
 
 import android.app.Application
 import android.os.CountDownTimer
 import androidx.databinding.Bindable
-import co.yap.BR
-import co.yap.R
-import co.yap.app.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
-import co.yap.modules.onboarding.states.PhoneVerificationState
+import co.yap.yapcore.BR
+import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.R
 
 class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPasscodeOtp.State {
     @get:Bindable

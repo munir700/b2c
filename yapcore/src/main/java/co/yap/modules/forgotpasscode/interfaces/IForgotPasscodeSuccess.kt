@@ -1,4 +1,4 @@
-package co.yap.app.modules.forgotpasscode.interfaces
+package co.yap.modules.forgotpasscode.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

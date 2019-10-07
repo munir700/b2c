@@ -1,14 +1,16 @@
-package co.yap.app.modules.forgotpasscode.viewmodels
+package co.yap.modules.forgotpasscode.viewmodels
 
 import android.app.Application
-import co.yap.app.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
-import co.yap.app.modules.forgotpasscode.states.ForgotPasscodeSuccessState
+import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
+import co.yap.modules.forgotpasscode.states.ForgotPasscodeSuccessState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class ForgotPasscodeSuccessViewModel(application: Application):BaseViewModel<IForgotPasscodeSuccess.State>(application),IForgotPasscodeSuccess.ViewModel {
-    override val state: ForgotPasscodeSuccessState= ForgotPasscodeSuccessState()
+class ForgotPasscodeSuccessViewModel(application: Application):BaseViewModel<IForgotPasscodeSuccess.State>(application),
+    IForgotPasscodeSuccess.ViewModel {
+    override val state: ForgotPasscodeSuccessState =
+        ForgotPasscodeSuccessState()
     override val handlePressOnButtonEvent: SingleClickEvent= SingleClickEvent()
     override fun handlePressOnGoToDashboardButton(id:Int) {
         handlePressOnButtonEvent.setValue(id)

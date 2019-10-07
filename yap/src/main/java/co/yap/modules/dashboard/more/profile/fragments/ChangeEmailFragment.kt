@@ -23,7 +23,12 @@ class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeE
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, Observer {
-            //findNavController().navigate(R.id.action_changeEmailFragment_to_forgotPasscodeOtpFragment)
+            val action=ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment("03025101902",false,"03025101902","CHANGE_EMAIL")
+            findNavController().navigate(action)
         })
+    }
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
     }
 }

@@ -1,4 +1,4 @@
-package co.yap.app.modules.forgotpasscode.fragments
+package co.yap.modules.forgotpasscode.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -6,11 +6,11 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import co.yap.app.BR
-import co.yap.app.R
-import co.yap.app.modules.forgotpasscode.viewmodels.CreateNewPasscodeViewModel
-import co.yap.modules.onboarding.interfaces.ICreatePasscode
+import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
+import co.yap.modules.forgotpasscode.viewmodels.CreateNewPasscodeViewModel
+import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.R
 
 class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>() {
     private val args: CreateNewPasscodeFragmentArgs by navArgs()

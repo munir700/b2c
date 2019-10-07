@@ -1,9 +1,8 @@
-package co.yap.modules.onboarding.interfaces
+package co.yap.modules.forgotpasscode.interfaces
 
 import android.text.TextWatcher
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface ICreatePasscode {
 

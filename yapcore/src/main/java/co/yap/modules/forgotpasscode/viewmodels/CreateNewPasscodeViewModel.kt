@@ -1,8 +1,7 @@
-package co.yap.app.modules.forgotpasscode.viewmodels
+package co.yap.modules.forgotpasscode.viewmodels
 
 import android.app.Application
 import co.yap.app.login.EncryptionUtils
-import co.yap.modules.onboarding.viewmodels.CreatePasscodeViewModel
 import co.yap.networking.admin.AdminRepository
 import co.yap.networking.admin.requestdtos.ForgotPasscodeRequest
 import co.yap.networking.interfaces.IRepositoryHolder

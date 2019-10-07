@@ -1,6 +1,9 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmailSuccess
@@ -15,4 +18,16 @@ class ChangeEmailSuccessFragment : BaseBindingFragment<IChangeEmailSuccess.ViewM
 
     override val viewModel: IChangeEmailSuccess.ViewModel
         get() = ViewModelProviders.of(this).get(ChangeEmailSuccessViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.buttonClickEvent.observe(this, Observer {
+            findNavController().navigate(R.id.action_changeEmailSuccessFragment_to_personalDetailsFragment)
+        })
+    }
+
+    override fun onDestroy() {
+        viewModel.buttonClickEvent.removeObservers(this)
+        super.onDestroy()
+    }
 }

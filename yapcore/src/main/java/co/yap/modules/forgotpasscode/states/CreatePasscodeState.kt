@@ -1,11 +1,11 @@
-package co.yap.modules.onboarding.states
+package co.yap.modules.forgotpasscode.states
 
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.databinding.Bindable
-import androidx.databinding.library.baseAdapters.BR
-import co.yap.modules.onboarding.interfaces.ICreatePasscode
+import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.BR
 
 open class CreatePasscodeState : BaseState(), ICreatePasscode.State {
 

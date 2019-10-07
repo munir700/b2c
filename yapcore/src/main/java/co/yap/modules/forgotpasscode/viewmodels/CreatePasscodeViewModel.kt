@@ -1,12 +1,11 @@
-package co.yap.modules.onboarding.viewmodels
+package co.yap.modules.forgotpasscode.viewmodels
 
 import android.app.Application
-import co.yap.modules.onboarding.interfaces.ICreatePasscode
-import co.yap.modules.onboarding.states.CreatePasscodeState
+import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
+import co.yap.modules.forgotpasscode.states.CreatePasscodeState
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.StringUtils
 
 open class CreatePasscodeViewModel(application: Application) : BaseViewModel<ICreatePasscode.State>(application),

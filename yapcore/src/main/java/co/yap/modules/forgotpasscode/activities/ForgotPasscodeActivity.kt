@@ -1,8 +1,8 @@
-package co.yap.app.modules.forgotpasscode.activities
+package co.yap.modules.forgotpasscode.activities
 
 import android.os.Bundle
-import co.yap.app.R
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.R
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator

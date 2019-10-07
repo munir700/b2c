@@ -1,8 +1,8 @@
-package co.yap.app.modules.forgotpasscode.states
+package co.yap.modules.forgotpasscode.states
 
 import androidx.databinding.Bindable
-import co.yap.app.BR
-import co.yap.app.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
+import co.yap.yapcore.BR
+import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
 import co.yap.yapcore.BaseState
 
 class ForgotPasscodeSuccessState : BaseState(), IForgotPasscodeSuccess.State {

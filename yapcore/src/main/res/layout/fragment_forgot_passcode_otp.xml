@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.app.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel"/>
+            type="co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel"/>
         <import type="co.yap.translation.Strings"/>
 
     </data>

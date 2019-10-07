@@ -1,19 +1,16 @@
-package co.yap.app.modules.forgotpasscode.fragments
+package co.yap.modules.forgotpasscode.fragments
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import co.yap.app.BR
-import co.yap.app.R
-import co.yap.app.activities.MainActivity
-import co.yap.app.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
-import co.yap.app.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel
-import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.BaseBindingFragment
-import co.yap.yapcore.IBase
+import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
+import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel
+import co.yap.yapcore.*
 import co.yap.yapcore.helpers.SharedPreferenceManager
+
+
 
 class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess.ViewModel>() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
@@ -29,8 +26,10 @@ class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.handlePressOnButtonEvent.observe(this, Observer {
+
             sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)
-            val intent=Intent(context,MainActivity::class.java)
+            val intent=Intent(context,Class.forName("co.yap.app.activities.MainActivity"))
+
             intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
             intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
             intent.flags=Intent.FLAG_ACTIVITY_NO_HISTORY
