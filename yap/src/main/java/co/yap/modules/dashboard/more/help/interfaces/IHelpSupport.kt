@@ -16,6 +16,7 @@ interface IHelpSupport {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
+        fun getHelpDeskPhone()
     }
 
     interface View : IBase.View<ViewModel>{
