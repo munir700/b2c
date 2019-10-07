@@ -8,7 +8,6 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import java.util.*
 
-
 class YAPApplication : ChatApplication() {
 
     override fun onCreate() {
@@ -40,6 +39,4 @@ class YAPApplication : ChatApplication() {
             sharedPrefs.save(SharedPreferenceManager.KEY_APP_UUID, uuid)
         }
     }
-
-
 }

@@ -21,16 +21,16 @@ import com.liveperson.messaging.sdk.api.LivePerson
 
 open class ChatApplication : Application() {
 
-    val authKey = "17038977"
-    private val TAG = ChatApplication::class.java!!.simpleName
-    lateinit var Instance: ChatApplication
+    private val authKey = "17038977"
+    private val atg = ChatApplication::class.java.simpleName
+    private lateinit var instance: ChatApplication
     private var livePersonCallback: LivePersonCallbackImpl? = null
-    lateinit var mLivePersonReceiver: BroadcastReceiver
+    private lateinit var mLivePersonReceiver: BroadcastReceiver
     private var showToastOnCallback: Boolean = false
 
     override fun onCreate() {
         super.onCreate()
-        Instance = this
+        instance = this
         registerToLivePersonEvents()
     }
 
@@ -49,7 +49,7 @@ open class ChatApplication : Application() {
 
             override fun onReceive(context: Context, intent: Intent) {
 
-                Log.d(TAG, "Got LP intent event with action " + intent.action!!)
+                Log.d(atg, "Got LP intent event with action " + intent.action!!)
                 when (intent.action) {
                     LivePersonIntents.ILivePersonIntentAction.LP_ON_AGENT_AVATAR_TAPPED_INTENT_ACTION -> onAgentAvatarTapped(
                         LivePersonIntents.getAgentData(intent)
@@ -237,7 +237,7 @@ open class ChatApplication : Application() {
         if (showToastOnCallback) {
             Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show()
         } else {
-            LPMobileLog.d(TAG + "_CALLBACK", message)
+            LPMobileLog.d(atg + "_CALLBACK", message)
         }
     }
 

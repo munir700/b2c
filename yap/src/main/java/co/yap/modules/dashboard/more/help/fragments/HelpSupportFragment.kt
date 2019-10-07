@@ -85,7 +85,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 object : InitLivePersonCallBack {
 
                     override fun onInitSucceed() {
-                        Toast.makeText(context!!, "Init failed", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context!!, "Init Sucess", Toast.LENGTH_SHORT).show()
 
                         SampleAppStorage.getInstance(requireContext())?.sdkMode =
                             (SampleAppStorage.SDKMode.ACTIVITY)
@@ -94,7 +94,9 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                         SampleAppStorage.getInstance(requireContext())?.phoneNumber = ""
                         SampleAppStorage.getInstance(requireContext())?.authCode = ""
                         SampleAppStorage.getInstance(requireContext())?.publicKey = ""
-                        initActivityConversation()
+                        activity!!.runOnUiThread(Runnable {
+                            openActivity()
+                        })
                     }
 
                     override fun onInitFailed(e: Exception) {
@@ -118,9 +120,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 SampleAppStorage.SDK_SAMPLE_FCM_APP_ID,
                 object : InitLivePersonCallBack {
                     override fun onInitSucceed() {
-                        activity!!.runOnUiThread(Runnable {
-                            openActivity()
-                        })
+
                     }
 
                     override fun onInitFailed(e: Exception) {
@@ -141,7 +141,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         authParams.addCertificatePinningKey(publicKey)
 
         val campaignInfo = getCampaignInfo(context!!)
-        val params = ConversationViewParams().setReadOnlyMode(false)
+        val params = ConversationViewParams()
             .setHistoryConversationsStateToDisplay(LPConversationsHistoryStateToDisplay.ALL)
             .setCampaignInfo(campaignInfo).setReadOnlyMode(isReadOnly())
         //        setWelcomeMessage(params);  //This method sets the welcome message with quick replies. Uncomment this line to enable this feature.
