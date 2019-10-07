@@ -4,11 +4,14 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.AssetFileDescriptor
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
@@ -27,8 +30,14 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.managers.MyUserManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.layout_profile_picture.*
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.IOException
+import java.util.*
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
     CardClickListener {
@@ -136,16 +145,28 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             Constants.EVENT_CHOOSE_PHOTO -> {
                 // choose photo
-                val intent = Intent()
-                intent.type = "image/*"
-                intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(
-                    Intent.createChooser(intent, "Select Picture"),
-                    FINAL_CHOOSE_PHOTO
-                )
+                selectProfilePicture()
 
             }
         }
+    }
+
+    fun openMediaContent() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        intent.type = "image/*"
+        startActivityForResult(intent, FINAL_CHOOSE_PHOTO)
+    }
+
+    private fun selectProfilePicture() {
+
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(
+            Intent.createChooser(intent, "Select Picture"),
+            FINAL_CHOOSE_PHOTO
+        )
     }
 
     private fun takePicture() {
@@ -171,33 +192,69 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        var bitmap: Bitmap? = null
 
         when (requestCode) {
             FINAL_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
+//                    val bitmap = BitmapFactory.decodeStream(
+//                    showToast(data.toString())
 
-                    showToast(data.toString())
-                    val bitmap = BitmapFactory.decodeStream(
-                        activity!!.getContentResolver().openInputStream(imageUri)
-                    )
-//                    picture!!.setImageBitmap(bitmap)
+                    var bitmap = getBitmap(data!!.data)
 
+                    Glide.with(activity!!)
+                        .load(bitmap)
+                        .transforms(CenterCrop(), RoundedCorners(115))
+                        .into(ivProfilePic)
 
                 }
 
             FINAL_TAKE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
-
+//                    val uri = getUri(bitmap)
+//                    bitmap.recycle()
                     val bitmap = BitmapFactory.decodeStream(
                         activity!!.getContentResolver().openInputStream(imageUri)
                     )
-                    ivProfilePic!!.setImageBitmap(bitmap)
-//                    ivProfilePic!!.setImageURI(imageUri)
+
+//                    ivProfilePic!!.setImageBitmap(bitmap)
+//                    Glide.with(activity!!)
+//                         .load(bitmap)
+//                        .transforms(CenterCrop(), RoundedCorners(115))
+//                        .into(ivProfilePic)
+
+                    Glide.with(activity!!)
+                        .load(bitmap)
+                        .transforms(CenterCrop(), RoundedCorners(115))
+                        .into(ivProfilePic)
 
                 }
         }
     }
 
+
+    fun getUri( bitmap: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+
+        val path = MediaStore.Images.Media.insertImage(
+            context!!.contentResolver,
+            bitmap,
+            Date().time.toString() + "_Title",
+            null
+        )
+        return Uri.parse(path)
+    }
+
+     fun getBitmap(selectedimg: Uri?): Bitmap {
+        val options = BitmapFactory.Options()
+        options.inSampleSize = 3
+        var fileDescriptor: AssetFileDescriptor? = null
+        fileDescriptor = activity!!.getContentResolver().openAssetFileDescriptor(selectedimg!!, "r")
+        return BitmapFactory.decodeFileDescriptor(
+            fileDescriptor!!.fileDescriptor, null, options
+        )
+    }
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
@@ -235,12 +292,25 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when (requestCode) {
-            1 ->
+            FINAL_TAKE_PHOTO ->
+
                 if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
                     takePicture()
-                } else {
+                    Log.i("pictureLog", FINAL_TAKE_PHOTO.toString())
 
-                }
+                } /*else {
+                    selectProfilePicture()
+                }*/
+
+            FINAL_CHOOSE_PHOTO ->
+
+                if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
+                    selectProfilePicture()
+                    Log.i("pictureLog", FINAL_CHOOSE_PHOTO.toString())
+
+                } /*else {
+                    selectProfilePicture()
+                }*/
         }
     }
 
