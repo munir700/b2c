@@ -17,6 +17,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHelpSupportBinding
+import co.yap.modules.dashboard.activities.YapDashboardActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
@@ -42,10 +43,13 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     override val viewModel: IHelpSupport.ViewModel
         get() = ViewModelProviders.of(this).get(HelpSupportViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         initComponents()
     }
 
@@ -58,7 +62,6 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
     }
-
 
     private val observer = Observer<Int> {
         when (it) {
@@ -204,7 +207,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
             .gradientDivider(false)
             .dividerHeight(2)
-            .titleColor(ContextCompat.getColor(context!!,R.color.colorPrimaryDark))
+            .titleColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
             .toolbarColorRes(R.color.colorWhite)
             .dividerColorRes(R.color.colorPrimaryDark)
             .iconDefaultColorRes(R.color.colorPrimary)
@@ -226,6 +229,18 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
         val intent = Intent(ACTION_DIAL)
         intent.data = Uri.parse("tel:" + viewModel.state.contactPhone.get())
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (activity is YapDashboardActivity)
+            (activity as YapDashboardActivity).showHideBottomBar(false)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (activity is YapDashboardActivity)
+            (activity as YapDashboardActivity).showHideBottomBar(true)
     }
 
     override fun getBinding(): FragmentHelpSupportBinding {

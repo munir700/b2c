@@ -35,14 +35,16 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
     override val viewModel: IMoreHome.ViewModel
         get() = ViewModelProviders.of(this).get(MoreHomeViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         initComponents()
         setupRecycleView()
     }
-
 
     private fun initComponents() {
         getBinding().tvName.text =
