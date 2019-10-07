@@ -38,7 +38,7 @@ class HelpSupportViewModel(application: Application) :
                 }
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    state.contactPhone.set("+971 600 55 2222")
+                    state.contactPhone.set("+971 600 55 0000")
                 }
             }
         }
