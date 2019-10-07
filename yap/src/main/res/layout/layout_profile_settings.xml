@@ -67,8 +67,8 @@
                     android:layout_height="@dimen/_16sdp"
                     android:layout_marginLeft="@dimen/margin_normal"
                     android:background="@drawable/bg_round_red"
-                    android:visibility="@{viewModel.state.errorBadgeVisibility}"
-                    android:backgroundTint="@color/error">
+                    android:backgroundTint="@color/error"
+                    android:visibility="@{viewModel.state.errorBadgeVisibility}">
 
 
                     <ImageView
@@ -100,9 +100,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium_large"
-                android:layout_marginRight="@dimen/margin_medium"
                 android:background="@color/divider" />
 
             <TextView
@@ -215,20 +213,28 @@
                     android:text="@string/screen_profile_settings_display_text_app_notifications"
                     app:text="@{Strings.screen_profile_settings_display_text_app_notifications}" />
 
-                <androidx.appcompat.widget.SwitchCompat
-                    android:id="@+id/switchNotification"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tvNotificationsView"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight=".3" />
+                    android:onClick="@{(v) -> viewModel.handlePressOnPrivacy(v.id)}"
+                    android:text="@string/screen_profile_settings_display_text_view"
+                    android:textColor="@color/colorPrimary"
+                    app:text="@{Strings.screen_profile_settings_display_text_view}" />
+
+                <!--                <androidx.appcompat.widget.SwitchCompat-->
+                <!--                    android:id="@+id/switchNotification"-->
+                <!--                    android:layout_width="0dp"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_weight=".3" />-->
 
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginLeft="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_medium_large"
-                android:layout_marginRight="@dimen/margin_medium"
                 android:background="@color/divider" />
 
 
@@ -396,8 +402,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="@string/screen_profile_settings_display_text_logout"
                 android:onClick="@{(v) -> viewModel.handlePressOnLogOut(v.id)}"
+                android:text="@string/screen_profile_settings_display_text_logout"
                 android:textColor="@color/colorPrimary"
                 app:text="@{Strings.screen_profile_settings_display_text_logout}" />
         </LinearLayout>

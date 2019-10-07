@@ -36,7 +36,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.layout_profile_picture.*
 import java.io.ByteArrayOutputStream
 import java.io.File
-import java.io.IOException
 import java.util.*
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
@@ -148,6 +147,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 selectProfilePicture()
 
             }
+
+            R.id.tvNotificationsView -> {
+                showToast("start notifications")
+            }
         }
     }
 
@@ -233,7 +236,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
 
-    fun getUri( bitmap: Bitmap): Uri {
+    fun getUri(bitmap: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
 
@@ -246,7 +249,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         return Uri.parse(path)
     }
 
-     fun getBitmap(selectedimg: Uri?): Bitmap {
+    fun getBitmap(selectedimg: Uri?): Bitmap {
         val options = BitmapFactory.Options()
         options.inSampleSize = 3
         var fileDescriptor: AssetFileDescriptor? = null
@@ -255,6 +258,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             fileDescriptor!!.fileDescriptor, null, options
         )
     }
+
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
