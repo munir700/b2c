@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/more_main_navigation"
-    app:startDestination="@id/moreHomeFragment">
+    app:startDestination="@id/personalDetailsFragment">
 
 
     <fragment
@@ -16,4 +16,120 @@
     </fragment>
 
 
+    <fragment
+        android:id="@+id/profileSettingsFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ProfileSettingsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_profile">
+
+
+        <action
+            android:id="@+id/action_profileSettingsFragment_to_personalDetailsFragment"
+            app:destination="@id/personalDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/personalDetailsFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment"
+        android:label="Settings"
+        tools:layout="@layout/fragment_personal_detail">
+
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_documentsDashboardActivity"
+            app:destination="@id/documentsDashboardActivity"
+            app:popUpToInclusive="true">
+        </action>
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_changeEmailFragment"
+            app:destination="@id/changeEmailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+           />
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_changePhoneNumberFragment"
+            app:destination="@id/changePhoneNumberFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true"/>
+    </fragment>
+    <!--    <include app:graph="@navigation/change_email_navigation" />-->
+
+    <fragment
+        android:id="@+id/changeEmailFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailFragment"
+        android:label="ChangeEmailFragment">
+        <action
+            android:id="@+id/action_changeEmailFragment_to_genericOtpFragment"
+            app:destination="@id/genericOtpFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            />
+    </fragment>
+    <fragment
+        android:id="@+id/changeEmailSuccessFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailSuccessFragment"
+        android:label="ChangeEmailSuccessFragment"
+        tools:layout="@layout/fragment_change_email_success" >
+        <action
+            android:id="@+id/action_changeEmailSuccessFragment_to_personalDetailsFragment"
+            app:destination="@id/personalDetailsFragment"
+            app:popUpToInclusive="true"
+            app:enterAnim="@anim/slide_in_left"
+            app:popUpTo="@id/personalDetailsFragment"/>
+    </fragment>
+    <fragment
+        android:id="@+id/genericOtpFragment"
+        android:name="co.yap.modules.generic_otp.GenericOtpFragment"
+        android:label="GenericOtpFragment" >
+        <argument
+            android:name="username"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="emailOtp"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="mobileNumber"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="otpType"
+            android:defaultValue=" "
+            app:argType="string" />
+        <action
+            android:id="@+id/action_genericOtpFragment_to_changeEmailSuccessFragment"
+            app:destination="@id/changeEmailSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true"/>
+
+    </fragment>
+
+    <activity
+        android:id="@+id/documentsDashboardActivity"
+        android:name="co.yap.modules.kyc.activities.DocumentsDashboardActivity"
+        android:label="DocumentsDashboardActivity"
+        tools:layout="@layout/activity_documents_dashboard">
+
+        <argument
+            android:name="name"
+            app:argType="string" />
+
+        <argument
+            android:name="isFromMoreSection"
+            app:argType="boolean" />
+    </activity>
+    <fragment
+        android:id="@+id/changePhoneNumberFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragment"
+        android:label="ChangePhoneNumberFragment"
+        tools:layout="@layout/fragment_change_phone_number"/>
+
+
 </navigation>
+

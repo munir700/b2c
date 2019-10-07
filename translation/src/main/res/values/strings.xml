@@ -369,6 +369,50 @@
     <string name="screen_more_display_text_bank_details">Your bank details</string>
 
 
+    <!--   Profile Settings screen-->
+    <string name="screen_profile_settings_display_text_title">Settings</string>
+    <string name="screen_profile_settings_display_text_profile">Profile</string>
+    <string name="screen_profile_settings_display_text_personal_detail">Personal details</string>
+    <string name="screen_profile_settings_display_text_view">View</string>
+    <string name="screen_profile_settings_display_text_security">Security</string>
+    <string name="screen_profile_settings_display_text_privacy">Privacy</string>
+    <string name="screen_profile_settings_display_text_passcode">Passcode</string>
+    <string name="screen_profile_settings_display_text_change">Change</string>
+    <string name="screen_profile_settings_display_text_app_notifications">App notifications</string>
+    <string name="screen_profile_settings_display_text_about_us">About us</string>
+    <string name="screen_profile_settings_display_terms_and_conditions">Terms and conditions</string>
+    <string name="screen_profile_settings_display_text_instagram">Instagram</string>
+    <string name="screen_profile_settings_display_text_twitter">Twitter</string>
+    <string name="screen_profile_settings_display_text_facebook">Facebook</string>
+    <string name="screen_profile_settings_display_text_follow_us">Follow us</string>
+    <string name="screen_profile_settings_display_text_like_us">Like us</string>
+    <string name="screen_profile_settings_display_text_logout">Log out</string>
+
+    <!-- update profile photo Bottom Sheet -->
+
+    <string name="screen_update_profile_photo_display_text_title">Update profile photo</string>
+    <string name="screen_update_profile_photo_display_text_open_camera">Open camera</string>
+    <string name="screen_update_profile_photo_display_text_choose_photo">Choose photo</string>
+
+    <!-- personal detail screen -->
+
+    <string name="screen_personal_detail_display_text_title">Personal details</string>
+    <string name="screen_personal_detail_display_text_full_name">Full name</string>
+    <string name="screen_personal_detail_display_text_phone_number">Phone number</string>
+    <string name="screen_personal_detail_display_text_email">Email</string>
+    <string name="screen_personal_detail_display_text_address">Address</string>
+    <string name="screen_personal_detail_display_text_edit">Edit</string>
+    <string name="screen_personal_detail_display_text_emirates_id">Emirates ID</string>
+    <string name="screen_personal_detail_display_text_verification_completed">Verification completed</string>
+    <string name="screen_personal_detail_display_text_verification_expired">Your EID is expired.\nTap to update to ensure account continuity</string>
+
+    <!-- logout dialogue -->
+
+    <string name="screen_profile_settings_logout_display_text_alert_title">Log out</string>
+    <string name="screen_profile_settings_logout_display_text_alert_message">Are you sure you want to log out?</string>
+    <string name="screen_profile_settings_logout_display_text_alert_cancel">CANCEL</string>
+    <string name="screen_profile_settings_logout_display_text_alert_logout">LOG OUT</string>
+
     <!--   Help & Support-->
     <string name="screen_help_support_display_text_title">Help &amp; Support</string>
     <string name="screen_help_support_display_text_faqs">FAQs</string>

@@ -182,4 +182,14 @@
         tools:layout="@layout/activity_yap_dashboard"
         android:name="co.yap.modules.dashboard.activities.YapDashboardActivity"
         android:label="YapDashboardActivity"/>
+
+    <activity
+        android:id="@+id/moreActivity"
+        android:name="co.yap.modules.dashboard.more.activities.MoreActivity"
+        android:label="MoreActivity"
+        tools:layout="@layout/activity_more">
+
+    </activity>
+
+
 </navigation>

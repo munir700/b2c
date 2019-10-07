@@ -39,6 +39,7 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
+import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -84,8 +85,8 @@ object UIBinder {
                 imageView.setImageResource(R.drawable.ic_status_frozen)
             }
             CardStatus.INACTIVE -> {
-                        imageView.visibility = View.VISIBLE
-                        imageView.setImageResource(R.drawable.ic_status_ontheway)
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_status_ontheway)
             }
 
         }
@@ -108,8 +109,8 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                if(card.cardType=="DEBIT"){
-                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                if (card.cardType == "DEBIT") {
+                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
                         text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
@@ -122,7 +123,7 @@ object UIBinder {
                             R.string.screen_cards_display_text_pending_delivery
                         )
                     }
-                }else {
+                } else {
                     if (card.deliveryStatus == null) {
                         text.visibility = View.GONE
                     } else {
@@ -165,8 +166,8 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                if(card.cardType=="DEBIT"){
-                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                if (card.cardType == "DEBIT") {
+                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
                         coreButton.visibility = View.VISIBLE
                         coreButton.text = Translator.getString(
                             coreButton.context,
@@ -175,24 +176,24 @@ object UIBinder {
                     } else {
                         coreButton.visibility = View.GONE
                     }
-                }else {
-                if (card.deliveryStatus == null) {
-                    coreButton.visibility = View.GONE
                 } else {
-                    when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                        CardDeliveryStatus.SHIPPED -> {
-                            coreButton.visibility = View.VISIBLE
-                            coreButton.text = Translator.getString(
-                                coreButton.context,
-                                R.string.screen_cards_display_text_set_pin
-                            )
-                        }
-                        else -> {
-                            coreButton.visibility = View.GONE
+                    if (card.deliveryStatus == null) {
+                        coreButton.visibility = View.GONE
+                    } else {
+                        when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                            CardDeliveryStatus.SHIPPED -> {
+                                coreButton.visibility = View.VISIBLE
+                                coreButton.text = Translator.getString(
+                                    coreButton.context,
+                                    R.string.screen_cards_display_text_set_pin
+                                )
+                            }
+                            else -> {
+                                coreButton.visibility = View.GONE
+                            }
                         }
                     }
                 }
-            }
             }
 
         }
@@ -534,10 +535,15 @@ object UIBinder {
     @BindingAdapter("isLayoutActivated")
     fun setisLayoutActivated(view: LinearLayout, value: Boolean) {
 //        if (!value) {
-            view.isActivated = value
+        view.isActivated = value
 
 //        }
     }
 
+  /*  @JvmStatic
+    @BindingAdapter("app:inputLayoutErrorText")
+    fun setInputLayoutErrorMessage(view: TextInputLayout, errorMessage: String) {
+        view.error = errorMessage;
+    }*/
 
 }

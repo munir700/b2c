@@ -72,15 +72,6 @@
             android:id="@+id/action_yapCards_to_addPaymentCardActivity"
             app:destination="@id/addPaymentCardActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/yapDashboardHome"
-        android:name="co.yap.modules.dashboard.fragments.YapDashboardHome"
-        android:label="YapDashboardHome"
-        tools:layout="@layout/fragment_yap_dashboard_home">
-        <action
-            android:id="@+id/action_yapCards_to_addPaymentCardActivity"
-            app:destination="@id/addPaymentCardActivity" />
-    </fragment>
 
     <fragment
         android:id="@+id/yapStore"
