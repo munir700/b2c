@@ -2,8 +2,8 @@
     package="co.yap">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
         <activity
@@ -104,6 +104,10 @@
             android:name=".modules.dashboard.more.bankdetails.activities.BankDetailActivity"
             android:screenOrientation="portrait" />
 
-
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
     </application>
 </manifest>
