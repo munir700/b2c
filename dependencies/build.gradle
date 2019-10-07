@@ -99,6 +99,8 @@ project.ext {
             androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar',
             expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
+            // Live chat
+            livechat                 : 'com.liveperson.android:lp_messaging_sdk:4.2.1',
 
     ]
     // Test dependencies which need to be added in all modules
@@ -123,6 +125,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.coreKtx],
             [configuration: "implementation", dependency: libraries.paging],
             [configuration: "implementation", dependency: libraries.viewpager2],
+            [configuration: "implementation", dependency: libraries.livechat]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
