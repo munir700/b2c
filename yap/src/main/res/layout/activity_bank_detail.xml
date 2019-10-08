@@ -279,20 +279,11 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-<!--        <co.yap.widgets.CoreCircularImageView-->
-<!--            android:id="@+id/ivTransaction"-->
-<!--            android:layout_width="@dimen/_35sdp"-->
-<!--            android:layout_height="@dimen/_35sdp"-->
-<!--            app:layout_constraintTop_toTopOf="parent"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            android:layout_marginTop="@dimen/margin_normal"-->
-<!--            android:src="@color/disabled"/>-->
-
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
-            android:layout_marginTop="56dp"
+            android:layout_marginTop="@dimen/margin_large"
             android:background="@drawable/bg_round_purple"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/empty_string"

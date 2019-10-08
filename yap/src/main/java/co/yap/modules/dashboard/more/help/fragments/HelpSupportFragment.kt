@@ -55,9 +55,6 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     }
 
     private fun initComponents() {
-        val content = SpannableString(viewModel.state.contactPhone.get())
-        content.setSpan(UnderlineSpan(), 0, content.length, 0)
-        getBinding().tvCallPhone.text = content
     }
 
     private fun setObservers() {

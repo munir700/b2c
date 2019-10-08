@@ -12,6 +12,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -20,14 +21,11 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
-import androidx.viewpager2.widget.ViewPager2
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
-import co.yap.widgets.CoreInputField
 import co.yap.yapcore.R
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.StringUtils
@@ -39,7 +37,6 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.daimajia.androidanimations.library.Techniques
 import com.daimajia.androidanimations.library.YoYo
-import com.google.android.material.textfield.TextInputLayout
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -147,6 +144,15 @@ object UIBinder {
                 }
             }
         }
+    }
+
+    // Card status message text
+    @BindingAdapter("underline_text")
+    @JvmStatic
+    fun setCardStatus(text: TextView, value: String) {
+        val content = SpannableString(value)
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        text.text = content
     }
 
     //Core action Button text
@@ -540,10 +546,10 @@ object UIBinder {
 //        }
     }
 
-  /*  @JvmStatic
-    @BindingAdapter("app:inputLayoutErrorText")
-    fun setInputLayoutErrorMessage(view: TextInputLayout, errorMessage: String) {
-        view.error = errorMessage;
-    }*/
+    /*  @JvmStatic
+      @BindingAdapter("app:inputLayoutErrorText")
+      fun setInputLayoutErrorMessage(view: TextInputLayout, errorMessage: String) {
+          view.error = errorMessage;
+      }*/
 
 }
