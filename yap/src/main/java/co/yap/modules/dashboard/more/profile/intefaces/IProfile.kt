@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
-import co.yap.networking.customers.responsedtos.documents.Data
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -18,7 +18,7 @@ interface IProfile {
 
         val clickEvent: SingleClickEvent
 
-        val data: Data
+        val data: GetMoreDocumentsResponse
 
         fun handlePressOnBackButton()
 

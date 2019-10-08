@@ -1,14 +1,13 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
-import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.documents.Data
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -21,7 +20,7 @@ class ProfileSettingsViewModel(application: Application) :
     MoreBaseViewModel<IProfile.State>(application), IProfile.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
-    override lateinit var data: Data
+    override lateinit var data: GetMoreDocumentsResponse
     override val repository: CustomersRepository = CustomersRepository
 
     override val state: ProfileStates =
@@ -91,6 +90,7 @@ class ProfileSettingsViewModel(application: Application) :
         requestProfileDocumentsInformation()
 
     }
+
     override fun requestProfileDocumentsInformation() {
 
         launch {
@@ -98,10 +98,10 @@ class ProfileSettingsViewModel(application: Application) :
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
 
                 is RetroApiResponse.Success -> {
-                    data = response.data.data
+                    data = response.data
 
-                    if (!data.dateExpiry.isNullOrEmpty()) {
-                        getExpiryDate(data.dateExpiry)
+                    if (!data.data.dateExpiry.isNullOrEmpty()) {
+                        getExpiryDate(data.data.dateExpiry)
                     }
                 }
                 is RetroApiResponse.Error -> {
@@ -123,23 +123,9 @@ class ProfileSettingsViewModel(application: Application) :
         val previousDayDate = sdf.parse(prevDay)
 
         if (expireyDate > previousDayDate) {
-            // hide red icon
             state.errorBadgeVisibility = GONE
-
-            Log.i(
-                "checkz",
-                "isNotExpired " + previousDayDate + " prevdate , expireyDate " + expireyDate
-            )
-
         } else {
             state.errorBadgeVisibility = VISIBLE
-
-            // show red icon
-            Log.i(
-                "checkz",
-                "hasExpired " + previousDayDate + " prevdate , expireyDate " + expireyDate
-            )
-
         }
     }
 
