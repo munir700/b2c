@@ -147,7 +147,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 } else {
                     takePicture()
                 }
-                //
             }
 
             Constants.EVENT_CHOOSE_PHOTO -> {
@@ -208,9 +207,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         when (requestCode) {
             FINAL_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
-//                    val bitmap = BitmapFactory.decodeStream(
-//                    showToast(data.toString())
-
                     var bitmap = getBitmap(data!!.data)
 
                     Glide.with(activity!!)
@@ -222,23 +218,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             FINAL_TAKE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
-//                    val uri = getUri(bitmap)
-//                    bitmap.recycle()
+
                     val bitmap = BitmapFactory.decodeStream(
                         activity!!.getContentResolver().openInputStream(imageUri)
                     )
-
-//                    ivProfilePic!!.setImageBitmap(bitmap)
-//                    Glide.with(activity!!)
-//                         .load(bitmap)
-//                        .transforms(CenterCrop(), RoundedCorners(115))
-//                        .into(ivProfilePic)
 
                     Glide.with(activity!!)
                         .load(bitmap)
                         .transforms(CenterCrop(), RoundedCorners(115))
                         .into(ivProfilePic)
-
                 }
         }
     }
@@ -310,9 +298,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     takePicture()
                     Log.i("pictureLog", FINAL_TAKE_PHOTO.toString())
 
-                } /*else {
-                    selectProfilePicture()
-                }*/
+                }
 
             FINAL_CHOOSE_PHOTO ->
 
@@ -320,10 +306,20 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     selectProfilePicture()
                     Log.i("pictureLog", FINAL_CHOOSE_PHOTO.toString())
 
-                } /*else {
-                    selectProfilePicture()
-                }*/
+                }
         }
     }
+
+    override fun onPause() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onPause()
+
+    }
+
+    override fun onBackPressed(): Boolean {
+
+        return super.onBackPressed()
+    }
+
 
 }

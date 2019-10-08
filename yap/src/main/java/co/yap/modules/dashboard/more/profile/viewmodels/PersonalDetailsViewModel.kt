@@ -50,6 +50,13 @@ class PersonalDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
+
+        if (MyUserManager.userAddress == null) {
+            requestGetAddressForPhysicalCard()
+        } else {
+            address = MyUserManager.userAddress!!
+            setUpAddressFields()
+        }
     }
 
     override fun onCreate() {
@@ -58,38 +65,43 @@ class PersonalDetailsViewModel(application: Application) :
         state.fullName = customer.firstName + " " + customer.lastName
         state.phoneNumber = customer.mobileNo
         state.email = customer.email
-
-        requestGetAddressForPhysicalCard()
     }
 
 
     fun requestGetAddressForPhysicalCard() {
+
         launch {
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
+
                     if (null != response.data.data) {
                         address = response.data.data
 
-                        var addresstitle = ""
-                        var addressDetail = ""
-
-                        if (!address.address2.isNullOrEmpty()) {
-                              addresstitle = address.address2!!
-                        }
-
-                        if (!address.address2.isNullOrEmpty()) {
-                              addressDetail = address.address1!!
-                        }
-
-                        state.address = addresstitle + " " + addressDetail
-
+                        setUpAddressFields()
                     }
                 }
+
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
 
             state.loading = false
         }
+    }
+
+    private fun setUpAddressFields() {
+        var addresstitle = ""
+        var addressDetail = ""
+
+        if (!address.address2.isNullOrEmpty()) {
+            addresstitle = address.address2!!
+        }
+
+        if (!address.address2.isNullOrEmpty()) {
+            addressDetail = address.address1!!
+        }
+
+        state.address = addresstitle + " " + addressDetail
+        MyUserManager.userAddress = address
     }
 
 }

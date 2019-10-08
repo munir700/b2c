@@ -51,10 +51,6 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
-    fun hideToolbar() {
-        toolbar.visibility = View.INVISIBLE
-    }
-
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_more_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
