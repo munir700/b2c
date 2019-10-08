@@ -32,7 +32,7 @@
             app:srcCompat="@drawable/ic_settings" />
 
 
-        <ImageView
+        <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
@@ -43,7 +43,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_settings" />
+            app:src="@{viewModel.state.image}" />
 
         <TextView
             android:id="@+id/tvNameInitials"
@@ -52,8 +52,8 @@
             android:layout_height="@dimen/_64sdp"
             android:background="@drawable/bg_round_purple"
             android:gravity="center"
-            android:text="@{viewModel.state.initials}"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:text="@{viewModel.state.initials}"
             android:textColor="@color/colorPrimaryDark"
             android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"

@@ -20,7 +20,7 @@ class MoreHomeViewModel(application: Application) :
     override val state: MoreState = MoreState()
 
     init {
-        state.image.set("")
+        state.image.set(MyUserManager.userImage)
         state.initials.set(Utils.shortName(MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName))
     }
 

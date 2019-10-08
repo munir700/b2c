@@ -9,4 +9,5 @@ object MyUserManager {
     var user: AccountInfo? = null
     var cardBalance: MutableLiveData<CardBalance> = MutableLiveData()
     var cards: MutableLiveData<ArrayList<Card>> = MutableLiveData()
+    val userImage: String = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
 }
