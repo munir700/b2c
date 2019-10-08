@@ -7,10 +7,7 @@ import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
-import co.yap.networking.customers.responsedtos.AccountInfoResponse
-import co.yap.networking.customers.responsedtos.GetDocumentsResponse
-import co.yap.networking.customers.responsedtos.SignUpResponse
-import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
+import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -32,6 +29,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_DOCUMENTS = "customers/api/customer-documents"
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
     const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
+    const val URL_UPLOAD_PROFILE_PICTURE = "customers/profile-picture"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -99,5 +97,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getMoreDocumentsByType(documentType: String): RetroApiResponse<GetMoreDocumentsResponse> =
         executeSafely(call = { api.getMoreDocumentsByType(documentType) })
+
+    override suspend fun uploadProfilePicture(profilePicture: MultipartBody.Part): RetroApiResponse<UploadProfilePictureResponse> =
+        executeSafely(call = { api.uploadProfilePicture(profilePicture) })
 
 }

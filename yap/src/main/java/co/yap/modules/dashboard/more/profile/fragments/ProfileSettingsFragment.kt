@@ -116,6 +116,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
                     updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
                 }
+
+              viewModel.PROFILE_PICTURE_UPLOADED -> {
+//                  Glide.with(activity!!)
+//                      .load(viewModel.)
+//                      .transforms(CenterCrop(), RoundedCorners(115))
+//                      .into(ivProfilePic)
+
+                }
+
             }
         })
     }
@@ -209,10 +218,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 if (resultCode == Activity.RESULT_OK) {
                     var bitmap = getBitmap(data!!.data)
 
-                    Glide.with(activity!!)
-                        .load(bitmap)
-                        .transforms(CenterCrop(), RoundedCorners(115))
-                        .into(ivProfilePic)
+                    viewModel.uploadProfconvertUriToFile(data!!.data)
+
+//                    Glide.with(activity!!)
+//                        .load(bitmap)
+//                        .transforms(CenterCrop(), RoundedCorners(115))
+//                        .into(ivProfilePic)
 
                 }
 
@@ -223,11 +234,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         activity!!.getContentResolver().openInputStream(imageUri)
                     )
 
-                    Glide.with(activity!!)
-                        .load(bitmap)
-                        .transforms(CenterCrop(), RoundedCorners(115))
-                        .into(ivProfilePic)
+                    viewModel.uploadProfconvertUriToFile(imageUri!!)
+//                    viewModel.uploadProfconvertUriToFile(data!!.data)
+
+//                    Glide.with(activity!!)
+//                        .load(bitmap)
+//                        .transforms(CenterCrop(), RoundedCorners(115))
+//                        .into(ivProfilePic)
                 }
+
         }
     }
 

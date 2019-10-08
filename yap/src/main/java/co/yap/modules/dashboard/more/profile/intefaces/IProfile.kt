@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
+import android.net.Uri
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -21,6 +22,8 @@ interface IProfile {
         val showExpiredBadge: Boolean
 
         val data: GetMoreDocumentsResponse
+
+        var PROFILE_PICTURE_UPLOADED: Int
 
         fun handlePressOnBackButton()
 
@@ -47,6 +50,10 @@ interface IProfile {
         fun handlePressOnPhoto(id: Int)
 
         fun requestProfileDocumentsInformation()
+
+        fun requestUploadProfilePicture()
+
+        fun uploadProfconvertUriToFile(selectedImageUri: Uri)
 
     }
 

@@ -3,10 +3,7 @@ package co.yap.networking.customers
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
-import co.yap.networking.customers.responsedtos.AccountInfoResponse
-import co.yap.networking.customers.responsedtos.GetDocumentsResponse
-import co.yap.networking.customers.responsedtos.SignUpResponse
-import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
+import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
@@ -61,5 +58,11 @@ interface CustomersRetroService {
     // Get More Documents on profile settings fragment
     @GET(CustomersRepository.URL_GET_MORE_DOCUMENTS)
     suspend fun getMoreDocumentsByType(@Query("documentType") EMIRATES_ID: String): Response<GetMoreDocumentsResponse>
+
+    // upload profile picture
+    @Multipart
+    @POST(CustomersRepository.URL_UPLOAD_PROFILE_PICTURE)
+    suspend fun uploadProfilePicture(@Part profilePicture: MultipartBody.Part): Response<UploadProfilePictureResponse>
+//    suspend fun uploadProfilePicture(@Part("profile-picture") profile-picture: RequestBody): Response<UploadProfilePictureResponse>
 
 }

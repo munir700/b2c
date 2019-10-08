@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
+import android.net.Uri
+import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
@@ -12,6 +14,10 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,9 +26,11 @@ class ProfileSettingsViewModel(application: Application) :
     MoreBaseViewModel<IProfile.State>(application), IProfile.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
+    override var PROFILE_PICTURE_UPLOADED: Int= 100
     override var showExpiredBadge: Boolean = false
     override lateinit var data: GetMoreDocumentsResponse
     override val repository: CustomersRepository = CustomersRepository
+    lateinit var multiPartImageFile: MultipartBody.Part
 
     override val state: ProfileStates =
         ProfileStates()
@@ -90,6 +98,38 @@ class ProfileSettingsViewModel(application: Application) :
         super.onCreate()
         requestProfileDocumentsInformation()
 
+    }
+
+
+   override fun uploadProfconvertUriToFile(selectedImageUri: Uri) {
+        val file = File(selectedImageUri.path)
+        val reqFile = RequestBody.create(MediaType.parse("image/"), file)
+        multiPartImageFile = MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
+
+        requestUploadProfilePicture()
+    }
+
+
+    override fun requestUploadProfilePicture() {
+
+        launch {
+            when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
+                is RetroApiResponse.Success -> {
+
+                    if (null != response.data.data) {
+                        Log.i("picture", response.data.data.imageURL)
+                        state.toast = response.data.data.imageURL
+                        clickEvent.setValue(PROFILE_PICTURE_UPLOADED)
+                        state.profilePictureUrl=response.data.data.imageURL
+
+                    }
+                }
+
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+
+            state.loading = false
+        }
     }
 
     override fun requestProfileDocumentsInformation() {
