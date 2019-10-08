@@ -23,21 +23,15 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
-//                    findNavController().navigate(R.id.action_personalDetailsFragment_to_documentsDashboardActivity)
-                    findNavController().navigate(R.id.action_personalDetailsFragment_to_changePhoneNumberFragment)
+                    findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
                 }
 
                 R.id.tvEditEmail -> {
-                    findNavController().navigate(R.id.action_personalDetailsFragment_to_changeEmailFragment)
+                    findNavController().navigate(R.id.action_personalDetailsFragment_to_change_email_navigation)
                 }
 
                 R.id.tvEditAddress -> {

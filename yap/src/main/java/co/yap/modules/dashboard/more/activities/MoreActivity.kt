@@ -21,7 +21,9 @@ import kotlinx.android.synthetic.main.activity_add_payment_cards.*
 class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     IFragmentHolder {
 
-    companion object {
+    public companion object {
+        // do not remove this boolean variable
+        var navigationVariable:Boolean=false
         fun newIntent(context: Context): Intent {
             val intent = Intent(context, MoreActivity::class.java)
             return intent

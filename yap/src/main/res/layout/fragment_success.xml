@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailSuccessViewModel" />
+            type="co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -21,7 +21,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xl"
             android:gravity="center"
-            android:text="Success!"
+            tools:text="Success!"
+            app:text="@{viewModel.state.topMainHeading}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
-            android:text="Your email address has been changed to newemail@website.com"
+            tools:text="Your email address has been changed to newemail@website.com"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading" />
@@ -46,7 +47,8 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handlePressOnDoneButton()}"
-            android:text="@string/screen_change_pin_success_display_text_button"
+            android:text="@{viewModel.state.buttonTitle}"
+
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"

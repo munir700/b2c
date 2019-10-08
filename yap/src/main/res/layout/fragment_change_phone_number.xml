@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,11 +10,100 @@
             type="co.yap.modules.dashboard.more.profile.viewmodels.ChangePhoneNumberViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/tvMobileNumberHeading"
+            style="@style/ASmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:text="Enter your new phone number"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
 
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ccpContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@{viewModel.state.background}"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_normal"
+            app:layout_constraintTop_toBottomOf="@+id/tvMobileNumberHeading">
+
+            <co.yap.widgets.mobile.CountryCodePicker
+                android:id="@+id/ccpSelector"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                android:gravity="center"
+                app:layout_constraintTop_toTopOf="@+id/etNewMobileNumber"
+                app:layout_constraintBottom_toBottomOf="@+id/etNewMobileNumber"
+                app:ccp_hintExampleNumber="true"
+                app:ccp_countryPreference="us,ae"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:clickable="false"
+                app:ccp_onFlagClick="false"
+                app:ccp_hideFlag="false"
+                />
+
+            <EditText
+                android:id="@+id/etNewMobileNumber"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:digits="1234567890 "
+                android:drawableEnd="@{viewModel.state.drawbleRight}"
+                android:text="@={viewModel.state.mobile}"
+                android:maxLength="@{viewModel.state.mobileNoLength}"
+                android:hint="New email address"
+                android:imeOptions="actionDone"
+                android:inputType="phone"
+                android:paddingEnd="@dimen/margin_normal"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="@dimen/_15sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/ccpSelector"
+                app:layout_constraintStart_toEndOf="@+id/ccpSelector" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tvMobileError"
+            style="@style/MicroGrey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:text="@{viewModel.state.errorMessage}"
+            android:textColor="@color/error"
+            app:layout_constraintTop_toBottomOf="@+id/ccpContainer" />
+
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnAction"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:text="Next"
+            android:onClick="@{(v)->viewModel.onHandlePressOnNextButton()}"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvMobileError"
+            app:layout_constraintVertical_bias="0.989"
+            tools:text="Add" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
