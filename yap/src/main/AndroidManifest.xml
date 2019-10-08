@@ -8,7 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
      <uses-feature android:name="android.hardware.camera"
         android:required="true" />
-
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
         <activity
@@ -22,9 +23,9 @@
             <nav-graph android:value="@navigation/yap_navigation" />
         </activity>
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+<!--        <meta-data-->
+<!--            android:name="com.google.android.geo.API_KEY"-->
+<!--            android:value="@string/google_maps_key" />-->
 
         <activity
             android:name=".modules.onboarding.activities.OnboardingActivity"
@@ -61,6 +62,7 @@
         <activity
             android:name=".modules.dashboard.more.activities.MoreActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize|adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
             <nav-graph android:value="@navigation/more_main_navigation" />
         </activity>
@@ -105,7 +107,7 @@
             android:name=".modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity"
             android:screenOrientation="portrait" />
 
-        <provider
+         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="co.yap.fileprovider"
             android:exported="false"
@@ -114,5 +116,15 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <activity
+            android:name=".modules.dashboard.more.bankdetails.activities.BankDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
     </application>
 </manifest>

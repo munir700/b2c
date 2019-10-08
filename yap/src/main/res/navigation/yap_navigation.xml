@@ -19,19 +19,7 @@
         android:id="@+id/setCardPinWelcomeActivity"
         android:name="co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity"
         android:label="SetCardPinWelcomeActivity"
-        tools:layout="@layout/activity_set_card_pin_welcome"/>
-
-    <fragment
-        android:id="@+id/liteDashboard"
-        android:name="co.yap.modules.onboarding.fragments.LiteDashboardFragment"
-        android:label="LiteDashboardFragment"
-        tools:layout="@layout/fragment_lite_dashboard">
-
-        <action
-            android:id="@+id/action_liteDashboard_to_moreActivity"
-            app:destination="@id/moreActivity" />
-
-    </fragment>
+        tools:layout="@layout/activity_set_card_pin_welcome" />
 
     <fragment
         android:id="@+id/yapHome"
@@ -50,7 +38,7 @@
         </action>
         <action
             android:id="@+id/action_yapHome_to_setCardPinWelcomeActivity"
-            app:destination="@id/setCardPinWelcomeActivity" >
+            app:destination="@id/setCardPinWelcomeActivity">
 
             <argument
                 android:name="cardSerialNumber"
@@ -101,14 +89,11 @@
 
     </activity>
 
-
     <activity
         android:id="@+id/moreActivity"
         android:name="co.yap.modules.dashboard.more.activities.MoreActivity"
         android:label="MoreActivity"
-        tools:layout="@layout/activity_more">
-
-    </activity>
+        tools:layout="@layout/activity_more" />
 
     <fragment
         android:id="@+id/yapCardStatusFragment"
@@ -119,5 +104,24 @@
             android:name="cardInfo"
             app:argType="co.yap.networking.cards.responsedtos.Card" />
     </fragment>
+
+
+    <fragment
+        android:id="@+id/yapMore"
+        android:name="co.yap.modules.dashboard.more.home.fragments.YapMoreFragment"
+        android:label="YapMoreFragment"
+        tools:layout="@layout/fragment_more_home">
+        <action
+            android:id="@+id/action_yapMore_to_helpSupportFragment"
+            app:destination="@id/helpSupportFragment" />
+        <action
+            android:id="@+id/action_yapMore_to_moreActivity"
+            app:destination="@id/moreActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/helpSupportFragment"
+        android:name="co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment"
+        android:label="HelpSupportFragment"
+        tools:layout="@layout/fragment_help_support" />
 
 </navigation>

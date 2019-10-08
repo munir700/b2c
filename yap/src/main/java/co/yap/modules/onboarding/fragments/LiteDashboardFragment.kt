@@ -70,14 +70,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
 
 
         //
-        tvName.setOnClickListener(object :
-            View.OnClickListener {
-
-            override fun onClick(v: View?) {
-                findNavController().navigate(R.id.action_liteDashboard_to_moreActivity)
-
-            }
-        })
+//        tvName.setOnClickListener { findNavController().navigate(R.id.action_liteDashboard_to_moreActivity) }
     }
 
     override fun onDestroyView() {
@@ -128,6 +121,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
                 btnSetCardPin.visibility = View.GONE
                 btnCompleteVerification.visibility = View.GONE
             }
+
         }
     }
 

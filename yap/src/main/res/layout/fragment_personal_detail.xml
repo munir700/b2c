@@ -91,6 +91,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
+                    android:onClick="@{(v)-> viewModel.handlePressOnEditPhone(v.id)}"
+
                     android:gravity="center"
                     android:text="@string/screen_personal_detail_display_text_edit"
                     android:textColor="@color/colorPrimary"
@@ -138,6 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
+                    android:onClick="@{(v)-> viewModel.handlePressOnEditEmail(v.id)}"
                     android:text="@string/screen_personal_detail_display_text_edit"
                     android:textColor="@color/colorPrimary"
                     app:text="@{Strings.screen_personal_detail_display_text_edit}" />

@@ -1,7 +1,8 @@
 package co.yap.networking.customers.responsedtos
 
 class Customer(
-    var uuid: String,
+
+    var status: String,
     var email: String,
     var countryCode: String,
     var mobileNo: String,
@@ -9,5 +10,11 @@ class Customer(
     var isMobileNoVerified: String,
     var isEmailVerified: String,
     var firstName: String,
-    var lastName: String
+    var lastName: String,
+    var uuid: String,
+    var password: String?,
+
+    var emailVerified: Boolean,
+    var mobileNoVerified: Boolean
+
 )

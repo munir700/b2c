@@ -365,6 +365,9 @@
     <string name="screen_card_statement_display_text_view">View</string>
     <string name="screen_card_statement_display_text_title">Card statements</string>
 
+    <!--   Yap More-->
+    <string name="screen_more_display_text_bank_details">Your bank details</string>
+
 
     <!--   Profile Settings screen-->
     <string name="screen_profile_settings_display_text_title">Settings</string>
@@ -411,5 +414,13 @@
     <string name="screen_profile_settings_logout_display_text_alert_message">Are you sure you want to log out?</string>
     <string name="screen_profile_settings_logout_display_text_alert_cancel">CANCEL</string>
     <string name="screen_profile_settings_logout_display_text_alert_logout">LOG OUT</string>
+
+    <!--   Help & Support-->
+    <string name="screen_help_support_display_text_title">Help &amp; Support</string>
+    <string name="screen_help_support_display_text_faqs">FAQs</string>
+    <string name="screen_help_support_display_text_live_chat">Live chat</string>
+    <string name="screen_help_support_display_text_chat_via_whatsApp">Live Agent chat via WhatsApp</string>
+    <string name="screen_help_support_display_text_call_us">Call us</string>
+    <string name="screen_help_support_display_text_available_24_hours">Available 24 hours</string>
 
 </resources>

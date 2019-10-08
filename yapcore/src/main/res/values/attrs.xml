@@ -85,6 +85,7 @@
         <attr name="ccp_useFlagEmoji" format="boolean" /> <!-- beta -->
         <attr name="ccp_useDummyEmojiForPreview" format="boolean" /> <!-- beta -->
         <attr name="ccp_onFlagClick" format="boolean" /> <!-- beta -->
+        <attr name="ccp_hideFlag" format="boolean" /> <!-- beta -->
 
         <attr name="ccp_textGravity" format="enum">
             <enum name="LEFT" value="-1" />
@@ -299,6 +300,17 @@
             <enum name="end" value="2" />
             <enum name="anchored_view" value="3" />
             <enum name="custom" value="4" />
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="BadgeTextView">
+        <attr name="android:background" />
+        <attr name="mbtv_border_width" format="dimension" />
+        <attr name="mbtv_border_color" format="color" />
+        <attr name="mbtv_border_alpha" format="float" />
+        <attr name="mbtv_type" format="enum">
+            <enum name="shadow_gradual" value="1"/>
+            <enum name="shadow_alpha" value="2"/>
         </attr>
     </declare-styleable>
 

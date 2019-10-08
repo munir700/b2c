@@ -10,7 +10,7 @@ import androidx.databinding.ViewDataBinding
 
 abstract class BaseBindingFragment<V : IBase.ViewModel<*>> : BaseFragment<V>() {
 
-    private lateinit var viewDataBinding: ViewDataBinding
+    lateinit var viewDataBinding: ViewDataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
