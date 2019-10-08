@@ -677,6 +677,8 @@ object Strings {
     //Yap More
     const val screen_more_display_text_bank_details: String =
         "screen_more_display_text_bank_details"
+    const val screen_more_detail_display_text_bank_details: String =
+        "screen_more_detail_display_text_bank_details"
 
     //Help & Suppor
     const val screen_help_support_display_text_title: String =

@@ -65,7 +65,7 @@
 
         <TextView
             android:id="@+id/tvName"
-            style="@style/ALarge"
+            style="@style/Title3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
@@ -92,7 +92,7 @@
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_extra_small"
+            android:layout_marginTop="@dimen/_2sdp"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

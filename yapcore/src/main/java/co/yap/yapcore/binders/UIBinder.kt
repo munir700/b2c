@@ -441,7 +441,7 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, path: String) {
         Glide.with(view.context)
-            .load(path).centerCrop()
+            .load(path).centerCrop().placeholder(R.color.greyLight)
             .into(view)
     }
 
@@ -450,14 +450,14 @@ object UIBinder {
     fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
         if (circular) {
             Glide.with(view.context)
-                .asBitmap().load(resId)
+                .asBitmap().load(resId).placeholder(R.color.greyLight)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
 
         } else {
 
             Glide.with(view.context)
-                .asBitmap().load(resId)
+                .asBitmap().load(resId).placeholder(R.color.greyLight)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
             //set placeholder here

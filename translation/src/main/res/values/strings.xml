@@ -367,6 +367,7 @@
 
     <!--   Yap More-->
     <string name="screen_more_display_text_bank_details">Your bank details</string>
+    <string name="screen_more_detail_display_text_bank_details">YAP Bank details</string>
 
 
     <!--   Profile Settings screen-->
