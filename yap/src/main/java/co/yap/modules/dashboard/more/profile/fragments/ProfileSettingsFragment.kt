@@ -67,7 +67,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             when (it) {
 
                 R.id.tvPersonalDetailView -> {
-                    findNavController().navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
+
+                    val action =
+                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment(
+                            viewModel.showExpiredBadge
+                        )
+                    findNavController().navigate(action)
+
+
+//                    findNavController().navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
                 }
 
                 R.id.tvPrivacyView -> {

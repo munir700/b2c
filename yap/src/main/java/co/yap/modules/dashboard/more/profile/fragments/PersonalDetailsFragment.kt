@@ -23,10 +23,16 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val isFromBlockCardsScreen =
+            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.state.errorVisibility =
+            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -47,7 +53,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     if (!viewModel.state.errorVisibility) {
                         val action =
                             PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-                                viewModel.state.fullName,true
+                                viewModel.state.fullName, true
                             )
                         findNavController().navigate(action)
                     }

@@ -20,6 +20,7 @@ class ProfileSettingsViewModel(application: Application) :
     MoreBaseViewModel<IProfile.State>(application), IProfile.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
+    override var showExpiredBadge: Boolean = false
     override lateinit var data: GetMoreDocumentsResponse
     override val repository: CustomersRepository = CustomersRepository
 
@@ -104,6 +105,7 @@ class ProfileSettingsViewModel(application: Application) :
                         getExpiryDate(data.data.dateExpiry)
                     }
                 }
+
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                 }
@@ -114,19 +116,20 @@ class ProfileSettingsViewModel(application: Application) :
 
     fun getExpiryDate(expiryDateString: String) {
 
-        var sdf = SimpleDateFormat("yyyy-MM-dd")
-        val expireyDate = sdf.parse(expiryDateString)
+        var simpleDateFormat = SimpleDateFormat("yyyy-MM-dd")
+        val expireyDate = simpleDateFormat.parse(expiryDateString)
         val cal = Calendar.getInstance()
         cal.add(Calendar.DAY_OF_YEAR, -1)
 
-        val prevDay = sdf.format(cal.time)
-        val previousDayDate = sdf.parse(prevDay)
+        val prevDay = simpleDateFormat.format(cal.time)
+        val previousDayDate = simpleDateFormat.parse(prevDay)
 
         if (expireyDate > previousDayDate) {
             state.errorBadgeVisibility = GONE
+            showExpiredBadge = false
         } else {
             state.errorBadgeVisibility = VISIBLE
+            showExpiredBadge = true
         }
     }
-
 }

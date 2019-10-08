@@ -37,12 +37,15 @@
         android:name="co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_personal_detail">
+        <argument
+            android:name="showExpired"
+            android:defaultValue="false"
+            app:argType="boolean" />
 
         <action
             android:id="@+id/action_personalDetailsFragment_to_documentsDashboardActivity"
             app:destination="@id/documentsDashboardActivity"
-            app:popUpToInclusive="true">
-        </action>
+            app:popUpToInclusive="true"></action>
     </fragment>
 
     <activity

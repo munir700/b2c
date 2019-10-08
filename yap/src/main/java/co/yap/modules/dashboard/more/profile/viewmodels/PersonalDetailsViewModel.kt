@@ -4,11 +4,20 @@ import android.app.Application
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.customers.responsedtos.Customer
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.MyUserManager
 
 class PersonalDetailsViewModel(application: Application) :
-    MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel {
+    MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
+    IRepositoryHolder<CardsRepository> {
+    override val repository: CardsRepository = CardsRepository
+    lateinit var address: Address
 
     override fun handlePressOnScanCard(id: Int) {
         clickEvent.setValue(id)
@@ -42,4 +51,45 @@ class PersonalDetailsViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
     }
+
+    override fun onCreate() {
+        super.onCreate()
+        val customer: Customer = MyUserManager.user!!.customer
+        state.fullName = customer.firstName + " " + customer.lastName
+        state.phoneNumber = customer.mobileNo
+        state.email = customer.email
+
+        requestGetAddressForPhysicalCard()
+    }
+
+
+    fun requestGetAddressForPhysicalCard() {
+        launch {
+            when (val response = repository.getUserAddressRequest()) {
+                is RetroApiResponse.Success -> {
+                    if (null != response.data.data) {
+                        address = response.data.data
+
+                        var addresstitle = ""
+                        var addressDetail = ""
+
+                        if (!address.address2.isNullOrEmpty()) {
+                              addresstitle = address.address2!!
+                        }
+
+                        if (!address.address2.isNullOrEmpty()) {
+                              addressDetail = address.address1!!
+                        }
+
+                        state.address = addresstitle + " " + addressDetail
+
+                    }
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+
+            state.loading = false
+        }
+    }
+
 }

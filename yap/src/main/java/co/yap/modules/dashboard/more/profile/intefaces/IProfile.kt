@@ -18,6 +18,8 @@ interface IProfile {
 
         val clickEvent: SingleClickEvent
 
+        val showExpiredBadge: Boolean
+
         val data: GetMoreDocumentsResponse
 
         fun handlePressOnBackButton()
