@@ -693,4 +693,16 @@ object Strings {
         "screen_help_support_display_text_call_us"
     const val screen_help_support_display_text_available_24_hours: String =
         "screen_help_support_display_text_available_24_hours"
+
+    // Change Email Address Success Screen
+    const val screen_email_address_success_display_text_heading: String =
+        "screen_email_address_success_display_text_heading"
+    const val screen_email_address_success_display_text_sub_heading: String =
+        "screen_email_address_success_display_text_sub_heading"
+
+//    Change Phone Number Success Screen
+const val screen_phone_number_success_display_text_heading: String =
+    "screen_phone_number_success_display_text_heading"
+    const val screen_phone_number_success_display_text_sub_heading: String =
+    "screen_phone_number_success_display_text_sub_heading"
 }
