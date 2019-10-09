@@ -1,15 +1,30 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
+import android.content.Context
+import android.net.Uri
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface IProfile {
+
     interface State : IBase.State {
+        var fullName: String
+        var profilePictureUrl: String
+        var nameInitialsVisibility: Int
+        var errorBadgeVisibility: Int
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {
 
-        val clickEvent: SingleClickEvent
+        var clickEvent: SingleClickEvent
+
+        val showExpiredBadge: Boolean
+
+        val data: GetMoreDocumentsResponse
+
+        var PROFILE_PICTURE_UPLOADED: Int
 
         fun handlePressOnBackButton()
 
@@ -35,6 +50,13 @@ interface IProfile {
 
         fun handlePressOnPhoto(id: Int)
 
+        fun requestProfileDocumentsInformation()
+
+        fun requestUploadProfilePicture()
+
+        fun uploadProfconvertUriToFile(selectedImageUri: Uri)
+
+        fun getRealPathFromUri(context: Context, contentUri: Uri): String
 
     }
 

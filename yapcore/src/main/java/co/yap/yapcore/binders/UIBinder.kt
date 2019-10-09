@@ -7,6 +7,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
@@ -546,10 +547,13 @@ object UIBinder {
 //        }
     }
 
-    /*  @JvmStatic
-      @BindingAdapter("app:inputLayoutErrorText")
-      fun setInputLayoutErrorMessage(view: TextInputLayout, errorMessage: String) {
-          view.error = errorMessage;
-      }*/
+     @BindingAdapter("src", "isRound")
+    @JvmStatic
+    fun setProfilePicture(view: ImageView, imageSrc: String, circular: Boolean) {
+        Glide.with(view.context)
+            .load(Uri.parse(imageSrc))
+            .transforms(CenterCrop(), RoundedCorners(115))
+            .into(view)
 
+    }
 }

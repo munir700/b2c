@@ -5,17 +5,25 @@
     android:id="@+id/more_main_navigation"
     app:startDestination="@id/profileSettingsFragment">
 
+
+    <fragment
+        android:id="@+id/moreHomeFragment"
+        android:name="co.yap.modules.dashboard.more.home.fragments.MoreHomeFragment"
+        android:label="home"
+        tools:layout="@layout/fragment_more_home">
+
+    </fragment>
+
     <fragment
         android:id="@+id/profileSettingsFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.ProfileSettingsFragment"
         android:label="Settings"
         tools:layout="@layout/fragment_profile">
 
-
         <action
             android:id="@+id/action_profileSettingsFragment_to_personalDetailsFragment"
             app:destination="@id/personalDetailsFragment"
-            app:enterAnim="@anim/slide_in_right"
+              app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
         <action
@@ -33,10 +41,27 @@
         android:label="Settings"
         tools:layout="@layout/fragment_personal_detail">
 
+        <argument
+            android:name="showExpired"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
         <action
             android:id="@+id/action_personalDetailsFragment_to_documentsDashboardActivity"
             app:destination="@id/documentsDashboardActivity"
+             app:popUpToInclusive="true"></action>
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_changeEmailFragment"
+            app:destination="@id/changeEmailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_personalDetailsFragment_to_changePhoneNumberFragment"
+            app:destination="@id/changePhoneNumberFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+
 
         <action
             android:id="@+id/action_personalDetailsFragment_to_change_email_navigation"

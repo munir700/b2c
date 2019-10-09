@@ -13,16 +13,15 @@ import co.yap.yapcore.BaseState
 class PersonalDetailState(val application: Application) : BaseState(), IPersonalDetail.State {
 
     @get:Bindable
-    override var fullName: String = "Logan Rich Pearson"
+    override var fullName: String = " "
         set(value) {
             field = value
             notifyPropertyChanged(BR.fullName)
-            errorVisibility = false
 
         }
 
     @get:Bindable
-    override var phoneNumber: String = "+971 (909) 090 909"
+    override var phoneNumber: String = " "
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
@@ -31,7 +30,7 @@ class PersonalDetailState(val application: Application) : BaseState(), IPersonal
 
 
     @get:Bindable
-    override var email: String = "logan.pearson@email.com"
+    override var email: String = " "
         set(value) {
             field = value
             notifyPropertyChanged(BR.email)
@@ -39,7 +38,7 @@ class PersonalDetailState(val application: Application) : BaseState(), IPersonal
 
 
     @get:Bindable
-    override var address: String = "Burj Residence Tower 1, Suite 1107"
+    override var address: String = " "
         set(value) {
             field = value
             notifyPropertyChanged(BR.address)
@@ -68,7 +67,7 @@ class PersonalDetailState(val application: Application) : BaseState(), IPersonal
 
 
     @get:Bindable
-    override var errorVisibility: Boolean = true
+    override var errorVisibility: Boolean = false
         set(value) {
             field = value
             notifyPropertyChanged(BR.errorVisibility)
@@ -77,7 +76,7 @@ class PersonalDetailState(val application: Application) : BaseState(), IPersonal
 
 
     fun setUpVerificationLayout() {
-        if (errorVisibility) {
+        if (!errorVisibility) {
             drawbleRight =
                 application!!.resources.getDrawable(co.yap.yapcore.R.drawable.ic_tick_enabled)
             verificationText = Translator.getString(

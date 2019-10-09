@@ -6,9 +6,12 @@ import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
 import co.yap.networking.customers.responsedtos.AccountInfoResponse
 import co.yap.networking.customers.responsedtos.SignUpResponse
+import co.yap.networking.customers.responsedtos.UploadProfilePictureResponse
 import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import okhttp3.MultipartBody
+import retrofit2.http.Part
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
@@ -18,4 +21,6 @@ interface CustomersApi {
     suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ValidateDeviceResponse>
     suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse>
     suspend fun getDocuments(): RetroApiResponse<ApiResponse>
+    suspend fun getMoreDocumentsByType(documentType: String): RetroApiResponse<ApiResponse>
+    suspend fun uploadProfilePicture(profilePicture: MultipartBody.Part): RetroApiResponse<UploadProfilePictureResponse>
 }
