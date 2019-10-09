@@ -269,9 +269,9 @@
                     android:gravity="center|end"
                     android:lineSpacingExtra="8sp"
                     android:lines="1"
-                    android:text="@{viewModel.state.contactPhone}"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="@dimen/text_size_h3"
+                    app:underline_text="@{viewModel.state.contactPhone}"
                     tools:text="+971 600 55 1214" />
 
 

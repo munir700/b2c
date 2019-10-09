@@ -21,7 +21,10 @@ import kotlinx.android.synthetic.main.activity_add_payment_cards.*
 class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     IFragmentHolder {
 
-    companion object {
+    public companion object {
+        // do not remove this boolean variable
+        var navigationVariable: Boolean = false
+
         fun newIntent(context: Context): Intent {
             val intent = Intent(context, MoreActivity::class.java)
             return intent
@@ -42,7 +45,9 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+
     }
+
 
     override fun onDestroy() {
         viewModel.backButtonPressEvent.removeObservers(this)
@@ -50,6 +55,18 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     }
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
+
+    fun hideToolbar() {
+        toolbar.visibility = View.INVISIBLE
+    }
+
+    fun goneToolbar() {
+        toolbar.visibility = View.GONE
+    }
+
+    fun visibleToolbar() {
+        toolbar.visibility = View.VISIBLE
+    }
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_more_nav_host_fragment)

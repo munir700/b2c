@@ -27,6 +27,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.constants.Constants
+import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
@@ -66,6 +67,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (context as MoreActivity).visibleToolbar()
+
 
     }
 
@@ -311,6 +314,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onResume() {
         super.onResume()
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
@@ -328,6 +332,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvChangePasscode -> {
+
+                    findNavController().navigate(R.id.action_profileSettingsFragment_to_change_pascode_navigation)
 
                 }
 
@@ -366,7 +372,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
 
                 }
-
             }
         })
 

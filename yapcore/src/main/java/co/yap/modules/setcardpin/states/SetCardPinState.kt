@@ -87,6 +87,14 @@ open class SetCardPinState : BaseState(), ISetCardPin.State {
             notifyPropertyChanged(BR.cardSerialNumber)
         }
 
+    @get:Bindable
+    override var forgotTextVisibility: Boolean=false
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.forgotTextVisibility)
+        }
+
+
     fun validate() {
         if (pincode.length == 4) {
             valid = true

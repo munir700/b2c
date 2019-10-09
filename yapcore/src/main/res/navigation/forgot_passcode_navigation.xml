@@ -12,13 +12,16 @@
         android:label="ForgotPasscodeFragment">
         <argument
             android:name="username"
-            app:argType="string"/>
+            app:argType="string"
+            android:defaultValue=" "/>
         <argument
             android:name="emailOtp"
-            app:argType="boolean"/>
+            app:argType="boolean"
+            android:defaultValue="false"/>
         <argument
             android:name="mobileNumber"
-            app:argType="string"/>
+            app:argType="string"
+            android:defaultValue=" "/>
         <argument
             android:name="otpType"
             app:argType="string"

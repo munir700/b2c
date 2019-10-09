@@ -10,7 +10,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.SetNewPinView
 import co.yap.modules.setcardpin.fragments.SetCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 
-class SetNewCardPinFragment : SetCardPinFragment() {
+open class SetNewCardPinFragment : SetCardPinFragment() {
     private val args: SetNewCardPinFragmentArgs by navArgs()
 
     var oldPinCode: String? = null

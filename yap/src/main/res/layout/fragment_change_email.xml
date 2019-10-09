@@ -52,7 +52,6 @@
                         android:layout_marginStart="@dimen/margin_medium_large"
                         android:layout_marginEnd="@dimen/margin_medium_large"
                         android:background="@drawable/bg_edit_text_under_line"
-
                         android:imeOptions="actionNext"
                         android:hint="New email address"
                         android:importantForAutofill="no"

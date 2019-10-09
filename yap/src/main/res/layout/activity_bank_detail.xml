@@ -42,7 +42,7 @@
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_small"
                 android:orientation="horizontal"
                 app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
                 app:layout_constraintTop_toTopOf="parent">
@@ -279,20 +279,19 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
+        <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_64sdp"
             android:layout_height="@dimen/_64sdp"
-            android:layout_marginTop="56dp"
-            android:background="@drawable/bg_round_purple"
-            android:backgroundTint="@color/white"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:background="@drawable/bg_round_with_space_white"
             android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:visibility="@{viewModel.state.image.empty ? View.INVISIBLE:View.VISIBLE}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:srcCompat="@drawable/ic_settings"
+            app:src="@{viewModel.state.image}"
             tools:visibility="visible" />
 
         <TextView

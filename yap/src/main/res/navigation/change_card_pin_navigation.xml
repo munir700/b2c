@@ -37,10 +37,12 @@
         tools:layout="@layout/fragment_set_card_pin">
         <argument
             android:name="oldPinCode"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue=" "/>
         <argument
             android:name="newPinCode"
-            app:argType="string" />
+            app:argType="string"
+            android:defaultValue=" "/>
         <action
             android:id="@+id/action_confirmNewCardPinFragment_to_changePinSuccessFragment"
             app:destination="@id/changePinSuccessFragment"

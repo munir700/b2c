@@ -19,6 +19,9 @@ import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
 import java.text.DecimalFormat
+import android.icu.lang.UProperty.INT_START
+
+
 
 object Utils {
     fun getColor(context: Context, @ColorRes color: Int) =
@@ -175,7 +178,12 @@ object Utils {
             endIndex,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-
+        wordtoSpan.setSpan(
+            android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         return wordtoSpan
     }
 

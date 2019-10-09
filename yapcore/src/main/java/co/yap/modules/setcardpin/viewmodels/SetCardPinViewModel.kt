@@ -12,6 +12,7 @@ import co.yap.yapcore.helpers.StringUtils
 open class SetCardPinViewModel(application: Application) :
     BaseViewModel<ISetCardPin.State>(application),
     ISetCardPin.ViewModel {
+    override val forgotPasscodeclickEvent: SingleClickEvent= SingleClickEvent()
 
     override var pincode: String = ""
     override val state: SetCardPinState = SetCardPinState()
@@ -30,6 +31,10 @@ open class SetCardPinViewModel(application: Application) :
         if (validateAggressively()) {
             clickEvent.setValue(id)
         }
+    }
+
+    override fun handlePressOnForgotPasscodeButton(id: Int) {
+        //forgotPasscodeclickEvent.postValue(id)
     }
 
     override fun setCardPin(cardSerialName: String) {}

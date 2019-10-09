@@ -13,6 +13,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -144,6 +145,15 @@ object UIBinder {
                 }
             }
         }
+    }
+
+    // Card status message text
+    @BindingAdapter("underline_text")
+    @JvmStatic
+    fun setCardStatus(text: TextView, value: String) {
+        val content = SpannableString(value)
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        text.text = content
     }
 
     //Core action Button text
@@ -432,7 +442,7 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, path: String) {
         Glide.with(view.context)
-            .load(path).centerCrop()
+            .load(path).centerCrop().placeholder(R.color.greyLight)
             .into(view)
     }
 
@@ -441,14 +451,14 @@ object UIBinder {
     fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
         if (circular) {
             Glide.with(view.context)
-                .asBitmap().load(resId)
+                .asBitmap().load(resId).placeholder(R.color.greyLight)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
 
         } else {
 
             Glide.with(view.context)
-                .asBitmap().load(resId)
+                .asBitmap().load(resId).placeholder(R.color.greyLight)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
             //set placeholder here
@@ -537,7 +547,7 @@ object UIBinder {
 //        }
     }
 
-    @BindingAdapter("src", "isRound")
+     @BindingAdapter("src", "isRound")
     @JvmStatic
     fun setProfilePicture(view: ImageView, imageSrc: String, circular: Boolean) {
         Glide.with(view.context)
