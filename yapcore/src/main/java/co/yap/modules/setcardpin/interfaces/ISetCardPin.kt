@@ -18,7 +18,7 @@ interface ISetCardPin {
         var pincode: String
         val clickEvent: SingleClickEvent
         val forgotPasscodeclickEvent: SingleClickEvent
-        var errorEvent:SingleClickEvent
+        var errorEvent: SingleClickEvent
         fun handlePressOnNextButton(id: Int)
         fun handlePressOnForgotPasscodeButton(id: Int)
         fun setCardPin(cardSerialNumber: String)
@@ -29,6 +29,9 @@ interface ISetCardPin {
             cardSerialNumber: String,
             id: Int
         )
+        //forgot passcode variables
+        var emailOtp: Boolean
+        var mobileNumber: String
     }
 
     interface State : IBase.State {
@@ -45,6 +48,6 @@ interface ISetCardPin {
         var newPin: String
         var confirmPin: String
         var cardSerialNumber: String
-        var forgotTextVisibility:Boolean
+        var forgotTextVisibility: Boolean
     }
 }
