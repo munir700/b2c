@@ -12,7 +12,6 @@ import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
 import co.yap.translation.Strings
-import kotlinx.android.synthetic.main.fragment_change_email.*
 
 
 class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeEmail.View {
@@ -24,20 +23,45 @@ class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeE
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setObservers()
+    }
+
+    private fun setObservers() {
+        viewModel.success.observe(this, Observer {
+            if (it) {
+                val action =
+                    ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment(
+                        "03025101902",
+                        false,
+                        "03025101902",
+                        "CHANGE_EMAIL"
+                    )
+                findNavController().navigate(action)
+            }
+        })
         viewModel.clickEvent.observe(this, Observer {
-            val action=ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment("03025101902",false,"03025101902","CHANGE_EMAIL")
-            findNavController().navigate(action)
+            when (it) {
+                R.id.tbBtnBack -> {
+
+                }
+            }
         })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       if (MoreActivity.navigationVariable){
-           MoreActivity.navigationVariable=false
-            val action=ChangeEmailFragmentDirections.actionChangeEmailFragmentToChangeEmailSuccessFragment(getString(Strings.screen_email_address_success_display_text_sub_heading),viewModel.state.newEmail)
+        if (MoreActivity.navigationVariable) {
+            MoreActivity.navigationVariable = false
+            val action =
+                ChangeEmailFragmentDirections.actionChangeEmailFragmentToChangeEmailSuccessFragment(
+                    getString(Strings.screen_email_address_success_display_text_sub_heading),
+                    viewModel.state.newEmail
+                )
             findNavController().navigate(action)
         }
+
     }
+
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()

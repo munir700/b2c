@@ -3,11 +3,11 @@ package co.yap.modules.dashboard.more.profile.states
 import android.app.Application
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
-import androidx.databinding.BindingAdapter
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.Utils
 
 class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.State {
 
@@ -18,12 +18,14 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
         set(value) {
             field = value
             notifyPropertyChanged(BR.newEmail)
+            confirmEmailValidation()
         }
     @get:Bindable
     override var newConfirmEMail: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.newConfirmEMail)
+            confirmEmailValidation()
         }
 
     @get:Bindable
@@ -34,38 +36,74 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
         }
 
     @get:Bindable
-    override var background: Drawable? = context.getDrawable(R.drawable.bg_edit_text_under_line)
+    override var backgroundNew: Drawable? = context.getDrawable(R.drawable.bg_edit_text_under_line)
         set(value) {
             field = value
-            notifyPropertyChanged(BR.background)
+            notifyPropertyChanged(BR.backgroundNew)
         }
+
     @get:Bindable
-    override var valid: Boolean=true
+    override var backgroundConfirm: Drawable? =
+        context.getDrawable(R.drawable.bg_edit_text_under_line)
         set(value) {
-            field=value
+            field = value
+            notifyPropertyChanged(BR.backgroundConfirm)
+        }
+
+    @get:Bindable
+    override var valid: Boolean = false
+        set(value) {
+            field = value
             notifyPropertyChanged(BR.valid)
         }
 
     @get:Bindable
-    override var drawableRight: Drawable?=null
+    override var drawableConfirm: Drawable? = null
         set(value) {
-            field=value
-            notifyPropertyChanged(BR.drawableRight)
+            field = value
+            notifyPropertyChanged(BR.drawableConfirm)
         }
 
-    fun checkEmailValidation():Boolean {
-        if (newEmail!=""){
-        if (newEmail != newConfirmEMail) {
-            errorMessage="Both email should matched."
-            background = context.getDrawable(R.drawable.bg_edit_text_red_under_line)
-            drawableRight=context.getDrawable(R.drawable.ic_error)
-            return false
-        }else{
-            return true
+    @get:Bindable
+    override var drawableNew: Drawable? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.drawableNew)
         }
-        }else{
-           // valid=false
-            return true
+
+    fun confirmEmailValidation(): Boolean {
+        return if (Utils.validateEmail(newEmail)) {
+            backgroundNew =
+                context.getDrawable(R.drawable.bg_edit_text_under_line)
+            drawableNew =
+                context.getDrawable(R.drawable.ic_tick_enabled)
+            if (newEmail != newConfirmEMail) {
+                backgroundConfirm =
+                    context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.bg_edit_text_under_line else R.drawable.bg_edit_text_under_line)
+                drawableConfirm = null
+                valid = false
+                false
+            } else {
+                valid = true
+                backgroundConfirm =
+                    context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.bg_edit_text_under_line else R.drawable.bg_edit_text_under_line)
+                drawableConfirm =
+                    context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.ic_tick_enabled else R.drawable.ic_tick_enabled)
+                errorMessage = ""
+                true
+            }
+        } else {
+            backgroundNew =
+                context.getDrawable(R.drawable.bg_edit_text_under_line)
+            drawableNew = null
+
+            backgroundConfirm =
+                context.getDrawable(R.drawable.bg_edit_text_under_line)
+            drawableConfirm = null
+            valid = false
+            false
         }
     }
+
+
 }
