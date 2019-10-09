@@ -1,7 +1,12 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
+import android.content.Context
+import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
+import android.os.Build
+import android.provider.MediaStore
 import android.util.Log
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -100,13 +105,55 @@ class ProfileSettingsViewModel(application: Application) :
 
     }
 
+//
+//    fun getRealPathFromUri(ctx: Context, contentUri: Uri): String {
+//        var cursor: Cursor? = null
+//        try {
+//            val data = arrayOf(MediaStore.Images.Media.DATA)
+//            cursor = ctx.contentResolver.query(contentUri, data, null, null, null)
+//            val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//            cursor.moveToFirst()
+//            return cursor.getString(column_index)
+//        } finally {
+//            cursor?.close()
+//        }
+//    }
+
+
+    //    override fun getRealPathFromUri(ctx: Context, uri: Uri): String {
+//        var path = ""
+//        val projection = arrayOf(MediaStore.Images.Media.DATA)
+//        val cursor = ctx.contentResolver.query(uri, projection, null, null, null)
+//        val column_index: Int
+//        if (cursor != null) {
+//            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+//            cursor.moveToFirst()
+//            path = cursor.getString(column_index)
+//            cursor.close()
+//        }
+//        return path
+//    }
 
    override fun uploadProfconvertUriToFile(selectedImageUri: Uri) {
         val file = File(selectedImageUri.path)
-        val reqFile = RequestBody.create(MediaType.parse("image/"), file)
+        val reqFile = RequestBody.create(MediaType.parse("image/"), file.extension)
         multiPartImageFile = MultipartBody.Part.createFormData("profile-picture", file.name, reqFile)
 
         requestUploadProfilePicture()
+    }
+
+    override fun getRealPathFromUri  (context: Context, uri: Uri): String {
+        var path = ""
+        val projection = arrayOf(MediaStore.Images.Media.DATA)
+        val cursor = context.contentResolver.query(uri, projection, null, null, null)
+        val column_index: Int
+        if (cursor != null) {
+            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor.moveToFirst()
+            path = cursor.getString(column_index)
+            cursor.close()
+        }
+        return path
     }
 
 
@@ -125,7 +172,12 @@ class ProfileSettingsViewModel(application: Application) :
                     }
                 }
 
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                                    Log.i("picture", response.error.message.toString())
+
+                }
+
             }
 
             state.loading = false
@@ -172,4 +224,7 @@ class ProfileSettingsViewModel(application: Application) :
             showExpiredBadge = true
         }
     }
+
+
+
 }

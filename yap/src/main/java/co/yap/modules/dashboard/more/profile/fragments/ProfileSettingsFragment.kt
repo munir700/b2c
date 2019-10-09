@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
@@ -30,16 +31,15 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.managers.MyUserManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import kotlinx.android.synthetic.main.layout_profile_picture.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
     CardClickListener {
+    val IMAGE_PATH = Environment
+        .getExternalStorageDirectory().path + "/eidScan"
 
     private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
 
@@ -117,7 +117,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
                 }
 
-              viewModel.PROFILE_PICTURE_UPLOADED -> {
+                viewModel.PROFILE_PICTURE_UPLOADED -> {
 //                  Glide.with(activity!!)
 //                      .load(viewModel.)
 //                      .transforms(CenterCrop(), RoundedCorners(115))
@@ -189,19 +189,21 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     private fun takePicture() {
-        val outputImage = File(activity!!.applicationContext.externalCacheDir, "output_image.jpg")
-        if (outputImage.exists()) {
-            outputImage.delete()
+
+//        val file = createImageFile()
+        val file = File(activity!!.applicationContext.externalCacheDir, "output_image.jpg")
+        if (file.exists()) {
+            file.delete()
         }
-        outputImage.createNewFile()
+//        outputImage.createNewFile()
         imageUri = if (Build.VERSION.SDK_INT >= 24) {
             FileProvider.getUriForFile(
                 activity!!.applicationContext,
                 "co.yap.fileprovider",
-                outputImage
+                file
             )
         } else {
-            Uri.fromFile(outputImage)
+            Uri.fromFile(file)
         }
 
         val intent = Intent("android.media.action.IMAGE_CAPTURE")
@@ -217,7 +219,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             FINAL_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
                     var bitmap = getBitmap(data!!.data)
-
+//                    MediaStore.EXTRA_OUTPUT
                     viewModel.uploadProfconvertUriToFile(data!!.data)
 
 //                    Glide.with(activity!!)
@@ -229,13 +231,28 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             FINAL_TAKE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
+//
+//                    selectedImageUri = Objects.requireNonNull(data.getExtras())
+//                        .getParcelable<Uri>(ScanConstants.SCANNED_RESULT + 1)
 
                     val bitmap = BitmapFactory.decodeStream(
                         activity!!.getContentResolver().openInputStream(imageUri)
                     )
+                    imageUri = getUri(bitmap)
 
-                    viewModel.uploadProfconvertUriToFile(imageUri!!)
-//                    viewModel.uploadProfconvertUriToFile(data!!.data)
+//                    imageUri = data!!.getData()
+
+                    if (imageUri != null) {
+
+                        imageUri = Uri.parse(
+                            viewModel.getRealPathFromUri(
+                                this!!.context!!, imageUri!!
+                            )
+                        )
+                        viewModel.uploadProfconvertUriToFile(imageUri!!)
+
+                    }
+
 
 //                    Glide.with(activity!!)
 //                        .load(bitmap)
@@ -336,5 +353,28 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         return super.onBackPressed()
     }
 
+
+    private fun createImageFile(): File {
+//        clearTempImages()
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val file = File(
+            IMAGE_PATH, "IMG_" + timeStamp +
+                    ".jpg"
+        )
+        imageUri = Uri.fromFile(file)
+        return file
+    }
+
+
+    private fun clearTempImages() {
+        try {
+            val tempFolder = File(IMAGE_PATH)
+            for (f in tempFolder.listFiles())
+                f.delete()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+    }
 
 }

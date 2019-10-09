@@ -29,7 +29,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_GET_DOCUMENTS = "customers/api/customer-documents"
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
     const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
-    const val URL_UPLOAD_PROFILE_PICTURE = "customers/profile-picture"
+    const val URL_UPLOAD_PROFILE_PICTURE = "customers/api/customers/profile-picture"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)

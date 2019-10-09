@@ -62,7 +62,6 @@ interface CustomersRetroService {
     // upload profile picture
     @Multipart
     @POST(CustomersRepository.URL_UPLOAD_PROFILE_PICTURE)
-    suspend fun uploadProfilePicture(@Part profilePicture: MultipartBody.Part): Response<UploadProfilePictureResponse>
-//    suspend fun uploadProfilePicture(@Part("profile-picture") profile-picture: RequestBody): Response<UploadProfilePictureResponse>
+     suspend fun uploadProfilePicture(@Part profilePicture: MultipartBody.Part): Response<UploadProfilePictureResponse>
 
 }

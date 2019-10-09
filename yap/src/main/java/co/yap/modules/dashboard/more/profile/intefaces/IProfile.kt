@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.profile.intefaces
 
+import android.content.Context
 import android.net.Uri
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
@@ -54,6 +55,8 @@ interface IProfile {
         fun requestUploadProfilePicture()
 
         fun uploadProfconvertUriToFile(selectedImageUri: Uri)
+
+        fun getRealPathFromUri(context: Context, contentUri: Uri): String
 
     }
 
