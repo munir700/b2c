@@ -11,7 +11,12 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
 
     override fun handlePressOnSendButton(id: Int) {
         nextButtonPressEvent.setValue(id)
-//        verifyOtp(id)
+       // verifyOtp(id)
     }
+
+
+
+
+
 
 }
