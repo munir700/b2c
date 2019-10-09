@@ -1,12 +1,15 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.AssetFileDescriptor
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -31,8 +34,13 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.managers.MyUserManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import kotlinx.android.synthetic.main.layout_profile_picture.*
 import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -48,6 +56,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getLayoutId(): Int = R.layout.fragment_profile
 
     private var imageUri: Uri? = null
+    private val MAX_IMAGE_DIMENSION = 300
 
 
     private val FINAL_TAKE_PHOTO = 1
@@ -73,9 +82,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                             viewModel.showExpiredBadge
                         )
                     findNavController().navigate(action)
-
-
-//                    findNavController().navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
+//                  findNavController().navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
                 }
 
                 R.id.tvPrivacyView -> {
@@ -179,14 +186,34 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     private fun selectProfilePicture() {
 
+//        val intent = Intent()
+//        intent.type = "image/*"
+//        intent.action = Intent.ACTION_GET_CONTENT
+//        startActivityForResult(
+//            Intent.createChooser(intent, "Select Picture"),
+//            FINAL_CHOOSE_PHOTO
+//        )
+
         val intent = Intent()
-        intent.type = "image/*"
+//        intent.setType("image/*");
+        intent.type = "image/jpeg"
+
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(
-            Intent.createChooser(intent, "Select Picture"),
-            FINAL_CHOOSE_PHOTO
+            Intent.createChooser(
+                intent,
+                "Select Picture"
+            ), FINAL_CHOOSE_PHOTO
         )
+        //
+//
+//        val intent = Intent(Intent.ACTION_GET_CONTENT)
+//        intent.addCategory(Intent.CATEGORY_OPENABLE)
+//        intent.type = "image/*"
+//        startActivityForResult(intent, FINAL_CHOOSE_PHOTO)
     }
+
 
     private fun takePicture() {
 
@@ -211,6 +238,102 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         startActivityForResult(intent, FINAL_TAKE_PHOTO)
     }
 
+
+    fun getRealPathFromURI(context: Context, contentUri: Uri): String {
+        var cursor: Cursor? = null
+        try {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = context.contentResolver.query(contentUri, proj, null, null, null)
+            val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor.moveToFirst()
+            return cursor.getString(column_index)
+        } catch (e: Exception) {
+            Log.e("", "getRealPathFromURI Exception : $e")
+            return ""
+        } finally {
+            cursor?.close()
+        }
+    }
+
+    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
+        val bytes = ByteArrayOutputStream()
+        inImage.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
+        val path =
+            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "title", null)
+        return Uri.parse(path)
+    }
+
+
+    fun getOrientation(context: Context, photoUri: Uri): Int {
+        /* it's on the external media. */
+        val cursor = context.contentResolver.query(
+            photoUri,
+            arrayOf(MediaStore.Images.ImageColumns.ORIENTATION), null, null, null
+        )
+
+        if (cursor!!.count != 1) {
+            return -1
+        }
+
+        cursor.moveToFirst()
+        return cursor.getInt(0)
+    }
+
+    @Throws(IOException::class)
+    fun getCorrectlyOrientedImage(context: Context, photoUri: Uri): Bitmap? {
+        var `is` = context.contentResolver.openInputStream(photoUri)
+        val dbo = BitmapFactory.Options()
+        dbo.inJustDecodeBounds = true
+        BitmapFactory.decodeStream(`is`, null, dbo)
+        `is`!!.close()
+
+        val rotatedWidth: Int
+        val rotatedHeight: Int
+        val orientation = getOrientation(context, photoUri)
+
+        if (orientation == 90 || orientation == 270) {
+            rotatedWidth = dbo.outHeight
+            rotatedHeight = dbo.outWidth
+        } else {
+            rotatedWidth = dbo.outWidth
+            rotatedHeight = dbo.outHeight
+        }
+
+        var srcBitmap: Bitmap?
+        `is` = context.contentResolver.openInputStream(photoUri)
+        if (rotatedWidth > MAX_IMAGE_DIMENSION || rotatedHeight > MAX_IMAGE_DIMENSION) {
+            val widthRatio = rotatedWidth.toFloat() / MAX_IMAGE_DIMENSION.toFloat()
+            val heightRatio = rotatedHeight.toFloat() / MAX_IMAGE_DIMENSION.toFloat()
+            val maxRatio = Math.max(widthRatio, heightRatio)
+
+            // Create the bitmap from file
+            val options = BitmapFactory.Options()
+            options.inSampleSize = maxRatio.toInt()
+            srcBitmap = BitmapFactory.decodeStream(`is`, null, options)
+        } else {
+            srcBitmap = BitmapFactory.decodeStream(`is`)
+        }
+        assert(`is` != null)
+        `is`!!.close()
+
+        /*
+         * if the orientation is not 0 (or -1, which means we don'retrofit know), we
+         * have to do a rotation.
+         */
+        if (orientation > 0) {
+            val matrix = Matrix()
+            matrix.postRotate(orientation.toFloat())
+
+            srcBitmap = Bitmap.createBitmap(
+                srcBitmap!!, 0, 0, srcBitmap.width,
+                srcBitmap.height, matrix, true
+            )
+        }
+
+        return srcBitmap
+    }
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         var bitmap: Bitmap? = null
@@ -218,29 +341,34 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         when (requestCode) {
             FINAL_CHOOSE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
-                    var bitmap = getBitmap(data!!.data)
-//                    MediaStore.EXTRA_OUTPUT
-                    viewModel.uploadProfconvertUriToFile(data!!.data)
 
-//                    Glide.with(activity!!)
-//                        .load(bitmap)
-//                        .transforms(CenterCrop(), RoundedCorners(115))
-//                        .into(ivProfilePic)
+                    try {
+                        imageUri = data!!.getData()
+                        var selectedImage: Bitmap
+                        if (imageUri == null) {
+                            selectedImage = data!!.getExtras()!!.get("data") as Bitmap
+                            selectedImage = data!!.data as Bitmap
+                        } else {
+                            selectedImage =
+                                this!!.getCorrectlyOrientedImage(activity!!, imageUri!!)!!
+                        }
 
+                        val uri = getImageUri(activity!!, selectedImage)
+                        val imgPath = getRealPathFromURI(activity!!, uri)
+                        viewModel.uploadProfconvertUriToFile(Uri.parse(imgPath))
+
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
                 }
 
             FINAL_TAKE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
-//
-//                    selectedImageUri = Objects.requireNonNull(data.getExtras())
-//                        .getParcelable<Uri>(ScanConstants.SCANNED_RESULT + 1)
 
                     val bitmap = BitmapFactory.decodeStream(
                         activity!!.getContentResolver().openInputStream(imageUri)
                     )
                     imageUri = getUri(bitmap)
-
-//                    imageUri = data!!.getData()
 
                     if (imageUri != null) {
 
@@ -250,16 +378,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                             )
                         )
                         viewModel.uploadProfconvertUriToFile(imageUri!!)
-
                     }
 
-
-//                    Glide.with(activity!!)
-//                        .load(bitmap)
-//                        .transforms(CenterCrop(), RoundedCorners(115))
-//                        .into(ivProfilePic)
+                    Glide.with(activity!!)
+                        .load(bitmap)
+                        .transforms(CenterCrop(), RoundedCorners(115))
+                        .into(ivProfilePic)
                 }
-
         }
     }
 
