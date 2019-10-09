@@ -79,7 +79,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.rlAddNewProfilePic -> {
                     updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
-                    updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
+                    updatePhotoBottomSheet.show(this.fragmentManager!!, "")
                 }
             }
         })
@@ -87,7 +87,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (context as MoreActivity).visibleToolbar()
+        if (context is MoreActivity)
+            (context as MoreActivity).visibleToolbar()
     }
 
     override fun onClick(eventType: Int) {
