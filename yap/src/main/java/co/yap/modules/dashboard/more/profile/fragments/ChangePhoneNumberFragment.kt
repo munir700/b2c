@@ -1,8 +1,6 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.os.Bundle
-import android.view.View
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
@@ -12,7 +10,6 @@ import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IChangePhoneNumber
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangePhoneNumberViewModel
 import co.yap.translation.Strings
-import co.yap.yapcore.BaseBindingFragment
 import kotlinx.android.synthetic.main.fragment_change_phone_number.*
 
 class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>(),
@@ -25,15 +22,16 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer {
-            val action = ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToGenericOtpFragment(
-                    "",
-                    false,
-                    "03025101902",
-                    "CHANGE_EMAIL"
-                )
-            findNavController().navigate(action)
-        })
+//        viewModel.clickEvent.observe(this, Observer {
+//            val action =
+//                ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToGenericOtpFragment(
+//                    "",
+//                    false,
+//                    "971" + viewModel.state.mobile.replace(" ", ""),
+//                    "CHANGE_EMAIL"
+//                )
+//            findNavController().navigate(action)
+//        })
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -44,7 +42,9 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
             MoreActivity.navigationVariable = false
             val action =
                 ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToSuccessFragment(
-                    getString(Strings.screen_phone_number_success_display_text_sub_heading), "03025101902")
+                    getString(Strings.screen_phone_number_success_display_text_sub_heading),
+                    "03025101902"
+                )
             findNavController().navigate(action)
         }
 

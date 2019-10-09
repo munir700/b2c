@@ -11,7 +11,6 @@ import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
-import retrofit2.http.Part
 
 interface CustomersApi {
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
@@ -23,4 +22,8 @@ interface CustomersApi {
     suspend fun getDocuments(): RetroApiResponse<ApiResponse>
     suspend fun getMoreDocumentsByType(documentType: String): RetroApiResponse<ApiResponse>
     suspend fun uploadProfilePicture(profilePicture: MultipartBody.Part): RetroApiResponse<UploadProfilePictureResponse>
+    suspend fun validatePhoneNumber(
+        countryCode: String,
+        mobileNumber: String
+    ): RetroApiResponse<ApiResponse>
 }
