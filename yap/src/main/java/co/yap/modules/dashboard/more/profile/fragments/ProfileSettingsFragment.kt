@@ -31,7 +31,6 @@ import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
-import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -80,7 +79,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
-//                takePicture()
                 val checkSelfPermission = ContextCompat.checkSelfPermission(
                     activity!!,
                     android.Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -131,8 +129,16 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
 
     private fun takePicture() {
+        val tempFolder = File(IMAGE_PATH)
 
-        val file = createImageFile()
+        for (f in tempFolder.listFiles())
+            f.delete()
+        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        val file = File(
+            IMAGE_PATH, "IMG_" + timeStamp +
+                    ".jpg"
+        )
+
         imageUri = if (Build.VERSION.SDK_INT >= 24) {
             FileProvider.getUriForFile(
                 activity!!.applicationContext,
@@ -196,10 +202,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         val imgPath = getRealPathFromURI(activity!!, uri)
                         viewModel.uploadProfconvertUriToFile(Uri.parse(imgPath))
 
-                        Glide.with(activity!!)
-                            .load(selectedImage)
-                            .transforms(CenterCrop(), RoundedCorners(115))
-                            .into(ivProfilePic)
+//                        Glide.with(activity!!)
+//                            .load(selectedImage)
+//                            .transforms(CenterCrop(), RoundedCorners(115))
+//                            .into(ivProfilePic)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
@@ -221,10 +227,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         viewModel.uploadProfconvertUriToFile(imageUri!!)
                     }
 
-                    Glide.with(activity!!)
-                        .load(bitmap)
-                        .transforms(CenterCrop(), RoundedCorners(115))
-                        .into(ivProfilePic)
+//                    Glide.with(activity!!)
+//                        .load(bitmap)
+//                        .transforms(CenterCrop(), RoundedCorners(115))
+//                        .into(ivProfilePic)
                 }
         }
     }
@@ -294,16 +300,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
                     takePicture()
-                    Log.i("pictureLog", FINAL_TAKE_PHOTO.toString())
-
                 }
 
             FINAL_CHOOSE_PHOTO ->
 
                 if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
                     selectProfilePicture()
-                    Log.i("pictureLog", FINAL_CHOOSE_PHOTO.toString())
-
                 }
         }
     }
@@ -311,14 +313,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()
-//        viewModel.clickEvent.removeObservers(this)
-
 
     }
 
     override fun onResume() {
         super.onResume()
-//        viewModel.clickEvent.observe(this, Observer())
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
@@ -379,27 +378,14 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
 
     }
+
     override fun onBackPressed(): Boolean {
 
         return super.onBackPressed()
     }
 
-
-    private fun createImageFile(): File {
-        clearTempImages()
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val file = File(
-            IMAGE_PATH, "IMG_" + timeStamp +
-                    ".jpg"
-        )
-        return file
-    }
-
-
     private fun clearTempImages() {
-        val tempFolder = File(IMAGE_PATH)
-        for (f in tempFolder.listFiles())
-            f.delete()
+
 
     }
 
