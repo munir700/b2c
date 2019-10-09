@@ -19,8 +19,7 @@ import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
 import java.text.DecimalFormat
-import android.icu.lang.UProperty.INT_START
-
+import java.util.regex.Pattern
 
 
 object Utils {
@@ -166,13 +165,42 @@ object Utils {
                 || "google_sdk" == Build.PRODUCT)
     }
 
+     fun validateEmail(email: String): Boolean {
+        var isValidEmail = false
+        if ("" == email.trim { it <= ' ' }) {
+            isValidEmail = false
+        } else if (isValidEmail(email)) {
+            isValidEmail = true
+        } else {
+            return isValidEmail
+        }
+        return isValidEmail
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression =
+            "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+        // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        inputStr = email
+        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches()) {
+            isValid = true
+        }
+        return isValid
+    }
+
     fun setSpan(
         startIndex: Int,
         endIndex: Int,
         wordtoSpan: SpannableString,
         color: Int
     ): SpannableString {
-         wordtoSpan.setSpan(
+        wordtoSpan.setSpan(
             ForegroundColorSpan(color),
             startIndex,
             endIndex,
@@ -187,7 +215,7 @@ object Utils {
         return wordtoSpan
     }
 
-     fun shortName(cardFullName: String): String {
+    fun shortName(cardFullName: String): String {
         var cardFullName = cardFullName
         cardFullName = cardFullName.trim { it <= ' ' }
         var shortName = ""
@@ -195,7 +223,7 @@ object Utils {
             val nameStr =
                 cardFullName.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
             val firstName = nameStr[0]
-            val lastName = nameStr[nameStr.size-1]
+            val lastName = nameStr[nameStr.size - 1]
             shortName = firstName.substring(0, 1) + lastName.substring(0, 1)
             return shortName.toUpperCase()
         } else if (cardFullName.length > 0) {

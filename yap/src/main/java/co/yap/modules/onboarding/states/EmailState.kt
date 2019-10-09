@@ -8,7 +8,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.interfaces.IEmail
 import co.yap.yapcore.BaseState
-import java.util.regex.Pattern
+import co.yap.yapcore.helpers.Utils
 
 class EmailState(application: Application) : BaseState(), IEmail.State {
 
@@ -127,33 +127,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
             notifyPropertyChanged(BR.handleBackPress)
         }
 
-    private fun isValidEmail(email: String): Boolean {
-        var inputStr: CharSequence = ""
-        var isValid = false
-        val expression = "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
-        // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
-        inputStr = email
-        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
-        val matcher = pattern.matcher(inputStr)
-
-        if (matcher.matches()) {
-            isValid = true
-        }
-        return isValid
-    }
-
-    private fun validateEmail(email: String): Boolean {
-        var isValidEmail = false
-        if ("" == email.trim { it <= ' ' }) {
-            isValidEmail = false
-        } else if (isValidEmail(email)) {
-            isValidEmail = true
-        } else {
-            return isValidEmail
-        }
-        return isValidEmail
-    }
 
     private fun setSuccessUI() {
         refreshField = true
@@ -180,7 +154,7 @@ class EmailState(application: Application) : BaseState(), IEmail.State {
     fun settwoWayTextWatcher() {
 
         if (!twoWayTextWatcher.isNullOrEmpty() && twoWayTextWatcher.length >= 5) {
-            if (validateEmail(twoWayTextWatcher.toString())) {
+            if (Utils.validateEmail(twoWayTextWatcher.toString())) {
                 setSuccessUI()
             } else {
                 setDefaultUI()

@@ -57,4 +57,8 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_GET_DOCUMENTS)
     suspend fun getDocuments(): Response<GetDocumentsResponse>
 
+    // Get Documents
+    @GET(CustomersRepository.URL_VALIDATE_EMAIL)
+    suspend fun validateEmail(email: String): Response<ApiResponse>
+
 }

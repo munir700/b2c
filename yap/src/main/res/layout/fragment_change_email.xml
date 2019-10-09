@@ -41,7 +41,6 @@
                         android:layout_marginStart="@dimen/margin_medium_large"
                         android:layout_marginTop="@dimen/margin_small"
                         android:text="Enter your new email address"
-
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -51,9 +50,10 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/margin_medium_large"
                         android:layout_marginEnd="@dimen/margin_medium_large"
-                        android:background="@drawable/bg_edit_text_under_line"
+                        android:background="@{viewModel.state.backgroundNew}"
                         android:imeOptions="actionNext"
                         android:hint="New email address"
+                        android:drawableEnd="@{viewModel.state.drawableNew}"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
                         android:text="@={viewModel.state.newEmail}"
@@ -75,8 +75,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:imeOptions="actionDone"
-                            android:drawableEnd="@{viewModel.state.drawableRight}"
-                            android:background="@{viewModel.state.background}"
+                            android:drawableEnd="@{viewModel.state.drawableConfirm}"
+                            android:background="@{viewModel.state.backgroundConfirm}"
                             android:layout_marginStart="@dimen/margin_medium_large"
                             android:layout_marginEnd="@dimen/margin_medium_large"
                             android:hint="New email address"
