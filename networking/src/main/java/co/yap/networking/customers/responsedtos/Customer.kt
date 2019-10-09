@@ -3,6 +3,7 @@ package co.yap.networking.customers.responsedtos
 class Customer(
 
     var status: String,
+    var profilePictureName: String,
     var email: String,
     var countryCode: String,
     var mobileNo: String,

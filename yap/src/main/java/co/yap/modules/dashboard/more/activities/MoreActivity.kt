@@ -3,8 +3,6 @@ package co.yap.modules.dashboard.more.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.AttributeSet
-import android.view.ContextMenu
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -25,7 +23,8 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     public companion object {
         // do not remove this boolean variable
-        var navigationVariable:Boolean=false
+        var navigationVariable: Boolean = false
+
         fun newIntent(context: Context): Intent {
             val intent = Intent(context, MoreActivity::class.java)
             return intent
@@ -60,10 +59,12 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     fun hideToolbar() {
         toolbar.visibility = View.INVISIBLE
     }
-    fun goneToolbar(){
+
+    fun goneToolbar() {
         toolbar.visibility = View.GONE
     }
-    fun visibleToolbar(){
+
+    fun visibleToolbar() {
         toolbar.visibility = View.VISIBLE
     }
 
