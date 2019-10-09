@@ -36,7 +36,7 @@ class MoreHomeViewModel(application: Application) :
                 "Notifications",
                 R.drawable.ic_notification_more,
                 ContextCompat.getColor(context, R.color.colorSecondaryOrange),
-                true,
+                false,
                 4
             )
         )
