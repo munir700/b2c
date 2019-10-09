@@ -26,7 +26,7 @@ class ProfileStates : BaseState(), IProfile.State {
         }
 
     @get:Bindable
-    override var fullName: String = "Logan Rich Pearson"
+    override var fullName: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.fullName)
@@ -34,8 +34,7 @@ class ProfileStates : BaseState(), IProfile.State {
         }
 
     @get:Bindable
-    override var profilePictureUrl: String =
-        "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+    override var profilePictureUrl: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.profilePictureUrl)

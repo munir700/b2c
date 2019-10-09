@@ -10,11 +10,13 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.Customer
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.MyUserManager
 import okhttp3.MediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -32,6 +34,7 @@ class ProfileSettingsViewModel(application: Application) :
     override lateinit var data: GetMoreDocumentsResponse
     override val repository: CustomersRepository = CustomersRepository
     lateinit var multiPartImageFile: MultipartBody.Part
+    var customer: Customer = MyUserManager.user!!.customer
 
     override val state: ProfileStates =
         ProfileStates()
@@ -98,7 +101,8 @@ class ProfileSettingsViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestProfileDocumentsInformation()
-
+        state.fullName = customer.firstName + " " + customer.lastName
+        state.profilePictureUrl = customer.profilePictureName
     }
 
     override fun uploadProfconvertUriToFile(selectedImageUri: Uri) {
@@ -128,16 +132,23 @@ class ProfileSettingsViewModel(application: Application) :
     override fun requestUploadProfilePicture() {
 
         launch {
+            state.loading = true
+
             when (val response = repository.uploadProfilePicture(multiPartImageFile)) {
                 is RetroApiResponse.Success -> {
 
                     if (null != response.data.data) {
                         state.profilePictureUrl = response.data.data.imageURL
+                        MyUserManager.user!!.customer.profilePictureName = response.data.data.imageURL
+                        state.fullName = customer.firstName + " " + customer.lastName
+                        state.nameInitialsVisibility = VISIBLE
                     }
                 }
 
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.fullName = customer.firstName + " " + customer.lastName
+                    state.nameInitialsVisibility = GONE
 
                 }
 
