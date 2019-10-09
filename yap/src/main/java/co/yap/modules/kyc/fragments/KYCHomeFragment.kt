@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkMore
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity.Companion.isFromMoreSection
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
@@ -23,6 +24,7 @@ private const val SCAN_EID_CAM = 12
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_kyc_home
@@ -34,6 +36,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onActivityCreated(savedInstanceState)
         if (isFromMoreSection){
             tvSkip.visibility=View.GONE
+            if (isFromMoreSection){openCardScanner()}
+
         }else{
             tvSkip.visibility=View.VISIBLE
         }
@@ -79,6 +83,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
+            checkMore = isFromMoreSection
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
             }
@@ -86,6 +91,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
     }
 
     private fun openCardScanner() {
+        checkMore = isFromMoreSection
+
         startActivityForResult(
             IdentityScannerActivity.getLaunchIntent(
                 requireContext(),
@@ -96,7 +103,15 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (checkMore){
+         activity!!.finish()
+        }
+    }
+
     override fun onBackPressed(): Boolean {
+
         return true
     }
 

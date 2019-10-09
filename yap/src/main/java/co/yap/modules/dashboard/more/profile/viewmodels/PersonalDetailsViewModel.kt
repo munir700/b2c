@@ -4,6 +4,7 @@ import android.app.Application
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.customers.responsedtos.Customer
@@ -12,6 +13,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.MyUserManager
+import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
 
 class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
@@ -104,4 +106,8 @@ class PersonalDetailsViewModel(application: Application) :
         MyUserManager.userAddress = address
     }
 
+    override fun onEIDScanningComplete(result: IdentityScannerResult) {
+//        parentViewModel?.identity = result
+//        state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
+    }
 }
