@@ -13,7 +13,7 @@ interface IChangePhoneNumber {
         fun getCcp(etMobileNumber: EditText)
         val clickEvent: SingleClickEvent
         fun onEditorActionListener(): TextView.OnEditorActionListener
-        fun onHandlePressOnNextButton()
+        fun onHandlePressOnNextButton(view: android.view.View)
     }
 
     interface State : IBase.State {

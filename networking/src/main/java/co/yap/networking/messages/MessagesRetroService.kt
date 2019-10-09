@@ -6,10 +6,7 @@ import co.yap.networking.messages.responsedtos.HelpDeskResponse
 import co.yap.networking.messages.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.PUT
+import retrofit2.http.*
 
 interface MessagesRetroService {
 
@@ -29,13 +26,19 @@ interface MessagesRetroService {
     @PUT(MessagesRepository.URL_VERIFY_OTP_GENERIC)
     suspend fun verifyOtpGeneric(@Body verifyOtpGenericRequest: VerifyOtpGenericRequest): Response<ValidateDeviceResponse>
 
+    // Verify otp request
+    @PUT(MessagesRepository.URL_VERIFY_OTP_GENERIC_WITH_PHONE)
+    suspend fun verifyOtpGenericWithPhone(
+        @Path("phone") phone: String, @Body verifyOtpGenericRequest: VerifyOtpGenericRequest
+    ): Response<ValidateDeviceResponse>
+
     //forgot passcode create otp
     @POST(MessagesRepository.URL_FORGOT_PASSCODE)
     suspend fun createForgotPasscodeOTP(@Body createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): Response<CreateForgotPasscodeOtpResponse>
 
     @PUT(MessagesRepository.URL_VERIFY_FORGOT_PASSCODE_OTP)
-    suspend fun verifyForgotPasscodeOtp(@Body verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest):Response<ApiResponse>
+    suspend fun verifyForgotPasscodeOtp(@Body verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): Response<ApiResponse>
 
     @GET(MessagesRepository.URL_HELP_DESK_PHONE)
-    suspend fun getHelpDeskContact():Response<HelpDeskResponse>
+    suspend fun getHelpDeskContact(): Response<HelpDeskResponse>
 }

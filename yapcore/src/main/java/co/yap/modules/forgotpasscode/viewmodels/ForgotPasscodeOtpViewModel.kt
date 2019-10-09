@@ -22,7 +22,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
     //override var mobileNumber: String = "scsd"
     override var destination: String = ""
     override var emailOtp: Boolean = false
-
+    override var action: String = ""
 
     override fun onCreate() {
         super.onCreate()

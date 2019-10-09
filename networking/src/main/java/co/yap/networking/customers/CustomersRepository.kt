@@ -7,10 +7,8 @@ import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
-import co.yap.networking.customers.responsedtos.AccountInfoResponse
-import co.yap.networking.customers.responsedtos.GetDocumentsResponse
-import co.yap.networking.customers.responsedtos.SignUpResponse
-import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
+import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MediaType
@@ -30,6 +28,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "customers/api/demographics/validate/user-device/{device_id}"
     const val URL_GET_DOCUMENTS = "customers/api/customer-documents"
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
+    const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
+    const val URL_UPLOAD_PROFILE_PICTURE = "customers/api/customers/profile-picture"
+    const val URL_VALIDATE_PHONE_NUMBER = "customers/api/validate-mobile-number"
     const val URL_VALIDATE_EMAIL = "customers/api/validate-email"
 
     private val api: CustomersRetroService =
@@ -96,7 +97,18 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             })
         }
 
+    override suspend fun getMoreDocumentsByType(documentType: String): RetroApiResponse<GetMoreDocumentsResponse> =
+        executeSafely(call = { api.getMoreDocumentsByType(documentType) })
+
+    override suspend fun uploadProfilePicture(profilePicture: MultipartBody.Part): RetroApiResponse<UploadProfilePictureResponse> =
+        executeSafely(call = { api.uploadProfilePicture(profilePicture) })
+
+    override suspend fun validatePhoneNumber(
+        countryCode: String,
+        mobileNumber: String
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.validatePhoneNumber(countryCode, mobileNumber) })
+
     override suspend fun validateEmail(email: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validateEmail(email) })
-
 }

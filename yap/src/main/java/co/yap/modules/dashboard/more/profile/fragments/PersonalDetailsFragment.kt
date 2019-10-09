@@ -24,7 +24,18 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.clickEvent.observe(this, Observer {
+        val isFromBlockCardsScreen =
+            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        (context as MoreActivity).visibleToolbar()
+
+        viewModel.state.errorVisibility =
+            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
+
+         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
@@ -40,10 +51,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.cvCard -> {
-                    if (!viewModel.state.errorVisibility) {
+                    if (viewModel.state.errorVisibility) {
                         val action =
                             PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-                                viewModel.state.fullName,true
+                                viewModel.state.fullName, true
                             )
                         findNavController().navigate(action)
                     }
@@ -53,9 +64,9 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         })
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        (context as MoreActivity).visibleToolbar()
+    override fun onPause() {
+        super.onPause()
+        viewModel.clickEvent.removeObservers(this)
     }
 
     override fun onDestroy() {

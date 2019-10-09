@@ -17,6 +17,7 @@ interface IForgotPasscodeOtp {
        // var mobileNumber: String
         var destination: String
         var emailOtp: Boolean
+        var action: String
     }
 
     interface State : IBase.State {

@@ -54,12 +54,13 @@
             <co.yap.widgets.BadgeTextView
                 android:id="@+id/textBadge"
                 android:layout_width="wrap_content"
+                android:textSize="@dimen/_8sdp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorSecondaryMagenta"
                 android:text="@{Integer.toString(viewModel.moreOption.badgeCount)}"
                 android:textColor="@color/white"
                 app:mbtv_border_color="@color/white"
-                app:mbtv_border_width="@dimen/_2sdp"
+                app:mbtv_border_width="@dimen/_1sdp"
                 app:mbtv_type="shadow_alpha"
                 app:mbtv_border_alpha="1"
                 tools:text="4" />
