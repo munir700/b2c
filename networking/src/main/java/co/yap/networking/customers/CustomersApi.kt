@@ -27,4 +27,11 @@ interface CustomersApi {
         countryCode: String,
         mobileNumber: String
     ): RetroApiResponse<ApiResponse>
+    suspend fun changeMobileNumber(
+        countryCode: String,
+        mobileNumber: String
+    ): RetroApiResponse<ApiResponse>
+    suspend fun changeVerifiedEmail(
+        email: String
+    ): RetroApiResponse<ApiResponse>
 }

@@ -21,6 +21,8 @@ import co.yap.yapcore.constants.Constants
 class ChangePhoneNumberViewModel(application: Application) :
     MoreBaseViewModel<IChangePhoneNumber.State>(application), IChangePhoneNumber.ViewModel,
     IRepositoryHolder<CustomersRepository> {
+
+    override val changePhoneNumberSuccessEvent: SingleClickEvent= SingleClickEvent()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override val state: ChangePhoneNumberState = ChangePhoneNumberState(application)
@@ -38,7 +40,7 @@ class ChangePhoneNumberViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.validatePhoneNumber("971", state.mobile.replace(" ", ""))) {
+                repository.validatePhoneNumber(state.countryCode, state.mobile.replace(" ", ""))) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.errorMessage = response.error.message
@@ -66,12 +68,12 @@ class ChangePhoneNumberViewModel(application: Application) :
     private fun createOtp(view: View) {
         launch {
             when (val response =
-                messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
+                messagesRepository.createOtpGenericWithPhone(phone = state.countryCode+ state.mobile.replace(" ", ""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
                 is RetroApiResponse.Success -> {
                     val action =
                         ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToGenericOtpFragment(
                             otpType = Constants.CHANGE_MOBILE_NO,
-                            mobileNumber = "971" + state.mobile.replace(" ", "")
+                            mobileNumber = state.countryCode + state.mobile.replace(" ", "")
                         )
                     view.findNavController().navigate(action)
                 }
@@ -83,6 +85,25 @@ class ChangePhoneNumberViewModel(application: Application) :
             state.loading = false
         }
     }
+
+    override fun changePhoneNumber() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.changeMobileNumber(countryCode = state.countryCode, mobileNumber = state.mobile.replace(" ", ""))) {
+                is RetroApiResponse.Success -> {
+                    changePhoneNumberSuccessEvent.call()
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+    }
+
+
 
     override fun onHandlePressOnNextButton(view: View) {
         validateMobileNumber(view)

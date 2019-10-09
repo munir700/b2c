@@ -32,6 +32,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_UPLOAD_PROFILE_PICTURE = "customers/api/customers/profile-picture"
     const val URL_VALIDATE_PHONE_NUMBER = "customers/api/validate-mobile-number"
     const val URL_VALIDATE_EMAIL = "customers/api/validate-email"
+    const val URL_CHANGE_MOBILE_NUMBER =
+        "customers/api/change-mobile-number/{country-code}/{mobile-number}"
+    const val URL_CHANGE_VERIFIED_EMAIL = "customers/api/change-email/{email}"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -109,6 +112,17 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validatePhoneNumber(countryCode, mobileNumber) })
 
+
+    override suspend fun changeMobileNumber(
+        countryCode: String,
+        mobileNumber: String
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.changeMobileNumber(countryCode, mobileNumber) })
+
+
     override suspend fun validateEmail(email: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.validateEmail(email) })
+
+    override suspend fun changeVerifiedEmail(email: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.changeVerifiedEmail(email) })
 }

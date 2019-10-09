@@ -22,6 +22,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
 
         if (action == Constants.CHANGE_MOBILE_NO) {
             launch {
+                state.loading = true
                 when (val response =
                     repository.verifyOtpGenericWithPhone(
                         state.mobileNumber[0]!!, VerifyOtpGenericRequest(action, state.otp)
@@ -39,6 +40,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
             }
         } else {
             launch {
+                state.loading = true
                 when (val response =
                     repository.verifyOtpGeneric(
                         VerifyOtpGenericRequest(

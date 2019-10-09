@@ -35,6 +35,12 @@ object MessagesRepository : BaseRepository(), MessagesApi {
     override suspend fun createOtpGeneric(createOtpGenericRequest: CreateOtpGenericRequest): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.createOtpGeneric(createOtpGenericRequest) })
 
+    override suspend fun createOtpGenericWithPhone(
+        phone: String,
+        createOtpGenericRequest: CreateOtpGenericRequest
+    ): RetroApiResponse<ApiResponse> = AuthRepository.executeSafely(call = { API.createOtpGenericWithPhone(phone,createOtpGenericRequest) })
+
+
     override suspend fun verifyOtpGeneric(verifyOtpGenericRequest: VerifyOtpGenericRequest): RetroApiResponse<ValidateDeviceResponse> =
         AuthRepository.executeSafely(call = { API.verifyOtpGeneric(verifyOtpGenericRequest) })
 

@@ -56,7 +56,7 @@ interface CustomersRetroService {
 
     // Get Documents
     @GET(CustomersRepository.URL_VALIDATE_EMAIL)
-    suspend fun validateEmail( @Query("email") email: String): Response<ApiResponse>
+    suspend fun validateEmail(@Query("email") email: String): Response<ApiResponse>
 
 
     // Get More Documents on profile settings fragment
@@ -71,5 +71,12 @@ interface CustomersRetroService {
     // Get More Documents on profile settings fragment
     @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
     suspend fun validatePhoneNumber(@Query("country-code") countryCode: String, @Query("mobile-number") mobileNumber: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
+    suspend fun changeMobileNumber(@Path("country-code") countryCode: String, @Path("mobile-number") mobileNumber: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_CHANGE_VERIFIED_EMAIL)
+    suspend fun changeVerifiedEmail(@Path("email") email: String): Response<ApiResponse>
+
 
 }

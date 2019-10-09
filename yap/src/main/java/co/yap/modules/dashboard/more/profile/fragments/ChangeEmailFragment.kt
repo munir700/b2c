@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
 
 
 class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeEmail.View {
@@ -31,10 +32,8 @@ class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeE
             if (it) {
                 val action =
                     ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment(
-                        "03025101902",
-                        false,
-                        "03025101902",
-                        "CHANGE_EMAIL"
+                        otpType = Constants.CHANGE_EMAIL,
+                        mobileNumber = "971" +"3025101902"
                     )
                 findNavController().navigate(action)
             }
@@ -46,20 +45,24 @@ class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeE
                 }
             }
         })
-    }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        if (MoreActivity.navigationVariable) {
-            MoreActivity.navigationVariable = false
+
+        viewModel.changeEmailSuccessEvent.observe(this, Observer {
             val action =
                 ChangeEmailFragmentDirections.actionChangeEmailFragmentToChangeEmailSuccessFragment(
                     getString(Strings.screen_email_address_success_display_text_sub_heading),
                     viewModel.state.newEmail
                 )
             findNavController().navigate(action)
-        }
+        })
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (MoreActivity.navigationVariable) {
+            MoreActivity.navigationVariable = false
+            viewModel.changeEmail()
+        }
     }
 
     override fun onDestroy() {

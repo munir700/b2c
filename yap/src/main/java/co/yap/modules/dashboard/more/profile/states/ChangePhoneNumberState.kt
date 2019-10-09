@@ -33,6 +33,13 @@ class ChangePhoneNumberState(application: Application) : BaseState(), IChangePho
         }
 
     @get:Bindable
+    override var countryCode: String=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.countryCode)
+        }
+
+    @get:Bindable
     override var mobile: String = ""
         set(value) {
             field = value

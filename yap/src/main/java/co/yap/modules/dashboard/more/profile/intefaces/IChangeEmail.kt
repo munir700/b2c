@@ -11,6 +11,8 @@ interface IChangeEmail {
         val clickEvent: SingleClickEvent
         fun onHandlePressOnNextButton()
         val success: MutableLiveData<Boolean>
+        fun changeEmail()
+        val changeEmailSuccessEvent:SingleClickEvent
     }
 
     interface State : IBase.State {

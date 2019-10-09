@@ -24,7 +24,7 @@ interface MessagesRetroService {
 
     // Create otp request for change mobile number
     @POST(MessagesRepository.URL_CREATE_OTP_GENERIC_WITH_PHONE)
-    suspend fun createOtpGeneric(@Path("phone") phone: String, @Body createOtpGenericRequest: CreateOtpGenericRequest): Response<ApiResponse>
+    suspend fun createOtpGenericWithPhone(@Path("phone") phone: String, @Body createOtpGenericRequest: CreateOtpGenericRequest): Response<ApiResponse>
 
     // Verify otp request
     @PUT(MessagesRepository.URL_VERIFY_OTP_GENERIC)
