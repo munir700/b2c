@@ -18,6 +18,12 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_profileSettingsFragment_to_change_pascode_navigation"
+            app:destination="@id/change_pascode_navigation"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true"/>
 
     </fragment>
 
@@ -47,6 +53,7 @@
     </fragment>
     <include app:graph="@navigation/change_email_navigation" />
     <include app:graph="@navigation/change_phone_number_navigation" />
+    <include app:graph="@navigation/change_pascode_navigation" />
 
     <activity
         android:id="@+id/documentsDashboardActivity"

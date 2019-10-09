@@ -5,7 +5,7 @@ import co.yap.modules.setcardpin.viewmodels.SetCardPinViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
-class ChangeCardPinViewModel(application: Application) : SetCardPinViewModel(application) {
+open class ChangeCardPinViewModel(application: Application) : SetCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onCreate() {

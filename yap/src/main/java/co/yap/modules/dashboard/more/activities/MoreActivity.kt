@@ -3,6 +3,8 @@ package co.yap.modules.dashboard.more.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.AttributeSet
+import android.view.ContextMenu
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -44,7 +46,9 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+
     }
+
 
     override fun onDestroy() {
         viewModel.backButtonPressEvent.removeObservers(this)
@@ -55,6 +59,12 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     fun hideToolbar() {
         toolbar.visibility = View.INVISIBLE
+    }
+    fun goneToolbar(){
+        toolbar.visibility = View.GONE
+    }
+    fun visibleToolbar(){
+        toolbar.visibility = View.VISIBLE
     }
 
     override fun onBackPressed() {

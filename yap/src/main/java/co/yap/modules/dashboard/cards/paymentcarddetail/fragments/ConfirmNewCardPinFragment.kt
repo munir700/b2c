@@ -12,7 +12,7 @@ import co.yap.modules.setcardpin.fragments.ConfirmCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import kotlinx.android.synthetic.main.activity_create_passcode.*
 
-class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
+open class ConfirmNewCardPinFragment : ConfirmCardPinFragment() {
     private val args: ConfirmNewCardPinFragmentArgs by navArgs()
 
     override val viewModel: ISetCardPin.ViewModel
