@@ -51,7 +51,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.cvCard -> {
-                    if (!viewModel.state.errorVisibility) {
+                    if (viewModel.state.errorVisibility) {
                         val action =
                             PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
                                 viewModel.state.fullName, true

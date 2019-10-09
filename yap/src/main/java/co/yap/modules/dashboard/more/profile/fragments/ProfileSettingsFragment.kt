@@ -33,10 +33,6 @@ import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.managers.MyUserManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import kotlinx.android.synthetic.main.layout_profile_picture.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -154,7 +150,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         startActivityForResult(intent, FINAL_TAKE_PHOTO)
     }
 
-
     fun getRealPathFromURI(context: Context, contentUri: Uri): String {
         var cursor: Cursor? = null
         try {
@@ -178,7 +173,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "title", null)
         return Uri.parse(path)
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -234,7 +228,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
         }
     }
-
 
     fun getUri(bitmap: Bitmap): Uri {
         val bytes = ByteArrayOutputStream()
