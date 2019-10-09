@@ -100,9 +100,16 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+
         requestProfileDocumentsInformation()
         state.fullName = customer.firstName + " " + customer.lastName
-        state.profilePictureUrl = customer.profilePictureName
+        if (!customer.profilePictureName.isNullOrEmpty()) {
+            state.profilePictureUrl = customer.profilePictureName
+        } else {
+            state.fullName = customer.firstName + " " + customer.lastName
+            state.nameInitialsVisibility = GONE
+
+        }
     }
 
     override fun uploadProfconvertUriToFile(selectedImageUri: Uri) {
@@ -139,7 +146,8 @@ class ProfileSettingsViewModel(application: Application) :
 
                     if (null != response.data.data) {
                         state.profilePictureUrl = response.data.data.imageURL
-                        MyUserManager.user!!.customer.profilePictureName = response.data.data.imageURL
+                        MyUserManager.user!!.customer.profilePictureName =
+                            response.data.data.imageURL
                         state.fullName = customer.firstName + " " + customer.lastName
                         state.nameInitialsVisibility = VISIBLE
                     }
@@ -174,6 +182,11 @@ class ProfileSettingsViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+
+//                    if (response.error.statusCode == 1073){
+                        state.errorBadgeVisibility = VISIBLE
+                        showExpiredBadge = true
+//                    }
                 }
             }
             state.loading = false
