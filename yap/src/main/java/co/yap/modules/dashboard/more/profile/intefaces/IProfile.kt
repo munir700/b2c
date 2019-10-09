@@ -18,7 +18,7 @@ interface IProfile {
 
     interface ViewModel : IBase.ViewModel<State> {
 
-        val clickEvent: SingleClickEvent
+        var clickEvent: SingleClickEvent
 
         val showExpiredBadge: Boolean
 

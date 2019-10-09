@@ -9,7 +9,6 @@ import android.content.res.AssetFileDescriptor
 import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Matrix
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -32,6 +31,7 @@ import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -72,68 +72,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-
-                R.id.tvPersonalDetailView -> {
-
-                    val action =
-                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment(
-                            viewModel.showExpiredBadge
-                        )
-                    findNavController().navigate(action)
-//                  findNavController().navigate(R.id.action_profileSettingsFragment_to_personalDetailsFragment)
-                }
-
-                R.id.tvPrivacyView -> {
-
-                }
-
-                R.id.tvChangePasscode -> {
-
-                }
-
-                R.id.tvTermsAndConditionView -> {
-
-                }
-
-                R.id.tvFollowOnInstagram -> {
-
-                }
-
-                R.id.tvFollowOnTwitter -> {
-
-                }
-
-                R.id.tvLikeUsOnFaceBook -> {
-
-                }
-
-                R.id.ivProfilePic -> {
-                    // change profile picture
-                }
-
-                R.id.tvLogOut -> {
-
-                    logoutAlert()
-
-                }
-
-                R.id.rlAddNewProfilePic -> {
-                    updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
-                    updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
-                }
-
-                viewModel.PROFILE_PICTURE_UPLOADED -> {
-//                  Glide.with(activity!!)
-//                      .load(viewModel.)
-//                      .transforms(CenterCrop(), RoundedCorners(115))
-//                      .into(ivProfilePic)
-
-                }
-
-            }
-        })
     }
 
     override fun onClick(eventType: Int) {
@@ -177,27 +115,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
     }
 
-    fun openMediaContent() {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.type = "image/*"
-        startActivityForResult(intent, FINAL_CHOOSE_PHOTO)
-    }
-
     private fun selectProfilePicture() {
 
-//        val intent = Intent()
-//        intent.type = "image/*"
-//        intent.action = Intent.ACTION_GET_CONTENT
-//        startActivityForResult(
-//            Intent.createChooser(intent, "Select Picture"),
-//            FINAL_CHOOSE_PHOTO
-//        )
-
         val intent = Intent()
-//        intent.setType("image/*");
         intent.type = "image/jpeg"
-
         intent.addCategory(Intent.CATEGORY_OPENABLE)
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(
@@ -206,23 +127,12 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 "Select Picture"
             ), FINAL_CHOOSE_PHOTO
         )
-        //
-//
-//        val intent = Intent(Intent.ACTION_GET_CONTENT)
-//        intent.addCategory(Intent.CATEGORY_OPENABLE)
-//        intent.type = "image/*"
-//        startActivityForResult(intent, FINAL_CHOOSE_PHOTO)
     }
 
 
     private fun takePicture() {
 
-//        val file = createImageFile()
-        val file = File(activity!!.applicationContext.externalCacheDir, "output_image.jpg")
-        if (file.exists()) {
-            file.delete()
-        }
-//        outputImage.createNewFile()
+        val file = createImageFile()
         imageUri = if (Build.VERSION.SDK_INT >= 24) {
             FileProvider.getUriForFile(
                 activity!!.applicationContext,
@@ -264,76 +174,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
 
-    fun getOrientation(context: Context, photoUri: Uri): Int {
-        /* it's on the external media. */
-        val cursor = context.contentResolver.query(
-            photoUri,
-            arrayOf(MediaStore.Images.ImageColumns.ORIENTATION), null, null, null
-        )
-
-        if (cursor!!.count != 1) {
-            return -1
-        }
-
-        cursor.moveToFirst()
-        return cursor.getInt(0)
-    }
-
-    @Throws(IOException::class)
-    fun getCorrectlyOrientedImage(context: Context, photoUri: Uri): Bitmap? {
-        var `is` = context.contentResolver.openInputStream(photoUri)
-        val dbo = BitmapFactory.Options()
-        dbo.inJustDecodeBounds = true
-        BitmapFactory.decodeStream(`is`, null, dbo)
-        `is`!!.close()
-
-        val rotatedWidth: Int
-        val rotatedHeight: Int
-        val orientation = getOrientation(context, photoUri)
-
-        if (orientation == 90 || orientation == 270) {
-            rotatedWidth = dbo.outHeight
-            rotatedHeight = dbo.outWidth
-        } else {
-            rotatedWidth = dbo.outWidth
-            rotatedHeight = dbo.outHeight
-        }
-
-        var srcBitmap: Bitmap?
-        `is` = context.contentResolver.openInputStream(photoUri)
-        if (rotatedWidth > MAX_IMAGE_DIMENSION || rotatedHeight > MAX_IMAGE_DIMENSION) {
-            val widthRatio = rotatedWidth.toFloat() / MAX_IMAGE_DIMENSION.toFloat()
-            val heightRatio = rotatedHeight.toFloat() / MAX_IMAGE_DIMENSION.toFloat()
-            val maxRatio = Math.max(widthRatio, heightRatio)
-
-            // Create the bitmap from file
-            val options = BitmapFactory.Options()
-            options.inSampleSize = maxRatio.toInt()
-            srcBitmap = BitmapFactory.decodeStream(`is`, null, options)
-        } else {
-            srcBitmap = BitmapFactory.decodeStream(`is`)
-        }
-        assert(`is` != null)
-        `is`!!.close()
-
-        /*
-         * if the orientation is not 0 (or -1, which means we don'retrofit know), we
-         * have to do a rotation.
-         */
-        if (orientation > 0) {
-            val matrix = Matrix()
-            matrix.postRotate(orientation.toFloat())
-
-            srcBitmap = Bitmap.createBitmap(
-                srcBitmap!!, 0, 0, srcBitmap.width,
-                srcBitmap.height, matrix, true
-            )
-        }
-
-        return srcBitmap
-    }
-
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         var bitmap: Bitmap? = null
@@ -349,14 +189,17 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                             selectedImage = data!!.getExtras()!!.get("data") as Bitmap
                             selectedImage = data!!.data as Bitmap
                         } else {
-                            selectedImage =
-                                this!!.getCorrectlyOrientedImage(activity!!, imageUri!!)!!
+                            selectedImage = getBitmap(imageUri)
                         }
 
                         val uri = getImageUri(activity!!, selectedImage)
                         val imgPath = getRealPathFromURI(activity!!, uri)
                         viewModel.uploadProfconvertUriToFile(Uri.parse(imgPath))
 
+                        Glide.with(activity!!)
+                            .load(selectedImage)
+                            .transforms(CenterCrop(), RoundedCorners(115))
+                            .into(ivProfilePic)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
@@ -364,12 +207,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
             FINAL_TAKE_PHOTO ->
                 if (resultCode == Activity.RESULT_OK) {
+                    val bitmap = getBitmap(imageUri)
 
-                    val bitmap = BitmapFactory.decodeStream(
-                        activity!!.getContentResolver().openInputStream(imageUri)
-                    )
                     imageUri = getUri(bitmap)
-
                     if (imageUri != null) {
 
                         imageUri = Uri.parse(
@@ -377,6 +217,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                                 this!!.context!!, imageUri!!
                             )
                         )
+
                         viewModel.uploadProfconvertUriToFile(imageUri!!)
                     }
 
@@ -470,9 +311,74 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()
+//        viewModel.clickEvent.removeObservers(this)
+
 
     }
 
+    override fun onResume() {
+        super.onResume()
+//        viewModel.clickEvent.observe(this, Observer())
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+
+                R.id.tvPersonalDetailView -> {
+
+                    val action =
+                        ProfileSettingsFragmentDirections.actionProfileSettingsFragmentToPersonalDetailsFragment(
+                            viewModel.showExpiredBadge
+                        )
+                    findNavController().navigate(action)
+                }
+
+                R.id.tvPrivacyView -> {
+
+                }
+
+                R.id.tvChangePasscode -> {
+
+                }
+
+                R.id.tvTermsAndConditionView -> {
+
+                }
+
+                R.id.tvFollowOnInstagram -> {
+
+                }
+
+                R.id.tvFollowOnTwitter -> {
+
+                }
+
+                R.id.tvLikeUsOnFaceBook -> {
+
+                }
+
+                R.id.ivProfilePic -> {
+                    // change profile picture
+                }
+
+                R.id.tvLogOut -> {
+
+                    logoutAlert()
+
+                }
+
+                R.id.rlAddNewProfilePic -> {
+
+                    updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
+                    updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
+                }
+
+                viewModel.PROFILE_PICTURE_UPLOADED -> {
+
+                }
+
+            }
+        })
+
+    }
     override fun onBackPressed(): Boolean {
 
         return super.onBackPressed()
@@ -480,25 +386,20 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
 
     private fun createImageFile(): File {
-//        clearTempImages()
+        clearTempImages()
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         val file = File(
             IMAGE_PATH, "IMG_" + timeStamp +
                     ".jpg"
         )
-        imageUri = Uri.fromFile(file)
         return file
     }
 
 
     private fun clearTempImages() {
-        try {
-            val tempFolder = File(IMAGE_PATH)
-            for (f in tempFolder.listFiles())
-                f.delete()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        val tempFolder = File(IMAGE_PATH)
+        for (f in tempFolder.listFiles())
+            f.delete()
 
     }
 
