@@ -2,10 +2,9 @@ package co.yap.yapcore.helpers
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
+import android.content.*
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
@@ -20,6 +19,9 @@ import androidx.annotation.ColorRes
 import co.yap.yapcore.R
 import java.text.DecimalFormat
 import java.util.regex.Pattern
+import android.content.Intent.ACTION_VIEW
+
+
 
 
 object Utils {
@@ -251,5 +253,58 @@ object Utils {
     fun getFormattedMobileNumber(countryCode: String, mobile: String): String {
         return countryCode.trim() + " " + mobile.trim().replace(countryCode.trim(), "")
     }
+
+    fun openTwitter(context: Context) {
+        var intent: Intent?
+        try {
+            context.packageManager.getPackageInfo("com.twitter.android", 0)
+            intent = Intent(
+                ACTION_VIEW,
+                Uri.parse("twitter.com/intent/follow?screen_name=YapTweets")
+            )
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        } catch (e: Exception) {
+            // no Twitter app, revert to browser
+            intent =
+                Intent(
+                    ACTION_VIEW,
+                    Uri.parse("https://twitter.com/intent/follow?screen_name=YapTweets")
+                )
+        }
+        context.startActivity(intent)
+    }
+
+    fun openInstagram(context: Context) {
+        val uri = Uri.parse("https://www.instagram.com/yapnow/")
+        val likeIng = Intent(ACTION_VIEW, uri)
+        likeIng.setPackage("com.instagram.android")
+
+        try {
+            context.startActivity(likeIng)
+        } catch (e: ActivityNotFoundException) {
+            context.startActivity(
+                Intent(
+                    ACTION_VIEW,
+                    Uri.parse("https://www.instagram.com/yapnow/")
+                )
+            )
+        }
+
+    }
+
+    fun getOpenFacebookIntent(context: Context): Intent {
+
+        return try {
+            context.packageManager.getPackageInfo("com.facebook.katana", 0)
+            Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
+        } catch (e: Exception) {
+            Intent(
+                ACTION_VIEW,
+                Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
+            )
+        }
+
+    }
+
 
 }
