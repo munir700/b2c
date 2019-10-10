@@ -45,8 +45,6 @@ class CurrentPasscodeFragment :ChangeCardPinFragment(){
             when (it) {
                 R.id.btnAction -> {
                     findNavController().navigate(R.id.action_currentPasscodeFragment_to_updateNewPasscodeFragment)
-                  /*  val action = ChangeCardPinFragmentDirections.actionChangeCardPinFragmentToSetNewCardPinFragment(viewModel.state.pincode)
-                    findNavController().navigate(action)*/
                 }
             }
         })

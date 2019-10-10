@@ -1,12 +1,10 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
-import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SetNewCardPinFragment
-import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateNewPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 
@@ -23,7 +21,7 @@ class UpdateNewPasscodeFragment:SetNewCardPinFragment() {
 //                    findNavController().navigate(R.id.action_updateNewPasscodeFragment_to_updateConfirmPasscodeFragment)
 
 //                    val action=UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToUpdateConfirmPasscodeFragment(oldPinCode.toString(),viewModel.state.pincode)
-                    val action=UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToUpdateConfirmPasscodeFragment("",viewModel.state.pincode)
+                    val action=UpdateNewPasscodeFragmentDirections.actionUpdateNewPasscodeFragmentToUpdateConfirmPasscodeFragment(newPinCode = viewModel.state.pincode)
                     findNavController().navigate(action)
                 }
             }

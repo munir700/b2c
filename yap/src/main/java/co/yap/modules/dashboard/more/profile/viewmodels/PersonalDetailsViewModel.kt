@@ -63,7 +63,7 @@ class PersonalDetailsViewModel(application: Application) :
         super.onCreate()
         val customer: Customer = MyUserManager.user!!.customer
         state.fullName = customer.firstName + " " + customer.lastName
-        state.phoneNumber = customer.mobileNo
+        state.phoneNumber = customer.countryCode+" "+customer.mobileNo
         state.email = customer.email
     }
 

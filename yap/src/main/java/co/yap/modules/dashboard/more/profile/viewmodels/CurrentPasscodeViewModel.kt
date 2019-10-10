@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 import android.app.Application
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ChangeCardPinViewModel
+import co.yap.networking.admin.AdminRepository
 import co.yap.networking.admin.AdminRepository.verifyUsername
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
@@ -16,6 +17,8 @@ class CurrentPasscodeViewModel(application: Application): ChangeCardPinViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val forgotPasscodeclickEvent: SingleClickEvent= SingleClickEvent()
     private val messagesRepository: MessagesRepository = MessagesRepository
+    private val adminRepository: AdminRepository = AdminRepository
+
     override var emailOtp: Boolean = false
     override var mobileNumber:String=""
 
@@ -27,7 +30,7 @@ class CurrentPasscodeViewModel(application: Application): ChangeCardPinViewModel
     }
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {
-            clickEvent.setValue(id)
+            validateCurrentPasscode(id)
         }
     }
     override fun handlePressOnForgotPasscodeButton(id: Int) {
@@ -54,6 +57,24 @@ class CurrentPasscodeViewModel(application: Application): ChangeCardPinViewModel
             }
         }
     }
+
+    private fun validateCurrentPasscode(id:Int){
+        launch {
+            state.loading = true
+            when (val response=adminRepository.validateCurrentPasscode(state.pincode
+            )) {
+                is RetroApiResponse.Success ->{
+                    clickEvent.setValue(id)
+                }
+                is RetroApiResponse.Error->{
+                    state.dialerError = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+    }
+
     private fun verifyUsername(enteredUsername: String): String {
         var username = enteredUsername
         if (isUsernameNumeric(username)) {
