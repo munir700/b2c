@@ -104,7 +104,7 @@ class ProfileSettingsViewModel(application: Application) :
         requestProfileDocumentsInformation()
         state.fullName = customer.firstName + " " + customer.lastName
         if (!customer.profilePictureName.isNullOrEmpty()) {
-            state.profilePictureUrl = customer.profilePictureName
+            state.profilePictureUrl = customer.profilePictureName!!
         } else {
             state.fullName = customer.firstName + " " + customer.lastName
             state.nameInitialsVisibility = GONE
