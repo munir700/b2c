@@ -23,7 +23,7 @@ class BankDetailViewModel(application: Application) : BaseViewModel<IBankDetail.
         state.swift.set(MyUserManager.user?.bank?.swiftCode)
         state.name.set(MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName)
         state.title.set(getString(R.string.screen_more_detail_display_text_bank_details))
-        state.image.set(MyUserManager.user?.customer?.profilePictureName)
+        state.image.set(if (MyUserManager.user?.customer?.profilePictureName.isNullOrEmpty()) "" else MyUserManager.user?.customer?.profilePictureName)
         state.initials.set(Utils.shortName(state.name.get()!!))
     }
 

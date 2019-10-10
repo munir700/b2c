@@ -13,7 +13,7 @@ class YAPApplication : ChatApplication() {
     override fun onCreate() {
         super.onCreate()
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
-        NetworkConnectionManager.init(this) // TODO: handle destroy of NetworkConnectionManager when app destroys
+        NetworkConnectionManager.init(this)
         setAppUniqueId(this)
 
         RetroNetwork.listenNetworkConstraints(object : NetworkConstraintsListener {
@@ -29,7 +29,6 @@ class YAPApplication : ChatApplication() {
         })
     }
 
-
     private fun setAppUniqueId(context: Context) {
         var uuid: String?
         val sharedPrefs = SharedPreferenceManager(context)
@@ -38,5 +37,10 @@ class YAPApplication : ChatApplication() {
             uuid = UUID.randomUUID().toString()
             sharedPrefs.save(SharedPreferenceManager.KEY_APP_UUID, uuid)
         }
+    }
+
+    override fun onTerminate() {
+        NetworkConnectionManager.destroy(this)
+        super.onTerminate()
     }
 }
