@@ -48,7 +48,7 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
 
     private fun initComponents() {
         getBinding().tvName.text =
-            MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName
+            MyUserManager.user?.currentCustomer?.getFullName()
 
         val ibanSpan = SpannableString("IBAN " + MyUserManager.user?.iban)
         val bicSpan = SpannableString("BIC " + MyUserManager.user?.bank?.swiftCode)

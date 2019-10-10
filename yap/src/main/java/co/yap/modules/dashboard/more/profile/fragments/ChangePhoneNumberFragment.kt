@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IChangePhoneNumber
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangePhoneNumberViewModel
 import co.yap.translation.Strings
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_change_phone_number.*
 
 class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>(),
@@ -24,10 +25,12 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.changePhoneNumberSuccessEvent.observe(this, Observer {
+            MyUserManager.user?.currentCustomer?.mobileNo =
+                viewModel.state.countryCode + " " + viewModel.state.mobile
             val action =
                 ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToSuccessFragment(
                     getString(Strings.screen_phone_number_success_display_text_sub_heading),
-                    viewModel.state.countryCode+" "+viewModel.state.mobile
+                    viewModel.state.countryCode + " " + viewModel.state.mobile
                 )
             findNavController().navigate(action)
         })

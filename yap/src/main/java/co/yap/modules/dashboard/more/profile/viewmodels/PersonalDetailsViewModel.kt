@@ -6,7 +6,6 @@ import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
-import co.yap.networking.customers.responsedtos.Customer
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -50,7 +49,9 @@ class PersonalDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
-
+        state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
+        state.phoneNumber = MyUserManager.user!!.currentCustomer.getCompletePhone()
+        state.email = MyUserManager.user!!.currentCustomer.email
         if (MyUserManager.userAddress == null) {
             requestGetAddressForPhysicalCard()
         } else {
@@ -58,15 +59,6 @@ class PersonalDetailsViewModel(application: Application) :
             setUpAddressFields()
         }
     }
-
-    override fun onCreate() {
-        super.onCreate()
-        val customer: Customer = MyUserManager.user!!.customer
-        state.fullName = customer.firstName + " " + customer.lastName
-        state.phoneNumber = customer.countryCode+" "+customer.mobileNo
-        state.email = customer.email
-    }
-
 
     fun requestGetAddressForPhysicalCard() {
 

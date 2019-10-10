@@ -37,7 +37,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             if (successType == "CHANGE_PASSCODE") {
                 findNavController().popBackStack(R.id.profileSettingsFragment, true)
                 findNavController().navigate(R.id.profileSettingsFragment)
-            }else{
+            } else {
                 findNavController().popBackStack(R.id.personalDetailsFragment, true)
                 findNavController().navigate(R.id.personalDetailsFragment)
             }
@@ -46,7 +46,8 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (context as MoreActivity).goneToolbar()
+        if (context is MoreActivity)
+            (context as MoreActivity).goneToolbar()
         loadData()
     }
 
@@ -56,7 +57,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     }
 
     private fun loadData() {
-        successType=args.successType
+        successType = args.successType
         val fcs = ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
 
         val separatedPrimary =

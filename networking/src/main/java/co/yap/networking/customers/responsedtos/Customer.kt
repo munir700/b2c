@@ -3,7 +3,7 @@ package co.yap.networking.customers.responsedtos
 class Customer(
 
     var status: String,
-    var profilePictureName: String?,
+    private var profilePictureName: String?,
     var email: String,
     var countryCode: String,
     var mobileNo: String,
@@ -18,4 +18,22 @@ class Customer(
     var emailVerified: Boolean,
     var mobileNoVerified: Boolean
 
-)
+) {
+
+    fun getFullName(): String {
+        return "$firstName $lastName"
+    }
+
+    fun getCompletePhone(): String {
+        return "$countryCode $mobileNo"
+    }
+
+    fun getPicture(): String {
+        return if (profilePictureName.isNullOrEmpty()) "" else profilePictureName!!
+    }
+
+    fun setPicture(picture: String?) {
+        profilePictureName = picture
+    }
+
+}

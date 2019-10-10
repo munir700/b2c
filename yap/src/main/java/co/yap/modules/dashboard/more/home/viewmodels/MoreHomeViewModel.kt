@@ -20,8 +20,8 @@ class MoreHomeViewModel(application: Application) :
     override val state: MoreState = MoreState()
 
     init {
-        state.image.set(if (MyUserManager.user?.customer?.profilePictureName.isNullOrEmpty()) "" else MyUserManager.user?.customer?.profilePictureName)
-        state.initials.set(Utils.shortName(MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName))
+        state.image.set(MyUserManager.user?.currentCustomer?.getPicture())
+        state.initials.set(Utils.shortName(MyUserManager.user?.currentCustomer?.getFullName()!!))
     }
 
     override fun handlePressOnView(id: Int) {

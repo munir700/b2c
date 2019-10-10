@@ -15,7 +15,7 @@ class AccountInfo(
     var packageName: String?,
     var status: String,
     var onBoardingStatus: String,
-    var customer: Customer,
+    private var customer: Customer,
     var bank: Bank,
 
     var notificationStatuses: String,
@@ -30,11 +30,11 @@ class AccountInfo(
     var currentCustomerLiveData: MutableLiveData<Customer>
 ) {
 
-    var currentCustomer: Customer?
-        get() = currentCustomerLiveData.value
+    var currentCustomer: Customer
+        get() = currentCustomerLiveData.value!!
         set(value) {
             currentCustomerLiveData = MutableLiveData()
-            currentCustomerLiveData.postValue(value)
+            currentCustomerLiveData.value = (value)
         }
 
     init {
@@ -42,5 +42,11 @@ class AccountInfo(
         currentCustomer = customer
     }
 
+    fun getCustomerLiveData(): MutableLiveData<Customer> {
+        return currentCustomerLiveData
+    }
 
+    fun setLiveData() {
+        currentCustomer = customer
+    }
 }

@@ -10,7 +10,6 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.Customer
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -34,7 +33,6 @@ class ProfileSettingsViewModel(application: Application) :
     override lateinit var data: GetMoreDocumentsResponse
     override val repository: CustomersRepository = CustomersRepository
     lateinit var multiPartImageFile: MultipartBody.Part
-    var customer: Customer = MyUserManager.user!!.customer
 
     override val state: ProfileStates =
         ProfileStates()
@@ -102,13 +100,12 @@ class ProfileSettingsViewModel(application: Application) :
         super.onCreate()
 
         requestProfileDocumentsInformation()
-        state.fullName = customer.firstName + " " + customer.lastName
-        if (!customer.profilePictureName.isNullOrEmpty()) {
-            state.profilePictureUrl = customer.profilePictureName!!
+        state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
+        if (MyUserManager.user!!.currentCustomer.getPicture().isNotEmpty()) {
+            state.profilePictureUrl = MyUserManager.user!!.currentCustomer.getPicture()
         } else {
-            state.fullName = customer.firstName + " " + customer.lastName
+            state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
             state.nameInitialsVisibility = GONE
-
         }
     }
 
@@ -146,16 +143,15 @@ class ProfileSettingsViewModel(application: Application) :
 
                     if (null != response.data.data) {
                         state.profilePictureUrl = response.data.data.imageURL
-                        MyUserManager.user!!.customer.profilePictureName =
-                            response.data.data.imageURL
-                        state.fullName = customer.firstName + " " + customer.lastName
+                        MyUserManager.user!!.currentCustomer.setPicture(response.data.data.imageURL)
+                        state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
                         state.nameInitialsVisibility = VISIBLE
                     }
                 }
 
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.fullName = customer.firstName + " " + customer.lastName
+                    state.fullName =  MyUserManager.user!!.currentCustomer.getFullName()
                     state.nameInitialsVisibility = GONE
 
                 }
@@ -184,8 +180,8 @@ class ProfileSettingsViewModel(application: Application) :
                     state.toast = response.error.message
 
 //                    if (response.error.statusCode == 1073){
-                        state.errorBadgeVisibility = VISIBLE
-                        showExpiredBadge = true
+                    state.errorBadgeVisibility = VISIBLE
+                    showExpiredBadge = true
 //                    }
                 }
             }

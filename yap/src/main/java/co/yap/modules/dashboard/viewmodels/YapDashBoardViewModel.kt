@@ -48,9 +48,8 @@ class YapDashBoardViewModel(application: Application) :
         MyUserManager.user?.let {
             state.accountNo = MyUserManager.user!!.accountNo
             state.ibanNo = MyUserManager.user!!.iban
-            state.fullName =
-                MyUserManager.user!!.customer.firstName + " " + MyUserManager.user!!.customer.lastName
-            state.firstName = MyUserManager.user!!.customer.firstName
+            state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
+            state.firstName = MyUserManager.user!!.currentCustomer.firstName
         }
     }
 
@@ -60,7 +59,7 @@ class YapDashBoardViewModel(application: Application) :
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
-                    MyUserManager.user?.currentCustomer = MyUserManager.user?.customer
+                    MyUserManager.user?.setLiveData() // DOnt remove this line
                     getAccountInfoSuccess.value = true
                     populateState()
                 }
