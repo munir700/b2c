@@ -35,6 +35,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CHANGE_MOBILE_NUMBER =
         "customers/api/change-mobile-number/{country-code}/{mobile-number}"
     const val URL_CHANGE_VERIFIED_EMAIL = "customers/api/change-email/{email}"
+    const val URL_CHANGE_UNVERIFIED_EMAIL = "customers/api/change-unverified-email"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -125,4 +126,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun changeVerifiedEmail(email: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeVerifiedEmail(email) })
+
+    override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 }

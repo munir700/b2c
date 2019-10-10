@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -14,5 +16,16 @@ class UnverifiedChangeEmailSuccessFragment : BaseBindingFragment<IUnverifiedChan
 
     override val viewModel: IUnverifiedChangeEmailSuccess.ViewModel
         get() = ViewModelProviders.of(this).get(UnverifiedChangeEmailSuccessViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.mailButtonClickEvent.observe(this, Observer {
+            when (it) {
+                R.id.btnOpenMailApp->showToast("m ready to open mail app")
+                R.id.tvGoToDashboard->showToast("m ready to go to dashboard")
+            }
+
+        })
+    }
 
 }

@@ -65,7 +65,7 @@
             app:layout_constraintTop_toBottomOf="@+id/ivSucces" />
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnAction"
+            android:id="@+id/btnOpenMailApp"
             style="@style/RectangleBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -74,6 +74,7 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:text="Open mail app"
+            android:onClick="@{(v)-> viewModel.handlePressOnMailAppButton(v.id)}"
             app:layout_constraintBottom_toTopOf="@+id/tvGoToDashboard"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -90,6 +91,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:text="Back to dashboard"
             android:textColor="@color/colorPrimary"
+            android:onClick="@{(v)-> viewModel.handlePressOnMailAppButton(v.id)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
