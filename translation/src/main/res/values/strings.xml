@@ -17,7 +17,7 @@
     <string name="screen_home_display_text_account_selection">I want an account for</string>
     <string name="screen_home_button_personal_text">Personal</string>
     <string name="screen_home_button_business_text">Business</string>
-    <string name="screen_home_display_text_sign_in_action">Sign In</string>
+    <string name="screen_home_display_text_sign_in_action">Sign in</string>
     <string name="screen_home_display_text_sign_in_title">Already have an account?</string>
 
     <!-- Welcome Screen -->
@@ -39,7 +39,7 @@
     <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
     <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
     <string name="screen_sign_in_button_sign_in">Sign in</string>
-    <string name="screen_sign_in_display_text_sign_up_prefix">Create an account?</string>
+    <string name="screen_sign_in_display_text_sign_up_prefix">Don\'t have an account?</string>
     <string name="screen_sign_in_display_text_sign_up">Sign Up</string>
     <string name="screen_sign_in_display_text_sub_title">Enter the OTP sent to your registered mobile number to complete login</string>
     <string name="screen_sign_in_display_text_error_text">That\'s not the right username. Please try again</string>
