@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailViewModel" />
+            type="co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailSuccessViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"

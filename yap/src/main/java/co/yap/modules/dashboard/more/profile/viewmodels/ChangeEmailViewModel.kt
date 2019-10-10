@@ -14,7 +14,7 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 
 
-class ChangeEmailViewModel(application: Application) :
+open class ChangeEmailViewModel(application: Application) :
     MoreBaseViewModel<IChangeEmail.State>(application), IChangeEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
     override val changeEmailSuccessEvent: SingleClickEvent= SingleClickEvent()

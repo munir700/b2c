@@ -1,18 +1,33 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import co.yap.BR
+import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.modules.dashboard.more.profile.intefaces.IUnverifiedChangeEmail
+import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailViewModel
-import co.yap.yapcore.BaseBindingFragment
 
-class UnverifiedChangeEmailFragment : BaseBindingFragment<IUnverifiedChangeEmail.ViewModel>(),IUnverifiedChangeEmail.View{
-    override fun getBindingVariable(): Int = BR.viewModel
-
-    override fun getLayoutId(): Int = R.layout.fragment_unverified_change_email
-
-    override val viewModel: IUnverifiedChangeEmail.ViewModel
+class UnverifiedChangeEmailFragment : ChangeEmailFragment() {
+    override val viewModel: IChangeEmail.ViewModel
         get() = ViewModelProviders.of(this).get(UnverifiedChangeEmailViewModel::class.java)
 
+
+    override fun setObservers() {
+
+        viewModel.success.observe(this, Observer {
+            if (it) {
+                val action =
+                    UnverifiedChangeEmailFragmentDirections.actionUnverifiedChangeEmailFragmentToUnverifiedChangeEmailSuccessFragment()
+                findNavController().navigate(action)
+            }
+        })
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.tbBtnBack -> {
+
+                }
+            }
+        })
+
+    }
 }

@@ -1,11 +1,29 @@
 package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.more.profile.intefaces.IUnverifiedChangeEmail
-import co.yap.modules.dashboard.more.profile.states.UnverifiedChangeEmailState
-import co.yap.yapcore.BaseViewModel
+import androidx.lifecycle.MutableLiveData
 
-class UnverifiedChangeEmailViewModel(application: Application):
-    BaseViewModel<IUnverifiedChangeEmail.State>(application),IUnverifiedChangeEmail.ViewModel {
-    override val state: UnverifiedChangeEmailState=UnverifiedChangeEmailState()
+class UnverifiedChangeEmailViewModel(application: Application) :ChangeEmailViewModel(application) {
+    override val success: MutableLiveData<Boolean> = MutableLiveData()
+    override fun onHandlePressOnNextButton() {
+        if (state.confirmEmailValidation()) {
+            success.value = true
+          /*  launch {
+                state.loading = true
+                when (val response =
+                    repository.validateEmail(state.newEmail)) {
+                    is RetroApiResponse.Success -> {
+                       // createOtp()
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.errorMessage = response.error.message
+
+                    }
+
+                }
+            }*/
+        }
+    }
 }

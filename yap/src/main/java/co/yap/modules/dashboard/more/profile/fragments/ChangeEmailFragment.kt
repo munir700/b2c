@@ -17,7 +17,7 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 
-class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeEmail.View {
+open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeEmail.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_change_email
@@ -29,7 +29,7 @@ class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeE
         setObservers()
     }
 
-    private fun setObservers() {
+    override fun setObservers() {
         viewModel.success.observe(this, Observer {
             if (it) {
                 val action =
