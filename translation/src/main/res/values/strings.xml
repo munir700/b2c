@@ -433,4 +433,6 @@
     <string name="screen_phone_number_success_display_text_heading">Success!</string>
     <string name="screen_phone_number_success_display_text_sub_heading">Your phone number has been changed to \n</string>
 
+    <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
+
 </resources>

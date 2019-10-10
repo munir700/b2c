@@ -113,14 +113,33 @@
             android:defaultValue="false"
             app:argType="boolean" />
 
+        <action
+            android:id="@+id/action_addressSelectionFragment_to_locationSuccessFragment"
+            app:destination="@id/locationSuccessFragment"
+            app:popUpTo="@+id/personalDetailsFragment"
+            app:popUpToInclusive="true" />
 
         <action
             android:id="@+id/action_addressSelectionFragment_to_personalDetailsFragment"
             app:destination="@id/personalDetailsFragment"
             app:popUpTo="@+id/personalDetailsFragment"
             app:popUpToInclusive="true" />
+
+
+        <action
+            android:id="@+id/action_addressSelectionFragment_to_addSpareCardFragment"
+            app:destination="@id/addSpareCardFragment"
+            app:popUpTo="@+id/addSpareCardFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
+    <fragment
+        android:id="@+id/locationSuccessFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.LocationSuccessFragment"
+        android:label="LocationSuccessFragment"
+        tools:layout="@layout/fragment_location_success">
+
+    </fragment>
 
 </navigation>
 

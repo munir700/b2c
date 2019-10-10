@@ -41,6 +41,7 @@ interface IAddressSelection {
         fun toggleMarkerVisibility()
         fun setUpCardFields()
         fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest)
+        var updateAddressRequest: UpdateAddressRequest
     }
 
     interface State : IBase.State {
@@ -53,6 +54,7 @@ interface IAddressSelection {
         var valid: Boolean
         var checked: Boolean
         var isFromPhysicalCardsLayout: Boolean
+        var isFromPersonalDetailView: Boolean
 
         //map detail
 

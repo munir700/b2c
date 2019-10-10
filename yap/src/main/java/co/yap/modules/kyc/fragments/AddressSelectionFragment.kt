@@ -24,6 +24,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.more.activities.MoreActivity
+import co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragmentDirections
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
@@ -92,6 +93,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         if (isFromPersonalDetailScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as MoreActivity
+            viewModel.state.isFromPersonalDetailView = true
+            viewModel.state.isFromPhysicalCardsLayout = false
             updateHeadings()
 
             viewModel.state.nextActionBtnText =
@@ -99,9 +102,11 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         } else if (isFromBlockCardsScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
+            viewModel.state.isFromPhysicalCardsLayout = true
             updateHeadings()
         } else if (checkSender!!) {
             viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
+            viewModel.state.isFromPhysicalCardsLayout = true
             updateHeadings()
         } else {
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
@@ -115,7 +120,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun updateHeadings() {
-        viewModel.state.isFromPhysicalCardsLayout = true
         viewModel.state.headingTitle =
             getString(Strings.screen_meeting_location_display_text_add_new_address_title)
         viewModel.state.subHeadingTitle =
@@ -214,7 +218,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         findNavController().navigate(action)
 
 
-                    } else if (isFromPersonalDetailScreen) {
+                    } else if (viewModel.state.isFromPersonalDetailView) {
 
                         var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
                             placeTitle,
@@ -222,7 +226,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                             viewModel.mLastKnownLocation.latitude.toString(),
                             viewModel.mLastKnownLocation.longitude.toString()
                         )
-
+                        viewModel.updateAddressRequest= updateAddressRequest
                         MyUserManager.userAddress!!.address1 = placeTitle
                         MyUserManager.userAddress!!.address2 = placeSubTitle
                         viewModel.requestUpdateAddress(updateAddressRequest)
@@ -245,6 +249,20 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 viewModel.ON_UPDATE_ADDRESS_EVENT -> {
 //
 //                   kill this fragment & move to the success screen
+
+//                    MyUserManager.user?.notificationStatuses =
+//                        Constants.USER_STATUS_MEETING_SCHEDULED
+//                    findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
+//
+//                    staticString
+                    findNavController().navigate(R.id.action_addressSelectionFragment_to_locationSuccessFragment)
+
+//                    val action = AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
+////                            getString(Strings.screen_address_success_display_text_sub_heading),
+////                            " "
+//                        )
+
+//                    findNavController().navigate(action)
                 }
 
                 viewModel.GPS_CLICK_EEVENT -> {

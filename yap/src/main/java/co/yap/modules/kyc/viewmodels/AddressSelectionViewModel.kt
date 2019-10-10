@@ -44,6 +44,7 @@ import java.util.*
 class AddressSelectionViewModel(application: Application) :
     BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel, IRepositoryHolder<CardsRepository> {
+    override lateinit var updateAddressRequest: UpdateAddressRequest
     override val ON_UPDATE_ADDRESS_EVENT: Int = 700
 
     private val TAG = "AddressSelectionFragment"
@@ -262,6 +263,10 @@ class AddressSelectionViewModel(application: Application) :
         mLastKnownLocation.longitude = mDefaultLocation.longitude
 
         if (state.isFromPhysicalCardsLayout) {
+//           start old fragment by taking address address
+            clickEvent.setValue(id)
+
+        } else if (state.isFromPersonalDetailView) {
 //           start old fragment by taking address address
             clickEvent.setValue(id)
 
