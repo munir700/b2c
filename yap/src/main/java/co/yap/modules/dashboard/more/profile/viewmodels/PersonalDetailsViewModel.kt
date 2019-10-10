@@ -18,6 +18,8 @@ import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerRes
 class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
     IRepositoryHolder<CardsRepository> {
+
+
     override val repository: CardsRepository = CardsRepository
     lateinit var address: Address
 
@@ -106,8 +108,8 @@ class PersonalDetailsViewModel(application: Application) :
         MyUserManager.userAddress = address
     }
 
-    override fun onEIDScanningComplete(result: IdentityScannerResult) {
-//        parentViewModel?.identity = result
-//        state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
+     override fun toggleToolBar(hide: Boolean) {
+        toggleToolBarVisibility(hide)
     }
-}
+
+ }

@@ -23,10 +23,12 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
+import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.translation.Strings
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
@@ -70,6 +72,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     var placeSubTitle: String = ""
     var placePhoto: Bitmap? = null
     private lateinit var viewDataBinding: ViewDataBinding
+    private var isFromPersonalDetailScreen = false
 
 
     override fun onCreateView(
@@ -77,32 +80,29 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val isFromBlockCardsScreen = arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromBlockCardsScreen }
+
+        val isFromBlockCardsScreen =
+            arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromBlockCardsScreen }
+
+        isFromPersonalDetailScreen =
+            arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPersonalDetail }!!
 
         val checkSender =
             arguments?.let { AddressSelectionFragmentArgs.fromBundle(it).isFromPhysicalCardsScreen }
 
-        if (isFromBlockCardsScreen!!) {
+        if (isFromPersonalDetailScreen!!) {
+            viewModel!!.mapDetailViewActivity = activity as MoreActivity
+            updateHeadings()
+
+            viewModel.state.nextActionBtnText =
+                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_done)
+
+        } else if (isFromBlockCardsScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
-            viewModel.state.isFromPhysicalCardsLayout = true
-            viewModel.state.headingTitle =
-                getString(Strings.screen_meeting_location_display_text_add_new_address_title)
-            viewModel.state.subHeadingTitle =
-                getString(Strings.screen_meeting_location_display_text_add_new_address_subtitle)
-            viewModel.state.nextActionBtnText =
-                getString(Strings.screen_meeting_location_button_confirm_selected_location)
-        }
-      else  if (checkSender!!) {
+            updateHeadings()
+        } else if (checkSender!!) {
             viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
-            viewModel.state.isFromPhysicalCardsLayout = true
-            viewModel.state.headingTitle =
-                getString(Strings.screen_meeting_location_display_text_add_new_address_title)
-            viewModel.state.subHeadingTitle =
-                getString(Strings.screen_meeting_location_display_text_add_new_address_subtitle)
-            viewModel.state.nextActionBtnText =
-                getString(Strings.screen_meeting_location_button_confirm_selected_location)
-
-
+            updateHeadings()
         } else {
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
@@ -112,6 +112,16 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         initMapFragment()
 
         return viewDataBinding.root
+    }
+
+    private fun updateHeadings() {
+        viewModel.state.isFromPhysicalCardsLayout = true
+        viewModel.state.headingTitle =
+            getString(Strings.screen_meeting_location_display_text_add_new_address_title)
+        viewModel.state.subHeadingTitle =
+            getString(Strings.screen_meeting_location_display_text_add_new_address_subtitle)
+        viewModel.state.nextActionBtnText =
+            getString(Strings.screen_meeting_location_button_confirm_selected_location)
     }
 
     private fun initMapFragment() {
@@ -204,6 +214,19 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         findNavController().navigate(action)
 
 
+                    } else if (isFromPersonalDetailScreen) {
+
+                        var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
+                            placeTitle,
+                            placeSubTitle,
+                            viewModel.mLastKnownLocation.latitude.toString(),
+                            viewModel.mLastKnownLocation.longitude.toString()
+                        )
+
+                        MyUserManager.userAddress!!.address1 = placeTitle
+                        MyUserManager.userAddress!!.address2 = placeSubTitle
+                        viewModel.requestUpdateAddress(updateAddressRequest)
+
                     } else {
                         if (!viewModel.state.error.isNullOrEmpty()) {
                             showToast(viewModel.state.error)
@@ -217,6 +240,11 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                 viewModel.MARKER_CLICK_ID -> {
 
+                }
+
+                viewModel.ON_UPDATE_ADDRESS_EVENT -> {
+//
+//                   kill this fragment & move to the success screen
                 }
 
                 viewModel.GPS_CLICK_EEVENT -> {
@@ -270,7 +298,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                         }
                         LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE -> Log.i(
-
                             "TAGAddress",
                             "Location settings are inadequate, and cannot be fixed here. Dialog not created."
                         )

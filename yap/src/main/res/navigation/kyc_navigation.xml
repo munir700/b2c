@@ -63,8 +63,13 @@
          android:name="isFromBlockCardsScreen"
          android:defaultValue="false"
          app:argType="boolean" />
+     <argument
+         android:name="isFromPersonalDetail"
+         android:defaultValue="false"
+         app:argType="boolean" />
 
-        <action
+
+     <action
             android:id="@+id/action_AddressSelectionActivity_to_MeetingConfirmationFragment"
             app:destination="@id/MeetingConfirmationFragment"/>
     </fragment>

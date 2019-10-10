@@ -34,7 +34,8 @@ interface IPersonalDetail {
 
         fun handlePressOnScanCard(id: Int)
 
-        fun onEIDScanningComplete(result: IdentityScannerResult)
+        fun toggleToolBar(hide: Boolean)
+
     }
 
     interface View : IBase.View<ViewModel>

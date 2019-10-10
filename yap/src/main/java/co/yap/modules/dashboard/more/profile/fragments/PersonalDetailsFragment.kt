@@ -17,7 +17,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
     companion object {
         var checkMore: Boolean = false
-        var checkScanned: Boolean= false
+        var checkScanned: Boolean = false
 
     }
 
@@ -47,6 +47,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
+        viewModel.toggleToolBar(true)
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -60,6 +61,14 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
+
+//                    viewModel.state.onChangeLocationClick = true
+                    val action =
+                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
+                            false, false, true
+                        )
+                    findNavController().navigate(action)
+                    viewModel.toggleToolBar(false)
 
                 }
 
