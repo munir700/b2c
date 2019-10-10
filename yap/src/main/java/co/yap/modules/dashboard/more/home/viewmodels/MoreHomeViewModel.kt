@@ -20,7 +20,7 @@ class MoreHomeViewModel(application: Application) :
     override val state: MoreState = MoreState()
 
     init {
-        state.image.set(MyUserManager.userImage)
+        state.image.set(if (MyUserManager.user?.customer?.profilePictureName.isNullOrEmpty()) "" else MyUserManager.user?.customer?.profilePictureName)
         state.initials.set(Utils.shortName(MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName))
     }
 
