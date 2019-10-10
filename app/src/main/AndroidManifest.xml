@@ -1,55 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="co.yap.app">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="co.yap.app">
 
     <application
         android:name=".YAPApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:replace="android:theme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        tools:replace="android:theme">
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="co.yap.app.OPEN_LOGIN"/>
-                <category android:name="android.intent.category.DEFAULT"/>
+                <action android:name="co.yap.app.OPEN_LOGIN" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <activity
             android:name="co.yap.app.modules.startup.activities.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="co.yap.app.modules.startup.activities.AccountSelectionActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name="co.yap.modules.forgotpasscode.activities.ForgotPasscodeActivity"
             android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/forgot_passcode_navigation"/>
+            <nav-graph android:value="@navigation/forgot_passcode_navigation" />
         </activity>
 
-
-        <!--todo  remove duplicate key un comment and build-->
-        <!--        <meta-data-->
-        <!--            android:name="com.google.android.geo.API_KEY"-->
-        <!--            android:value="@string/google_maps_key" />-->
+        <meta-data
+            tools:replace="android:value"
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
     </application>
 
 </manifest>

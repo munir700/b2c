@@ -16,6 +16,7 @@ object MessagesRepository : BaseRepository(), MessagesApi {
     const val URL_VERIFY_OTP_ONBOARDING = "/messages/api/otp/sign-up/verify"
     const val URL_CREATE_OTP_GENERIC = "/messages/api/otp"
     const val URL_VERIFY_OTP_GENERIC = "/messages/api/otp"
+    const val URL_VERIFY_OTP_GENERIC_WITH_PHONE = "/messages/api/otp/{phone}"
     const val URL_FORGOT_PASSCODE = "/messages/api/otp/action/forgot-password"
     const val URL_VERIFY_FORGOT_PASSCODE_OTP = "/messages/api/otp/action/forgot-password"
     const val URL_HELP_DESK_PHONE = "/messages/api/help-desk"
@@ -35,6 +36,12 @@ object MessagesRepository : BaseRepository(), MessagesApi {
 
     override suspend fun verifyOtpGeneric(verifyOtpGenericRequest: VerifyOtpGenericRequest): RetroApiResponse<ValidateDeviceResponse> =
         AuthRepository.executeSafely(call = { API.verifyOtpGeneric(verifyOtpGenericRequest) })
+
+    override suspend fun verifyOtpGenericWithPhone(
+        phone: String,
+        verifyOtpGenericRequest: VerifyOtpGenericRequest
+    ): RetroApiResponse<ValidateDeviceResponse> =
+        AuthRepository.executeSafely(call = { API.verifyOtpGenericWithPhone(phone,verifyOtpGenericRequest) })
 
 
     override suspend fun createForgotPasscodeOTP(createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): RetroApiResponse<CreateForgotPasscodeOtpResponse> =

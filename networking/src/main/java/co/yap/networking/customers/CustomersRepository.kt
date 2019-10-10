@@ -30,6 +30,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_UPLOAD_DOCUMENTS = "customers/api/v2/documents"
     const val URL_GET_MORE_DOCUMENTS = "customers/api/document-information"
     const val URL_UPLOAD_PROFILE_PICTURE = "customers/api/customers/profile-picture"
+    const val URL_VALIDATE_PHONE_NUMBER = "customers/api/validate-mobile-number"
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -100,5 +101,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun uploadProfilePicture(profilePicture: MultipartBody.Part): RetroApiResponse<UploadProfilePictureResponse> =
         executeSafely(call = { api.uploadProfilePicture(profilePicture) })
+
+    override suspend fun validatePhoneNumber(
+        countryCode: String,
+        mobileNumber: String
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.validatePhoneNumber(countryCode, mobileNumber) })
 
 }

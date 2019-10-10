@@ -1,7 +1,5 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -13,18 +11,15 @@ import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
- import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
 
-private const val SCAN_EID_CAM = 12
 
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
-companion object{
-    var checkMore:Boolean=false
+    companion object {
+        var checkMore: Boolean = false
+        var checkScanned: Boolean= false
 
-}
+    }
 
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -47,7 +42,13 @@ companion object{
         viewModel.state.errorVisibility =
             arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
 
-         viewModel.clickEvent.observe(this, Observer {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
@@ -65,8 +66,6 @@ companion object{
                 R.id.cvCard -> {
                     if (viewModel.state.errorVisibility) {
 
-//                        openCardScanner()
-
                         val action =
                             PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
                                 viewModel.state.fullName, true
@@ -78,28 +77,7 @@ companion object{
             }
         })
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
-//            checkMore = DocumentsDashboardActivity.isFromMoreSection
-            data?.let {
-                viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
-            }
-        }
-    }
 
-    private fun openCardScanner() {
-//        checkMore = DocumentsDashboardActivity.isFromMoreSection
-
-        startActivityForResult(
-            IdentityScannerActivity.getLaunchIntent(
-                requireContext(),
-                DocumentType.EID,
-                IdentityScannerActivity.SCAN_FROM_CAMERA
-            ),
-            SCAN_EID_CAM
-        )
-    }
     override fun onPause() {
         super.onPause()
         viewModel.clickEvent.removeObservers(this)

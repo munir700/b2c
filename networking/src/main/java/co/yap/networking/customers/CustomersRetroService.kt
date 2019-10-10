@@ -62,6 +62,10 @@ interface CustomersRetroService {
     // upload profile picture
     @Multipart
     @POST(CustomersRepository.URL_UPLOAD_PROFILE_PICTURE)
-     suspend fun uploadProfilePicture(@Part profilePicture: MultipartBody.Part): Response<UploadProfilePictureResponse>
+    suspend fun uploadProfilePicture(@Part profilePicture: MultipartBody.Part): Response<UploadProfilePictureResponse>
+
+    // Get More Documents on profile settings fragment
+    @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
+    suspend fun validatePhoneNumber(@Query("country-code") countryCode: String, @Query("mobile-number") mobileNumber: String): Response<ApiResponse>
 
 }

@@ -6,6 +6,9 @@ object Constants {
 
     const val TYPE_ADD_FUNDS: String = "addFunds"
     const val TYPE_REMOVE_FUNDS: String = "removeFunds"
+    const val CHANGE_MOBILE_NO: String = "CHANGE_MOBILE_NO"
+    const val CHANGE_EMAIL: String = "CHANGE_EMAIL"
+
 
     //More Option Constants
     const val MORE_NOTIFICATION: Int = 1

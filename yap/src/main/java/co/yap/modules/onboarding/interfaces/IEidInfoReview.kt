@@ -48,5 +48,6 @@ interface IEidInfoReview {
         var dateOfBirthValid: Boolean
         var genderValid: Boolean
         var expiryDateValid: Boolean
+        var valid: Boolean
     }
 }
