@@ -89,6 +89,10 @@
             android:name="isFromBlockCardsScreen"
             android:defaultValue="false"
             app:argType="boolean" />
+        <argument
+            android:name="isFromPersonalDetail"
+            android:defaultValue="false"
+            app:argType="boolean" />
 
         <action
             android:id="@+id/action_addressSelectionFragment_to_addSpareCardFragment"

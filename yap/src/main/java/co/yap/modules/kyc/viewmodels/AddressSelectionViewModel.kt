@@ -17,6 +17,7 @@ import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.OrderCardRequest
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
@@ -43,6 +44,7 @@ import java.util.*
 class AddressSelectionViewModel(application: Application) :
     BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel, IRepositoryHolder<CardsRepository> {
+    override val ON_UPDATE_ADDRESS_EVENT: Int = 700
 
     private val TAG = "AddressSelectionFragment"
     private lateinit var mMap: GoogleMap
@@ -118,6 +120,24 @@ class AddressSelectionViewModel(application: Application) :
                     state.error = response.error.message
                     clickEvent.setValue(id)
                 }
+            }
+        }
+    }
+
+    override fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest) {
+
+        launch {
+            state.loading = true
+            when (val response = repository.editAddressRequest(updateAddressRequest)) {
+                is RetroApiResponse.Success -> {
+                    state.error = ""
+                    clickEvent.setValue(ON_UPDATE_ADDRESS_EVENT)
+                    state.loading = false
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                 }
             }
         }
     }

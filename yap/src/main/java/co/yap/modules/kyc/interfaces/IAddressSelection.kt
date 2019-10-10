@@ -5,6 +5,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.location.Location
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.google.android.gms.maps.GoogleMap
@@ -25,6 +26,7 @@ interface IAddressSelection {
         val clickEvent: SingleClickEvent
         val MARKER_CLICK_ID: Int
         val GPS_CLICK_EEVENT: Int
+        val ON_UPDATE_ADDRESS_EVENT: Int
         fun handlePressOnNext(id: Int)
         fun handlePressOnSelectLocation(id: Int)
         fun handlePressOnCardSelectLocation(id: Int)
@@ -38,6 +40,7 @@ interface IAddressSelection {
         fun onLocatioenSelected()
         fun toggleMarkerVisibility()
         fun setUpCardFields()
+        fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest)
     }
 
     interface State : IBase.State {
