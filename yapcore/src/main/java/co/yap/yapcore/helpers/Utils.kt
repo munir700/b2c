@@ -165,7 +165,7 @@ object Utils {
                 || "google_sdk" == Build.PRODUCT)
     }
 
-     fun validateEmail(email: String): Boolean {
+    fun validateEmail(email: String): Boolean {
         var isValidEmail = false
         if ("" == email.trim { it <= ' ' }) {
             isValidEmail = false
@@ -234,6 +234,22 @@ object Utils {
             return shortName.toUpperCase()
         }
         return shortName.toUpperCase()
+    }
+
+    fun formatePhoneWithPlus(phoneNumber: String): String {
+        if (phoneNumber.startsWith("00")) {
+            return phoneNumber.replaceRange(
+                0,
+                2,
+                "+"
+            )
+        } else {
+            return phoneNumber
+        }
+    }
+
+    fun getFormattedMobileNumber(countryCode: String, mobile: String): String {
+        return countryCode.trim() + " " + mobile.trim().replace(countryCode.trim(), "")
     }
 
 }

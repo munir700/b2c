@@ -10,6 +10,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 class PersonalDetailsViewModel(application: Application) :

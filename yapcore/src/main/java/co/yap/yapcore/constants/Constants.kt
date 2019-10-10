@@ -8,6 +8,7 @@ object Constants {
     const val TYPE_REMOVE_FUNDS: String = "removeFunds"
     const val CHANGE_MOBILE_NO: String = "CHANGE_MOBILE_NO"
     const val CHANGE_EMAIL: String = "CHANGE_EMAIL"
+    const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
 
 
     //More Option Constants

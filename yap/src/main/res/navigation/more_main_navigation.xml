@@ -40,7 +40,7 @@
         <action
             android:id="@+id/action_personalDetailsFragment_to_documentsDashboardActivity"
             app:destination="@id/documentsDashboardActivity"
-            app:popUpToInclusive="true"></action>
+             app:popUpToInclusive="true"/>
         <action
             android:id="@+id/action_personalDetailsFragment_to_changeEmailFragment"
             app:destination="@id/changeEmailFragment"
