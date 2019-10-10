@@ -273,7 +273,9 @@
                     app:layout_constraintVertical_bias="0.75"
                     app:text="@{Strings.screen_b2c_eid_info_review_button_title_confirm}"
                     tools:ignore="MissingConstraints"
-                    tools:text="@string/screen_b2c_eid_info_review_button_title_confirm" />
+                    tools:text="@string/screen_b2c_eid_info_review_button_title_confirm"
+                    app:enableCoreButton="@{viewModel.state.valid}"
+                    />
 
                 <TextView
                     android:id="@+id/tvNoThanks"

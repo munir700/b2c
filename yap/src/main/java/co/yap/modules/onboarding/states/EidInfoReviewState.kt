@@ -83,4 +83,12 @@ class EidInfoReviewState : BaseState(), IEidInfoReview.State {
             field = value
             notifyPropertyChanged(BR.expiryDateValid)
         }
+
+    @get:Bindable
+    override var valid: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
+
 }

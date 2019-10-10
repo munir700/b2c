@@ -37,13 +37,13 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         super.onActivityCreated(savedInstanceState)
 
         if (DocumentsDashboardActivity.isFromMoreSection) {
+            btnTouchId.enableButton(false)
             tvNoThanks.visibility = GONE
             eidInfoReviewtoolBarLayout.visibility = VISIBLE
             openCardScanner()
+            enableBtn()
 
-
-            tbBtnBack.setOnClickListener(object :
-                View.OnClickListener {
+            tbBtnBack.setOnClickListener(object : View.OnClickListener {
 
                 override fun onClick(v: View?) {
 
@@ -71,6 +71,16 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_NEXT -> findNavController().popBackStack()
             }
         })
+    }
+
+    fun enableBtn() {
+        DocumentsDashboardActivity.isFromMoreSection
+        if (viewModel.state.fullNameValid && viewModel.state.nationalityValid && viewModel.state.dateOfBirthValid && viewModel.state.genderValid && viewModel.state.expiryDateValid){
+            btnTouchId.enableButton(true)
+        }else{
+            btnTouchId.enableButton(false)
+        }
+
     }
 
     override fun onDestroyView() {
