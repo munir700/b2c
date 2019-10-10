@@ -33,6 +33,7 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -343,15 +344,15 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvFollowOnInstagram -> {
-
+                    Utils.openInstagram(requireContext())
                 }
 
                 R.id.tvFollowOnTwitter -> {
-
+                    Utils.openTwitter(requireContext())
                 }
 
                 R.id.tvLikeUsOnFaceBook -> {
-
+                    startActivity(Utils.getOpenFacebookIntent(requireContext()))
                 }
 
                 R.id.ivProfilePic -> {
@@ -359,13 +360,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvLogOut -> {
-
                     logoutAlert()
-
                 }
 
                 R.id.rlAddNewProfilePic -> {
-
                     updatePhotoBottomSheet = UpdatePhotoBottomSheet(this)
                     updatePhotoBottomSheet.show(this!!.fragmentManager!!, "")
                 }
