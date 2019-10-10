@@ -5,15 +5,6 @@
     android:id="@+id/more_main_navigation"
     app:startDestination="@id/profileSettingsFragment">
 
-
-    <fragment
-        android:id="@+id/moreHomeFragment"
-        android:name="co.yap.modules.dashboard.more.home.fragments.MoreHomeFragment"
-        android:label="home"
-        tools:layout="@layout/fragment_more_home">
-
-    </fragment>
-
     <fragment
         android:id="@+id/profileSettingsFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.ProfileSettingsFragment"
@@ -23,7 +14,7 @@
         <action
             android:id="@+id/action_profileSettingsFragment_to_personalDetailsFragment"
             app:destination="@id/personalDetailsFragment"
-              app:enterAnim="@anim/slide_in_right"
+            app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
         <action
@@ -31,7 +22,7 @@
             app:destination="@id/change_pascode_navigation"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -68,13 +59,13 @@
             app:destination="@id/change_email_navigation"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_personalDetailsFragment_to_change_phone_number_navigation"
             app:destination="@id/change_phone_number_navigation"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
     </fragment>
     <include app:graph="@navigation/change_email_navigation" />
     <include app:graph="@navigation/change_phone_number_navigation" />
@@ -94,7 +85,6 @@
             android:name="isFromMoreSection"
             app:argType="boolean" />
     </activity>
-
 
 
 </navigation>

@@ -40,16 +40,15 @@
                 android:textColor="@color/colorSecondaryGreen"
                 android:textSize="@dimen/_24sdp" />
 
-            <ImageView
+            <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivProfilePic"
                 android:layout_width="@dimen/_65sdp"
                 android:layout_height="@dimen/_65sdp"
                 android:contentDescription="@string/app_name"
                 android:onClick="@{(v) -> viewModel.handlePressOnPhoto(v.id)}"
                 android:visibility="@{viewModel.state.nameInitialsVisibility}"
-                app:isRound="@{true}"
                 app:src="@{viewModel.state.profilePictureUrl}" />
-
+            <!--app:isRound="@{true}"-->
 
             <RelativeLayout
                 android:id="@+id/rlAddNewProfilePic"
