@@ -35,6 +35,7 @@
                     app:srcCompat="@drawable/ic_yap_it" />
 
                 <TextView
+                    android:id="@+id/txtYapIt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/ivYapIt"

@@ -1,12 +1,19 @@
 package co.yap.modules.dashboard.activities
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.Window
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
@@ -61,6 +68,12 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         })
 
+        viewModel.showUnverifedscreen.observe(this, Observer {
+            if (it) {
+                showUnverifedPopup()
+            }
+        })
+
         expandableLayout.setOnExpansionUpdateListener { expansionFraction, state ->
             when (state) {
                 ExpandableLayout.State.EXPANDED -> ivChevron.setImageResource(R.drawable.ic_chevron_up)
@@ -68,6 +81,58 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         }
         addListeners(navController)
+    }
+
+    private fun showUnverifedPopup() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_card_details)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
+        val tvCardNumber = dialog.findViewById(R.id.tvCardNumberValue) as TextView
+        val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
+        val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
+        val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
+        tvCardValidity.text = "viewModel.cardDetail.expiryDate"
+        tvCvvV.text = "viewModel.cardDetail.cvv"
+
+//        if (null != viewModel.cardDetail.cardNumber) {
+//            if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
+//                tvCardNumber.text = viewModel.cardDetail.cardNumber
+//            } else {
+//                if (viewModel.cardDetail.cardNumber?.length == 16) {
+//                    val formattedCardNumber: StringBuilder =
+//                        StringBuilder(viewModel.cardDetail.cardNumber)
+//                    formattedCardNumber.insert(4, " ")
+//                    formattedCardNumber.insert(9, " ")
+//                    formattedCardNumber.insert(14, " ")
+//                    tvCardNumber.text = formattedCardNumber
+//                }
+//            }
+//        }
+//
+//        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
+//            tvCardType.text = "Primary card"
+//        } else {
+//            if (viewModel.card.nameUpdated!!) {
+//                tvCardType.text = viewModel.card.cardName
+//            } else {
+//                if (viewModel.card.physical) {
+//                    tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
+//                } else {
+//                    tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
+//                }
+//            }
+//        }
+        btnClose.setOnClickListener {
+           // NavHostFragment.findNavController(this).navigate(action)
+
+            Navigation.findNavController(bottomNav)
+                .navigate(R.id.changeEmailFragment)
+            dialog.dismiss()
+        }
+        dialog.show()
     }
 
     // it should be done using data binding with observable field

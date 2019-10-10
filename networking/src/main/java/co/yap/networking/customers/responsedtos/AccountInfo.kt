@@ -27,7 +27,7 @@ class AccountInfo(
     var soleProprietary: Boolean,
     var iban: String,
     var ibdocumentsVerifiedan: Boolean,
-    var currentCustomerLiveData: MutableLiveData<Customer>
+    private var currentCustomerLiveData: MutableLiveData<Customer>
 ) {
 
     var currentCustomer: Customer

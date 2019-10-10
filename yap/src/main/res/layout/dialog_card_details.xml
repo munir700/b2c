@@ -10,15 +10,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_medium">
-    <ImageView
-        android:id="@+id/ivCross"
-        android:layout_width="@dimen/_26sdp"
-        android:layout_height="@dimen/_26sdp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/margin_normal_large"
-        android:layout_marginBottom="@dimen/margin_small"
-        android:contentDescription="@string/empty_string"
-        android:src="@drawable/ic_close_dark" />
+
+        <ImageView
+            android:id="@+id/ivCross"
+            android:layout_width="@dimen/_26sdp"
+            android:layout_height="@dimen/_26sdp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:contentDescription="@string/empty_string"
+            android:src="@drawable/ic_close_dark" />
     </RelativeLayout>
 
     <ImageView
@@ -37,8 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ivCard"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_normal"
         android:layout_marginStart="@dimen/margin_large"
+        android:layout_marginTop="@dimen/margin_normal"
         android:layout_marginEnd="@dimen/margin_large"
         android:gravity="center"
         android:text="Spare Card" />
@@ -75,8 +76,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rlCardNumber"
-        android:layout_marginBottom="@dimen/margin_large"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/margin_large">
 
         <RelativeLayout
             android:id="@+id/rlCardValidity"
