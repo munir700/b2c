@@ -21,7 +21,6 @@ import com.digitify.identityscanner.modules.docscanner.activities.IdentityScanne
 import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity.CLOSE_SCANNER
 import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
-import kotlinx.android.synthetic.main.layout_add_spare_physical_card_confirm_purchase.view.*
 
 private const val SCAN_EID_CAM = 12
 
@@ -36,36 +35,27 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        PersonalDetailsFragment.checkScanned =true
-        if (DocumentsDashboardActivity.isFromMoreSection) {
-            //also set tool bar here with back btn
 
-//            tvNoThanks.visibility = GONE
-//            eidInfoReviewtoolBarLayout.visibility = VISIBLE
+        if (DocumentsDashboardActivity.isFromMoreSection) {
+            tvNoThanks.visibility = GONE
+            eidInfoReviewtoolBarLayout.visibility = VISIBLE
             openCardScanner()
 
-//            tbBtnBack.tvChangeLocation.setOnClickListener(object :
-//                View.OnClickListener {
-//
-//                override fun onClick(v: View?) {
-//
-////                    activity!!.finish()
-//                }
-//            })
 
+            tbBtnBack.setOnClickListener(object :
+                View.OnClickListener {
 
-//            PersonalDetailsFragment.checkMore = true
-//            findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+                override fun onClick(v: View?) {
+
+                    activity!!.finish()
+                }
+            })
 
         } else {
-//            tvNoThanks.visibility = VISIBLE
-//            eidInfoReviewtoolBarLayout.visibility = GONE
+            tvNoThanks.visibility = VISIBLE
+            eidInfoReviewtoolBarLayout.visibility = GONE
 
         }
-
-//        if (DocumentsDashboardActivity.isFromMoreSection && hasStartedScanner) {
-//            activity!!.finish()
-//        }
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -129,8 +119,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             hasStartedScanner = false
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
-//                PersonalDetailsFragment.checkScanned = true
-                CLOSE_SCANNER = true
+                if (DocumentsDashboardActivity.isFromMoreSection) {
+                    CLOSE_SCANNER = true
+                }
             }
         }
     }
@@ -153,7 +144,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     override fun openCardScanner() {
-        hasStartedScanner = true
+        if (DocumentsDashboardActivity.isFromMoreSection) {
+            hasStartedScanner = true
+        }
         startActivityForResult(
             IdentityScannerActivity.getLaunchIntent(
                 requireContext(),
