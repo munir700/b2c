@@ -12,8 +12,15 @@ import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
 
+
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     IPersonalDetail.View {
+    companion object {
+        var checkMore: Boolean = false
+        var checkScanned: Boolean= false
+
+    }
+
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -35,7 +42,13 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.state.errorVisibility =
             arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
 
-         viewModel.clickEvent.observe(this, Observer {
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
                 R.id.tvEditPhoneNumber -> {
@@ -52,6 +65,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.cvCard -> {
                     if (viewModel.state.errorVisibility) {
+
                         val action =
                             PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
                                 viewModel.state.fullName, true

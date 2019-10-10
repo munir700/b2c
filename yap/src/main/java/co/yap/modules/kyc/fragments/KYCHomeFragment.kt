@@ -9,6 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
+import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkMore
+import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment.Companion.checkScanned
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity.Companion.isFromMoreSection
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
@@ -32,10 +34,18 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        if (isFromMoreSection){
-            tvSkip.visibility=View.GONE
-        }else{
-            tvSkip.visibility=View.VISIBLE
+        if (isFromMoreSection) {
+            tvSkip.visibility = View.GONE
+
+            checkMore = true
+            findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
+
+        } else {
+            IdentityScannerActivity.CLOSE_SCANNER = false
+            tvSkip.visibility = View.VISIBLE
+        }
+        if (checkMore && checkScanned) {
+            activity!!.finish()
         }
 
         (viewModel.state as KYCHomeState).addOnPropertyChangedCallback(stateObserver)
@@ -43,9 +53,9 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             when (it) {
                 R.id.cvCard -> openCardScanner()
                 R.id.btnNext -> {
-                    if (isFromMoreSection){
-                         activity!!.finish()
-                    }else{
+                    if (isFromMoreSection) {
+                        activity!!.finish()
+                    } else {
                         findNavController().navigate(R.id.action_KYCHomeFragment_to_AddressSelectionFragment)
                     }
                 }
@@ -80,7 +90,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
-                viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
+                data?.let {
+
+                    viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
+                    checkScanned = true
+                }
             }
         }
     }
@@ -95,6 +109,14 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             SCAN_EID_CAM
         )
     }
+
+    override fun onResume() {
+        super.onResume()
+        if (checkMore) {
+            activity!!.finish()
+        }
+    }
+
 
     override fun onBackPressed(): Boolean {
         return true
