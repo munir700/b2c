@@ -2,17 +2,21 @@ package co.yap.modules.forgotpasscode.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeSuccess
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeSuccessViewModel
 import co.yap.yapcore.*
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
 
 class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess.ViewModel>() {
+    val args:ForgotPasscodeSuccessFragmentArgs by navArgs()
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -26,18 +30,28 @@ class ForgotPasscodeSuccessFragment : BaseBindingFragment<IForgotPasscodeSuccess
         sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.handlePressOnButtonEvent.observe(this, Observer {
+            if (args.navigationType==Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE){
+                activity?.finish()
+            }else{
+                sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)
+                val intent=Intent(context,Class.forName("co.yap.app.activities.MainActivity"))
 
-            sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)
-            val intent=Intent(context,Class.forName("co.yap.app.activities.MainActivity"))
-
-            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
-            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
-            intent.flags=Intent.FLAG_ACTIVITY_NO_HISTORY
-            intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK
-            startActivity(intent)
-            activity?.finish()
+                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
+                intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+                intent.flags=Intent.FLAG_ACTIVITY_NO_HISTORY
+                intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                activity?.finish()
+            }
            // findNavController().popBackStack(R.id.loginFragment,false)
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (args.navigationType==Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE){
+            viewModel.state.buttonTitle="Done"
+        }
     }
 
     override fun onBackPressed(): Boolean {

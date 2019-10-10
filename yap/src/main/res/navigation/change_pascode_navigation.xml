@@ -20,6 +20,7 @@
             app:destination="@id/forgot_passcode_navigation"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left">
+
             <argument
                 android:name="username"
                 app:argType="string"
@@ -30,6 +31,10 @@
                 android:defaultValue="false"/>
             <argument
                 android:name="mobileNumber"
+                app:argType="string"
+                android:defaultValue=" "/>
+            <argument
+                android:name="navigationType"
                 app:argType="string"
                 android:defaultValue=" "/>
         </action>
@@ -48,7 +53,24 @@
             android:id="@+id/action_updateNewPasscodeFragment_to_forgot_passcode_navigation"
             app:destination="@id/forgot_passcode_navigation"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left">
+            <argument
+                android:name="username"
+                app:argType="string"
+                android:defaultValue=" "/>
+            <argument
+                android:name="emailOtp"
+                app:argType="boolean"
+                android:defaultValue="false"/>
+            <argument
+                android:name="mobileNumber"
+                app:argType="string"
+                android:defaultValue=" "/>
+            <argument
+                android:name="navigationType"
+                app:argType="string"
+                android:defaultValue=" "/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/updateConfirmPasscodeFragment"
@@ -72,7 +94,24 @@
             android:id="@+id/action_updateConfirmPasscodeFragment_to_forgot_passcode_navigation"
             app:destination="@id/forgot_passcode_navigation"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left">
+            <argument
+                android:name="username"
+                app:argType="string"
+                android:defaultValue=" "/>
+            <argument
+                android:name="emailOtp"
+                app:argType="boolean"
+                android:defaultValue="false"/>
+            <argument
+                android:name="mobileNumber"
+                app:argType="string"
+                android:defaultValue=" "/>
+            <argument
+                android:name="navigationType"
+                app:argType="string"
+                android:defaultValue=" "/>
+        </action>
     </fragment>
     <fragment
         android:id="@+id/successFragment2"

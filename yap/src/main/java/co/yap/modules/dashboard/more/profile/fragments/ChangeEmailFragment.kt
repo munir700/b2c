@@ -11,8 +11,11 @@ import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
+import co.yap.networking.customers.responsedtos.Customer
 import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 
 
 class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeEmail.View {
@@ -30,10 +33,11 @@ class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), IChangeE
     private fun setObservers() {
         viewModel.success.observe(this, Observer {
             if (it) {
+                val customer: Customer = MyUserManager.user!!.customer
                 val action =
                     ChangeEmailFragmentDirections.actionChangeEmailFragmentToGenericOtpFragment(
                         otpType = Constants.CHANGE_EMAIL,
-                        mobileNumber = "971" +"3025101902"
+                        mobileNumber = Utils.getFormattedMobileNumber(customer.countryCode, customer.mobileNo)
                     )
                 findNavController().navigate(action)
             }

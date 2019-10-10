@@ -7,6 +7,7 @@ import androidx.navigation.fragment.navArgs
 import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
+import co.yap.yapcore.helpers.Utils
 
 class GenericOtpFragment : ForgotPasscodeOtpFragment() {
     val args: GenericOtpFragmentArgs? by navArgs()
@@ -27,26 +28,14 @@ class GenericOtpFragment : ForgotPasscodeOtpFragment() {
         }
 
         viewModel.destination = args!!.username
-        // viewModel.destination=args.mobileNumber
         viewModel.emailOtp = args!!.emailOtp
         viewModel.action = args!!.otpType
-       // viewModel.phone = args!!.mobileNumber
-
     }
 
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
             MoreActivity.navigationVariable = true
             findNavController().navigateUp()
-//            when (viewModel.action) {
-//                Constants.CHANGE_EMAIL -> {
-//                    MoreActivity.navigationVariable = true
-//                    findNavController().navigateUp()
-////                    val action=GenericOtpFragmentDirections.actionGenericOtpFragmentToChangeEmailSuccessFragment("",viewModel.destination)
-////                    findNavController().navigate(R.id.action_genericOtpFragment_to_changeEmailSuccessFragment)
-//                }
-//                //"CHANGE_PHONE_NUMBER" ->
-//            }
         })
     }
 

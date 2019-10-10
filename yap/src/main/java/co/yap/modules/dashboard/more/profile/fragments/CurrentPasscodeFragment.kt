@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SetNewCardPinF
 import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.CurrentPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 class CurrentPasscodeFragment :ChangeCardPinFragment(){
@@ -33,9 +34,7 @@ class CurrentPasscodeFragment :ChangeCardPinFragment(){
                     sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                 ) as String
             }
-
-
-            val action=CurrentPasscodeFragmentDirections.actionCurrentPasscodeFragmentToForgotPasscodeNavigation(username,viewModel.emailOtp,viewModel.mobileNumber)
+            val action=CurrentPasscodeFragmentDirections.actionCurrentPasscodeFragmentToForgotPasscodeNavigation(username,viewModel.emailOtp,viewModel.mobileNumber,Constants.FORGOT_PASSCODE_FROM_CHANGE_PASSCODE)
             findNavController().navigate(action)
         })
 

@@ -11,6 +11,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 class PersonalDetailsViewModel(application: Application) :
@@ -63,7 +64,7 @@ class PersonalDetailsViewModel(application: Application) :
         super.onCreate()
         val customer: Customer = MyUserManager.user!!.customer
         state.fullName = customer.firstName + " " + customer.lastName
-        state.phoneNumber = customer.countryCode+" "+customer.mobileNo
+        state.phoneNumber = Utils.formatePhoneWithPlus(Utils.getFormattedMobileNumber(customer.countryCode, customer.mobileNo))
         state.email = customer.email
     }
 
