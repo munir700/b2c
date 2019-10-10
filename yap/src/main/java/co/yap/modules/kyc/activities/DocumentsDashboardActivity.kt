@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragmentArgs
 import co.yap.modules.kyc.interfaces.IDocumentsDashboard
 import co.yap.modules.kyc.viewmodels.DocumentsDashboardViewModel
 import co.yap.yapcore.BaseBindingActivity
@@ -13,11 +12,14 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
 
-class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator, IFragmentHolder {
+class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
+    IFragmentHolder {
 
-    companion object{
-        var isFromMoreSection:Boolean=false
+    companion object {
+        var isFromMoreSection: Boolean = false
+        var hasStartedScanner: Boolean = false
 
     }
 
@@ -35,9 +37,9 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override fun onBackPressed() {
 
         val fragment = supportFragmentManager.findFragmentById(R.id.kyc_host_fragment)
-        if(isFromMoreSection){
+        if (isFromMoreSection) {
             super.onBackPressed()
-        }else{
+        } else {
             if (!BackPressImpl(fragment).onBackPressed()) {
                 super.onBackPressed()
             }
@@ -48,7 +50,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.name = getBundledName()
-             isFromMoreSection =   intent.getBooleanExtra("isFromMoreSection",false)
+        isFromMoreSection = intent.getBooleanExtra("isFromMoreSection", false)
 
 
     }
@@ -57,5 +59,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     private fun getBundledName(): String {
         return intent.getStringExtra(getString(R.string.arg_name))
     }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (isFromMoreSection) {
+            IdentityScannerActivity.CLOSE_SCANNER = false
+        }
+    }
+
 
 }
