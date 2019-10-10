@@ -60,6 +60,7 @@ class YapDashBoardViewModel(application: Application) :
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
+                    MyUserManager.user?.currentCustomer = MyUserManager.user?.customer
                     getAccountInfoSuccess.value = true
                     populateState()
                 }
@@ -73,7 +74,8 @@ class YapDashBoardViewModel(application: Application) :
         launch {
             when (val response = cardsRepository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.cardBalance.value = CardBalance(availableBalance = response.data.data.availableBalance.toString())
+                    MyUserManager.cardBalance.value =
+                        CardBalance(availableBalance = response.data.data.availableBalance.toString())
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

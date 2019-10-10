@@ -192,6 +192,7 @@ class EmailViewModel(application: Application) :
                             nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                         }, 400)
                         MyUserManager.user = response.data.data[0]
+                        MyUserManager.user?.currentCustomer = MyUserManager.user?.customer
                         state.valid = true
 
 
