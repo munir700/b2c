@@ -87,15 +87,15 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
-        dialog.setContentView(R.layout.dialog_card_details)
+        dialog.setContentView(R.layout.dialog_change_unverified_email)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
+       /* val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
         val tvCardNumber = dialog.findViewById(R.id.tvCardNumberValue) as TextView
         val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
         val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
         val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
         tvCardValidity.text = "viewModel.cardDetail.expiryDate"
-        tvCvvV.text = "viewModel.cardDetail.cvv"
+        tvCvvV.text = "viewModel.cardDetail.cvv"*/
 
 //        if (null != viewModel.cardDetail.cardNumber) {
 //            if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
@@ -125,13 +125,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 //                }
 //            }
 //        }
-        btnClose.setOnClickListener {
+        /*btnClose.setOnClickListener {
            // NavHostFragment.findNavController(this).navigate(action)
 
             Navigation.findNavController(bottomNav)
                 .navigate(R.id.changeEmailFragment)
             dialog.dismiss()
-        }
+        }*/
         dialog.show()
     }
 
