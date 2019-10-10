@@ -62,7 +62,11 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_ERROR_EXPIRED_EID -> showExpiredEidAlert()
                 viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
-                viewModel.EVENT_RESCAN -> openCardScanner()
+                viewModel.EVENT_RESCAN -> {
+                    CLOSE_SCANNER = false
+                    openCardScanner()
+                }
+
                 viewModel.EVENT_NEXT_WITH_ERROR -> findNavController().navigate(R.id.action_eidInfoReviewFragment_to_informationErrorFragment)
                 viewModel.EVENT_NEXT -> findNavController().popBackStack()
             }
