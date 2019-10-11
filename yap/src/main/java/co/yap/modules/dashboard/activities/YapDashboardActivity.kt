@@ -1,19 +1,19 @@
 package co.yap.modules.dashboard.activities
 
 import android.app.Dialog
+import android.content.Intent
+import android.content.Intent.*
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
 import android.view.Window
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
@@ -22,6 +22,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.interfaces.IYapDashboard
 import co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel
+import co.yap.widgets.CoreButton
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -30,6 +31,7 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
+
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
     INavigator,
@@ -89,50 +91,18 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_change_unverified_email)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-       /* val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
-        val tvCardNumber = dialog.findViewById(R.id.tvCardNumberValue) as TextView
-        val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
-        val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
-        val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
-        tvCardValidity.text = "viewModel.cardDetail.expiryDate"
-        tvCvvV.text = "viewModel.cardDetail.cvv"*/
-
-//        if (null != viewModel.cardDetail.cardNumber) {
-//            if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
-//                tvCardNumber.text = viewModel.cardDetail.cardNumber
-//            } else {
-//                if (viewModel.cardDetail.cardNumber?.length == 16) {
-//                    val formattedCardNumber: StringBuilder =
-//                        StringBuilder(viewModel.cardDetail.cardNumber)
-//                    formattedCardNumber.insert(4, " ")
-//                    formattedCardNumber.insert(9, " ")
-//                    formattedCardNumber.insert(14, " ")
-//                    tvCardNumber.text = formattedCardNumber
-//                }
-//            }
-//        }
-//
-//        if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
-//            tvCardType.text = "Primary card"
-//        } else {
-//            if (viewModel.card.nameUpdated!!) {
-//                tvCardType.text = viewModel.card.cardName
-//            } else {
-//                if (viewModel.card.physical) {
-//                    tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
-//                } else {
-//                    tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
-//                }
-//            }
-//        }
-        /*btnClose.setOnClickListener {
-           // NavHostFragment.findNavController(this).navigate(action)
-
-            Navigation.findNavController(bottomNav)
-                .navigate(R.id.changeEmailFragment)
+        dialog.findViewById<CoreButton>(R.id.btnOpenMailApp).setOnClickListener {
+            val intent = Intent(ACTION_MAIN)
+            intent.addCategory(CATEGORY_APP_EMAIL)
+            startActivity(createChooser(intent, "Choose"))
+        }
+        dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
-        }*/
+        }
         dialog.show()
+        //startActivity(
+        //   UnVerifiedEmailActivity.newIntent(this)
+        //)
     }
 
     // it should be done using data binding with observable field
