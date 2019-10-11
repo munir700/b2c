@@ -43,6 +43,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_address_selection.*
 import kotlinx.android.synthetic.main.layout_maps.*
 
@@ -99,6 +100,9 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
                 viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
                 viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
+                viewModel.mDefaultLocation= LatLng( MyUserManager.userAddress!!.latitude!!  , MyUserManager.userAddress!!.longitude!!  )
+//                viewModel.mDefaultLocation.latitude = MyUserManager.userAddress!!.latitude!! as Double
+//                viewModel.mDefaultLocation.longitude = MyUserManager.userAddress!!.longitude!! as Double
             }
 
             viewModel.state.isFromPersonalDetailView = true
@@ -233,8 +237,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                                 getString(R.string.screen_spare_card_landing_display_text_physical_card),
                                 viewModel.state.placeTitle,
                                 viewModel.state.placeSubTitle,
-                                viewModel.mLastKnownLocation.latitude.toString(),
-                                viewModel.mLastKnownLocation.longitude.toString(),
+                                viewModel.mDefaultLocation.latitude.toString(),
+                                viewModel.mDefaultLocation.longitude.toString(),
                                 false
 
                             )
@@ -246,8 +250,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
                             viewModel.state.placeTitle,
                             viewModel.state.placeSubTitle,
-                            viewModel.mLastKnownLocation.latitude.toString(),
-                            viewModel.mLastKnownLocation.longitude.toString()
+                                     viewModel.mDefaultLocation.latitude.toString(),
+                            viewModel.mDefaultLocation.longitude.toString()
                         )
                          MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
                         MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle

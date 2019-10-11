@@ -45,12 +45,11 @@ import java.util.*
 class AddressSelectionViewModel(application: Application) :
     BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel, IRepositoryHolder<CardsRepository> {
-    override lateinit var updateAddressRequest: UpdateAddressRequest
 
     private val TAG = "AddressSelectionFragment"
     private lateinit var mMap: GoogleMap
     private var DEFAULT_ZOOM = 15
-    private var mDefaultLocation = LatLng(25.276987, 55.296249)
+    override var mDefaultLocation = LatLng(25.276987, 55.296249)
     lateinit var icon: BitmapDescriptor
     private lateinit var placesClient: PlacesClient
     lateinit var mFusedLocationProviderClient: FusedLocationProviderClient
@@ -88,6 +87,12 @@ class AddressSelectionViewModel(application: Application) :
         get() = field
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+
+    override var selectedLocationLatitude: Double = 0.0
+    override var selectedLocationLongitude: Double  = 0.0
+
+    override lateinit var updateAddressRequest: UpdateAddressRequest
+
 
     fun mapDetailViewActivity(): Activity {
         return Activity()
@@ -269,9 +274,15 @@ class AddressSelectionViewModel(application: Application) :
     }
 
     override fun handlePressOnNext(id: Int) {
+        selectedLocationLatitude
 
-        mLastKnownLocation.latitude = mDefaultLocation.latitude
-        mLastKnownLocation.longitude = mDefaultLocation.longitude
+//        mLastKnownLocation.latitude = mDefaultLocation.latitude
+//        mLastKnownLocation.longitude = mDefaultLocation.longitude
+        if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
+            mLastKnownLocation.latitude = mDefaultLocation.latitude
+            mLastKnownLocation.longitude = mDefaultLocation.longitude
+        }
+
 
         if (state.isFromPhysicalCardsLayout) {
 //           start old fragment by taking address address

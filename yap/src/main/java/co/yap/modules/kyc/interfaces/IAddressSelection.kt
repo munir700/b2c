@@ -5,12 +5,12 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.location.Location
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
 
 interface IAddressSelection {
 
@@ -22,8 +22,8 @@ interface IAddressSelection {
     interface ViewModel : IBase.ViewModel<State> {
         var checkGps: Boolean
         var mapFragment: SupportMapFragment?
-        var  mLastKnownLocation: Location
-//        var mapDetailViewActivity: DocumentsDashboardActivity
+        var mLastKnownLocation: Location
+
         var mapDetailViewActivity: Activity
         val clickEvent: SingleClickEvent
         val onSuccess: MutableLiveData<Int>
@@ -37,8 +37,9 @@ interface IAddressSelection {
         fun handlePressOnCloseMap(id: Int)
         fun initMap()
         fun onMapInit(p0: GoogleMap?)
-//        fun getDeviceLocation(activity: DocumentsDashboardActivity)
-//        fun getDefaultLocationMap(activity: DocumentsDashboardActivity)
+        var selectedLocationLatitude: Double
+        var selectedLocationLongitude: Double
+
         fun getDeviceLocation(activity: Activity)
         fun getDefaultLocationMap(activity: Activity)
         fun onLocatioenSelected()
@@ -46,6 +47,7 @@ interface IAddressSelection {
         fun setUpCardFields()
         fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest)
         var updateAddressRequest: UpdateAddressRequest
+        var mDefaultLocation : LatLng
     }
 
     interface State : IBase.State {
