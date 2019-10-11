@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
 
@@ -12,22 +13,25 @@ class UnverifiedChangeEmailViewModel(application: Application) :ChangeEmailViewM
     override fun onHandlePressOnNextButton() {
         if (state.confirmEmailValidation()) {
 
-            /*launch {
+            launch {
                 state.loading = true
                 when (val response =
                     repository.validateEmail(state.newEmail)) {
-                    is RetroApiResponse.Success -> {
+                    is RetroApiResponse.Error -> {
                         changeUnverifiedEmailRequest()
                     }
 
-                    is RetroApiResponse.Error -> {
+                    is RetroApiResponse.Success -> {
                         state.loading = false
-                        state.errorMessage = response.error.message
+                        // state.errorMessage = response.error.message
+                        state.drawableNew =  context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+                        state.drawableConfirm = context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+
                     }
 
                 }
-            }*/
-            success.value = true
+            }
+           // success.value = true
         }
     }
     private fun changeUnverifiedEmailRequest(){
