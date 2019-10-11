@@ -1,13 +1,22 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
+import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.IUnverifiedChangeEmailSuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailSuccessViewModel
+import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.managers.MyUserManager
+import kotlinx.android.synthetic.main.fragment_unverified_change_email_success.*
 
 class UnverifiedChangeEmailSuccessFragment : BaseBindingFragment<IUnverifiedChangeEmailSuccess.ViewModel>(),IUnverifiedChangeEmailSuccess.View{
     override fun getBindingVariable(): Int = BR.viewModel
@@ -26,6 +35,27 @@ class UnverifiedChangeEmailSuccessFragment : BaseBindingFragment<IUnverifiedChan
             }
 
         })
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        if (context is UnVerifiedEmailActivity)
+        (context as UnVerifiedEmailActivity).hideToolbar()
+        val email=MyUserManager.user?.currentCustomer?.email
+
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
+
+        val separatedPrimary =
+            getString(Strings.screen_unverified_success_display_text_sub_heading).split(email!!)
+        val primaryStr = SpannableStringBuilder(getString(Strings.screen_unverified_success_display_text_sub_heading) + email)
+
+        primaryStr.setSpan(
+            fcs,
+            separatedPrimary[0].length,
+            primaryStr.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        tvUnverifySuccessSubHeading.text = primaryStr
     }
 
 }

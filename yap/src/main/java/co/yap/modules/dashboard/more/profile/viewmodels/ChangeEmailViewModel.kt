@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.states.ChangeEmailState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
@@ -36,15 +35,13 @@ open class ChangeEmailViewModel(application: Application) :
                 state.loading = true
                 when (val response =
                     repository.validateEmail(state.newEmail)) {
-                    is RetroApiResponse.Error -> {
+                    is RetroApiResponse.Success -> {
                        createOtp()
                     }
 
-                    is RetroApiResponse.Success -> {
+                    is RetroApiResponse.Error -> {
                         state.loading = false
-                       // state.errorMessage = response.error.message
-                        state.backgroundNew =  context.getDrawable(R.drawable.bg_edit_text_red_under_line)
-                        state.backgroundConfirm = context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+                        state.errorMessage = response.error.message
 
                     }
 
@@ -92,6 +89,6 @@ open class ChangeEmailViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("Change email")
+      //  setToolBarTitle("Change email")
     }
 }

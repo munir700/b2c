@@ -442,4 +442,14 @@
 
 
 
+<!--     Unverified change email success Screen-->
+
+    <string name="screen_unverified_success_display_text_heading">Success!</string>;
+    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>;
+    <string name="screen_unverified_success_display_text_description">Please log in to your email address to validate your email and continue with\naccess to YAP!</string>;
+    <string name="screen_unverified_display_button_mail">Open mail app</string>;
+    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
+
+
+
 </resources>

@@ -14,122 +14,126 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ScrollView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@color/white"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white">
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toTopOf="@+id/btnAction"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <TextView
-                        android:id="@+id/tvChangeNewEmailHeading"
-                        style="@style/ASmallGrey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium_large"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:text="Enter your new email address"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <EditText
-                        android:id="@+id/etNewEmail"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium_large"
-                        android:layout_marginEnd="@dimen/margin_medium_large"
-                        android:background="@{viewModel.state.backgroundNew}"
-                        android:imeOptions="actionNext"
-                        android:hint="New email address"
-                        android:drawableEnd="@{viewModel.state.drawableNew}"
-                        android:importantForAutofill="no"
-                        android:inputType="textEmailAddress"
-                        android:text="@={viewModel.state.newEmail}"
-                        app:layout_constraintTop_toBottomOf="@+id/tvChangeNewEmailHeading" />
-
-                    <TextView
-                        android:id="@+id/tvRepeatNewEmailHeading"
-                        style="@style/ASmallGrey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium_large"
-                        android:layout_marginTop="@dimen/margin_large"
-                        android:text="Re-enter your new email address"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/etNewEmail" />
-
-                        <EditText
-                            android:id="@+id/etNewConfirmEmail"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:imeOptions="actionDone"
-                            android:drawableEnd="@{viewModel.state.drawableConfirm}"
-                            android:background="@{viewModel.state.backgroundConfirm}"
-                            android:layout_marginStart="@dimen/margin_medium_large"
-                            android:layout_marginEnd="@dimen/margin_medium_large"
-                            android:hint="New email address"
-                            app:layout_constraintTop_toBottomOf="@+id/tvRepeatNewEmailHeading"
-                            android:text="@={viewModel.state.newConfirmEMail}"
-                            android:inputType="textEmailAddress"
-                            android:importantForAutofill="no" />
-
-                    <TextView
-                        style="@style/MicroGrey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/margin_medium_large"
-                        android:layout_marginEnd="@dimen/margin_medium_large"
-                        android:text="@{viewModel.state.errorMessage}"
-                        android:textColor="@color/error"
-                        app:layout_constraintTop_toBottomOf="@+id/etNewConfirmEmail" />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                <co.yap.widgets.CoreButton
-                    android:id="@+id/btnAction"
-                    style="@style/FragmentsBtnStyle"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_xxl"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="@dimen/margin_xxl"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:onClick="@{(v)->viewModel.onHandlePressOnNextButton()}"
-                    app:enableCoreButton="@{viewModel.state.valid}"
-                    android:text="Next"
-                    app:layout_constraintBottom_toTopOf="@+id/tvEmailSendDescription"
-                    app:layout_constraintHorizontal_bias="1.0"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintVertical_bias="0.958"
-                    tools:text="Add" />
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/btnAction"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/tvEmailSendDescription"
+                    android:id="@+id/tvChangeEmailHeader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/Large"
+                    android:text="Change Email"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tvChangeNewEmailHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:text="Enter your new email address"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChangeEmailHeader" />
+
+                <EditText
+                    android:id="@+id/etNewEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:background="@{viewModel.state.backgroundNew}"
+                    android:drawableEnd="@{viewModel.state.drawableNew}"
+                    android:hint="New email address"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.state.newEmail}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvChangeNewEmailHeading" />
+
+                <TextView
+                    android:id="@+id/tvRepeatNewEmailHeading"
+                    style="@style/ASmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_large"
+                    android:text="Re-enter your new email address"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/etNewEmail" />
+
+                <EditText
+                    android:id="@+id/etNewConfirmEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:background="@{viewModel.state.backgroundConfirm}"
+                    android:drawableEnd="@{viewModel.state.drawableConfirm}"
+                    android:hint="New email address"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="textEmailAddress"
+                    android:text="@={viewModel.state.newConfirmEMail}"
+                    app:layout_constraintTop_toBottomOf="@+id/tvRepeatNewEmailHeading" />
+
+                <TextView
                     style="@style/MicroGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginEnd="@dimen/margin_medium_large"
-                    android:gravity="center"
-                    android:layout_marginBottom="@dimen/margin_small"
-                    android:text="An email will be sent to your email address for\n verification."
-                    android:textAlignment="center"
-                    app:layout_constraintBottom_toBottomOf="parent" />
+                    android:text="@{viewModel.state.errorMessage}"
+                    android:textColor="@color/greyDark"
+                    app:layout_constraintTop_toBottomOf="@+id/etNewConfirmEmail"
+                    tools:text="this email is registered with another account" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </ScrollView>
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnAction"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:onClick="@{(v)->viewModel.onHandlePressOnNextButton()}"
+                android:text="Next"
+                app:enableCoreButton="@{viewModel.state.valid}"
+                app:layout_constraintBottom_toTopOf="@+id/tvEmailSendDescription"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintVertical_bias="0.958"
+                tools:text="Add" />
+
+            <TextView
+                android:id="@+id/tvEmailSendDescription"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:gravity="center"
+                android:text="An email will be sent to your email address for\n verification."
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

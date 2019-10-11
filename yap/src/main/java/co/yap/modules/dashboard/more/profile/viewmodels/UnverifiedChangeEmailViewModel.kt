@@ -2,9 +2,9 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.R
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.models.RetroApiResponse
+import co.yap.yapcore.managers.MyUserManager
 
 class UnverifiedChangeEmailViewModel(application: Application) :ChangeEmailViewModel(application) {
     override val success: MutableLiveData<Boolean> = MutableLiveData()
@@ -17,18 +17,15 @@ class UnverifiedChangeEmailViewModel(application: Application) :ChangeEmailViewM
                 state.loading = true
                 when (val response =
                     repository.validateEmail(state.newEmail)) {
-                    is RetroApiResponse.Error -> {
+                    is RetroApiResponse.Success -> {
                         changeUnverifiedEmailRequest()
                     }
 
-                    is RetroApiResponse.Success -> {
+                    is RetroApiResponse.Error -> {
                         state.loading = false
-                        // state.errorMessage = response.error.message
-                        state.drawableNew =  context.getDrawable(R.drawable.bg_edit_text_red_under_line)
-                        state.drawableConfirm = context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+                        state.errorMessage = response.error.message
 
                     }
-
                 }
             }
            // success.value = true
@@ -39,6 +36,7 @@ class UnverifiedChangeEmailViewModel(application: Application) :ChangeEmailViewM
             when (val response =
                 repository.changeUnverifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
+                    MyUserManager.user?.currentCustomer?.email=state.newEmail
                     success.value = true
                 }
 
