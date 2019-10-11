@@ -20,7 +20,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         var checkScanned: Boolean = false
 
     }
- var changeAddress: Boolean = false
+    var changeAddress: Boolean = false
 
     override fun getBindingVariable(): Int = BR.viewModel
 

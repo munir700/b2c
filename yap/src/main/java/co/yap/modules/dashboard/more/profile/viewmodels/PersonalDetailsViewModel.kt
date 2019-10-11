@@ -66,7 +66,7 @@ class PersonalDetailsViewModel(application: Application) :
     }
 
     fun requestGetAddressForPhysicalCard() {
-
+        state.loading = true
         launch {
             when (val response = repository.getUserAddressRequest()) {
                 is RetroApiResponse.Success -> {
