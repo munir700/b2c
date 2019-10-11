@@ -158,7 +158,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             when(it){
 
                viewModel.UPDATE_ADDRESS_EEVENT -> {
-                   showToast("ON_UPDATE_ADDRESS_EVENT")
                    val action =
                        AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(getString(R.string.screen_address_success_display_text_sub_heading),
                            " "
@@ -196,17 +195,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 R.id.btnConfirm -> {
                     slideDownLocationCard()
                 }
-//
-//                viewModel.ON_UPDATE_ADDRESS_EVENT -> {
-//                    showToast("ON_UPDATE_ADDRESS_EVENT")
-//                    val action =
-//                        AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
-//                            getString("Your location address has been changed to"),
-//                            " "
-//                        )
-//
-//                    findNavController().navigate(action)
-//                }
 
                 R.id.ivClose -> {
                     viewModel.state.isMapOnScreen = false
@@ -258,8 +246,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                             viewModel.mLastKnownLocation.latitude.toString(),
                             viewModel.mLastKnownLocation.longitude.toString()
                         )
-//                        viewModel.updateAddressRequest = updateAddressRequest
-                        MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
+                         MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
                         MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle
                         viewModel.requestUpdateAddress(updateAddressRequest)
 
@@ -273,13 +260,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         }
                     }
                 }
-//
-                viewModel.ON_UPDATE_ADDRESS_EVENT -> {
-
-                }
-//
-
-
 
                 viewModel.GPS_CLICK_EEVENT -> {
                      isLocationSettingsDialogue = false
