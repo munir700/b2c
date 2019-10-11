@@ -4,10 +4,14 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -22,11 +26,13 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.interfaces.IYapDashboard
 import co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -84,18 +90,43 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun showUnverifedPopup() {
+
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_change_unverified_email)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-       /* val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
-        val tvCardNumber = dialog.findViewById(R.id.tvCardNumberValue) as TextView
-        val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
-        val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
-        val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
-        tvCardValidity.text = "viewModel.cardDetail.expiryDate"
-        tvCvvV.text = "viewModel.cardDetail.cvv"*/
+        val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
+        val tvEmail = dialog.findViewById<TextView>(R.id.tvEmail)
+        val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
+        tvUnverifiedDescription.text =
+            getString(Strings.screen_email_verified_popup_display_text_title).format(
+                MyUserManager.user!!.currentCustomer.firstName
+            )
+        tvEmail.text = MyUserManager.user!!.currentCustomer.email
+
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
+
+        val separatedPrimary =
+            getString(Strings.screen_email_verified_popup_display_text_click_here).split(getString(Strings.screen_email_verified_popup_button_title_click_here))
+        val spanStr = SpannableStringBuilder(getString(Strings.screen_email_verified_popup_display_text_click_here) + getString(Strings.screen_email_verified_popup_button_title_click_here))
+
+        spanStr.setSpan(
+            fcs,
+            separatedPrimary[0].length,
+            spanStr.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        tvTroubleDescription.text=spanStr
+
+
+        /* val btnClose = dialog.findViewById(R.id.ivCross) as ImageView
+         val tvCardNumber = dialog.findViewById(R.id.tvCardNumberValue) as TextView
+         val tvCardValidity = dialog.findViewById(R.id.tvCardValidityValue) as TextView
+         val tvCvvV = dialog.findViewById(R.id.tvCvvValue) as TextView
+         val tvCardType = dialog.findViewById(R.id.tvCardType) as TextView
+         tvCardValidity.text = "viewModel.cardDetail.expiryDate"
+         tvCvvV.text = "viewModel.cardDetail.cvv"*/
 
 //        if (null != viewModel.cardDetail.cardNumber) {
 //            if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
