@@ -6,9 +6,13 @@ import android.content.Intent.*
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.Window
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.Observer
@@ -22,16 +26,17 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.interfaces.IYapDashboard
 import co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel
+import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.IBaseNavigator
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
-
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
     INavigator,
@@ -72,7 +77,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
         viewModel.showUnverifedscreen.observe(this, Observer {
             if (it) {
-                showUnverifedPopup()
+                showUnverifiedPopup()
             }
         })
 
@@ -85,12 +90,45 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners(navController)
     }
 
-    private fun showUnverifedPopup() {
+    private fun showUnverifiedPopup() {
+
         val dialog = Dialog(this)
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_change_unverified_email)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        val tvUnverifiedDescription = dialog.findViewById<TextView>(R.id.tvUnverifiedDescription)
+        val tvEmail = dialog.findViewById<TextView>(R.id.tvEmail)
+        val tvTroubleDescription = dialog.findViewById<TextView>(R.id.tvTroubleDescription)
+        tvUnverifiedDescription.text =
+            getString(Strings.screen_email_verified_popup_display_text_title).format(
+                MyUserManager.user!!.currentCustomer.firstName
+            )
+        tvEmail.text = MyUserManager.user!!.currentCustomer.email
+
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
+
+        val separatedPrimary =
+            getString(Strings.screen_email_verified_popup_display_text_click_here).split(
+                getString(
+                    Strings.screen_email_verified_popup_button_title_click_here
+                )
+            )
+        val spanStr = SpannableStringBuilder(
+            getString(Strings.screen_email_verified_popup_display_text_click_here) + getString(
+                Strings.screen_email_verified_popup_button_title_click_here
+            )
+        )
+
+        spanStr.setSpan(
+            fcs,
+            separatedPrimary[0].length,
+            spanStr.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        tvTroubleDescription.text = spanStr
+
         dialog.findViewById<CoreButton>(R.id.btnOpenMailApp).setOnClickListener {
             val intent = Intent(ACTION_MAIN)
             intent.addCategory(CATEGORY_APP_EMAIL)
@@ -99,7 +137,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
             dialog.dismiss()
         }
+
         dialog.show()
+
         //startActivity(
         //   UnVerifiedEmailActivity.newIntent(this)
         //)
@@ -136,13 +176,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun setupDrawerNavigation(navController: NavController) {
         drawerNav?.setupWithNavController(navController)
-
-        //fragments load from here but how ?
-//        val drawerLayout: DrawerLayout? = findViewById(R.id.drawer_layout)
-//        appBarConfiguration = AppBarConfiguration(
-//            setOf(R.id.fragment1, R.id.fragment2),
-//            drawerLayout
-//        )
     }
 
     private fun setupBottomNavigation(navController: NavController) {
