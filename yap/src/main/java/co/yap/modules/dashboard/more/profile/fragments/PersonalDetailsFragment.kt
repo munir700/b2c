@@ -20,7 +20,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         var checkScanned: Boolean = false
 
     }
-
+ var changeAddress: Boolean = false
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -61,14 +61,13 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
-
+                    changeAddress=true
 //                    viewModel.state.onChangeLocationClick = true
                     val action =
                         PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
                             false, false, true
                         )
                     findNavController().navigate(action)
-                    viewModel.toggleToolBar(false)
 
                 }
 
@@ -90,10 +89,18 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override fun onPause() {
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
-    }
+        if (changeAddress){
+            viewModel.toggleToolBar(false)
+            changeAddress=true
+        }}
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
+        if (changeAddress){
+            viewModel.toggleToolBar(false)
+            changeAddress=true
+        }
+
     }
 }

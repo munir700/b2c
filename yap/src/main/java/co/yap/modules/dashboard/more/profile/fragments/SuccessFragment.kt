@@ -15,13 +15,17 @@ import co.yap.R
 import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
+import co.yap.translation.Strings.screen_address_success_display_text_sub_heading
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_success.*
 
 class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     ISuccess.View {
     val args: SuccessFragmentArgs by navArgs()
     var successType: String? = null
+    var addressField: String = ""
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_success
@@ -37,7 +41,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             if (successType == "CHANGE_PASSCODE") {
                 findNavController().popBackStack(R.id.profileSettingsFragment, true)
                 findNavController().navigate(R.id.profileSettingsFragment)
-            }else{
+            } else {
                 findNavController().popBackStack(R.id.personalDetailsFragment, true)
                 findNavController().navigate(R.id.personalDetailsFragment)
             }
@@ -56,7 +60,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     }
 
     private fun loadData() {
-        successType=args.successType
+        successType = args.successType
         val fcs = ForegroundColorSpan(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
 
         val separatedPrimary =
@@ -69,6 +73,18 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             primaryStr.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        tvSuccessSubHeading.text = primaryStr
+
+//        if (primaryStr.contains(getString(R.string.screen_address_success_display_text_sub_heading))) {
+        if (primaryStr.equals("Your location address has been changed to") ){
+
+            addressField =
+                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
+            tvSuccessSubHeading.text = primaryStr.append("\n" + addressField)
+
+        } else {
+            tvSuccessSubHeading.text = primaryStr
+
+        }
+
     }
 }

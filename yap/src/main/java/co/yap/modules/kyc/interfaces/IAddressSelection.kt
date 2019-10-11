@@ -14,6 +14,7 @@ import com.google.android.gms.maps.SupportMapFragment
 interface IAddressSelection {
 
     interface View : IBase.View<ViewModel> {
+        fun onSuccessEvent()
 
     }
 
@@ -53,8 +54,8 @@ interface IAddressSelection {
         var nextActionBtnText: String
         var valid: Boolean
         var checked: Boolean
-        var isFromPhysicalCardsLayout: Boolean
         var isFromPersonalDetailView: Boolean
+        var isFromPhysicalCardsLayout: Boolean
 
         //map detail
 

@@ -99,6 +99,28 @@
             app:destination="@id/addSpareCardFragment"
             app:popUpTo="@+id/addSpareCardFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addressSelectionFragment_to_successFragment"
+            app:destination="@id/successFragment"
+            app:popUpTo="@+id/personalDetailsFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
+        android:label="SuccessFragment"
+        tools:layout="@layout/fragment_success">
+        <argument
+            android:name="staticString"
+            android:defaultValue=" "
+            app:argType="string"
+            />
+        <argument
+            android:name="destinationValue"
+            android:defaultValue=" "
+            app:argType="string"
+            />
     </fragment>
 
     <fragment

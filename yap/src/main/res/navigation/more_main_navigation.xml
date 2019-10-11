@@ -114,12 +114,6 @@
             app:argType="boolean" />
 
         <action
-            android:id="@+id/action_addressSelectionFragment_to_locationSuccessFragment"
-            app:destination="@id/locationSuccessFragment"
-            app:popUpTo="@+id/personalDetailsFragment"
-            app:popUpToInclusive="true" />
-
-        <action
             android:id="@+id/action_addressSelectionFragment_to_personalDetailsFragment"
             app:destination="@id/personalDetailsFragment"
             app:popUpTo="@+id/personalDetailsFragment"
@@ -131,14 +125,28 @@
             app:destination="@id/addSpareCardFragment"
             app:popUpTo="@+id/addSpareCardFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_addressSelectionFragment_to_successFragment"
+            app:destination="@id/successFragment"
+            app:popUpTo="@+id/personalDetailsFragment"
+            app:popUpToInclusive="false" />
+
     </fragment>
-
     <fragment
-        android:id="@+id/locationSuccessFragment"
-        android:name="co.yap.modules.dashboard.more.profile.fragments.LocationSuccessFragment"
-        android:label="LocationSuccessFragment"
-        tools:layout="@layout/fragment_location_success">
-
+        android:id="@+id/successFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
+        android:label="SuccessFragment"
+        tools:layout="@layout/fragment_success">
+        <argument
+            android:name="staticString"
+            android:defaultValue=" "
+            app:argType="string"
+            />
+        <argument
+            android:name="destinationValue"
+            android:defaultValue=" "
+            app:argType="string"
+            />
     </fragment>
 
 </navigation>

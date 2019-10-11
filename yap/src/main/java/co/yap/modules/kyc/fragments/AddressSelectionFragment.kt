@@ -24,7 +24,6 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.more.activities.MoreActivity
-import co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragmentDirections
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
@@ -93,6 +92,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         if (isFromPersonalDetailScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as MoreActivity
+            MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
+            viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
+            viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
+
             viewModel.state.isFromPersonalDetailView = true
             viewModel.state.isFromPhysicalCardsLayout = false
             updateHeadings()
@@ -221,14 +224,14 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                     } else if (viewModel.state.isFromPersonalDetailView) {
 
                         var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
-                            placeTitle,
-                            placeSubTitle,
+                            viewModel.state.placeTitle,
+                            viewModel.state.placeSubTitle,
                             viewModel.mLastKnownLocation.latitude.toString(),
                             viewModel.mLastKnownLocation.longitude.toString()
                         )
-                        viewModel.updateAddressRequest= updateAddressRequest
-                        MyUserManager.userAddress!!.address1 = placeTitle
-                        MyUserManager.userAddress!!.address2 = placeSubTitle
+                        viewModel.updateAddressRequest = updateAddressRequest
+                        MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
+                        MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle
                         viewModel.requestUpdateAddress(updateAddressRequest)
 
                     } else {
@@ -242,28 +245,17 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                     }
                 }
 
-                viewModel.MARKER_CLICK_ID -> {
-
-                }
-
                 viewModel.ON_UPDATE_ADDRESS_EVENT -> {
-//
-//                   kill this fragment & move to the success screen
-
-//                    MyUserManager.user?.notificationStatuses =
-//                        Constants.USER_STATUS_MEETING_SCHEDULED
-//                    findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
-//
-//                    staticString
-                    findNavController().navigate(R.id.action_addressSelectionFragment_to_locationSuccessFragment)
-
-//                    val action = AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
-////                            getString(Strings.screen_address_success_display_text_sub_heading),
-////                            " "
+                    showToast("ON_UPDATE_ADDRESS_EVENT")
+//                    val action =
+//                        AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
+//                            getString("Your location address has been changed to"),
+//                            " "
 //                        )
-
+//
 //                    findNavController().navigate(action)
                 }
+
 
                 viewModel.GPS_CLICK_EEVENT -> {
                     isLocationSettingsDialogue = false

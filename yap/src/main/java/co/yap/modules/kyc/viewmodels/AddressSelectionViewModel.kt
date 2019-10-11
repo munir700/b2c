@@ -45,7 +45,6 @@ class AddressSelectionViewModel(application: Application) :
     BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel, IRepositoryHolder<CardsRepository> {
     override lateinit var updateAddressRequest: UpdateAddressRequest
-    override val ON_UPDATE_ADDRESS_EVENT: Int = 700
 
     private val TAG = "AddressSelectionFragment"
     private lateinit var mMap: GoogleMap
@@ -70,6 +69,9 @@ class AddressSelectionViewModel(application: Application) :
     lateinit var list: List<Address>
 
     override val repository: CardsRepository = CardsRepository
+
+    override val ON_UPDATE_ADDRESS_EVENT: Int = 777
+        get() = field
 
     override var checkGps: Boolean = true
         get() = field
@@ -126,19 +128,19 @@ class AddressSelectionViewModel(application: Application) :
     }
 
     override fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest) {
+        state.error = ""
 
         launch {
             state.loading = true
             when (val response = repository.editAddressRequest(updateAddressRequest)) {
                 is RetroApiResponse.Success -> {
-                    state.error = ""
                     clickEvent.setValue(ON_UPDATE_ADDRESS_EVENT)
                     state.loading = false
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                 }
+                }
             }
         }
     }
