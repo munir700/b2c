@@ -94,9 +94,12 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         if (isFromPersonalDetailScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as MoreActivity
-            MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-            viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
-            viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
+            if(MyUserManager.userAddress != null){
+
+                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
+                viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
+                viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
+            }
 
             viewModel.state.isFromPersonalDetailView = true
             viewModel.state.isFromPhysicalCardsLayout = false
