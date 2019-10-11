@@ -12,17 +12,20 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.managers.MyUserManager
 
 
-class ChangeEmailViewModel(application: Application) :
+open class ChangeEmailViewModel(application: Application) :
     MoreBaseViewModel<IChangeEmail.State>(application), IChangeEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
-    override val changeEmailSuccessEvent: SingleClickEvent= SingleClickEvent()
+    override val changeEmailSuccessEvent: SingleClickEvent = SingleClickEvent()
 
     override val repository: CustomersRepository = CustomersRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val success: MutableLiveData<Boolean> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
+    override val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override val state: ChangeEmailState =
         ChangeEmailState(application)
@@ -36,13 +39,13 @@ class ChangeEmailViewModel(application: Application) :
                 when (val response =
                     repository.validateEmail(state.newEmail)) {
                     is RetroApiResponse.Success -> {
-                       createOtp()
+                        createOtp()
                     }
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         state.errorMessage = response.error.message
-
+                        state.setErrors()
                     }
 
                 }
@@ -54,8 +57,11 @@ class ChangeEmailViewModel(application: Application) :
     private fun createOtp() {
         launch {
             when (val response =
-                messagesRepository.createOtpGeneric(createOtpGenericRequest = CreateOtpGenericRequest(
-                    Constants.CHANGE_EMAIL))) {
+                messagesRepository.createOtpGeneric(
+                    createOtpGenericRequest = CreateOtpGenericRequest(
+                        Constants.CHANGE_EMAIL
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
                     success.value = true
                 }
@@ -75,6 +81,8 @@ class ChangeEmailViewModel(application: Application) :
             when (val response =
                 repository.changeVerifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
+                    MyUserManager.user?.currentCustomer?.email = state.newEmail
+                    sharedPreferenceManager.saveUserName(state.newEmail)
                     changeEmailSuccessEvent.call()
                 }
                 is RetroApiResponse.Error -> {
@@ -89,6 +97,6 @@ class ChangeEmailViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("Change email")
+        setToolBarTitle("")
     }
 }

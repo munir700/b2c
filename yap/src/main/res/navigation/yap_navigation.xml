@@ -124,4 +124,10 @@
         android:label="HelpSupportFragment"
         tools:layout="@layout/fragment_help_support" />
 
+    <fragment
+        android:id="@+id/changeEmailFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailFragment"
+        android:label="HelpSupportFragment"
+        tools:layout="@layout/fragment_change_email" />
+
 </navigation>

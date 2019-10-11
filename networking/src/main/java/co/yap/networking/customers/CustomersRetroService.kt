@@ -78,5 +78,8 @@ interface CustomersRetroService {
     @PUT(CustomersRepository.URL_CHANGE_VERIFIED_EMAIL)
     suspend fun changeVerifiedEmail(@Path("email") email: String): Response<ApiResponse>
 
+    @PUT(CustomersRepository.URL_CHANGE_UNVERIFIED_EMAIL)
+    suspend fun changeUnverifiedEmail(@Query("newEmail") newEmail: String): Response<ApiResponse>
+
 
 }

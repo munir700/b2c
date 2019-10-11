@@ -27,7 +27,7 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
         super.onCreate(savedInstanceState)
 
 
-        sharedPreferenceManager = SharedPreferenceManager(context as MoreActivity)
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
             var username = ""
@@ -60,6 +60,10 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_PASSCODE,
+                        EncryptionUtils.encrypt(requireContext(), viewModel.state.pincode)!!
+                    )
                     val action =
                         UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToSuccessFragment2(
                             "Your passcode has been changed \n succesfully",

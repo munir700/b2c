@@ -433,6 +433,25 @@
     <string name="screen_phone_number_success_display_text_heading">Success!</string>
     <string name="screen_phone_number_success_display_text_sub_heading">Your phone number has been changed to \n</string>
 
+
+    <!--    Email Verified Popup Screen-->
+    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified your email address:</string>
+    <string name="screen_email_verified_popup_display_text_sub_title">We have just resent you an email to verify your email address. Please log into to your email and click the verification link to get access to your YAP Account.</string>
+    <string name="screen_email_verified_popup_display_text_click_here">Having trouble? If you want to change your email address </string>
+    <string name="screen_email_verified_popup_button_title_click_here">click here.</string>
+
+
+
+<!--     Unverified change email success Screen-->
+
+    <string name="screen_unverified_success_display_text_heading">Success!</string>;
+    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>;
+    <string name="screen_unverified_success_display_text_description">Please log in to your email address to validate your email and continue with\naccess to YAP!</string>;
+    <string name="screen_unverified_display_button_mail">Open mail app</string>;
+    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
+
+
+
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
 
 </resources>

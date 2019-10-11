@@ -29,7 +29,7 @@ class AccountInfo(
     var iban: String,
     var ibdocumentsVerifiedan: Boolean,
     var documentsVerified: Boolean,
-    var currentCustomerLiveData: MutableLiveData<Customer>
+    private var currentCustomerLiveData: MutableLiveData<Customer>
 ) {
 
     var currentCustomer: Customer
