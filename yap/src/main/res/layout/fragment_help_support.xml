@@ -63,7 +63,7 @@
 
                 <TextView
                     android:id="@+id/tvFaqs"
-                    style="@style/Regular"
+                    style="@style/Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -114,7 +114,7 @@
 
                 <TextView
                     android:id="@+id/tvChat"
-                    style="@style/Regular"
+                    style="@style/Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -166,7 +166,7 @@
 
                 <TextView
                     android:id="@+id/tvWhatsApp"
-                    style="@style/Regular"
+                    style="@style/Small"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -223,7 +223,7 @@
 
                     <TextView
                         android:id="@+id/tvCall"
-                        style="@style/Regular"
+                        style="@style/Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -270,10 +270,9 @@
                     android:lineSpacingExtra="8sp"
                     android:lines="1"
                     android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/text_size_h3"
+                    android:textSize="@dimen/text_size_h2"
                     app:underline_text="@{viewModel.state.contactPhone}"
                     tools:text="+971 600 55 1214" />
-
 
             </LinearLayout>
 

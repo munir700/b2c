@@ -57,7 +57,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEmail"
-            app:text="@{Strings.screen_email_verified_popup_display_text_sub_title}"
+            android:text="@string/screen_email_verified_popup_display_text_sub_title"
             tools:text="@string/screen_email_verified_popup_display_text_sub_title" />
 
         <TextView

@@ -122,7 +122,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
 
         val newValue =
-            getString(Strings.screen_email_verified_popup_display_text_click_here).plus(" ")
+            getString(Strings.screen_email_verified_popup_display_text_click_here).plus("")
         val clickValue =
             getString(Strings.screen_email_verified_popup_button_title_click_here)
         val spanStr = SpannableStringBuilder("$newValue $clickValue")
