@@ -172,7 +172,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             hasStartedScanner = false
             activity!!.finish()
         }
-        return super.onBackPressed()
+        return false
 
     }
 }
