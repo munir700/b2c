@@ -26,6 +26,7 @@ interface IYapDashboard {
         fun getAccountBalanceRequest()
         val getAccountInfoSuccess: MutableLiveData<Boolean>
         val getAccountBalanceSuccess: MutableLiveData<Boolean>
+        val showUnverifedscreen: MutableLiveData<Boolean>
     }
 
     interface View : IBase.View<ViewModel> {

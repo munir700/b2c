@@ -23,6 +23,7 @@ class YapDashBoardViewModel(application: Application) :
     override val state: YapDashBoardState = YapDashBoardState()
     private val customerRepository: CustomersRepository = CustomersRepository
     private val cardsRepository: CardsRepository = CardsRepository
+    override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
@@ -62,6 +63,9 @@ class YapDashBoardViewModel(application: Application) :
                     MyUserManager.user?.setLiveData() // DOnt remove this line
                     getAccountInfoSuccess.value = true
                     populateState()
+                    if( MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N",true)){
+                        showUnverifedscreen.value =true
+                    }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

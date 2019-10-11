@@ -76,7 +76,7 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             backgroundNew =
                 context.getDrawable(R.drawable.bg_edit_text_under_line)
             drawableNew =
-                context.getDrawable(R.drawable.ic_tick_enabled)
+                context.getDrawable(R.drawable.path)
             if (newEmail != newConfirmEMail) {
                 backgroundConfirm =
                     context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.bg_edit_text_under_line else R.drawable.bg_edit_text_under_line)
@@ -88,7 +88,7 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
                 backgroundConfirm =
                     context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.bg_edit_text_under_line else R.drawable.bg_edit_text_under_line)
                 drawableConfirm =
-                    context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.ic_tick_enabled else R.drawable.ic_tick_enabled)
+                    context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.path else R.drawable.path)
                 errorMessage = ""
                 true
             }
@@ -105,5 +105,14 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
         }
     }
 
+    fun setErrors() {
+        backgroundNew =
+            context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+        drawableNew =  context.getDrawable(R.drawable.ic_error)
+
+        backgroundConfirm =
+            context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+        drawableConfirm =  context.getDrawable(R.drawable.ic_error)
+    }
 
 }
