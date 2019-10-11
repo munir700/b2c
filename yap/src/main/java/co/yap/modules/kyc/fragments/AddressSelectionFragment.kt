@@ -30,8 +30,6 @@ import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.translation.Strings
-import co.yap.translation.Strings.screen_address_success_display_text_sub_heading
-import co.yap.translation.Translator
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
@@ -95,22 +93,27 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         if (isFromPersonalDetailScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as MoreActivity
-            if(MyUserManager.userAddress != null){
-
-                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-                viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
-                viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
-                viewModel.mDefaultLocation= LatLng( MyUserManager.userAddress!!.latitude!!  , MyUserManager.userAddress!!.longitude!!  )
-//                viewModel.mDefaultLocation.latitude = MyUserManager.userAddress!!.latitude!! as Double
-//                viewModel.mDefaultLocation.longitude = MyUserManager.userAddress!!.longitude!! as Double
-            }
-
             viewModel.state.isFromPersonalDetailView = true
             viewModel.state.isFromPhysicalCardsLayout = false
             updateHeadings()
 
             viewModel.state.nextActionBtnText =
                 getString(Strings.idenetity_scanner_sdk_screen_review_info_button_done)
+
+            if (MyUserManager.userAddress != null) {
+
+                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
+                viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
+                viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
+                viewModel.mDefaultLocation = LatLng(
+                    MyUserManager.userAddress!!.latitude!!,
+                    MyUserManager.userAddress!!.longitude!!
+                )
+
+                viewModel.state.placeTitle = MyUserManager.userAddress!!.address1!!
+                viewModel.state.placeSubTitle = MyUserManager.userAddress!!.address2!!
+
+            }
 
         } else if (isFromBlockCardsScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
@@ -162,15 +165,16 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         })
 
         viewModel.onSuccess.observe(this, Observer {
-            when(it){
+            when (it) {
 
-               viewModel.UPDATE_ADDRESS_EEVENT -> {
-                   val action =
-                       AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(getString(R.string.screen_address_success_display_text_sub_heading),
-                           " "
-                       )
+                viewModel.UPDATE_ADDRESS_EEVENT -> {
+                    val action =
+                        AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
+                            getString(R.string.screen_address_success_display_text_sub_heading),
+                            " "
+                        )
 
-                   findNavController().navigate(action)
+                    findNavController().navigate(action)
                 }
 
             }
@@ -250,11 +254,17 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
                             viewModel.state.placeTitle,
                             viewModel.state.placeSubTitle,
-                                     viewModel.mDefaultLocation.latitude.toString(),
+                            viewModel.mDefaultLocation.latitude.toString(),
                             viewModel.mDefaultLocation.longitude.toString()
                         )
-                         MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
-                        MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle
+                        if (viewModel.state.placeTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
+                        }
+
+                        if (viewModel.state.placeSubTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle
+                        }
+
                         viewModel.requestUpdateAddress(updateAddressRequest)
 
                     } else {
@@ -269,7 +279,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 }
 
                 viewModel.GPS_CLICK_EEVENT -> {
-                     isLocationSettingsDialogue = false
+                    isLocationSettingsDialogue = false
                     requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
 
                 }

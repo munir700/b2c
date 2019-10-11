@@ -278,7 +278,7 @@ class AddressSelectionViewModel(application: Application) :
 
 //        mLastKnownLocation.latitude = mDefaultLocation.latitude
 //        mLastKnownLocation.longitude = mDefaultLocation.longitude
-        if (!(::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
+        if ((::mLastKnownLocation.isInitialized && mLastKnownLocation != null)) {
             mLastKnownLocation.latitude = mDefaultLocation.latitude
             mLastKnownLocation.longitude = mDefaultLocation.longitude
         }
