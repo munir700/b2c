@@ -124,9 +124,8 @@ class AddressSelectionViewModel(application: Application) :
             when (val response = repository.orderCard(orderCardRequest)) {
                 is RetroApiResponse.Success -> {
                     state.error = ""
-                    //clickEvent.setValue(id)
-                    onSuccess.setValue(id)
-                    state.loading = false
+                    clickEvent.setValue(id)
+                     state.loading = false
                 }
 
                 is RetroApiResponse.Error -> {
@@ -511,4 +510,5 @@ class AddressSelectionViewModel(application: Application) :
         super.onResume()
         getDefaultLocationMap(mapDetailViewActivity)
     }
-}
+
+ }
