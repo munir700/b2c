@@ -54,6 +54,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
 
         viewModel.changeEmailSuccessEvent.observe(this, Observer {
             MyUserManager.user?.currentCustomer?.email = viewModel.state.newEmail
+            viewModel.sharedPreferenceManager.saveUserName(viewModel.state.newEmail)
             val action =
                 ChangeEmailFragmentDirections.actionChangeEmailFragmentToChangeEmailSuccessFragment(
                     getString(Strings.screen_email_address_success_display_text_sub_heading),

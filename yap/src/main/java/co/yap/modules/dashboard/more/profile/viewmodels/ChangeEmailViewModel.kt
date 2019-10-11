@@ -12,6 +12,7 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
 
 
@@ -24,6 +25,7 @@ open class ChangeEmailViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val success: MutableLiveData<Boolean> = MutableLiveData()
     private val messagesRepository: MessagesRepository = MessagesRepository
+    override val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override val state: ChangeEmailState =
         ChangeEmailState(application)
@@ -79,7 +81,8 @@ open class ChangeEmailViewModel(application: Application) :
             when (val response =
                 repository.changeVerifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.user?.currentCustomer?.email=state.newEmail
+                    MyUserManager.user?.currentCustomer?.email = state.newEmail
+                    sharedPreferenceManager.saveUserName(state.newEmail)
                     changeEmailSuccessEvent.call()
                 }
                 is RetroApiResponse.Error -> {
