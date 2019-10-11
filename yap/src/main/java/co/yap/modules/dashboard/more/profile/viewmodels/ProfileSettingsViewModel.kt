@@ -176,7 +176,7 @@ class ProfileSettingsViewModel(application: Application) :
                 }
 
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+//                    state.toast = response.error.message
                     state.errorBadgeVisibility = VISIBLE
                     showExpiredBadge = true
                 }
