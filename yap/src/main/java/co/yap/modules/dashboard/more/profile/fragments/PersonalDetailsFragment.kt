@@ -2,6 +2,8 @@ package co.yap.modules.dashboard.more.profile.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -11,6 +13,8 @@ import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
+import co.yap.yapcore.managers.MyUserManager
+import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
 
 class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
@@ -20,6 +24,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         var checkScanned: Boolean = false
 
     }
+
     var changeAddress: Boolean = false
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -31,7 +36,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val isFromBlockCardsScreen =
+        val showExpiredIcon =
             arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired }
     }
 
@@ -42,6 +47,16 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.state.errorVisibility =
             arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
 
+//        if (MyUserManager.user!!.documentsVerified && !viewModel.state.errorVisibility) {
+//            cvCard.visibility = GONE
+//        } else {
+//            cvCard.visibility = VISIBLE
+//        }
+        if ( MyUserManager.user!!.documentInformation == null && viewModel.state.errorVisibility) {
+            cvCard.visibility = VISIBLE
+        } else {
+            cvCard.visibility = GONE
+        }
 
     }
 
@@ -61,7 +76,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
-                    changeAddress=true
+                    changeAddress = true
 //                    viewModel.state.onChangeLocationClick = true
                     val action =
                         PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
@@ -84,22 +99,29 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
             }
         })
+
+        if (MyUserManager.userAddress == null) {
+            llAddress.visibility = GONE
+        } else {
+            llAddress.visibility = VISIBLE
+        }
     }
 
     override fun onPause() {
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
-        if (changeAddress){
+        if (changeAddress) {
             viewModel.toggleToolBar(false)
-            changeAddress=true
-        }}
+            changeAddress = true
+        }
+    }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-        if (changeAddress){
+        if (changeAddress) {
             viewModel.toggleToolBar(false)
-            changeAddress=true
+            changeAddress = true
         }
 
     }
