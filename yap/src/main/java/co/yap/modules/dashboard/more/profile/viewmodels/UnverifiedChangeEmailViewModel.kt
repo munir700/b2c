@@ -17,21 +17,17 @@ class UnverifiedChangeEmailViewModel(application: Application) :ChangeEmailViewM
                 state.loading = true
                 when (val response =
                     repository.validateEmail(state.newEmail)) {
-                    is RetroApiResponse.Error -> {
+                    is RetroApiResponse.Success -> {
                         changeUnverifiedEmailRequest()
                     }
 
-                    is RetroApiResponse.Success -> {
+                    is RetroApiResponse.Error -> {
                         state.loading = false
-                        // state.errorMessage = response.error.message
-                        state.drawableNew =  context.getDrawable(R.drawable.bg_edit_text_red_under_line)
-                        state.drawableConfirm = context.getDrawable(R.drawable.bg_edit_text_red_under_line)
-
+                        state.setErrors()
+                        state.errorMessage = response.error.message
                     }
-
                 }
             }
-           // success.value = true
         }
     }
     private fun changeUnverifiedEmailRequest(){

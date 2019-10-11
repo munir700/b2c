@@ -105,5 +105,14 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
         }
     }
 
+    fun setErrors() {
+        backgroundNew =
+            context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+        drawableNew =  context.getDrawable(R.drawable.ic_error)
+
+        backgroundConfirm =
+            context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+        drawableConfirm =  context.getDrawable(R.drawable.ic_error)
+    }
 
 }
