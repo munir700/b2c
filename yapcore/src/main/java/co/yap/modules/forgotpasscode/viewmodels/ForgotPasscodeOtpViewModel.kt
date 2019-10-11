@@ -27,9 +27,8 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
     override fun onCreate() {
         super.onCreate()
         state.verificationTitle =getString(Strings.screen_forgot_passcode_otp_display_text_heading)
-        state.verificationDescription = Strings.screen_forgot_passcode_otp_display_text_sub_heading
+        state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
         //state.mobileNumber[0] = "jhv"
-
         state.reverseTimer(10)
         state.validResend = false
     }
