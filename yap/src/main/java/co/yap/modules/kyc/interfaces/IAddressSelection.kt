@@ -4,6 +4,7 @@ import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.location.Location
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.yapcore.IBase
@@ -25,8 +26,10 @@ interface IAddressSelection {
 //        var mapDetailViewActivity: DocumentsDashboardActivity
         var mapDetailViewActivity: Activity
         val clickEvent: SingleClickEvent
+        val onSuccess: MutableLiveData<Int>
         val MARKER_CLICK_ID: Int
         val GPS_CLICK_EEVENT: Int
+        val UPDATE_ADDRESS_EEVENT: Int
         val ON_UPDATE_ADDRESS_EVENT: Int
         fun handlePressOnNext(id: Int)
         fun handlePressOnSelectLocation(id: Int)

@@ -12,6 +12,7 @@ import android.location.Geocoder
 import android.location.Location
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.states.AddressSelectionState
@@ -69,9 +70,7 @@ class AddressSelectionViewModel(application: Application) :
     lateinit var list: List<Address>
 
     override val repository: CardsRepository = CardsRepository
-
-    override val ON_UPDATE_ADDRESS_EVENT: Int = 777
-        get() = field
+    override val onSuccess: MutableLiveData<Int> = MutableLiveData()
 
     override var checkGps: Boolean = true
         get() = field
@@ -79,7 +78,13 @@ class AddressSelectionViewModel(application: Application) :
     override val MARKER_CLICK_ID: Int = 2
         get() = field
 
+    override val UPDATE_ADDRESS_EEVENT: Int = 5
+        get() = field
+
     override val GPS_CLICK_EEVENT: Int = 200
+        get() = field
+
+    override val ON_UPDATE_ADDRESS_EVENT: Int = 300
         get() = field
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -114,13 +119,15 @@ class AddressSelectionViewModel(application: Application) :
             when (val response = repository.orderCard(orderCardRequest)) {
                 is RetroApiResponse.Success -> {
                     state.error = ""
-                    clickEvent.setValue(id)
+                    //clickEvent.setValue(id)
+                    onSuccess.setValue(id)
                     state.loading = false
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.error = response.error.message
+//                    onSuccess.setValue(id)
                     clickEvent.setValue(id)
                 }
             }
@@ -134,11 +141,13 @@ class AddressSelectionViewModel(application: Application) :
             state.loading = true
             when (val response = repository.editAddressRequest(updateAddressRequest)) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.setValue(ON_UPDATE_ADDRESS_EVENT)
                     state.loading = false
+                    onSuccess.setValue(UPDATE_ADDRESS_EEVENT)
+                    //clickEvent.setValue(UPDATE_ADDRESS_EEVENT)
                 }
 
                 is RetroApiResponse.Error -> {
+                    state.error = response.error.message
                     state.loading = false
                 }
             }

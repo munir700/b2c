@@ -30,6 +30,8 @@ import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
 import co.yap.translation.Strings
+import co.yap.translation.Strings.screen_address_success_display_text_sub_heading
+import co.yap.translation.Translator
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
 import com.daimajia.androidanimations.library.Techniques
@@ -152,6 +154,22 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             }
         })
 
+        viewModel.onSuccess.observe(this, Observer {
+            when(it){
+
+               viewModel.UPDATE_ADDRESS_EEVENT -> {
+                   showToast("ON_UPDATE_ADDRESS_EVENT")
+                   val action =
+                       AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(getString(R.string.screen_address_success_display_text_sub_heading),
+                           " "
+                       )
+
+                   findNavController().navigate(action)
+                }
+
+            }
+        })
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnLocation -> {
@@ -178,6 +196,17 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 R.id.btnConfirm -> {
                     slideDownLocationCard()
                 }
+//
+//                viewModel.ON_UPDATE_ADDRESS_EVENT -> {
+//                    showToast("ON_UPDATE_ADDRESS_EVENT")
+//                    val action =
+//                        AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
+//                            getString("Your location address has been changed to"),
+//                            " "
+//                        )
+//
+//                    findNavController().navigate(action)
+//                }
 
                 R.id.ivClose -> {
                     viewModel.state.isMapOnScreen = false
@@ -229,7 +258,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                             viewModel.mLastKnownLocation.latitude.toString(),
                             viewModel.mLastKnownLocation.longitude.toString()
                         )
-                        viewModel.updateAddressRequest = updateAddressRequest
+//                        viewModel.updateAddressRequest = updateAddressRequest
                         MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
                         MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle
                         viewModel.requestUpdateAddress(updateAddressRequest)
@@ -244,21 +273,16 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                         }
                     }
                 }
-
-                viewModel.ON_UPDATE_ADDRESS_EVENT -> {
-                    showToast("ON_UPDATE_ADDRESS_EVENT")
-//                    val action =
-//                        AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
-//                            getString("Your location address has been changed to"),
-//                            " "
-//                        )
 //
-//                    findNavController().navigate(action)
+                viewModel.ON_UPDATE_ADDRESS_EVENT -> {
+
                 }
+//
+
 
 
                 viewModel.GPS_CLICK_EEVENT -> {
-                    isLocationSettingsDialogue = false
+                     isLocationSettingsDialogue = false
                     requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
 
                 }
@@ -408,7 +432,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
+//        viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
 
