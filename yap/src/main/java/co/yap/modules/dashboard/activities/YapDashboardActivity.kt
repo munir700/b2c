@@ -8,6 +8,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.view.Window
@@ -24,7 +26,9 @@ import androidx.navigation.ui.NavigationUI.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.interfaces.IYapDashboard
 import co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel
+import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.yapcore.BaseBindingActivity
@@ -36,14 +40,6 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
-import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-import android.text.Spanned
-import android.text.style.ClickableSpan
-import co.yap.modules.dashboard.interfaces.IYapDashboard
-import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
 
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
@@ -116,62 +112,45 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         tvEmail.text = MyUserManager.user!!.currentCustomer.email
 
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
-
-        var fullString=getString(Strings.screen_email_verified_popup_display_text_click_here).format(getString(
-            Strings.screen_email_verified_popup_button_title_click_here
-        ))
-
-        val separatedPrimary =
-            getString(Strings.screen_email_verified_popup_display_text_click_here).split(
-                getString(
-                    Strings.screen_email_verified_popup_button_title_click_here
-                )
-            )
-        val spanStr = SpannableStringBuilder(
-            getString(Strings.screen_email_verified_popup_display_text_click_here) + getString(
-                Strings.screen_email_verified_popup_button_title_click_here
-            )
-        )
         val myClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
-                showToast("lets")
+                startActivity(
+                    UnVerifiedEmailActivity.newIntent(widget.context)
+                )
             }
-
         }
+
+        val newValue =
+            getString(Strings.screen_email_verified_popup_display_text_click_here).plus(" ")
+        val clickValue =
+            getString(Strings.screen_email_verified_popup_button_title_click_here)
+        val spanStr = SpannableStringBuilder("$newValue $clickValue")
+
         spanStr.setSpan(
             fcs,
-            separatedPrimary[0].length,
-            spanStr.length,
+            (newValue.length + 1),
+            (newValue.length + 1) + clickValue.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         spanStr.setSpan(
             myClickableSpan,
-            separatedPrimary[0].length,
-            spanStr.length,
+            (newValue.length + 1),
+            (newValue.length + 1) + clickValue.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
+
         tvTroubleDescription.text = spanStr
+        tvTroubleDescription.movementMethod = LinkMovementMethod.getInstance()
 
-
-//        val spanStart = 20 // length of "Also thanks to the "
-//        ss.setSpan(myClickableSpan, spanStart, ss.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         dialog.findViewById<CoreButton>(R.id.btnOpenMailApp).setOnClickListener {
             val intent = Intent(ACTION_MAIN)
             intent.addCategory(CATEGORY_APP_EMAIL)
             startActivity(createChooser(intent, "Choose"))
         }
         dialog.findViewById<TextView>(R.id.btnLater).setOnClickListener {
-            //dialog.dismiss()
-            startActivity(
-                   UnVerifiedEmailActivity.newIntent(this)
-                )
+            dialog.dismiss()
         }
-
         dialog.show()
-
-        //startActivity(
-        //   UnVerifiedEmailActivity.newIntent(this)
-        //)
     }
 
     // it should be done using data binding with observable field
