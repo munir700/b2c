@@ -283,6 +283,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         AuthUtils.navigateToHardLogin(requireContext())
         MyUserManager.cardBalance.value = CardBalance()
         MyUserManager.cards.value?.clear()
+        MyUserManager.userAddress = null
         activity?.finish()
     }
 
