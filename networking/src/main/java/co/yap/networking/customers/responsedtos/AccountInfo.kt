@@ -16,6 +16,7 @@ class AccountInfo(
     var status: String,
     var onBoardingStatus: String,
     private var customer: Customer,
+    var documentInformation: Any,
     var bank: Bank,
 
     var notificationStatuses: String,
@@ -27,6 +28,7 @@ class AccountInfo(
     var soleProprietary: Boolean,
     var iban: String,
     var ibdocumentsVerifiedan: Boolean,
+    var documentsVerified: Boolean,
     private var currentCustomerLiveData: MutableLiveData<Customer>
 ) {
 

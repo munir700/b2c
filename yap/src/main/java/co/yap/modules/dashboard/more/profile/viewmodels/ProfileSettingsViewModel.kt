@@ -165,7 +165,6 @@ class ProfileSettingsViewModel(application: Application) :
     override fun requestProfileDocumentsInformation() {
 
         launch {
-            state.loading = true
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
 
                 is RetroApiResponse.Success -> {
@@ -177,15 +176,11 @@ class ProfileSettingsViewModel(application: Application) :
                 }
 
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-
-//                    if (response.error.statusCode == 1073){
+//                    state.toast = response.error.message
                     state.errorBadgeVisibility = VISIBLE
                     showExpiredBadge = true
-//                    }
                 }
             }
-            state.loading = false
         }
     }
 

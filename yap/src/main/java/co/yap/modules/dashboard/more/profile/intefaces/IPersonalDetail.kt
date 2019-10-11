@@ -15,7 +15,6 @@ interface IPersonalDetail {
         var drawbleRight: Drawable?
         var errorVisibility: Boolean
         var verificationText: String
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {

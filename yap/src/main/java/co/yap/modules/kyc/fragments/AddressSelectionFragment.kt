@@ -41,6 +41,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_address_selection.*
 import kotlinx.android.synthetic.main.layout_maps.*
 
@@ -92,16 +93,35 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         if (isFromPersonalDetailScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as MoreActivity
+            viewModel.state.isFromPersonalDetailView = true
+            viewModel.state.isFromPhysicalCardsLayout = false
             updateHeadings()
 
             viewModel.state.nextActionBtnText =
                 getString(Strings.idenetity_scanner_sdk_screen_review_info_button_done)
 
+            if (MyUserManager.userAddress != null) {
+
+                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
+                viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
+                viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
+                viewModel.mDefaultLocation = LatLng(
+                    MyUserManager.userAddress!!.latitude!!,
+                    MyUserManager.userAddress!!.longitude!!
+                )
+
+                viewModel.state.placeTitle = MyUserManager.userAddress!!.address1!!
+                viewModel.state.placeSubTitle = MyUserManager.userAddress!!.address2!!
+
+            }
+
         } else if (isFromBlockCardsScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
+            viewModel.state.isFromPhysicalCardsLayout = true
             updateHeadings()
         } else if (checkSender!!) {
             viewModel!!.mapDetailViewActivity = activity as AddPaymentCardActivity
+            viewModel.state.isFromPhysicalCardsLayout = true
             updateHeadings()
         } else {
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
@@ -115,7 +135,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun updateHeadings() {
-        viewModel.state.isFromPhysicalCardsLayout = true
         viewModel.state.headingTitle =
             getString(Strings.screen_meeting_location_display_text_add_new_address_title)
         viewModel.state.subHeadingTitle =
@@ -142,6 +161,22 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 } else {
                     return false
                 }
+            }
+        })
+
+        viewModel.onSuccess.observe(this, Observer {
+            when (it) {
+
+                viewModel.UPDATE_ADDRESS_EEVENT -> {
+                    val action =
+                        AddressSelectionFragmentDirections.actionAddressSelectionFragmentToSuccessFragment(
+                            getString(R.string.screen_address_success_display_text_sub_heading),
+                            " "
+                        )
+
+                    findNavController().navigate(action)
+                }
+
             }
         })
 
@@ -206,25 +241,30 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                                 getString(R.string.screen_spare_card_landing_display_text_physical_card),
                                 viewModel.state.placeTitle,
                                 viewModel.state.placeSubTitle,
-                                viewModel.mLastKnownLocation.latitude.toString(),
-                                viewModel.mLastKnownLocation.longitude.toString(),
+                                viewModel.mDefaultLocation.latitude.toString(),
+                                viewModel.mDefaultLocation.longitude.toString(),
                                 false
 
                             )
                         findNavController().navigate(action)
 
 
-                    } else if (isFromPersonalDetailScreen) {
+                    } else if (viewModel.state.isFromPersonalDetailView) {
 
                         var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
-                            placeTitle,
-                            placeSubTitle,
-                            viewModel.mLastKnownLocation.latitude.toString(),
-                            viewModel.mLastKnownLocation.longitude.toString()
+                            viewModel.state.placeTitle,
+                            viewModel.state.placeSubTitle,
+                            viewModel.mDefaultLocation.latitude.toString(),
+                            viewModel.mDefaultLocation.longitude.toString()
                         )
+                        if (viewModel.state.placeTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
+                        }
 
-                        MyUserManager.userAddress!!.address1 = placeTitle
-                        MyUserManager.userAddress!!.address2 = placeSubTitle
+                        if (viewModel.state.placeSubTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle
+                        }
+
                         viewModel.requestUpdateAddress(updateAddressRequest)
 
                     } else {
@@ -236,15 +276,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                             findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
                         }
                     }
-                }
-
-                viewModel.MARKER_CLICK_ID -> {
-
-                }
-
-                viewModel.ON_UPDATE_ADDRESS_EVENT -> {
-//
-//                   kill this fragment & move to the success screen
                 }
 
                 viewModel.GPS_CLICK_EEVENT -> {
@@ -398,7 +429,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
+//        viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
     }
 

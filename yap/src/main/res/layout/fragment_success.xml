@@ -32,6 +32,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
             tools:text="Your email address has been changed to newemail@website.com"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

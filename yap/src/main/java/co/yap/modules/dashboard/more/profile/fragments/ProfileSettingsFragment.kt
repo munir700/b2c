@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.DialogInterface
@@ -55,9 +56,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     private var imageUri: Uri? = null
     private val MAX_IMAGE_DIMENSION = 300
 
-
     private val FINAL_TAKE_PHOTO = 1
     private val FINAL_CHOOSE_PHOTO = 2
+
+    var checkPermissionGranted = false
 
     override val viewModel: IProfile.ViewModel
         get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
@@ -82,21 +84,24 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             Constants.EVENT_ADD_PHOTO -> {
                 val checkSelfPermission = ContextCompat.checkSelfPermission(
                     activity!!,
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
                 val checkSelfCameraPermission = ContextCompat.checkSelfPermission(
                     activity!!,
-                    android.Manifest.permission.CAMERA
+                    Manifest.permission.CAMERA
                 )
-                if (checkSelfPermission != PackageManager.PERMISSION_GRANTED && checkSelfCameraPermission != PackageManager.PERMISSION_GRANTED) {
+                if (checkSelfCameraPermission != PackageManager.PERMISSION_GRANTED && checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
                     ActivityCompat.requestPermissions(
                         activity!!,
                         arrayOf(
-                            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                            android.Manifest.permission.CAMERA
+                           Manifest.permission.CAMERA,
+                                   Manifest.permission.WRITE_EXTERNAL_STORAGE
                         ),
                         FINAL_TAKE_PHOTO
                     )
+
+//                    ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CAMERA}, requestCode);
+
                 } else {
                     takePicture()
                 }
@@ -283,6 +288,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         AuthUtils.navigateToHardLogin(requireContext())
         MyUserManager.cardBalance.value = CardBalance()
         MyUserManager.cards.value?.clear()
+        MyUserManager.userAddress = null
         activity?.finish()
     }
 
@@ -296,13 +302,19 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         when (requestCode) {
             FINAL_TAKE_PHOTO ->
 
-                if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED && grantResults.get(
+                        1
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
                     takePicture()
                 }
 
             FINAL_CHOOSE_PHOTO ->
 
-                if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED) {
+                if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED && grantResults.get(
+                        1
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
                     selectProfilePicture()
                 }
         }

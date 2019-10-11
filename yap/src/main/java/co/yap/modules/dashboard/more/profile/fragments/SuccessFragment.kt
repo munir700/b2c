@@ -15,13 +15,18 @@ import co.yap.R
 import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
+import co.yap.translation.Strings.screen_address_success_display_text_sub_heading
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_success.*
 
 class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
     ISuccess.View {
     val args: SuccessFragmentArgs by navArgs()
     var successType: String? = null
+    var addressField: String = ""
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_success
@@ -70,6 +75,17 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             primaryStr.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        tvSuccessSubHeading.text = primaryStr
+val addressStr=getString(R.string.screen_address_success_display_text_sub_heading)
+//        if (primaryStr.contains(getString(R.string.screen_address_success_display_text_sub_heading))) {
+        if (primaryStr.contains( addressStr )){
+            addressField =
+                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
+            tvSuccessSubHeading.text = primaryStr.append("\n" + addressField)
+
+        } else {
+            tvSuccessSubHeading.text = primaryStr
+
+        }
+
     }
 }

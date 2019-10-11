@@ -729,4 +729,7 @@ const val screen_phone_number_success_display_text_heading: String =
         "screen_unverified_display_button_mail"
     const val screen_unverified_display_button_back_to_dashboard: String =
         "screen_unverified_display_button_back_to_dashboard"
+
+ const val screen_address_success_display_text_sub_heading: String =
+    "screen_address_success_display_text_sub_heading"
 }

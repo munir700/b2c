@@ -69,10 +69,16 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
         }
 
     @get:Bindable
+    override var isFromPersonalDetailView: Boolean = false
+        set(value) {
+            field = value
+         }
+
+    @get:Bindable
     override var isFromPhysicalCardsLayout: Boolean = false
         set(value) {
             field = value
-        }
+         }
 
 
     @get:Bindable
@@ -235,4 +241,5 @@ class AddressSelectionState(application: Application) : BaseState(), IAddressSel
     private fun validateAddress(): Boolean {
         return addressField.isNotEmpty() && addressField.length >= 2 && checked
     }
+
 }
