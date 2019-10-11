@@ -17,7 +17,7 @@ import co.yap.yapcore.constants.Constants
 open class ChangeEmailViewModel(application: Application) :
     MoreBaseViewModel<IChangeEmail.State>(application), IChangeEmail.ViewModel,
     IRepositoryHolder<CustomersRepository> {
-    override val changeEmailSuccessEvent: SingleClickEvent= SingleClickEvent()
+    override val changeEmailSuccessEvent: SingleClickEvent = SingleClickEvent()
 
     override val repository: CustomersRepository = CustomersRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -36,13 +36,13 @@ open class ChangeEmailViewModel(application: Application) :
                 when (val response =
                     repository.validateEmail(state.newEmail)) {
                     is RetroApiResponse.Success -> {
-                       createOtp()
+                        createOtp()
                     }
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         state.errorMessage = response.error.message
-
+                        state.setErrors()
                     }
 
                 }
@@ -54,8 +54,11 @@ open class ChangeEmailViewModel(application: Application) :
     private fun createOtp() {
         launch {
             when (val response =
-                messagesRepository.createOtpGeneric(createOtpGenericRequest = CreateOtpGenericRequest(
-                    Constants.CHANGE_EMAIL))) {
+                messagesRepository.createOtpGeneric(
+                    createOtpGenericRequest = CreateOtpGenericRequest(
+                        Constants.CHANGE_EMAIL
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
                     success.value = true
                 }

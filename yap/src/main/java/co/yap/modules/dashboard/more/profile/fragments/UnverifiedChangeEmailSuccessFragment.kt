@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -18,7 +19,9 @@ import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_unverified_change_email_success.*
 
-class UnverifiedChangeEmailSuccessFragment : BaseBindingFragment<IUnverifiedChangeEmailSuccess.ViewModel>(),IUnverifiedChangeEmailSuccess.View{
+class UnverifiedChangeEmailSuccessFragment :
+    BaseBindingFragment<IUnverifiedChangeEmailSuccess.ViewModel>(),
+    IUnverifiedChangeEmailSuccess.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_unverified_change_email_success
@@ -30,8 +33,14 @@ class UnverifiedChangeEmailSuccessFragment : BaseBindingFragment<IUnverifiedChan
         super.onCreate(savedInstanceState)
         viewModel.mailButtonClickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnOpenMailApp->showToast("m ready to open mail app")
-                R.id.tvGoToDashboard->showToast("m ready to go to dashboard")
+                R.id.btnOpenMailApp -> {
+                    val intent = Intent(Intent.ACTION_MAIN)
+                    intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+                    startActivity(Intent.createChooser(intent, "Choose"))
+                }
+                R.id.tvGoToDashboard -> {
+                    activity?.finish()
+                }
             }
 
         })

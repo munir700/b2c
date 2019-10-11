@@ -23,12 +23,11 @@ class UnverifiedChangeEmailViewModel(application: Application) :ChangeEmailViewM
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
+                        state.setErrors()
                         state.errorMessage = response.error.message
-
                     }
                 }
             }
-           // success.value = true
         }
     }
     private fun changeUnverifiedEmailRequest(){
