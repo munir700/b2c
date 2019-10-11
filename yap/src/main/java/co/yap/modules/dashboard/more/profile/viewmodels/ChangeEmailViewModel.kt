@@ -12,6 +12,7 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.managers.MyUserManager
 
 
 open class ChangeEmailViewModel(application: Application) :
@@ -78,6 +79,7 @@ open class ChangeEmailViewModel(application: Application) :
             when (val response =
                 repository.changeVerifiedEmail(state.newEmail)) {
                 is RetroApiResponse.Success -> {
+                    MyUserManager.user?.currentCustomer?.email=state.newEmail
                     changeEmailSuccessEvent.call()
                 }
                 is RetroApiResponse.Error -> {
@@ -92,6 +94,6 @@ open class ChangeEmailViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-      //  setToolBarTitle("Change email")
+        setToolBarTitle("")
     }
 }
