@@ -49,7 +49,7 @@ open class ForgotPasscodeOtpFragment : BaseBindingFragment<IForgotPasscodeOtp.Vi
         viewModel.nextButtonPressEvent.observe(this, Observer {
                 val action =
                     ForgotPasscodeOtpFragmentDirections.actionForgotPasscodeFragmentToCreateNewPasscodeFragment(
-                        args!!.mobileNumber
+                        args!!.mobileNumber,args!!.navigationType
                     )
                 findNavController().navigate(action)
         })

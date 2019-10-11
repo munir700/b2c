@@ -1,5 +1,7 @@
 package co.yap.networking.customers.responsedtos
 
+import androidx.lifecycle.MutableLiveData
+
 class AccountInfo(
 
     var creationDate: String,
@@ -13,7 +15,7 @@ class AccountInfo(
     var packageName: String?,
     var status: String,
     var onBoardingStatus: String,
-    var customer: Customer,
+    private var customer: Customer,
     var bank: Bank,
 
     var notificationStatuses: String,
@@ -24,6 +26,27 @@ class AccountInfo(
     var active: Boolean,
     var soleProprietary: Boolean,
     var iban: String,
-    var ibdocumentsVerifiedan: Boolean
+    var ibdocumentsVerifiedan: Boolean,
+    var currentCustomerLiveData: MutableLiveData<Customer>
+) {
 
-)
+    var currentCustomer: Customer
+        get() = currentCustomerLiveData.value!!
+        set(value) {
+            currentCustomerLiveData = MutableLiveData()
+            currentCustomerLiveData.value = (value)
+        }
+
+    init {
+        currentCustomerLiveData = MutableLiveData()
+        currentCustomer = customer
+    }
+
+    fun getCustomerLiveData(): MutableLiveData<Customer> {
+        return currentCustomerLiveData
+    }
+
+    fun setLiveData() {
+        currentCustomer = customer
+    }
+}

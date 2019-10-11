@@ -14,9 +14,12 @@ interface IChangePhoneNumber {
         val clickEvent: SingleClickEvent
         fun onEditorActionListener(): TextView.OnEditorActionListener
         fun onHandlePressOnNextButton(view: android.view.View)
+        fun changePhoneNumber()
+        val changePhoneNumberSuccessEvent:SingleClickEvent
     }
 
     interface State : IBase.State {
+        var countryCode:String
         var mobile: String
         var drawbleRight: Drawable?
         var background: Drawable?

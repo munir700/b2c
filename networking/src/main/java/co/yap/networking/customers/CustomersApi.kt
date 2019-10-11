@@ -20,10 +20,18 @@ interface CustomersApi {
     suspend fun validateDemographicData(deviceId: String): RetroApiResponse<ValidateDeviceResponse>
     suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse>
     suspend fun getDocuments(): RetroApiResponse<ApiResponse>
+    suspend fun validateEmail(email :String): RetroApiResponse<ApiResponse>
     suspend fun getMoreDocumentsByType(documentType: String): RetroApiResponse<ApiResponse>
     suspend fun uploadProfilePicture(profilePicture: MultipartBody.Part): RetroApiResponse<UploadProfilePictureResponse>
     suspend fun validatePhoneNumber(
         countryCode: String,
         mobileNumber: String
+    ): RetroApiResponse<ApiResponse>
+    suspend fun changeMobileNumber(
+        countryCode: String,
+        mobileNumber: String
+    ): RetroApiResponse<ApiResponse>
+    suspend fun changeVerifiedEmail(
+        email: String
     ): RetroApiResponse<ApiResponse>
 }

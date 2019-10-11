@@ -22,11 +22,15 @@ interface MessagesRetroService {
     @POST(MessagesRepository.URL_CREATE_OTP_GENERIC)
     suspend fun createOtpGeneric(@Body createOtpGenericRequest: CreateOtpGenericRequest): Response<ApiResponse>
 
+    // Create otp request for change mobile number
+    @POST(MessagesRepository.URL_CREATE_OTP_GENERIC_WITH_PHONE)
+    suspend fun createOtpGenericWithPhone(@Path("phone") phone: String, @Body createOtpGenericRequest: CreateOtpGenericRequest): Response<ApiResponse>
+
     // Verify otp request
     @PUT(MessagesRepository.URL_VERIFY_OTP_GENERIC)
     suspend fun verifyOtpGeneric(@Body verifyOtpGenericRequest: VerifyOtpGenericRequest): Response<ValidateDeviceResponse>
 
-    // Verify otp request
+    // Verify otp request for change mobile number request
     @PUT(MessagesRepository.URL_VERIFY_OTP_GENERIC_WITH_PHONE)
     suspend fun verifyOtpGenericWithPhone(
         @Path("phone") phone: String, @Body verifyOtpGenericRequest: VerifyOtpGenericRequest

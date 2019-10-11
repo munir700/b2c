@@ -50,7 +50,8 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (context as MoreActivity).goneToolbar()
+        if (context is MoreActivity)
+            (context as MoreActivity).goneToolbar()
         loadData()
     }
 

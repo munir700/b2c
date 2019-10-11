@@ -5,8 +5,6 @@ import android.content.Intent
 import android.content.Intent.ACTION_DIAL
 import android.net.Uri
 import android.os.Bundle
-import android.text.SpannableString
-import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.Nullable
@@ -64,12 +62,13 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     private val observer = Observer<Int> {
         when (it) {
             R.id.lLyFaqs -> {
-                openFaqsPage("https://www.google.com")
+                openFaqsPage("https://yap.co/")
             }
             R.id.lyChat -> {
                 chatSetup()
             }
             R.id.lyLiveWhatsApp -> {
+                chatSetup()
             }
             R.id.lyCall -> {
                 openDialer()
@@ -134,8 +133,6 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
     }
 
     private fun openActivity() {
-
-        //storeData()
 
         val authCode = LivePersonStorage.getInstance(context!!)?.authCode
         val publicKey = LivePersonStorage.getInstance(context!!)?.publicKey

@@ -24,7 +24,9 @@ class CreateNewPasscodeFragment : BaseBindingFragment<ICreatePasscode.ViewModel>
         super.onCreate(savedInstanceState)
         viewModel.mobileNumber=args.mobileNumber
         viewModel.nextButtonPressEvent.observe(this, Observer {
-            findNavController().navigate(R.id.action_createNewPasscodeFragment_to_forgotPasscodeSuccessFragment)
+            val action=CreateNewPasscodeFragmentDirections.actionCreateNewPasscodeFragmentToForgotPasscodeSuccessFragment(navigationType = args.navigationType)
+            findNavController().navigate(action)
+//            findNavController().navigate(R.id.action_createNewPasscodeFragment_to_forgotPasscodeSuccessFragment)
         })
     }
 

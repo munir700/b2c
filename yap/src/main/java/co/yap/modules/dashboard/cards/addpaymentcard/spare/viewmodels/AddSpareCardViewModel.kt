@@ -164,7 +164,7 @@ class AddSpareCardViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response = repository.addSpareVirtualCard(
-                AddVirtualSpareCardRequest(MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName)
+                AddVirtualSpareCardRequest(MyUserManager.user?.currentCustomer?.getFullName())
             )) {
                 is RetroApiResponse.Success -> {
                     clickEvent.setValue(ADD_VIRTUAL_SPARE_CLICK_EVENT)
@@ -183,7 +183,7 @@ class AddSpareCardViewModel(application: Application) :
     override fun requestAddSparePhysicalCard() {
         val addPhysicalSpareCardRequest: AddPhysicalSpareCardRequest =
             AddPhysicalSpareCardRequest(
-                MyUserManager.user?.customer?.firstName + " " + MyUserManager.user?.customer?.lastName,
+                MyUserManager.user?.currentCustomer?.getFullName(),
                 address.latitude.toString(),
                 address.longitude.toString(),
                 address.address1

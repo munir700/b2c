@@ -35,8 +35,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
     }
 
     override fun handlePressOnSendButton(id: Int) {
-        nextButtonPressEvent.setValue(id)
-//        verifyOtp(id)
+        verifyOtp(id)
     }
 
     override fun handlePressOnResendOTP(id: Int) {
