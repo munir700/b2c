@@ -114,6 +114,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         val fcs = ForegroundColorSpan(ContextCompat.getColor(this, R.color.colorPrimary))
         val myClickableSpan = object : ClickableSpan() {
             override fun onClick(widget: View) {
+                dialog.dismiss()
                 startActivity(
                     UnVerifiedEmailActivity.newIntent(widget.context)
                 )

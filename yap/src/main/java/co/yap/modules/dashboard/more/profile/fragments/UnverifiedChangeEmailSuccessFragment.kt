@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -9,7 +10,9 @@ import co.yap.modules.dashboard.more.profile.intefaces.IUnverifiedChangeEmailSuc
 import co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailSuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
 
-class UnverifiedChangeEmailSuccessFragment : BaseBindingFragment<IUnverifiedChangeEmailSuccess.ViewModel>(),IUnverifiedChangeEmailSuccess.View{
+class UnverifiedChangeEmailSuccessFragment :
+    BaseBindingFragment<IUnverifiedChangeEmailSuccess.ViewModel>(),
+    IUnverifiedChangeEmailSuccess.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_unverified_change_email_success
@@ -21,8 +24,14 @@ class UnverifiedChangeEmailSuccessFragment : BaseBindingFragment<IUnverifiedChan
         super.onCreate(savedInstanceState)
         viewModel.mailButtonClickEvent.observe(this, Observer {
             when (it) {
-                R.id.btnOpenMailApp->showToast("m ready to open mail app")
-                R.id.tvGoToDashboard->showToast("m ready to go to dashboard")
+                R.id.btnOpenMailApp -> {
+                    val intent = Intent(Intent.ACTION_MAIN)
+                    intent.addCategory(Intent.CATEGORY_APP_EMAIL)
+                    startActivity(Intent.createChooser(intent, "Choose"))
+                }
+                R.id.tvGoToDashboard -> {
+                    activity?.finish()
+                }
             }
 
         })
