@@ -34,8 +34,13 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.managers.MyUserManager
+import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
+import kotlinx.android.synthetic.main.fragment_lite_dashboard.swTouchId
+import kotlinx.android.synthetic.main.layout_profile_settings.*
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
@@ -73,6 +78,40 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         if (context is MoreActivity)
             (context as MoreActivity).visibleToolbar()
 
+        var sharedPreferenceManager: SharedPreferenceManager =
+            SharedPreferenceManager(requireContext())
+
+        if (BiometricUtil.isFingerprintSupported
+            && BiometricUtil.isHardwareSupported(requireContext())
+            && BiometricUtil.isPermissionGranted(requireContext())
+            && BiometricUtil.isFingerprintAvailable(requireContext())
+        ) {
+            val isTouchIdEnabled: Boolean =
+                sharedPreferenceManager.getValueBoolien(
+                    SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                    false
+                )
+            swTouchId.isChecked = isTouchIdEnabled
+            llSignInWithTouch.visibility = View.VISIBLE
+
+            swTouchId.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        true
+                    )
+                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, true)
+                } else {
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                        false
+                    )
+                }
+            }
+        } else {
+            llSignInWithTouch.visibility = View.INVISIBLE
+        }
+
 
     }
 
@@ -94,8 +133,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                     ActivityCompat.requestPermissions(
                         activity!!,
                         arrayOf(
-                           Manifest.permission.CAMERA,
-                                   Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            Manifest.permission.CAMERA,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE
                         ),
                         FINAL_TAKE_PHOTO
                     )
