@@ -7,6 +7,7 @@ class ISendMoney {
     interface State : IBase.State {
         var tootlBarTitle: String
         var tootlBarVisibility: Int
+        var enableAddCard: Boolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

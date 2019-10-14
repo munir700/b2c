@@ -8,6 +8,14 @@ import co.yap.yapcore.BaseState
 class SendMoneyState : BaseState(), ISendMoney.State {
 
     @get:Bindable
+    override var enableAddCard: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.enableAddCard)
+
+        }
+
+    @get:Bindable
     override var tootlBarTitle: String = ""
         set(value) {
             field = value
