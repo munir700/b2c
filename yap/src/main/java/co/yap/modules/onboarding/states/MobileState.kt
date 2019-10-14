@@ -164,7 +164,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.invalid_name)
             background = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_error_layout)
              errorVisibility = VISIBLE
-            valid = false
+            //valid = false
         }
     }
 
