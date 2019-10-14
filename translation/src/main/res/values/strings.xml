@@ -441,17 +441,20 @@
     <string name="screen_email_verified_popup_button_title_click_here">click here.</string>
 
 
-
-<!--     Unverified change email success Screen-->
+    <!--     Unverified change email success Screen-->
 
     <string name="screen_unverified_success_display_text_heading">Success!</string>;
-    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>;
-    <string name="screen_unverified_success_display_text_description">Please log in to your email address to validate your email and continue with\naccess to YAP!</string>;
-    <string name="screen_unverified_display_button_mail">Open mail app</string>;
-    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
+    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
+    <string name="screen_unverified_success_display_text_description">Please log in to your email address to validate your email and continue with\naccess to YAP!</string>
+    <string name="screen_unverified_display_button_mail">Open mail app</string>
+    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
 
-
-
+    <!--  Change Location Screen-->
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
+
+    <string name="screen_send_money_display_text_title">YAP to YAP</string>
+    <string name="screen_send_money_display_text_sub_heading">Who do you want to send money to?</string>
+    <string name="screen_send_money_display_text_detail">Send money to contacts outside your YAP network by adding them as a beneficiary. You can do so by tapping the + button on the top right of this screen. For now, start adding beneficiaries by clicking below.</string>
+    <string name="screen_send_money_button_title_add_now">Add now</string>
 
 </resources>
