@@ -151,7 +151,7 @@ class ProfileSettingsViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
-                    state.fullName =  MyUserManager.user!!.currentCustomer.getFullName()
+                    state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
                     state.nameInitialsVisibility = GONE
 
                 }
@@ -176,7 +176,6 @@ class ProfileSettingsViewModel(application: Application) :
                 }
 
                 is RetroApiResponse.Error -> {
-//                    state.toast = response.error.message
                     state.errorBadgeVisibility = VISIBLE
                     showExpiredBadge = true
                 }
@@ -202,6 +201,4 @@ class ProfileSettingsViewModel(application: Application) :
             showExpiredBadge = true
         }
     }
-
-
 }

@@ -84,5 +84,4 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
         }
     }
 
-
 }

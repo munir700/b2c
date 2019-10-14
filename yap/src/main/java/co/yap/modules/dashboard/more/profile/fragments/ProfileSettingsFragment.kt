@@ -15,10 +15,11 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
+import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.lifecycle.Observer
@@ -34,11 +35,11 @@ import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.helpers.AuthUtils
+import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_lite_dashboard.*
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.swTouchId
 import kotlinx.android.synthetic.main.layout_profile_settings.*
 import java.io.ByteArrayOutputStream
@@ -59,10 +60,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     override fun getLayoutId(): Int = R.layout.fragment_profile
 
     private var imageUri: Uri? = null
-    private val MAX_IMAGE_DIMENSION = 300
-
     private val FINAL_TAKE_PHOTO = 1
     private val FINAL_CHOOSE_PHOTO = 2
+    internal var pictureSelectionType = false
+    internal var permissionHelper: PermissionHelper? = null
+
 
     var checkPermissionGranted = false
 
@@ -111,8 +113,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         } else {
             llSignInWithTouch.visibility = View.INVISIBLE
         }
-
-
     }
 
     override fun onClick(eventType: Int) {
@@ -121,29 +121,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
-                val checkSelfPermission = ContextCompat.checkSelfPermission(
-                    activity!!,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                )
-                val checkSelfCameraPermission = ContextCompat.checkSelfPermission(
-                    activity!!,
-                    Manifest.permission.CAMERA
-                )
-                if (checkSelfCameraPermission != PackageManager.PERMISSION_GRANTED && checkSelfPermission != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(
-                        activity!!,
-                        arrayOf(
-                            Manifest.permission.CAMERA,
-                            Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        ),
-                        FINAL_TAKE_PHOTO
-                    )
-
-//                    ActivityCompat.requestPermissions(activity, new String[] {Manifest.permission.CAMERA}, requestCode);
-
-                } else {
-                    takePicture()
-                }
+                takePicture()
             }
 
             Constants.EVENT_CHOOSE_PHOTO -> {
@@ -158,45 +136,119 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
     }
 
-    private fun selectProfilePicture() {
-
-        val intent = Intent()
-        intent.type = "image/jpeg"
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(
-            Intent.createChooser(
-                intent,
-                "Select Picture"
-            ), FINAL_CHOOSE_PHOTO
+    fun checkPermission() {
+        permissionHelper = PermissionHelper(
+            this,
+            arrayOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ),
+            100
         )
+
+        permissionHelper!!.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                Log.d("ProfileSettingsFragment", "onPermissionGranted() called")
+                pictureSelectionType
+
+                if (pictureSelectionType) {
+                    takePicture()
+
+                } else {
+                    selectProfilePicture()
+                }
+
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                Log.d(
+                    "ProfileSettingsFragment",
+                    "onIndividualPermissionGranted() called with: grantedPermission = [" + TextUtils.join(
+                        ",",
+                        grantedPermission
+                    ) + "]"
+                )
+            }
+
+            override fun onPermissionDenied() {
+                Log.d("ProfileSettingsFragment", "onPermissionDenied() called")
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                Log.d("ProfileSettingsFragment", "onPermissionDeniedBySystem() called")
+                permissionHelper!!.openAppDetailsActivity()
+
+
+            }
+        })
+    }
+
+    private fun selectProfilePicture() {
+        pictureSelectionType = true
+        if (ContextCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) run {
+            checkPermission()
+        } else {
+            pictureSelectionType = false
+
+            val intent = Intent()
+            intent.type = "image/jpeg"
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(
+                Intent.createChooser(
+                    intent,
+                    "Select Picture"
+                ), FINAL_CHOOSE_PHOTO
+            )
+        }
     }
 
 
     private fun takePicture() {
-        val tempFolder = File(IMAGE_PATH)
-
-        for (f in tempFolder.listFiles())
-            f.delete()
-        val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        val file = File(
-            IMAGE_PATH, "IMG_" + timeStamp +
-                    ".jpg"
-        )
-
-        imageUri = if (Build.VERSION.SDK_INT >= 24) {
-            FileProvider.getUriForFile(
-                activity!!.applicationContext,
-                "co.yap.fileprovider",
-                file
-            )
+        pictureSelectionType = true
+        if (ContextCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.CAMERA
+            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
+                activity!!,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) run {
+            checkPermission()
         } else {
-            Uri.fromFile(file)
-        }
+            pictureSelectionType = true
 
-        val intent = Intent("android.media.action.IMAGE_CAPTURE")
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-        startActivityForResult(intent, FINAL_TAKE_PHOTO)
+            val tempFolder = File(IMAGE_PATH)
+
+            for (f in tempFolder.listFiles())
+                f.delete()
+            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+            val file = File(
+                IMAGE_PATH, "IMG_" + timeStamp +
+                        ".jpg"
+            )
+
+            imageUri = if (Build.VERSION.SDK_INT >= 24) {
+                FileProvider.getUriForFile(
+                    activity!!.applicationContext,
+                    "co.yap.fileprovider",
+                    file
+                )
+            } else {
+                Uri.fromFile(file)
+            }
+
+            val intent = Intent("android.media.action.IMAGE_CAPTURE")
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+            startActivityForResult(intent, FINAL_TAKE_PHOTO)
+        }
     }
 
     fun getRealPathFromURI(context: Context, contentUri: Uri): String {
@@ -245,10 +297,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                         val imgPath = getRealPathFromURI(activity!!, uri)
                         viewModel.uploadProfconvertUriToFile(Uri.parse(imgPath))
 
-//                        Glide.with(activity!!)
-//                            .load(selectedImage)
-//                            .transforms(CenterCrop(), RoundedCorners(115))
-//                            .into(ivProfilePic)
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
@@ -269,11 +317,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                         viewModel.uploadProfconvertUriToFile(imageUri!!)
                     }
-
-//                    Glide.with(activity!!)
-//                        .load(bitmap)
-//                        .transforms(CenterCrop(), RoundedCorners(115))
-//                        .into(ivProfilePic)
                 }
         }
     }
@@ -331,31 +374,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         activity?.finish()
     }
 
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
+    override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            FINAL_TAKE_PHOTO ->
-
-                if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED && grantResults.get(
-                        1
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    takePicture()
-                }
-
-            FINAL_CHOOSE_PHOTO ->
-
-                if (grantResults.isNotEmpty() && grantResults.get(0) == PackageManager.PERMISSION_GRANTED && grantResults.get(
-                        1
-                    ) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    selectProfilePicture()
-                }
+        if (permissionHelper != null) {
+            permissionHelper!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
         }
     }
 
@@ -432,9 +454,5 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         return super.onBackPressed()
     }
 
-    private fun clearTempImages() {
-
-
-    }
 
 }
