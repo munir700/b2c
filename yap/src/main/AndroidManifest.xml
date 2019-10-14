@@ -134,5 +134,13 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
             android:theme="@style/FinestWebViewTheme.Light" />
+
+        <activity
+            android:name=".modules.dashboard.sendmoney.activities.SendMoneyHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <nav-graph android:value="@navigation/send_money_main_navigation" />
+        </activity>
+
     </application>
 </manifest>
