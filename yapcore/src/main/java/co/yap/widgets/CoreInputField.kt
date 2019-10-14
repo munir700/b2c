@@ -259,6 +259,7 @@ class CoreInputField @JvmOverloads constructor(
     fun settingUIForNormal() {
         editText.setBackgroundResource(R.drawable.bg_round_edit_text)
         tvError.text = ""
+        drawableRight = null
         tvError.visibility = View.GONE
     }
 
