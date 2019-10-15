@@ -47,11 +47,11 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.state.errorVisibility =
             arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
 
-        if (MyUserManager.user!!.documentInformation == null && viewModel.state.errorVisibility) {
+       /* if (MyUserManager.user!!.documentInformation == null && viewModel.state.errorVisibility) {
             cvCard.visibility = VISIBLE
         } else {
             cvCard.visibility = GONE
-        }
+        }*/
 
     }
 
