@@ -50,6 +50,32 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                 tools:text="@string/screen_add_beneficiary_display_text_select_country" />
+
+            <RelativeLayout
+                android:id="@+id/spinner_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:background="@drawable/bg_edit_text_grey_under_line"
+                android:clickable="true"
+                android:foreground="?android:attr/selectableItemBackground"
+                app:layout_constraintStart_toStartOf="@+id/textView2"
+                app:layout_constraintTop_toBottomOf="@+id/textView2">
+
+                <Spinner
+                    android:id="@+id/countries_spinner"
+                    android:paddingBottom="@dimen/small"
+                    android:layout_width="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:id="@+id/spinnerOverlay"
+                    android:layout_width="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_height="20dp" />
+            </RelativeLayout>
+
         </LinearLayout>
 
         <co.yap.widgets.CoreButton

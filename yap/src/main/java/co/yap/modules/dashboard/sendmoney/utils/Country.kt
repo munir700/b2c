@@ -108,7 +108,7 @@ class Country : Parcelable, Serializable {
     }
 
     fun getFlagDrawableResId(): Int {
-        if (flagDrawableResId <= 0) flagDrawableResId = CountryUtils.getFlagDrawable(this!!.code!!)
+        if (flagDrawableResId <= 0) flagDrawableResId = CurrencyUtils.getFlagDrawable(this!!.code!!)
         return flagDrawableResId
     }
 
