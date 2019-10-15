@@ -20,8 +20,7 @@ class AddBeneficiaryViewModel(application: Application) :
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
-    override fun handlePressOnBackButton() {
-    }
+
 
     override fun handlePressOnAddNow() {
 

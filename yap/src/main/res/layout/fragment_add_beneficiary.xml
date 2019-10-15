@@ -63,22 +63,44 @@
                             android:layout_marginTop="@dimen/margin_large"
                             android:gravity="center"
                             android:text="@string/screen_add_beneficiary_detail_display_text_country"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                             app:text="@{Strings.screen_add_beneficiary_detail_display_text_country}"
                             tools:text="@string/screen_add_beneficiary_detail_display_text_country" />
 
-                        <TextView
-                            style="@style/Small"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_medium"
-                            android:gravity="start"
-                            android:text="united kingdom"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading" />
+                            android:orientation="horizontal">
+
+                            <co.yap.widgets.CoreCircularImageView
+                                android:id="@+id/flag_img"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:layout_alignParentStart="true"
+                                android:layout_alignParentTop="true"
+                                android:layout_centerVertical="true"
+                                app:src="@{viewModel.state.flagDrawableResId}" />
+
+                            <TextView
+                                style="@style/Small"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="@dimen/margin_medium"
+                                android:gravity="center_vertical"
+                                android:text="@{viewModel.state.country}"
+                                tools:text="united kingdom" />
+
+
+                        </LinearLayout>
+
+                        <!--                        <TextView-->
+                        <!--                            style="@style/Small"-->
+                        <!--                            android:layout_width="wrap_content"-->
+                        <!--                            android:layout_height="wrap_content"-->
+                        <!--                            android:layout_marginTop="@dimen/margin_medium"-->
+                        <!--                            android:gravity="center_vertical"-->
+                        <!--                            android:text="@{viewModel.state.country}"-->
+                        <!--                            tools:text="united kingdom" />-->
+
 
                     </LinearLayout>
 
@@ -95,22 +117,20 @@
                             android:layout_marginTop="@dimen/margin_large"
                             android:gravity="center"
                             android:text="@string/screen_add_beneficiary_detail_display_text_transfer_type"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                             app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_type}"
                             tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_type" />
+
 
                         <TextView
                             style="@style/Small"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_medium"
-                            android:gravity="start"
-                            android:text="Cash pickup"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading" />
+                            android:layout_marginTop="@dimen/margin_normal"
+                            android:drawableStart="@drawable/ic_bank"
+                            android:drawablePadding="@dimen/margin_small"
+                            android:drawableTint="@color/greyDark"
+                            android:gravity="center_vertical"
+                            android:text="@{viewModel.state.transferType}" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -195,8 +215,8 @@
                     android:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:text="@={viewModel.state.newEmail}" />
-                //
+                    android:text="@{viewModel.state.nickName}" />
+
 
                 <TextView
                     style="@style/Small"
@@ -220,10 +240,8 @@
                     android:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:text="@={viewModel.state.newEmail}" />
+                    android:text="@{viewModel.state.firstName}" />
 
-
-                //
 
                 <TextView
                     style="@style/Small"
@@ -247,7 +265,7 @@
                     android:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:text="@={viewModel.state.newEmail}" />
+                    android:text="@{viewModel.state.lastName}" />
 
 
             </LinearLayout>
@@ -262,7 +280,7 @@
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:text="@string/screen_add_beneficiary_button_next"
-                app:btn_enable="true"
+                app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="44dp"
