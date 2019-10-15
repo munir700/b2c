@@ -18,7 +18,7 @@ class SendMoneyViewModel(application: Application) :
         backButtonPressEvent.value = true
     }
 
-    override fun handlePressOnTickButton() {
+    override fun handlePressOnAddButton(id: Int) {
 
     }
 }

@@ -31,14 +31,16 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-            tools:text="@string/screen_send_money_no_contacts_display_text_sub_heading" />
+            tools:text="@string/screen_send_money_no_contacts_display_text_sub_heading"
+            android:text="@string/screen_send_money_no_contacts_display_text_sub_heading"
+            />
 
         <TextView
             android:id="@+id/tvHeadingDetail"
             style="@style/SmallGrey"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_48sdp"
+            android:layout_marginTop="@dimen/_45sdp"
             android:gravity="center"
             android:text="@string/screen_send_money_no_contacts_display_text_detail"
             app:layout_constraintLeft_toLeftOf="parent"

@@ -12,7 +12,6 @@ class ISendMoneyHome {
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         var clickEvent: SingleClickEvent
         fun handlePressOnBackButton()
-        fun handlePressOnTickButton()
         fun handlePressOnAddNow()
     }
 

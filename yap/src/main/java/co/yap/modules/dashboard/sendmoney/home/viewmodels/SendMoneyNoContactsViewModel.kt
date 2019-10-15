@@ -24,7 +24,7 @@ class SendMoneyNoContactsViewModel(application: Application) :
     override fun handlePressOnBackButton() {
     }
 
-    override fun handlePressOnTickButton() {
+    override fun handlePressOnAddNow() {
 
     }
 
@@ -34,6 +34,6 @@ class SendMoneyNoContactsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_send_money_display_text_title))
-
+        toggleAddButtonVisibility(true)
     }
 }
