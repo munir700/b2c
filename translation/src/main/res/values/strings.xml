@@ -452,9 +452,33 @@
     <!--  Change Location Screen-->
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
 
-    <string name="screen_send_money_display_text_title">YAP to YAP</string>
-    <string name="screen_send_money_display_text_sub_heading">Who do you want to send money to?</string>
-    <string name="screen_send_money_display_text_detail">Send money to contacts outside your YAP network by adding them as a beneficiary. You can do so by tapping the + button on the top right of this screen. For now, start adding beneficiaries by clicking below.</string>
-    <string name="screen_send_money_button_title_add_now">Add now</string>
+    <!--  Send Money no contacts Screen-->
+    <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
+    <string name="screen_send_money_no_contacts_display_text_sub_heading">Who do you want to send money to?</string>
+    <string name="screen_send_money_no_contacts_display_text_detail">Send money to contacts outside your YAP network by adding them as a beneficiary. You can do so by tapping the + button on the top right of this screen. For now, start adding beneficiaries by clicking below.</string>
+    <string name="screen_send_money_no_contacts_button_title_add_now">Add now</string>
+
+    <!--  Send Money Screen-->
+    <string name="screen_send_money_display_text_title">Send money</string>
+    <string name="screen_send_money_display_text_recent_transfer">Recent transfers</string>
+    <string name="screen_send_money_input_text_search_hint">Search</string>
+    <string name="screen_send_money_display_text_all_beneficiaries">All beneficiaries</string>
+
+    <string name="screen_send_money_display_text_edit">Edit</string>
+    <string name="screen_send_money_display_text_delete">Delete</string>
+
+    <!--  Send Money Screen-->
+    <string name="screen_edit_beneficiary_display_text_title">Edit beneficiary</string>
+    <string name="screen_edit_beneficiary_display_text_change_currency">Change currency</string>
+    <string name="screen_edit_beneficiary_display_text_name">Name</string>
+    <string name="screen_edit_beneficiary_display_text_mid_name">Middle Name</string>
+    <string name="screen_edit_beneficiary_display_text_last_name">Last name</string>
+    <string name="screen_edit_beneficiary_display_text_phone_number">Phone number</string>
+    <string name="screen_edit_beneficiary_display_text_account_number">Account number</string>
+    <string name="screen_edit_beneficiary_display_text_swift_code">Swift code</string>
+    <string name="screen_edit_beneficiary_display_text_requirement_field_code">Country Bank Requirement Field code</string>
+    <string name="screen_edit_beneficiary_display_text_coonfirm">Confirm</string>
+
+
 
 </resources>

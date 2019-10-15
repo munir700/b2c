@@ -700,22 +700,22 @@ object Strings {
     const val screen_email_address_success_display_text_sub_heading: String =
         "screen_email_address_success_display_text_sub_heading"
 
-//    Change Phone Number Success Screen
-const val screen_phone_number_success_display_text_heading: String =
-    "screen_phone_number_success_display_text_heading"
+    //    Change Phone Number Success Screen
+    const val screen_phone_number_success_display_text_heading: String =
+        "screen_phone_number_success_display_text_heading"
     const val screen_phone_number_success_display_text_sub_heading: String =
-    "screen_phone_number_success_display_text_sub_heading"
+        "screen_phone_number_success_display_text_sub_heading"
 
 
-//    Email Verified Popup Screen
+    //    Email Verified Popup Screen
     const val screen_email_verified_popup_display_text_title: String =
-    "screen_email_verified_popup_display_text_title"
+        "screen_email_verified_popup_display_text_title"
     const val screen_email_verified_popup_display_text_sub_title: String =
-    "screen_email_verified_popup_display_text_sub_title"
+        "screen_email_verified_popup_display_text_sub_title"
     const val screen_email_verified_popup_display_text_click_here: String =
-    "screen_email_verified_popup_display_text_click_here"
+        "screen_email_verified_popup_display_text_click_here"
     const val screen_email_verified_popup_button_title_click_here: String =
-    "screen_email_verified_popup_button_title_click_here"
+        "screen_email_verified_popup_button_title_click_here"
 
 
     //Unverified change email success Screen
@@ -730,6 +730,54 @@ const val screen_phone_number_success_display_text_heading: String =
     const val screen_unverified_display_button_back_to_dashboard: String =
         "screen_unverified_display_button_back_to_dashboard"
 
- const val screen_address_success_display_text_sub_heading: String =
-    "screen_address_success_display_text_sub_heading"
+    const val screen_address_success_display_text_sub_heading: String =
+        "screen_address_success_display_text_sub_heading"
+
+
+    //     Send Money no contacts Screen
+    const val screen_send_money_no_contacts_display_text_title: String =
+        "screen_send_money_no_contacts_display_text_title"
+    const val screen_send_money_no_contacts_display_text_sub_heading: String =
+        "screen_send_money_no_contacts_display_text_sub_heading"
+    const val screen_send_money_no_contacts_display_text_detail: String =
+        "screen_send_money_no_contacts_display_text_detail"
+    const val screen_send_money_no_contacts_button_title_add_now: String =
+        "screen_send_money_no_contacts_button_title_add_now"
+
+
+    //   Send Money no contacts Screen
+    const val screen_send_money_display_text_title: String = "screen_send_money_display_text_title"
+    const val screen_send_money_display_text_recent_transfer: String =
+        "screen_send_money_display_text_recent_transfer"
+    const val screen_send_money_input_text_search_hint: String =
+        "screen_send_money_input_text_search_hint"
+    const val screen_send_money_display_text_all_beneficiaries: String =
+        "screen_send_money_display_text_all_beneficiaries"
+    const val screen_send_money_display_text_edit: String = "screen_send_money_display_text_edit"
+    const val screen_send_money_display_text_delete: String =
+        "screen_send_money_display_text_delete"
+
+
+    //    Send Money Screen
+    const val screen_edit_beneficiary_display_text_title: String =
+        "screen_edit_beneficiary_display_text_title"
+    const val screen_edit_beneficiary_display_text_change_currency: String =
+        "screen_edit_beneficiary_display_text_change_currency"
+    const val screen_edit_beneficiary_display_text_name: String =
+        "screen_edit_beneficiary_display_text_name"
+    const val screen_edit_beneficiary_display_text_mid_name: String =
+        "screen_edit_beneficiary_display_text_mid_name"
+    const val screen_edit_beneficiary_display_text_last_name: String =
+        "screen_edit_beneficiary_display_text_last_name"
+    const val screen_edit_beneficiary_display_text_phone_number: String =
+        "screen_edit_beneficiary_display_text_phone_number"
+    const val screen_edit_beneficiary_display_text_account_number: String =
+        "screen_edit_beneficiary_display_text_account_number"
+    const val screen_edit_beneficiary_display_text_swift_code: String =
+        "screen_edit_beneficiary_display_text_swift_code"
+    const val screen_edit_beneficiary_display_text_requirement_field_code: String =
+        "screen_edit_beneficiary_display_text_requirement_field_code"
+    const val screen_edit_beneficiary_display_text_coonfirm: String =
+        "screen_edit_beneficiary_display_text_coonfirm"
+
 }
