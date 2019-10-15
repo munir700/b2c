@@ -498,6 +498,13 @@
     <string name="screen_add_beneficiary_detail_display_text_title">Tell us about the beneficiary</string>
     <string name="screen_add_beneficiary_detail_display_text_country">Country</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_type">Transfer type</string>
+
+    <string name="screen_add_beneficiary_detail_display_text_currency">Currency</string>
+    <string name="screen_add_beneficiary_detail_display_text_change_currency">Change currency</string>
+    <string name="screen_add_beneficiary_detail_input_text_nick_name_hint">Add nickname</string>
+    <string name="screen_add_beneficiary_detail_input_text_first_name_hint">Add first name</string>
+    <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add Last name</string>
+
     <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_last_name">Last name</string>

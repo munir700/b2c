@@ -823,6 +823,16 @@ object Strings {
         "screen_add_beneficiary_detail_display_text_transfer_phone"
     const val screen_add_beneficiary_detail_button_confirm: String =
         "screen_add_beneficiary_detail_button_confirm"
+    const val screen_add_beneficiary_detail_display_text_currency: String =
+        "screen_add_beneficiary_detail_display_text_currency"
+    const val screen_add_beneficiary_detail_display_text_change_currency: String =
+        "screen_add_beneficiary_detail_display_text_change_currency"
+    const val screen_add_beneficiary_detail_input_text_nick_name_hint: String =
+        "screen_add_beneficiary_detail_input_text_nick_name_hint"
+    const val screen_add_beneficiary_detail_input_text_first_name_hint: String =
+        "screen_add_beneficiary_detail_input_text_first_name_hint"
+    const val screen_add_beneficiary_detail_input_text_last_name_hint: String =
+        "screen_add_beneficiary_detail_input_text_last_name_hint"
 
 
     const val screen_add_beneficiary_detail_display_text_alert_title: String =
