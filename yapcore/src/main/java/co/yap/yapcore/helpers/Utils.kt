@@ -25,6 +25,7 @@ import android.content.Intent.ACTION_VIEW
 
 
 object Utils {
+      var context: Context ?= null
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)

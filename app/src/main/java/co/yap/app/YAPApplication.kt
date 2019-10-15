@@ -6,12 +6,14 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import co.yap.yapcore.helpers.Utils
 import java.util.*
 
 class YAPApplication : ChatApplication() {
 
     override fun onCreate() {
         super.onCreate()
+        Utils.context = this
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
         NetworkConnectionManager.init(this)
         setAppUniqueId(this)
