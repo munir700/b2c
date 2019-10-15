@@ -40,11 +40,27 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_48sdp"
             android:gravity="center"
+            android:text="@string/screen_send_money_no_contacts_display_text_detail"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
             tools:text="@string/screen_send_money_no_contacts_display_text_detail" />
 
-
+        <co.yap.widgets.CoreButton
+            android:id="@+id/addContactsButton"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+            android:layout_marginTop="@dimen/_60sdp"
+            android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{() -> viewModel.handlePressOnAddNow()}"
+            android:text="@string/screen_send_money_no_contacts_button_title_add_now"
+            app:btn_enable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteX="44dp"
+            tools:text="@string/screen_send_money_no_contacts_button_title_add_now" />
     </LinearLayout>
 </layout>

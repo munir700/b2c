@@ -13,6 +13,7 @@ class ISendMoneyHome {
         var clickEvent: SingleClickEvent
         fun handlePressOnBackButton()
         fun handlePressOnTickButton()
+        fun handlePressOnAddNow()
     }
 
     interface View : IBase.View<ViewModel>
