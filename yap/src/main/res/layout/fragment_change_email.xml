@@ -8,6 +8,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel" />
+   <import type="co.yap.translation.Strings"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +34,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     style="@style/Large"
-                    android:text="Change email"
+                    tools:text="@string/screen_change_email_display_text_heading"
+                    app:text="@{Strings.screen_change_email_display_text_heading}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
@@ -45,7 +47,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:text="Enter your new email address"
+                    tools:text="@string/screen_change_email_display_text_email_title"
+                    app:text="@{Strings.screen_change_email_display_text_email_title}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvChangeEmailHeader" />
 
@@ -57,8 +60,9 @@
                     android:layout_marginEnd="@dimen/margin_medium_large"
                     android:background="@{viewModel.state.backgroundNew}"
                     android:drawableEnd="@{viewModel.state.drawableNew}"
-                    android:hint="Email address"
+                    tools:hint="@string/screen_change_email_placeholder_email_address"
                     android:imeOptions="actionNext"
+                    app:hint="@{Strings.screen_change_email_placeholder_email_address}"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
                     android:text="@={viewModel.state.newEmail}"
@@ -71,7 +75,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/margin_large"
-                    android:text="Re-enter your new email address"
+                    tools:text="@string/screen_change_email_display_text_confirm_email_title"
+                    app:text="@{Strings.screen_change_email_display_text_confirm_email_title}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/etNewEmail" />
 
@@ -83,7 +88,8 @@
                     android:layout_marginEnd="@dimen/margin_medium_large"
                     android:background="@{viewModel.state.backgroundConfirm}"
                     android:drawableEnd="@{viewModel.state.drawableConfirm}"
-                    android:hint="Confirm email address"
+                    tools:hint="@string/screen_change_email_placeholder_confirm_email_address"
+                    app:hint="@{Strings.screen_change_email_placeholder_confirm_email_address}"
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="textEmailAddress"
@@ -113,7 +119,7 @@
                 android:layout_marginRight="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:onClick="@{(v)->viewModel.onHandlePressOnNextButton()}"
-                android:text="Next"
+                app:text="@{Strings.common_button_next}"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toTopOf="@+id/tvEmailSendDescription"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -131,7 +137,8 @@
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_small"
                 android:gravity="center"
-                android:text="An email will be sent to your email address for\n verification."
+                tools:text="@string/screen_change_email_display_text_description"
+                app:text="@{Strings.screen_change_email_display_text_description}"
                 android:textAlignment="center"
                 app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>

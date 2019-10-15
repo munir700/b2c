@@ -15,6 +15,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 
@@ -111,6 +112,6 @@ class ChangePhoneNumberViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("Change phone number")
+        setToolBarTitle(getString(Strings.screen_change_phone_number_display_text_heading))
     }
 }
