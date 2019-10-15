@@ -482,7 +482,7 @@
 
     <!--  Add Beneficiary -->
     <string name="screen_add_beneficiary_display_text_title">Add beneficiary</string>
-    <string name="screen_add_beneficiary_display_text_country_title">Which country do you want to send money to?</string>
+    <string name="screen_add_beneficiary_display_text_country_title">Which country do you want to\n send money to?</string>
     <string name="screen_add_beneficiary_display_text_select_country">Select country</string>
     <string name="screen_add_beneficiary_button_next">Next</string>
 

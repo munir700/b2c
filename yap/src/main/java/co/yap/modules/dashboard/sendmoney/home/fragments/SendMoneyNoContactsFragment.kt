@@ -2,7 +2,9 @@ package co.yap.modules.dashboard.sendmoney.home.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.sendmoney.fragments.SendMoneyBaseFragment
@@ -27,6 +29,13 @@ class SendMoneyNoContactsFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewMod
         super.onViewCreated(view, savedInstanceState)
 
 
+         viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.addContactsButton ->
+                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
+            }
+        })
+
     }
 
     override fun onPause() {
@@ -37,12 +46,6 @@ class SendMoneyNoContactsFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewMod
 
     override fun onResume() {
         super.onResume()
-
-//        viewModel.clickEvent.observe(this, Observer {
-//            when (it) {
-//
-//            }
-//        })
 
     }
 

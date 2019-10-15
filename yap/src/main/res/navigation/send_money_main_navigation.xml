@@ -6,17 +6,24 @@
     app:startDestination="@id/sendMoneyHomeFragment">
 
     <fragment
+        android:id="@+id/selectCountryFragment"
+        android:name="co.yap.modules.dashboard.sendmoney.addbeneficiary.fragments.SelectCountryFragment"
+        android:label="Add beneficiary"
+        tools:layout="@layout/fragment_select_country"/>
+
+
+    <fragment
         android:id="@+id/sendMoneyHomeFragment"
         android:name="co.yap.modules.dashboard.sendmoney.home.fragments.SendMoneyNoContactsFragment"
         android:label="YAP to YAP"
         tools:layout="@layout/fragment_send_money_no_contacts">
 
-        <!--        <action-->
-        <!--            android:id="@+id/action_profileSettingsFragment_to_personalDetailsFragment"-->
-        <!--            app:destination="@id/personalDetailsFragment"-->
-        <!--            app:enterAnim="@anim/slide_in_right"-->
-        <!--            app:exitAnim="@anim/slide_out_left"-->
-        <!--            app:popUpToInclusive="true" />-->
+                <action
+                    android:id="@+id/action_sendMoneyHomeFragment_to_selectCountryFragment"
+                    app:destination="@id/selectCountryFragment"
+                    app:enterAnim="@anim/slide_in_right"
+                    app:exitAnim="@anim/slide_out_left"
+                    app:popUpToInclusive="true" />
 
         <!--        <action-->
         <!--            android:id="@+id/action_profileSettingsFragment_to_change_pascode_navigation"-->
