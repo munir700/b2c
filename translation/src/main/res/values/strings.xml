@@ -480,5 +480,35 @@
     <string name="screen_edit_beneficiary_display_text_coonfirm">Confirm</string>
 
 
+    <!--  Add Beneficiary -->
+    <string name="screen_add_beneficiary_display_text_title">Add beneficiary</string>
+    <string name="screen_add_beneficiary_display_text_country_title">Which country do you want to send money to?</string>
+    <string name="screen_add_beneficiary_display_text_select_country">Select country</string>
+    <string name="screen_add_beneficiary_button_next">Next</string>
+
+    <!--  Add Beneficiary transfer type -->
+    <string name="screen_add_beneficiary_display_text_transfer_type">What type of transfer will this be?</string>
+    <string name="screen_add_beneficiary_display_text_transfer_type_bank">Bank transfer</string>
+    <string name="screen_add_beneficiary_display_text_transfer_type_bank_description">Send money to an account</string>
+    <string name="screen_add_beneficiary_display_text_transfer_type_cash_pickup">Cash pickup</string>
+    <string name="screen_add_beneficiary_display_text_transfer_type_cash_pickup_description">Send money to an  agent location</string>
+
+    <!--  Add Beneficiary transfer type -->
+
+    <string name="screen_add_beneficiary_detail_display_text_title">Tell us about the beneficiary</string>
+    <string name="screen_add_beneficiary_detail_display_text_country">Country</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_type">Transfer type</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_last_name">Last name</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_nick_phone">Phone number (optional)</string>
+    <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
+
+    <string name="screen_add_beneficiary_detail_display_text_alert_title">Beneficiary has been added successfully</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_description">Send money to this beneficiary now?</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_yes">YES, SEND IT NOW</string>
+    <string name="screen_add_beneficiary_detail_display_button_block_alert_no">NO, DO IT LATER</string>
+
+
 
 </resources>
