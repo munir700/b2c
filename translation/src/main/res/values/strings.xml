@@ -501,7 +501,7 @@
     <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_last_name">Last name</string>
-    <string name="screen_add_beneficiary_detail_display_text_transfer_nick_phone">Phone number (optional)</string>
+    <string name="screen_add_beneficiary_detail_display_text_transfer_phone">Phone number (optional)</string>
     <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
 
     <string name="screen_add_beneficiary_detail_display_text_alert_title">Beneficiary has been added successfully</string>

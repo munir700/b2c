@@ -780,4 +780,57 @@ object Strings {
     const val screen_edit_beneficiary_display_text_coonfirm: String =
         "screen_edit_beneficiary_display_text_coonfirm"
 
+
+    // Add Beneficiary
+
+
+    //     Add Beneficiary
+    const val screen_add_beneficiary_display_text_title: String =
+        "screen_add_beneficiary_display_text_title"
+    const val screen_add_beneficiary_display_text_country_title: String =
+        "screen_add_beneficiary_display_text_country_title"
+    const val screen_add_beneficiary_display_text_select_country: String =
+        "screen_add_beneficiary_display_text_select_country"
+    const val screen_add_beneficiary_button_next: String = "screen_add_beneficiary_button_next"
+
+
+    // Add Beneficiary transfer type
+    const val screen_add_beneficiary_display_text_transfer_type: String =
+        "screen_add_beneficiary_display_text_transfer_type"
+    const val screen_add_beneficiary_display_text_transfer_type_bank: String =
+        "screen_add_beneficiary_display_text_transfer_type_bank"
+    const val screen_add_beneficiary_display_text_transfer_type_bank_description: String =
+        "screen_add_beneficiary_display_text_transfer_type_bank_description"
+    const val screen_add_beneficiary_display_text_transfer_type_cash_pickup: String =
+        "screen_add_beneficiary_display_text_transfer_type_cash_pickup"
+    const val screen_add_beneficiary_display_text_transfer_type_cash_pickup_description: String =
+        "screen_add_beneficiary_display_text_transfer_type_cash_pickup_description"
+
+    // Add Beneficiary transfer type
+    const val screen_add_beneficiary_detail_display_text_title: String =
+        "screen_add_beneficiary_detail_display_text_title"
+    const val screen_add_beneficiary_detail_display_text_country: String =
+        "screen_add_beneficiary_detail_display_text_country"
+    const val screen_add_beneficiary_detail_display_text_transfer_type: String =
+        "screen_add_beneficiary_detail_display_text_transfer_type"
+    const val screen_add_beneficiary_detail_display_text_transfer_nick_name: String =
+        "screen_add_beneficiary_detail_display_text_transfer_nick_name"
+    const val screen_add_beneficiary_detail_display_text_transfer_first_name: String =
+        "screen_add_beneficiary_detail_display_text_transfer_first_name"
+    const val screen_add_beneficiary_detail_display_text_transfer_last_name: String =
+        "screen_add_beneficiary_detail_display_text_transfer_last_name"
+    const val screen_add_beneficiary_detail_display_text_transfer_phone: String =
+        "screen_add_beneficiary_detail_display_text_transfer_phone"
+    const val screen_add_beneficiary_detail_button_confirm: String =
+        "screen_add_beneficiary_detail_button_confirm"
+
+
+    const val screen_add_beneficiary_detail_display_text_alert_title: String =
+        "screen_add_beneficiary_detail_display_text_alert_title"
+    const val screen_add_beneficiary_detail_display_button_block_alert_description: String =
+        "screen_add_beneficiary_detail_display_button_block_alert_description"
+    const val screen_add_beneficiary_detail_display_button_block_alert_yes: String =
+        "screen_add_beneficiary_detail_display_button_block_alert_yes"
+    const val screen_add_beneficiary_detail_display_button_block_alert_no: String =
+        "screen_add_beneficiary_detail_display_button_block_alert_no"
 }
