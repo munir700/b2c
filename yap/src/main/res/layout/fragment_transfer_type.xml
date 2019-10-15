@@ -18,7 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_12sdp"
+        android:paddingRight="@dimen/_12sdp">
 
         <TextView
             style="@style/Large"
@@ -81,7 +83,6 @@
                     app:text="@{Strings.screen_add_beneficiary_display_text_transfer_type_bank}" />
 
                 <TextView
-                    android:id="@+id/tvPrice"
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -112,7 +113,6 @@
                     android:background="@drawable/bg_round_purple">
 
                     <ImageView
-                        android:id="@+id/ivAddProfilePic"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -132,7 +132,6 @@
                     app:text="@{Strings.screen_add_beneficiary_display_text_transfer_type_cash_pickup}" />
 
                 <TextView
-                    android:id="@+id/tvPhysicalCardPrice"
                     style="@style/SmallGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -25,6 +26,19 @@ class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+
+                R.id.llBankTransferType -> {
+
+                }
+
+                R.id.llCashPickUpTransferType -> {
+
+                }
+            }
+        })
+
 
     }
 
@@ -36,12 +50,6 @@ class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
-
-//        viewModel.clickEvent.observe(this, Observer {
-//            when (it) {
-//
-//            }
-//        })
 
     }
 
