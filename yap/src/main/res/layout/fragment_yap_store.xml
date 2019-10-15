@@ -100,7 +100,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.store.viewmodels.YapStoreViewModel" />
+            type="co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel" />
     </data>
 
 

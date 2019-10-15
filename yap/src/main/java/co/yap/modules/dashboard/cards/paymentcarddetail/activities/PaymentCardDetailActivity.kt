@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.adapters.TransactionsHeaderAdapter
+import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
@@ -28,7 +28,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
-import co.yap.modules.dashboard.constants.Constants
+import co.yap.modules.others.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingActivity

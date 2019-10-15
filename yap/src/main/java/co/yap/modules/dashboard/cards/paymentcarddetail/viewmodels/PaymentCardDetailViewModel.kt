@@ -4,7 +4,7 @@ import android.app.Application
 import android.os.Handler
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IPaymentCardDetail
 import co.yap.modules.dashboard.cards.paymentcarddetail.states.PaymentCardDetailState
-import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
+import co.yap.modules.dashboard.home.helpers.transaction.TransactionLogicHelper
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.CardLimitConfigRequest
 import co.yap.networking.cards.responsedtos.Card

@@ -96,7 +96,7 @@
 
     <activity
         android:id="@+id/DashboardActivity"
-        android:name="co.yap.modules.dashboard.activities.YapDashboardActivity"
+        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
         android:label="LiteDashboardActivity"
         tools:layout="@layout/activity_yap_dashboard" />
 

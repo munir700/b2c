@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/yapHome"
-        android:name="co.yap.modules.dashboard.fragments.YapHomeFragment"
+        android:name="co.yap.modules.dashboard.home.fragments.YapHomeFragment"
         android:label="YapDashboardHome"
         tools:layout="@layout/fragment_yap_home">
         <action
@@ -63,7 +63,7 @@
 
     <fragment
         android:id="@+id/yapStore"
-        android:name="co.yap.modules.store.fragments.YapStoreFragment"
+        android:name="co.yap.modules.dashboard.store.fragments.YapStoreFragment"
         android:label="YapStoreFragment"
         tools:layout="@layout/fragment_yap_store">
         <action
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/yapStoreDetailFragment"
-        android:name="co.yap.modules.store.fragments.YapStoreDetailFragment"
+        android:name="co.yap.modules.dashboard.store.fragments.YapStoreDetailFragment"
         android:label="YapStoreDetailFragment"
         tools:layout="@layout/fragment_yap_store_detail">
         <argument

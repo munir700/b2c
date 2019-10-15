@@ -12,11 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.activities.YapDashboardActivity
 import co.yap.modules.dashboard.cards.status.interfaces.IYapCardStatus
 import co.yap.modules.dashboard.cards.status.viewmodels.YapCardStatusViewModel
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
-import co.yap.modules.store.fragments.YapStoreFragmentDirections
+import co.yap.modules.dashboard.store.fragments.YapStoreFragmentDirections
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
@@ -177,7 +177,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
                     if (isPinCreated!!) {
-                        co.yap.modules.dashboard.constants.Constants.isPinCreated = true
+                        co.yap.modules.others.constants.Constants.isPinCreated = true
                         findNavController().navigateUp()
                     }
                 }

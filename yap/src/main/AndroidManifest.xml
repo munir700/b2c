@@ -21,7 +21,7 @@
             <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
-            android:name=".modules.dashboard.activities.YapDashboardActivity"
+            android:name=".modules.dashboard.main.activities.YapDashboardActivity"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/yap_navigation" />
         </activity>

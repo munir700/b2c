@@ -30,14 +30,9 @@ import com.daimajia.androidanimations.library.YoYo
 import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
 import android.text.style.ForegroundColorSpan
-import android.text.style.StyleSpan
 import androidx.core.content.ContextCompat
-import co.yap.modules.dashboard.constants.Constants
+import co.yap.modules.others.constants.Constants
 import co.yap.yapcore.helpers.Utils
-import com.google.android.libraries.places.internal.s
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.Gravity
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 

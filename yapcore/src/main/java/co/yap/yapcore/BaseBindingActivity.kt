@@ -5,9 +5,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 
-abstract class BaseBindingActivity<V: IBase.ViewModel<*>> : BaseActivity<V>() {
+abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
-    private lateinit var viewDataBinding: ViewDataBinding
+    lateinit var viewDataBinding: ViewDataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

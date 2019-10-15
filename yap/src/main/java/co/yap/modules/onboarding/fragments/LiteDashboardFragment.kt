@@ -5,10 +5,8 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
-import co.yap.R
-import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
+import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.onboarding.interfaces.ILiteDashboard
 import co.yap.modules.onboarding.viewmodels.LiteDashboardViewModel

@@ -16,7 +16,7 @@ import co.yap.modules.dashboard.cards.home.adaptor.YapCardsAdaptor
 import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
-import co.yap.modules.dashboard.fragments.YapDashboardChildFragment
+import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.SingleClickEvent
@@ -288,8 +288,8 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     override fun onResume() {
-        if (co.yap.modules.dashboard.constants.Constants.isPinCreated) {
-            co.yap.modules.dashboard.constants.Constants.isPinCreated = false
+        if (co.yap.modules.others.constants.Constants.isPinCreated) {
+            co.yap.modules.others.constants.Constants.isPinCreated = false
             adapter.removeAllItems()
             viewModel.getCards()
         }

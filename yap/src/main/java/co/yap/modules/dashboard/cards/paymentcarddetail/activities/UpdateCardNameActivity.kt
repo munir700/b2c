@@ -10,7 +10,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IUpdateCardName
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.UpdateCardNameViewModel
-import co.yap.modules.dashboard.constants.Constants
+import co.yap.modules.others.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 import kotlinx.android.synthetic.main.activity_update_card_name.*

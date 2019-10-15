@@ -12,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
+import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
-import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
@@ -24,7 +24,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 
 
-class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View {
+class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
 
     lateinit var adapter: YapMoreAdaptor
 
@@ -135,5 +135,14 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
 
     override fun getBinding(): FragmentMoreHomeBinding {
         return viewDataBinding as FragmentMoreHomeBinding
+    }
+
+
+    override fun onStop() {
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }
