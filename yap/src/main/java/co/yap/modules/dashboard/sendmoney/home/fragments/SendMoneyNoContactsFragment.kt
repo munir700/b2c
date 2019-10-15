@@ -7,17 +7,17 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.sendmoney.home.interfaces.ISendMoneyHome
-import co.yap.modules.dashboard.sendmoney.home.viewmodels.SendMoneyHomeViewModel
+import co.yap.modules.dashboard.sendmoney.home.viewmodels.SendMoneyNoContactsViewModel
 
 
-class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
+class SendMoneyNoContactsFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_send_money_home
+    override fun getLayoutId(): Int = R.layout.fragment_send_money_no_contacts
 
     override val viewModel: ISendMoneyHome.ViewModel
-        get() = ViewModelProviders.of(this).get(SendMoneyHomeViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(SendMoneyNoContactsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

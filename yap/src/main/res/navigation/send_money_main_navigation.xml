@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/sendMoneyHomeFragment"
-        android:name="co.yap.modules.dashboard.sendmoney.home.fragments.SendMoneyHomeFragment"
+        android:name="co.yap.modules.dashboard.sendmoney.home.fragments.SendMoneyNoContactsFragment"
         android:label="YAP to YAP"
-        tools:layout="@layout/fragment_send_money_home">
+        tools:layout="@layout/fragment_send_money_no_contacts">
 
         <!--        <action-->
         <!--            android:id="@+id/action_profileSettingsFragment_to_personalDetailsFragment"-->
