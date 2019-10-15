@@ -136,13 +136,4 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     override fun getBinding(): FragmentMoreHomeBinding {
         return viewDataBinding as FragmentMoreHomeBinding
     }
-
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

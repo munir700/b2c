@@ -21,6 +21,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityYapDashboardBinding
@@ -70,7 +71,21 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             clipChildren = false
             offscreenPageLimit = 2
         }
-        getViewBinding().viewPager.setOnTouchListener { v, _ -> true }
+        getViewBinding().viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                enableDrawerSwipe(position == 0)
+            }
+        })
     }
 
     private fun addObservers() {
@@ -220,7 +235,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         bottomNav.setOnNavigationItemReselectedListener { }
     }
 
-    private fun getViewBinding(): ActivityYapDashboardBinding {
+    fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
     }
 }

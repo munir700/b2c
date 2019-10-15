@@ -17,7 +17,6 @@ import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.Notification
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
-import co.yap.modules.dashboard.main.activities.YapDashboardActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.onboarding.constants.Constants
@@ -220,18 +219,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
             checkUserStatus()
         }
-
-        if (activity is YapDashboardActivity)
-            (activity as YapDashboardActivity).enableDrawerSwipe(true)
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         appbar.removeOnOffsetChangedListener(appbarListener)
-
-        if (activity is YapDashboardActivity)
-            (activity as YapDashboardActivity).enableDrawerSwipe(false)
     }
 
     private fun setAvailableBalance(balance: String) {
@@ -283,18 +275,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun listenForToolbarExpansion() {
         appbar.addOnOffsetChangedListener(appbarListener)
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onStop() {
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 
 }
