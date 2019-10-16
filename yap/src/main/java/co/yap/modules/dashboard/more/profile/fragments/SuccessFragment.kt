@@ -5,6 +5,7 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -17,6 +18,9 @@ import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.managers.MyUserManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import kotlinx.android.synthetic.main.fragment_success.*
 
 class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
@@ -74,17 +78,31 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
         val addressStr = getString(R.string.screen_address_success_display_text_sub_heading)
-//        if (primaryStr.contains(getString(R.string.screen_address_success_display_text_sub_heading))) {
+
         if (primaryStr.contains(addressStr)) {
+            cvLocationCard.visibility = VISIBLE
             addressField =
                 MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-            tvSuccessSubHeading.text = addressStr+ ("\n" + addressField)
+            tvSuccessHeading.setTextColor(activity!!.resources.getColor(R.color.greyDark))
+
+            tvSuccessSubHeading.text = addressStr
+            if (!MyUserManager.userAddress!!.address2.isNullOrEmpty()) {
+                tvAddressTitle.setText(MyUserManager.userAddress!!.address2)
+            }
+            if (!MyUserManager.userAddress!!.address1.isNullOrEmpty()) {
+                tvAddressSubTitle.setText(MyUserManager.userAddress!!.address1)
+            }
+
+            Glide.with(ivLocationPhoto.context)
+                .load(MyUserManager.addressPhotoUrl)
+                .placeholder(R.drawable.location_place_holder)
+                .transforms(CenterCrop(), RoundedCorners(15))
+                .into(ivLocationPhoto)
 
         } else {
             tvSuccessSubHeading.text = primaryStr
 
         }
-
     }
 
     override fun onBackPressed(): Boolean {

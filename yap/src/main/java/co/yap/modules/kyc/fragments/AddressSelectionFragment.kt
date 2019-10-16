@@ -125,21 +125,21 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun setUpAddressFields() {
-          var address: Address = MyUserManager.userAddress!!
+        var address: Address = MyUserManager.userAddress!!
 
         var addresstitle = ""
         var addressDetail = ""
 
         if (!address.address2.isNullOrEmpty()) {
-            addresstitle    = address.address2!!
-         }
+            addresstitle = address.address2!!
+        }
 
         if (!address.address1.isNullOrEmpty()) {
-            addressDetail   = address.address1!!
+            addressDetail = address.address1!!
         }
 
         addresstitle + " " + addressDetail
-          viewModel.mDefaultLocation = LatLng(
+        viewModel.mDefaultLocation = LatLng(
             MyUserManager.userAddress!!.latitude!!,
             MyUserManager.userAddress!!.longitude!!
         )
@@ -150,8 +150,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         viewModel.state.landmarkField = addresstitle
 
 
-
     }
+
     private fun updateHeadings() {
         viewModel.state.headingTitle =
             getString(Strings.screen_meeting_location_display_text_add_new_address_title)
@@ -301,7 +301,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 }
 
 
-               viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
+                viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
 
                     if (viewModel.state.isFromPhysicalCardsLayout) {
                         val action =
