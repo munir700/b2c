@@ -86,4 +86,8 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
         }
 
     }
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 }
