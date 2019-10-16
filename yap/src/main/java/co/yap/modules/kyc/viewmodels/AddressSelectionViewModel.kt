@@ -115,6 +115,11 @@ class AddressSelectionViewModel(application: Application) :
 
     override val state: AddressSelectionState = AddressSelectionState(application)
 
+    override fun onCreate() {
+        super.onCreate()
+        MyUserManager.addressPhotoUrl = null
+    }
+
     private fun requestOrderCard(id: Int) {
         var orderCardRequest: OrderCardRequest = OrderCardRequest(
             state.landmarkField,
@@ -471,6 +476,7 @@ class AddressSelectionViewModel(application: Application) :
         photoTask.addOnSuccessListener { response ->
 
             placePhoto = response.bitmap
+            MyUserManager.addressPhotoUrl = placePhoto
 
             setUpCardFields()
 
