@@ -2,6 +2,7 @@ package co.yap.networking.messages
 
 
 import co.yap.networking.messages.requestdtos.*
+import co.yap.networking.messages.responsedtos.FaqsResponse
 import co.yap.networking.messages.responsedtos.HelpDeskResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
@@ -20,4 +21,5 @@ interface MessagesApi {
     suspend fun createForgotPasscodeOTP(createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): RetroApiResponse<ApiResponse>
     suspend fun verifyForgotPasscodeOtp(verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): RetroApiResponse<ApiResponse>
     suspend fun getHelpDeskContact(): RetroApiResponse<HelpDeskResponse>
+    suspend fun getFaqsUrl(): RetroApiResponse<FaqsResponse>
 }

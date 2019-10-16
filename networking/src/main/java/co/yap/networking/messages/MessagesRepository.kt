@@ -5,6 +5,7 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.messages.requestdtos.*
 import co.yap.networking.messages.responsedtos.CreateForgotPasscodeOtpResponse
+import co.yap.networking.messages.responsedtos.FaqsResponse
 import co.yap.networking.messages.responsedtos.HelpDeskResponse
 import co.yap.networking.messages.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
@@ -21,6 +22,7 @@ object MessagesRepository : BaseRepository(), MessagesApi {
     const val URL_FORGOT_PASSCODE = "/messages/api/otp/action/forgot-password"
     const val URL_VERIFY_FORGOT_PASSCODE_OTP = "/messages/api/otp/action/forgot-password"
     const val URL_HELP_DESK_PHONE = "/messages/api/help-desk"
+    const val URL_FAQS = "/messages/api/faqs"
 
     private val API: MessagesRetroService =
         RetroNetwork.createService(MessagesRetroService::class.java)
@@ -67,4 +69,7 @@ object MessagesRepository : BaseRepository(), MessagesApi {
 
     override suspend fun getHelpDeskContact(): RetroApiResponse<HelpDeskResponse> =
         AuthRepository.executeSafely(call = { API.getHelpDeskContact() })
+
+    override suspend fun getFaqsUrl(): RetroApiResponse<FaqsResponse> =
+        AuthRepository.executeSafely(call = { API.getFaqs() })
 }
