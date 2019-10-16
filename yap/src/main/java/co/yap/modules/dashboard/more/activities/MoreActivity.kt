@@ -33,6 +33,7 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
             val intent = Intent(context, MoreActivity::class.java)
             return intent
         }
+        var isDocumentRequired : Boolean =false
 
     }
 

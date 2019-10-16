@@ -87,6 +87,9 @@ class AddressSelectionViewModel(application: Application) :
     override val ON_UPDATE_ADDRESS_EVENT: Int = 300
         get() = field
 
+    override val ON_ADD_NEW_ADDRESS_EVENT: Int = 500
+        get() = field
+
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override var selectedLocationLatitude: Double = 0.0
@@ -125,11 +128,15 @@ class AddressSelectionViewModel(application: Application) :
             when (val response = repository.orderCard(orderCardRequest)) {
                 is RetroApiResponse.Success -> {
                     state.error = ""
-                    clickEvent.setValue(id)
-                    state.loading = false
 
-                    MyUserManager.userAddress!!.address1 = state.addressField
-                    MyUserManager.userAddress!!.address2 = state.landmarkField
+//                    clickEvent.setValue(id)
+                    clickEvent.setValue(ON_ADD_NEW_ADDRESS_EVENT)
+                    state.loading = false
+//if ( MyUserManager.userAddress!! != null){
+//    MyUserManager.userAddress!!.address1 = state.addressField
+//    MyUserManager.userAddress!!.address2 = state.landmarkField
+////}
+
                 }
 
                 is RetroApiResponse.Error -> {

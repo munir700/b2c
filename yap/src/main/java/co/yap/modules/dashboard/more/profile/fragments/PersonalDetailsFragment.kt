@@ -46,6 +46,9 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
         viewModel.state.errorVisibility =
             arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
+        if (MoreActivity.isDocumentRequired){
+
+        }
 
        /* if (MyUserManager.user!!.documentInformation == null && viewModel.state.errorVisibility) {
             cvCard.visibility = VISIBLE

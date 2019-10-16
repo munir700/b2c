@@ -31,6 +31,7 @@ interface IAddressSelection {
         val GPS_CLICK_EEVENT: Int
         val UPDATE_ADDRESS_EEVENT: Int
         val ON_UPDATE_ADDRESS_EVENT: Int
+        val ON_ADD_NEW_ADDRESS_EVENT: Int
         fun handlePressOnNext(id: Int)
         fun handlePressOnSelectLocation(id: Int)
         fun handlePressOnCardSelectLocation(id: Int)

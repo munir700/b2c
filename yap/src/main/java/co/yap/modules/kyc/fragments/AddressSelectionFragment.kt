@@ -300,6 +300,56 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                     }
                 }
 
+
+               viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
+
+                    if (viewModel.state.isFromPhysicalCardsLayout) {
+                        val action =
+                            AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
+                                getString(R.string.screen_spare_card_landing_display_text_physical_card),
+                                viewModel.state.placeTitle,
+                                viewModel.state.placeSubTitle,
+                                viewModel.mDefaultLocation.latitude.toString(),
+                                viewModel.mDefaultLocation.longitude.toString(),
+                                false
+
+                            )
+                        findNavController().navigate(action)
+
+
+                    } /*else if (viewModel.state.isFromPersonalDetailView) {
+//
+//                        viewModel.state.placeTitle = addresstitle
+//                        viewModel.state.placeSubTitle = addressDetail
+//                        viewModel.state.addressField = addressDetail
+//                        viewModel.state.landmarkField = addresstitle
+                        var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
+                            viewModel.state.addressField,
+                            viewModel.state.landmarkField,
+                            viewModel.mDefaultLocation.latitude.toString(),
+                            viewModel.mDefaultLocation.longitude.toString()
+                        )
+                        if (!viewModel.state.placeTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address2 = viewModel.state.placeTitle
+                        }
+
+                        if (!viewModel.state.placeSubTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address1 = viewModel.state.placeSubTitle
+                        }
+
+                        viewModel.requestUpdateAddress(updateAddressRequest)
+
+                    }*/ else {
+                        if (!viewModel.state.error.isNullOrEmpty()) {
+                            showToast(viewModel.state.error)
+                        } else {
+                            MyUserManager.user?.notificationStatuses =
+                                Constants.USER_STATUS_MEETING_SCHEDULED
+                            findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
+                        }
+                    }
+                }
+
                 viewModel.GPS_CLICK_EEVENT -> {
                     isLocationSettingsDialogue = false
                     requireContext()?.let { it1 -> displayLocationSettingsRequest(it1) }
