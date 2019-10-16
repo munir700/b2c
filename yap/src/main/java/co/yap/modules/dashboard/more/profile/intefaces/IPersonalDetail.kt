@@ -21,6 +21,8 @@ interface IPersonalDetail {
 
         val clickEvent: SingleClickEvent
 
+        var UPDATE_ADDRESS_UI : Int
+
         fun handlePressOnBackButton()
 
         fun handlePressOnEditPhone(id: Int)

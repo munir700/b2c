@@ -91,9 +91,17 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     }
 
                 }
+
+                viewModel.UPDATE_ADDRESS_UI ->{
+                    toggleAddressVisiblity()
+                }
             }
         })
 
+        toggleAddressVisiblity()
+    }
+
+    private fun toggleAddressVisiblity() {
         if (MyUserManager.userAddress == null) {
             llAddress.visibility = GONE
         } else {

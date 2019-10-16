@@ -73,7 +73,7 @@ class ChangePhoneNumberViewModel(application: Application) :
                     val action =
                         ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToGenericOtpFragment(
                             otpType = Constants.CHANGE_MOBILE_NO,
-                            mobileNumber = state.countryCode + state.mobile.replace(" ", "")
+                            mobileNumber = state.countryCode + " "+state.mobile
                         )
                     view.findNavController().navigate(action)
                 }
