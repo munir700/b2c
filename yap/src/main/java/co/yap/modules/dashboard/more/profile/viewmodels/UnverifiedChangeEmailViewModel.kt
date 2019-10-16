@@ -13,22 +13,25 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
     override val sharedPreferenceManager = SharedPreferenceManager(context)
 
     override fun onHandlePressOnNextButton() {
-        if (state.confirmEmailValidation()) {
+        if (state.newEmailValidation() && state.confirmEmailValidation()) {
+            if (state.newEmail == state.newConfirmEMail) {
+                launch {
+                    state.loading = true
+                    when (val response =
+                        repository.validateEmail(state.newEmail)) {
+                        is RetroApiResponse.Success -> {
+                            changeUnverifiedEmailRequest()
+                        }
 
-            launch {
-                state.loading = true
-                when (val response =
-                    repository.validateEmail(state.newEmail)) {
-                    is RetroApiResponse.Success -> {
-                        changeUnverifiedEmailRequest()
-                    }
+                        is RetroApiResponse.Error -> {
+                            state.loading = false
+                            state.setErrors(response.error.message)
 
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.setErrors()
-                        state.errorMessage = response.error.message
+                        }
                     }
                 }
+            } else {
+                state.setErrors("email should match")
             }
         }
     }
