@@ -200,6 +200,7 @@
                         android:padding="@dimen/margin_extra_small"
                         android:text="@string/screen_personal_detail_display_text_edit"
                         android:textColor="@color/colorPrimary"
+                        android:maxLength="100"
                         app:text="@{Strings.screen_personal_detail_display_text_edit}" />
 
                 </LinearLayout>
