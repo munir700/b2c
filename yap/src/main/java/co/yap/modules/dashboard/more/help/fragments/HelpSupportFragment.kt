@@ -57,12 +57,19 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
+        viewModel.urlUpdated.observe(this, Observer {
+            if (!it.isNullOrEmpty()) {
+                openFaqsPage(it)
+            } else {
+                showToast("Invalid url.")
+            }
+        })
     }
 
     private val observer = Observer<Int> {
         when (it) {
             R.id.lLyFaqs -> {
-                openFaqsPage("https://yap.co/")
+                viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
                 chatSetup()
