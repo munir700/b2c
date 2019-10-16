@@ -68,7 +68,7 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
                         UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToSuccessFragment2(
                             "Your passcode has been changed \n succesfully",
                             "",
-                            "CHANGE_PASSCODE"
+                            Constants.CHANGE_PASSCODE
                         )
                     findNavController().navigate(action)
                 }

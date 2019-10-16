@@ -13,44 +13,48 @@ import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import java.util.regex.Pattern
 
-class CurrentPasscodeViewModel(application: Application): ChangeCardPinViewModel(application) {
+class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val forgotPasscodeclickEvent: SingleClickEvent= SingleClickEvent()
+    override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     private val messagesRepository: MessagesRepository = MessagesRepository
     private val adminRepository: AdminRepository = AdminRepository
 
     override var emailOtp: Boolean = false
-    override var mobileNumber:String=""
+    override var mobileNumber: String = ""
 
     override fun onCreate() {
         super.onCreate()
-        state.titleSetPin="Enter your current 4-digit \n passcode"
+        state.titleSetPin = getString(Strings.screen_current_passcode_display_text_heading)
         state.buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
-        state.forgotTextVisibility=true
+        state.forgotTextVisibility = true
     }
+
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {
             validateCurrentPasscode(id)
         }
     }
+
     override fun handlePressOnForgotPasscodeButton(id: Int) {
         val sharedPreferenceManager = SharedPreferenceManager(context)
         var username = ""
-            username = EncryptionUtils.decrypt(
-                context,
-                sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-            )!!
+        username = EncryptionUtils.decrypt(
+            context,
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+        )!!
         launch {
             state.loading = true
-            when (val response=messagesRepository.createForgotPasscodeOTP(CreateForgotPasscodeOtpRequest(
-                verifyUsername(username),emailOtp)
+            when (val response = messagesRepository.createForgotPasscodeOTP(
+                CreateForgotPasscodeOtpRequest(
+                    verifyUsername(username), emailOtp
+                )
             )) {
-                is RetroApiResponse.Success ->{
-                    mobileNumber=response.data.data
+                is RetroApiResponse.Success -> {
+                    mobileNumber = response.data.data
                     state.loading = false
                     forgotPasscodeclickEvent.postValue(id)
                 }
-                is RetroApiResponse.Error->{
+                is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading = false
                 }
@@ -58,15 +62,16 @@ class CurrentPasscodeViewModel(application: Application): ChangeCardPinViewModel
         }
     }
 
-    private fun validateCurrentPasscode(id:Int){
+    private fun validateCurrentPasscode(id: Int) {
         launch {
             state.loading = true
-            when (val response=adminRepository.validateCurrentPasscode(state.pincode
+            when (val response = adminRepository.validateCurrentPasscode(
+                state.pincode
             )) {
-                is RetroApiResponse.Success ->{
+                is RetroApiResponse.Success -> {
                     clickEvent.setValue(id)
                 }
-                is RetroApiResponse.Error->{
+                is RetroApiResponse.Error -> {
                     state.dialerError = response.error.message
                     state.loading = false
                 }
@@ -78,7 +83,7 @@ class CurrentPasscodeViewModel(application: Application): ChangeCardPinViewModel
     private fun verifyUsername(enteredUsername: String): String {
         var username = enteredUsername
         if (isUsernameNumeric(username)) {
-            emailOtp=false
+            emailOtp = false
             if (username.startsWith("+")) {
                 username = username.replace("+", "00")
                 return username
@@ -91,7 +96,7 @@ class CurrentPasscodeViewModel(application: Application): ChangeCardPinViewModel
                 return username
             }
         } else {
-            emailOtp=true
+            emailOtp = true
             return username
         }
     }

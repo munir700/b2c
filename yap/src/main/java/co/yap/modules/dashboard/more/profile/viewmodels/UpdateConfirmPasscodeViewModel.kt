@@ -20,37 +20,38 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
     private val messagesRepository: MessagesRepository = MessagesRepository
     override fun onCreate() {
         super.onCreate()
-        state.titleSetPin = "Re-enter your new 4-digit \n passcode"
+        state.titleSetPin = getString(Strings.screen_confirm_passcode_display_text_heading)
         state.buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         state.forgotTextVisibility = true
     }
 
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {
-             if (state.newPin == state.pincode) {
-                 changePasscode(id)
-             } else {
-                 errorEvent.call()
-             }
+            if (state.newPin == state.pincode) {
+                changePasscode(id)
+            } else {
+                errorEvent.call()
+            }
         }
     }
 
 
-    private fun changePasscode(id: Int){
+    private fun changePasscode(id: Int) {
         launch {
             state.loading = true
-            when (val response=adminRepository.changePasscode(state.pincode)) {
-                is RetroApiResponse.Success ->{
+            when (val response = adminRepository.changePasscode(state.pincode)) {
+                is RetroApiResponse.Success -> {
                     state.loading = false
                     clickEvent.postValue(id)
                 }
-                is RetroApiResponse.Error->{
+                is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading = false
                 }
             }
         }
     }
+
     override fun handlePressOnForgotPasscodeButton(id: Int) {
         val sharedPreferenceManager = SharedPreferenceManager(context)
         var username = ""
@@ -60,16 +61,17 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
         )!!
         launch {
             state.loading = true
-            when (val response=messagesRepository.createForgotPasscodeOTP(
+            when (val response = messagesRepository.createForgotPasscodeOTP(
                 CreateForgotPasscodeOtpRequest(
-                    verifyUsername(username),emailOtp)
+                    verifyUsername(username), emailOtp
+                )
             )) {
-                is RetroApiResponse.Success ->{
-                    mobileNumber=response.data.data
+                is RetroApiResponse.Success -> {
+                    mobileNumber = response.data.data
                     state.loading = false
                     forgotPasscodeclickEvent.postValue(id)
                 }
-                is RetroApiResponse.Error->{
+                is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading = false
                 }
@@ -81,7 +83,7 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
     private fun verifyUsername(enteredUsername: String): String {
         var username = enteredUsername
         if (isUsernameNumeric(username)) {
-            emailOtp=false
+            emailOtp = false
             if (username.startsWith("+")) {
                 username = username.replace("+", "00")
                 return username
@@ -94,7 +96,7 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
                 return username
             }
         } else {
-            emailOtp=true
+            emailOtp = true
             return username
         }
     }
