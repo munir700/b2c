@@ -103,17 +103,6 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
             if (MyUserManager.userAddress != null) {
                 setUpAddressFields()
-//                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-//                viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
-//                viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
-//                viewModel.mDefaultLocation = LatLng(
-//                    MyUserManager.userAddress!!.latitude!!,
-//                    MyUserManager.userAddress!!.longitude!!
-//                )
-//
-//                viewModel.state.placeTitle = MyUserManager.userAddress!!.address1!!
-//                viewModel.state.placeSubTitle = MyUserManager.userAddress!!.address2!!
-
             }
 
         } else if (isFromBlockCardsScreen!!) {
@@ -134,6 +123,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         return viewDataBinding.root
     }
+
     private fun setUpAddressFields() {
           var address: Address = MyUserManager.userAddress!!
 
@@ -141,32 +131,23 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
         var addressDetail = ""
 
         if (!address.address2.isNullOrEmpty()) {
-            addressDetail = address.address2!!
-//            addresstitle = address.address2!!
-        }
+            addresstitle    = address.address2!!
+         }
 
         if (!address.address1.isNullOrEmpty()) {
-//             addressDetail= address.address1!!
-            addresstitle = address.address1!!
+            addressDetail   = address.address1!!
         }
 
-//        state.address = addresstitle + " " + addressDetail
-//        MyUserManager.userAddress = address
-
-
-
-
-//        MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
         addresstitle + " " + addressDetail
-        viewModel.state.addressField =addresstitle
-        viewModel.state.landmarkField = addressDetail
-        viewModel.mDefaultLocation = LatLng(
+          viewModel.mDefaultLocation = LatLng(
             MyUserManager.userAddress!!.latitude!!,
             MyUserManager.userAddress!!.longitude!!
         )
 
         viewModel.state.placeTitle = addresstitle
         viewModel.state.placeSubTitle = addressDetail
+        viewModel.state.addressField = addressDetail
+        viewModel.state.landmarkField = addresstitle
 
 
 
@@ -287,19 +268,23 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
 
                     } else if (viewModel.state.isFromPersonalDetailView) {
-
+//
+//                        viewModel.state.placeTitle = addresstitle
+//                        viewModel.state.placeSubTitle = addressDetail
+//                        viewModel.state.addressField = addressDetail
+//                        viewModel.state.landmarkField = addresstitle
                         var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
-                            viewModel.state.placeTitle,
-                            viewModel.state.placeSubTitle,
+                            viewModel.state.addressField,
+                            viewModel.state.landmarkField,
                             viewModel.mDefaultLocation.latitude.toString(),
                             viewModel.mDefaultLocation.longitude.toString()
                         )
-                        if (viewModel.state.placeTitle.isNullOrEmpty()) {
-                            MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
+                        if (!viewModel.state.placeTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address2 = viewModel.state.placeTitle
                         }
 
-                        if (viewModel.state.placeSubTitle.isNullOrEmpty()) {
-                            MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle
+                        if (!viewModel.state.placeSubTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address1 = viewModel.state.placeSubTitle
                         }
 
                         viewModel.requestUpdateAddress(updateAddressRequest)

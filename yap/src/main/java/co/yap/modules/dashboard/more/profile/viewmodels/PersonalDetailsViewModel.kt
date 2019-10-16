@@ -76,7 +76,6 @@ class PersonalDetailsViewModel(application: Application) :
                         address = response.data.data
 
                         setUpAddressFields()
-//                        ALSO INVOKE TO VIE WVISIBLE
                         clickEvent.setValue(UPDATE_ADDRESS_UI)
                     }
                 }
@@ -100,7 +99,7 @@ class PersonalDetailsViewModel(application: Application) :
             addressDetail = address.address1!!
         }
 
-        state.address = addresstitle + " " + addressDetail
+        state.address =  addressDetail
         MyUserManager.userAddress = address
     }
 

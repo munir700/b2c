@@ -24,6 +24,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.MyUserManager
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -89,7 +90,7 @@ class AddressSelectionViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override var selectedLocationLatitude: Double = 0.0
-    override var selectedLocationLongitude: Double  = 0.0
+    override var selectedLocationLongitude: Double = 0.0
 
     override lateinit var updateAddressRequest: UpdateAddressRequest
 
@@ -125,7 +126,10 @@ class AddressSelectionViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.error = ""
                     clickEvent.setValue(id)
-                     state.loading = false
+                    state.loading = false
+
+                    MyUserManager.userAddress!!.address1 = state.addressField
+                    MyUserManager.userAddress!!.address2 = state.landmarkField
                 }
 
                 is RetroApiResponse.Error -> {
@@ -511,4 +515,4 @@ class AddressSelectionViewModel(application: Application) :
         getDefaultLocationMap(mapDetailViewActivity)
     }
 
- }
+}
