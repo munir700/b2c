@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import co.yap.modules.dashboard.more.activities.MoreActivity.Companion.isDocumentRequired
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
@@ -160,7 +161,7 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     override fun requestProfileDocumentsInformation() {
-
+ 
         launch {
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
 
@@ -175,6 +176,9 @@ class ProfileSettingsViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.errorBadgeVisibility = VISIBLE
                     showExpiredBadge = true
+                     if (response.error.message.equals("Data not found")){
+                         isDocumentRequired = true
+                    }
                 }
             }
         }
