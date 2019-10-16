@@ -32,24 +32,27 @@ open class ChangeEmailViewModel(application: Application) :
 
 
     override fun onHandlePressOnNextButton() {
-        if (state.confirmEmailValidation()) {
+        if (state.newEmailValidation() && state.confirmEmailValidation()) {
+            if (state.newEmail == state.newConfirmEMail) {
+                launch {
+                    state.loading = true
+                    when (val response =
+                        repository.validateEmail(state.newEmail)) {
+                        is RetroApiResponse.Success -> {
+                            createOtp()
+                        }
 
-            launch {
-                state.loading = true
-                when (val response =
-                    repository.validateEmail(state.newEmail)) {
-                    is RetroApiResponse.Success -> {
-                        createOtp()
+                        is RetroApiResponse.Error -> {
+                            state.loading = false
+                            state.setErrors(response.error.message)
+                        }
+
                     }
-
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.errorMessage = response.error.message
-                        state.setErrors()
-                    }
-
                 }
+            } else {
+                state.setErrors("email should match")
             }
+
         }
     }
 
