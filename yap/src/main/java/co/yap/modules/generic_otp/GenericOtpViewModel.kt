@@ -28,7 +28,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
                 state.loading = true
                 when (val response =
                     repository.verifyOtpGenericWithPhone(
-                        state.mobileNumber[0]!!, VerifyOtpGenericRequest(action, state.otp)
+                        state.mobileNumber[0]!!.replace(" ","").replace("+",""), VerifyOtpGenericRequest(action, state.otp)
                     )
                     ) {
                     is RetroApiResponse.Success -> {
@@ -103,7 +103,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
 
             state.loading = true
             when (val response =
-                messagesRepository.createOtpGenericWithPhone(phone = state.mobileNumber[0]!!.replace(" ", ""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
+                messagesRepository.createOtpGenericWithPhone(phone = state.mobileNumber[0]!!.replace(" ", "").replace("+",""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
                 is RetroApiResponse.Success -> {
                     state.toast=getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
