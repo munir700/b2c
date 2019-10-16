@@ -16,6 +16,7 @@ import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_success.*
 
@@ -37,7 +38,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
 
         viewModel.buttonClickEvent.observe(this, Observer {
-            if (successType == "CHANGE_PASSCODE") {
+            if (successType == Constants.CHANGE_PASSCODE) {
                 findNavController().popBackStack(R.id.profileSettingsFragment, true)
                 findNavController().navigate(R.id.profileSettingsFragment)
             } else {

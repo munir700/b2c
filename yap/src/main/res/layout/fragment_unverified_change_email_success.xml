@@ -38,11 +38,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_normal"
             android:gravity="center"
-            android:text="Your email address has been changed to newemail@website.com"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-            tools:text="@string/empty_string" />
+            tools:text="Your email address has been changed to newemail@website.com" />
 
 
         <ImageView
@@ -64,7 +63,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xxl"
             android:gravity="center"
-            android:text="Please log in to your email address to \n validate your email and continue with \n access to YAP!"
+            tools:text="@string/screen_unverified_success_display_text_description"
+            app:text="@{Strings.screen_unverified_success_display_text_description}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ivSucces" />
@@ -79,7 +79,7 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)-> viewModel.handlePressOnMailAppButton(v.id)}"
-            android:text="Open mail app"
+            app:text="@{Strings.screen_unverified_display_button_mail}"
             app:layout_constraintBottom_toTopOf="@+id/tvGoToDashboard"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -95,8 +95,9 @@
             android:layout_marginTop="@dimen/margin_medium_large"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)-> viewModel.handlePressOnMailAppButton(v.id)}"
-            android:text="Back to dashboard"
+            app:text="@{Strings.screen_unverified_display_button_back_to_dashboard}"
             android:textColor="@color/colorPrimary"
+            tools:text="@string/screen_unverified_display_button_back_to_dashboard"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
