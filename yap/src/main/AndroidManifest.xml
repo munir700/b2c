@@ -71,7 +71,7 @@
             android:name=".modules.dashboard.more.activities.MoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/more_main_navigation" />
         </activity>
 

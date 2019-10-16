@@ -72,6 +72,7 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
         }
 
     fun confirmEmailValidation(): Boolean {
+        errorMessage = ""
         return if (Utils.validateEmail(newEmail)) {
             backgroundNew =
                 context.getDrawable(R.drawable.bg_edit_text_under_line)
@@ -96,7 +97,6 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             backgroundNew =
                 context.getDrawable(R.drawable.bg_edit_text_under_line)
             drawableNew = null
-
             backgroundConfirm =
                 context.getDrawable(R.drawable.bg_edit_text_under_line)
             drawableConfirm = null
