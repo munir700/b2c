@@ -33,9 +33,9 @@ class ChangePhoneNumberState(application: Application) : BaseState(), IChangePho
         }
 
     @get:Bindable
-    override var countryCode: String=""
+    override var countryCode: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.countryCode)
         }
 
@@ -44,9 +44,10 @@ class ChangePhoneNumberState(application: Application) : BaseState(), IChangePho
         set(value) {
             field = value
             notifyPropertyChanged(BR.mobile)
-            if (mobile.length<9){
-                mobileNoLength=11
+            if (mobile.length < 9) {
+                mobileNoLength = 11
             }
+            errorMessage = ""
 
         }
 
@@ -68,17 +69,25 @@ class ChangePhoneNumberState(application: Application) : BaseState(), IChangePho
         }
 
     @get:Bindable
-    override var valid: Boolean=false
+    override var valid: Boolean = false
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.valid)
         }
 
     @get:Bindable
-    override var errorMessage: String=""
+    override var errorMessage: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.errorMessage)
+            if (errorMessage.isNotEmpty()) {
+                background = context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+                drawbleRight =
+                    context!!.resources.getDrawable(co.yap.yapcore.R.drawable.ic_error, null)
+            }else{
+                background = context.getDrawable(R.drawable.bg_phone_number_under_line)
+                drawbleRight = null
+            }
         }
 
 
@@ -91,10 +100,11 @@ class ChangePhoneNumberState(application: Application) : BaseState(), IChangePho
             CountryCodePicker.PhoneNumberValidityChangeListener {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
-                    mobileNoLength=11
+                    mobileNoLength = 11
                     if (mobile.length == 11) {
                         setSuccessUI()
-                        drawbleRight = context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path,null)
+                        drawbleRight =
+                            context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
                         valid = true
 
                     } else {
@@ -120,13 +130,13 @@ class ChangePhoneNumberState(application: Application) : BaseState(), IChangePho
         etMobileNumber!!.getViewTreeObserver().addOnGlobalLayoutListener(
             object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
-                   /* if (etMobileNumber!!.isFocused()) {
-                        if (!keyboardShown(etMobileNumber!!.getRootView())) {
-//                            activeFieldValue = false
-                        } else {
-//                            activeFieldValue = true
-                        }
-                    }*/
+                    /* if (etMobileNumber!!.isFocused()) {
+                         if (!keyboardShown(etMobileNumber!!.getRootView())) {
+ //                            activeFieldValue = false
+                         } else {
+ //                            activeFieldValue = true
+                         }
+                     }*/
                     return
                 }
             })
@@ -140,16 +150,19 @@ class ChangePhoneNumberState(application: Application) : BaseState(), IChangePho
         val heightDiff = rootView.bottom - r.bottom
         return heightDiff > softKeyboardHeight * dm.density
     }
+
     private fun setSuccessUI() {
         drawbleRight = null
-        background = context!!.resources.getDrawable(R.drawable.bg_edit_text_active_under_line,null)
+        background =
+            context!!.resources.getDrawable(R.drawable.bg_edit_text_active_under_line, null)
 //        activeFieldValue = true
 //        mobileError = ""
         valid = false
 
     }
-    private fun setErrorLayout(){
+
+    private fun setErrorLayout() {
         drawbleRight = context.getDrawable(R.drawable.ic_error)
-        background = context!!.resources.getDrawable(R.drawable.bg_edit_text_red_under_line,null)
+        background = context!!.resources.getDrawable(R.drawable.bg_edit_text_red_under_line, null)
     }
 }
