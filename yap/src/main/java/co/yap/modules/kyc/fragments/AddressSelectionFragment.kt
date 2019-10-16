@@ -29,6 +29,7 @@ import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
@@ -101,17 +102,17 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                 getString(Strings.idenetity_scanner_sdk_screen_review_info_button_done)
 
             if (MyUserManager.userAddress != null) {
-
-                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-                viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
-                viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
-                viewModel.mDefaultLocation = LatLng(
-                    MyUserManager.userAddress!!.latitude!!,
-                    MyUserManager.userAddress!!.longitude!!
-                )
-
-                viewModel.state.placeTitle = MyUserManager.userAddress!!.address1!!
-                viewModel.state.placeSubTitle = MyUserManager.userAddress!!.address2!!
+                setUpAddressFields()
+//                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
+//                viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
+//                viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
+//                viewModel.mDefaultLocation = LatLng(
+//                    MyUserManager.userAddress!!.latitude!!,
+//                    MyUserManager.userAddress!!.longitude!!
+//                )
+//
+//                viewModel.state.placeTitle = MyUserManager.userAddress!!.address1!!
+//                viewModel.state.placeSubTitle = MyUserManager.userAddress!!.address2!!
 
             }
 
@@ -133,7 +134,43 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
         return viewDataBinding.root
     }
+    private fun setUpAddressFields() {
+          var address: Address = MyUserManager.userAddress!!
 
+        var addresstitle = ""
+        var addressDetail = ""
+
+        if (!address.address2.isNullOrEmpty()) {
+            addressDetail = address.address2!!
+//            addresstitle = address.address2!!
+        }
+
+        if (!address.address1.isNullOrEmpty()) {
+//             addressDetail= address.address1!!
+            addresstitle = address.address1!!
+        }
+
+//        state.address = addresstitle + " " + addressDetail
+//        MyUserManager.userAddress = address
+
+
+
+
+//        MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
+        addresstitle + " " + addressDetail
+        viewModel.state.addressField =addresstitle
+        viewModel.state.landmarkField = addressDetail
+        viewModel.mDefaultLocation = LatLng(
+            MyUserManager.userAddress!!.latitude!!,
+            MyUserManager.userAddress!!.longitude!!
+        )
+
+        viewModel.state.placeTitle = addresstitle
+        viewModel.state.placeSubTitle = addressDetail
+
+
+
+    }
     private fun updateHeadings() {
         viewModel.state.headingTitle =
             getString(Strings.screen_meeting_location_display_text_add_new_address_title)

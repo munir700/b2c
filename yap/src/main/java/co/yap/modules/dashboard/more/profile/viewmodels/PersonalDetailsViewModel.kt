@@ -19,6 +19,7 @@ class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
+    override var UPDATE_ADDRESS_UI: Int = 10
 
     override val repository: CardsRepository = CardsRepository
     lateinit var address: Address
@@ -75,6 +76,8 @@ class PersonalDetailsViewModel(application: Application) :
                         address = response.data.data
 
                         setUpAddressFields()
+//                        ALSO INVOKE TO VIE WVISIBLE
+                        clickEvent.setValue(UPDATE_ADDRESS_UI)
                     }
                 }
 
@@ -93,7 +96,7 @@ class PersonalDetailsViewModel(application: Application) :
             addresstitle = address.address2!!
         }
 
-        if (!address.address2.isNullOrEmpty()) {
+        if (!address.address1.isNullOrEmpty()) {
             addressDetail = address.address1!!
         }
 
