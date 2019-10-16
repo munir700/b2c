@@ -48,15 +48,15 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
     private fun shareInfo() {
         val sharingIntent = Intent(Intent.ACTION_SEND)
         sharingIntent.type = "text/plain"
-        sharingIntent.putExtra(Intent.EXTRA_SUBJECT, viewModel.state.title.get())
+        // not set because ios team is not doing this.
+        //sharingIntent.putExtra(Intent.EXTRA_SUBJECT, viewModel.state.title.get())
         sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody())
         startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
     private fun getBody(): String {
-        return viewModel.state.title.get() + "\n\n" +
-                "Name: ${viewModel.state.name.get()}\n" +
-                "SWIFT/BI: ${viewModel.state.swift.get()}\n" +
+        return "Name: ${viewModel.state.name.get()}\n" +
+                "SWIFT/BIC: ${viewModel.state.swift.get()}\n" +
                 "IBAN: ${viewModel.state.iban.get()}\n" +
                 "Account: ${viewModel.state.account.get()}\n" +
                 "Bank: ${viewModel.state.bank.get()}\n" +

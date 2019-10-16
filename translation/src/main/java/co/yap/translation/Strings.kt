@@ -663,6 +663,8 @@ object Strings {
         "screen_personal_detail_display_text_verification_completed"
     const val screen_personal_detail_display_text_verification_expired: String =
         "screen_personal_detail_display_text_verification_expired"
+ const val screen_personal_detail_display_text_verification_required: String =
+        "screen_personal_detail_display_text_verification_required"
 
 
     // logout dialogue
