@@ -78,12 +78,16 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
         if (primaryStr.contains(addressStr)) {
             addressField =
                 MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-            tvSuccessSubHeading.text = primaryStr.append("\n" + addressField)
+            tvSuccessSubHeading.text = addressStr+ ("\n" + addressField)
 
         } else {
             tvSuccessSubHeading.text = primaryStr
 
         }
 
+    }
+
+    override fun onBackPressed(): Boolean {
+        return true
     }
 }
