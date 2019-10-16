@@ -112,6 +112,6 @@ class ChangePhoneNumberViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(getString(Strings.screen_change_phone_number_display_text_heading))
+        setToolBarTitle("")
     }
 }
