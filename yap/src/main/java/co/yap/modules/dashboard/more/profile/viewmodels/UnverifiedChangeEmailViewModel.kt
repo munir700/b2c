@@ -31,7 +31,7 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
                     }
                 }
             } else {
-                state.setErrors("email should match")
+                state.setErrors("Email is not matched.")
             }
         }
     }

@@ -50,7 +50,7 @@ open class ChangeEmailViewModel(application: Application) :
                     }
                 }
             } else {
-                state.setErrors("email should match")
+                state.setErrors("Email is not matched.")
             }
 
         }
