@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/yapToYapHome"
+    android:id="@+id/yap_to_yap_navigation">
+    <fragment
+        android:id="@+id/yapToYapHome"
+        android:name="co.yap.modules.yap_to_yap.fragments.YapToYapFragment"
+        tools:layout="@layout/fragment_yap_to_yap"
+        android:label="YapToYapFragment" />
+</navigation>

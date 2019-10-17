@@ -478,6 +478,10 @@
     <string name="screen_unverified_display_button_later">Maybe later</string>;
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
 
+    <!--    Yap to Yap Home Screen-->
+    <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">None of your friends have YAP yet.  Invite them now and earn AED XX for every friend that stars using YAP!</string>
+    <string name="screen_yap_to_yap_display_text_button">Invite now</string>
+
 
 
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>

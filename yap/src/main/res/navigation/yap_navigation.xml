@@ -21,6 +21,12 @@
         android:label="SetCardPinWelcomeActivity"
         tools:layout="@layout/activity_set_card_pin_welcome" />
 
+    <activity
+        android:id="@+id/yapIt"
+        android:name="co.yap.modules.yap_to_yap.activities.YapToYapDashboardActivity"
+        android:label="YapToYapDashboardActivity"
+        tools:layout="@layout/activity_yap_to_yap_dashboard"/>
+
     <fragment
         android:id="@+id/yapHome"
         android:name="co.yap.modules.dashboard.fragments.YapHomeFragment"
