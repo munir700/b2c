@@ -104,6 +104,8 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             if (MyUserManager.userAddress != null) {
                 setUpAddressFields()
             }
+            viewModel.state.subHeadingTitle =
+                getString(Strings.screen_meeting_location_display_text_subtitle)
 
         } else if (isFromBlockCardsScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
