@@ -48,7 +48,7 @@ class UnverifiedChangeEmailViewModel(application: Application) : ChangeEmailView
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.errorMessage = response.error.message
+                    state.setErrors(response.error.message)
 
                 }
 

@@ -92,8 +92,8 @@ open class ChangeEmailViewModel(application: Application) :
 
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
                     state.loading = false
+                    state.setErrors(response.error.message)
                 }
             }
             state.loading = false
