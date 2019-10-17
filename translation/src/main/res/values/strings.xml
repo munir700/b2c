@@ -407,8 +407,8 @@
     <string name="screen_personal_detail_display_text_edit">Edit</string>
     <string name="screen_personal_detail_display_text_emirates_id">Emirates ID</string>
     <string name="screen_personal_detail_display_text_verification_completed">Verification completed</string>
-    <string name="screen_personal_detail_display_text_verification_expired">Your EID is expired.\nTap here to update to ensure account continuity</string>
-    <string name="screen_personal_detail_display_text_verification_required">Your EID is required.\nTap here to update to ensure account continuity</string>
+    <string name="screen_personal_detail_display_text_verification_expired">Your EID is expired.\nTap to update to ensure account continuity</string>
+    <string name="screen_personal_detail_display_text_verification_required">Your EID is required.\nTap to update to ensure account continuity</string>
 
     <!-- logout dialogue -->
 
