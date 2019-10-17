@@ -99,7 +99,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             updateHeadings()
 
             viewModel.state.nextActionBtnText =
-                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_done)
+                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_next)
 
             if (MyUserManager.userAddress != null) {
                 setUpAddressFields()
