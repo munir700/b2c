@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.states.ChangeEmailState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
@@ -87,6 +88,8 @@ open class ChangeEmailViewModel(application: Application) :
                     MyUserManager.user?.currentCustomer?.email = state.newEmail
                     sharedPreferenceManager.saveUserName(state.newEmail)
                     changeEmailSuccessEvent.call()
+
+
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
