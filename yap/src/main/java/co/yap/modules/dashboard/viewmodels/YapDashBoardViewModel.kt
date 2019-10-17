@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.interfaces.IYapDashboard
+import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.states.YapDashBoardState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -61,6 +62,14 @@ class YapDashBoardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
                     MyUserManager.user?.setLiveData() // DOnt remove this line
+                     if (/*null != MyUserManager.user?.documentInformation && MyUserManager.user?.documentsVerified == true ||*/ MyUserManager.user?.isDocumentsVerified.equals("N") ){
+                         MoreActivity.showExpiredIcon = true
+
+                     }else{
+                         MoreActivity.showExpiredIcon =false
+
+                     }
+
                     getAccountInfoSuccess.value = true
                     populateState()
                     if( MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N",true)){

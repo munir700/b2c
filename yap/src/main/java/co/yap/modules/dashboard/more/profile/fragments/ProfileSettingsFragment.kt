@@ -200,7 +200,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         MyUserManager.cardBalance.value = CardBalance()
         MyUserManager.cards.value?.clear()
         MyUserManager.userAddress = null
-//        MoreActivity.showExpiredIcon =false
+        MoreActivity.showExpiredIcon =false
         activity?.finish()
     }
 
