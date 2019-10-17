@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.activities.MoreActivity
+import co.yap.modules.dashboard.more.activities.MoreActivity.Companion.showExpiredIcon
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
@@ -36,16 +37,19 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val showExpiredIcon =
-            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired }
+//        val showExpiredIcon =
+//            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (context as MoreActivity).visibleToolbar()
 
-        viewModel.state.errorVisibility =
-            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
+//        viewModel.state.errorVisibility =
+//            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
+
+
+        viewModel.state.errorVisibility = showExpiredIcon
         if (MoreActivity.isDocumentRequired){
 
         }

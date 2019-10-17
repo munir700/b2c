@@ -6,6 +6,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.activities.MoreActivity.Companion.isDocumentRequired
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
@@ -201,5 +202,7 @@ class ProfileSettingsViewModel(application: Application) :
             state.errorBadgeVisibility = VISIBLE
             showExpiredBadge = true
         }
+        MoreActivity.showExpiredIcon = showExpiredBadge
+
     }
 }
