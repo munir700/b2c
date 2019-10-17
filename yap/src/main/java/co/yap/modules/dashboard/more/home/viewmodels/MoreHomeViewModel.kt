@@ -9,6 +9,7 @@ import co.yap.modules.dashboard.more.home.states.MoreState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.NetworkConnectionManager.init
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
@@ -19,11 +20,12 @@ class MoreHomeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: MoreState = MoreState()
 
-    override fun onResume() {
-        super.onResume()
-        state.image.set(MyUserManager.user?.currentCustomer?.getPicture())
-        state.initials.set(Utils.shortName(MyUserManager.user?.currentCustomer?.getFullName()!!))
-    }
+        init{
+
+            state.image.set(MyUserManager.user?.currentCustomer?.getPicture())
+            state.initials.set(Utils.shortName(MyUserManager.user?.currentCustomer?.getFullName()!!))
+        }
+
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
