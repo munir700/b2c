@@ -99,6 +99,9 @@ class AddressSelectionViewModel(application: Application) :
 
     var checkLocationUpdate: Boolean = false
 
+    var locationSelectionStart: Boolean = false
+//    var checkLocationUpdate: Boolean = false
+
     fun mapDetailViewActivity(): Activity {
         return Activity()
     }
@@ -255,17 +258,24 @@ class AddressSelectionViewModel(application: Application) :
         state.placePhoto = this.placePhoto
         state.placeSubTitle = this.placeSubTitle
 
-        state.landmarkField = this.placeName
-        state.addressField = this.placeSubTitle
+
     }
 
     override fun onLocatioenSelected() {
         if (checkLocationUpdate) {
             MyUserManager.addressPhotoUrl = null
         }
+//        if (state.isFromPersonalDetailView ) {
+//
+            locationSelectionStart = true
+//        }
+//        if (state.isFromPersonalDetailView && locationSelectionStart){
+
+            state.landmarkField = this.placeName
+            state.addressField = this.placeSubTitle
+//        }
         state.headingTitle = this.placeName
-//        state.addressField = this.placeName + ", " + this.placeTitle
-        state.landmarkField = this.placeName
+ //        state.landmarkField = this.placeName
         toggleMarkerVisibility()
         state.placePhoto = this.placePhoto
         state.subHeadingTitle =
@@ -429,6 +439,11 @@ class AddressSelectionViewModel(application: Application) :
                                 markerSnippet = currentPlace.address
                                 placeSubTitle = markerSnippet.toString()
                             }
+
+                            if (state.isFromPersonalDetailView && !locationSelectionStart){
+
+                            }
+
                             placeName = currentPlace.name!!
                             placeTitle = currentPlace.address!!
                             var currentAddress: String = currentPlace.address!!

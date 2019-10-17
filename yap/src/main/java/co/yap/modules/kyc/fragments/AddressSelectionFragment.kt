@@ -125,29 +125,29 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun setUpAddressFields() {
-        var address: Address = MyUserManager.userAddress!!
-
-        var addresstitle = ""
-        var addressDetail = ""
-
-        if (!address.address2.isNullOrEmpty()) {
-            addresstitle = address.address2!!
-        }
-
-        if (!address.address1.isNullOrEmpty()) {
-            addressDetail = address.address1!!
-        }
-
-        addresstitle + " " + addressDetail
-        viewModel.mDefaultLocation = LatLng(
-            MyUserManager.userAddress!!.latitude!!,
-            MyUserManager.userAddress!!.longitude!!
-        )
-
-        viewModel.state.placeTitle = addresstitle
-        viewModel.state.placeSubTitle = addressDetail
-        viewModel.state.addressField = addressDetail
-        viewModel.state.landmarkField = addresstitle
+//        var address: Address = MyUserManager.userAddress!!
+//
+//        var addresstitle = ""
+//        var addressDetail = ""
+//
+//        if (!address.address2.isNullOrEmpty()) {
+//            addresstitle = address.address2!!
+//        }
+//
+//        if (!address.address1.isNullOrEmpty()) {
+//            addressDetail = address.address1!!
+//        }
+//
+//        addresstitle + " " + addressDetail
+//        viewModel.mDefaultLocation = LatLng(
+//            MyUserManager.userAddress!!.latitude!!,
+//            MyUserManager.userAddress!!.longitude!!
+//        )
+//
+//        viewModel.state.placeTitle = addresstitle
+//        viewModel.state.placeSubTitle = addressDetail
+//        viewModel.state.addressField = addressDetail
+//        viewModel.state.landmarkField = addresstitle
 
 
     }
