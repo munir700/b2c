@@ -67,4 +67,8 @@ class UnverifiedChangeEmailSuccessFragment :
         tvUnverifySuccessSubHeading.text = primaryStr
     }
 
+    override fun onBackPressed(): Boolean {
+        return true
+    }
+
 }
