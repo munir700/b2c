@@ -97,6 +97,7 @@ class AddressSelectionViewModel(application: Application) :
 
     override lateinit var updateAddressRequest: UpdateAddressRequest
 
+    var checkLocationUpdate: Boolean = false
 
     fun mapDetailViewActivity(): Activity {
         return Activity()
@@ -204,7 +205,7 @@ class AddressSelectionViewModel(application: Application) :
 
                 getDefaultLocationMap(mapDetailViewActivity)
             }
-
+            checkLocationUpdate = true
             mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
                 override fun onMapClick(p0: LatLng?) {
 
@@ -229,8 +230,8 @@ class AddressSelectionViewModel(application: Application) :
                         R.drawable.location_place_holder
                     )
                     state.placeSubTitle = placeSubTitle
-                    state.addressField = placeSubTitle
-                    state.landmarkField = placeName
+//                    state.addressField = placeSubTitle
+//                    state.landmarkField = placeName
                 }
 
             })
@@ -259,6 +260,9 @@ class AddressSelectionViewModel(application: Application) :
     }
 
     override fun onLocatioenSelected() {
+        if (checkLocationUpdate) {
+            MyUserManager.addressPhotoUrl = null
+        }
         state.headingTitle = this.placeName
 //        state.addressField = this.placeName + ", " + this.placeTitle
         state.landmarkField = this.placeName
