@@ -23,6 +23,11 @@ class MoreHomeViewModel(application: Application) :
         state.image.set(MyUserManager.user?.currentCustomer?.getPicture())
         state.initials.set(Utils.shortName(MyUserManager.user?.currentCustomer?.getFullName()!!))
     }
+        init{
+
+            state.image.set(MyUserManager.user?.currentCustomer?.getPicture())
+            state.initials.set(Utils.shortName(MyUserManager.user?.currentCustomer?.getFullName()!!))
+        }
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

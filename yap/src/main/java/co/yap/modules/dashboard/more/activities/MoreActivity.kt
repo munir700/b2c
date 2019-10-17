@@ -34,6 +34,7 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
             return intent
         }
         var isDocumentRequired : Boolean =false
+        var showExpiredIcon : Boolean =false
 
     }
 

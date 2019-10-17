@@ -216,6 +216,7 @@ class AddressSelectionViewModel(application: Application) :
                     list = geocoder.getFromLocation(p0!!.latitude, p0!!.longitude, 1)
                     var selectedAddress: Address = list.get(0)
                     placeName = selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
+//                    state.placeSubTitle= " "
                     placeSubTitle = selectedAddress.getAddressLine(0)
 
                     locationMarker!!.remove()
@@ -228,6 +229,8 @@ class AddressSelectionViewModel(application: Application) :
                         R.drawable.location_place_holder
                     )
                     state.placeSubTitle = placeSubTitle
+                    state.addressField = placeSubTitle
+                    state.landmarkField = placeName
                 }
 
             })
@@ -250,11 +253,14 @@ class AddressSelectionViewModel(application: Application) :
         state.placeTitle = this.placeName
         state.placePhoto = this.placePhoto
         state.placeSubTitle = this.placeSubTitle
+
+        state.landmarkField = this.placeName
+        state.addressField = this.placeSubTitle
     }
 
     override fun onLocatioenSelected() {
         state.headingTitle = this.placeName
-        state.addressField = this.placeName + ", " + this.placeTitle
+//        state.addressField = this.placeName + ", " + this.placeTitle
         state.landmarkField = this.placeName
         toggleMarkerVisibility()
         state.placePhoto = this.placePhoto
