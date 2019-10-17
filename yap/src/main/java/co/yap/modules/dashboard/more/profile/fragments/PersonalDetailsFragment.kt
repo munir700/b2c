@@ -68,6 +68,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
+        viewModel.state.errorVisibility = showExpiredIcon
         viewModel.toggleToolBar(true)
 
         viewModel.clickEvent.observe(this, Observer {

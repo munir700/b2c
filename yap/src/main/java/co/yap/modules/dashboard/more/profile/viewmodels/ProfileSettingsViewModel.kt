@@ -198,11 +198,13 @@ class ProfileSettingsViewModel(application: Application) :
         if (expireyDate > previousDayDate) {
             state.errorBadgeVisibility = GONE
             showExpiredBadge = false
+            MoreActivity.showExpiredIcon = false
+
         } else {
             state.errorBadgeVisibility = VISIBLE
             showExpiredBadge = true
+            MoreActivity.showExpiredIcon = true
         }
-        MoreActivity.showExpiredIcon = showExpiredBadge
 
     }
 }
