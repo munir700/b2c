@@ -265,15 +265,15 @@ class AddressSelectionViewModel(application: Application) :
         if (checkLocationUpdate) {
             MyUserManager.addressPhotoUrl = null
         }
-        if (state.isFromPersonalDetailView ) {
-
+//        if (state.isFromPersonalDetailView ) {
+//
             locationSelectionStart = true
-        }
-        if (state.isFromPersonalDetailView && locationSelectionStart){
+//        }
+//        if (state.isFromPersonalDetailView && locationSelectionStart){
 
             state.landmarkField = this.placeName
             state.addressField = this.placeSubTitle
-        }
+//        }
         state.headingTitle = this.placeName
  //        state.landmarkField = this.placeName
         toggleMarkerVisibility()
