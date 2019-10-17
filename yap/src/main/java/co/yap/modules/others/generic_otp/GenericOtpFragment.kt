@@ -1,4 +1,4 @@
-package co.yap.modules.generic_otp
+package co.yap.modules.others.generic_otp
 
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders

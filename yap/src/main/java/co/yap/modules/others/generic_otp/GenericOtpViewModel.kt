@@ -1,4 +1,4 @@
-package co.yap.modules.generic_otp
+package co.yap.modules.others.generic_otp
 
 import android.app.Application
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel
