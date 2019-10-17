@@ -107,4 +107,8 @@ class PersonalDetailsViewModel(application: Application) :
         toggleToolBarVisibility(hide)
     }
 
+ override fun updateToolBarText(heading: String) {
+     setToolBarTitle(heading)
+    }
+
  }

@@ -37,6 +37,8 @@ interface IPersonalDetail {
 
         fun toggleToolBar(hide: Boolean)
 
+        fun updateToolBarText(heading: String)
+
     }
 
     interface View : IBase.View<ViewModel>
