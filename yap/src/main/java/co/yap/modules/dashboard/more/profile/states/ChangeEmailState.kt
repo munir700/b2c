@@ -110,7 +110,8 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
 
         backgroundConfirm =
             context.getDrawable(R.drawable.bg_edit_text_under_line)
-        drawableConfirm = if (Utils.validateEmail(newConfirmEMail)) context.getDrawable(R.drawable.path) else null
+        drawableConfirm =
+            if (Utils.validateEmail(newConfirmEMail)) context.getDrawable(R.drawable.path) else null
     }
 
     fun setErrors(errorMesage: String) {
@@ -119,10 +120,10 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
                 context.getDrawable(R.drawable.bg_edit_text_red_under_line)
             drawableConfirm = context.getDrawable(R.drawable.ic_error)
         } else {
-            backgroundNew =
-                context.getDrawable(R.drawable.bg_edit_text_red_under_line)
-            drawableNew = context.getDrawable(R.drawable.ic_error)
-
+            /*  backgroundNew =
+                  context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+              drawableNew = context.getDrawable(R.drawable.ic_error)
+  */
             backgroundConfirm =
                 context.getDrawable(R.drawable.bg_edit_text_red_under_line)
             drawableConfirm = context.getDrawable(R.drawable.ic_error)

@@ -17,6 +17,20 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
     private val messagesRepository: MessagesRepository = MessagesRepository
     override var action: String = ""
 
+    override fun onCreate() {
+        super.onCreate()
+        if(action==Constants.CHANGE_EMAIL){
+            state.verificationTitle =getString(Strings.screen_email_verification_display_text_heading)
+        }else{
+            state.verificationTitle =getString(Strings.screen_forgot_passcode_otp_display_text_heading)
+        }
+
+        state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
+        state.reverseTimer(10)
+        state.validResend = false
+    }
+
+
     override fun handlePressOnSendButton(id: Int) {
         verifyOtp(id)
     }

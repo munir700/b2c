@@ -770,4 +770,9 @@ object Strings {
     const val screen_confirm_passcode_display_text_heading: String =
         "screen_confirm_passcode_display_text_heading"
 
+
+    //Email Verification Screen
+    const val screen_email_verification_display_text_heading: String =
+        "screen_email_verification_display_text_heading"
+
 }

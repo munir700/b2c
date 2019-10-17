@@ -433,6 +433,9 @@
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
     <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
 
+<!--    Email Verification Screen-->
+    <string name="screen_email_verification_display_text_heading">Verify your email address</string>
+
 <!--    Change Phone Number Screen-->
     <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
     <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
