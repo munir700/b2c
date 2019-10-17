@@ -20,6 +20,15 @@ class MoreHomeViewModel(application: Application) :
     override val state: MoreState = MoreState()
 
     init {
+        setPicture()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setPicture()
+    }
+
+    private fun setPicture() {
         state.image.set(MyUserManager.user?.currentCustomer?.getPicture())
         state.initials.set(Utils.shortName(MyUserManager.user?.currentCustomer?.getFullName()!!))
     }
