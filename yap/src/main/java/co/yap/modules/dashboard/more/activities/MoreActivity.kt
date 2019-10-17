@@ -49,17 +49,15 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
-
     }
-
 
     override fun onDestroy() {
         viewModel.backButtonPressEvent.removeObservers(this)
         super.onDestroy()
-         checkMore = false
-         checkScanned = false
-      isFromMoreSection  = false
-       hasStartedScanner = false
+        checkMore = false
+        checkScanned = false
+        isFromMoreSection = false
+        hasStartedScanner = false
     }
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }

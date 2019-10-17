@@ -6,7 +6,6 @@ import android.text.style.RelativeSizeSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
@@ -19,6 +18,7 @@ import co.yap.modules.dashboard.home.models.Notification
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.yapcore.helpers.Utils
@@ -248,20 +248,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         when (notification.action) {
             Constants.NOTIFICATION_ACTION_SET_PIN -> viewModel.getDebitCards()
             Constants.NOTIFICATION_ACTION_COMPLETE_VERIFICATION -> {
-                val action =
-                    YapHomeFragmentDirections.actionYapHomeToDocumentsDashboardActivity(
-                        parentViewModel.state.firstName
+                startActivity(
+                    DocumentsDashboardActivity.getIntent(
+                        requireContext(),
+                        parentViewModel.state.firstName,
+                        false
                     )
-                findNavController().navigate(action)
+                )
                 activity?.finish()
             }
 
         }
     }
 
-//    private val appbarListener = AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-//        val toolbarCollapsed = (abs(verticalOffset) - appBarLayout.totalScrollRange) == 0
-//    }
 
     private val appbarListener = object : AppBarStateChangeListener() {
         override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {

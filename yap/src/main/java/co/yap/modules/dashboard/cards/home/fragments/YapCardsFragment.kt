@@ -7,7 +7,6 @@ import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import co.yap.BR
 import co.yap.R
@@ -17,6 +16,7 @@ import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.others.helper.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.SingleClickEvent
@@ -271,8 +271,10 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openStatusScreen(view: View, pos: Int) {
-        view.findNavController().navigate(
-            YapCardsFragmentDirections.actionYapCardsToYapCardStatusFragment(
+        startActivity(
+            FragmentPresenterActivity.getIntent(
+                requireContext(),
+                Constants.MODE_STATUS_SCREEN,
                 getCard(pos)
             )
         )

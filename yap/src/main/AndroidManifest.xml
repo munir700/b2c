@@ -23,7 +23,7 @@
         <activity
             android:name=".modules.dashboard.main.activities.YapDashboardActivity"
             android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/yap_navigation" />
+<!--            <nav-graph android:value="@navigation/yap_navigation" />-->
         </activity>
 
         <meta-data

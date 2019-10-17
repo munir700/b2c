@@ -13,6 +13,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
@@ -92,9 +93,10 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
 
                     }
                     Constants.MORE_HELP_SUPPORT -> {
-                        val action =
-                            YapMoreFragmentDirections.actionYapMoreToHelpSupportFragment()
-                        findNavController().navigate(action)
+                        //todo do it
+//                        val action =
+//                            YapMoreFragmentDirections.actionYapMoreToHelpSupportFragment()
+//                        findNavController().navigate(action)
                     }
                 }
             }
@@ -114,16 +116,16 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgProfile -> {
-                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+                startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.imgSettings -> {
-                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+                startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvName -> {
-                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+                startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvNameInitials -> {
-                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+                startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvIban -> {
             }

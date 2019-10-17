@@ -236,17 +236,18 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                 R.id.nextButton -> {
                     if (viewModel.state.isFromPhysicalCardsLayout) {
-                        val action =
-                            AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
-                                getString(R.string.screen_spare_card_landing_display_text_physical_card),
-                                viewModel.state.placeTitle,
-                                viewModel.state.placeSubTitle,
-                                viewModel.mDefaultLocation.latitude.toString(),
-                                viewModel.mDefaultLocation.longitude.toString(),
-                                false
-
-                            )
-                        findNavController().navigate(action)
+                        //todo refactor
+//                        val action =
+//                            AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
+//                                getString(R.string.screen_spare_card_landing_display_text_physical_card),
+//                                viewModel.state.placeTitle,
+//                                viewModel.state.placeSubTitle,
+//                                viewModel.mDefaultLocation.latitude.toString(),
+//                                viewModel.mDefaultLocation.longitude.toString(),
+//                                false
+//
+//                            )
+//                        findNavController().navigate(action)
 
 
                     } else if (viewModel.state.isFromPersonalDetailView) {

@@ -17,7 +17,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
@@ -28,6 +27,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.activities.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
+import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.others.constants.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -106,10 +106,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                 }
                 R.id.llRemoveFunds -> {
                     if (!viewModel.card.blocked) {
-                    startActivityForResult(
-                        RemoveFundsActivity.newIntent(this, viewModel.card),
-                        Constants.REQUEST_ADD_REMOVE_FUNDS
-                    ) }else{
+                        startActivityForResult(
+                            RemoveFundsActivity.newIntent(this, viewModel.card),
+                            Constants.REQUEST_ADD_REMOVE_FUNDS
+                        )
+                    } else {
                         showToast("Please unfreeze card to use this feature")
                     }
                 }
@@ -246,7 +247,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                             viewModel.card.cardSerialNumber
                         )
                     )
-                }else{
+                } else {
                     showToast("Please unfreeze card to use this feature")
                 }
             }
@@ -328,12 +329,13 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         tvCvvV.text = viewModel.cardDetail.cvv
 
 
-        if (null!=viewModel.cardDetail.cardNumber) {
+        if (null != viewModel.cardDetail.cardNumber) {
             if (viewModel.cardDetail.cardNumber?.trim()?.contains(" ")!!) {
                 tvCardNumber.text = viewModel.cardDetail.cardNumber
             } else {
-                if (viewModel.cardDetail.cardNumber?.length==16) {
-                    val formattedCardNumber: StringBuilder = StringBuilder(viewModel.cardDetail.cardNumber)
+                if (viewModel.cardDetail.cardNumber?.length == 16) {
+                    val formattedCardNumber: StringBuilder =
+                        StringBuilder(viewModel.cardDetail.cardNumber)
                     formattedCardNumber.insert(4, " ")
                     formattedCardNumber.insert(9, " ")
                     formattedCardNumber.insert(14, " ")
@@ -345,15 +347,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         if (Constants.CARD_TYPE_DEBIT == viewModel.state.cardType) {
             tvCardType.text = "Primary card"
         } else {
-           if(viewModel.card.nameUpdated!!){
-               tvCardType.text = viewModel.card.cardName
-           }else{
-               if (viewModel.card.physical) {
-                   tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
-               } else {
-                   tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
-               }
-           }
+            if (viewModel.card.nameUpdated!!) {
+                tvCardType.text = viewModel.card.cardName
+            } else {
+                if (viewModel.card.physical) {
+                    tvCardType.text = Constants.TEXT_SPARE_CARD_PHYSICAL
+                } else {
+                    tvCardType.text = Constants.TEXT_SPARE_CARD_VIRTUAL
+                }
+            }
         }
         btnClose.setOnClickListener {
             dialog.dismiss()

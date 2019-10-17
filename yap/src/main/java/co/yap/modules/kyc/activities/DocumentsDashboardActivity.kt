@@ -1,5 +1,7 @@
 package co.yap.modules.kyc.activities
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -21,6 +23,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         var isFromMoreSection: Boolean = false
         var hasStartedScanner: Boolean = false
 
+        const val key = "type"
+        const val data = "payLoad"
+        fun getIntent(context: Context, name: String, isFromMoreSection: Boolean): Intent {
+            val intent = Intent(context, DocumentsDashboardActivity::class.java)
+            intent.putExtra(key, name)
+            intent.putExtra(data, isFromMoreSection)
+            return intent
+        }
     }
 
     override val viewModel: IDocumentsDashboard.ViewModel
@@ -51,15 +61,11 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         super.onCreate(savedInstanceState)
         viewModel.name = getBundledName()
         isFromMoreSection = intent.getBooleanExtra("isFromMoreSection", false)
-
-
     }
-
 
     private fun getBundledName(): String {
         return intent.getStringExtra(getString(R.string.arg_name))
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
@@ -67,6 +73,5 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
             IdentityScannerActivity.CLOSE_SCANNER = false
         }
     }
-
 
 }
