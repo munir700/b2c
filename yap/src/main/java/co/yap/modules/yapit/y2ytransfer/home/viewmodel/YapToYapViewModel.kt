@@ -1,8 +1,8 @@
-package co.yap.modules.yapit.y2ytransfer.viewmodels
+package co.yap.modules.yapit.y2ytransfer.home.viewmodel
 
 import android.app.Application
-import co.yap.modules.yapit.y2ytransfer.interfaces.IYapToYap
-import co.yap.modules.yapit.y2ytransfer.states.YapToYapState
+import co.yap.modules.yapit.y2ytransfer.home.interfaces.IYapToYap
+import co.yap.modules.yapit.y2ytransfer.home.states.YapToYapState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
