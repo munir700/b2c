@@ -33,8 +33,9 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
             val intent = Intent(context, MoreActivity::class.java)
             return intent
         }
-        var isDocumentRequired : Boolean =false
-        var showExpiredIcon : Boolean =true
+
+        var isDocumentRequired: Boolean = false
+        var showExpiredIcon: Boolean = true
 
     }
 
@@ -54,14 +55,13 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     }
 
-
     override fun onDestroy() {
         viewModel.backButtonPressEvent.removeObservers(this)
         super.onDestroy()
-         checkMore = false
-         checkScanned = false
-      isFromMoreSection  = false
-       hasStartedScanner = false
+        checkMore = false
+        checkScanned = false
+        isFromMoreSection = false
+        hasStartedScanner = false
     }
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }

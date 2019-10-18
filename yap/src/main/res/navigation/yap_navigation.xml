@@ -23,7 +23,7 @@
 
     <activity
         android:id="@+id/yapIt"
-        android:name="co.yap.modules.yapit.y2ytransfer.activities.YapToYapDashboardActivity"
+        android:name="co.yap.modules.yapit.y2ytransfer.home.activities.YapToYapDashboardActivity"
         android:label="YapToYapDashboardActivity"
         tools:layout="@layout/activity_yap_to_yap_dashboard"/>
 

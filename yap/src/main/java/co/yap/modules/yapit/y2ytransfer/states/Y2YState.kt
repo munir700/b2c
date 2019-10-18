@@ -1,11 +1,11 @@
-package co.yap.modules.yap_to_yap.states
+package co.yap.modules.yapit.y2ytransfer.states
 
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.modules.yapit.y2ytransfer.interfaces.IYapToYap
+import co.yap.modules.yapit.y2ytransfer.interfaces.IY2Y
 import co.yap.yapcore.BaseState
 
-class YapToYapState: BaseState(), IYapToYap.State{
+class Y2YState : BaseState(), IY2Y.State {
 
     @get:Bindable
     override var tootlBarTitle: String = ""
