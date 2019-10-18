@@ -12,11 +12,9 @@ interface IY2Y {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnBackButton()
-        fun handlePressOnTickButton()
-        fun handlePressOnView(id : Int)
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
-//        val clickEvent: SingleClickEvent
+        fun handlePressOnBackButton(id : Int)
+         fun handlePressOnView(id : Int)
+         val clickEvent: SingleClickEvent
 
     }
 

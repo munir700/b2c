@@ -26,7 +26,7 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{(v) -> viewModel.handlePressOnBackButton()}"
+            android:onClick="@{(v) -> viewModel.handlePressOnBackButton(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_close"

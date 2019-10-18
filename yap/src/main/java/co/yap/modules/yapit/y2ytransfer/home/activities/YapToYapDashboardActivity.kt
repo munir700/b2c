@@ -25,22 +25,24 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.tootlBarTitle = "YAP to YAP"
+        viewModel.state.tootlBarTitle = "YAP to YAP"// please set the title in view model of relevant section
         // Set Observer
-//        viewModel.clickEvent.observe(this, clickEventObserver)
+        viewModel.clickEvent.observe(this, clickEventObserver)
+//        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
 
     }
 
-//    private val clickEventObserver = Observer<Int> {
-//        when (it) {
-//            R.id.tbIvClose -> {
-//                showToast("Cross Button Clicked")
-//            }
-//            R.id.tbIvGift -> {
-//                showToast("Gift Button Clicked")
-//            }
-//        }
-//    }
+    private val clickEventObserver = Observer<Int> {
+        when (it) {
+            R.id.tbIvClose -> {
+                showToast("Cross Button Clicked")
+                onBackPressed()
+            }
+            R.id.tbIvGift -> {
+                showToast("Gift Button Clicked")
+            }
+        }
+    }
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.main_nav_host_fragment)

@@ -19,7 +19,7 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
     override fun onResume() {
         super.onResume()
         toggleToolBarVisibility(true)
-        setToolBarTitle("xyz")
+        setToolBarTitle("YAP to YAP")
 
     }
 }

@@ -4,25 +4,22 @@ import android.app.Application
 import co.yap.modules.yapit.y2ytransfer.interfaces.IY2Y
 import co.yap.modules.yapit.y2ytransfer.states.Y2YState
 import co.yap.yapcore.BaseViewModel
-import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.SingleClickEvent
 
 class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(application),
     IY2Y.ViewModel {
 
-    override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override var clickEvent: SingleClickEvent = SingleClickEvent()
 
-    override val state: IY2Y.State =
+    override val state: Y2YState =
         Y2YState()
 
-    override fun handlePressOnBackButton() {
-        backButtonPressEvent.value = true
+    override fun handlePressOnBackButton(id: Int) {
+        clickEvent.setValue(id)
     }
 
-    override fun handlePressOnTickButton() {
-
-    }
-
-    override fun handlePressOnView(id : Int) {
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
 
     }
 }
