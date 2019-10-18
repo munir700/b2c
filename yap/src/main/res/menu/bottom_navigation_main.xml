@@ -13,7 +13,7 @@
     <item
         android:id="@+id/yapIt"
         android:icon="@drawable/ic_yap_it"
-        android:title="Yap It" />
+        android:title=" " />
 
     <item
         android:id="@+id/yapCards"

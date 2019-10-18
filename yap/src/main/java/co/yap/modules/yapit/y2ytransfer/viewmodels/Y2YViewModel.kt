@@ -21,4 +21,8 @@ class Y2YViewModel(application: Application) : BaseViewModel<IY2Y.State>(applica
     override fun handlePressOnTickButton() {
 
     }
+
+    override fun handlePressOnView(id : Int) {
+
+    }
 }

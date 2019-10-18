@@ -1,6 +1,7 @@
 package co.yap.modules.yapit.y2ytransfer.interfaces
 
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 interface IY2Y {
@@ -13,7 +14,10 @@ interface IY2Y {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnBackButton()
         fun handlePressOnTickButton()
+        fun handlePressOnView(id : Int)
         val backButtonPressEvent: SingleLiveEvent<Boolean>
+//        val clickEvent: SingleClickEvent
+
     }
 
     interface View : IBase.View<ViewModel>

@@ -32,7 +32,7 @@
             tools:text="@string/screen_yap_to_yap_display_text_no_yap_contact_msg" />
 
         <co.yap.widgets.CoreButton
-            android:id="@+id/btnAction"
+            android:id="@+id/btnInvite"
             style="@style/RectangleBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
