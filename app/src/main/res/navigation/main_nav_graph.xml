@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/yapIt">
 
 <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
     <action
@@ -192,5 +192,10 @@
 
     </activity>
 
+    <activity
+        android:id="@+id/yapIt"
+        android:name="co.yap.modules.yapit.y2ytransfer.home.activities.YapToYapDashboardActivity"
+        android:label="YapToYapDashboardActivity"
+        tools:layout="@layout/activity_yap_to_yap_dashboard"/>
 
 </navigation>

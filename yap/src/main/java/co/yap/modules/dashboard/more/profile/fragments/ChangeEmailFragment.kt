@@ -43,6 +43,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                 findNavController().navigate(action)
             }
         })
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tbBtnBack -> {

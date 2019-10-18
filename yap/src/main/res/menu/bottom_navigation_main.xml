@@ -11,9 +11,9 @@
         android:title="Store" />
 
     <item
-        android:id="@+id/actionInvisible"
-        android:enabled="false"
-        android:title="" />
+        android:id="@+id/yapIt"
+        android:icon="@drawable/ic_yap_it"
+        android:title=" " />
 
     <item
         android:id="@+id/yapCards"
