@@ -8,6 +8,7 @@ import co.yap.yapcore.SingleClickEvent
 
 class YapToYapViewModel(application: Application) : BaseViewModel<IYapToYap.State>(application),
     IYapToYap.ViewModel {
+
     override val state: IYapToYap.State  = YapToYapState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
