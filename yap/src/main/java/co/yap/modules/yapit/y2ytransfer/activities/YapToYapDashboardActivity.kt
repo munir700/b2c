@@ -34,7 +34,6 @@ class YapToYapDashboardActivity : BaseBindingActivity<IYapToYap.ViewModel>(), IN
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tbIvClose -> {
-//                findNavController().navigateUp()
                 showToast("Cross Button Clicked")
             }
             R.id.tbIvGift -> {
