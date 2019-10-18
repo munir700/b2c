@@ -1,13 +1,12 @@
-package co.yap.modules.yap_to_yap.fragments
+package co.yap.modules.yapit.y2ytransfer.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.modules.yap_to_yap.interfaces.IYapToYap
-import co.yap.modules.yap_to_yap.viewmodels.YapToYapViewModel
+import co.yap.modules.yapit.y2ytransfer.interfaces.IYapToYap
+import co.yap.modules.yapit.y2ytransfer.viewmodels.YapToYapViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 
@@ -25,13 +24,6 @@ class YapToYapFragment : BaseBindingFragment<IYapToYap.ViewModel>() {
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
-            R.id.tbIvClose -> {
-                findNavController().navigateUp()
-                showToast("Cross Button Clicked")
-            }
-            R.id.tbIvGift -> {
-                showToast("Gift Button Clicked")
-            }
             R.id.btnInvite ->{
                 showToast("Invitie Button Clicked")
             }

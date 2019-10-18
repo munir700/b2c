@@ -1,22 +1,18 @@
-package co.yap.modules.yap_to_yap.activities
+package co.yap.modules.yapit.y2ytransfer.activities
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.modules.dashboard.interfaces.IYapDashboard
-import co.yap.modules.yap_to_yap.interfaces.IYapToYap
-import co.yap.modules.yap_to_yap.viewmodels.YapToYapViewModel
+import co.yap.modules.yapit.y2ytransfer.interfaces.IYapToYap
+import co.yap.modules.yapit.y2ytransfer.viewmodels.YapToYapViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
-import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 
 class YapToYapDashboardActivity : BaseBindingActivity<IYapToYap.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -30,6 +26,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IYapToYap.ViewModel>(), IN
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.state.toolbarTitle = "YAP to YAP"
         // Set Observer
         viewModel.clickEvent.observe(this, clickEventObserver)
 

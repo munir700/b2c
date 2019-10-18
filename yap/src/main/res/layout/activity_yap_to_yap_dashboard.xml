@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.yap_to_yap.viewmodels.YapToYapViewModel" />
+            type="co.yap.modules.yapit.y2ytransfer.viewmodels.YapToYapViewModel" />
     </data>
 
     <LinearLayout
