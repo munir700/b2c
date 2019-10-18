@@ -212,6 +212,7 @@ class AddressSelectionViewModel(application: Application) :
             checkLocationUpdate = true
             mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
                 override fun onMapClick(p0: LatLng?) {
+//                    toggleMarkerVisibility()
 
                     if (p0 != null) {
                         mDefaultLocation = p0
@@ -228,16 +229,26 @@ class AddressSelectionViewModel(application: Application) :
                         locationMarker!!.remove()
                         locationMarker!!.isVisible = false
                         setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
+                        locationMarker = mMap.addMarker(markerOptions)
+                        state.placeTitle = placeName
+                        state.placePhoto = BitmapFactory.decodeResource(
+                            context.resources,
+                            R.drawable.location_place_holder
+                        )
+                        state.placeSubTitle = placeSubTitle
+
                     }catch (e:IndexOutOfBoundsException){
                         e.printStackTrace()
+//                        locationMarker!!.isVisible = false
+                        toggleMarkerVisibility()
                     }
-                    locationMarker = mMap.addMarker(markerOptions)
-                    state.placeTitle = placeName
-                    state.placePhoto = BitmapFactory.decodeResource(
-                        context.resources,
-                        R.drawable.location_place_holder
-                    )
-                    state.placeSubTitle = placeSubTitle
+//                    locationMarker = mMap.addMarker(markerOptions)
+//                    state.placeTitle = placeName
+//                    state.placePhoto = BitmapFactory.decodeResource(
+//                        context.resources,
+//                        R.drawable.location_place_holder
+//                    )
+//                    state.placeSubTitle = placeSubTitle
 //                    state.addressField = placeSubTitle
 //                    state.landmarkField = placeName
                 }
