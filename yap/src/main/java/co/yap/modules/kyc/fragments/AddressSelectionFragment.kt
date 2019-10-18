@@ -119,8 +119,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
-
-        performDataBinding(inflater, container)
+         performDataBinding(inflater, container)
         initMapFragment()
 
         return viewDataBinding.root
@@ -442,6 +441,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun expandMap() {
+        if (isFromPersonalDetailScreen){
+            (context as MoreActivity).goneToolbar()
+        }
+
         viewModel.state.cardView = false
         if (viewModel.checkGps) {
             viewModel.state.isMapOnScreen = true
@@ -479,6 +482,9 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun collapseMap() {
+        if (isFromPersonalDetailScreen){
+            (context as MoreActivity).visibleToolbar()
+        }
         viewModel.state.isMapOnScreen = false
         viewModel.toggleMarkerVisibility()
         if (viewModel.state.errorChecked) {
