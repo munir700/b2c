@@ -9,6 +9,7 @@ import co.yap.modules.yapit.y2ytransfer.interfaces.IYapToYap
 import co.yap.modules.yapit.y2ytransfer.viewmodels.YapToYapViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
+import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
 class YapToYapFragment : BaseBindingFragment<IYapToYap.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -20,13 +21,15 @@ class YapToYapFragment : BaseBindingFragment<IYapToYap.ViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.clickEvent.observe(this, clickEventObserver)
+        tabLayout.addTab(tabLayout.newTab().setText("YAP contacts"));
+        tabLayout.addTab(tabLayout.newTab().setText("All contacts"));
     }
 
     private val clickEventObserver = Observer<Int> {
-        when (it) {
-            R.id.btnInvite ->{
-                showToast("Invitie Button Clicked")
-            }
-        }
+//        when (it) {
+//            R.id.btnInvite ->{
+//                showToast("Invitie Button Clicked")
+//            }
+//        }
     }
 }
