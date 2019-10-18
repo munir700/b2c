@@ -1,4 +1,4 @@
-package co.yap.modules.yap_to_yap.interfaces
+package co.yap.modules.yapit.y2ytransfer.interfaces
 
 import co.yap.modules.store.interfaces.IYapStoreDetail
 import co.yap.yapcore.IBase

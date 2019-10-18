@@ -1,11 +1,11 @@
-package co.yap.modules.yap_to_yap.fragments
+package co.yap.modules.yapit.y2ytransfer.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.yap_to_yap.interfaces.IYapToYap
-import co.yap.modules.yap_to_yap.viewmodels.YapToYapViewModel
+import co.yap.modules.yapit.y2ytransfer.interfaces.IYapToYap
+import co.yap.modules.yapit.y2ytransfer.viewmodels.YapToYapViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingFragment
 

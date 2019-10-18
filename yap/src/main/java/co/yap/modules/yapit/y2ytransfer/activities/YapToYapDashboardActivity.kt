@@ -1,4 +1,4 @@
-package co.yap.modules.yap_to_yap.activities
+package co.yap.modules.yapit.y2ytransfer.activities
 
 import android.os.Bundle
 import co.yap.R

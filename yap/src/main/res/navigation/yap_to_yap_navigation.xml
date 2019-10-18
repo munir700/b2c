@@ -6,7 +6,7 @@
     android:id="@+id/yap_to_yap_navigation">
     <fragment
         android:id="@+id/yapToYapHome"
-        android:name="co.yap.modules.yap_to_yap.fragments.YapToYapFragment"
+        android:name="co.yap.modules.yapit.y2ytransfer.fragments.YapToYapFragment"
         tools:layout="@layout/fragment_yap_to_yap"
         android:label="YapToYapFragment" />
 </navigation>
