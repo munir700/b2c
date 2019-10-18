@@ -26,7 +26,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IYapToYap.ViewModel>(), IN
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.toolbarTitle = "YAP to YAP"
+        viewModel.state.tootlBarTitle = "YAP to YAP"
         // Set Observer
         viewModel.clickEvent.observe(this, clickEventObserver)
 
