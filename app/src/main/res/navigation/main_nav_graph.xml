@@ -8,7 +8,7 @@
 <!--    <fragment
         android:id="@+id/yapToYapTransferFragment"
         tools:layout="@layout/activity_phone_verification"
-        android:name="co.yap.modules.yapit.y2ytransfer.transfer.fragments.Y2YTransferFragment"
+        android:name="co.yap.modules.dashboard.yapit.y2ytransfer.transfer.fragments.Y2YTransferFragment"
         android:label="Y2YTransferFragment"/>-->
     <action
         android:id="@+id/action_goto_liteDashboardActivity"
@@ -190,7 +190,7 @@
 
     <activity
         android:id="@+id/moreActivity"
-        android:name="co.yap.modules.dashboard.more.activities.MoreActivity"
+        android:name="co.yap.modules.dashboard.more.main.activities.MoreActivity"
         android:label="MoreActivity"
         tools:layout="@layout/activity_more">
 
@@ -199,7 +199,7 @@
 
     <activity
         android:id="@+id/yapIt"
-        android:name="co.yap.modules.yapit.y2ytransfer.home.activities.YapToYapDashboardActivity"
+        android:name="co.yap.modules.dashboard.yapit.y2ytransfer.home.activities.YapToYapDashboardActivity"
         android:label="YapToYapDashboardActivity"
         tools:layout="@layout/activity_yap_to_yap_dashboard"/>
 

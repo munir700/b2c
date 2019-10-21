@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.activities.MoreActivity.Companion.isDocumentRequired
+import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.isDocumentRequired
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.translation.Strings
 import co.yap.translation.Translator

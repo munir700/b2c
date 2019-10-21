@@ -29,7 +29,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.statments.activities.Car
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.PaymentCardDetailViewModel
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
-import co.yap.modules.others.constants.Constants
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.BaseBindingActivity

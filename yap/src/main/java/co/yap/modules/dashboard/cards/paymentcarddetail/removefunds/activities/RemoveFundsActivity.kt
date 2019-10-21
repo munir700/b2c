@@ -15,7 +15,7 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.viewmodels.RemoveFundsViewModel
-import co.yap.modules.others.constants.Constants
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings

@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.viewmodels
 
 import android.app.Application
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
-import co.yap.modules.others.constants.Constants
+import co.yap.modules.others.helper.Constants
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 

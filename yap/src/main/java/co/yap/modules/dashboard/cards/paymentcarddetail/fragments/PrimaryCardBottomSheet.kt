@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import co.yap.R
-import co.yap.modules.others.constants.Constants
+import co.yap.modules.others.helper.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet_primary_card.view.*
 
