@@ -4,16 +4,13 @@ import android.app.Application
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
-import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
 
 class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
@@ -99,12 +96,16 @@ class PersonalDetailsViewModel(application: Application) :
             addressDetail = address.address1!!
         }
 
-        state.address =  addressDetail
+        state.address = addressDetail
         MyUserManager.userAddress = address
     }
 
-     override fun toggleToolBar(hide: Boolean) {
+    override fun toggleToolBar(hide: Boolean) {
         toggleToolBarVisibility(hide)
     }
 
- }
+    override fun updateToolBarText(heading: String) {
+        setToolBarTitle(heading)
+    }
+
+}

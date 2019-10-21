@@ -8,23 +8,24 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
+import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
+import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
-import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
+import co.yap.modules.others.helper.activities.FragmentPresenterActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 
 
-class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View {
+class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
 
     lateinit var adapter: YapMoreAdaptor
 
@@ -92,9 +93,12 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
 
                     }
                     Constants.MORE_HELP_SUPPORT -> {
-                        val action =
-                            YapMoreFragmentDirections.actionYapMoreToHelpSupportFragment()
-                        findNavController().navigate(action)
+                        startActivity(
+                            FragmentPresenterActivity.getIntent(
+                                requireContext(),
+                                Constants.MODE_HELP_SUPPORT, null
+                            )
+                        )
                     }
                 }
             }
@@ -114,16 +118,16 @@ class YapMoreFragment : MoreBaseFragment<IMoreHome.ViewModel>(), IMoreHome.View 
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgProfile -> {
-                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+                startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.imgSettings -> {
-                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+                startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvName -> {
-                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+                startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvNameInitials -> {
-                findNavController().navigate(YapMoreFragmentDirections.actionYapMoreToMoreActivity())
+                startActivity(MoreActivity.newIntent(requireContext()))
             }
             R.id.tvIban -> {
             }

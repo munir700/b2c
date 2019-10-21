@@ -84,7 +84,7 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
             cvLocationCard.visibility = VISIBLE
             addressField =
                 MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-            tvSuccessHeading.setTextColor(activity!!.resources.getColor(R.color.greyDark))
+            tvSuccessSubHeading.setTextColor(activity!!.resources.getColor(R.color.greyDark))
 
             tvSuccessSubHeading.text = addressStr
             if (!MyUserManager.userAddress!!.address2.isNullOrEmpty()) {

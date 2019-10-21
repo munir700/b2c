@@ -2,10 +2,9 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.removefunds.viewmodels
 
 import android.app.Application
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
-import co.yap.modules.dashboard.constants.Constants
+import co.yap.modules.others.constants.Constants
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.Utils
 
 class RemoveFundsViewModel(application: Application) : FundActionsViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()

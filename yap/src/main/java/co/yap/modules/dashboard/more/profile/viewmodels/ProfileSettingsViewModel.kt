@@ -176,6 +176,7 @@ class ProfileSettingsViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.errorBadgeVisibility = VISIBLE
+                    MoreActivity.showExpiredIcon = true
                     showExpiredBadge = true
                      if (response.error.message.equals("Data not found")){
                          isDocumentRequired = true

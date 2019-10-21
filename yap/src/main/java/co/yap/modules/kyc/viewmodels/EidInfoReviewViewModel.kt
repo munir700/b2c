@@ -1,7 +1,9 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
+import co.yap.modules.kyc.enums.DocScanStatus
+import co.yap.modules.kyc.fragments.CardScanResponse
+import co.yap.modules.kyc.fragments.UploadIdCardRetroService
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -11,9 +13,25 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.DateUtils
-import com.digitify.identityscanner.core.mrz.types.Gender
-import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
+import com.digitify.identityscanner.core.arch.Gender
+import com.digitify.identityscanner.docscanner.enums.DocumentType
+import com.digitify.identityscanner.docscanner.models.Identity
+import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
@@ -29,11 +47,12 @@ class EidInfoReviewViewModel(application: Application) :
         super.onCreate()
 //        state.titleName[0] = parentViewModel?.name
         state.titleName[0] = parentViewModel?.identity?.identity?.givenName
+        parentViewModel?.let { populateState(it.identity) }
     }
 
     override fun onResume() {
         super.onResume()
-        parentViewModel?.let { populateState(it.identity) }
+
     }
 
     override fun handlePressOnRescanBtn() {
@@ -64,15 +83,6 @@ class EidInfoReviewViewModel(application: Application) :
 
 
     }
-//    fun enableBtn() {
-//
-//        if (state.fullNameValid && state.nationalityValid && state.dateOfBirthValid && state.genderValid && state.expiryDateValid){
-//            btnTouchId.enableButton(true)
-//        }else{
-//            btnTouchId.enableButton(false)
-//        }
-//
-//    }
 
     override fun handleUserRejection(reason: Int) {
         handlePressOnRescanBtn()
@@ -83,8 +93,70 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
-        parentViewModel?.identity = result
-        populateState(result)
+        uploadDocument(result)
+//        parentViewModel?.identity = result
+//        populateState(result)
+    }
+
+    fun uploadDocument(result: IdentityScannerResult) {
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        val client = OkHttpClient.Builder()
+            .connectTimeout(100, TimeUnit.SECONDS)
+            .writeTimeout(100, TimeUnit.SECONDS)
+            .readTimeout(100, TimeUnit.SECONDS)
+            .addInterceptor(logger).build()
+        val retro: Retrofit = Retrofit.Builder()
+            .baseUrl("http://172.21.200.181:8000/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client).build()
+        val service = retro.create(UploadIdCardRetroService::class.java)
+        val file = File(result.document.files[1].croppedFile)
+        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+        val part =
+            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+        state.loading = true
+        service.uploadIdCard(file = part).enqueue(object : Callback<CardScanResponse> {
+            override fun onFailure(call: Call<CardScanResponse>, t: Throwable) {
+                state.loading = false
+            }
+
+            override fun onResponse(
+                call: Call<CardScanResponse>,
+                response: Response<CardScanResponse>?
+            ) {
+                state.loading = false
+                if(response?.body()?.success!!) {
+                    val identity = Identity()
+                    identity.nationality = response.body()?.nationality
+
+                    identity.gender =
+                        if (response.body()?.sex.equals("M")) Gender.Male else Gender.Female
+                    identity.sirName = response.body()?.surname
+                    identity.givenName = response.body()?.names
+                    identity.citizenNumber = response.body()?.number
+//                    identity.expiryDateValid = response.body()?.valid_expiration_date!!
+//                    identity.dateOfBirthValid = response.body()?.valid_date_of_birth!!
+                    val calender = Calendar.getInstance()
+//                    calender.time =
+//                        DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")
+                    identity.expirationDate = DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")//MrzDate(calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DAY_OF_MONTH))
+//                    calender.time =
+//                        DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
+                    identity.dateOfBirth = DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
+                    result.identity = identity
+
+                    parentViewModel?.identity = result
+                     populateState(result)
+                    //state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
+                }
+                else {
+                    state.toast = getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
+                }
+
+            }
+        })
+
     }
 
     private fun performUploadDocumentsRequest() {
@@ -139,22 +211,26 @@ class EidInfoReviewViewModel(application: Application) :
             state.nationalityValid =
                 state.nationality.isNotBlank() && !state.nationality.equals("USA", false)
 
-            state.dateOfBirth = it.identity.dateOfBirth.run {
-                DateUtils.dateToString(day, month, year)
-            }
-            state.dateOfBirthValid = it.identity.dateOfBirth.run {
-                if (isDateValid) {
-                    val age = DateUtils.getAge(day, month, year)
-                    age >= 18
-                } else false
-            }
+            state.dateOfBirth = DateUtils.dateToString(it.identity.dateOfBirth)
+//            it.identity.dateOfBirth.run {
+//                DateUtils.dateToString(day, month, year)
+//            }
+            state.dateOfBirthValid = it.identity.isDateOfBirthValid
+//            state.dateOfBirthValid = it.identity.dateOfBirth.run {
+//                if (isDateValid) {
+                   // val age = DateUtils.getAge(day, month, year)
+//                    age >= 18
+//                } else false
+//            }
 
-            state.expiryDate = it.identity.expirationDate.run {
-                DateUtils.dateToString(day, month, year)
-            }
-            state.expiryDateValid = it.identity.expirationDate.run {
-                !DateUtils.isDatePassed(DateUtils.toDate(day, month, year))
-            }
+            state.expiryDate = DateUtils.dateToString(it.identity.expirationDate)
+//                it.identity.expirationDate.run {
+//                DateUtils.dateToString(day, month, year)
+//            }
+            state.expiryDateValid = it.identity.isExpiryDateValid
+//                it.identity.expirationDate.run {
+//                !DateUtils.isDatePassed(DateUtils.toDate(day, month, year))
+//            }
 
             state.genderValid = true
             state.gender = it.identity.gender.run {
@@ -165,18 +241,6 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
 
-            enableBtn()
         }
-    }
-
-    fun enableBtn() {
-        if (DocumentsDashboardActivity.isFromMoreSection){
-            if (state.fullNameValid && state.nationalityValid && state.dateOfBirthValid && state.genderValid && state.expiryDateValid) {
-                state.valid = true
-            } else {
-                state.valid = false
-            }
-        }
-
     }
 }

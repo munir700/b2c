@@ -99,11 +99,13 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             updateHeadings()
 
             viewModel.state.nextActionBtnText =
-                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_done)
+                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_next)
 
             if (MyUserManager.userAddress != null) {
                 setUpAddressFields()
             }
+            viewModel.state.subHeadingTitle =
+                getString(Strings.screen_meeting_location_display_text_subtitle)
 
         } else if (isFromBlockCardsScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
@@ -117,8 +119,7 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
-
-        performDataBinding(inflater, container)
+         performDataBinding(inflater, container)
         initMapFragment()
 
         return viewDataBinding.root
@@ -254,17 +255,18 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
                 R.id.nextButton -> {
                     if (viewModel.state.isFromPhysicalCardsLayout) {
-                        val action =
-                            AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
-                                getString(R.string.screen_spare_card_landing_display_text_physical_card),
-                                viewModel.state.placeTitle,
-                                viewModel.state.placeSubTitle,
-                                viewModel.mDefaultLocation.latitude.toString(),
-                                viewModel.mDefaultLocation.longitude.toString(),
-                                false
-
-                            )
-                        findNavController().navigate(action)
+                        //todo refactor
+//                        val action =
+//                            AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
+//                                getString(R.string.screen_spare_card_landing_display_text_physical_card),
+//                                viewModel.state.placeTitle,
+//                                viewModel.state.placeSubTitle,
+//                                viewModel.mDefaultLocation.latitude.toString(),
+//                                viewModel.mDefaultLocation.longitude.toString(),
+//                                false
+//
+//                            )
+//                        findNavController().navigate(action)
 
 
                     } else if (viewModel.state.isFromPersonalDetailView) {
@@ -440,6 +442,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun expandMap() {
+        if (isFromPersonalDetailScreen){
+            (context as MoreActivity).goneToolbar()
+        }
+
         viewModel.state.cardView = false
         if (viewModel.checkGps) {
             viewModel.state.isMapOnScreen = true
@@ -477,6 +483,9 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun collapseMap() {
+        if (isFromPersonalDetailScreen){
+            (context as MoreActivity).visibleToolbar()
+        }
         viewModel.state.isMapOnScreen = false
         viewModel.toggleMarkerVisibility()
         if (viewModel.state.errorChecked) {

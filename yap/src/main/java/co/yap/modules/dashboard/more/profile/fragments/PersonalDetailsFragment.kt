@@ -83,6 +83,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
+                    viewModel.toggleToolBar(true)
+
                     changeAddress = true
                     val action =
                         PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
@@ -169,7 +171,9 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
         if (changeAddress) {
-            viewModel.toggleToolBar(false)
+            viewModel.toggleToolBar(true)
+            viewModel.updateToolBarText("")
+
             changeAddress = true
         }
     }
@@ -178,7 +182,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
         if (changeAddress) {
-            viewModel.toggleToolBar(false)
+            viewModel.toggleToolBar(true)
             changeAddress = true
         }
 
