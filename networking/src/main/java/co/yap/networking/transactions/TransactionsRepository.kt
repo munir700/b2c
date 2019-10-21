@@ -14,11 +14,12 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_REMOVE_FUNDS = "/transactions/api/withdraw"
     const val URL_FUND_TRANSFER_LIMITS = "/transactions/api/product/{product-code}/limits"
     const val URL_FUND_TRANSFER_DENOMINATIONS =
-         "/transactions/api/product/{product-code}/denominations"
+        "/transactions/api/product/{product-code}/denominations"
     const val URL_GET_CARD_FEE = "/transactions/api/fees/spare-card/subscription/{card-type}"
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
-    const val URL_GET_ACCOUNT_TRANSACTIONS = "/transactions/api/account-transactions"
-//                                             /transactions/api/account-transactions/1/5?&minAmount=10.00&maxAmount=100.00&creditSearch=true&debitSearch=true&yapYoungTransfer=true
+    const val URL_GET_ACCOUNT_TRANSACTIONS =
+        "/transactions/api/account-transactions/{number}/{size}/"
+
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
 
@@ -41,6 +42,15 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })
 
     override suspend fun getAccountTransactions(homeTransactionsResponse: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse> =
-        executeSafely(call = { api.getAccountTransactions(homeTransactionsResponse) })
-
+        executeSafely(call = {
+            api.getAccountTransactions(
+                homeTransactionsResponse.number,
+                homeTransactionsResponse.size,
+                homeTransactionsResponse.minAmount,
+                homeTransactionsResponse.maxAmount,
+                homeTransactionsResponse.creditSearch,
+                homeTransactionsResponse.debitSearch,
+                homeTransactionsResponse.yapYoungTransfer
+            )
+        })
 }

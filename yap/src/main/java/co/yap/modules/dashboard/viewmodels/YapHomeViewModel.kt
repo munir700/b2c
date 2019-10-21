@@ -58,12 +58,12 @@ class YapHomeViewModel(application: Application) :
 
         launch {
             state.loading = true
-//transactions/api/account-transactions/
-// 1/5?&minAmount=10.00&maxAmount=100.00&creditSearch=true&debitSearch=true&yapYoungTransfer=true
 
-            var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(10.00,100.00,true,true,true)
+            var homeTransactionsRequest: HomeTransactionsRequest =
+                HomeTransactionsRequest(1, 5, 10.00, 100.00, true, true, true)
 
-            when (val response = transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
+            when (val response =
+                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
                     Log.i(
                         "getAccountTransactions",
@@ -71,10 +71,7 @@ class YapHomeViewModel(application: Application) :
                     )
                     if (null != response.data.data) {
 //                        transactionLogicHelper.transactionList = response.data.data.get(0)
-//                        Log.i(
-//                            "getAccountTransactions",
-//                            transactionsRepository.getAccountTransactions().toString()
-//                        )
+
                     }
                 }
 
