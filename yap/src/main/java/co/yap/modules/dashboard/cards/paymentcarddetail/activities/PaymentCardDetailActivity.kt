@@ -8,6 +8,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
@@ -72,6 +73,10 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         super.onCreate(savedInstanceState)
         setUpTransactionsListRecyclerView()
         setObservers()
+    }
+
+    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
+        super.onPostCreate(savedInstanceState, persistentState)
         setupView()
     }
 

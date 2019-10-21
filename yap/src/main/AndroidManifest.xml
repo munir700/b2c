@@ -120,6 +120,10 @@
             android:screenOrientation="portrait" />
 
         <activity
+            android:name=".modules.others.helper.activities.FragmentPresenterActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="sensor"
