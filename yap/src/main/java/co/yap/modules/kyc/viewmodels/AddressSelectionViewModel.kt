@@ -41,6 +41,7 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse
 import com.google.android.libraries.places.api.net.PlacesClient
+import java.lang.IndexOutOfBoundsException
 import java.util.*
 
 class AddressSelectionViewModel(application: Application) :
@@ -211,6 +212,7 @@ class AddressSelectionViewModel(application: Application) :
             checkLocationUpdate = true
             mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
                 override fun onMapClick(p0: LatLng?) {
+//                    toggleMarkerVisibility()
 
                     if (p0 != null) {
                         mDefaultLocation = p0
@@ -218,21 +220,35 @@ class AddressSelectionViewModel(application: Application) :
 
                     var geocoder: Geocoder = Geocoder(getApplication())
                     list = geocoder.getFromLocation(p0!!.latitude, p0!!.longitude, 1)
-                    var selectedAddress: Address = list.get(0)
-                    placeName = selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
+                    try {
+                        var selectedAddress: Address = list.get(0)
+                        placeName = selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
 //                    state.placeSubTitle= " "
-                    placeSubTitle = selectedAddress.getAddressLine(0)
+                        placeSubTitle = selectedAddress.getAddressLine(0)
 
-                    locationMarker!!.remove()
-                    locationMarker!!.isVisible = false
-                    setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
-                    locationMarker = mMap.addMarker(markerOptions)
-                    state.placeTitle = placeName
-                    state.placePhoto = BitmapFactory.decodeResource(
-                        context.resources,
-                        R.drawable.location_place_holder
-                    )
-                    state.placeSubTitle = placeSubTitle
+                        locationMarker!!.remove()
+                        locationMarker!!.isVisible = false
+                        setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
+                        locationMarker = mMap.addMarker(markerOptions)
+                        state.placeTitle = placeName
+                        state.placePhoto = BitmapFactory.decodeResource(
+                            context.resources,
+                            R.drawable.location_place_holder
+                        )
+                        state.placeSubTitle = placeSubTitle
+
+                    }catch (e:IndexOutOfBoundsException){
+                        e.printStackTrace()
+//                        locationMarker!!.isVisible = false
+                        toggleMarkerVisibility()
+                    }
+//                    locationMarker = mMap.addMarker(markerOptions)
+//                    state.placeTitle = placeName
+//                    state.placePhoto = BitmapFactory.decodeResource(
+//                        context.resources,
+//                        R.drawable.location_place_holder
+//                    )
+//                    state.placeSubTitle = placeSubTitle
 //                    state.addressField = placeSubTitle
 //                    state.landmarkField = placeName
                 }
