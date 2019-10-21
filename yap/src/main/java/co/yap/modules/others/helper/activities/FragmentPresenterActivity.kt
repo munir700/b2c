@@ -4,13 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
-import android.os.PersistableBundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.ui.AppBarConfiguration
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.ActivityYapDashboardBinding
+import co.yap.databinding.ActivityFragmentPresenterBinding
 import co.yap.modules.dashboard.cards.status.fragments.YapCardStatusFragment
 import co.yap.modules.dashboard.more.help.fragments.HelpSupportFragment
 import co.yap.modules.others.helper.interfaces.IFragmentPresenter
@@ -19,10 +17,11 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.replaceFragment
 
 class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewModel>(),
     IFragmentPresenter.View,
-    IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
+    IFragmentHolder {
 
     companion object {
         const val key = "type"
@@ -45,19 +44,20 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
     override val viewModel: IFragmentPresenter.ViewModel
         get() = ViewModelProviders.of(this).get(FragmentPresenterViewModel::class.java)
 
-
-    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onPostCreate(savedInstanceState, persistentState)
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         if (intent != null && intent.extras != null && intent.hasExtra(key)) {
             modeCode = intent.getIntExtra(key, 0)
         }
         if (Constants.MODE_STATUS_SCREEN == modeCode) {
             if (intent.hasExtra(data)) { // because payload can be null
                 val card = intent?.extras?.getParcelable<Card>(data)
-                val ft = supportFragmentManager.beginTransaction()
-                ft.replace(R.id.container, YapCardStatusFragment())
-                ft.commit()
+                replaceFragment(
+                    localClassName,
+                    R.id.container,
+                    YapCardStatusFragment.newInstance(card)
+                )
+
             }
         } else {
             if (Constants.MODE_HELP_SUPPORT == modeCode) {
@@ -80,7 +80,17 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
         super.onDestroy()
     }
 
-    fun getViewBinding(): ActivityYapDashboardBinding {
-        return (viewDataBinding as ActivityYapDashboardBinding)
+    fun getViewBinding(): ActivityFragmentPresenterBinding {
+        return (viewDataBinding as ActivityFragmentPresenterBinding)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+//        if (supportFragmentManager.findFragmentByTag(localClassName) != null) {
+//            val trans = supportFragmentManager.beginTransaction()
+//            trans.remove(supportFragmentManager.findFragmentByTag(localClassName)!!)
+//            trans.commit()
+//            supportFragmentManager.popBackStack()
+//        }
     }
 }
