@@ -5,7 +5,11 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/splashFragment">
 
-<!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
+<!--    <fragment
+        android:id="@+id/yapToYapTransferFragment"
+        tools:layout="@layout/activity_phone_verification"
+        android:name="co.yap.modules.yapit.y2ytransfer.transfer.fragments.Y2YTransferFragment"
+        android:label="Y2YTransferFragment"/>-->
     <action
         android:id="@+id/action_goto_liteDashboardActivity"
         app:destination="@id/liteDashboardActivity"
@@ -192,5 +196,11 @@
 
     </activity>
 
+
+    <activity
+        android:id="@+id/yapIt"
+        android:name="co.yap.modules.yapit.y2ytransfer.home.activities.YapToYapDashboardActivity"
+        android:label="YapToYapDashboardActivity"
+        tools:layout="@layout/activity_yap_to_yap_dashboard"/>
 
 </navigation>

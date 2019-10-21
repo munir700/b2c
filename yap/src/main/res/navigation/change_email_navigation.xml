@@ -66,6 +66,10 @@
             android:defaultValue=" "
             app:argType="string"
             />
+        <argument
+            android:name="successType"
+            android:defaultValue=" "
+            app:argType="string" />
         <action
             android:id="@+id/action_changeEmailSuccessFragment_to_moreNavigation"
             app:destination="@id/personalDetailsFragment"
