@@ -21,4 +21,5 @@ object Constants {
 
 
     const val MODE_STATUS_SCREEN: Int = 1
+    const val MODE_HELP_SUPPORT: Int = 2
 }
