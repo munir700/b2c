@@ -76,8 +76,12 @@ public class IdentityScannerViewModel extends BaseAndroidViewModel implements II
                 getState().setScanMode(DocumentPageType.BACK);
                 getView().scanDoc();
             } else {
-                // proceed with mrz detection and parsing as EID has mrz on its back
-                onScanComplete(filepath);
+                //TODO Remove
+                getState().setLoading(false);
+                getScannerResult().setIdentity(new Identity());
+                onResults(getScannerResult());
+                // TODO proceed with mrz detection and parsing as EID has mrz on its back
+//                onScanComplete(filepath);
             }
         } else if (type == DocumentType.PASSPORT) {
             // All passports has mrz on its front page.

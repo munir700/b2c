@@ -2,7 +2,7 @@ package co.yap.modules.onboarding.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
+import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 
 interface IEidInfoReview {
 

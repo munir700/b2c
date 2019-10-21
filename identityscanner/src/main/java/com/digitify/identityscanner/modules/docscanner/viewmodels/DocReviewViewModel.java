@@ -75,8 +75,11 @@ public class DocReviewViewModel extends BaseAndroidViewModel implements IDocRevi
                 onFaceValidationComplete(bitmap, face != null);
             } else if (getPageType() == DocumentPageType.BACK) {
                 // check face
-                Mrz mrz = detectMrz(bitmap);
-                onMrzValidationComplete(bitmap, mrz != null);
+//                Mrz mrz = detectMrz(bitmap);
+                getState().setLoading(false);
+                getState().setDocValid(true);
+                getState().setReviewText(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_review));
+//                onMrzValidationComplete(bitmap, mrz != null);
             }
 
         } else if (getDocType() == DocumentType.PASSPORT) {

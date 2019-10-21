@@ -1,7 +1,7 @@
 package co.yap.modules.kyc.interfaces
 
 import co.yap.yapcore.IBase
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
+import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 
 interface IDocumentsDashboard {
     interface State : IBase.State

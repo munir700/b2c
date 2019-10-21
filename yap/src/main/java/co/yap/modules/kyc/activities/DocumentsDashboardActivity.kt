@@ -14,7 +14,6 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
 
 class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -70,7 +69,8 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     override fun onDestroy() {
         super.onDestroy()
         if (isFromMoreSection) {
-            IdentityScannerActivity.CLOSE_SCANNER = false
+            //todo need to verify that code
+            //IdentityScannerActivity.CLOSE_SCANNER = false
         }
     }
 
