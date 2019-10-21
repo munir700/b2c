@@ -9,7 +9,9 @@ import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+import co.yap.networking.transactions.responsedtos.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
+import java.util.*
 
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
@@ -60,7 +62,7 @@ class YapHomeViewModel(application: Application) :
             state.loading = true
 
             var homeTransactionsRequest: HomeTransactionsRequest =
-                HomeTransactionsRequest(1, 5, 10.00, 100.00, true, true, true)
+                HomeTransactionsRequest(1, 500, 10.00, 100.00, true, true, true)
 
             when (val response =
                 transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
@@ -71,7 +73,22 @@ class YapHomeViewModel(application: Application) :
                     )
                     if (null != response.data.data) {
 //                        transactionLogicHelper.transactionList = response.data.data.get(0)
+                        val data: HomeTransactionsResponse.Data = response.data.data
+//                     val data:HomeTransactionsResponse.Data=  response.data.data
+                        var contentList: List<HomeTransactionsResponse.Data.Content> =
+                            response.data.data.content
 
+                        Collections.sort(contentList, object :
+                            Comparator<HomeTransactionsResponse.Data.Content> {
+                            override fun compare(
+                                o1: HomeTransactionsResponse.Data.Content,
+                                o2: HomeTransactionsResponse.Data.Content
+                            ): Int {
+                                return o2.txnDate.compareTo(o1.txnDate)
+                            }
+                        })
+
+                        transactionLogicHelper.transactioncontentList = contentList
                     }
                 }
 

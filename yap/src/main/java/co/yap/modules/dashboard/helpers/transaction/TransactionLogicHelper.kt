@@ -4,6 +4,7 @@ import android.content.Context
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.Transaction
 import co.yap.modules.dashboard.models.TransactionModel
+import co.yap.networking.transactions.responsedtos.HomeTransactionsResponse
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -13,9 +14,13 @@ import kotlin.collections.ArrayList
 class TransactionLogicHelper(
     val context: Context) {
     var transactionList: ArrayList<TransactionModel> = arrayListOf()
+    var transactioncontentList:  List<HomeTransactionsResponse.Data.Content> = arrayListOf()
 
     init {
         transactionList = loadJSONDummyList()
+//        var contentList: List<HomeTransactionsResponse.Data.Content>
+
+//now structure that dummy
     }
 
     private fun loadJSONDummyList(): ArrayList<TransactionModel> {
