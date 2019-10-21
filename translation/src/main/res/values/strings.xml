@@ -486,4 +486,12 @@
 
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
     Choose your location below. We will also call you to verify this address
+
+
+<!--    Y2Y Transfer screen-->
+    <string name="screen_yap_to_yap_transfer_text_header">Send a Y2Y transfer to</string>
+    <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
+
+
+
 </resources>

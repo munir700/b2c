@@ -29,7 +29,7 @@
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_close"
+            app:srcCompat="@drawable/ic_back_arrow_left"
             android:contentDescription="@string/todo" />
 
 
@@ -51,6 +51,7 @@
             android:layout_height="@dimen/_28sdp"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="@{viewModel.state.rightButtonVisibility}"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_5sdp"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"

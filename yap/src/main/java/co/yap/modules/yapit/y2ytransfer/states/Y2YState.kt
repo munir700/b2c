@@ -22,4 +22,11 @@ class Y2YState : BaseState(), IY2Y.State {
             notifyPropertyChanged(BR.tootlBarVisibility)
 
         }
+
+    @get:Bindable
+    override var rightButtonVisibility: Int=0x00000000
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.rightButtonVisibility)
+        }
 }

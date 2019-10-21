@@ -20,7 +20,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YTransfer.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEventObserver)
+       // viewModel.clickEvent.observe(this, clickEventObserver)
     }
 
     private val clickEventObserver = Observer<Int> {

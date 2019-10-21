@@ -24,4 +24,16 @@ abstract class Y2YBaseViewModel<S : IBase.State>(application: Application) :
 
         }
     }
+    fun setRightButtonVisibility(visibility: Boolean){
+        val VISIBLE: Int = 0x00000000
+        val GONE: Int = 0x00000008
+        if (visibility) {
+            parentViewModel?.state?.rightButtonVisibility = VISIBLE
+
+        } else {
+            parentViewModel?.state?.rightButtonVisibility = GONE
+
+        }
+    }
+
 }
