@@ -2,7 +2,6 @@ package co.yap.modules.yapit.y2ytransfer.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface IY2Y {
 

@@ -25,10 +25,8 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.tootlBarTitle = "YAP to YAP"// please set the title in view model of relevant section
         // Set Observer
         viewModel.clickEvent.observe(this, clickEventObserver)
-//        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
 
     }
 
