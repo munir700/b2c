@@ -1,5 +1,7 @@
 package co.yap.networking.customers.responsedtos
 
+import com.google.i18n.phonenumbers.PhoneNumberUtil
+
 class Customer(
 
     var status: String,
@@ -27,6 +29,13 @@ class Customer(
     fun getCompletePhone(): String {
         return "$countryCode $mobileNo"
     }
+
+    fun getFormattedPhone(): String {
+        val pnu = PhoneNumberUtil.getInstance()
+        val pn = pnu.parse(mobileNo, "AE")
+        return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+    }
+
 
     fun getPicture(): String {
         return if (profilePictureName.isNullOrEmpty()) "" else profilePictureName!!

@@ -2,6 +2,7 @@ package co.yap.yapcore.helpers
 
 import android.content.Context
 import android.content.SharedPreferences
+import co.yap.app.login.EncryptionUtils
 
 class SharedPreferenceManager(val context: Context) {
 
@@ -64,9 +65,20 @@ class SharedPreferenceManager(val context: Context) {
     }
 
     fun saveUserName(text: String) {
+//
+//        sharedPreferenceManager.save(
+//            KEY_USERNAME, EncryptionUtils.encrypt(context, text)!!
+//        )
+//        sharedPreferenceManager.save(
+//            SharedPreferenceManager.KEY_PASSCODE,
+//            EncryptionUtils.encrypt(context, SharedPreferenceManager.KEY_PASSCODE)!!
+//        )
+
         if (!isNumeric(text)) {
             val editor: SharedPreferences.Editor = sharedPref.edit()
-            editor.putString(KEY_USERNAME, text)
+            editor.putString(KEY_USERNAME, EncryptionUtils.encrypt(context, text)!!)
+            EncryptionUtils.encrypt(context, SharedPreferenceManager.KEY_PASSCODE)!!
+
             editor!!.apply()
         }
     }

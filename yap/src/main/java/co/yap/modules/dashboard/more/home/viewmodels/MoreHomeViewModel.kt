@@ -19,8 +19,16 @@ class MoreHomeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: MoreState = MoreState()
 
-    override fun onCreate() {
-        super.onCreate()
+    init {
+        setPicture()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setPicture()
+    }
+
+    private fun setPicture() {
         state.image.set(MyUserManager.user?.currentCustomer?.getPicture())
         state.initials.set(Utils.shortName(MyUserManager.user?.currentCustomer?.getFullName()!!))
     }

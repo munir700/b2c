@@ -129,7 +129,7 @@
 
     <!-- Meeting location selection screen -->
     <string name="screen_meeting_location_display_text_title">Your card is ready to be delivered!</string>
-    <string name="screen_meeting_location_display_text_subtitle">Choose your location on the map below</string>
+    <string name="screen_meeting_location_display_text_subtitle">Choose your location below. We will also call you to verify this address</string>
     <string name="screen_meeting_location_button_confirm_location">Tap map to confirm location</string>
     <string name="screen_meeting_location_button_change_location">Tap map to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
@@ -408,6 +408,7 @@
     <string name="screen_personal_detail_display_text_emirates_id">Emirates ID</string>
     <string name="screen_personal_detail_display_text_verification_completed">Verification completed</string>
     <string name="screen_personal_detail_display_text_verification_expired">Your EID is expired.\nTap to update to ensure account continuity</string>
+    <string name="screen_personal_detail_display_text_verification_required">Your EID is required.\nTap to update to ensure account continuity</string>
 
     <!-- logout dialogue -->
 
@@ -424,6 +425,32 @@
     <string name="screen_help_support_display_text_call_us">Call us</string>
     <string name="screen_help_support_display_text_available_24_hours">Available 24 hours</string>
 
+<!--    Change email screen-->
+    <string name="screen_change_email_display_text_heading">Change email</string>
+    <string name="screen_change_email_placeholder_email_address">email address</string>
+    <string name="screen_change_email_placeholder_confirm_email_address">confirm email address</string>
+    <string name="screen_change_email_display_text_description">An email will be sent to your email address for\n verification.</string>
+    <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
+    <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
+
+<!--    Email Verification Screen-->
+    <string name="screen_email_verification_display_text_heading">Verify your email address</string>
+
+<!--    Change Phone Number Screen-->
+    <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
+    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
+
+<!--    Current passcode screen-->
+    <string name="screen_current_passcode_display_text_heading">Enter your current \npasscode</string>
+
+<!--    Update new passcode screen-->
+    <string name="screen_set_passcode_display_text_heading">Enter your new \npasscode</string>
+
+<!--    Update confirm passcode screen-->
+    <string name="screen_confirm_passcode_display_text_heading">Re-enter your new \npasscode</string>
+
+
+
 
     <!--    Change Email Address Success Screen-->
     <string name="screen_email_address_success_display_text_heading">Success!</string>
@@ -436,7 +463,7 @@
 
     <!--    Email Verified Popup Screen-->
     <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified your email address:</string>
-    <string name="screen_email_verified_popup_display_text_sub_title">We have just resent you an email to verify your email address. Please log into to your email and click the verification link to get access to your YAP Account.</string>
+    <string name="screen_email_verified_popup_display_text_sub_title">We have just resent you an email to verify your email address. Please log into your email and click the verification link to get access to your YAP Account.</string>
     <string name="screen_email_verified_popup_display_text_click_here">Having trouble? If you want to change your email address </string>
     <string name="screen_email_verified_popup_button_title_click_here">click here.</string>
 
@@ -446,12 +473,13 @@
 
     <string name="screen_unverified_success_display_text_heading">Success!</string>;
     <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>;
-    <string name="screen_unverified_success_display_text_description">Please log in to your email address to validate your email and continue with\naccess to YAP!</string>;
-    <string name="screen_unverified_display_button_mail">Open mail app</string>;
+    <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>;
+    <string name="screen_unverified_display_button_mail">Open Mail App</string>;
+    <string name="screen_unverified_display_button_later">Maybe later</string>;
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
 
 
 
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
-
+    Choose your location below. We will also call you to verify this address
 </resources>

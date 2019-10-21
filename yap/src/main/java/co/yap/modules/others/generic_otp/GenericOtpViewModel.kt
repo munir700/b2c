@@ -17,6 +17,20 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
     private val messagesRepository: MessagesRepository = MessagesRepository
     override var action: String = ""
 
+    override fun onCreate() {
+        super.onCreate()
+        if(action==Constants.CHANGE_EMAIL){
+            state.verificationTitle =getString(Strings.screen_email_verification_display_text_heading)
+        }else{
+            state.verificationTitle =getString(Strings.screen_forgot_passcode_otp_display_text_heading)
+        }
+
+        state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
+        state.reverseTimer(10)
+        state.validResend = false
+    }
+
+
     override fun handlePressOnSendButton(id: Int) {
         verifyOtp(id)
     }
@@ -28,7 +42,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
                 state.loading = true
                 when (val response =
                     repository.verifyOtpGenericWithPhone(
-                        state.mobileNumber[0]!!, VerifyOtpGenericRequest(action, state.otp)
+                        state.mobileNumber[0]!!.replace(" ","").replace("+",""), VerifyOtpGenericRequest(action, state.otp)
                     )
                     ) {
                     is RetroApiResponse.Success -> {
@@ -103,7 +117,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
 
             state.loading = true
             when (val response =
-                messagesRepository.createOtpGenericWithPhone(phone = state.mobileNumber[0]!!.replace(" ", ""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
+                messagesRepository.createOtpGenericWithPhone(phone = state.mobileNumber[0]!!.replace(" ", "").replace("+",""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
                 is RetroApiResponse.Success -> {
                     state.toast=getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)

@@ -25,7 +25,7 @@ class GenericOtpFragment : ForgotPasscodeOtpFragment() {
                     "+"
                 )
         } else {
-            viewModel.state.mobileNumber[0] = args?.mobileNumber
+            viewModel.state.mobileNumber[0] = Utils.formatePhoneWithPlus(args?.mobileNumber.toString())
         }
 
         viewModel.destination = args!!.username

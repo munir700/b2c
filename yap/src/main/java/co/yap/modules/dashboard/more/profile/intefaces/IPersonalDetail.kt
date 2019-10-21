@@ -21,6 +21,8 @@ interface IPersonalDetail {
 
         val clickEvent: SingleClickEvent
 
+        var UPDATE_ADDRESS_UI : Int
+
         fun handlePressOnBackButton()
 
         fun handlePressOnEditPhone(id: Int)
@@ -34,6 +36,8 @@ interface IPersonalDetail {
         fun handlePressOnScanCard(id: Int)
 
         fun toggleToolBar(hide: Boolean)
+
+        fun updateToolBarText(heading: String)
 
     }
 

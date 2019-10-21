@@ -9,23 +9,27 @@ android {
     productFlavors {
 
         live {
+            versionCode 1
             resValue "string", "app_name", "YAP"
             buildConfigField("String", "BASE_URL", "\"https://demo.yap.co\"")
         }
 
         dev {
+            versionCode 1
             applicationIdSuffix ".dev"
             buildConfigField("String", "BASE_URL", "\"https://dev.yap.co\"")
             resValue "string", "app_name", "YAP Dev"
         }
 
         qa {
+            versionCode 4
             applicationIdSuffix ".qa"
             buildConfigField("String", "BASE_URL", "\"https://qa.yap.co\"")
             resValue "string", "app_name", "YAP QA"
         }
 
         stage {
+            versionCode 1
             applicationIdSuffix ".stage"
             buildConfigField("String", "BASE_URL", "\"https://stg.yap.co\"")
             resValue "string", "app_name", "YAP Stage"

@@ -24,6 +24,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.MyUserManager
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -40,6 +41,7 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse
 import com.google.android.libraries.places.api.net.PlacesClient
+import java.lang.IndexOutOfBoundsException
 import java.util.*
 
 class AddressSelectionViewModel(application: Application) :
@@ -86,13 +88,20 @@ class AddressSelectionViewModel(application: Application) :
     override val ON_UPDATE_ADDRESS_EVENT: Int = 300
         get() = field
 
+    override val ON_ADD_NEW_ADDRESS_EVENT: Int = 500
+        get() = field
+
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
     override var selectedLocationLatitude: Double = 0.0
-    override var selectedLocationLongitude: Double  = 0.0
+    override var selectedLocationLongitude: Double = 0.0
 
     override lateinit var updateAddressRequest: UpdateAddressRequest
 
+    var checkLocationUpdate: Boolean = false
+
+    var locationSelectionStart: Boolean = false
+//    var checkLocationUpdate: Boolean = false
 
     fun mapDetailViewActivity(): Activity {
         return Activity()
@@ -111,6 +120,11 @@ class AddressSelectionViewModel(application: Application) :
 
     override val state: AddressSelectionState = AddressSelectionState(application)
 
+    override fun onCreate() {
+        super.onCreate()
+        MyUserManager.addressPhotoUrl = null
+    }
+
     private fun requestOrderCard(id: Int) {
         var orderCardRequest: OrderCardRequest = OrderCardRequest(
             state.landmarkField,
@@ -124,8 +138,15 @@ class AddressSelectionViewModel(application: Application) :
             when (val response = repository.orderCard(orderCardRequest)) {
                 is RetroApiResponse.Success -> {
                     state.error = ""
-                    clickEvent.setValue(id)
-                     state.loading = false
+
+//                    clickEvent.setValue(id)
+                    clickEvent.setValue(ON_ADD_NEW_ADDRESS_EVENT)
+                    state.loading = false
+//if ( MyUserManager.userAddress!! != null){
+//    MyUserManager.userAddress!!.address1 = state.addressField
+//    MyUserManager.userAddress!!.address2 = state.landmarkField
+////}
+
                 }
 
                 is RetroApiResponse.Error -> {
@@ -188,9 +209,10 @@ class AddressSelectionViewModel(application: Application) :
 
                 getDefaultLocationMap(mapDetailViewActivity)
             }
-
+            checkLocationUpdate = true
             mMap!!.setOnMapClickListener(object : GoogleMap.OnMapClickListener {
                 override fun onMapClick(p0: LatLng?) {
+//                    toggleMarkerVisibility()
 
                     if (p0 != null) {
                         mDefaultLocation = p0
@@ -198,20 +220,37 @@ class AddressSelectionViewModel(application: Application) :
 
                     var geocoder: Geocoder = Geocoder(getApplication())
                     list = geocoder.getFromLocation(p0!!.latitude, p0!!.longitude, 1)
-                    var selectedAddress: Address = list.get(0)
-                    placeName = selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
-                    placeSubTitle = selectedAddress.getAddressLine(0)
+                    try {
+                        var selectedAddress: Address = list.get(0)
+                        placeName = selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
+//                    state.placeSubTitle= " "
+                        placeSubTitle = selectedAddress.getAddressLine(0)
 
-                    locationMarker!!.remove()
-                    locationMarker!!.isVisible = false
-                    setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
-                    locationMarker = mMap.addMarker(markerOptions)
-                    state.placeTitle = placeName
-                    state.placePhoto = BitmapFactory.decodeResource(
-                        context.resources,
-                        R.drawable.location_place_holder
-                    )
-                    state.placeSubTitle = placeSubTitle
+                        locationMarker!!.remove()
+                        locationMarker!!.isVisible = false
+                        setUpMarker(p0, placeName, selectedAddress.getAddressLine(0))
+                        locationMarker = mMap.addMarker(markerOptions)
+                        state.placeTitle = placeName
+                        state.placePhoto = BitmapFactory.decodeResource(
+                            context.resources,
+                            R.drawable.location_place_holder
+                        )
+                        state.placeSubTitle = placeSubTitle
+
+                    }catch (e:IndexOutOfBoundsException){
+                        e.printStackTrace()
+//                        locationMarker!!.isVisible = false
+                        toggleMarkerVisibility()
+                    }
+//                    locationMarker = mMap.addMarker(markerOptions)
+//                    state.placeTitle = placeName
+//                    state.placePhoto = BitmapFactory.decodeResource(
+//                        context.resources,
+//                        R.drawable.location_place_holder
+//                    )
+//                    state.placeSubTitle = placeSubTitle
+//                    state.addressField = placeSubTitle
+//                    state.landmarkField = placeName
                 }
 
             })
@@ -234,12 +273,25 @@ class AddressSelectionViewModel(application: Application) :
         state.placeTitle = this.placeName
         state.placePhoto = this.placePhoto
         state.placeSubTitle = this.placeSubTitle
+
+
     }
 
     override fun onLocatioenSelected() {
+        if (checkLocationUpdate) {
+            MyUserManager.addressPhotoUrl = null
+        }
+//        if (state.isFromPersonalDetailView ) {
+//
+            locationSelectionStart = true
+//        }
+//        if (state.isFromPersonalDetailView && locationSelectionStart){
+
+            state.landmarkField = this.placeName
+            state.addressField = this.placeSubTitle
+//        }
         state.headingTitle = this.placeName
-        state.addressField = this.placeName + ", " + this.placeTitle
-        state.landmarkField = this.placeName
+ //        state.landmarkField = this.placeName
         toggleMarkerVisibility()
         state.placePhoto = this.placePhoto
         state.subHeadingTitle =
@@ -403,6 +455,11 @@ class AddressSelectionViewModel(application: Application) :
                                 markerSnippet = currentPlace.address
                                 placeSubTitle = markerSnippet.toString()
                             }
+
+                            if (state.isFromPersonalDetailView && !locationSelectionStart){
+
+                            }
+
                             placeName = currentPlace.name!!
                             placeTitle = currentPlace.address!!
                             var currentAddress: String = currentPlace.address!!
@@ -460,6 +517,7 @@ class AddressSelectionViewModel(application: Application) :
         photoTask.addOnSuccessListener { response ->
 
             placePhoto = response.bitmap
+            MyUserManager.addressPhotoUrl = placePhoto
 
             setUpCardFields()
 
@@ -511,4 +569,4 @@ class AddressSelectionViewModel(application: Application) :
         getDefaultLocationMap(mapDetailViewActivity)
     }
 
- }
+}

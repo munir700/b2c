@@ -3,6 +3,7 @@ package co.yap.yapcore.helpers
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
+import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
@@ -19,9 +20,6 @@ import androidx.annotation.ColorRes
 import co.yap.yapcore.R
 import java.text.DecimalFormat
 import java.util.regex.Pattern
-import android.content.Intent.ACTION_VIEW
-
-
 
 
 object Utils {
@@ -183,7 +181,8 @@ object Utils {
         var inputStr: CharSequence = ""
         var isValid = false
         val expression =
-            "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+         //   "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+            "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
         // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
         inputStr = email
@@ -246,7 +245,11 @@ object Utils {
                 "+"
             )
         } else {
-            return phoneNumber
+            return phoneNumber.replaceRange(
+                0,
+                0,
+                "+"
+            )
         }
     }
 
@@ -263,15 +266,17 @@ object Utils {
                 Uri.parse("twitter.com/intent/follow?screen_name=YapTweets")
             )
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
         } catch (e: Exception) {
             // no Twitter app, revert to browser
-            intent =
+            context.startActivity(
                 Intent(
                     ACTION_VIEW,
                     Uri.parse("https://twitter.com/intent/follow?screen_name=YapTweets")
                 )
+            )
         }
-        context.startActivity(intent)
+
     }
 
     fun openInstagram(context: Context) {

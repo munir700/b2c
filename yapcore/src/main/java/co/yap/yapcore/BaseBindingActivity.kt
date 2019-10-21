@@ -4,16 +4,27 @@ import android.os.Bundle
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import co.yap.app.YAPApplication
 
 abstract class BaseBindingActivity<V : IBase.ViewModel<*>> : BaseActivity<V>() {
 
     lateinit var viewDataBinding: ViewDataBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // For runtime permission handling if user
+        // disable permission from settings manually
+        if (YAPApplication.AUTO_RESTART_APP) {
+            finishAffinity()
+            restartApp()
+        }
         super.onCreate(savedInstanceState)
         performDataBinding()
     }
 
+    private fun restartApp() {
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        startActivity(intent)
+    }
 
     protected fun performDataBinding() {
         viewDataBinding = DataBindingUtil.setContentView(this, getLayoutId())

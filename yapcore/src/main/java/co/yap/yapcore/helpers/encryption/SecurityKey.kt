@@ -48,7 +48,7 @@ internal class SecurityKey {
             val original = cipher.doFinal(decoded)
             return String(original)
         } catch (e: GeneralSecurityException) {
-
+            e.printStackTrace()
         }
 
         //Unable to decrypt encrypted Token

@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.more.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.text.Layout
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -33,6 +34,8 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
             val intent = Intent(context, MoreActivity::class.java)
             return intent
         }
+        var isDocumentRequired : Boolean =false
+        var showExpiredIcon : Boolean = false
 
     }
 
@@ -62,11 +65,11 @@ class MoreActivity : BaseBindingActivity<IMore.ViewModel>(), INavigator,
 
     private val backButtonObserver = Observer<Boolean> { onBackPressed() }
 
-    fun hideToolbar() {
+   public fun hideToolbar() {
         toolbar.visibility = View.INVISIBLE
     }
 
-    fun goneToolbar() {
+    public fun goneToolbar() {
         toolbar.visibility = View.GONE
     }
 

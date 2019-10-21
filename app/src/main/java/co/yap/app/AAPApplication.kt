@@ -8,7 +8,7 @@ import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import java.util.*
 
-class YAPApplication : ChatApplication() {
+class AAPApplication : ChatApplication() {
 
     override fun onCreate() {
         super.onCreate()

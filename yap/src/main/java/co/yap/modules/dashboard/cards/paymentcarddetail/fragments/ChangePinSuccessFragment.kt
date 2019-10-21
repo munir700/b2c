@@ -25,5 +25,7 @@ class ChangePinSuccessFragment : BaseBindingFragment<IChangeCardPinSuccess.ViewM
         })
     }
 
-
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 }

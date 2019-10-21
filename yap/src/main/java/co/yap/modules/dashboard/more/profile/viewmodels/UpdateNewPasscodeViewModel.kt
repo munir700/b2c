@@ -17,7 +17,7 @@ class UpdateNewPasscodeViewModel(application: Application) : SetNewPinViewModel(
     private val messagesRepository: MessagesRepository = MessagesRepository
     override fun onCreate() {
         super.onCreate()
-        state.titleSetPin = "Enter your new 4-digit \n passcode"
+        state.titleSetPin = getString(Strings.screen_set_passcode_display_text_heading)
         state.buttonTitle = getString(Strings.screen_current_card_pin_display_button_next)
         state.forgotTextVisibility = true
     }

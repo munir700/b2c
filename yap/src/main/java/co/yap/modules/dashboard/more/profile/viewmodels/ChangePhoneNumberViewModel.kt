@@ -15,6 +15,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 
@@ -40,7 +41,7 @@ class ChangePhoneNumberViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.validatePhoneNumber(state.countryCode, state.mobile.replace(" ", ""))) {
+                repository.validatePhoneNumber("00971", state.mobile.replace(" ", ""))) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.errorMessage = response.error.message
@@ -73,7 +74,7 @@ class ChangePhoneNumberViewModel(application: Application) :
                     val action =
                         ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToGenericOtpFragment(
                             otpType = Constants.CHANGE_MOBILE_NO,
-                            mobileNumber = state.countryCode + state.mobile.replace(" ", "")
+                            mobileNumber = state.countryCode + " "+state.mobile
                         )
                     view.findNavController().navigate(action)
                 }
@@ -111,6 +112,6 @@ class ChangePhoneNumberViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("Change phone number")
+        setToolBarTitle("")
     }
 }

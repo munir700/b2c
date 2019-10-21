@@ -12,6 +12,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.more.activities.MoreActivity
+import co.yap.modules.dashboard.more.activities.MoreActivity.Companion.showExpiredIcon
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity.Companion.hasStartedScanner
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
@@ -64,7 +66,10 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
                 viewModel.EVENT_RESCAN -> openCardScanner()
                 viewModel.EVENT_NEXT_WITH_ERROR -> findNavController().navigate(R.id.action_eidInfoReviewFragment_to_informationErrorFragment)
-                viewModel.EVENT_NEXT -> findNavController().popBackStack()
+                viewModel.EVENT_NEXT -> {
+                    MoreActivity.showExpiredIcon = false
+                    findNavController().popBackStack()
+                }
             }
         })
     }

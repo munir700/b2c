@@ -297,8 +297,9 @@
         <LinearLayout
             android:id="@+id/lyNameInitials"
             android:layout_width="wrap_content"
-            android:background="@drawable/bg_round_with_space_white"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_round_with_space_white"
+            android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -314,7 +315,6 @@
                 android:gravity="center"
                 android:text="@{viewModel.state.initials}"
                 android:textColor="@color/colorPrimary"
-                android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
                 tools:text="NM" />
         </LinearLayout>
 

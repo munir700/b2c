@@ -663,6 +663,8 @@ object Strings {
         "screen_personal_detail_display_text_verification_completed"
     const val screen_personal_detail_display_text_verification_expired: String =
         "screen_personal_detail_display_text_verification_expired"
+ const val screen_personal_detail_display_text_verification_required: String =
+        "screen_personal_detail_display_text_verification_required"
 
 
     // logout dialogue
@@ -700,22 +702,22 @@ object Strings {
     const val screen_email_address_success_display_text_sub_heading: String =
         "screen_email_address_success_display_text_sub_heading"
 
-//    Change Phone Number Success Screen
-const val screen_phone_number_success_display_text_heading: String =
-    "screen_phone_number_success_display_text_heading"
+    //    Change Phone Number Success Screen
+    const val screen_phone_number_success_display_text_heading: String =
+        "screen_phone_number_success_display_text_heading"
     const val screen_phone_number_success_display_text_sub_heading: String =
-    "screen_phone_number_success_display_text_sub_heading"
+        "screen_phone_number_success_display_text_sub_heading"
 
 
-//    Email Verified Popup Screen
+    //    Email Verified Popup Screen
     const val screen_email_verified_popup_display_text_title: String =
-    "screen_email_verified_popup_display_text_title"
+        "screen_email_verified_popup_display_text_title"
     const val screen_email_verified_popup_display_text_sub_title: String =
-    "screen_email_verified_popup_display_text_sub_title"
+        "screen_email_verified_popup_display_text_sub_title"
     const val screen_email_verified_popup_display_text_click_here: String =
-    "screen_email_verified_popup_display_text_click_here"
+        "screen_email_verified_popup_display_text_click_here"
     const val screen_email_verified_popup_button_title_click_here: String =
-    "screen_email_verified_popup_button_title_click_here"
+        "screen_email_verified_popup_button_title_click_here"
 
 
     //Unverified change email success Screen
@@ -730,6 +732,47 @@ const val screen_phone_number_success_display_text_heading: String =
     const val screen_unverified_display_button_back_to_dashboard: String =
         "screen_unverified_display_button_back_to_dashboard"
 
- const val screen_address_success_display_text_sub_heading: String =
-    "screen_address_success_display_text_sub_heading"
+    const val screen_address_success_display_text_sub_heading: String =
+        "screen_address_success_display_text_sub_heading"
+
+
+    //Change email screen
+    const val screen_change_email_display_text_heading: String =
+        "screen_change_email_display_text_heading"
+    const val screen_change_email_placeholder_email_address: String =
+        "screen_change_email_placeholder_email_address"
+    const val screen_change_email_placeholder_confirm_email_address: String =
+        "screen_change_email_placeholder_confirm_email_address"
+    const val screen_change_email_display_text_description: String =
+        "screen_change_email_display_text_description"
+    const val screen_change_email_display_text_email_title: String =
+        "screen_change_email_display_text_email_title"
+    const val screen_change_email_display_text_confirm_email_title: String =
+        "screen_change_email_display_text_confirm_email_title"
+
+
+    //    Change Phone Number Screen
+    const val screen_change_phone_number_display_text_heading: String =
+        "screen_change_phone_number_display_text_heading"
+    const val screen_change_phone_number_display_text_text_field_title: String =
+        "screen_change_phone_number_display_text_text_field_title"
+
+
+    //    Current passcode screen
+    const val screen_current_passcode_display_text_heading: String =
+        "screen_current_passcode_display_text_heading"
+
+    //    Update new passcode screen
+    const val screen_set_passcode_display_text_heading: String =
+        "screen_set_passcode_display_text_heading"
+
+    //    Update confirm passcode screen
+    const val screen_confirm_passcode_display_text_heading: String =
+        "screen_confirm_passcode_display_text_heading"
+
+
+    //Email Verification Screen
+    const val screen_email_verification_display_text_heading: String =
+        "screen_email_verification_display_text_heading"
+
 }

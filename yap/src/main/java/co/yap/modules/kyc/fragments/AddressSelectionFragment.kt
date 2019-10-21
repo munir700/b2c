@@ -29,6 +29,7 @@ import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
@@ -98,22 +99,13 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             updateHeadings()
 
             viewModel.state.nextActionBtnText =
-                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_done)
+                getString(Strings.idenetity_scanner_sdk_screen_review_info_button_next)
 
             if (MyUserManager.userAddress != null) {
-
-                MyUserManager.userAddress!!.address1 + " " + MyUserManager.userAddress!!.address2
-                viewModel.state.addressField = MyUserManager.userAddress!!.address2!!
-                viewModel.state.landmarkField = MyUserManager.userAddress!!.address1!!
-                viewModel.mDefaultLocation = LatLng(
-                    MyUserManager.userAddress!!.latitude!!,
-                    MyUserManager.userAddress!!.longitude!!
-                )
-
-                viewModel.state.placeTitle = MyUserManager.userAddress!!.address1!!
-                viewModel.state.placeSubTitle = MyUserManager.userAddress!!.address2!!
-
+                setUpAddressFields()
             }
+            viewModel.state.subHeadingTitle =
+                getString(Strings.screen_meeting_location_display_text_subtitle)
 
         } else if (isFromBlockCardsScreen!!) {
             viewModel!!.mapDetailViewActivity = activity as ReportLostOrStolenCardActivity
@@ -127,11 +119,38 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
             viewModel!!.mapDetailViewActivity = activity as DocumentsDashboardActivity
 
         }
-
-        performDataBinding(inflater, container)
+         performDataBinding(inflater, container)
         initMapFragment()
 
         return viewDataBinding.root
+    }
+
+    private fun setUpAddressFields() {
+//        var address: Address = MyUserManager.userAddress!!
+//
+//        var addresstitle = ""
+//        var addressDetail = ""
+//
+//        if (!address.address2.isNullOrEmpty()) {
+//            addresstitle = address.address2!!
+//        }
+//
+//        if (!address.address1.isNullOrEmpty()) {
+//            addressDetail = address.address1!!
+//        }
+//
+//        addresstitle + " " + addressDetail
+//        viewModel.mDefaultLocation = LatLng(
+//            MyUserManager.userAddress!!.latitude!!,
+//            MyUserManager.userAddress!!.longitude!!
+//        )
+//
+//        viewModel.state.placeTitle = addresstitle
+//        viewModel.state.placeSubTitle = addressDetail
+//        viewModel.state.addressField = addressDetail
+//        viewModel.state.landmarkField = addresstitle
+
+
     }
 
     private fun updateHeadings() {
@@ -251,24 +270,78 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
 
 
                     } else if (viewModel.state.isFromPersonalDetailView) {
-
+//
+//                        viewModel.state.placeTitle = addresstitle
+//                        viewModel.state.placeSubTitle = addressDetail
+//                        viewModel.state.addressField = addressDetail
+//                        viewModel.state.landmarkField = addresstitle
                         var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
-                            viewModel.state.placeTitle,
-                            viewModel.state.placeSubTitle,
+                            viewModel.state.addressField,
+                            viewModel.state.landmarkField,
                             viewModel.mDefaultLocation.latitude.toString(),
                             viewModel.mDefaultLocation.longitude.toString()
                         )
-                        if (viewModel.state.placeTitle.isNullOrEmpty()) {
-                            MyUserManager.userAddress!!.address1 = viewModel.state.placeTitle
+                        if (!viewModel.state.placeTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address2 = viewModel.state.placeTitle
                         }
 
-                        if (viewModel.state.placeSubTitle.isNullOrEmpty()) {
-                            MyUserManager.userAddress!!.address2 = viewModel.state.placeSubTitle
+                        if (!viewModel.state.placeSubTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address1 = viewModel.state.placeSubTitle
                         }
 
                         viewModel.requestUpdateAddress(updateAddressRequest)
 
                     } else {
+                        if (!viewModel.state.error.isNullOrEmpty()) {
+                            showToast(viewModel.state.error)
+                        } else {
+                            MyUserManager.user?.notificationStatuses =
+                                Constants.USER_STATUS_MEETING_SCHEDULED
+                            findNavController().navigate(R.id.action_AddressSelectionActivity_to_MeetingConfirmationFragment)
+                        }
+                    }
+                }
+
+
+                viewModel.ON_ADD_NEW_ADDRESS_EVENT -> {
+
+                    if (viewModel.state.isFromPhysicalCardsLayout) {
+                        val action =
+                            AddressSelectionFragmentDirections.actionAddressSelectionFragmentToAddSpareCardFragment(
+                                getString(R.string.screen_spare_card_landing_display_text_physical_card),
+                                viewModel.state.placeTitle,
+                                viewModel.state.placeSubTitle,
+                                viewModel.mDefaultLocation.latitude.toString(),
+                                viewModel.mDefaultLocation.longitude.toString(),
+                                false
+
+                            )
+                        findNavController().navigate(action)
+
+
+                    } /*else if (viewModel.state.isFromPersonalDetailView) {
+//
+//                        viewModel.state.placeTitle = addresstitle
+//                        viewModel.state.placeSubTitle = addressDetail
+//                        viewModel.state.addressField = addressDetail
+//                        viewModel.state.landmarkField = addresstitle
+                        var updateAddressRequest: UpdateAddressRequest = UpdateAddressRequest(
+                            viewModel.state.addressField,
+                            viewModel.state.landmarkField,
+                            viewModel.mDefaultLocation.latitude.toString(),
+                            viewModel.mDefaultLocation.longitude.toString()
+                        )
+                        if (!viewModel.state.placeTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address2 = viewModel.state.placeTitle
+                        }
+
+                        if (!viewModel.state.placeSubTitle.isNullOrEmpty()) {
+                            MyUserManager.userAddress!!.address1 = viewModel.state.placeSubTitle
+                        }
+
+                        viewModel.requestUpdateAddress(updateAddressRequest)
+
+                    }*/ else {
                         if (!viewModel.state.error.isNullOrEmpty()) {
                             showToast(viewModel.state.error)
                         } else {
@@ -369,6 +442,10 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun expandMap() {
+        if (isFromPersonalDetailScreen){
+            (context as MoreActivity).goneToolbar()
+        }
+
         viewModel.state.cardView = false
         if (viewModel.checkGps) {
             viewModel.state.isMapOnScreen = true
@@ -406,6 +483,9 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
     }
 
     private fun collapseMap() {
+        if (isFromPersonalDetailScreen){
+            (context as MoreActivity).visibleToolbar()
+        }
         viewModel.state.isMapOnScreen = false
         viewModel.toggleMarkerVisibility()
         if (viewModel.state.errorChecked) {

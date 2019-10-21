@@ -19,6 +19,7 @@ class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
+    override var UPDATE_ADDRESS_UI: Int = 10
 
     override val repository: CardsRepository = CardsRepository
     lateinit var address: Address
@@ -55,7 +56,7 @@ class PersonalDetailsViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
         state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-        state.phoneNumber = MyUserManager.user!!.currentCustomer.getCompletePhone()
+        state.phoneNumber = MyUserManager.user!!.currentCustomer.getFormattedPhone()
         state.email = MyUserManager.user!!.currentCustomer.email
         if (MyUserManager.userAddress == null) {
             requestGetAddressForPhysicalCard()
@@ -75,6 +76,7 @@ class PersonalDetailsViewModel(application: Application) :
                         address = response.data.data
 
                         setUpAddressFields()
+                        clickEvent.setValue(UPDATE_ADDRESS_UI)
                     }
                 }
 
@@ -93,16 +95,20 @@ class PersonalDetailsViewModel(application: Application) :
             addresstitle = address.address2!!
         }
 
-        if (!address.address2.isNullOrEmpty()) {
+        if (!address.address1.isNullOrEmpty()) {
             addressDetail = address.address1!!
         }
 
-        state.address = addresstitle + " " + addressDetail
+        state.address =  addressDetail
         MyUserManager.userAddress = address
     }
 
      override fun toggleToolBar(hide: Boolean) {
         toggleToolBarVisibility(hide)
+    }
+
+ override fun updateToolBarText(heading: String) {
+     setToolBarTitle(heading)
     }
 
  }
