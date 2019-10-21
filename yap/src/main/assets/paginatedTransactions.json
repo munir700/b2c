@@ -1,0 +1,89 @@
+{
+  "errors": null,
+  "data": {
+    "content": [
+      {
+        "id": 144,
+        "txnDate": "2019-08-05T07:31:35",
+        "txnType": "CREDIT",
+        "txnAmount": 850,
+        "txnCurrency": "AED",
+        "txnCategory": "TRANSACTION",
+        "paymentMode": "DEBIT",
+        "closingBalance": 15657.99,
+        "title": null,
+        "merchant": null
+      },
+      {
+        "id": 143,
+        "txnDate": "2019-08-05T07:19:01",
+        "txnType": "CREDIT",
+        "txnAmount": 890,
+        "txnCurrency": "AED",
+        "txnCategory": "TRANSACTION",
+        "paymentMode": "DEBIT",
+        "closingBalance": 1719.99,
+        "title": null,
+        "merchant": null
+      },
+      {
+        "id": 140,
+        "txnDate": "2019-08-05T06:00",
+        "txnType": "CREDIT",
+        "txnAmount": 831,
+        "txnCurrency": "AED",
+        "txnCategory": "TRANSACTION",
+        "paymentMode": "DEBIT",
+        "closingBalance": 831,
+        "title": null,
+        "merchant": null
+      },
+      {
+        "id": 138,
+        "txnDate": "2019-08-05T05:50:43",
+        "txnType": "CREDIT",
+        "txnAmount": 820,
+        "txnCurrency": "AED",
+        "txnCategory": "TRANSACTION",
+        "paymentMode": "DEBIT",
+        "closingBalance": 12333.99,
+        "title": null,
+        "merchant": null
+      },
+      {
+        "id": 137,
+        "txnDate": "2019-08-05T05:47:28",
+        "txnType": "CREDIT",
+        "txnAmount": 85,
+        "txnCurrency": "AED",
+        "txnCategory": "TRANSACTION",
+        "paymentMode": "DEBIT",
+        "closingBalance": 11513.99,
+        "title": null,
+        "merchant": null
+      }
+    ],
+    "pageable": {
+      "sort": {
+        "sorted": false,
+        "unsorted": true
+      },
+      "offset": 5,
+      "pageNumber": 1,
+      "pageSize": 5,
+      "unpaged": false,
+      "paged": true
+    },
+    "totalElements": 56,
+    "totalPages": 12,
+    "last": false,
+    "size": 5,
+    "number": 1,
+    "sort": {
+      "sorted": false,
+      "unsorted": true
+    },
+    "first": false,
+    "numberOfElements": 5
+  }
+}
