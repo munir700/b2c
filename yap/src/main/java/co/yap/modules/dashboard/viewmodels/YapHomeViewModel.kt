@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.states.YapHomeState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.yapcore.SingleClickEvent
 
 class YapHomeViewModel(application: Application) :
@@ -57,19 +58,23 @@ class YapHomeViewModel(application: Application) :
 
         launch {
             state.loading = true
+//transactions/api/account-transactions/
+// 1/5?&minAmount=10.00&maxAmount=100.00&creditSearch=true&debitSearch=true&yapYoungTransfer=true
 
-            when (val response = transactionsRepository.getAccountTransactions()) {
+            var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(10.00,100.00,true,true,true)
+
+            when (val response = transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
                     Log.i(
                         "getAccountTransactions",
-                        transactionsRepository.getAccountTransactions().toString()
+                        response.data.toString()
                     )
                     if (null != response.data.data) {
 //                        transactionLogicHelper.transactionList = response.data.data.get(0)
-                        Log.i(
-                            "getAccountTransactions",
-                            transactionsRepository.getAccountTransactions().toString()
-                        )
+//                        Log.i(
+//                            "getAccountTransactions",
+//                            transactionsRepository.getAccountTransactions().toString()
+//                        )
                     }
                 }
 

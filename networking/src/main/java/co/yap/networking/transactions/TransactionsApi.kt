@@ -2,6 +2,7 @@ package co.yap.networking.transactions
 
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.*
 
@@ -12,5 +13,5 @@ interface TransactionsApi {
     suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse>
     suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse>
     suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse>
-    suspend fun getAccountTransactions(): RetroApiResponse<HomeTransactionsResponse>
+    suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
 }

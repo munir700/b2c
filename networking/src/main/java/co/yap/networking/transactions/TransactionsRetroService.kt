@@ -1,6 +1,7 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.*
 import retrofit2.Response
@@ -34,5 +35,5 @@ interface TransactionsRetroService {
 
     // Get Account Transaction
     @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
-    suspend fun getAccountTransactions(): Response<HomeTransactionsResponse>
+    suspend fun getAccountTransactions(homeTransactionsResponse: HomeTransactionsRequest): Response<HomeTransactionsResponse>
 }
