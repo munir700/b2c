@@ -24,6 +24,7 @@ public class IdentityScannerActivity extends PermissionAwareFragmentActivity imp
     private static final String DOC_TYPE = "docType";
     private static final String SCAN_FROM = "scanFrom";
     public static final String SCAN_RESULT = "scannerResult";
+    public static Boolean CLOSE_SCANNER = false;
 
 
     public static Intent getLaunchIntent(Context context, DocumentType type, int scanFrom) {
@@ -41,6 +42,9 @@ public class IdentityScannerActivity extends PermissionAwareFragmentActivity imp
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_identity_scanner_frag);
         // Setup toolbar
+        if (CLOSE_SCANNER){
+            finish();
+        }
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

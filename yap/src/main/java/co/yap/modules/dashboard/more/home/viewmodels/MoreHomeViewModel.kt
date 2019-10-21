@@ -8,6 +8,8 @@ import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.states.MoreState
 import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 class MoreHomeViewModel(application: Application) :
@@ -17,6 +19,20 @@ class MoreHomeViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: MoreState = MoreState()
 
+    init {
+        setPicture()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setPicture()
+    }
+
+    private fun setPicture() {
+        state.image.set(MyUserManager.user?.currentCustomer?.getPicture())
+        state.initials.set(Utils.shortName(MyUserManager.user?.currentCustomer?.getFullName()!!))
+    }
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
@@ -25,18 +41,18 @@ class MoreHomeViewModel(application: Application) :
         val list = mutableListOf<MoreOption>()
         list.add(
             MoreOption(
-                1,
+                Constants.MORE_NOTIFICATION,
                 "Notifications",
                 R.drawable.ic_notification_more,
                 ContextCompat.getColor(context, R.color.colorSecondaryOrange),
-                true,
+                false,
                 4
             )
         )
         //colorSecondaryGreen
         list.add(
             MoreOption(
-                1,
+                Constants.MORE_LOCATE_ATM,
                 "Locate ATM and CDM",
                 R.drawable.ic_home_more,
                 ContextCompat.getColor(context, R.color.colorSecondaryGreen),
@@ -46,7 +62,7 @@ class MoreHomeViewModel(application: Application) :
         )
         list.add(
             MoreOption(
-                1,
+                Constants.MORE_INVITE_FRIEND,
                 "Invite a friend",
                 R.drawable.ic_gift,
                 ContextCompat.getColor(context, R.color.colorPrimaryAlt),
@@ -56,7 +72,7 @@ class MoreHomeViewModel(application: Application) :
         )
         list.add(
             MoreOption(
-                1,
+                Constants.MORE_HELP_SUPPORT,
                 "Help and support",
                 R.drawable.ic_support,
                 ContextCompat.getColor(context, R.color.colorSecondaryBlue),

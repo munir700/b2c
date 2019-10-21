@@ -4,10 +4,7 @@ import co.yap.networking.admin.requestdtos.ForgotPasscodeRequest
 import co.yap.networking.admin.responsedtos.VerifyUsernameResponse
 import co.yap.networking.models.ApiResponse
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.POST
-import retrofit2.http.PUT
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface AdminRetroService {
 
@@ -17,5 +14,16 @@ interface AdminRetroService {
 
     //Forgot passcode request
     @PUT(AdminRepository.URL_FORGOT_PASSCODE)
-    suspend fun forgotPasscode(@Body forgotPasscodeRequest: ForgotPasscodeRequest):Response<ApiResponse>
+    suspend fun forgotPasscode(@Body forgotPasscodeRequest: ForgotPasscodeRequest): Response<ApiResponse>
+
+
+    //validate current passcode
+    @GET(AdminRepository.URL_VALIDATE_CURRENT_PASSCODE)
+    suspend fun validateCurrentPasscode(@Query("passcode") passcode: String): Response<ApiResponse>
+
+    //change passcode
+    @POST(AdminRepository.URL_CHANGE_PASSCODE)
+    suspend fun changePasscode(@Query("new-password") newPasscode: String): Response<ApiResponse>
+
+
 }

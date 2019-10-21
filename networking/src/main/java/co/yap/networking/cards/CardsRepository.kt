@@ -4,10 +4,7 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.cards.requestdtos.*
-import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
-import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
-import co.yap.networking.cards.responsedtos.GetCardsResponse
-import co.yap.networking.cards.responsedtos.GetPhysicalAddress
+import co.yap.networking.cards.responsedtos.*
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
@@ -122,4 +119,10 @@ object CardsRepository : BaseRepository(), CardsApi {
 
     override suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.changeCardPinRequest(changeCardCardPinRequest) })
+
+
+    override suspend fun editAddressRequest(
+        address : UpdateAddressRequest
+    ): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.editAddressRequest(address) })
 }

@@ -8,13 +8,14 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.onboarding.constants.Constants
-import co.yap.modules.onboarding.interfaces.ICreatePasscode
-import co.yap.modules.onboarding.viewmodels.CreatePasscodeViewModel
+import co.yap.modules.forgotpasscode.interfaces.ICreatePasscode
+import co.yap.modules.forgotpasscode.viewmodels.CreatePasscodeViewModel
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.SharedPreferenceManager
 
 
-class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),ICreatePasscode.View {
+class CreatePasscodeActivity : BaseBindingActivity<ICreatePasscode.ViewModel>(),
+    ICreatePasscode.View {
 
     companion object {
         fun newIntent(context: Context): Intent {

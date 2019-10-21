@@ -1,7 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import co.yap.modules.kyc.enums.DocScanStatus
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -14,11 +14,9 @@ import co.yap.yapcore.helpers.DateUtils
 import com.digitify.identityscanner.core.mrz.types.Gender
 import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
 import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
-class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidInfoReview.State>(application),
+class EidInfoReviewViewModel(application: Application) :
+    KYCChildViewModel<IEidInfoReview.State>(application),
     IEidInfoReview.ViewModel, IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository
@@ -47,7 +45,13 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
             val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
             when {
                 DateUtils.isDatePassed(expiry) -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
-                DateUtils.getAge(it.dateOfBirth.run { DateUtils.toDate(day, month, year) }) < 18 -> clickEvent.setValue(
+                DateUtils.getAge(it.dateOfBirth.run {
+                    DateUtils.toDate(
+                        day,
+                        month,
+                        year
+                    )
+                }) < 18 -> clickEvent.setValue(
                     EVENT_ERROR_UNDER_AGE
                 )
                 it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
@@ -60,6 +64,15 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
 
 
     }
+//    fun enableBtn() {
+//
+//        if (state.fullNameValid && state.nationalityValid && state.dateOfBirthValid && state.genderValid && state.expiryDateValid){
+//            btnTouchId.enableButton(true)
+//        }else{
+//            btnTouchId.enableButton(false)
+//        }
+//
+//    }
 
     override fun handleUserRejection(reason: Int) {
         handlePressOnRescanBtn()
@@ -81,7 +94,13 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
                     documentType = if (it.document.type == DocumentType.EID) "EMIRATES_ID" else "PASSPORT",
                     firstName = it.identity.givenName,
                     lastName = it.identity.sirName,
-                    dateExpiry = it.identity.expirationDate.run { DateUtils.toDate(day, month, year) },
+                    dateExpiry = it.identity.expirationDate.run {
+                        DateUtils.toDate(
+                            day,
+                            month,
+                            year
+                        )
+                    },
                     dob = it.identity.dateOfBirth.run { DateUtils.toDate(day, month, year) },
                     fullName = it.identity.givenName + " " + it.identity.sirName,
                     gender = it.identity.gender.mrz.toString(),
@@ -117,7 +136,8 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
             state.fullNameValid = state.fullName.isNotBlank()
 
             state.nationality = it.identity.nationality
-            state.nationalityValid = state.nationality.isNotBlank() && !state.nationality.equals("USA", false)
+            state.nationalityValid =
+                state.nationality.isNotBlank() && !state.nationality.equals("USA", false)
 
             state.dateOfBirth = it.identity.dateOfBirth.run {
                 DateUtils.dateToString(day, month, year)
@@ -145,6 +165,18 @@ class EidInfoReviewViewModel(application: Application) : KYCChildViewModel<IEidI
                 }
             }
 
+            enableBtn()
         }
+    }
+
+    fun enableBtn() {
+        if (DocumentsDashboardActivity.isFromMoreSection){
+            if (state.fullNameValid && state.nationalityValid && state.dateOfBirthValid && state.genderValid && state.expiryDateValid) {
+                state.valid = true
+            } else {
+                state.valid = false
+            }
+        }
+
     }
 }

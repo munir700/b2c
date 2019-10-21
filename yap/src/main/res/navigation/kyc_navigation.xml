@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kyc_navigation"
@@ -8,71 +7,97 @@
     <argument
         android:name="name"
         android:defaultValue=" "
-        app:argType="string"/>
+        app:argType="string" />
     <action
         android:id="@+id/action_goto_DashboardActivity"
         app:destination="@id/DashboardActivity"
         app:popUpTo="@+id/kyc_navigation"
-        app:popUpToInclusive="true"/>
+        app:popUpToInclusive="true" />
     <fragment
         android:id="@+id/informationErrorFragment"
         android:name="co.yap.modules.kyc.fragments.InformationErrorFragment"
-        tools:layout="@layout/fragment_information_error"
-        android:label="InformationErrorFragment"/>
+        android:label="InformationErrorFragment"
+        tools:layout="@layout/fragment_information_error" />
 
     <fragment
         android:id="@+id/KYCHomeFragment"
-        tools:layout="@layout/fragment_kyc_home"
         android:name="co.yap.modules.kyc.fragments.KYCHomeFragment"
-        android:label="KYCHomeFragment">
+        android:label="KYCHomeFragment"
+        tools:layout="@layout/fragment_kyc_home">
         <action
             android:id="@+id/action_KYCHomeFragment_to_eidInfoReviewFragment"
-            app:destination="@id/eidInfoReviewFragment"/>
+            app:destination="@id/eidInfoReviewFragment" />
         <action
             android:id="@+id/action_KYCHomeFragment_to_AddressSelectionFragment"
-            app:destination="@id/AddressSelectionFragment"/>
+            app:destination="@id/AddressSelectionFragment" />
 
     </fragment>
     <fragment
         android:id="@+id/eidInfoReviewFragment"
-        tools:layout="@layout/activity_eid_info_review"
         android:name="co.yap.modules.kyc.fragments.EidInfoReviewFragment"
-        android:label="EidInfoReviewFragment">
+        android:label="EidInfoReviewFragment"
+        tools:layout="@layout/activity_eid_info_review">
         <action
             android:id="@+id/action_eidInfoReviewFragment_to_informationErrorFragment"
-            app:destination="@id/informationErrorFragment"/>
+            app:destination="@id/informationErrorFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/MeetingConfirmationFragment"
-        tools:layout="@layout/fragment_meeting_confirmation"
         android:name="co.yap.modules.onboarding.fragments.MeetingConfirmationFragment"
-        android:label="AddressSelectionFragment"/>
+        android:label="AddressSelectionFragment"
+        tools:layout="@layout/fragment_meeting_confirmation" />
 
- <fragment
+    <fragment
         android:id="@+id/AddressSelectionFragment"
-        tools:layout="@layout/fragment_address_selection"
         android:name="co.yap.modules.kyc.fragments.AddressSelectionFragment"
-        android:label="AddressSelectionActivity">
+        android:label="AddressSelectionActivity"
+        tools:layout="@layout/fragment_address_selection">
 
-     <argument
-         android:name="isFromPhysicalCardsScreen"
-         android:defaultValue="false"
-         app:argType="boolean" />
-     <argument
-         android:name="isFromBlockCardsScreen"
-         android:defaultValue="false"
-         app:argType="boolean" />
+        <argument
+            android:name="isFromPhysicalCardsScreen"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isFromBlockCardsScreen"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="isFromPersonalDetail"
+            android:defaultValue="false"
+            app:argType="boolean" />
+
 
         <action
             android:id="@+id/action_AddressSelectionActivity_to_MeetingConfirmationFragment"
-            app:destination="@id/MeetingConfirmationFragment"/>
+            app:destination="@id/MeetingConfirmationFragment"
+            app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_addressSelectionFragment_to_successFragment"
+            app:destination="@id/successFragment"
+            app:popUpTo="@+id/personalDetailsFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/successFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
+        android:label="SuccessFragment"
+        tools:layout="@layout/fragment_success">
+        <argument
+            android:name="staticString"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="destinationValue"
+            android:defaultValue=" "
+            app:argType="string" />
     </fragment>
 
     <activity
         android:id="@+id/DashboardActivity"
         android:name="co.yap.modules.dashboard.activities.YapDashboardActivity"
-        tools:layout="@layout/activity_yap_dashboard"
-        android:label="LiteDashboardActivity"/>
+        android:label="LiteDashboardActivity"
+        tools:layout="@layout/activity_yap_dashboard" />
 
 </navigation>

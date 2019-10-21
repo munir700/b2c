@@ -99,6 +99,13 @@ project.ext {
             androidanimationseasing  : 'com.daimajia.easing:library:2.0@aar',
             expandableLayout         : 'net.cachapa.expandablelayout:expandablelayout:2.9.2',
 
+            // Live chat
+            livechat                 : 'com.liveperson.android:lp_messaging_sdk:4.2.1',
+            fineWebView              : 'com.thefinestartist:finestwebview:1.2.7',
+
+            //phone lib
+            phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:7.2.2',
+            easyImage                : 'com.github.jkwiecien:EasyImage:1.3.1',
 
     ]
     // Test dependencies which need to be added in all modules
@@ -123,6 +130,10 @@ project.ext {
             [configuration: "implementation", dependency: libraries.coreKtx],
             [configuration: "implementation", dependency: libraries.paging],
             [configuration: "implementation", dependency: libraries.viewpager2],
+            [configuration: "implementation", dependency: libraries.livechat],
+            [configuration: "implementation", dependency: libraries.fineWebView],
+            [configuration: "implementation", dependency: libraries.phoneLib],
+            [configuration: "implementation", dependency: libraries.easyImage]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies

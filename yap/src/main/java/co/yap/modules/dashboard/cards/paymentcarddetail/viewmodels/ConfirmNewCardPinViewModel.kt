@@ -9,7 +9,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.CoreDialerPad
 import co.yap.yapcore.SingleClickEvent
 
-class ConfirmNewCardPinViewModel(application: Application) :
+open class ConfirmNewCardPinViewModel(application: Application) :
     ConfirmCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var errorEvent: SingleClickEvent = SingleClickEvent()

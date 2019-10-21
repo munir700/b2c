@@ -8,7 +8,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ChangeCardPin
 import co.yap.modules.setcardpin.fragments.SetCardPinFragment
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 
-class ChangeCardPinFragment : SetCardPinFragment() {
+open class ChangeCardPinFragment : SetCardPinFragment() {
     override val viewModel: ISetCardPin.ViewModel
         get() = ViewModelProviders.of(this).get(ChangeCardPinViewModel::class.java)
 

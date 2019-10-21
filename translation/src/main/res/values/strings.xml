@@ -17,7 +17,7 @@
     <string name="screen_home_display_text_account_selection">I want an account for</string>
     <string name="screen_home_button_personal_text">Personal</string>
     <string name="screen_home_button_business_text">Business</string>
-    <string name="screen_home_display_text_sign_in_action">Sign In</string>
+    <string name="screen_home_display_text_sign_in_action">Sign in</string>
     <string name="screen_home_display_text_sign_in_title">Already have an account?</string>
 
     <!-- Welcome Screen -->
@@ -25,8 +25,8 @@
     <string name="screen_welcome_b2c_display_text_page2_title">Real-time perks</string>
     <string name="screen_welcome_b2c_display_text_page3_title">Real-time benefits</string>
     <string name="screen_welcome_b2c_display_text_page1_details">Current account with no\nhidden fees</string>
-    <string name="screen_welcome_b2c_display_text_page2_details">A free MasterCard debit card</string>
-    <string name="screen_welcome_b2c_display_text_page3_details">Built-in budgeting at your\nfingertips</string>
+    <string name="screen_welcome_b2c_display_text_page2_details">A free Mastercard delivered to your doorstep</string>
+    <string name="screen_welcome_b2c_display_text_page3_details">Built-in analytics at your\nfingertips</string>
     <string name="screen_welcome_b2b_display_text_page1_title">Real-time analytics</string>
     <string name="screen_welcome_b2b_display_text_page2_title">Real-time management</string>
     <string name="screen_welcome_b2b_display_text_page3_title">Real-time visibility</string>
@@ -39,8 +39,8 @@
     <string name="screen_sign_in_display_text_heading_text">Sign in to your YAP account</string>
     <string name="screen_sign_in_input_text_email_hint">Email address or phone number</string>
     <string name="screen_sign_in_button_sign_in">Sign in</string>
-    <string name="screen_sign_in_display_text_sign_up_prefix">Create an account?</string>
-    <string name="screen_sign_in_display_text_sign_up">Sign Up</string>
+    <string name="screen_sign_in_display_text_sign_up_prefix">Don\'t have an account?</string>
+    <string name="screen_sign_in_display_text_sign_up">Sign up</string>
     <string name="screen_sign_in_display_text_sub_title">Enter the OTP sent to your registered mobile number to complete login</string>
     <string name="screen_sign_in_display_text_error_text">That\'s not the right username. Please try again</string>
 
@@ -100,7 +100,7 @@
 
     <!-- Verify passcode screen -->
     <string name="screen_verify_passcode_display_text_title">Enter your passcode to access your account</string>
-    <string name="screen_verify_passcode_button_sign_in">Sign In</string>
+    <string name="screen_verify_passcode_button_sign_in">Sign in</string>
     <string name="screen_verify_passcode_text_forgot_password">Forgot passcode?</string>
 
     <!-- Otp screen -->
@@ -129,7 +129,7 @@
 
     <!-- Meeting location selection screen -->
     <string name="screen_meeting_location_display_text_title">Your card is ready to be delivered!</string>
-    <string name="screen_meeting_location_display_text_subtitle">Choose your location on the map below</string>
+    <string name="screen_meeting_location_display_text_subtitle">Choose your location below. We will also call you to verify this address</string>
     <string name="screen_meeting_location_button_confirm_location">Tap map to confirm location</string>
     <string name="screen_meeting_location_button_change_location">Tap map to change location</string>
     <string name="screen_meeting_location_input_text_address_title">Address</string>
@@ -218,8 +218,8 @@
 
 
     <!-- Forgot posscode success screen -->
-    <string name="screen_passcode_success_display_text_heading">Congratulations!</string>
-    <string name="screen_passcode_success_display_text_sub_heading">Your new passcode has been created successfully. Please sign in to access your account</string>
+    <string name="screen_passcode_success_display_text_heading">Success!</string>
+    <string name="screen_passcode_success_display_text_sub_heading">Your new passcode has been created</string>
     <string name="screen_passcode_success_button_sign_in">Sign in</string>
 
     <!-- Create new Passcode screen -->
@@ -367,6 +367,119 @@
 
     <!--   Yap More-->
     <string name="screen_more_display_text_bank_details">Your bank details</string>
+    <string name="screen_more_detail_display_text_bank_details">YAP Bank details</string>
 
 
+    <!--   Profile Settings screen-->
+    <string name="screen_profile_settings_display_text_title">Settings</string>
+    <string name="screen_profile_settings_display_text_profile">Profile</string>
+    <string name="screen_profile_settings_display_text_personal_detail">Personal details</string>
+    <string name="screen_profile_settings_display_text_view">View</string>
+    <string name="screen_profile_settings_display_text_security">Security</string>
+    <string name="screen_profile_settings_display_text_privacy">Privacy</string>
+    <string name="screen_profile_settings_display_text_passcode">Passcode</string>
+    <string name="screen_profile_settings_display_text_change">Change</string>
+    <string name="screen_profile_settings_display_text_app_notifications">App notifications</string>
+    <string name="screen_profile_settings_display_text_about_us">About us</string>
+    <string name="screen_profile_settings_display_terms_and_conditions">Terms and conditions</string>
+    <string name="screen_profile_settings_display_text_instagram">Instagram</string>
+    <string name="screen_profile_settings_display_text_twitter">Twitter</string>
+    <string name="screen_profile_settings_display_text_facebook">Facebook</string>
+    <string name="screen_profile_settings_display_text_follow_us">Follow us</string>
+    <string name="screen_profile_settings_display_text_like_us">Like us</string>
+    <string name="screen_profile_settings_display_text_logout">Log out</string>
+
+    <!-- update profile photo Bottom Sheet -->
+
+    <string name="screen_update_profile_photo_display_text_title">Update profile photo</string>
+    <string name="screen_update_profile_photo_display_text_open_camera">Open camera</string>
+    <string name="screen_update_profile_photo_display_text_choose_photo">Choose photo</string>
+    <string name="screen_update_profile_photo_display_text_take_photo">Take photo</string>
+    <string name="screen_update_profile_photo_display_text_re_take_photo">Re-take photo</string>
+
+    <!-- personal detail screen -->
+
+    <string name="screen_personal_detail_display_text_title">Personal details</string>
+    <string name="screen_personal_detail_display_text_full_name">Full name</string>
+    <string name="screen_personal_detail_display_text_phone_number">Phone number</string>
+    <string name="screen_personal_detail_display_text_email">Email</string>
+    <string name="screen_personal_detail_display_text_address">Address</string>
+    <string name="screen_personal_detail_display_text_edit">Edit</string>
+    <string name="screen_personal_detail_display_text_emirates_id">Emirates ID</string>
+    <string name="screen_personal_detail_display_text_verification_completed">Verification completed</string>
+    <string name="screen_personal_detail_display_text_verification_expired">Your EID is expired.\nTap to update to ensure account continuity</string>
+    <string name="screen_personal_detail_display_text_verification_required">Your EID is required.\nTap to update to ensure account continuity</string>
+
+    <!-- logout dialogue -->
+
+    <string name="screen_profile_settings_logout_display_text_alert_title">Log out</string>
+    <string name="screen_profile_settings_logout_display_text_alert_message">Are you sure you want to log out?</string>
+    <string name="screen_profile_settings_logout_display_text_alert_cancel">CANCEL</string>
+    <string name="screen_profile_settings_logout_display_text_alert_logout">LOG OUT</string>
+
+    <!--   Help & Support-->
+    <string name="screen_help_support_display_text_title">Help &amp; Support</string>
+    <string name="screen_help_support_display_text_faqs">FAQs</string>
+    <string name="screen_help_support_display_text_live_chat">Live chat</string>
+    <string name="screen_help_support_display_text_chat_via_whatsApp">Live Agent chat via WhatsApp</string>
+    <string name="screen_help_support_display_text_call_us">Call us</string>
+    <string name="screen_help_support_display_text_available_24_hours">Available 24 hours</string>
+
+<!--    Change email screen-->
+    <string name="screen_change_email_display_text_heading">Change email</string>
+    <string name="screen_change_email_placeholder_email_address">email address</string>
+    <string name="screen_change_email_placeholder_confirm_email_address">confirm email address</string>
+    <string name="screen_change_email_display_text_description">An email will be sent to your email address for\n verification.</string>
+    <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
+    <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
+
+<!--    Email Verification Screen-->
+    <string name="screen_email_verification_display_text_heading">Verify your email address</string>
+
+<!--    Change Phone Number Screen-->
+    <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
+    <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
+
+<!--    Current passcode screen-->
+    <string name="screen_current_passcode_display_text_heading">Enter your current \npasscode</string>
+
+<!--    Update new passcode screen-->
+    <string name="screen_set_passcode_display_text_heading">Enter your new \npasscode</string>
+
+<!--    Update confirm passcode screen-->
+    <string name="screen_confirm_passcode_display_text_heading">Re-enter your new \npasscode</string>
+
+
+
+
+    <!--    Change Email Address Success Screen-->
+    <string name="screen_email_address_success_display_text_heading">Success!</string>
+    <string name="screen_email_address_success_display_text_sub_heading">Your email address has been changed to \n</string>
+
+    <!--    Change Phone Number Success Screen-->
+    <string name="screen_phone_number_success_display_text_heading">Success!</string>
+    <string name="screen_phone_number_success_display_text_sub_heading">Your phone number has been changed to \n</string>
+
+
+    <!--    Email Verified Popup Screen-->
+    <string name="screen_email_verified_popup_display_text_title">Hi %1$s, it looks like you haven’t verified your email address:</string>
+    <string name="screen_email_verified_popup_display_text_sub_title">We have just resent you an email to verify your email address. Please log into your email and click the verification link to get access to your YAP Account.</string>
+    <string name="screen_email_verified_popup_display_text_click_here">Having trouble? If you want to change your email address </string>
+    <string name="screen_email_verified_popup_button_title_click_here">click here.</string>
+
+
+
+<!--     Unverified change email success Screen-->
+
+    <string name="screen_unverified_success_display_text_heading">Success!</string>;
+    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>;
+    <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>;
+    <string name="screen_unverified_display_button_mail">Open Mail App</string>;
+    <string name="screen_unverified_display_button_later">Maybe later</string>;
+    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
+
+
+
+    <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
+    Choose your location below. We will also call you to verify this address
 </resources>

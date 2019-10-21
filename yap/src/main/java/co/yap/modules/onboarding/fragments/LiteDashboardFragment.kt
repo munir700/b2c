@@ -67,17 +67,6 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
         } else {
             swTouchId.visibility = View.INVISIBLE
         }
-
-
-        //
-//        tvName.setOnClickListener(object :
-//            View.OnClickListener {
-//
-//            override fun onClick(v: View?) {
-//                findNavController().navigate(R.id.action_liteDashboard_to_moreActivity)
-//
-//            }
-//        })
     }
 
     override fun onDestroyView() {

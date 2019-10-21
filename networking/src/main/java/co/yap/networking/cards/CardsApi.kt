@@ -1,6 +1,7 @@
 package co.yap.networking.cards
 
 import co.yap.networking.cards.requestdtos.*
+import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.CardBalanceResponseDTO
 import co.yap.networking.cards.responsedtos.CardDetailResponseDTO
 import co.yap.networking.cards.responsedtos.GetCardsResponse
@@ -45,4 +46,5 @@ interface CardsApi {
     suspend fun reportAndBlockCard(cardsHotlistReequest: CardsHotlistRequest): RetroApiResponse<ApiResponse>
 
     suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse>
+    suspend fun editAddressRequest(address: UpdateAddressRequest): RetroApiResponse<ApiResponse>
 }

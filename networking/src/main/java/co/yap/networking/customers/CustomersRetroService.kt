@@ -3,14 +3,11 @@ package co.yap.networking.customers
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
-import co.yap.networking.customers.responsedtos.AccountInfoResponse
-import co.yap.networking.customers.responsedtos.GetDocumentsResponse
-import co.yap.networking.customers.responsedtos.SignUpResponse
-import co.yap.networking.customers.responsedtos.ValidateDeviceResponse
+import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -56,5 +53,33 @@ interface CustomersRetroService {
     // Get Documents
     @GET(CustomersRepository.URL_GET_DOCUMENTS)
     suspend fun getDocuments(): Response<GetDocumentsResponse>
+
+    // Get Documents
+    @GET(CustomersRepository.URL_VALIDATE_EMAIL)
+    suspend fun validateEmail(@Query("email") email: String): Response<ApiResponse>
+
+
+    // Get More Documents on profile settings fragment
+    @GET(CustomersRepository.URL_GET_MORE_DOCUMENTS)
+    suspend fun getMoreDocumentsByType(@Query("documentType") EMIRATES_ID: String): Response<GetMoreDocumentsResponse>
+
+    // upload profile picture
+    @Multipart
+    @POST(CustomersRepository.URL_UPLOAD_PROFILE_PICTURE)
+    suspend fun uploadProfilePicture(@Part profilePicture: MultipartBody.Part): Response<UploadProfilePictureResponse>
+
+    // Get More Documents on profile settings fragment
+    @GET(CustomersRepository.URL_VALIDATE_PHONE_NUMBER)
+    suspend fun validatePhoneNumber(@Query("country-code") countryCode: String, @Query("mobile-number") mobileNumber: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_CHANGE_MOBILE_NUMBER)
+    suspend fun changeMobileNumber(@Path("country-code") countryCode: String, @Path("mobile-number") mobileNumber: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_CHANGE_VERIFIED_EMAIL)
+    suspend fun changeVerifiedEmail(@Path("email") email: String): Response<ApiResponse>
+
+    @PUT(CustomersRepository.URL_CHANGE_UNVERIFIED_EMAIL)
+    suspend fun changeUnverifiedEmail(@Query("newEmail") newEmail: String): Response<ApiResponse>
+
 
 }

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.others.unverifiedemail.UnverifiedEmailViewModel"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbar"
+             android:visibility="@{viewModel.state.tootlBarVisibility}"
+             layout="@layout/layout_unverified_email_toolbar"
+             app:viewModel="@{viewModel}"/>
+
+        <fragment
+            android:id="@+id/unverified_email_nav_host_fragment"
+            android:layout_marginTop="@dimen/margin_small"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/unverified_change_email_navigation"/>
+
+    </LinearLayout>
+</layout>

@@ -2,6 +2,7 @@ package co.yap.app.activities
 
 import android.os.Bundle
 import co.yap.app.R
+import co.yap.app.YAPApplication
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultActivity
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -10,7 +11,7 @@ import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 
-class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
+open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
@@ -20,6 +21,7 @@ class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        YAPApplication.AUTO_RESTART_APP = false
         setContentView(R.layout.activity_main)
     }
 

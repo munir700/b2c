@@ -7,11 +7,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
 import android.text.style.ForegroundColorSpan
+import android.text.style.UnderlineSpan
 import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
@@ -20,14 +22,11 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
-import androidx.viewpager2.widget.ViewPager2
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
-import co.yap.widgets.CoreInputField
 import co.yap.yapcore.R
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.StringUtils
@@ -84,8 +83,8 @@ object UIBinder {
                 imageView.setImageResource(R.drawable.ic_status_frozen)
             }
             CardStatus.INACTIVE -> {
-                        imageView.visibility = View.VISIBLE
-                        imageView.setImageResource(R.drawable.ic_status_ontheway)
+                imageView.visibility = View.VISIBLE
+                imageView.setImageResource(R.drawable.ic_status_ontheway)
             }
 
         }
@@ -108,8 +107,8 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                if(card.cardType=="DEBIT"){
-                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                if (card.cardType == "DEBIT") {
+                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
                         text.visibility = View.VISIBLE
                         text.text = Translator.getString(
                             text.context,
@@ -122,7 +121,7 @@ object UIBinder {
                             R.string.screen_cards_display_text_pending_delivery
                         )
                     }
-                }else {
+                } else {
                     if (card.deliveryStatus == null) {
                         text.visibility = View.GONE
                     } else {
@@ -148,6 +147,15 @@ object UIBinder {
         }
     }
 
+    // Card status message text
+    @BindingAdapter("underline_text")
+    @JvmStatic
+    fun setCardStatus(text: TextView, value: String) {
+        val content = SpannableString(value)
+        content.setSpan(UnderlineSpan(), 0, content.length, 0)
+        text.text = content
+    }
+
     //Core action Button text
     @BindingAdapter("cardButtonStatus")
     @JvmStatic
@@ -165,8 +173,8 @@ object UIBinder {
                 )
             }
             CardStatus.INACTIVE -> {
-                if(card.cardType=="DEBIT"){
-                    if(MyUserManager.user?.notificationStatuses=="MEETING_SUCCESS"){
+                if (card.cardType == "DEBIT") {
+                    if (MyUserManager.user?.notificationStatuses == "MEETING_SUCCESS") {
                         coreButton.visibility = View.VISIBLE
                         coreButton.text = Translator.getString(
                             coreButton.context,
@@ -175,24 +183,24 @@ object UIBinder {
                     } else {
                         coreButton.visibility = View.GONE
                     }
-                }else {
-                if (card.deliveryStatus == null) {
-                    coreButton.visibility = View.GONE
                 } else {
-                    when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
-                        CardDeliveryStatus.SHIPPED -> {
-                            coreButton.visibility = View.VISIBLE
-                            coreButton.text = Translator.getString(
-                                coreButton.context,
-                                R.string.screen_cards_display_text_set_pin
-                            )
-                        }
-                        else -> {
-                            coreButton.visibility = View.GONE
+                    if (card.deliveryStatus == null) {
+                        coreButton.visibility = View.GONE
+                    } else {
+                        when (card.deliveryStatus?.let { CardDeliveryStatus.valueOf(it) }) {
+                            CardDeliveryStatus.SHIPPED -> {
+                                coreButton.visibility = View.VISIBLE
+                                coreButton.text = Translator.getString(
+                                    coreButton.context,
+                                    R.string.screen_cards_display_text_set_pin
+                                )
+                            }
+                            else -> {
+                                coreButton.visibility = View.GONE
+                            }
                         }
                     }
                 }
-            }
             }
 
         }
@@ -434,7 +442,7 @@ object UIBinder {
     @JvmStatic
     fun setImageResId(view: ImageView, path: String) {
         Glide.with(view.context)
-            .load(path).centerCrop()
+            .load(path).centerCrop().placeholder(R.color.greyLight)
             .into(view)
     }
 
@@ -443,14 +451,14 @@ object UIBinder {
     fun setImageResId(view: ImageView, resId: Bitmap, circular: Boolean) {
         if (circular) {
             Glide.with(view.context)
-                .asBitmap().load(resId)
+                .asBitmap().load(resId).placeholder(R.color.greyLight)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
 
         } else {
 
             Glide.with(view.context)
-                .asBitmap().load(resId)
+                .asBitmap().load(resId).placeholder(R.color.greyLight)
                 .transforms(CenterCrop(), RoundedCorners(15))
                 .into(view)
             //set placeholder here
@@ -534,10 +542,18 @@ object UIBinder {
     @BindingAdapter("isLayoutActivated")
     fun setisLayoutActivated(view: LinearLayout, value: Boolean) {
 //        if (!value) {
-            view.isActivated = value
+        view.isActivated = value
 
 //        }
     }
 
+     @BindingAdapter("src", "isRound")
+    @JvmStatic
+    fun setProfilePicture(view: ImageView, imageSrc: String, circular: Boolean) {
+        Glide.with(view.context)
+            .load(Uri.parse(imageSrc))
+            .transforms(CenterCrop(), RoundedCorners(115))
+            .into(view)
 
+    }
 }

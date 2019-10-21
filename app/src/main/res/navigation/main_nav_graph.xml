@@ -5,7 +5,7 @@
     android:id="@+id/main_nav_graph"
     app:startDestination="@id/splashFragment">
 
-
+<!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
     <action
         android:id="@+id/action_goto_liteDashboardActivity"
         app:destination="@id/liteDashboardActivity"
@@ -17,6 +17,7 @@
         app:destination="@id/yapDashboardActivity"
         app:popUpTo="@+id/main_nav_graph"
         app:popUpToInclusive="true"/>
+
 
     <fragment
         android:id="@+id/splashFragment"
@@ -182,4 +183,14 @@
         tools:layout="@layout/activity_yap_dashboard"
         android:name="co.yap.modules.dashboard.activities.YapDashboardActivity"
         android:label="YapDashboardActivity"/>
+
+    <activity
+        android:id="@+id/moreActivity"
+        android:name="co.yap.modules.dashboard.more.activities.MoreActivity"
+        android:label="MoreActivity"
+        tools:layout="@layout/activity_more">
+
+    </activity>
+
+
 </navigation>

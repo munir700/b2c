@@ -3,7 +3,16 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application>
         <activity
@@ -51,12 +60,18 @@
             android:theme="@style/AppTheme.NoActionBar">
             <nav-graph android:value="@navigation/spare_cards_navigation" />
         </activity>
-
+        <activity
+            android:name=".modules.others.unverifiedemail.UnVerifiedEmailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <nav-graph android:value="@navigation/unverified_change_email_navigation" />
+        </activity>
 
         <activity
             android:name=".modules.dashboard.more.activities.MoreActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/more_main_navigation" />
         </activity>
 
@@ -64,7 +79,7 @@
             android:name=".modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
-            <nav-graph android:value="@navigation/report_card_navigation"/>
+            <nav-graph android:value="@navigation/report_card_navigation" />
         </activity>
 
         <activity
@@ -78,14 +93,14 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.removefunds.activities.RemoveFundsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.ChangeCardPinActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.limits.activities.CardLimitsActivity"
@@ -93,11 +108,31 @@
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.activities.UpdateCardNameActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity"
             android:screenOrientation="portrait" />
+
+        <!--        <provider-->
+        <!--            android:name="androidx.core.content.FileProvider"-->
+        <!--            android:authorities="${applicationId}.fileprovider"-->
+        <!--            android:exported="false"-->
+        <!--            android:grantUriPermissions="true">-->
+        <!--            <meta-data-->
+        <!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--                android:resource="@xml/file_paths" />-->
+        <!--        </provider>-->
+
+        <activity
+            android:name=".modules.dashboard.more.bankdetails.activities.BankDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor"
+            android:theme="@style/FinestWebViewTheme.Light" />
     </application>
 </manifest>

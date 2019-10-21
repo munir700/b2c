@@ -595,8 +595,184 @@ object Strings {
     const val screen_card_statement_display_text_title: String =
         "screen_card_statement_display_text_title"
 
+
+    //Profile Settings screen
+    const val screen_profile_settings_display_text_title: String =
+        "screen_profile_settings_display_text_title"
+
+    const val screen_profile_settings_display_text_profile: String =
+        "screen_profile_settings_display_text_profile"
+    const val screen_profile_settings_display_text_personal_detail: String =
+        "screen_profile_settings_display_text_personal_detail"
+    const val screen_profile_settings_display_text_view: String =
+        "screen_profile_settings_display_text_view"
+    const val screen_profile_settings_display_text_change: String =
+        "screen_profile_settings_display_text_change"
+    const val screen_profile_settings_display_text_security: String =
+        "screen_profile_settings_display_text_security"
+    const val screen_profile_settings_display_text_privacy: String =
+        "screen_profile_settings_display_text_privacy"
+    const val screen_profile_settings_display_text_passcode: String =
+        "screen_profile_settings_display_text_passcode"
+    const val screen_profile_settings_display_text_app_notifications: String =
+        "screen_profile_settings_display_text_app_notifications"
+    const val screen_profile_settings_display_text_about_us: String =
+        "screen_profile_settings_display_text_about_us"
+    const val screen_profile_settings_display_terms_and_conditions: String =
+        "screen_profile_settings_display_terms_and_conditions"
+    const val screen_profile_settings_display_text_instagram: String =
+        "screen_profile_settings_display_text_instagram"
+    const val screen_profile_settings_display_text_twitter: String =
+        "screen_profile_settings_display_text_twitter"
+    const val screen_profile_settings_display_text_facebook: String =
+        "screen_profile_settings_display_text_facebook"
+    const val screen_profile_settings_display_text_follow_us: String =
+        "screen_profile_settings_display_text_follow_us"
+    const val screen_profile_settings_display_text_like_us: String =
+        "screen_profile_settings_display_text_like_us"
+    const val screen_profile_settings_display_text_logout: String =
+        "screen_profile_settings_display_text_logout"
+
+//update photo bottom sheet
+
+    const val screen_update_profile_photo_display_text_title: String =
+        "screen_update_profile_photo_display_text_title"
+    const val screen_update_profile_photo_display_text_open_camera: String =
+        "screen_update_profile_photo_display_text_open_camera"
+    const val screen_update_profile_photo_display_text_choose_photo: String =
+        "screen_update_profile_photo_display_text_choose_photo"
+
+
+//  personal detail screen
+
+    const val screen_personal_detail_display_text_title: String =
+        "screen_personal_detail_display_text_title"
+    const val screen_personal_detail_display_text_full_name: String =
+        "screen_personal_detail_display_text_full_name"
+    const val screen_personal_detail_display_text_phone_number: String =
+        "screen_personal_detail_display_text_phone_number"
+    const val screen_personal_detail_display_text_email: String =
+        "screen_personal_detail_display_text_email"
+    const val screen_personal_detail_display_text_address: String =
+        "screen_personal_detail_display_text_address"
+    const val screen_personal_detail_display_text_edit: String =
+        "screen_personal_detail_display_text_edit"
+    const val screen_personal_detail_display_text_emirates_id: String =
+        "screen_personal_detail_display_text_emirates_id"
+    const val screen_personal_detail_display_text_verification_completed: String =
+        "screen_personal_detail_display_text_verification_completed"
+    const val screen_personal_detail_display_text_verification_expired: String =
+        "screen_personal_detail_display_text_verification_expired"
+ const val screen_personal_detail_display_text_verification_required: String =
+        "screen_personal_detail_display_text_verification_required"
+
+
+    // logout dialogue
+    const val screen_profile_settings_logout_display_text_alert_title: String =
+        "screen_profile_settings_logout_display_text_alert_title"
+    const val screen_profile_settings_logout_display_text_alert_message: String =
+        "screen_profile_settings_logout_display_text_alert_message"
+    const val screen_profile_settings_logout_display_text_alert_cancel: String =
+        "screen_profile_settings_logout_display_text_alert_cancel"
+    const val screen_profile_settings_logout_display_text_alert_logout: String =
+        "screen_profile_settings_logout_display_text_alert_logout"
     //Yap More
     const val screen_more_display_text_bank_details: String =
         "screen_more_display_text_bank_details"
+    const val screen_more_detail_display_text_bank_details: String =
+        "screen_more_detail_display_text_bank_details"
+
+    //Help & Suppor
+    const val screen_help_support_display_text_title: String =
+        "screen_help_support_display_text_title"
+    const val screen_help_support_display_text_faqs: String =
+        "screen_help_support_display_text_faqs"
+    const val screen_help_support_display_text_live_chat: String =
+        "screen_help_support_display_text_live_chat"
+    const val screen_help_support_display_text_chat_via_whatsApp: String =
+        "screen_help_support_display_text_chat_via_whatsApp"
+    const val screen_help_support_display_text_call_us: String =
+        "screen_help_support_display_text_call_us"
+    const val screen_help_support_display_text_available_24_hours: String =
+        "screen_help_support_display_text_available_24_hours"
+
+    // Change Email Address Success Screen
+    const val screen_email_address_success_display_text_heading: String =
+        "screen_email_address_success_display_text_heading"
+    const val screen_email_address_success_display_text_sub_heading: String =
+        "screen_email_address_success_display_text_sub_heading"
+
+    //    Change Phone Number Success Screen
+    const val screen_phone_number_success_display_text_heading: String =
+        "screen_phone_number_success_display_text_heading"
+    const val screen_phone_number_success_display_text_sub_heading: String =
+        "screen_phone_number_success_display_text_sub_heading"
+
+
+    //    Email Verified Popup Screen
+    const val screen_email_verified_popup_display_text_title: String =
+        "screen_email_verified_popup_display_text_title"
+    const val screen_email_verified_popup_display_text_sub_title: String =
+        "screen_email_verified_popup_display_text_sub_title"
+    const val screen_email_verified_popup_display_text_click_here: String =
+        "screen_email_verified_popup_display_text_click_here"
+    const val screen_email_verified_popup_button_title_click_here: String =
+        "screen_email_verified_popup_button_title_click_here"
+
+
+    //Unverified change email success Screen
+    const val screen_unverified_success_display_text_heading: String =
+        "screen_unverified_success_display_text_heading"
+    const val screen_unverified_success_display_text_sub_heading: String =
+        "screen_unverified_success_display_text_sub_heading"
+    const val screen_unverified_success_display_text_description: String =
+        "screen_unverified_success_display_text_description"
+    const val screen_unverified_display_button_mail: String =
+        "screen_unverified_display_button_mail"
+    const val screen_unverified_display_button_back_to_dashboard: String =
+        "screen_unverified_display_button_back_to_dashboard"
+
+    const val screen_address_success_display_text_sub_heading: String =
+        "screen_address_success_display_text_sub_heading"
+
+
+    //Change email screen
+    const val screen_change_email_display_text_heading: String =
+        "screen_change_email_display_text_heading"
+    const val screen_change_email_placeholder_email_address: String =
+        "screen_change_email_placeholder_email_address"
+    const val screen_change_email_placeholder_confirm_email_address: String =
+        "screen_change_email_placeholder_confirm_email_address"
+    const val screen_change_email_display_text_description: String =
+        "screen_change_email_display_text_description"
+    const val screen_change_email_display_text_email_title: String =
+        "screen_change_email_display_text_email_title"
+    const val screen_change_email_display_text_confirm_email_title: String =
+        "screen_change_email_display_text_confirm_email_title"
+
+
+    //    Change Phone Number Screen
+    const val screen_change_phone_number_display_text_heading: String =
+        "screen_change_phone_number_display_text_heading"
+    const val screen_change_phone_number_display_text_text_field_title: String =
+        "screen_change_phone_number_display_text_text_field_title"
+
+
+    //    Current passcode screen
+    const val screen_current_passcode_display_text_heading: String =
+        "screen_current_passcode_display_text_heading"
+
+    //    Update new passcode screen
+    const val screen_set_passcode_display_text_heading: String =
+        "screen_set_passcode_display_text_heading"
+
+    //    Update confirm passcode screen
+    const val screen_confirm_passcode_display_text_heading: String =
+        "screen_confirm_passcode_display_text_heading"
+
+
+    //Email Verification Screen
+    const val screen_email_verification_display_text_heading: String =
+        "screen_email_verification_display_text_heading"
 
 }

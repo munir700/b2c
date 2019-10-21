@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.interfaces.IYapDashboard
+import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.states.YapDashBoardState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -23,6 +24,7 @@ class YapDashBoardViewModel(application: Application) :
     override val state: YapDashBoardState = YapDashBoardState()
     private val customerRepository: CustomersRepository = CustomersRepository
     private val cardsRepository: CardsRepository = CardsRepository
+    override val showUnverifedscreen: MutableLiveData<Boolean> = MutableLiveData()
 
     override fun handlePressOnNavigationItem(id: Int) {
         clickEvent.setValue(id)
@@ -48,9 +50,8 @@ class YapDashBoardViewModel(application: Application) :
         MyUserManager.user?.let {
             state.accountNo = MyUserManager.user!!.accountNo
             state.ibanNo = MyUserManager.user!!.iban
-            state.fullName =
-                MyUserManager.user!!.customer.firstName + " " + MyUserManager.user!!.customer.lastName
-            state.firstName = MyUserManager.user!!.customer.firstName
+            state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
+            state.firstName = MyUserManager.user!!.currentCustomer.firstName
         }
     }
 
@@ -60,8 +61,20 @@ class YapDashBoardViewModel(application: Application) :
             when (val response = customerRepository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
+                    MyUserManager.user?.setLiveData() // DOnt remove this line
+                     if (/*null != MyUserManager.user?.documentInformation && MyUserManager.user?.documentsVerified == true ||*/ MyUserManager.user?.isDocumentsVerified.equals("N") ){
+                         MoreActivity.showExpiredIcon = true
+
+                     }else{
+                         MoreActivity.showExpiredIcon =false
+
+                     }
+
                     getAccountInfoSuccess.value = true
                     populateState()
+                    if( MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N",true)){
+                        showUnverifedscreen.value =true
+                    }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
@@ -73,7 +86,8 @@ class YapDashBoardViewModel(application: Application) :
         launch {
             when (val response = cardsRepository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
-                    MyUserManager.cardBalance.value = CardBalance(availableBalance = response.data.data.availableBalance.toString())
+                    MyUserManager.cardBalance.value =
+                        CardBalance(availableBalance = response.data.data.availableBalance.toString())
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

@@ -2,10 +2,10 @@ package co.yap.yapcore.helpers
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ClipData
-import android.content.ClipboardManager
-import android.content.Context
+import android.content.*
+import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
+import android.net.Uri
 import android.os.Build
 import android.text.Spannable
 import android.text.SpannableString
@@ -19,6 +19,8 @@ import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
 import java.text.DecimalFormat
+import java.util.regex.Pattern
+
 
 object Utils {
     fun getColor(context: Context, @ColorRes color: Int) =
@@ -163,20 +165,151 @@ object Utils {
                 || "google_sdk" == Build.PRODUCT)
     }
 
+    fun validateEmail(email: String): Boolean {
+        var isValidEmail = false
+        if ("" == email.trim { it <= ' ' }) {
+            isValidEmail = false
+        } else if (isValidEmail(email)) {
+            isValidEmail = true
+        } else {
+            return isValidEmail
+        }
+        return isValidEmail
+    }
+
+    private fun isValidEmail(email: String): Boolean {
+        var inputStr: CharSequence = ""
+        var isValid = false
+        val expression =
+         //   "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+            "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
+        // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+
+        inputStr = email
+        val pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(inputStr)
+
+        if (matcher.matches()) {
+            isValid = true
+        }
+        return isValid
+    }
+
     fun setSpan(
         startIndex: Int,
         endIndex: Int,
         wordtoSpan: SpannableString,
         color: Int
     ): SpannableString {
-         wordtoSpan.setSpan(
+        wordtoSpan.setSpan(
             ForegroundColorSpan(color),
             startIndex,
             endIndex,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-
+        wordtoSpan.setSpan(
+            android.text.style.StyleSpan(android.graphics.Typeface.BOLD),
+            startIndex,
+            endIndex,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
         return wordtoSpan
     }
+
+    fun shortName(cardFullName: String): String {
+        var cardFullName = cardFullName
+        cardFullName = cardFullName.trim { it <= ' ' }
+        var shortName = ""
+        if (cardFullName.isNotEmpty() && cardFullName.contains(" ")) {
+            val nameStr =
+                cardFullName.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val firstName = nameStr[0]
+            val lastName = nameStr[nameStr.size - 1]
+            shortName = firstName.substring(0, 1) + lastName.substring(0, 1)
+            return shortName.toUpperCase()
+        } else if (cardFullName.length > 0) {
+            val nameStr =
+                cardFullName.split(" ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            val firstName = nameStr[0]
+            shortName = firstName.substring(0, 1)
+            return shortName.toUpperCase()
+        }
+        return shortName.toUpperCase()
+    }
+
+    fun formatePhoneWithPlus(phoneNumber: String): String {
+        if (phoneNumber.startsWith("00")) {
+            return phoneNumber.replaceRange(
+                0,
+                2,
+                "+"
+            )
+        } else {
+            return phoneNumber.replaceRange(
+                0,
+                0,
+                "+"
+            )
+        }
+    }
+
+    fun getFormattedMobileNumber(countryCode: String, mobile: String): String {
+        return countryCode.trim() + " " + mobile.trim().replace(countryCode.trim(), "")
+    }
+
+    fun openTwitter(context: Context) {
+        var intent: Intent?
+        try {
+            context.packageManager.getPackageInfo("com.twitter.android", 0)
+            intent = Intent(
+                ACTION_VIEW,
+                Uri.parse("twitter.com/intent/follow?screen_name=YapTweets")
+            )
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(intent)
+        } catch (e: Exception) {
+            // no Twitter app, revert to browser
+            context.startActivity(
+                Intent(
+                    ACTION_VIEW,
+                    Uri.parse("https://twitter.com/intent/follow?screen_name=YapTweets")
+                )
+            )
+        }
+
+    }
+
+    fun openInstagram(context: Context) {
+        val uri = Uri.parse("https://www.instagram.com/yapnow/")
+        val likeIng = Intent(ACTION_VIEW, uri)
+        likeIng.setPackage("com.instagram.android")
+
+        try {
+            context.startActivity(likeIng)
+        } catch (e: ActivityNotFoundException) {
+            context.startActivity(
+                Intent(
+                    ACTION_VIEW,
+                    Uri.parse("https://www.instagram.com/yapnow/")
+                )
+            )
+        }
+
+    }
+
+    fun getOpenFacebookIntent(context: Context): Intent {
+
+        return try {
+            context.packageManager.getPackageInfo("com.facebook.katana", 0)
+            Intent(ACTION_VIEW, Uri.parse("fb://page/288432705359181"))
+        } catch (e: Exception) {
+            Intent(
+                ACTION_VIEW,
+                Uri.parse("https://www.facebook.com/Yap-Now-288432705359181/")
+            )
+        }
+
+    }
+
 
 }

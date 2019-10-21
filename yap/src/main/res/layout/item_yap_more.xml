@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/_6sdp"
-        android:padding="@dimen/margin_medium"
-        android:background="@drawable/cornor_edges_gery">
+        android:background="@drawable/cornor_edges_gery"
+        android:padding="@dimen/margin_medium">
 
         <ImageView
             android:id="@+id/imgIcon"
@@ -40,22 +40,31 @@
             tools:background="@color/greyDark"
             tools:src="@drawable/ic_notification" />
 
-        <co.yap.widgets.BadgeTextView
-            android:id="@+id/textBadge"
+        <FrameLayout
+            android:id="@+id/lyBadge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_30sdp"
-            android:background="@color/colorSecondaryMagenta"
-            android:text="@{Integer.toString(viewModel.moreOption.badgeCount)}"
-            android:textColor="@color/white"
-            tools:text="4"
+            android:background="@drawable/bg_round_with_space_white_small"
             android:visibility="@{viewModel.moreOption.hasBadge ? View.VISIBLE:View.GONE}"
             app:layout_constraintEnd_toEndOf="@+id/imgIcon"
             app:layout_constraintStart_toStartOf="@+id/imgIcon"
-            app:layout_constraintTop_toTopOf="parent"
-            app:mbtv_border_color="@color/white"
-            app:mbtv_border_width="@dimen/_2sdp"
-            app:mbtv_type="shadow_gradual" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <co.yap.widgets.BadgeTextView
+                android:id="@+id/textBadge"
+                android:layout_width="wrap_content"
+                android:textSize="@dimen/_8sdp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorSecondaryMagenta"
+                android:text="@{Integer.toString(viewModel.moreOption.badgeCount)}"
+                android:textColor="@color/white"
+                app:mbtv_border_color="@color/white"
+                app:mbtv_border_width="@dimen/_1sdp"
+                app:mbtv_type="shadow_alpha"
+                app:mbtv_border_alpha="1"
+                tools:text="4" />
+        </FrameLayout>
 
         <TextView
             android:id="@+id/tvTitle"

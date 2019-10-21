@@ -34,5 +34,9 @@ class MeetingConfirmationFragment : BaseBindingFragment<IMeetingConfirmation.vie
         super.onDestroyView()
         viewModel.goToDashboardButtonPressEvent.removeObservers(this)
     }
+ 
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 
 }
