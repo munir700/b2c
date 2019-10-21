@@ -13,8 +13,8 @@ import co.yap.R
 import co.yap.modules.kyc.viewmodels.EidInfoReviewViewModel
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
-import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
+import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
+import com.digitify.identityscanner.docscanner.enums.DocumentType
 
 private const val SCAN_EID_CAM = 12
 

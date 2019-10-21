@@ -15,8 +15,8 @@ import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.yapcore.BR
-import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
+import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
+import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_kyc_home.*
 
 private const val SCAN_EID_CAM = 12

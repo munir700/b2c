@@ -5,7 +5,7 @@ import java.util.*
 
 object DateUtils {
 
-    private const val DEFAULT_DATE_FORMAT: String = "dd/mm/yyyy"
+    private const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
