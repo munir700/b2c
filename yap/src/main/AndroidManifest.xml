@@ -68,7 +68,7 @@
         </activity>
 
         <activity
-            android:name=".modules.dashboard.more.activities.MoreActivity"
+            android:name=".modules.dashboard.more.main.activities.MoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
@@ -120,7 +120,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".modules.others.helper.activities.FragmentPresenterActivity"
+            android:name=".modules.others.fragmentpresenter.activities.FragmentPresenterActivity"
             android:screenOrientation="portrait" />
 
         <activity

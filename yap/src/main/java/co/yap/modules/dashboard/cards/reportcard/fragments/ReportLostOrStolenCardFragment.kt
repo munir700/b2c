@@ -15,7 +15,7 @@ import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCa
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
-import co.yap.modules.others.constants.Constants
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_cancel

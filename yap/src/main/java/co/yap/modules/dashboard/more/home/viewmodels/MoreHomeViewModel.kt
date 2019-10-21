@@ -6,7 +6,7 @@ import co.yap.R
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.states.MoreState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils

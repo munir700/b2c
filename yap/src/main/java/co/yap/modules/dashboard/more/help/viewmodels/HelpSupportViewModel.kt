@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.states.HelpSupportState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse

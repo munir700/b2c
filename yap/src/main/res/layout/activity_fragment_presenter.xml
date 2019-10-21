@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.others.helper.viewmodels.FragmentPresenterViewModel" />
+            type="co.yap.modules.others.fragmentpresenter.viewmodels.FragmentPresenterViewModel" />
     </data>
 
 </layout>

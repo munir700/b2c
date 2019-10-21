@@ -2,10 +2,9 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.states.ChangeEmailState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository

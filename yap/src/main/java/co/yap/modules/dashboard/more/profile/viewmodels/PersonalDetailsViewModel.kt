@@ -3,7 +3,7 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder

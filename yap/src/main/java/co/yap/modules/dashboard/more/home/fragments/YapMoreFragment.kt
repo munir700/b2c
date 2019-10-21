@@ -12,13 +12,13 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMoreHomeBinding
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
-import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.more.home.adaptor.YapMoreAdaptor
 import co.yap.modules.dashboard.more.home.interfaces.IMoreHome
 import co.yap.modules.dashboard.more.home.models.MoreOption
 import co.yap.modules.dashboard.more.home.viewmodels.MoreHomeViewModel
-import co.yap.modules.others.helper.activities.FragmentPresenterActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener

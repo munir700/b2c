@@ -29,9 +29,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.VisibleForTesting;
 
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskCompletionSource;
-import com.google.android.gms.tasks.Tasks;
 import com.digitify.identityscanner.camera.CameraException;
 import com.digitify.identityscanner.camera.CameraLogger;
 import com.digitify.identityscanner.camera.CameraOptions;
@@ -62,6 +59,9 @@ import com.digitify.identityscanner.camera.preview.GlCameraPreview;
 import com.digitify.identityscanner.camera.size.AspectRatio;
 import com.digitify.identityscanner.camera.size.Size;
 import com.digitify.identityscanner.camera.size.SizeSelectors;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
+import com.google.android.gms.tasks.Tasks;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +77,8 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
 
     private static final int FRAME_PROCESSING_FORMAT = ImageFormat.NV21;
     private static final int FRAME_PROCESSING_INPUT_FORMAT = ImageFormat.YUV_420_888;
-    @VisibleForTesting static final long METER_TIMEOUT = 2500;
+    @VisibleForTesting
+    static final long METER_TIMEOUT = 2500;
 
     private final CameraManager mManager;
     private String mCameraId;
@@ -221,7 +222,7 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
     /**
      * Applies the repeating request builder to the preview, assuming we actually have a preview
      * running. Can be called after changing parameters to the builder.
-     *
+     * <p>
      * To apply a new builder (for example switch between TEMPLATE_PREVIEW and TEMPLATE_RECORD)
      * it should be set before calling this method, for example by calling
      * {@link #createRepeatingRequestBuilder(int)}.
@@ -759,7 +760,9 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
         int[] modesArray = readCharacteristic(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES,
                 new int[]{});
         List<Integer> modes = new ArrayList<>();
-        for (int mode : modesArray) { modes.add(mode); }
+        for (int mode : modesArray) {
+            modes.add(mode);
+        }
 
         if (modes.contains(CaptureRequest.CONTROL_AF_MODE_CONTINUOUS_PICTURE)) {
             builder.set(CaptureRequest.CONTROL_AF_MODE,
@@ -793,7 +796,9 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
         int[] modesArray = readCharacteristic(CameraCharacteristics.CONTROL_AF_AVAILABLE_MODES,
                 new int[]{});
         List<Integer> modes = new ArrayList<>();
-        for (int mode : modesArray) { modes.add(mode); }
+        for (int mode : modesArray) {
+            modes.add(mode);
+        }
         if (modes.contains(CaptureRequest.CONTROL_AF_MODE_AUTO)) {
             builder.set(CaptureRequest.CONTROL_AF_MODE, CaptureRequest.CONTROL_AF_MODE_AUTO);
             return;
@@ -847,14 +852,14 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
      * - {@link CaptureRequest#CONTROL_AE_MODE_ON}
      * - {@link CaptureRequest#CONTROL_AE_MODE_ON_AUTO_FLASH}
      * - {@link CaptureRequest#CONTROL_AE_MODE_ON_ALWAYS_FLASH}
-     *
+     * <p>
      * The API offers a high level control through {@link CaptureRequest#CONTROL_AE_MODE},
      * which is what the mapper looks at. It will trigger (if specified) flash only for
      * still captures which is exactly what we want.
-     *
+     * <p>
      * However, we set CONTROL_AE_MODE to ON/OFF (depending
      * on which is available) with both {@link Flash#OFF} and {@link Flash#TORCH}.
-     *
+     * <p>
      * When CONTROL_AE_MODE is ON or OFF, the low level control, called
      * {@link CaptureRequest#FLASH_MODE}, becomes effective, and that's where we can actually
      * distinguish between a turned off flash and a torch flash.
@@ -866,7 +871,9 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
             int[] availableAeModesArray = readCharacteristic(
                     CameraCharacteristics.CONTROL_AE_AVAILABLE_MODES, new int[]{});
             List<Integer> availableAeModes = new ArrayList<>();
-            for (int mode : availableAeModesArray) { availableAeModes.add(mode); }
+            for (int mode : availableAeModesArray) {
+                availableAeModes.add(mode);
+            }
 
             List<Pair<Integer, Integer>> pairs = mMapper.mapFlash(mFlash);
             for (Pair<Integer, Integer> pair : pairs) {
@@ -1085,7 +1092,8 @@ public class Camera2Engine extends CameraEngine implements ImageReader.OnImageAv
         Image image = null;
         try {
             image = reader.acquireLatestImage();
-        } catch (IllegalStateException ignore) { }
+        } catch (IllegalStateException ignore) {
+        }
         if (image == null) {
             LOG.w("onImageAvailable", "we have a byte buffer but no Image!");
             getFrameManager().onBufferUnused(data);

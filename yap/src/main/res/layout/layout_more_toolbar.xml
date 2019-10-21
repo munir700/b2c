@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.viewmodels.MoreViewModel" />
+            type="co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel" />
     </data>
 
     <RelativeLayout

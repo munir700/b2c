@@ -31,7 +31,7 @@ import kotlinx.android.synthetic.main.activity_fund_actions.*
 import kotlinx.android.synthetic.main.layout_card_info.*
 import android.text.style.ForegroundColorSpan
 import androidx.core.content.ContextCompat
-import co.yap.modules.others.constants.Constants
+import co.yap.modules.others.helper.Constants
 import co.yap.yapcore.helpers.Utils
 import android.view.Gravity
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
