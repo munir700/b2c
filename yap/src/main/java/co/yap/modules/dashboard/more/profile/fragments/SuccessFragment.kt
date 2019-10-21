@@ -102,7 +102,6 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
         } else {
             tvSuccessSubHeading.text = primaryStr
-
         }
     }
 

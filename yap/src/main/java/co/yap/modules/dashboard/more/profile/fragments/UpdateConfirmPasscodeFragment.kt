@@ -65,7 +65,7 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
                         EncryptionUtils.encrypt(requireContext(), viewModel.state.pincode)!!
                     )
                     val action =
-                        UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToSuccessFragment2(
+                        UpdateConfirmPasscodeFragmentDirections.actionUpdateConfirmPasscodeFragmentToSuccessFragment(
                             "Your passcode has been changed \n succesfully",
                             "",
                             Constants.CHANGE_PASSCODE

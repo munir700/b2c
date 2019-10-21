@@ -2,6 +2,13 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.viewmodels.YapHomeViewModel" />
+
+    </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
@@ -113,17 +120,13 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/content_fragment_yap_home" android:visibility="visible"/>
+        <include
+            layout="@layout/content_fragment_yap_home"
+            app:viewModel="@{viewModel}"
+            android:visibility="visible"/>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="co.yap.modules.dashboard.viewmodels.YapHomeViewModel" />
-
-    </data>
 
 </layout>

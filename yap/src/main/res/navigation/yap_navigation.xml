@@ -46,6 +46,9 @@
                 app:argType="string" />
 
         </action>
+        <action
+            android:id="@+id/action_yapHome_to_transactionFiltersFragment"
+            app:destination="@id/transactionFiltersFragment" />
     </fragment>
 
     <fragment
@@ -129,5 +132,10 @@
         android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailFragment"
         android:label="HelpSupportFragment"
         tools:layout="@layout/fragment_change_email" />
+    <fragment
+        android:id="@+id/transactionFiltersFragment"
+        tools:layout="@layout/fragment_transaction_filters"
+        android:name="co.yap.modules.transaction_filters.fragments.TransactionFiltersFragment"
+        android:label="TransactionFiltersFragment" />
 
 </navigation>

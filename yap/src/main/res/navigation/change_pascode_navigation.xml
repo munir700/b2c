@@ -86,8 +86,8 @@
             app:argType="string"
             android:defaultValue=" "/>
         <action
-            android:id="@+id/action_updateConfirmPasscodeFragment_to_successFragment2"
-            app:destination="@id/successFragment2"
+            android:id="@+id/action_updateConfirmPasscodeFragment_to_successFragment"
+            app:destination="@id/successFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"/>
         <action
@@ -114,7 +114,7 @@
         </action>
     </fragment>
     <fragment
-        android:id="@+id/successFragment2"
+        android:id="@+id/successFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
         android:label="SuccessFragment"
         tools:layout="@layout/fragment_success">
