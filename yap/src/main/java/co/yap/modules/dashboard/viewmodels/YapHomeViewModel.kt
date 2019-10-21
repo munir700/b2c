@@ -1,15 +1,17 @@
 package co.yap.modules.dashboard.viewmodels
 
 import android.app.Application
+import android.util.Log
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.states.YapHomeState
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.managers.MyUserManager
 
-class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IYapHome.State>(application),
+class YapHomeViewModel(application: Application) :
+    YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
 
 
@@ -20,10 +22,17 @@ class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IY
         TransactionLogicHelper(context)
 
     private val cardsRepository: CardsRepository = CardsRepository
+    private val transactionsRepository: TransactionsRepository = TransactionsRepository
+
+    override fun onCreate() {
+        super.onCreate()
+        requestAccountTransactions()
+    }
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
+
 
     override fun getDebitCards() {
 
@@ -41,6 +50,38 @@ class YapHomeViewModel(application: Application) : YapDashboardChildViewModel<IY
             state.loading = false
         }
 
+    }
+
+
+    fun requestAccountTransactions() {
+
+        launch {
+            state.loading = true
+
+            when (val response = transactionsRepository.getAccountTransactions()) {
+                is RetroApiResponse.Success -> {
+                    Log.i(
+                        "getAccountTransactions",
+                        transactionsRepository.getAccountTransactions().toString()
+                    )
+                    if (null != response.data.data) {
+//                        transactionLogicHelper.transactionList = response.data.data.get(0)
+                        Log.i(
+                            "getAccountTransactions",
+                            transactionsRepository.getAccountTransactions().toString()
+                        )
+                    }
+                }
+
+                is RetroApiResponse.Error -> {
+
+
+                }
+
+            }
+
+            state.loading = false
+        }
     }
 
 }

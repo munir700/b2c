@@ -16,7 +16,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
          "/transactions/api/product/{product-code}/denominations"
     const val URL_GET_CARD_FEE = "/transactions/api/fees/spare-card/subscription/{card-type}"
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
-    const val URL_GET_ACCOUNT_TRANSACTIONS = "/transactions//api/account-transactions"
+    const val URL_GET_ACCOUNT_TRANSACTIONS = "/transactions/api/account-transactions"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
