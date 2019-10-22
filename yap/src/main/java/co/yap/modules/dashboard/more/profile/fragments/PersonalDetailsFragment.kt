@@ -1,11 +1,9 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
-import android.Manifest
 import android.os.Bundle
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import androidx.annotation.NonNull
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -16,9 +14,7 @@ import co.yap.modules.dashboard.more.activities.MoreActivity.Companion.showExpir
 import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
-import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.toast
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
@@ -32,7 +28,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     }
 
-    var permissionHelper: PermissionHelper? = null
     var changeAddress: Boolean = false
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -42,31 +37,10 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override val viewModel: IPersonalDetail.ViewModel
         get() = ViewModelProviders.of(this).get(PersonalDetailsViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        val showExpiredIcon =
-//            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (context as MoreActivity).visibleToolbar()
-
-//        viewModel.state.errorVisibility =
-//            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
-
-
         viewModel.state.errorVisibility = showExpiredIcon
-        if (MoreActivity.isDocumentRequired) {
-
-        }
-
-        /* if (MyUserManager.user!!.documentInformation == null && viewModel.state.errorVisibility) {
-             cvCard.visibility = VISIBLE
-         } else {
-             cvCard.visibility = GONE
-         }*/
-
     }
 
     override fun onResume() {
@@ -104,8 +78,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                                 viewModel.state.fullName, true
                             )
                         findNavController().navigate(action)
-//                        proceedWithPermissions()
-//                        openCardScanner()
                     }
 
                 }
@@ -117,65 +89,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         })
 
         toggleAddressVisiblity()
-    }
-
-    private fun openCardScanner() {
-        startActivityForResult(
-            IdentityScannerActivity.getLaunchIntent(
-                requireContext(),
-                DocumentType.EID,
-                IdentityScannerActivity.SCAN_FROM_CAMERA
-            ),
-            IdentityScannerActivity.SCAN_EID_CAM
-        )
-    }
-
-    private fun proceedWithPermissions() {
-        permissionHelper = PermissionHelper(
-            this, arrayOf(
-                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.RECORD_AUDIO,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ), 100
-        )
-        if (permissionHelper?.hasPermission()!!) {
-            openCardScanner()
-//            val action =
-//                PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-//                    viewModel.state.fullName, true
-//                )
-//            findNavController().navigate(action)
-        } else {
-            permissionHelper?.request(object :
-                PermissionHelper.PermissionCallback {
-                override fun onPermissionGranted() {
-                    openCardScanner()
-//                    val action =
-//                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-//                            viewModel.state.fullName, true
-//                        )
-//                    findNavController().navigate(action)
-                }
-
-                override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                    toast("All permissions needed to proceed")
-                }
-
-                override fun onPermissionDenied() {
-                    showToast("Can't proceed with permissions")
-                }
-
-                override fun onPermissionDeniedBySystem() {
-                    permissionHelper?.openAppDetailsActivity()
-                }
-            })
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun toggleAddressVisiblity() {

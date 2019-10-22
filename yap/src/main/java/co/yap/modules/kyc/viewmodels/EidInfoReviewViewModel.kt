@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import android.util.Log
 import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.fragments.CardScanResponse
 import co.yap.modules.kyc.fragments.UploadIdCardRetroService
@@ -61,18 +62,20 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun handlePressOnConfirmBtn() {
         parentViewModel?.identity?.identity?.let {
-            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
+//            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
             when {
-                DateUtils.isDatePassed(expiry) -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
-                DateUtils.getAge(it.dateOfBirth.run {
-                    DateUtils.toDate(
-                        day,
-                        month,
-                        year
-                    )
-                }) < 18 -> clickEvent.setValue(
-                    EVENT_ERROR_UNDER_AGE
-                )
+                !it.isExpiryDateValid->clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
+//                DateUtils.isDatePassed(expiry) -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
+                !it.isDateOfBirthValid->clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
+//                DateUtils.getAge(it.dateOfBirth.run {
+//                    DateUtils.toDate(
+//                        day,
+//                        month,
+//                        year
+//                    )
+//                }) < 18 -> clickEvent.setValue(
+//                    EVENT_ERROR_UNDER_AGE
+//                )
                 it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
                 else -> {
                     // All checks passed.
@@ -93,7 +96,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
-        uploadDocument(result)
+        uploadDocuments(result)
 //        parentViewModel?.identity = result
 //        populateState(result)
     }
@@ -158,6 +161,47 @@ class EidInfoReviewViewModel(application: Application) :
         })
 
     }
+    fun uploadDocuments(result: IdentityScannerResult) {
+        val file = File(result.document.files[1].croppedFile)
+        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+        val part =
+            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+        launch {
+            state.loading = true
+            when (val response = repository.detectCardData(part)) {
+
+                is RetroApiResponse.Success -> {
+
+                    if (response.data.success) {
+                        val identity = Identity()
+                        identity.nationality = response.data.nationality
+                        identity.gender =
+                            if (response.data.sex.equals("M")) Gender.Male else Gender.Female
+                        identity.sirName = response.data.surname
+                        identity.givenName = response.data.names
+                        identity.citizenNumber = response.data.number
+                        identity.expirationDate =
+                            DateUtils.stringToDate(response.data.expiration_date!!, "yyMMdd")
+                        identity.dateOfBirth =
+                            DateUtils.stringToDate(response.data.date_of_birth!!, "yyMMdd")
+                        identity.citizenNumber = response.data.optional1
+//                    identity.expiryDateValid = response.body()?.valid_expiration_date!!
+//                    identity.dateOfBirthValid = response.body()?.valid_date_of_birth!!
+                        result.identity = identity
+                        parentViewModel?.identity = result
+                        populateState(result)
+                    } else {
+                        state.toast = getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
+                    }
+                    //}
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
 
     private fun performUploadDocumentsRequest() {
         parentViewModel?.identity?.let {
@@ -166,14 +210,8 @@ class EidInfoReviewViewModel(application: Application) :
                     documentType = if (it.document.type == DocumentType.EID) "EMIRATES_ID" else "PASSPORT",
                     firstName = it.identity.givenName,
                     lastName = it.identity.sirName,
-                    dateExpiry = it.identity.expirationDate.run {
-                        DateUtils.toDate(
-                            day,
-                            month,
-                            year
-                        )
-                    },
-                    dob = it.identity.dateOfBirth.run { DateUtils.toDate(day, month, year) },
+                    dateExpiry = it.identity.expirationDate,
+                    dob = it.identity.dateOfBirth,
                     fullName = it.identity.givenName + " " + it.identity.sirName,
                     gender = it.identity.gender.mrz.toString(),
                     nationality = it.identity.nationality,

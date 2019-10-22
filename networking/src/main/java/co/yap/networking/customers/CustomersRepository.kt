@@ -2,6 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
+import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
@@ -37,6 +38,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CHANGE_VERIFIED_EMAIL = "customers/api/change-email/{email}"
     const val URL_CHANGE_UNVERIFIED_EMAIL = "customers/api/change-unverified-email"
 
+    const val URL_DETECT = "digi-ocr/detect/"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -69,7 +72,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
         document.run {
-            val dateFormatter = SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH)
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
             val files = ArrayList<MultipartBody.Part>()
             filePaths.forEach {
                 val file = File(it)
@@ -129,4 +132,18 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
+
+    override suspend fun detectCardData(file: MultipartBody.Part) = executeSafely(call = { api.uploadIdCard(file) })
+//            : RetroApiResponse<ApiResponse> {
+//        val response = executeSafely(call = { api.uploadIdCard(file) })
+//        when (response) {
+//            is RetroApiResponse.Error -> {
+//                if (response.error.statusCode == MALFORMED_JSON_EXCEPTION_CODE) {
+//                    // this is expected response so mark it a success
+//                    return RetroApiResponse.Success(200, ApiResponse())
+//                }
+//            }
+//        }
+//        return response
+//    }
 }
