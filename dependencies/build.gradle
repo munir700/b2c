@@ -24,7 +24,7 @@ project.ext {
             translation: ':translation',
             yap        : ':yap',
             yapcore    : ':yapcore',
-            kyc        : ':identityscanner'
+            kyc        : ':identityscanner_v2'
     ]
 
     // All libraries that any module can contain

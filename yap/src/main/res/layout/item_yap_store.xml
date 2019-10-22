@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.store.viewmodels.YapStoreItemViewModel" />
+            type="co.yap.modules.dashboard.store.viewmodels.YapStoreItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>

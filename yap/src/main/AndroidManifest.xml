@@ -21,9 +21,9 @@
             <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
-            android:name=".modules.dashboard.activities.YapDashboardActivity"
+            android:name=".modules.dashboard.main.activities.YapDashboardActivity"
             android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/yap_navigation" />
+<!--            <nav-graph android:value="@navigation/yap_navigation" />-->
         </activity>
 
         <meta-data
@@ -68,7 +68,7 @@
         </activity>
 
         <activity
-            android:name=".modules.dashboard.more.activities.MoreActivity"
+            android:name=".modules.dashboard.more.main.activities.MoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize">
@@ -115,18 +115,12 @@
             android:name=".modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity"
             android:screenOrientation="portrait" />
 
-        <!--        <provider-->
-        <!--            android:name="androidx.core.content.FileProvider"-->
-        <!--            android:authorities="${applicationId}.fileprovider"-->
-        <!--            android:exported="false"-->
-        <!--            android:grantUriPermissions="true">-->
-        <!--            <meta-data-->
-        <!--                android:name="android.support.FILE_PROVIDER_PATHS"-->
-        <!--                android:resource="@xml/file_paths" />-->
-        <!--        </provider>-->
-
         <activity
             android:name=".modules.dashboard.more.bankdetails.activities.BankDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.others.fragmentpresenter.activities.FragmentPresenterActivity"
             android:screenOrientation="portrait" />
 
         <activity

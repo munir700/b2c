@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.viewmodels.YapHomeViewModel" />
+            type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
 
     </data>
 
@@ -120,13 +120,9 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include
-            layout="@layout/content_fragment_yap_home"
-            app:viewModel="@{viewModel}"
-            android:visibility="visible"/>
+        <include layout="@layout/content_fragment_yap_home" android:visibility="visible"/>
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
 
 </layout>

@@ -8,7 +8,6 @@ import androidx.navigation.fragment.navArgs
 import co.yap.R
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.ConfirmNewCardPinFragment
-import co.yap.modules.dashboard.more.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateConfirmPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
@@ -37,7 +36,7 @@ class UpdateConfirmPasscodeFragment : ConfirmNewCardPinFragment() {
                 )
             ) {
                 username = EncryptionUtils.decrypt(
-                    context as MoreActivity,
+                    requireContext(),
                     sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
                 ) as String
             }

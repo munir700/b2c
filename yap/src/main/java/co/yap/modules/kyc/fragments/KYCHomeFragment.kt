@@ -17,8 +17,8 @@ import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.yapcore.BR
-import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
+import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
+import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_kyc_home.*
 
 private const val SCAN_EID_CAM = 12
@@ -41,7 +41,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
 
         } else {
-            IdentityScannerActivity.CLOSE_SCANNER = false
+            //todo need to verify that code
+            //IdentityScannerActivity.CLOSE_SCANNER = false
             tvSkip.visibility = View.VISIBLE
         }
         if (checkMore && checkScanned) {

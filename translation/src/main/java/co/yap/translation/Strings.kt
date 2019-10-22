@@ -663,7 +663,7 @@ object Strings {
         "screen_personal_detail_display_text_verification_completed"
     const val screen_personal_detail_display_text_verification_expired: String =
         "screen_personal_detail_display_text_verification_expired"
- const val screen_personal_detail_display_text_verification_required: String =
+    const val screen_personal_detail_display_text_verification_required: String =
         "screen_personal_detail_display_text_verification_required"
 
 
@@ -774,5 +774,12 @@ object Strings {
     //Email Verification Screen
     const val screen_email_verification_display_text_heading: String =
         "screen_email_verification_display_text_heading"
+
+
+    //    Y2Y Transfer screen
+    const val screen_yap_to_yap_transfer_display_text_button: String =
+        "screen_yap_to_yap_transfer_display_text_button"
+    const val screen_yap_to_yap_transfer_text_header: String =
+        "screen_yap_to_yap_transfer_text_header"
 
 }

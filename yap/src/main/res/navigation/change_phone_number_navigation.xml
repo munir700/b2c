@@ -57,5 +57,9 @@
             android:defaultValue=" "
             app:argType="string"
             />
+        <argument
+            android:name="successType"
+            android:defaultValue=" "
+            app:argType="string" />
     </fragment>
 </navigation>
