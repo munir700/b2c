@@ -124,7 +124,8 @@
         <argument
             android:name="successType"
             android:defaultValue=" "
-            app:argType="string" />
+            app:argType="string"
+            />
     </fragment>
 
     <fragment
