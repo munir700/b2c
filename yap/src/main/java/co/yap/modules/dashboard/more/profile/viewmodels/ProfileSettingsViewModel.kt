@@ -178,7 +178,7 @@ class ProfileSettingsViewModel(application: Application) :
                     state.errorBadgeVisibility = VISIBLE
                     MoreActivity.showExpiredIcon = true
                     showExpiredBadge = true
-                     if (response.error.message.equals("Data not found")){
+                     if (response.error.message.equals("HomeTransactionListData not found")){
                          isDocumentRequired = true
                     }
                 }

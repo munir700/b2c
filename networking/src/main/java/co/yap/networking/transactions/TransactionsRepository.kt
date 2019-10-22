@@ -7,6 +7,7 @@ import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
 

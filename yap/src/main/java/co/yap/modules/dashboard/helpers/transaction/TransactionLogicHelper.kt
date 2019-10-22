@@ -1,10 +1,9 @@
 package co.yap.modules.dashboard.helpers.transaction
 
 import android.content.Context
-import co.yap.modules.dashboard.interfaces.IYapHome
 import co.yap.modules.dashboard.models.Transaction
 import co.yap.modules.dashboard.models.TransactionModel
-import co.yap.networking.transactions.responsedtos.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -12,16 +11,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class TransactionLogicHelper(
-    val context: Context) {
+    val context: Context
+) {
     var transactionList: ArrayList<TransactionModel> = arrayListOf()
-    var transactioncontentList:  List<HomeTransactionsResponse.Data.Content> = arrayListOf()
+    var transactioncontentList: List<HomeTransactionsResponse.HomeTransactionListData.Content> = arrayListOf()
 
     init {
         transactionList = loadJSONDummyList()
-//        var contentList: List<HomeTransactionsResponse.Data.Content>
+//    var contentList: List<HomeTransactionsResponse.HomeTransactionListData.Content>
 
-//now structure that dummy
+//   now structure that lis data
     }
+//    val transactioModelList: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
 
     private fun loadJSONDummyList(): ArrayList<TransactionModel> {
         val transactioModelList: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
@@ -46,7 +47,7 @@ class TransactionLogicHelper(
                     for (j in 0 until childArrayList!!.length()) {
                         val innerElem = childArrayList!!.getJSONObject(j)
                         val itemType = "ITEM"
-//                        val itemType = innerElem.getString("type")
+//                      val itemType = innerElem.getString("type")
                         val type = innerElem.getString("type")
                         val vendor = innerElem.getString("vendor")
                         val imageUrl = innerElem.getString("imageUrl")

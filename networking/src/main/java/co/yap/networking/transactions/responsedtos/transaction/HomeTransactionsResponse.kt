@@ -1,12 +1,12 @@
-package co.yap.networking.transactions.responsedtos
+package co.yap.networking.transactions.responsedtos.transaction
 
 import co.yap.networking.models.ApiResponse
 
 data class HomeTransactionsResponse(
-    var data: Data,
+    var data: HomeTransactionListData,
     var errors: Any?
 ) : ApiResponse() {
-    data class Data(
+    data class HomeTransactionListData(
         var content: List<Content>,
         var first: Boolean,
         var last: Boolean,
@@ -18,19 +18,6 @@ data class HomeTransactionsResponse(
         var totalElements: Int,
         var totalPages: Int
     ) {
-        data class Content(
-            var closingBalance: Double,
-            var id: Int,
-            var merchant: Any?,
-            var paymentMode: String,
-            var title: Any?,
-            var txnAmount: Int,
-            var txnCategory: String,
-            var txnCurrency: String,
-            var txnDate: String,
-            var txnType: String
-        )
-
         data class Pageable(
             var offset: Int,
             var pageNumber: Int,

@@ -3,6 +3,7 @@ package co.yap.networking.transactions
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import retrofit2.Response
 import retrofit2.http.*
 
