@@ -1,8 +1,6 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
-import android.util.Log
-import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.fragments.CardScanResponse
 import co.yap.modules.kyc.fragments.UploadIdCardRetroService
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
@@ -29,10 +27,8 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
@@ -53,7 +49,6 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-
     }
 
     override fun handlePressOnRescanBtn() {
@@ -62,20 +57,11 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun handlePressOnConfirmBtn() {
         parentViewModel?.identity?.identity?.let {
-//            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
+            //            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
             when {
-                !it.isExpiryDateValid->clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
-//                DateUtils.isDatePassed(expiry) -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
-                !it.isDateOfBirthValid->clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
-//                DateUtils.getAge(it.dateOfBirth.run {
-//                    DateUtils.toDate(
-//                        day,
-//                        month,
-//                        year
-//                    )
-//                }) < 18 -> clickEvent.setValue(
-//                    EVENT_ERROR_UNDER_AGE
-//                )
+                !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
+                !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
+
                 it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
                 else -> {
                     // All checks passed.
@@ -83,8 +69,6 @@ class EidInfoReviewViewModel(application: Application) :
                 }
             }
         }
-
-
     }
 
     override fun handleUserRejection(reason: Int) {
@@ -97,8 +81,6 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
         uploadDocuments(result)
-//        parentViewModel?.identity = result
-//        populateState(result)
     }
 
     fun uploadDocument(result: IdentityScannerResult) {
@@ -129,7 +111,7 @@ class EidInfoReviewViewModel(application: Application) :
                 response: Response<CardScanResponse>?
             ) {
                 state.loading = false
-                if(response?.body()?.success!!) {
+                if (response?.body()?.success!!) {
                     val identity = Identity()
                     identity.nationality = response.body()?.nationality
 
@@ -138,29 +120,26 @@ class EidInfoReviewViewModel(application: Application) :
                     identity.sirName = response.body()?.surname
                     identity.givenName = response.body()?.names
                     identity.citizenNumber = response.body()?.number
-//                    identity.expiryDateValid = response.body()?.valid_expiration_date!!
-//                    identity.dateOfBirthValid = response.body()?.valid_date_of_birth!!
                     val calender = Calendar.getInstance()
 //                    calender.time =
-//                        DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")
-                    identity.expirationDate = DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")//MrzDate(calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DAY_OF_MONTH))
-//                    calender.time =
-//                        DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
-                    identity.dateOfBirth = DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
+                    identity.expirationDate =
+                        DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")
+                    identity.dateOfBirth =
+                        DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
                     result.identity = identity
 
                     parentViewModel?.identity = result
-                     populateState(result)
-                    //state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
-                }
-                else {
-                    state.toast = getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
+                    populateState(result)
+                } else {
+                    state.toast =
+                        getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
                 }
 
             }
         })
 
     }
+
     fun uploadDocuments(result: IdentityScannerResult) {
         val file = File(result.document.files[1].croppedFile)
         val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
@@ -179,24 +158,24 @@ class EidInfoReviewViewModel(application: Application) :
                             if (response.data.sex.equals("M")) Gender.Male else Gender.Female
                         identity.sirName = response.data.surname
                         identity.givenName = response.data.names
-                        identity.citizenNumber = response.data.number
                         identity.expirationDate =
-                            DateUtils.stringToDate(response.data.expiration_date!!, "yyMMdd")
+                            DateUtils.stringToDate(response.data.expiration_date, "yyMMdd")
                         identity.dateOfBirth =
-                            DateUtils.stringToDate(response.data.date_of_birth!!, "yyMMdd")
+                            DateUtils.stringToDate(response.data.date_of_birth, "yyMMdd")
                         identity.citizenNumber = response.data.optional1
-//                    identity.expiryDateValid = response.body()?.valid_expiration_date!!
-//                    identity.dateOfBirthValid = response.body()?.valid_date_of_birth!!
                         result.identity = identity
                         parentViewModel?.identity = result
                         populateState(result)
                     } else {
-                        state.toast = getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
+                        state.toast =
+                            getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
+                        clickEvent.setValue(EVENT_FINISH)
                     }
                     //}
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    clickEvent.setValue(EVENT_FINISH)
                 }
             }
             state.loading = false
@@ -235,7 +214,6 @@ class EidInfoReviewViewModel(application: Application) :
                         state.toast = response.error.message
                     }
                 }
-
             }
         }
     }
@@ -244,32 +222,13 @@ class EidInfoReviewViewModel(application: Application) :
         identity?.let {
             state.fullName = it.identity.givenName + " " + it.identity.sirName
             state.fullNameValid = state.fullName.isNotBlank()
-
             state.nationality = it.identity.nationality
             state.nationalityValid =
                 state.nationality.isNotBlank() && !state.nationality.equals("USA", false)
-
             state.dateOfBirth = DateUtils.dateToString(it.identity.dateOfBirth)
-//            it.identity.dateOfBirth.run {
-//                DateUtils.dateToString(day, month, year)
-//            }
             state.dateOfBirthValid = it.identity.isDateOfBirthValid
-//            state.dateOfBirthValid = it.identity.dateOfBirth.run {
-//                if (isDateValid) {
-                   // val age = DateUtils.getAge(day, month, year)
-//                    age >= 18
-//                } else false
-//            }
-
             state.expiryDate = DateUtils.dateToString(it.identity.expirationDate)
-//                it.identity.expirationDate.run {
-//                DateUtils.dateToString(day, month, year)
-//            }
             state.expiryDateValid = it.identity.isExpiryDateValid
-//                it.identity.expirationDate.run {
-//                !DateUtils.isDatePassed(DateUtils.toDate(day, month, year))
-//            }
-
             state.genderValid = true
             state.gender = it.identity.gender.run {
                 when {

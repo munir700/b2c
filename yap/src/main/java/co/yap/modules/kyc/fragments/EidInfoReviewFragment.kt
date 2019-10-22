@@ -43,7 +43,6 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         } else {
             tvNoThanks.visibility = VISIBLE
             eidInfoReviewtoolBarLayout.visibility = GONE
-
         }
 
         viewModel.clickEvent.observe(this, Observer {
@@ -54,6 +53,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 viewModel.EVENT_RESCAN -> openCardScanner()
                 viewModel.EVENT_NEXT_WITH_ERROR -> findNavController().navigate(R.id.action_eidInfoReviewFragment_to_informationErrorFragment)
                 viewModel.EVENT_NEXT -> findNavController().popBackStack()
+                viewModel.EVENT_FINISH -> onBackPressed()
             }
         })
     }
@@ -109,6 +109,9 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (data == null && DocumentsDashboardActivity.isFromMoreSection) {
+            activity!!.finish()
+        }
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             hasStartedScanner = false
             data?.let {
