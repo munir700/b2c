@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YTransfer
@@ -20,14 +21,16 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YTransfer.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-       // viewModel.clickEvent.observe(this, clickEventObserver)
+        viewModel.clickEvent.observe(this, clickEventObserver)
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.btnInvite -> {
                 showToast("Invitie Button Clicked")
+                findNavController().navigateUp()
             }
         }
+        findNavController().navigateUp()
     }
 }

@@ -20,15 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginTop="@dimen/_27sdp"
-            android:gravity="center"
-            app:queryHint="@string/screen_yap_to_yap_display_text_search_hint"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:background="@drawable/bg_round_contacts_searchview"
+            android:gravity="center"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:searchIcon="@null"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:searchIcon="@null"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:queryHint="@string/screen_yap_to_yap_display_text_search_hint" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -46,42 +47,15 @@
             app:tabRippleColor="@null"
             app:tabTextAppearance="@style/TabTextAppearance" />
 
-        <androidx.viewpager.widget.ViewPager
+
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/textView6"-->
-        <!--            style="@style/Regular"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:fontFamily="sans-serif"-->
-        <!--            android:lineSpacingExtra="6sp"-->
-        <!--            android:textSize="14sp"-->
-        <!--            tools:text="@string/screen_yap_to_yap_display_text_no_yap_contact_msg" />-->
-
-        <!--        <co.yap.widgets.CoreButton-->
-        <!--            android:id="@+id/btnInvite"-->
-        <!--            style="@style/RectangleBtnStyle"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginLeft="@dimen/margin_xxl"-->
-        <!--            android:layout_marginTop="8dp"-->
-        <!--            android:layout_marginRight="@dimen/margin_xxl"-->
-        <!--            android:layout_marginBottom="@dimen/margin_medium_large"-->
-        <!--            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"-->
-        <!--            android:text="@string/screen_yap_to_yap_display_text_button"-->
-        <!--            app:btn_enable="true"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="1.0"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/textView6"-->
-        <!--            app:layout_constraintVertical_bias="0.253"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

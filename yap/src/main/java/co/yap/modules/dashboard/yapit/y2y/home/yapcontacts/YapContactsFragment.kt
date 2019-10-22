@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.y2y.home.fragments
+package co.yap.modules.dashboard.yapit.y2y.home.yapcontacts
 
 import android.os.Bundle
 import android.view.View
@@ -6,14 +6,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.TransferLandingAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
 import co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.yapcore.BR
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
-class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
+class YapContactsFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_to_yap
 
@@ -26,10 +25,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
         tabLayout.addTab(tabLayout.newTab().setText("YAP contacts"))
         tabLayout.addTab(tabLayout.newTab().setText("All contacts"))
         svContacts.setOnClickListener { findNavController().navigate(R.id.y2YTransferFragment) }
-
-
-        val adaptor  = TransferLandingAdaptor(this)
-        viewPager.adapter = adaptor
     }
 
     private val clickEventObserver = Observer<Int> {

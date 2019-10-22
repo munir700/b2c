@@ -28,6 +28,7 @@ import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
@@ -221,7 +222,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
-                    //YapToYapDashboardActivity.
+                    startActivity(YapToYapDashboardActivity.getIntent(this, null))
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
@@ -233,7 +234,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             true
         }
         //Don't remove it not by mistake
-        bottomNav.setOnNavigationItemReselectedListener { }
+        bottomNav.setOnNavigationItemReselectedListener {
+            it
+            when (it.itemId) {
+                R.id.yapIt -> {
+                    startActivity(YapToYapDashboardActivity.getIntent(this, null))
+                }
+            }
+        }
     }
 
     fun getViewBinding(): ActivityYapDashboardBinding {
