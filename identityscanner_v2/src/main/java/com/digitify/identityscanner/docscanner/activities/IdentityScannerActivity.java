@@ -23,6 +23,7 @@ public class IdentityScannerActivity extends BaseActivity implements IIdentitySc
 
     public static final int SCAN_FROM_CAMERA = 1;
     public static final int SCAN_FROM_GALLERY = 2;
+    public static final int SCAN_EID_CAM = 12;
     private static final String DOC_TYPE = "docType";
     private static final String SCAN_FROM = "scanFrom";
     public static final String SCAN_RESULT = "scannerResult";

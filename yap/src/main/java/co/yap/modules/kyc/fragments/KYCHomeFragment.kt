@@ -21,8 +21,6 @@ import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivit
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_kyc_home.*
 
-private const val SCAN_EID_CAM = 12
-
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -89,13 +87,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
+        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
-                data?.let {
-
                     viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
                     checkScanned = true
-                }
+
             }
         }
     }
@@ -107,7 +103,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 DocumentType.EID,
                 IdentityScannerActivity.SCAN_FROM_CAMERA
             ),
-            SCAN_EID_CAM
+            IdentityScannerActivity.SCAN_EID_CAM
         )
     }
 

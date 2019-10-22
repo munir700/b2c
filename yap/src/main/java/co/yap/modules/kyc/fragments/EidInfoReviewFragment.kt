@@ -2,7 +2,6 @@ package co.yap.modules.kyc.fragments
 
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -16,7 +15,6 @@ import co.yap.translation.Strings
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 
-private const val SCAN_EID_CAM = 12
 
 class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEidInfoReview.View {
 
@@ -82,7 +80,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
+        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
                 viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
             }
@@ -113,7 +111,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 DocumentType.EID,
                 IdentityScannerActivity.SCAN_FROM_CAMERA
             ),
-            SCAN_EID_CAM
+            IdentityScannerActivity.SCAN_EID_CAM
         )
     }
 }

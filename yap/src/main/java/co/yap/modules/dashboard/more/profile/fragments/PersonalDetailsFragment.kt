@@ -18,6 +18,9 @@ import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.toast
+import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
+import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
 
@@ -29,7 +32,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     }
 
-    lateinit var permissionHelper: PermissionHelper
+    var permissionHelper: PermissionHelper? = null
     var changeAddress: Boolean = false
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -96,7 +99,13 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.cvCard -> {
                     if (viewModel.state.errorVisibility) {
-                        proceedWithPermissions()
+                        val action =
+                            PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
+                                viewModel.state.fullName, true
+                            )
+                        findNavController().navigate(action)
+//                        proceedWithPermissions()
+//                        openCardScanner()
                     }
 
                 }
@@ -110,6 +119,17 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         toggleAddressVisiblity()
     }
 
+    private fun openCardScanner() {
+        startActivityForResult(
+            IdentityScannerActivity.getLaunchIntent(
+                requireContext(),
+                DocumentType.EID,
+                IdentityScannerActivity.SCAN_FROM_CAMERA
+            ),
+            IdentityScannerActivity.SCAN_EID_CAM
+        )
+    }
+
     private fun proceedWithPermissions() {
         permissionHelper = PermissionHelper(
             this, arrayOf(
@@ -119,26 +139,27 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ), 100
         )
-        if (permissionHelper.hasPermission()) {
-
-            val action =
-                PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-                    viewModel.state.fullName, true
-                )
-            findNavController().navigate(action)
+        if (permissionHelper?.hasPermission()!!) {
+            openCardScanner()
+//            val action =
+//                PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
+//                    viewModel.state.fullName, true
+//                )
+//            findNavController().navigate(action)
         } else {
-            permissionHelper.request(object :
+            permissionHelper?.request(object :
                 PermissionHelper.PermissionCallback {
                 override fun onPermissionGranted() {
-                    val action =
-                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
-                            viewModel.state.fullName, true
-                        )
-                    findNavController().navigate(action)
+                    openCardScanner()
+//                    val action =
+//                        PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
+//                            viewModel.state.fullName, true
+//                        )
+//                    findNavController().navigate(action)
                 }
 
                 override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                    showToast("All permissions needed to proceed")
+                    toast("All permissions needed to proceed")
                 }
 
                 override fun onPermissionDenied() {
@@ -146,7 +167,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 override fun onPermissionDeniedBySystem() {
-                    permissionHelper.openAppDetailsActivity()
+                    permissionHelper?.openAppDetailsActivity()
                 }
             })
         }
@@ -154,9 +175,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onRequestPermissionsResult(requestCode: Int, @NonNull permissions: Array<String>, @NonNull grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (permissionHelper != null) {
-            permissionHelper!!.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
+        permissionHelper?.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
     private fun toggleAddressVisiblity() {
