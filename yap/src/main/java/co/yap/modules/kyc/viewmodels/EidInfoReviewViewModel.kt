@@ -151,23 +151,23 @@ class EidInfoReviewViewModel(application: Application) :
 
                 is RetroApiResponse.Success -> {
 
-                    if (response.data.success) {
+                    val data = response.data.data
+                    if (data != null) {
                         val identity = Identity()
-                        identity.nationality = response.data.nationality
+                        identity.nationality = data.nationality
                         identity.gender =
-                            if (response.data.sex.equals("M")) Gender.Male else Gender.Female
-                        identity.sirName = response.data.surname
-                        identity.givenName = response.data.names
+                            if (data.sex.equals("M")) Gender.Male else Gender.Female
+                        identity.sirName = data.surname
+                        identity.givenName = data.names
                         identity.expirationDate =
-                            DateUtils.stringToDate(response.data.expiration_date, "yyMMdd")
+                            DateUtils.stringToDate(data.expiration_date, "yyMMdd")
                         identity.dateOfBirth =
-                            DateUtils.stringToDate(response.data.date_of_birth, "yyMMdd")
-                        identity.citizenNumber = response.data.optional1
+                            DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                        identity.citizenNumber = data.optional1
                         result.identity = identity
                         parentViewModel?.identity = result
                         populateState(result)
                     } else {
-                        state.toast =
                             getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
                         clickEvent.setValue(EVENT_FINISH)
                     }

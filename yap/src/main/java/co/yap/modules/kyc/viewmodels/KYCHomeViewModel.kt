@@ -68,7 +68,8 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 //        parentViewModel?.identity = result
 //        state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
     }
-// TODO Remove this method
+
+    // TODO Remove this method
     fun uploadDocument(result: IdentityScannerResult) {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
@@ -134,20 +135,19 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             when (val response = repository.detectCardData(part)) {
 
                 is RetroApiResponse.Success -> {
-
-                    if (response.data.success) {
+                    val data = response.data.data
+                    if (data != null) {
                         var identity = Identity()
-                        identity.nationality = response.data.nationality
+                        identity.nationality = data.nationality
                         identity.gender =
-                            if (response.data.sex.equals("M")) Gender.Male else Gender.Female
-                        identity.sirName = response.data.surname
-                        identity.givenName = response.data.names
-                        identity.citizenNumber = response.data.number
+                            if (data.sex.equals("M")) Gender.Male else Gender.Female
+                        identity.sirName = data.surname
+                        identity.givenName = data.names
                         identity.expirationDate =
-                            DateUtils.stringToDate(response.data.expiration_date!!, "yyMMdd")
+                            DateUtils.stringToDate(data.expiration_date, "yyMMdd")
                         identity.dateOfBirth =
-                            DateUtils.stringToDate(response.data.date_of_birth!!, "yyMMdd")
-                        identity.citizenNumber = response.data.optional1
+                            DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                        identity.citizenNumber = data.optional1
                         result.identity = identity
                         parentViewModel?.identity = result
                         state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
