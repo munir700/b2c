@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces
+package co.yap.modules.dashboard.yapit.y2y.home.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-class IY2YTransfer {
+interface IYapToYap {
     interface View : IBase.View<ViewModel>
 
     interface ViewModel : IBase.ViewModel<State> {

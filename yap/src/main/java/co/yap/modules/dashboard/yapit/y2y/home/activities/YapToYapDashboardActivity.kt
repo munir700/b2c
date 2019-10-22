@@ -1,11 +1,11 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.home.activities
+package co.yap.modules.dashboard.yapit.y2y.home.activities
 
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.yapit.y2ytransfer.interfaces.IY2Y
-import co.yap.modules.dashboard.yapit.y2ytransfer.viewmodels.Y2YViewModel
+import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
+import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder

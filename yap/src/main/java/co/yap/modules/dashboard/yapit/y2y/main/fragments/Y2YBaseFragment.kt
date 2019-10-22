@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.fragments
+package co.yap.modules.dashboard.yapit.y2y.main.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
-import co.yap.modules.dashboard.yapit.y2ytransfer.viewmodels.Y2YBaseViewModel
-import co.yap.modules.dashboard.yapit.y2ytransfer.viewmodels.Y2YViewModel
+import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
+import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YViewModel
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.IBase
 

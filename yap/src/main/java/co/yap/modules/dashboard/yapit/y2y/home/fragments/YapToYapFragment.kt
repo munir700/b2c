@@ -1,13 +1,13 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.home.fragments
+package co.yap.modules.dashboard.yapit.y2y.home.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.yapit.y2ytransfer.fragments.Y2YBaseFragment
-import co.yap.modules.dashboard.yapit.y2ytransfer.home.interfaces.IYapToYap
-import co.yap.modules.dashboard.yapit.y2ytransfer.home.viewmodel.YapToYapViewModel
+import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
+import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
+import co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel
 import co.yap.yapcore.BR
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 

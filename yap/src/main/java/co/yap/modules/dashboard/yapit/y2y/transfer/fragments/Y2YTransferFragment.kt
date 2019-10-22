@@ -1,13 +1,13 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.transfer.fragments
+package co.yap.modules.dashboard.yapit.y2y.transfer.fragments
 
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.yapit.y2ytransfer.fragments.Y2YBaseFragment
-import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YTransfer
-import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.viewmodels.Y2YTransferViewModel
+import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
+import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YTransfer
+import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YTransferViewModel
 import co.yap.yapcore.BR
 
 class Y2YTransferFragment : Y2YBaseFragment<IY2YTransfer.ViewModel>() {

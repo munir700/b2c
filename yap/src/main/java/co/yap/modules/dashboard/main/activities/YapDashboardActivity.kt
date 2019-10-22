@@ -221,6 +221,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
+                    //YapToYapDashboardActivity.
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)

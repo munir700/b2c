@@ -1,7 +1,7 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.viewmodels
+package co.yap.modules.dashboard.yapit.y2y.main.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.y2ytransfer.interfaces.IY2Y
+import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.IBase
 

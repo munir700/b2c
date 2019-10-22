@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.home.viewmodel
+package co.yap.modules.dashboard.yapit.y2y.home.viewmodel
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.y2ytransfer.home.interfaces.IYapToYap
-import co.yap.modules.dashboard.yapit.y2ytransfer.home.states.YapToYapState
-import co.yap.modules.dashboard.yapit.y2ytransfer.viewmodels.Y2YBaseViewModel
+import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
+import co.yap.modules.dashboard.yapit.y2y.home.states.YapToYapState
+import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.State>(application),

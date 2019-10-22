@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.y2ytransfer.home.viewmodel.YapToYapViewModel" />
+            type="co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>

@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.interfaces
+package co.yap.modules.dashboard.yapit.y2y.main.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

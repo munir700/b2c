@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.yapit.y2ytransfer.transfer.viewmodels
+package co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YTransfer
-import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.states.Y2YTransferState
-import co.yap.modules.dashboard.yapit.y2ytransfer.viewmodels.Y2YBaseViewModel
+import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YTransfer
+import co.yap.modules.dashboard.yapit.y2y.transfer.states.Y2YTransferState
+import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
