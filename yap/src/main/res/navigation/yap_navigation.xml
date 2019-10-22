@@ -47,8 +47,8 @@
 
         </action>
         <action
-            android:id="@+id/action_yapHome_to_transactionFiltersFragment"
-            app:destination="@id/transactionFiltersFragment" />
+            android:id="@+id/action_yapHome_to_transactionFiltersActivity"
+            app:destination="@id/transactionFiltersActivity" />
     </fragment>
 
     <fragment
@@ -132,10 +132,12 @@
         android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailFragment"
         android:label="HelpSupportFragment"
         tools:layout="@layout/fragment_change_email" />
-    <fragment
-        android:id="@+id/transactionFiltersFragment"
-        tools:layout="@layout/fragment_transaction_filters"
-        android:name="co.yap.modules.transaction_filters.fragments.TransactionFiltersFragment"
-        android:label="TransactionFiltersFragment" />
+
+    <activity
+        android:id="@+id/transactionFiltersActivity"
+        android:name="co.yap.modules.transaction_filters.activities.TransactionFiltersActivity"
+        tools:layout="@layout/activity_transaction_filters"
+        android:label="TransactionFiltersActivity" />
+
 
 </navigation>

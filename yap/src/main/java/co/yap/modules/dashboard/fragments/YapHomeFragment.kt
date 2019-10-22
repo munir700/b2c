@@ -1,5 +1,8 @@
 package co.yap.modules.dashboard.fragments
 
+import android.app.Activity
+import android.app.Activity.RESULT_OK
+import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
@@ -21,6 +24,7 @@ import co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
+import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
@@ -68,7 +72,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     //findNavController().navigate(R.id.action_yapHome_to_setCardPinWelcomeActivity)
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
-                R.id.rlFilter -> findNavController().navigate(R.id.action_yapHome_to_transactionFiltersFragment)
+                R.id.rlFilter -> {
+                   startActivityForResult(
+                        TransactionFiltersActivity.newIntent(requireContext()),
+                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
+                    )
+//                    startActivity(TransactionFiltersActivity.newIntent(requireContext()))
+                }
             }
         })
 
@@ -269,4 +279,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         appbar.addOnOffsetChangedListener(appbarListener)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                showToast("data is "+data!!.getIntExtra(TransactionFiltersActivity.KEY_FILTER_START_AMOUNT,0))
+            }
+        }
+    }
 }
