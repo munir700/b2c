@@ -1,14 +1,58 @@
 {
-  "errors": null,
-  "data": {
-    "content": [
+     "content": [
+      {
+        "id": 144,
+        "txnDate": "2019-09-05T07:31:35",
+        "txnType": "CREDIT",
+        "txnAmount": 850.00,
+        "txnCurrency": "AED",
+        "txnCategory": 1,
+        "paymentMode": "DEBIT",
+        "closingBalance": 15657.99,
+        "title": null,
+        "merchant": null
+      },   {
+        "id": 144,
+        "txnDate": "2019-09-05T07:31:35",
+        "txnType": "CREDIT",
+        "txnAmount": 850.00,
+        "txnCurrency": "AED",
+        "txnCategory": 1,
+        "paymentMode": "DEBIT",
+        "closingBalance": 15657.99,
+        "title": null,
+        "merchant": null
+      },   {
+        "id": 144,
+        "txnDate": "2019-09-05T07:31:35",
+        "txnType": "CREDIT",
+        "txnAmount": 850.00,
+        "txnCurrency": "AED",
+        "txnCategory": 1,
+        "paymentMode": "DEBIT",
+        "closingBalance": 15657.99,
+        "title": null,
+        "merchant": null
+      },   {
+        "id": 144,
+        "txnDate": "2019-10-05T07:31:35",
+        "txnType": "CREDIT",
+        "txnAmount": 850.00,
+        "txnCurrency": "AED",
+        "txnCategory": 1,
+        "paymentMode": "DEBIT",
+        "closingBalance": 15657.99,
+        "title": null,
+        "merchant": null
+      },
+
       {
         "id": 144,
         "txnDate": "2019-08-05T07:31:35",
         "txnType": "CREDIT",
-        "txnAmount": 850,
+        "txnAmount": 850.00,
         "txnCurrency": "AED",
-        "txnCategory": "TRANSACTION",
+        "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 15657.99,
         "title": null,
@@ -18,9 +62,9 @@
         "id": 143,
         "txnDate": "2019-08-05T07:19:01",
         "txnType": "CREDIT",
-        "txnAmount": 890,
+        "txnAmount": 890.00,
         "txnCurrency": "AED",
-        "txnCategory": "TRANSACTION",
+        "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 1719.99,
         "title": null,
@@ -30,11 +74,11 @@
         "id": 140,
         "txnDate": "2019-08-05T06:00",
         "txnType": "CREDIT",
-        "txnAmount": 831,
+        "txnAmount": 831.00,
         "txnCurrency": "AED",
-        "txnCategory": "TRANSACTION",
+        "txnCategory": 1,
         "paymentMode": "DEBIT",
-        "closingBalance": 831,
+        "closingBalance": 831.00,
         "title": null,
         "merchant": null
       },
@@ -42,9 +86,9 @@
         "id": 138,
         "txnDate": "2019-08-05T05:50:43",
         "txnType": "CREDIT",
-        "txnAmount": 820,
+        "txnAmount": 820.00,
         "txnCurrency": "AED",
-        "txnCategory": "TRANSACTION",
+        "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 12333.99,
         "title": null,
@@ -54,9 +98,9 @@
         "id": 137,
         "txnDate": "2019-08-05T05:47:28",
         "txnType": "CREDIT",
-        "txnAmount": 85,
+        "txnAmount": 85.00,
         "txnCurrency": "AED",
-        "txnCategory": "TRANSACTION",
+        "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 11513.99,
         "title": null,
@@ -68,22 +112,22 @@
         "sorted": false,
         "unsorted": true
       },
-      "offset": 5,
-      "pageNumber": 1,
       "pageSize": 5,
+      "pageNumber": 1,
+      "offset": 5,
       "unpaged": false,
       "paged": true
     },
+    "last": false,
     "totalElements": 56,
     "totalPages": 12,
-    "last": false,
-    "size": 5,
-    "number": 1,
     "sort": {
       "sorted": false,
       "unsorted": true
     },
+    "numberOfElements": 5,
     "first": false,
-    "numberOfElements": 5
-  }
+    "size": 5,
+    "number": 1
+
 }
