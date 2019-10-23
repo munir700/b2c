@@ -11,12 +11,11 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.fragments.AddPaymentChildFragment
-import co.yap.modules.dashboard.cards.addpaymentcard.spare.fragments.AddSpareCardFragmentDirections
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCard
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity.Companion.reportCardSuccess
 import co.yap.modules.dashboard.cards.reportcard.interfaces.IRepostOrStolenCard
 import co.yap.modules.dashboard.cards.reportcard.viewmodels.ReportLostOrStolenCardViewModels
-import co.yap.modules.dashboard.constants.Constants
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Strings
 import co.yap.translation.Strings.screen_report_card_display_button_block_alert_cancel
@@ -27,7 +26,6 @@ import co.yap.translation.Strings.screen_spare_card_landing_display_text_physica
 import co.yap.translation.Strings.screen_spare_card_landing_display_text_virtual_card
 import co.yap.translation.Translator
 import kotlinx.android.synthetic.main.fragment_lost_or_stolen_card.*
-import kotlinx.android.synthetic.main.layout_add_spare_physical_card_confirm_purchase.view.*
 
 
 class ReportLostOrStolenCardFragment :

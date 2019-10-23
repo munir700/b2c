@@ -1,9 +1,8 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.constants.Constants
+import co.yap.modules.others.helper.Constants
 import co.yap.translation.Strings
-import co.yap.yapcore.helpers.Utils
 
 class AddFundsViewModel(application: Application) : FundActionsViewModel(application) {
 

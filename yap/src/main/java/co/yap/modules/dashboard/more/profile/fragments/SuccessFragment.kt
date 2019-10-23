@@ -13,7 +13,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.intefaces.ISuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
@@ -102,7 +102,6 @@ class SuccessFragment : BaseBindingFragment<ISuccess.ViewModel>(),
 
         } else {
             tvSuccessSubHeading.text = primaryStr
-
         }
     }
 

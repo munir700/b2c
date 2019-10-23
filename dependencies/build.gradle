@@ -24,7 +24,7 @@ project.ext {
             translation: ':translation',
             yap        : ':yap',
             yapcore    : ':yapcore',
-            kyc        : ':identityscanner'
+            kyc        : ':identityscanner_v2'
     ]
 
     // All libraries that any module can contain
@@ -44,6 +44,7 @@ project.ext {
             tooltip                  : 'com.github.sephiroth74:android-target-tooltip:2.0.4',
             baloon                   : "com.github.skydoves:balloon:1.0.5",
             quickAction              : "me.piruin:quickaction:2.4.3",
+            rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
 
 
             // Dagger
@@ -160,6 +161,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.expandableLayout],
             [configuration: "implementation", dependency: libraries.tooltip],
             [configuration: "implementation", dependency: libraries.baloon],
+            [configuration: "implementation", dependency: libraries.rangeSeekbar]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies

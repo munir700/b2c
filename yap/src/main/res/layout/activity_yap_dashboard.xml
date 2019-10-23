@@ -27,11 +27,11 @@
                     android:id="@+id/ivYapIt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    app:backgroundTint="@color/white"
-                    android:padding="@dimen/_5sdp"
-                    app:elevation="@dimen/_3sdp"
                     android:layout_margin="@dimen/_3sdp"
+                    android:background="@color/white"
+                    android:padding="@dimen/_5sdp"
+                    app:backgroundTint="@color/white"
+                    app:elevation="@dimen/_3sdp"
                     app:srcCompat="@drawable/ic_yap_it" />
 
                 <TextView
@@ -59,14 +59,11 @@
                 app:labelVisibilityMode="labeled"
                 app:menu="@menu/bottom_navigation_main" />
 
-            <fragment
-                android:id="@+id/nav_host_fragment"
-                android:name="androidx.navigation.fragment.NavHostFragment"
+            <co.yap.yapcore.helpers.CustomViewPager
+                android:id="@+id/viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@id/bottomNav"
-                app:defaultNavHost="true"
-                app:navGraph="@navigation/yap_navigation" />
+                android:layout_above="@id/bottomNav" />
 
         </RelativeLayout>
 
@@ -75,10 +72,10 @@
             android:layout_width="@dimen/_290sdp"
             android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:elevation="4dp"
-            app:elevation="4dp"
             android:background="@color/white"
-            android:fitsSystemWindows="true">
+            android:elevation="4dp"
+            android:fitsSystemWindows="true"
+            app:elevation="4dp">
 
             <include
                 layout="@layout/layout_drawer_yap_dashboard"
@@ -94,7 +91,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.viewmodels.YapDashBoardViewModel" />
+            type="co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel" />
     </data>
 
 </layout>

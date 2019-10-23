@@ -12,7 +12,7 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.modules.dashboard.constants.Constants" />
+        <import type="co.yap.modules.others.helper.Constants" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

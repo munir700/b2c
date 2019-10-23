@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.yapit.y2ytransfer.home.viewmodel.YapToYapViewModel" />
+            type="co.yap.modules.dashboard.yapit.y2ytransfer.transfer.viewmodels.Y2YTransferViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -15,21 +15,32 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tvNameInitials"
+            style="@style/ALarge"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
+            android:background="@drawable/bg_round_purple"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="NM" />
 
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/tvFullName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="112dp"
-            android:fontFamily="sans-serif"
-            android:lineSpacingExtra="6sp"
-            android:textColor="#9391b1"
-            android:textSize="14sp"
-            android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="@string/screen_yap_to_yap_display_text_no_yap_contact_msg" />
+            app:layout_constraintTop_toBottomOf="@+id/tvNameInitials"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="Sufyan Shabbir"
+
+            />
+
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnInvite"
@@ -41,13 +52,11 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
-            android:text="@string/screen_yap_to_yap_display_text_button"
+            app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textView6"
-            app:layout_constraintVertical_bias="0.253"/>
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

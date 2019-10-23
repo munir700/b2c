@@ -3,6 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
+
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/main_content"
         android:layout_width="match_parent"
@@ -13,22 +21,22 @@
 
         <TextView
             android:id="@+id/tvAvailableBalance"
+            style="@style/ALarge"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            tools:text="50,174.78"
-            android:text="@={viewModel.state.availableBalance}"
-            style="@style/ALarge"
-            android:textSize="@dimen/text_size_h7"
-            android:elevation="10dp"
-            android:layout_marginTop="66dp"
-            android:gravity="center"
-            android:textAlignment="center"
             android:layout_gravity="center_horizontal"
-            app:layout_behavior="@string/animation_view_behavior"
+            android:layout_marginTop="66dp"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:text="@={viewModel.state.availableBalance}"
+            android:textAlignment="center"
+            android:textSize="@dimen/text_size_h7"
             app:behavior_animation="@anim/scale_yap_dashboard_home_title"
-            app:behavior_dependsOn="@+id/appbar"
+            app:behavior_dependTarget="-60dp"
             app:behavior_dependType="y"
-            app:behavior_dependTarget="-60dp" />
+            app:behavior_dependsOn="@+id/appbar"
+            app:layout_behavior="@string/animation_view_behavior"
+            tools:text="50,174.78" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -42,13 +50,13 @@
             app:layout_behavior="@string/simple_view_behavior">
 
             <TextView
+                style="@style/ASmall"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_18sdp"
                 android:layout_gravity="center"
                 android:background="@drawable/tag_background"
                 android:gravity="center"
                 android:text="AED"
-                style="@style/ASmall"
                 android:textColor="@color/colorPrimary"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -113,17 +121,12 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <include layout="@layout/content_fragment_yap_home" android:visibility="visible"/>
+        <include
+            layout="@layout/content_fragment_yap_home"
+            android:visibility="visible"
+            app:viewModel="@{viewModel}" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-    <data>
-
-        <variable
-            name="viewModel"
-            type="co.yap.modules.dashboard.viewmodels.YapHomeViewModel" />
-
-    </data>
 
 </layout>

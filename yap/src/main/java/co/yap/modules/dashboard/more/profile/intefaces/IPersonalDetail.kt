@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.more.profile.intefaces
 import android.graphics.drawable.Drawable
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
 
 interface IPersonalDetail {
 

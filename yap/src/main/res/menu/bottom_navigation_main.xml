@@ -12,7 +12,6 @@
 
     <item
         android:id="@+id/yapIt"
-        android:icon="@drawable/ic_yap_it"
         android:title=" " />
 
     <item

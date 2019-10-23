@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.databinding.ViewDataBinding
 import androidx.viewpager.widget.PagerAdapter
-import co.yap.R
 import co.yap.databinding.ContentOnboardingWelcomeBinding
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.yapcore.interfaces.IBindable
