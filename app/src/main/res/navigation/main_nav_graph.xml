@@ -177,20 +177,31 @@
             app:argType="string"/>
     </fragment>
 
-    <include app:graph="@navigation/forgot_passcode_navigation"/>
+    <include app:graph="@navigation/forgot_passcode_navigation" />
     <activity
         android:id="@+id/yapDashboardActivity"
-        tools:layout="@layout/activity_yap_dashboard"
         android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
-        android:label="YapDashboardActivity"/>
+        android:label="YapDashboardActivity"
+        tools:layout="@layout/activity_yap_dashboard" />
 
     <activity
         android:id="@+id/moreActivity"
-        android:name="co.yap.modules.dashboard.more.activities.MoreActivity"
+        android:name="co.yap.modules.dashboard.more.main.activities.MoreActivity"
         android:label="MoreActivity"
         tools:layout="@layout/activity_more">
 
     </activity>
+    <fragment
+        android:id="@+id/yapToYapFragment"
+        android:name="co.yap.modules.yapit.y2ytransfer.fragments.YapToYapFragment"
+        android:label="YapToYapFragment"
+        tools:layout="@layout/fragment_yap_to_yap"/>
 
+
+    <activity
+        android:id="@+id/yapIt"
+        android:name="co.yap.modules.dashboard.yapit.y2ytransfer.home.activities.YapToYapDashboardActivity"
+        android:label="YapToYapDashboardActivity"
+        tools:layout="@layout/activity_yap_to_yap_dashboard"/>
 
 </navigation>

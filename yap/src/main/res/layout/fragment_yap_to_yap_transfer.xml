@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.y2ytransfer.transfer.viewmodels.Y2YTransferViewModel" />
+
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/clFTSnackbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@android:color/transparent"
+            android:rotation="180"
+            />
+        <TextView
+            android:id="@+id/tvNameInitials"
+            style="@style/ALarge"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="@dimen/_64sdp"
+            android:layout_height="@dimen/_64sdp"
+            android:background="@drawable/bg_round_purple"
+            android:gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:text="NM" />
+
+        <TextView
+            android:id="@+id/tvFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/Regular"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameInitials"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:text="Sufyan Shabbir"
+            />
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivFlag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_uae_flag"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginStart="@dimen/margin_medium_large"
+            app:layout_constraintTop_toTopOf="@+id/etAmountLayout"
+            app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"/>
+        <TextView
+            android:id="@+id/tvCurrencyType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/ATitle2"
+            android:text="@string/common_text_currency_type"
+            app:layout_constraintLeft_toRightOf="@+id/ivFlag"
+            app:layout_constraintTop_toTopOf="@+id/ivFlag"
+            android:layout_marginStart="@dimen/small"
+            app:layout_constraintBottom_toBottomOf="@+id/ivFlag"
+
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/etAmountLayout"
+            android:layout_width="@dimen/_140sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:paddingStart="@dimen/margin_medium"
+            android:paddingEnd="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:background="@{viewModel.state.amountBackground}"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvFullName" >
+            <EditText
+                android:id="@+id/etAmount"
+                style="@style/ATitle2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                android:background="@null"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:imeOptions="actionDone"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:maxLength="7"
+                android:labelFor="@+id/etAmount"
+                android:text="@={viewModel.state.amount}"
+                app:hint="@{Strings.common_amount_hint}"
+                android:importantForAutofill="no" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clAvailableAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
+
+            <TextView
+                android:id="@+id/tvAvailableBalanceGuide"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.availableBalanceGuide}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Your available balance is " />
+
+            <TextView
+                android:id="@+id/tvAvailableBalance"
+                style="@style/AMicro"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.availableBalanceText}"
+                app:layout_constraintBottom_toBottomOf="@+id/tvAvailableBalanceGuide"
+                app:layout_constraintLeft_toRightOf="@+id/tvAvailableBalanceGuide"
+                app:layout_constraintTop_toTopOf="@+id/tvAvailableBalanceGuide"
+                tools:text="AED 500" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnInvite"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
+            app:layout_constraintVertical_bias="0.987"
+            app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</layout>

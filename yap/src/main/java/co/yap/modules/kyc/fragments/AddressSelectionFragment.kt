@@ -23,13 +23,12 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.activities.AddPaymentCardActivity
 import co.yap.modules.dashboard.cards.reportcard.activities.ReportLostOrStolenCardActivity
-import co.yap.modules.dashboard.more.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.interfaces.IAddressSelection
 import co.yap.modules.kyc.viewmodels.AddressSelectionViewModel
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.networking.cards.requestdtos.UpdateAddressRequest
-import co.yap.networking.cards.responsedtos.Address
 import co.yap.translation.Strings
 import co.yap.yapcore.interfaces.BaseMapFragment
 import co.yap.yapcore.managers.MyUserManager
@@ -42,7 +41,6 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptor
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.android.synthetic.main.fragment_address_selection.*
 import kotlinx.android.synthetic.main.layout_maps.*
 

@@ -220,7 +220,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.id.yapStore -> {
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
-                R.id.actionInvisible -> {
+                R.id.yapIt -> {
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)

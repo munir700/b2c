@@ -16,7 +16,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHelpSupportBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
-import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
+import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel

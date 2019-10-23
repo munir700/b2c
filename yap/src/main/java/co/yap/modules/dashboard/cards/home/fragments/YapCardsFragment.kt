@@ -16,7 +16,7 @@ import co.yap.modules.dashboard.cards.home.interfaces.IYapCards
 import co.yap.modules.dashboard.cards.home.viewmodels.YapCardsViewModel
 import co.yap.modules.dashboard.cards.paymentcarddetail.activities.PaymentCardDetailActivity
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
-import co.yap.modules.others.helper.activities.FragmentPresenterActivity
+import co.yap.modules.others.fragmentpresenter.activities.FragmentPresenterActivity
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.SingleClickEvent
@@ -271,12 +271,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun openStatusScreen(view: View, pos: Int) {
-        startActivity(
+        startActivityForResult(
             FragmentPresenterActivity.getIntent(
                 requireContext(),
                 Constants.MODE_STATUS_SCREEN,
                 getCard(pos)
-            )
+            ), EVENT_CREATE_CARD_PIN
         )
     }
 
@@ -287,15 +287,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 cardSerialNumber
             ), EVENT_CREATE_CARD_PIN
         )
-    }
-
-    override fun onResume() {
-        if (co.yap.modules.others.constants.Constants.isPinCreated) {
-            co.yap.modules.others.constants.Constants.isPinCreated = false
-            adapter.removeAllItems()
-            viewModel.getCards()
-        }
-        super.onResume()
     }
 
     private fun getCard(pos: Int): Card {

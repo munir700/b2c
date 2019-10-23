@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
-import co.yap.modules.others.constants.Constants
+import co.yap.modules.others.helper.Constants
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet_update_card.view.*
 

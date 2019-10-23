@@ -9,13 +9,12 @@ import androidx.navigation.findNavController
 import co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragmentDirections
 import co.yap.modules.dashboard.more.profile.intefaces.IChangePhoneNumber
 import co.yap.modules.dashboard.more.profile.states.ChangePhoneNumberState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 

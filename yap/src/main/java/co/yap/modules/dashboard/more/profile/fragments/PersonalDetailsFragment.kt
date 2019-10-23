@@ -9,9 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.activities.MoreActivity
-import co.yap.modules.dashboard.more.activities.MoreActivity.Companion.showExpiredIcon
-import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.showExpiredIcon
+import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
 import co.yap.yapcore.managers.MyUserManager

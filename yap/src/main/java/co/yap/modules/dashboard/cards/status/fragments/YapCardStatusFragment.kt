@@ -3,27 +3,34 @@ package co.yap.modules.dashboard.cards.status.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.status.interfaces.IYapCardStatus
 import co.yap.modules.dashboard.cards.status.viewmodels.YapCardStatusViewModel
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.CardDeliveryStatus
-import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.widget_step_indicator_layout.*
 
 
 class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), IYapCardStatus.View {
+
+    companion object {
+        const val data = "payLoad"
+        @JvmStatic
+        fun newInstance(payLoad: Parcelable?) = YapCardStatusFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable("data", payLoad)
+            }
+        }
+    }
 
     lateinit var args: Bundle
     val EVENT_CREATE_CARD_PIN: Int get() = 13
@@ -130,14 +137,6 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         viewModel.clickEvent.observe(this, observer)
     }
 
-    val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-//            val action =
-//                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((data as Store).id.toString())
-//            view.findNavController().navigate(action)
-        }
-    }
-
     private val observer = Observer<Int> {
         when (it) {
             R.id.btnActivateCard -> {
@@ -149,7 +148,10 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                 )
             }
             R.id.tbBtnBack -> {
-                findNavController().navigateUp()
+                val returnIntent = Intent()
+                returnIntent.putExtra(Constants.isPinCreated, false)
+                activity?.setResult(Activity.RESULT_CANCELED, returnIntent)
+                activity?.finish()
             }
         }
     }
@@ -168,8 +170,9 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
                     if (isPinCreated!!) {
-                        co.yap.modules.others.constants.Constants.isPinCreated = true
-                        findNavController().navigateUp()
+                        val returnIntent = Intent()
+                        returnIntent.putExtra(Constants.isPinCreated, true)
+                        activity?.setResult(Activity.RESULT_OK, returnIntent)
                     }
                 }
             }

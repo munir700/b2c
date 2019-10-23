@@ -7,7 +7,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SetNewCardPinFragment
-import co.yap.modules.dashboard.more.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.UpdateNewPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
@@ -21,7 +21,7 @@ class UpdateNewPasscodeFragment:SetNewCardPinFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        sharedPreferenceManager = SharedPreferenceManager(context as MoreActivity)
+        sharedPreferenceManager = SharedPreferenceManager(requireContext())
 
         viewModel.forgotPasscodeclickEvent.observe(this, Observer {
             var username = ""

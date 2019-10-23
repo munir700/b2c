@@ -4,7 +4,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import co.yap.modules.dashboard.more.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.modules.generic_otp.GenericOtpFragmentArgs

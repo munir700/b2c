@@ -11,7 +11,7 @@
 
         <import type="co.yap.translation.Strings" />
 
-        <import type="co.yap.modules.others.constants.Constants" />
+        <import type="co.yap.modules.others.helper.Constants" />
 
         <import type="android.view.View" />
 

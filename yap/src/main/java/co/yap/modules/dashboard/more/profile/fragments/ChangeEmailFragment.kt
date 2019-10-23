@@ -7,8 +7,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.activities.MoreActivity
-import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.viewmodels.ChangeEmailViewModel
 import co.yap.translation.Strings
@@ -43,6 +43,7 @@ open class ChangeEmailFragment : MoreBaseFragment<IChangeEmail.ViewModel>(), ICh
                 findNavController().navigate(action)
             }
         })
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.tbBtnBack -> {

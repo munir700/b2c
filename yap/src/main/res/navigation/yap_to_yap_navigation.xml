@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/y2YTransferFragment"
+    android:id="@+id/yap_to_yap_navigation">
+    <fragment
+        android:id="@+id/yapToYapHome"
+        android:name="co.yap.modules.dashboard.yapit.y2ytransfer.home.fragments.YapToYapFragment"
+        tools:layout="@layout/fragment_yap_to_yap"
+        android:label="YapToYapFragment" />
+    <fragment
+        android:id="@+id/y2YTransferFragment"
+        android:name="co.yap.modules.dashboard.yapit.y2ytransfer.transfer.fragments.Y2YTransferFragment"
+        android:label="Y2YTransferFragment"
+        tools:layout="@layout/fragment_yap_to_yap_transfer"/>
+</navigation>

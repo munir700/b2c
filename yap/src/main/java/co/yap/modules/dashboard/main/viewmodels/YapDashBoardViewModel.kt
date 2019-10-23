@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.states.YapDashBoardState
-import co.yap.modules.dashboard.more.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.networking.customers.CustomersRepository
