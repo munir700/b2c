@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -9,27 +11,83 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.modules.others.helper.Constants" />
     </data>
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorWhite"
-        android:orientation="horizontal"
-        android:padding="@dimen/_6sdp">
+        android:orientation="horizontal">
+
+        <include
+            android:id="@+id/lyUserImage"
+            layout="@layout/layout_initial_image_user"
+            app:image="@{viewModel.contact.title}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:name="@{viewModel.contact.title}" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_normal"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/tvInvite"
+            app:layout_constraintStart_toEndOf="@+id/lyUserImage"
+            app:layout_constraintTop_toTopOf="@+id/lyUserImage">
+
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/Regular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:text="@{viewModel.contact.title}"
+                tools:text="Bril Lizzie Hughes" />
+
+            <TextView
+                android:id="@+id/tvNumber"
+                style="@style/SmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_weight="1"
+                android:text="@{viewModel.contact.mobileNo}"
+                tools:text="+971 12 345 6789" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tvBenefit"
-            style="@style/ASmall"
-            android:layout_width="match_parent"
+            android:id="@+id/tvInvite"
+            style="@style/Regular"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/ic_checked_icon"
-            android:drawablePadding="@dimen/margin_medium"
-            android:gravity="center_vertical"
-            android:text="Choose a virtual or physical card"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:onClick="@{(v) -> viewModel.onViewClicked(v.id)}"
+            android:text="Invite"
             android:textColor="@color/colorPrimary"
-            android:textSize="@dimen/_12sdp" />
+            android:visibility="@{viewModel.contact.yapUser ? View.GONE : View.VISIBLE }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Invite" />
 
-    </LinearLayout>
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/userPackageType"
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:contentDescription="@string/empty_string"
+            android:onClick="@{(v) -> viewModel.onViewClicked(v.id)}"
+            android:src="@drawable/ic_package_standered"
+            android:visibility="@{viewModel.contact.yapUser ? View.VISIBLE : View.GONE }"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemContactsBinding
-import co.yap.networking.transactions.responsedtos.Contact
+import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BasePagingBindingRecyclerAdapter
 import co.yap.yapcore.databinding.ItemListFooterBinding
 
@@ -33,7 +33,7 @@ class PhoneContactsAdaptor(retry: () -> Unit) :
     companion object {
         private val diffCallback = object : DiffUtil.ItemCallback<Contact>() {
             override fun areItemsTheSame(oldItem: Contact, newItem: Contact): Boolean =
-                oldItem.transactionId == newItem.transactionId
+                oldItem.mobileNo == newItem.mobileNo
 
             override fun areContentsTheSame(oldItem: Contact, newItem: Contact): Boolean =
                 oldItem == newItem

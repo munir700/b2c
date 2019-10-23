@@ -142,7 +142,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 override fun onPermissionDenied() {
-                    showToast("Can't proceed with permissions")
+                    showToast("Can't proceed without permissions")
                 }
 
                 override fun onPermissionDeniedBySystem() {

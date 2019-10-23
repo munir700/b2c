@@ -23,13 +23,16 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.clickEvent.observe(this, clickEventObserver)
-        tabLayout.addTab(tabLayout.newTab().setText("YAP contacts"))
-        tabLayout.addTab(tabLayout.newTab().setText("All contacts"))
+        setupTabs()
         svContacts.setOnClickListener { findNavController().navigate(R.id.y2YTransferFragment) }
 
-
-        val adaptor  = TransferLandingAdaptor(this)
+        val adaptor = TransferLandingAdaptor(this)
         viewPager.adapter = adaptor
+    }
+
+    private fun setupTabs() {
+        tabLayout.addTab(tabLayout.newTab().setText("YAP contacts"))
+        tabLayout.addTab(tabLayout.newTab().setText("All contacts"))
     }
 
     private val clickEventObserver = Observer<Int> {
@@ -38,17 +41,5 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
                 findNavController().navigate(R.id.y2YTransferFragment)
             }
         }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
     }
 }

@@ -47,7 +47,6 @@
             app:tabRippleColor="@null"
             app:tabTextAppearance="@style/TabTextAppearance" />
 
-
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
             android:layout_width="match_parent"

@@ -34,16 +34,4 @@ class YapContactsFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
             }
         }
     }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 }

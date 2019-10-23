@@ -9,7 +9,7 @@ import co.yap.databinding.FragmentYapContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
-import kotlinx.android.synthetic.main.fragment_yap_store.*
+import co.yap.yapcore.interfaces.OnItemClickListener
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -21,28 +21,29 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setObservers()
-        initComponents()
         initState()
+        initComponents()
     }
 
     private fun initComponents() {
+        //getBinding().recycler.layoutManager = LinearLayoutManager(context!!)
         getBinding().recycler.adapter = PhoneContactsAdaptor { viewModel.retry() }
-        //(getBinding().recycler.adapter as YapStoreAdaptor).setItemListener(listener)
+        (getBinding().recycler.adapter as PhoneContactsAdaptor).setItemListener(listener)
     }
 
     private fun initState() {
         //retryBtn.setOnClickListener { viewModel.retry() }
         viewModel.getState().observe(this, Observer { state ->
             if (viewModel.listIsEmpty()) {
-                recycler_stores.visibility = View.GONE
-                txt_error.visibility =
+                getBinding().recycler.visibility = View.GONE
+                getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
-                progress_bar.visibility =
+                getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
             } else {
-                txt_error.visibility = View.GONE
-                progress_bar.visibility = View.GONE
-                recycler_stores.visibility = View.VISIBLE
+                getBinding().txtError.visibility = View.GONE
+                getBinding().progressBar.visibility = View.GONE
+                getBinding().recycler.visibility = View.VISIBLE
                 (getBinding().recycler.adapter as PhoneContactsAdaptor)?.setState(state)
             }
         })
@@ -50,6 +51,15 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
+        viewModel.phoneContactLiveData.observe(this, Observer {
+            (getBinding().recycler.adapter as PhoneContactsAdaptor).submitList(it)
+            (getBinding().recycler.adapter as PhoneContactsAdaptor).setState(PagingState.DONE)
+        })
+    }
+
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+        }
     }
 
     private val observer = Observer<Int> {
@@ -59,7 +69,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
         }
     }
 
-    fun getBinding(): FragmentYapContactsBinding {
+    private fun getBinding(): FragmentYapContactsBinding {
         return (viewDataBinding as FragmentYapContactsBinding)
     }
 }

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.main.activities
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -34,6 +35,7 @@ import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -52,6 +54,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     lateinit var adapter: YapDashboardAdaptor
+    var permissionHelper: PermissionHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -222,7 +225,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
-                    startActivity(YapToYapDashboardActivity.getIntent(this, null))
+                    checkPermission()
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
@@ -241,6 +244,47 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     startActivity(YapToYapDashboardActivity.getIntent(this, null))
                 }
             }
+        }
+    }
+
+    private fun checkPermission() {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.READ_CONTACTS
+            ), 100
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                startActivity(YapToYapDashboardActivity.getIntent(this@YapDashboardActivity, null))
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                showToast("Can't proceed without permissions")
+            }
+
+            override fun onPermissionDenied() {
+                showToast("Can't proceed without permissions")
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                permissionHelper!!.openAppDetailsActivity()
+            }
+        })
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (permissionHelper != null) {
+            permissionHelper!!.onRequestPermissionsResult(
+                requestCode,
+                permissions as Array<String>,
+                grantResults
+            )
         }
     }
 

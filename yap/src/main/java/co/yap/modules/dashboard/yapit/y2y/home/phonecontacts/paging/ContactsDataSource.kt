@@ -1,28 +1,25 @@
 package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.paging
 
+import android.content.Context
+import android.provider.ContactsContract
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.store.StoresRepository
-import co.yap.networking.store.requestdtos.CreateStoreRequest
-import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.Contact
 import co.yap.yapcore.helpers.PagingState
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
+
 class ContactsDataSource(
-    private val repo: TransactionsRepository
+    private val context: Context,
+    private val repo: CustomersRepository
 ) :
     PageKeyedDataSource<Long, Contact>() {
-
     var state: MutableLiveData<PagingState> = MutableLiveData()
-
     fun retry() {
-
-    }
-
-    private fun setRetry() {
 
     }
 
@@ -31,31 +28,70 @@ class ContactsDataSource(
         callback: LoadInitialCallback<Long, Contact>
     ) {
         updateState(PagingState.LOADING)
-        GlobalScope.launch {
-            when (val response =
-                repo.getCardFee("CreateStoreRequest())")) {
-                is RetroApiResponse.Success -> {
-//                    callback.onResult(
-//                        response.data.stores,
-//                        null,
-//                        2
-//                    )
-                    updateState(PagingState.DONE)
-                }
-                is RetroApiResponse.Error -> {
-//                    callback.onResult(
-//                        getDummyList().take(2),
-//                        null,
-//                        null
-//                    )
-                    updateState(PagingState.DONE)
 
-                    //setRetry(Action { loadInitial(params, callback) })
-                    //callback.onResult(listOf(), 111L, 1221L)
-                    //updateState(PagingState.ERROR)
+        GlobalScope.launch {
+            val response = fetchContacts(context)
+            if (response.isNotEmpty()) {
+                when (val response =
+                    repo.getY2YBeneficiaries(response)) {
+                    is RetroApiResponse.Success -> {
+                        callback.onResult(
+                            response.data.data,
+                            null,
+                            2
+                        )
+                        updateState(PagingState.DONE)
+                    }
+                    is RetroApiResponse.Error -> {
+                    callback.onResult(
+                        listOf(),
+                        null,
+                        null
+                    )
+                        updateState(PagingState.DONE)
+
+                        //setRetry(Action { loadInitial(params, callback) })
+                        //callback.onResult(listOf(), 111L, 1221L)
+                        //updateState(PagingState.ERROR)
+                    }
                 }
             }
         }
+    }
+
+    private fun fetchContacts(context: Context): MutableList<Contact> {
+
+        val contacts: MutableList<Contact> = ArrayList()
+
+        val cursor = context.contentResolver.query(
+            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+        )
+
+        if ((cursor?.count ?: 0) > 0) {
+            while (cursor!!.moveToNext()) {
+
+                val name =
+                    cursor.getString(cursor!!.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                val phoneNo =
+                    cursor.getString(cursor!!.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                val email = "abc@yap.co"
+                val photoUri =
+                    cursor.getString(cursor!!.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+
+                Log.e("contact", "getAllContacts: $name $phoneNo $photoUri")
+                val contact = Contact(
+                    name,
+                    phoneNo,
+                    phoneNo,
+                    email,
+                    false
+                )
+                contacts.add(contact)
+            }
+        }
+        cursor?.close()
+        return contacts
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, Contact>) {
