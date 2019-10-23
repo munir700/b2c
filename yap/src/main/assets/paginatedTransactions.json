@@ -2,13 +2,24 @@
      "content": [
       {
         "id": 144,
-        "txnDate": "2019-09-05T07:31:35",
+        "txnDate": "2019-09-05T07:31:15",
         "txnType": "CREDIT",
         "txnAmount": 850.00,
         "txnCurrency": "AED",
         "txnCategory": 1,
         "paymentMode": "DEBIT",
-        "closingBalance": 15657.99,
+        "closingBalance": 3331.99,
+        "title": null,
+        "merchant": null
+      },   {
+        "id": 144,
+        "txnDate": "2019-09-05T08:31:35",
+        "txnType": "CREDIT",
+        "txnAmount": 850.00,
+        "txnCurrency": "AED",
+        "txnCategory": 1,
+        "paymentMode": "DEBIT",
+        "closingBalance": 111.99,
         "title": null,
         "merchant": null
       },   {
@@ -19,42 +30,31 @@
         "txnCurrency": "AED",
         "txnCategory": 1,
         "paymentMode": "DEBIT",
-        "closingBalance": 15657.99,
+        "closingBalance": 333.99,
         "title": null,
         "merchant": null
       },   {
         "id": 144,
-        "txnDate": "2019-09-05T07:31:35",
+        "txnDate": "2019-10-05T09:31:35",
         "txnType": "CREDIT",
         "txnAmount": 850.00,
         "txnCurrency": "AED",
         "txnCategory": 1,
         "paymentMode": "DEBIT",
-        "closingBalance": 15657.99,
-        "title": null,
-        "merchant": null
-      },   {
-        "id": 144,
-        "txnDate": "2019-10-05T07:31:35",
-        "txnType": "CREDIT",
-        "txnAmount": 850.00,
-        "txnCurrency": "AED",
-        "txnCategory": 1,
-        "paymentMode": "DEBIT",
-        "closingBalance": 15657.99,
+        "closingBalance": 222.99,
         "title": null,
         "merchant": null
       },
 
       {
         "id": 144,
-        "txnDate": "2019-08-05T07:31:35",
+        "txnDate": "2019-08-05T02:31:35",
         "txnType": "CREDIT",
         "txnAmount": 850.00,
         "txnCurrency": "AED",
         "txnCategory": 1,
         "paymentMode": "DEBIT",
-        "closingBalance": 15657.99,
+        "closingBalance": 122.99,
         "title": null,
         "merchant": null
       },
@@ -66,7 +66,7 @@
         "txnCurrency": "AED",
         "txnCategory": 1,
         "paymentMode": "DEBIT",
-        "closingBalance": 1719.99,
+        "closingBalance": 431.99,
         "title": null,
         "merchant": null
       },
@@ -90,7 +90,7 @@
         "txnCurrency": "AED",
         "txnCategory": 1,
         "paymentMode": "DEBIT",
-        "closingBalance": 12333.99,
+        "closingBalance": 12.99,
         "title": null,
         "merchant": null
       },
@@ -102,7 +102,7 @@
         "txnCurrency": "AED",
         "txnCategory": 1,
         "paymentMode": "DEBIT",
-        "closingBalance": 11513.99,
+        "closingBalance": 77.99,
         "title": null,
         "merchant": null
       }

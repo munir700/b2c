@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.Log
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.modules.dashboard.home.models.Transaction
 import co.yap.modules.dashboard.home.models.transactionsmodels.MianTransactionsList
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
@@ -26,6 +25,7 @@ class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
     var contentList: ArrayList<Content> = arrayListOf()
+    var closingBalanceArray: java.util.ArrayList<Double> = arrayListOf()
 
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -81,16 +81,7 @@ class YapHomeViewModel(application: Application) :
                         response.data.toString()
                     )
                     if (null != response.data.data) {
-//                        transactionLogicHelper.transactionList = response.data.data.get(0)
-//                        val data: MainTransactions.HomeTransactionListData =
-//                            response.data.data
-//                     val data:MainTransactions.HomeTransactionListData=  response.data.data
-//                        var contentList: List<Content> =
-//                            response.data.data.content
 
-//                        sort list by date
-
-                        ////
                         loadJSONDummyList()
                         Collections.sort(contentList, object :
                             Comparator<Content> {
@@ -102,78 +93,62 @@ class YapHomeViewModel(application: Application) :
                             }
                         })
 
-
-                        transactionLogicHelper.transactioncontentList = contentList
-
-
                         val groupByDate = contentList.groupBy { item ->
                             convertDate(item.txnDate)
 //                            item.txnDate
                         }
 
                         println(groupByDate.entries.joinToString(""))
-                        var TransactionModelData: ArrayList<MianTransactionsList> = arrayListOf()
-//                        var transactionsMainList : TransactionsMainList = TransactionsMainList
-//            step 1:     var transactionResponseDTO : MainTransactions = main conatainer list
-//            step 2:     var TransactionModelData: ArrayList<MianTransactionsList>   add key alon with the calculations in MianTransactionsList and values in its contact class val data: ArrayList<MianTransactionsList>
-//            step 3:     now add this key valued Transaction model in the mian container lis in step1
 
-                        for (content in groupByDate.entries) {
-                            var contentValuesList: ArrayList<Transaction> = arrayListOf()
-                            var contentsList: ArrayList<Content> = arrayListOf()
-//                     var contentValuesList: List<Transaction> = arrayListOf()
-                            println(content.key)
-                            println(content.value)
-                            contentsList = content.value as ArrayList<Content>
-var calculateTotalAmount: Double = 0.0
-                            for (contentValue in content.value) {
+                        var TransactionModelData: java.util.ArrayList<MianTransactionsList> =
+                            arrayListOf()
+
+                        for (transactionsDay in groupByDate.entries) {
+
+
+                            var contentsList: java.util.ArrayList<Content> = arrayListOf()
+                            println(transactionsDay.key)
+                            println(transactionsDay.value)
+                            contentsList = transactionsDay.value as java.util.ArrayList<Content>
+                            contentsList.sortByDescending { it ->
+                                it.txnDate
+                            }
+
+                            var closingBalanceOfTheDay: Double = contentsList.get(0).closingBalance
+                            closingBalanceArray.add(closingBalanceOfTheDay)
+                            var calculateTotalAmount: Double = 0.0
+
+
+                            for (contentValue in transactionsDay.value) {
                                 calculateTotalAmount = calculateTotalAmount + contentValue.txnAmount
-
                                 println(calculateTotalAmount)
                             }
-//                            var type: String,
-//                            var totalAmountType: String,
-//                            var date: String,
-//                            var totalAmount: String,
-//                            var closingBalance: String,
-//                            var amountPercentage: Double,
-//                            @Nullable var transactionItems: ArrayList<Transaction>
+
 
                             var transactionModel: MianTransactionsList = MianTransactionsList(
                                 "Type",
                                 "AED",
-                                content.key!!,
+                                transactionsDay.key!!,
                                 calculateTotalAmount.toString(),
-                                "calculate that closing balance from all values as per fomula",
-                              0.0 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                                closingBalanceOfTheDay,
+                                0.0 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
 
                                 contentsList
 
                             )
                             TransactionModelData.add(transactionModel)// this should be that main list
 
-//                      now add key values in locally created model
 
                         }
 
-
-                        for (content in contentList) {
-
-//                            if (content.txnDate){
-//                            val date = convertDate(content.txnDate)
-
-
-//                                val parser = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
-//                                parser.setTimeZone(TimeZone.getTimeZone("UTC"))
-//                              val date= parser.parse(content.txnDate)
-
-//                            }
-                        }
-
-                        ////////////////////////////////
 
                     }
+//
+
+                    //                            calculateCummulativeClosingBalance(closingBalanceArray)
+
                 }
+
 
                 is RetroApiResponse.Error -> {
 
@@ -185,6 +160,24 @@ var calculateTotalAmount: Double = 0.0
             state.loading = false
         }
     }
+//
+//    fun calculateCummulativeClosingBalance(closingBalanceArray:ArrayList<Double>) : Double {
+////will count it in the end beacause we already kniw the current closing balance if rhe kast transactiuon in thr day
+//        val maxClosingBalance = closingBalanceArray.max()
+////        transactions closing balance of all the days from past
+//
+//        return
+////        return closingBalanceArray.map { (0 / maxClosingBalance) * 100
+//
+//    }
+
+//    func processDataSet(closingBalance: [Double]) : Double()
+//    {
+//                let maxClosingBalance = closingBalance.max()!
+//                return dataSet.map { ($0 / max) * 100 }
+//           
+//    }
+
 
     fun convertDate(txnDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")
@@ -239,13 +232,12 @@ var calculateTotalAmount: Double = 0.0
 //                          this!!.convertDate(parentArrayList.getString("txnDate"))!!,
                             parentArrayList.getString("txnDate"),
                             parentArrayList.getString("txnType")
-                         )
+                        )
 
 //                    contentList.
                     newList.add(contect)
 
 //                    transactioModelList.add(transactionModel)
-
                 }
             }
         }

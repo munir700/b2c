@@ -8,7 +8,7 @@ data class MianTransactionsList(
     var totalAmountType: String,
     var date: String,
     var totalAmount: String,
-    var closingBalance: String,
+    var closingBalance: Double,
     var amountPercentage: Double,
     @Nullable var transactionItems: ArrayList<Content>
 )
