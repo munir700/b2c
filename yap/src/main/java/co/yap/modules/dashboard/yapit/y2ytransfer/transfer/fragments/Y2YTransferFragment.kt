@@ -12,6 +12,7 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.y2ytransfer.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YTransfer
 import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.viewmodels.Y2YTransferViewModel
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
