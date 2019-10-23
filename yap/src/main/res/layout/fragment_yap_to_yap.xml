@@ -15,20 +15,32 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/svContacts"
+        <co.yap.widgets.searchwidget.CoreSearchView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/svContacts"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:layout_marginTop="@dimen/_27sdp"
             android:gravity="center"
-            app:queryHint="@string/screen_yap_to_yap_display_text_search_hint"
-            android:background="@drawable/bg_round_contacts_searchview"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:searchIcon="@null"
             app:layout_constraintTop_toTopOf="parent" />
+
+<!--        <androidx.appcompat.widget.SearchView-->
+<!--            android:id="@+id/svContacts"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginStart="@dimen/margin_medium"-->
+<!--            android:layout_marginEnd="@dimen/margin_medium"-->
+<!--            android:layout_marginTop="@dimen/_27sdp"-->
+<!--            android:gravity="center"-->
+<!--            app:queryHint="@string/screen_yap_to_yap_display_text_search_hint"-->
+<!--            android:background="@drawable/bg_round_contacts_searchview"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            android:searchIcon="@null"-->
+<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"

@@ -9,10 +9,13 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.transaction_filters.interfaces.ITransactionFilters
 import co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel
+import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.BaseBindingActivity
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
+import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
+import kotlinx.android.synthetic.main.layout_transaction_filters_toolbar.*
 
 class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewModel>(),
     ITransactionFilters.View {
@@ -98,4 +101,5 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         setResult(INTENT_FILTER_REQUEST,data)
         finish()
     }
+
 }
