@@ -83,20 +83,6 @@
                 android:background="@color/greyLight"
                 app:layout_constraintTop_toBottomOf="@id/tvOutTrans" />
 
-            <com.jaygoo.widget.RangeSeekBar
-                android:id="@+id/rsbAmount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                app:layout_constraintLeft_toLeftOf="@+id/tvRangeTitle"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvRangeTitle"
-                app:rsb_gravity="center"
-                app:rsb_max="20000"
-                app:rsb_mode="range"
-                app:rsb_progress_color="@color/seekbarProgress"
-                app:rsb_thumb_drawable="@drawable/bg_seekbar_thumb_activated"
-                app:rsb_thumb_inactivated_drawable="@drawable/bg_seekbar_thumb_activated" />
 
             <TextView
                 android:id="@+id/tvRangeTitle"
@@ -137,19 +123,35 @@
                 android:gravity="center"
                 android:text="@{viewModel.state.rangeEndValue}"
                 android:textColor="@color/colorPrimary"
-                app:layout_constraintRight_toRightOf="@+id/rsbAmount"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvRangeTitle"
                 tools:ignore="RtlHardcoded" />
 
-            <View
-                android:id="@+id/vLineBalance"
-                android:layout_width="match_parent"
-                android:layout_height="2px"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:background="@color/greyLight"
-                app:layout_constraintTop_toBottomOf="@id/rsbAmount" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/rsbAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clTransContainer"
+            app:rsb_max="20000"
+            app:rsb_mode="range"
+            app:rsb_progress_height="@dimen/_4sdp"
+            app:rsb_progress_radius="@dimen/_2sdp"
+            app:rsb_min="0"
+            app:rsb_progress_default_color="@color/seekbarProgress"
+            app:rsb_progress_color="@color/colorPrimary"
+            app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb"
+            app:rsb_thumb_height="@dimen/_50sdp"
+            app:rsb_thumb_width="@dimen/_50sdp" />
+        <View
+            android:id="@+id/vLineBalance"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/greyLight"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@id/rsbAmount" />
 
         <View
             android:id="@+id/vButtonsLine"

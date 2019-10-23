@@ -25,8 +25,8 @@ class TransactionFiltersViewModel(application: Application) :
 
     override fun updateRangeValue(seekBar: RangeSeekBar) {
 
-        val startRangeValue = Utils.getFormattedCurrency(seekBar.leftSeekBar.progress.toString())
-        val endRangeValues = Utils.getFormattedCurrency(seekBar.rightSeekBar.progress.toString())
+        val startRangeValue = Utils.getFormattedCurrencyWithoutDecimal(seekBar.leftSeekBar.progress.toString())
+        val endRangeValues = Utils.getFormattedCurrencyWithoutDecimal(seekBar.rightSeekBar.progress.toString())
         state.rangeStartValue.set(startRangeValue)
         state.rangeEndValue.set(endRangeValues)
     }
