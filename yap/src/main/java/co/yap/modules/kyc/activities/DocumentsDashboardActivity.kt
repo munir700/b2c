@@ -58,7 +58,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.name = getBundledName()
+        viewModel.name = "sdwds"//getBundledName()
         isFromMoreSection = intent.getBooleanExtra("isFromMoreSection", false)
     }
 

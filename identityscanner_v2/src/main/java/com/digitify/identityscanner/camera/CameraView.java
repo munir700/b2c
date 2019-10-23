@@ -77,10 +77,16 @@ import com.digitify.identityscanner.camera.size.SizeSelector;
 import com.digitify.identityscanner.camera.size.SizeSelectorParser;
 import com.digitify.identityscanner.camera.size.SizeSelectors;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+
+import co.yap.yapcore.helpers.PermissionHelper;
+import co.yap.yapcore.helpers.ToastKt;
 
 import static android.view.View.MeasureSpec.AT_MOST;
 import static android.view.View.MeasureSpec.EXACTLY;
@@ -727,6 +733,9 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
         }
     }
 
+    PermissionHelper permissionHelper;
+    boolean isAskedPermission = false;
+
     /**
      * Checks that we have appropriate permissions.
      *
@@ -735,18 +744,61 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
     @SuppressWarnings("ConstantConditions")
     @SuppressLint("NewApi")
     protected boolean checkPermissions() {
+        ArrayList<String> permissionList = new ArrayList<>();
+
+       // String[] permissionList = {Manifest.permission.CAMERA , Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
         // Manifest is OK at this point. Let's check runtime permissions.
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return true;
 
         Context c = getContext();
         boolean needsCamera = true;
+        boolean needStorage = true;
 
-        needsCamera = needsCamera && c.checkSelfPermission(Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED;
+        needsCamera = needsCamera && !PermissionHelper.Companion.isGranted(c,Manifest.permission.CAMERA);// c.checkSelfPermission(Manifest.permission.CAMERA)
+        needStorage = needsCamera && !PermissionHelper.Companion.isGranted(c,Manifest.permission.WRITE_EXTERNAL_STORAGE);// c.checkSelfPermission(Manifest.permission.CAMERA)
+                //!= PackageManager.PERMISSION_GRANTED;
 
+        if (needsCamera || needStorage) {
+            isAskedPermission = true;
+            if(needsCamera)
+            {
+                permissionList.add(Manifest.permission.CAMERA);
+            }
+            if (needStorage){
+                permissionList.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+            }
+            permissionHelper = new PermissionHelper(getActivity(), permissionList.toArray(new String[permissionList.size()]),100);
+            permissionHelper.request(new PermissionHelper.PermissionCallback() {
+                @Override
+                public void onPermissionGranted() {
+                    boolean valid = true;
+//                    for (int grantResult : grantResults) {
+//                        valid = valid && grantResult == PackageManager.PERMISSION_GRANTED;
+//                    }
+                    if (valid && !isOpened()) {
+                        open();
+                    }
 
-        if (needsCamera) {
-            requestPermissions(needsCamera, true);
+                }
+
+                @Override
+                public void onIndividualPermissionGranted(@NotNull String[] grantedPermission) {
+                    ToastKt.toast(c , c.getString(R.string.permission_camera_denied));
+                }
+
+                @Override
+                public void onPermissionDenied() {
+                    ToastKt.toast(c , c.getString(R.string.permission_camera_denied));
+
+                }
+
+                @Override
+                public void onPermissionDeniedBySystem() {
+                    permissionHelper.openAppDetailsActivity();
+
+                }
+            });
             return false;
         }
         return true;
@@ -959,6 +1011,7 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
 
     /**
      * Returns true if the camera is currently capturing a picture
+     *
      * @return boolean indicating if the camera is capturing a picture
      */
     public boolean isTakingPicture() {
@@ -1420,6 +1473,18 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
         mCameraEngine.takePictureSnapshot(stub);
     }
 
+    private Activity getActivity() {
+        Activity activity = null;
+        Context context = getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                activity = (Activity) context;
+                break;
+            }
+        }
+        return activity;
+    }
+
 
     /**
      * Returns the size used for pictures taken with {@link #takePicture()},
@@ -1450,20 +1515,15 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
         List<String> permissions = new ArrayList<>();
         if (requestCamera) permissions.add(Manifest.permission.CAMERA);
         if (requestStorage) permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (activity != null) {
-            activity.requestPermissions(permissions.toArray(new String[0]),
+        if (getActivity() != null) {
+            getActivity().requestPermissions(permissions.toArray(new String[0]),
                     PERMISSION_REQUEST_CODE);
         }
     }
 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        boolean valid = true;
-        for (int grantResult : grantResults) {
-            valid = valid && grantResult == PackageManager.PERMISSION_GRANTED;
-        }
-        if (valid && !isOpened()) {
-            open();
-        }
+        permissionHelper.onRequestPermissionsResult(requestCode,permissions,grantResults);
+
     }
 
     @SuppressLint("NewApi")

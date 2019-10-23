@@ -1,5 +1,6 @@
 package co.yap.networking.customers
 
+import co.yap.networking.authentication.responsedtos.KycResponse
 import co.yap.networking.customers.requestdtos.DemographicDataRequest
 import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
@@ -80,6 +81,10 @@ interface CustomersRetroService {
 
     @PUT(CustomersRepository.URL_CHANGE_UNVERIFIED_EMAIL)
     suspend fun changeUnverifiedEmail(@Query("newEmail") newEmail: String): Response<ApiResponse>
+
+    @Multipart
+    @POST(CustomersRepository.URL_DETECT)
+    suspend fun uploadIdCard(@Part file: MultipartBody.Part): Response<KycResponse>
 
 
 }

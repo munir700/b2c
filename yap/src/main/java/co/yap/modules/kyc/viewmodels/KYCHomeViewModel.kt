@@ -45,7 +45,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
     override fun onResume() {
         super.onResume()
         //TODO Stop Old upload document api call
-//        requestDocuments()
+        requestDocuments()
     }
 
     override fun handlePressOnNextButton(id: Int) {
@@ -63,12 +63,13 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
     }
 
     override fun onEIDScanningComplete(result: IdentityScannerResult) {
-        uploadDocument(result)
+        uploadDocuments(result)
 
 //        parentViewModel?.identity = result
 //        state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
     }
 
+    // TODO Remove this method
     fun uploadDocument(result: IdentityScannerResult) {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
@@ -109,8 +110,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")
                     identity.dateOfBirth =
                         DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
-//                    identity.expiryDateValid = response.body()?.valid_expiration_date!!
-//                    identity.dateOfBirthValid = response.body()?.valid_date_of_birth!!
+
                     result.identity = identity
                     parentViewModel?.identity = result
                     state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
@@ -123,6 +123,47 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
             }
         })
 
+    }
+
+    fun uploadDocuments(result: IdentityScannerResult) {
+        val file = File(result.document.files[1].croppedFile)
+        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+        val part =
+            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+        launch {
+            state.loading = true
+            when (val response = repository.detectCardData(part)) {
+
+                is RetroApiResponse.Success -> {
+                    val data = response.data.data
+                    if (data != null) {
+                        var identity = Identity()
+                        identity.nationality = data.nationality
+                        identity.gender =
+                            if (data.sex.equals("M")) Gender.Male else Gender.Female
+                        identity.sirName = data.surname
+                        identity.givenName = data.names
+                        identity.expirationDate =
+                            DateUtils.stringToDate(data.expiration_date, "yyMMdd")
+                        identity.dateOfBirth =
+                            DateUtils.stringToDate(data.date_of_birth, "yyMMdd")
+                        identity.citizenNumber = data.optional1
+                        result.identity = identity
+                        parentViewModel?.identity = result
+                        state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
+                    } else {
+                        state.toast = getString(
+                            idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable
+                        )
+                    }
+                    //}
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
     }
 
     override fun requestDocuments() {

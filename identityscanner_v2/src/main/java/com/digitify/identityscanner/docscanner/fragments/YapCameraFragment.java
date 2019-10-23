@@ -35,8 +35,11 @@ import com.digitify.identityscanner.utils.ImageUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.security.Permission;
+
 import co.yap.translation.Strings;
 import co.yap.translation.Translator;
+import co.yap.yapcore.helpers.PermissionHelper;
 
 public class YapCameraFragment extends BaseFragment implements ICamera.View, CameraListener {
 
@@ -45,6 +48,7 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
     private CameraViewModel vm;
     private IdentityScannerViewModel parentViewModel;
     private FragmentCameraBinding binding;
+    private PermissionHelper permissionHelper;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
