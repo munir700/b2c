@@ -7,7 +7,8 @@ import com.google.gson.annotations.SerializedName
 data class KycResponse(
     @SerializedName("Data")
     val data: Data?,
-    var errors: Any?
+    @SerializedName("error")
+    var errors: ApiError?
 ) : ApiResponse() {
     data class Data(
         val check_composite: String,

@@ -152,9 +152,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                         parentViewModel?.identity = result
                         state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
                     } else {
-                        state.toast = getString(
-                            idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable
-                        )
+                        state.toast = response.data.errors?.message!!
                     }
                     //}
                 }
@@ -168,7 +166,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
 
     override fun requestDocuments() {
         launch {
-            state.loading = true
+           // state.loading = true
             when (val response = repository.getDocuments()) {
 
                 is RetroApiResponse.Success -> {
@@ -180,7 +178,7 @@ class KYCHomeViewModel(application: Application) : KYCChildViewModel<IKYCHome.St
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
+            //state.loading = false
         }
     }
 }

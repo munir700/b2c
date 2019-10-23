@@ -46,6 +46,7 @@
                 app:cameraPictureSizeBiggest="true"
                 app:cameraWhiteBalance="auto"
                 app:cameraGestureTap="autoFocus"
+                app:cameraPictureMetering="false"
                 app:cameraGestureLongTap="autoFocus"
                 app:cameraGesturePinch="none"
                 app:cameraGestureScrollHorizontal="filterControl1"
@@ -142,6 +143,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:padding="8dp"
+                android:enabled="false"
                 android:clickable="@{!model.state.capturing}"/>
 
         </LinearLayout>

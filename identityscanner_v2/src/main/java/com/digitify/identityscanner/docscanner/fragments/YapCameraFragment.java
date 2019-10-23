@@ -48,7 +48,6 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
     private CameraViewModel vm;
     private IdentityScannerViewModel parentViewModel;
     private FragmentCameraBinding binding;
-    private PermissionHelper permissionHelper;
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -86,7 +85,7 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
         cardOverlay = getView().findViewById(R.id.cardOverlay);
         cardOverlay.setCardRatio(getParentViewModel().getDocumentType() == DocumentType.PASSPORT ? TransparentCardView.PASSPORT_RATIO : TransparentCardView.ID_CARD_RATIO);
 
-        getView().findViewById(R.id.camFab).setOnClickListener((v) -> capturePicture());
+
 
         getViewModel().setDocumentType(getParentViewModel().getDocumentType());
         getViewModel().setScanMode(getParentViewModel().getState().getScanMode());
@@ -95,7 +94,7 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
     private void capturePicture() {
 
         if (binding.camera.isTakingPicture()) return;
-        getViewModel().getState().setCapturing(true);
+        getViewModel().getState().setCapturing(false);
         binding.camera.takePicture();
     }
 
@@ -187,11 +186,15 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
 
     @Override
     public void onCameraOpened(@NonNull CameraOptions options) {
-
+        getViewModel().getState().setCapturing(true);
+        binding.camFab.setEnabled(true);
+        binding.camFab.setOnClickListener((v) -> capturePicture());
     }
 
     @Override
     public void onCameraClosed() {
+        binding.camFab.setOnClickListener(null);
+        binding.camFab.setEnabled(false);
         getViewModel().getState().setCapturing(false);
     }
 
