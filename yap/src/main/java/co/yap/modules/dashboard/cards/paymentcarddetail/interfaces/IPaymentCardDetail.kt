@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.interfaces
 
-import co.yap.modules.dashboard.home.helpers.transaction.TransactionLogicHelper
+import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardDetail
 import co.yap.yapcore.IBase

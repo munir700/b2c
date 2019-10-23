@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.home.interfaces
 
-import co.yap.modules.dashboard.home.helpers.transaction.TransactionLogicHelper
+import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

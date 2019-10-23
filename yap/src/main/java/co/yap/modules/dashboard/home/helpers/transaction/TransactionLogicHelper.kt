@@ -1,8 +1,9 @@
 package co.yap.modules.dashboard.helpers.transaction
 
 import android.content.Context
-import co.yap.modules.dashboard.models.Transaction
-import co.yap.modules.dashboard.models.TransactionModel
+import co.yap.modules.dashboard.home.models.Transaction
+import co.yap.modules.dashboard.home.models.TransactionModel
+ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import org.json.JSONObject
 import java.io.IOException
@@ -14,7 +15,7 @@ class TransactionLogicHelper(
     val context: Context
 ) {
     var transactionList: ArrayList<TransactionModel> = arrayListOf()
-    var transactioncontentList: List<HomeTransactionsResponse.HomeTransactionListData.Content> = arrayListOf()
+    var transactioncontentList: List<Content> = arrayListOf()
 
     init {
         transactionList = loadJSONDummyList()

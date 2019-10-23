@@ -4,13 +4,16 @@ import android.app.Application
 import android.content.Context
 import android.util.Log
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
-import co.yap.modules.dashboard.interfaces.IYapHome
-import co.yap.modules.dashboard.states.YapHomeState
+import co.yap.modules.dashboard.home.interfaces.IYapHome
+import co.yap.modules.dashboard.home.models.Transaction
+import co.yap.modules.dashboard.home.models.transactionsmodels.MianTransactionsList
+import co.yap.modules.dashboard.home.states.YapHomeState
+import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.SingleClickEvent
 import org.json.JSONObject
 import java.io.IOException
@@ -22,7 +25,7 @@ import java.util.*
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
-    var contentList: ArrayList<HomeTransactionsResponse.HomeTransactionListData.Content> = arrayListOf()
+    var contentList: ArrayList<Content> = arrayListOf()
 
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -79,9 +82,10 @@ class YapHomeViewModel(application: Application) :
                     )
                     if (null != response.data.data) {
 //                        transactionLogicHelper.transactionList = response.data.data.get(0)
-                        val data: HomeTransactionsResponse.HomeTransactionListData = response.data.data
-//                     val data:HomeTransactionsResponse.HomeTransactionListData=  response.data.data
-//                        var contentList: List<HomeTransactionsResponse.HomeTransactionListData.Content> =
+//                        val data: MainTransactions.HomeTransactionListData =
+//                            response.data.data
+//                     val data:MainTransactions.HomeTransactionListData=  response.data.data
+//                        var contentList: List<Content> =
 //                            response.data.data.content
 
 //                        sort list by date
@@ -89,10 +93,10 @@ class YapHomeViewModel(application: Application) :
                         ////
                         loadJSONDummyList()
                         Collections.sort(contentList, object :
-                            Comparator<HomeTransactionsResponse.HomeTransactionListData.Content> {
+                            Comparator<Content> {
                             override fun compare(
-                                o1: HomeTransactionsResponse.HomeTransactionListData.Content,
-                                o2: HomeTransactionsResponse.HomeTransactionListData.Content
+                                o1: Content,
+                                o2: Content
                             ): Int {
                                 return o2.txnDate.compareTo(o1.txnDate)
                             }
@@ -102,21 +106,55 @@ class YapHomeViewModel(application: Application) :
                         transactionLogicHelper.transactioncontentList = contentList
 
 
-
-
                         val groupByDate = contentList.groupBy { item ->
-                             convertDate(item.txnDate)
+                            convertDate(item.txnDate)
 //                            item.txnDate
                         }
 
                         println(groupByDate.entries.joinToString(""))
-//                        var transactionsMainList : TransactionsMainList =TransactionsMainList
+                        var TransactionModelData: ArrayList<MianTransactionsList> = arrayListOf()
+//                        var transactionsMainList : TransactionsMainList = TransactionsMainList
+//            step 1:     var transactionResponseDTO : MainTransactions = main conatainer list
+//            step 2:     var TransactionModelData: ArrayList<MianTransactionsList>   add key alon with the calculations in MianTransactionsList and values in its contact class val data: ArrayList<MianTransactionsList>
+//            step 3:     now add this key valued Transaction model in the mian container lis in step1
 
                         for (content in groupByDate.entries) {
+                            var contentValuesList: ArrayList<Transaction> = arrayListOf()
+                            var contentsList: ArrayList<Content> = arrayListOf()
+//                     var contentValuesList: List<Transaction> = arrayListOf()
                             println(content.key)
                             println(content.value)
+                            contentsList = content.value as ArrayList<Content>
+
+//                            for (contentValue in content.value) {
+//                                contentValuesList.add()
+//                            }
+//                            var type: String,
+//                            var totalAmountType: String,
+//                            var date: String,
+//                            var totalAmount: String,
+//                            var closingBalance: String,
+//                            var amountPercentage: Double,
+//                            @Nullable var transactionItems: ArrayList<Transaction>
+
+                            var transactionModel: MianTransactionsList = MianTransactionsList(
+                                "Type",
+                                "AED",
+                                content.key!!,
+                                "calculate the total of all values with this key",
+                                "calculate that closing balance from all values as per fomula",
+                              0.0 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+
+                                contentsList
+
+                            )
+                            TransactionModelData.add(transactionModel)// this should be that main list
+
+//                      now add key values in locally created model
 
                         }
+
+
 //                        Content
 //                        var type: String,//txnType
 //                        var totalAmountType: String,
@@ -125,8 +163,6 @@ class YapHomeViewModel(application: Application) :
 //                        var closingBalance: String,//  closingBalance of last transaction of this day or the minimum 1
 //                        var amountPercentage: Double,
 //                        @Nullable var transactionItems: ArrayList<TransactionData>
-
-
 //                        var sortedContentList : SortedContentList =SortedContentList
 
 
@@ -189,7 +225,7 @@ class YapHomeViewModel(application: Application) :
 
     private fun loadJSONDummyList() {
 
-        val newList: ArrayList<HomeTransactionsResponse.HomeTransactionListData.Content> = arrayListOf()
+        val newList: ArrayList<Content> = arrayListOf()
 
         val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
         if (mainObj != null) {
@@ -199,10 +235,8 @@ class YapHomeViewModel(application: Application) :
                 for (i in 0 until mainDataList!!.length()) {
 
                     val parentArrayList = mainDataList!!.getJSONObject(i)
-                    val contect: HomeTransactionsResponse.HomeTransactionListData.Content =
-                        HomeTransactionsResponse.HomeTransactionListData.Content(
-
-
+                    val contect: Content =
+                        Content(
                             parentArrayList.getString("closingBalance").toDouble(),
                             parentArrayList.getString("id").toInt(),
                             parentArrayList.getString("merchant"),
@@ -211,10 +245,10 @@ class YapHomeViewModel(application: Application) :
                             parentArrayList.getString("txnAmount").toDouble(),
                             parentArrayList.getString("txnCategory"),
                             parentArrayList.getString("txnCurrency"),
-//                            this!!.convertDate(parentArrayList.getString("txnDate"))!!,
-                            parentArrayList.getString("txnDate") ,
+//                          this!!.convertDate(parentArrayList.getString("txnDate"))!!,
+                            parentArrayList.getString("txnDate"),
                             parentArrayList.getString("txnType")
-                        )
+                         )
 
 //                    contentList.
                     newList.add(contect)
@@ -224,6 +258,7 @@ class YapHomeViewModel(application: Application) :
                 }
             }
         }
+
         contentList = newList
 
 
