@@ -25,6 +25,7 @@
             android:layout_marginStart="@dimen/_5sdp"
             android:clickable="true"
             android:focusable="true"
+            android:visibility="@{viewModel.state.leftButtonVisibility}"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton(v.id)}"
             app:layout_constraintStart_toStartOf="parent"

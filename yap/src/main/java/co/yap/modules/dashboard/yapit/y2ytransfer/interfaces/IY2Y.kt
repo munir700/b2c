@@ -9,6 +9,7 @@ interface IY2Y {
         var tootlBarTitle: String
         var tootlBarVisibility: Int
         var rightButtonVisibility:Int
+        var leftButtonVisibility:Int
     }
 
     interface ViewModel : IBase.ViewModel<State> {

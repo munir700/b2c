@@ -8,24 +8,25 @@ import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.modules.dashboard.yapit.y2ytransfer.fragments.Y2YBaseFragment
-import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YTransfer
-import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.viewmodels.Y2YTransferViewModel
+import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YFundsTransfer
+import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.viewmodels.Y2YFundsTransferViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
-import kotlinx.android.synthetic.main.fragment_yap_to_yap_transfer.*
+import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
-class Y2YTransferFragment : Y2YBaseFragment<IY2YTransfer.ViewModel>(), IY2YTransfer.View {
+class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_yap_to_yap_transfer
+    override fun getLayoutId(): Int = R.layout.fragment_y2y_funds_transfer
 
-    override val viewModel: Y2YTransferViewModel
-        get() = ViewModelProviders.of(this).get(Y2YTransferViewModel::class.java)
+    override val viewModel: Y2YFundsTransferViewModel
+        get() = ViewModelProviders.of(this).get(Y2YFundsTransferViewModel::class.java)
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,7 +42,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YTransfer.ViewModel>(), IY2YTrans
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
-            showToast("success state")
+            findNavController().navigate(R.id.action_y2YTransferFragment_to_y2YFundsTransferSuccessFragment)
         })
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()

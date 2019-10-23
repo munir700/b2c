@@ -5,15 +5,14 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import co.yap.BR
-import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YTransfer
+import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YFundsTransfer
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
-import co.yap.yapcore.helpers.Utils
 
-class Y2YTransferState(application: Application) : BaseState() , IY2YTransfer.State{
+class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTransfer.State {
 
-    val context:Context=application.applicationContext
+    val context: Context = application.applicationContext
     @get:Bindable
     override var amountBackground: Drawable? =
         context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
@@ -71,7 +70,7 @@ class Y2YTransferState(application: Application) : BaseState() , IY2YTransfer.St
         }
 
     @get:Bindable
-    override var availableBalanceText: String=""
+    override var availableBalanceText: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.availableBalanceText)
@@ -92,24 +91,9 @@ class Y2YTransferState(application: Application) : BaseState() , IY2YTransfer.St
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                 errorDescription = Translator.getString(
                     context,
-                    Strings.screen_add_funds_display_text_available_balance_error,
-                    currencyType,
-                    Utils.getFormattedCurrency(availableBalance)
-                )
-
-                return errorDescription
-            } else if (amount?.toDouble()!! > maxLimit) {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-
-                errorDescription = Translator.getString(
-                    context,
-                    Strings.screen_add_funds_display_text_max_limit_error,
-                    currencyType,
-                    Utils.getFormattedCurrency(maxLimit.toString())
+                    Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
                 )
                 return errorDescription
-
             } else {
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
