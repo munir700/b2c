@@ -125,10 +125,12 @@ class YapHomeViewModel(application: Application) :
                             println(content.key)
                             println(content.value)
                             contentsList = content.value as ArrayList<Content>
+var calculateTotalAmount: Double = 0.0
+                            for (contentValue in content.value) {
+                                calculateTotalAmount = calculateTotalAmount + contentValue.txnAmount
 
-//                            for (contentValue in content.value) {
-//                                contentValuesList.add()
-//                            }
+                                println(calculateTotalAmount)
+                            }
 //                            var type: String,
 //                            var totalAmountType: String,
 //                            var date: String,
@@ -141,7 +143,7 @@ class YapHomeViewModel(application: Application) :
                                 "Type",
                                 "AED",
                                 content.key!!,
-                                "calculate the total of all values with this key",
+                                calculateTotalAmount.toString(),
                                 "calculate that closing balance from all values as per fomula",
                               0.0 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
 
@@ -153,17 +155,6 @@ class YapHomeViewModel(application: Application) :
 //                      now add key values in locally created model
 
                         }
-
-
-//                        Content
-//                        var type: String,//txnType
-//                        var totalAmountType: String,
-//                        var date: String,//txnDate
-//                        var totalAmount: String,// sum of txnAmount
-//                        var closingBalance: String,//  closingBalance of last transaction of this day or the minimum 1
-//                        var amountPercentage: Double,
-//                        @Nullable var transactionItems: ArrayList<TransactionData>
-//                        var sortedContentList : SortedContentList =SortedContentList
 
 
                         for (content in contentList) {
