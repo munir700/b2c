@@ -5,7 +5,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.databinding.FragmentYapContactsBinding
+import co.yap.databinding.FragmentPhoneContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
@@ -13,7 +13,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_yap_contacts
+    override fun getLayoutId(): Int = R.layout.fragment_phone_contacts
 
     override val viewModel: PhoneContactViewModel
         get() = ViewModelProviders.of(this).get(PhoneContactViewModel::class.java)
@@ -69,7 +69,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
         }
     }
 
-    private fun getBinding(): FragmentYapContactsBinding {
-        return (viewDataBinding as FragmentYapContactsBinding)
+    private fun getBinding(): FragmentPhoneContactsBinding {
+        return (viewDataBinding as FragmentPhoneContactsBinding)
     }
 }
