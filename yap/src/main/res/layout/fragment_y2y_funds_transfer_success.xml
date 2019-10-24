@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.y2ytransfer.transfer.viewmodels.Y2YFundsTransferSuccessViewModel" />
+            type="co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferSuccessViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>

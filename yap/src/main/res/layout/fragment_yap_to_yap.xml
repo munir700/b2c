@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.y2ytransfer.home.viewmodel.YapToYapViewModel" />
+            type="co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -16,84 +16,44 @@
         android:layout_height="match_parent">
 
         <co.yap.widgets.searchwidget.CoreSearchView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:id="@+id/svContacts"
-            android:layout_marginStart="@dimen/margin_medium"
-            android:layout_marginEnd="@dimen/margin_medium"
-            android:layout_marginTop="@dimen/_27sdp"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_50sdp"
             android:gravity="center"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
-<!--        <androidx.appcompat.widget.SearchView-->
-<!--            android:id="@+id/svContacts"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="@dimen/margin_medium"-->
-<!--            android:layout_marginEnd="@dimen/margin_medium"-->
-<!--            android:layout_marginTop="@dimen/_27sdp"-->
-<!--            android:gravity="center"-->
-<!--            app:queryHint="@string/screen_yap_to_yap_display_text_search_hint"-->
-<!--            android:background="@drawable/bg_round_contacts_searchview"-->
-<!--            app:layout_constraintLeft_toLeftOf="parent"-->
-<!--            app:layout_constraintRight_toRightOf="parent"-->
-<!--            android:searchIcon="@null"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:layout_marginTop="@dimen/_29sdp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/margin_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/svContacts"
             app:tabBackground="@drawable/contacts_tab_layout_selector"
             app:tabGravity="center"
             app:tabIndicatorHeight="0dp"
-            app:tabMode="scrollable"
+            app:tabMode="fixed"
             app:tabPaddingEnd="16dp"
             app:tabRippleColor="@null"
             app:tabTextAppearance="@style/TabTextAppearance" />
 
-        <androidx.viewpager.widget.ViewPager
+        <!-- Override tabIconTint attribute of style with selector -->
+        <!-- style="@style/Widget.MaterialComponents.TabLayout.Colored"-->
+        <!-- app:tabIconTint="@drawable/tab_icon_color_selector"-->
+        <!-- app:tabTextColor="?attr/colorPrimaryDark"-->
+
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/textView6"-->
-        <!--            style="@style/Regular"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:fontFamily="sans-serif"-->
-        <!--            android:lineSpacingExtra="6sp"-->
-        <!--            android:textSize="14sp"-->
-        <!--            tools:text="@string/screen_yap_to_yap_display_text_no_yap_contact_msg" />-->
-
-        <!--        <co.yap.widgets.CoreButton-->
-        <!--            android:id="@+id/btnInvite"-->
-        <!--            style="@style/RectangleBtnStyle"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginLeft="@dimen/margin_xxl"-->
-        <!--            android:layout_marginTop="8dp"-->
-        <!--            android:layout_marginRight="@dimen/margin_xxl"-->
-        <!--            android:layout_marginBottom="@dimen/margin_medium_large"-->
-        <!--            android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"-->
-        <!--            android:text="@string/screen_yap_to_yap_display_text_button"-->
-        <!--            app:btn_enable="true"-->
-        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
-        <!--            app:layout_constraintHorizontal_bias="1.0"-->
-        <!--            app:layout_constraintLeft_toLeftOf="parent"-->
-        <!--            app:layout_constraintRight_toRightOf="parent"-->
-        <!--            app:layout_constraintTop_toBottomOf="@id/textView6"-->
-        <!--            app:layout_constraintVertical_bias="0.253"/>-->
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

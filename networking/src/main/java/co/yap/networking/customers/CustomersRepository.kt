@@ -4,10 +4,7 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
 import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
-import co.yap.networking.customers.requestdtos.DemographicDataRequest
-import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
-import co.yap.networking.customers.requestdtos.SignUpRequest
-import co.yap.networking.customers.requestdtos.UploadDocumentsRequest
+import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.models.ApiResponse
@@ -37,6 +34,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         "customers/api/change-mobile-number/{country-code}/{mobile-number}"
     const val URL_CHANGE_VERIFIED_EMAIL = "customers/api/change-email/{email}"
     const val URL_CHANGE_UNVERIFIED_EMAIL = "customers/api/change-unverified-email"
+    const val URL_Y2Y_BENEFICIARIES = "customers/api/y2y-beneficiaries"
 
     const val URL_DETECT = "digi-ocr/detect/"
 
@@ -134,16 +132,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
     override suspend fun detectCardData(file: MultipartBody.Part) = executeSafely(call = { api.uploadIdCard(file) })
-//            : RetroApiResponse<ApiResponse> {
-//        val response = executeSafely(call = { api.uploadIdCard(file) })
-//        when (response) {
-//            is RetroApiResponse.Error -> {
-//                if (response.error.statusCode == MALFORMED_JSON_EXCEPTION_CODE) {
-//                    // this is expected response so mark it a success
-//                    return RetroApiResponse.Success(200, ApiResponse())
-//                }
-//            }
-//        }
-//        return response
-//    }
+
+    override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
+        executeSafely(call = { api.getY2YBeneficiaries(contacts) })
 }

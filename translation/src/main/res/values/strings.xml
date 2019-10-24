@@ -425,7 +425,7 @@
     <string name="screen_help_support_display_text_call_us">Call us</string>
     <string name="screen_help_support_display_text_available_24_hours">Available 24 hours</string>
 
-<!--    Change email screen-->
+    <!--    Change email screen-->
     <string name="screen_change_email_display_text_heading">Change email</string>
     <string name="screen_change_email_placeholder_email_address">email address</string>
     <string name="screen_change_email_placeholder_confirm_email_address">confirm email address</string>
@@ -433,23 +433,21 @@
     <string name="screen_change_email_display_text_email_title">Enter your new email address</string>
     <string name="screen_change_email_display_text_confirm_email_title">Re-enter your new email address</string>
 
-<!--    Email Verification Screen-->
+    <!--    Email Verification Screen-->
     <string name="screen_email_verification_display_text_heading">Verify your email address</string>
 
-<!--    Change Phone Number Screen-->
+    <!--    Change Phone Number Screen-->
     <string name="screen_change_phone_number_display_text_heading">Change phone number</string>
     <string name="screen_change_phone_number_display_text_text_field_title">Enter your new phone number</string>
 
-<!--    Current passcode screen-->
+    <!--    Current passcode screen-->
     <string name="screen_current_passcode_display_text_heading">Enter your current \npasscode</string>
 
-<!--    Update new passcode screen-->
+    <!--    Update new passcode screen-->
     <string name="screen_set_passcode_display_text_heading">Enter your new \npasscode</string>
 
-<!--    Update confirm passcode screen-->
+    <!--    Update confirm passcode screen-->
     <string name="screen_confirm_passcode_display_text_heading">Re-enter your new \npasscode</string>
-
-
 
 
     <!--    Change Email Address Success Screen-->
@@ -468,18 +466,15 @@
     <string name="screen_email_verified_popup_button_title_click_here">click here.</string>
 
 
-
-<!--     Unverified change email success Screen-->
-
+    <!--     Unverified change email success Screen-->
     <string name="screen_unverified_success_display_text_heading">Success!</string>;
-    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>;
-    <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>;
+    <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
+    <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>
     <string name="screen_unverified_display_button_mail">Open Mail App</string>;
     <string name="screen_unverified_display_button_later">Maybe later</string>;
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
 
     <!--     Transactions Filters Screen-->
-
     <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>;
     <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>;
 
@@ -489,10 +484,14 @@
     <string name="screen_yap_to_yap_display_text_search_hint">Search</string>
 
 
-
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
     Choose your location below. We will also call you to verify this address
 
+
+    <!--Y2Y Contacts-->
+    <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
+    <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
+    <string name="screen_y2y_display_button_all_contacts">All contacts</string>
 
 <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
@@ -505,8 +504,6 @@
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
     <string name="screen_y2y_funds_transfer_success_display_text_transfer">You have transferred</string>
     <string name="screen_y2y_funds_transfer_success_button_back">Back to dashboard</string>
-
-
 
 
 </resources>

@@ -788,6 +788,14 @@ object Strings {
     const val screen_yap_to_yap_transfer_display_text_button: String =
         "screen_yap_to_yap_transfer_display_text_button"
 
+    //Y2Y contacts
+    const val screen_y2y_display_text_no_yap_contacts: String =
+        "screen_y2y_display_text_no_yap_contacts"
+    const val screen_y2y_display_button_yap_contacts: String =
+        "screen_y2y_display_button_yap_contacts"
+    const val screen_y2y_display_button_all_contacts: String =
+        "screen_y2y_display_button_all_contacts"
+
     //    Y2Y funds Transfer success screen
     const val screen_y2y_funds_transfer_success_display_text_title: String =
         "screen_y2y_funds_transfer_success_display_text_title"

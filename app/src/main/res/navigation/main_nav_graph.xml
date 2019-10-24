@@ -191,17 +191,17 @@
         tools:layout="@layout/activity_more">
 
     </activity>
-    <fragment
-        android:id="@+id/yapToYapFragment"
-        android:name="co.yap.modules.yapit.y2ytransfer.fragments.YapToYapFragment"
-        android:label="YapToYapFragment"
-        tools:layout="@layout/fragment_yap_to_yap"/>
+<!--    <fragment-->
+<!--        android:id="@+id/yapToYapFragment"-->
+<!--        android:name="co.yap.modules.yapit.y2ytransfer.fragments.YapToYapFragment"-->
+<!--        android:label="YapToYapFragment"-->
+<!--        tools:layout="@layout/fragment_yap_to_yap"/>-->
 
 
-    <activity
-        android:id="@+id/yapIt"
-        android:name="co.yap.modules.dashboard.yapit.y2ytransfer.home.activities.YapToYapDashboardActivity"
-        android:label="YapToYapDashboardActivity"
-        tools:layout="@layout/activity_yap_to_yap_dashboard"/>
+<!--    <activity-->
+<!--        android:id="@+id/yapIt"-->
+<!--        android:name="co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity"-->
+<!--        android:label="YapToYapDashboardActivity"-->
+<!--        tools:layout="@layout/activity_yap_to_yap_dashboard"/>-->
 
 </navigation>

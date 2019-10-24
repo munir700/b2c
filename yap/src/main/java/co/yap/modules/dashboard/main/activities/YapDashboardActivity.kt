@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.main.activities
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
@@ -28,12 +29,13 @@ import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
-import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -52,6 +54,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     lateinit var adapter: YapDashboardAdaptor
+    var permissionHelper: PermissionHelper? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -219,10 +222,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(0, false)
                 }
                 R.id.yapStore -> {
-                    // getViewBinding().viewPager.setCurrentItem(1, false)
-                    startActivity(Intent(this, TransactionDetailsActivity::class.java))
+                    getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
+                    checkPermission()
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
@@ -234,7 +237,55 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             true
         }
         //Don't remove it not by mistake
-        bottomNav.setOnNavigationItemReselectedListener { }
+        bottomNav.setOnNavigationItemReselectedListener {
+            it
+            when (it.itemId) {
+                R.id.yapIt -> {
+                    checkPermission()
+                }
+            }
+        }
+    }
+
+    private fun checkPermission() {
+        permissionHelper = PermissionHelper(
+            this, arrayOf(
+                Manifest.permission.READ_CONTACTS
+            ), 100
+        )
+        permissionHelper?.request(object : PermissionHelper.PermissionCallback {
+            override fun onPermissionGranted() {
+                startActivity(YapToYapDashboardActivity.getIntent(this@YapDashboardActivity, null))
+            }
+
+            override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
+                showToast("Can't proceed without permissions")
+            }
+
+            override fun onPermissionDenied() {
+                showToast("Can't proceed without permissions")
+            }
+
+            override fun onPermissionDeniedBySystem() {
+                permissionHelper!!.openAppDetailsActivity()
+            }
+        })
+    }
+
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (permissionHelper != null) {
+            permissionHelper!!.onRequestPermissionsResult(
+                requestCode,
+                permissions as Array<String>,
+                grantResults
+            )
+        }
     }
 
     fun getViewBinding(): ActivityYapDashboardBinding {
