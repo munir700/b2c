@@ -42,7 +42,7 @@ class ContactsDataSource(
                         callback.onResult(
                             response.data.data,
                             null,
-                            2
+                            null
                         )
                         updateState(PagingState.DONE)
                     }
