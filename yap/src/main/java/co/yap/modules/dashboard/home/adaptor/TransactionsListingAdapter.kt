@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.modules.dashboard.home.models.Transaction
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.item_transaction_list.view.*
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_transaction_list.view.*
 
 class TransactionsListingAdapter(
     var context: Context,
-    private val transactionsList: ArrayList<Transaction>
+    private val transactionsList: ArrayList<Content>
 ) : RecyclerView.Adapter<TransactionsListingAdapter.ViewHolder>() {
 
 
@@ -34,30 +34,30 @@ class TransactionsListingAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val transaction: Transaction = transactionsList[position]
-        if (transaction.type == "Credit") {
+        val transaction: Content = transactionsList[position]
+        if (transaction.txnType.toLowerCase() == "credit") {
             holder.tvTransactionAmount?.setTextColor(
                 ContextCompat.getColor(
                     context,
                     R.color.colorSecondaryGreen
                 )
             )
-            holder.tvTransactionAmount?.text = "+" + Utils.getFormattedCurrency(transaction.amount)
-        } else if (transaction.type == "Debit") {
+            holder.tvTransactionAmount?.text = "+" + Utils.getFormattedCurrency(transaction.amount.toString())
+        } else if (transaction.txnType.toLowerCase() == "debit") {
             holder.tvTransactionAmount?.setTextColor(
                 ContextCompat.getColor(
                     context,
                     R.color.colorPrimaryDark
                 )
             )
-            holder.tvTransactionAmount?.text = "-" + Utils.getFormattedCurrency(transaction.amount)
+            holder.tvTransactionAmount?.text = "-" + Utils.getFormattedCurrency(transaction.amount.toString())
         }
-        holder.tvTransactionName?.text = transaction.vendor
-        holder.tvNameInitials?.text = shortName(transaction.vendor)
+        holder.tvTransactionName?.text = transaction.senderName
+        holder.tvNameInitials?.text = shortName(transaction.senderName)
         holder.tvTransactionTimeAndCategory?.text = Translator.getString(
             context,
             R.string.screen_fragment_home_transaction_time_category,
-            transaction.time,
+            transaction.updatedDate,
             transaction.category
         )
         holder.tvCurrency?.text = transaction.currency

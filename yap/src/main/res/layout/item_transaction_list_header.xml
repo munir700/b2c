@@ -29,7 +29,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_normal"
-        android:text="-200.00"
+        tools:text="-200.00"
         />
 
 

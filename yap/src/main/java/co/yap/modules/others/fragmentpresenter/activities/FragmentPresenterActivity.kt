@@ -24,7 +24,7 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
     IFragmentHolder {
 
     companion object {
-        const val key = "type"
+        const val key = "txnType"
         const val data = "payLoad"
         fun getIntent(context: Context, type: Int, payLoad: Parcelable?): Intent {
             val intent = Intent(context, FragmentPresenterActivity::class.java)

@@ -2,6 +2,7 @@ package co.yap.networking.transactions.responsedtos.transaction
 
 data class Content(
 //    old transactions response
+
 //    var closingBalance: Double,
 //    var id: Int,
 //    var merchant: Any?,

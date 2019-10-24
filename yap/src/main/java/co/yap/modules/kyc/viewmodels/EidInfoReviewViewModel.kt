@@ -138,10 +138,10 @@ class EidInfoReviewViewModel(application: Application) :
 //                    identity.expiryDateValid = response.body()?.valid_expiration_date!!
 //                    identity.dateOfBirthValid = response.body()?.valid_date_of_birth!!
                     val calender = Calendar.getInstance()
-//                    calender.time =
+//                    calender.updatedDate =
 //                        DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")
                     identity.expirationDate = DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")//MrzDate(calender.get(Calendar.YEAR), calender.get(Calendar.MONTH), calender.get(Calendar.DAY_OF_MONTH))
-//                    calender.time =
+//                    calender.updatedDate =
 //                        DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
                     identity.dateOfBirth = DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
                     result.identity = identity

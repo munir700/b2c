@@ -5,7 +5,7 @@ import android.content.Context
 import android.util.Log
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.modules.dashboard.home.models.transactionsmodels.MianTransactionsList
+import co.yap.modules.dashboard.home.models.TransactionModel
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
@@ -19,6 +19,8 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
+// TransactionResponseDTO
+// TransactionModel 
 
 
 class YapHomeViewModel(application: Application) :
@@ -26,6 +28,8 @@ class YapHomeViewModel(application: Application) :
     IYapHome.ViewModel {
     var contentList: ArrayList<Content> = arrayListOf()
     var closingBalanceArray: java.util.ArrayList<Double> = arrayListOf()
+//    val data: ArrayList<TransactionModel>
+//    var mainTransactions: MainTransactions  = ArrayList<TransactionModel>
 
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -73,14 +77,14 @@ class YapHomeViewModel(application: Application) :
             var homeTransactionsRequest: HomeTransactionsRequest =
                 HomeTransactionsRequest(1, 5, 10.00, 100.00, true, true, true)
 
-            when (val response =
-                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
-                is RetroApiResponse.Success -> {
-                    Log.i(
-                        "getAccountTransactions",
-                        response.data.toString()
-                    )
-                    if (null != response.data.data) {
+//            when (val response =
+//                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
+//                is RetroApiResponse.Success -> {
+//                    Log.i(
+//                        "getAccountTransactions",
+//                        response.data.toString()
+//                    )
+//                    if (null != response.data.data) {
 
                         loadJSONDummyList()
                         Collections.sort(contentList, object :
@@ -100,7 +104,7 @@ class YapHomeViewModel(application: Application) :
 
                         println(groupByDate.entries.joinToString(""))
 
-                        var TransactionModelData: java.util.ArrayList<MianTransactionsList> =
+                        var transactionModelData: java.util.ArrayList<TransactionModel> =
                             arrayListOf()
 
                         for (transactionsDay in groupByDate.entries) {
@@ -125,7 +129,7 @@ class YapHomeViewModel(application: Application) :
                             }
 
 
-                            var transactionModel: MianTransactionsList = MianTransactionsList(
+                            var transactionModel: TransactionModel = TransactionModel(
                                 "Type",
                                 "AED",
                                 transactionsDay.key!!,
@@ -136,28 +140,23 @@ class YapHomeViewModel(application: Application) :
                                 contentsList
 
                             )
-                            TransactionModelData.add(transactionModel)// this should be that main list
+                            transactionModelData.add(transactionModel)// this should be that main list
 
-
+                            transactionLogicHelper.transactionList = transactionModelData
                         }
-
-
                     }
-
                     //                            calculateCummulativeClosingBalance(closingBalanceArray)
+//                }
 
-                }
-
-
-                is RetroApiResponse.Error -> {
-
-
-                }
-
-            }
-
-            state.loading = false
-        }
+//                is RetroApiResponse.Error -> {
+//
+//
+//                }
+//
+//            }
+//
+//            state.loading = false
+//        }
     }
 //
 //    fun calculateCummulativeClosingBalance(closingBalanceArray:ArrayList<Double>) : Double {
@@ -222,8 +221,8 @@ class YapHomeViewModel(application: Application) :
                     val contect: Content =
                         Content(
                             "accountUuid1",
-                            parentArrayList.getString("amount").toDouble(),
-                            parentArrayList.getString("balanceAfter").toDouble(),
+                            parentArrayList.getDouble("amount"),
+                            parentArrayList.getDouble("balanceAfter"),
                             10.0,
                             "1000000000168",
                             "TRANSACTION",
@@ -238,7 +237,7 @@ class YapHomeViewModel(application: Application) :
                             "CR050819073136236111",
                             "CD",
                             "B2C_IBAN_ACCOUNT_HOLDER",
-                            "Approved Transaction",
+                            "Approved Content",
                             parentArrayList.getString("senderName"),
                             "SUCCESS",
                             850.00,

@@ -72,7 +72,7 @@ class TransactionsViewHelper(
 
     private fun addTooltip(view: View?, data: TransactionModel) {
         view?.let {
-            val text = data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance)
+            val text = data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance.toString())
             tooltip?.apply {
                 visibility = View.VISIBLE
                 this.text = SpannableString(text).apply {
