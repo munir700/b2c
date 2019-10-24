@@ -23,6 +23,7 @@ import java.util.*
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
+    override var MAX_CLOSING_BALANCE: Double= 0.0
     var contentList: ArrayList<Content> = arrayListOf()
     var closingBalanceArray: java.util.ArrayList<Double> = arrayListOf()
 
@@ -129,7 +130,7 @@ class YapHomeViewModel(application: Application) :
                     transactionsDay.key!!,
                     contentsList.get(0).totalAmount.toString(),
                     contentsList.get(0).balanceAfter,
-                    0.0 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                    80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
 
                     contentsList
 
@@ -137,6 +138,7 @@ class YapHomeViewModel(application: Application) :
                 transactionModelData.add(transactionModel)// this should be that main list
 
                 transactionLogicHelper.transactionList = transactionModelData
+                MAX_CLOSING_BALANCE = closingBalanceArray.max()!!
             }
         }
         //                            calculateCummulativeClosingBalance(closingBalanceArray)

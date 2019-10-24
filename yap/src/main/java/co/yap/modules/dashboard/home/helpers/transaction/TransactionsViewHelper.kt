@@ -37,6 +37,7 @@ class TransactionsViewHelper(
     var horizontalScrollPosition: Int = 0
     private var toolbarCollapsed = false
 
+
     init {
         previouslySelected = 0
         setUpTransactionsListRecyclerView()
@@ -47,6 +48,18 @@ class TransactionsViewHelper(
         initCustomTooltip()
         // setTooltipOnZero()
     }
+
+//
+//    fun calculatePercentagePerDayFromClosingBalance(closingBalance : Double) : Double {
+////will count it in the end beacause we already kniw the current closing balance if rhe kast transactiuon in thr day
+////        val maxClosingBalance = closingBalanceArray.max()
+////        transactions closing balance of all the days from past
+//
+//        return (closingBalance/viewModel.MAX_CLOSING_BALANCE) * 100
+//
+////        return closingBalanceArray.map { (0 / viewModel.MAX_CLOSING_BALANCE) * 100
+//
+//    }
 
     private fun initCustomTooltip() {
         tooltip = transactionsView.findViewById(R.id.tooltip)
@@ -72,7 +85,8 @@ class TransactionsViewHelper(
 
     private fun addTooltip(view: View?, data: TransactionModel) {
         view?.let {
-            val text = data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance.toString())
+            val text =
+                data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance.toString())
             tooltip?.apply {
                 visibility = View.VISIBLE
                 this.text = SpannableString(text).apply {
@@ -105,7 +119,8 @@ class TransactionsViewHelper(
                 var toolbarHeight =
                     context.resources.getDimension(R.dimen.collapsing_toolbar_height)
 
-                if (toolbarCollapsed) toolbarHeight = Utils.getNavigationBarHeight(context as Activity).toFloat()
+                if (toolbarCollapsed) toolbarHeight =
+                    Utils.getNavigationBarHeight(context as Activity).toFloat()
 
                 y =
                     viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(
@@ -135,7 +150,8 @@ class TransactionsViewHelper(
         transactionsView.rvTransactionsBarChart.adapter =
             GraphBarsAdapter(
                 viewModel.transactionLogicHelper.transactionList,
-                context
+                context,
+                viewModel.MAX_CLOSING_BALANCE
             )
         transactionsView.rvTransactionsBarChart.layoutManager = LinearLayoutManager(
             context,
