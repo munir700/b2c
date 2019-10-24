@@ -34,7 +34,7 @@ class TransactionsHeaderAdapter(
 
         if (categories.transactionItems.isNotEmpty()) {
 
-           // holder.tvTotalAmount!!.text = categories.totalAmount
+            holder.tvTotalAmount!!.text = categories.totalAmount
 
             if(categories.totalAmountType=="Credit"){
                 holder.tvTotalAmount?.text="+${Utils.getFormattedCurrency(categories.totalAmount)}"

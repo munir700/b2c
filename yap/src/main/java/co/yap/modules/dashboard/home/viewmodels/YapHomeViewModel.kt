@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.viewmodels
 
 import android.app.Application
 import android.content.Context
-import android.util.Log
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.models.TransactionModel
@@ -19,8 +18,6 @@ import java.io.IOException
 import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
-// TransactionResponseDTO
-// TransactionModel 
 
 
 class YapHomeViewModel(application: Application) :
@@ -28,8 +25,6 @@ class YapHomeViewModel(application: Application) :
     IYapHome.ViewModel {
     var contentList: ArrayList<Content> = arrayListOf()
     var closingBalanceArray: java.util.ArrayList<Double> = arrayListOf()
-//    val data: ArrayList<TransactionModel>
-//    var mainTransactions: MainTransactions  = ArrayList<TransactionModel>
 
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -86,66 +81,65 @@ class YapHomeViewModel(application: Application) :
 //                    )
 //                    if (null != response.data.data) {
 
-                        loadJSONDummyList()
-                        Collections.sort(contentList, object :
-                            Comparator<Content> {
-                            override fun compare(
-                                o1: Content,
-                                o2: Content
-                            ): Int {
-                                return o2.updatedDate.compareTo(o1.updatedDate)
-                            }
-                        })
+            loadJSONDummyList()
+            Collections.sort(contentList, object :
+                Comparator<Content> {
+                override fun compare(
+                    o1: Content,
+                    o2: Content
+                ): Int {
+                    return o2.updatedDate.compareTo(o1.updatedDate)
+                }
+            })
 
-                        val groupByDate = contentList.groupBy { item ->
-                            convertDate(item.updatedDate)
+            val groupByDate = contentList.groupBy { item ->
+                convertDate(item.updatedDate)
 //                            item.updatedDate
-                        }
+            }
 
-                        println(groupByDate.entries.joinToString(""))
+            println(groupByDate.entries.joinToString(""))
 
-                        var transactionModelData: java.util.ArrayList<TransactionModel> =
-                            arrayListOf()
+            var transactionModelData: java.util.ArrayList<TransactionModel> =
+                arrayListOf()
 
-                        for (transactionsDay in groupByDate.entries) {
-
-
-                            var contentsList: java.util.ArrayList<Content> = arrayListOf()
-                            println(transactionsDay.key)
-                            println(transactionsDay.value)
-                            contentsList = transactionsDay.value as java.util.ArrayList<Content>
-                            contentsList.sortByDescending { it ->
-                                it.updatedDate
-                            }
-
-                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
-                            closingBalanceArray.add(closingBalanceOfTheDay)
-                            var calculateTotalAmount: Double = 0.0
+            for (transactionsDay in groupByDate.entries) {
 
 
-                            for (contentValue in transactionsDay.value) {
-                                calculateTotalAmount = calculateTotalAmount + contentValue.amount
-                                println(calculateTotalAmount)
-                            }
+                var contentsList: java.util.ArrayList<Content> = arrayListOf()
+                println(transactionsDay.key)
+                println(transactionsDay.value)
+                contentsList = transactionsDay.value as java.util.ArrayList<Content>
+                contentsList.sortByDescending { it ->
+                    it.updatedDate
+                }
+
+                var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+                closingBalanceArray.add(closingBalanceOfTheDay)
+//                            var calculateTotalAmount: Double = 0.0
+//
+//                            for (contentValue in transactionsDay.value) {
+//                                calculateTotalAmount = calculateTotalAmount + contentValue.amount
+//                                println(calculateTotalAmount)
+//                            }
 
 
-                            var transactionModel: TransactionModel = TransactionModel(
-                                "Type",
-                                "AED",
-                                transactionsDay.key!!,
-                                calculateTotalAmount.toString(),
-                                closingBalanceOfTheDay,
-                                0.0 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                var transactionModel: TransactionModel = TransactionModel(
+                    "Type",
+                    "AED",
+                    transactionsDay.key!!,
+                    contentsList.get(0).totalAmount.toString(),
+                    contentsList.get(0).balanceAfter,
+                    0.0 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
 
-                                contentsList
+                    contentsList
 
-                            )
-                            transactionModelData.add(transactionModel)// this should be that main list
+                )
+                transactionModelData.add(transactionModel)// this should be that main list
 
-                            transactionLogicHelper.transactionList = transactionModelData
-                        }
-                    }
-                    //                            calculateCummulativeClosingBalance(closingBalanceArray)
+                transactionLogicHelper.transactionList = transactionModelData
+            }
+        }
+        //                            calculateCummulativeClosingBalance(closingBalanceArray)
 //                }
 
 //                is RetroApiResponse.Error -> {
@@ -240,7 +234,7 @@ class YapHomeViewModel(application: Application) :
                             "Approved Content",
                             parentArrayList.getString("senderName"),
                             "SUCCESS",
-                            850.00,
+                            parentArrayList.getDouble("amount"),
                             "728172817281",
                             "6666",
                             parentArrayList.getString("txnType"),
@@ -249,7 +243,7 @@ class YapHomeViewModel(application: Application) :
                             "B2C_ACCOUNT"
                         )
 
-                     newList.add(contect)
+                    newList.add(contect)
 
 //                    transactioModelList.add(transactionModel)
                 }
