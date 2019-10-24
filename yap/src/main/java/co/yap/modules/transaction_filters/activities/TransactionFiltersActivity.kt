@@ -98,6 +98,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         data.putExtra(KEY_FILTER_OUT_TRANSACTION, cbOutTransFilter.isChecked)
         data.putExtra(KEY_FILTER_START_AMOUNT, rsbAmount.leftSeekBar.progress.toInt())
         data.putExtra(KEY_FILTER_END_AMOUNT, rsbAmount.rightSeekBar.progress.toInt())
+
         setResult(INTENT_FILTER_REQUEST,data)
         finish()
     }

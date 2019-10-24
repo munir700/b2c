@@ -4,13 +4,13 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.AddEditNoteRequest
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.*
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
-
     const val URL_ADD_FUNDS = "/transactions/api/top-up"
     const val URL_REMOVE_FUNDS = "/transactions/api/withdraw"
     const val URL_FUND_TRANSFER_LIMITS = "/transactions/api/product/{product-code}/limits"
@@ -19,6 +19,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_CARD_FEE = "/transactions/api/fees/spare-card/subscription/{card-type}"
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
     const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
+    const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -43,5 +44,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.y2yFundsTransferRequest(y2YFundsTransferRequest) })
+
+    override suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse> =
+        executeSafely(call = { api.addEditNote(addEditNoteRequest) })
 
 }
