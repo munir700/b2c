@@ -132,5 +132,10 @@
         <activity
             android:name=".modules.transaction_filters.activities.TransactionFiltersActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.transaction_note.activities.TransactionNoteActivity"
+            android:screenOrientation="portrait" />
+
     </application>
 </manifest>

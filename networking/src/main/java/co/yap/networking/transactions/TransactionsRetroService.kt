@@ -1,5 +1,6 @@
 package co.yap.networking.transactions
 
+import co.yap.networking.transactions.requestdtos.AddEditNoteRequest
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.responsedtos.*
@@ -31,4 +32,8 @@ interface TransactionsRetroService {
     // Get Card Statements
     @GET(TransactionsRepository.URL_GET_CARD_STATEMENTS)
     suspend fun getCardStatements(@Query("cardSerialNumber") cardSerialNumber: String): Response<CardStatementsResponse>
+
+    // AddEdit Note
+    @POST(TransactionsRepository.URL_ADD_EDIT_NOTE)
+    suspend fun addEditNote(@Body addEditNoteRequest: AddEditNoteRequest): Response<AddEditNoteResponse>
 }

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.main.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
@@ -21,4 +22,5 @@ abstract class YapDashboardChildFragment<V : IBase.ViewModel<*>> : BaseBindingFr
                 ViewModelProviders.of(activity!!).get(YapDashBoardViewModel::class.java)
         }
     }
+
 }
