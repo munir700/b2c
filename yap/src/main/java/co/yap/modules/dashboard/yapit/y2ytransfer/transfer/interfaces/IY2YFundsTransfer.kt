@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-class IY2YTransfer {
+class IY2YFundsTransfer {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
     }

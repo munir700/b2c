@@ -13,5 +13,14 @@
         android:id="@+id/y2YTransferFragment"
         android:name="co.yap.modules.dashboard.yapit.y2ytransfer.transfer.fragments.Y2YTransferFragment"
         android:label="Y2YTransferFragment"
-        tools:layout="@layout/fragment_yap_to_yap_transfer"/>
+        tools:layout="@layout/fragment_y2y_funds_transfer">
+        <action
+            android:id="@+id/action_y2YTransferFragment_to_y2YFundsTransferSuccessFragment"
+            app:destination="@id/y2YFundsTransferSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/y2YFundsTransferSuccessFragment"
+        android:name="co.yap.modules.dashboard.yapit.y2ytransfer.transfer.fragments.Y2YFundsTransferSuccessFragment"
+        android:label="Y2YFundsTransferSuccessFragment"
+        tools:layout="@layout/fragment_y2y_funds_transfer_success"/>
 </navigation>

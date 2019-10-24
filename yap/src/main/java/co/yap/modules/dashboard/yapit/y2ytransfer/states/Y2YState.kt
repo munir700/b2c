@@ -29,4 +29,10 @@ class Y2YState : BaseState(), IY2Y.State {
             field = value
             notifyPropertyChanged(BR.rightButtonVisibility)
         }
+    @get:Bindable
+    override var leftButtonVisibility:Int=0x00000000
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.leftButtonVisibility)
+        }
 }
