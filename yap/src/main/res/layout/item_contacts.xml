@@ -14,14 +14,16 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/lyContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
         android:background="@color/colorWhite">
 
         <include
             android:id="@+id/lyUserImage"
             layout="@layout/layout_initial_image_user"
-            app:image="@{viewModel.contact.title}"
+            app:image="@{viewModel.contact.beneficiaryPictureUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:name="@{viewModel.contact.title}" />
@@ -32,6 +34,7 @@
             android:layout_marginStart="@dimen/margin_normal"
             android:gravity="center"
             android:orientation="vertical"
+            android:layout_marginEnd="@dimen/margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvInvite"
             app:layout_constraintStart_toEndOf="@+id/lyUserImage"
@@ -42,7 +45,7 @@
                 style="@style/Regular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_2sdp"
+                android:layout_marginBottom="@dimen/_1sdp"
                 android:layout_weight="1"
                 android:gravity="bottom"
                 android:text="@{viewModel.contact.title}"
@@ -53,7 +56,7 @@
                 style="@style/SmallGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/_1sdp"
                 android:layout_weight="1"
                 android:text="@{viewModel.contact.mobileNo}"
                 tools:text="+971 12 345 6789" />
@@ -65,7 +68,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/margin_normal"
-            android:onClick="@{(v) -> viewModel.onViewClicked(v.id)}"
+            android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
             android:text="Invite"
             android:textColor="@color/colorPrimary"
             android:visibility="@{viewModel.contact.yapUser ? View.GONE : View.VISIBLE }"
@@ -80,7 +83,7 @@
             android:layout_height="@dimen/_24sdp"
             android:layout_marginEnd="@dimen/margin_normal"
             android:contentDescription="@string/empty_string"
-            android:onClick="@{(v) -> viewModel.onViewClicked(v.id)}"
+            android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
             android:src="@drawable/ic_package_standered"
             android:visibility="@{viewModel.contact.yapUser ? View.VISIBLE : View.GONE }"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -59,6 +59,17 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            when (view.id) {
+                R.id.userPackageType -> {
+
+                }
+                R.id.tvInvite -> {
+
+                }
+                R.id.lyContact -> {
+
+                }
+            }
         }
     }
 

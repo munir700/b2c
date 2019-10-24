@@ -1,7 +1,6 @@
 package co.yap.yapcore
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -23,7 +22,7 @@ abstract class BasePagingBindingRecyclerAdapter<T : Any>(
     private val footerView = 2
 
     private var state = PagingState.LOADING
-    private var onItemClickListener: OnItemClickListener? = null
+    var onItemClickListener: OnItemClickListener? = null
 
     protected abstract fun onCreateContentViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder
 

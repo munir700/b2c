@@ -18,7 +18,11 @@ class PhoneContactsAdaptor(retry: () -> Unit) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == contentView)
-            (holder as YapContactItemViewHolder).onBind(getItem(position))
+            (holder as YapContactItemViewHolder).onBind(
+                getItem(position),
+                position,
+                onItemClickListener
+            )
         else (holder as ListFooterViewHolder).onBind(getState())
     }
 

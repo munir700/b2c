@@ -1,6 +1,13 @@
 package co.yap.networking.customers.responsedtos
 
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import android.icu.util.ULocale.getLanguage
+import android.icu.util.ULocale.getCountry
+import java.util.*
+import com.liveperson.infra.utils.Utils.getResources
+
+
+
 
 class Customer(
 
@@ -32,7 +39,7 @@ class Customer(
 
     fun getFormattedPhone(): String {
         val pnu = PhoneNumberUtil.getInstance()
-        val pn = pnu.parse(mobileNo, "AE")
+        val pn = pnu.parse(mobileNo, Locale.getDefault().country)
         return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
     }
 
