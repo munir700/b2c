@@ -487,13 +487,23 @@
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
     Choose your location below. We will also call you to verify this address
 
-    <!--Y2Y Transfer screen-->
-    <string name="screen_yap_to_yap_transfer_text_header">Send a Y2Y transfer to</string>
-    <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
 
     <!--Y2Y Contacts-->
     <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
     <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
     <string name="screen_y2y_display_button_all_contacts">All contacts</string>
+
+<!--    Y2Y funds Transfer screen-->
+    <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
+    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Type a note here</string>
+    <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
+    <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
+    <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
+
+<!--    Y2Y funds Transfer success screen-->
+    <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
+    <string name="screen_y2y_funds_transfer_success_display_text_transfer">You have transferred</string>
+    <string name="screen_y2y_funds_transfer_success_button_back">Back to dashboard</string>
+
 
 </resources>

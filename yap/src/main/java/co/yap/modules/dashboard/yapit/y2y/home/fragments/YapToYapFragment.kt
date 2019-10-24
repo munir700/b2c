@@ -52,6 +52,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
         getBindingView().svContacts.initializeSearch(requireContext(), object : SearchingListener {
             override fun onCancel() {
                 svContacts.clearInputField()
+                findNavController().navigate(YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment())
             }
 
             override fun onSearchKeyPressed(search: String?) {
@@ -66,15 +67,21 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.btnInvite -> {
-                findNavController().navigate(R.id.y2YTransferFragment)
+                findNavController().navigate(YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment())
             }
         }
     }
 
     private fun getTabTitle(position: Int): String? {
         return when (position) {
-            YAP_CONTACTS -> Translator.getString(requireContext(), Strings.screen_y2y_display_button_yap_contacts)
-            PHONE_CONTACTS -> Translator.getString(requireContext(), Strings.screen_y2y_display_button_all_contacts)
+            YAP_CONTACTS -> Translator.getString(
+                requireContext(),
+                Strings.screen_y2y_display_button_yap_contacts
+            )
+            PHONE_CONTACTS -> Translator.getString(
+                requireContext(),
+                Strings.screen_y2y_display_button_all_contacts
+            )
             else -> null
         }
     }

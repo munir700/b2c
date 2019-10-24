@@ -26,6 +26,7 @@
             android:clickable="true"
             android:contentDescription="@string/todo"
             android:focusable="true"
+            android:visibility="@{viewModel.state.leftButtonVisibility}"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnBackButton(v.id)}"
             app:layout_constraintBottom_toBottomOf="parent"
