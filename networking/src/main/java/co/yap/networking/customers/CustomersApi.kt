@@ -29,5 +29,6 @@ interface CustomersApi {
 
     suspend fun changeVerifiedEmail(email: String): RetroApiResponse<ApiResponse>
     suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse>
+    suspend fun detectCardData(file: MultipartBody.Part): RetroApiResponse<ApiResponse>
     suspend fun getY2YBeneficiaries(contacts: List<Contact>): RetroApiResponse<Y2YBeneficiariesResponse>
 }

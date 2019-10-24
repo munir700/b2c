@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.yapit.y2y.home.adaptors.TransferLandingAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
 import co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
+import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.BR
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
@@ -28,11 +29,27 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
 
         val adaptor = TransferLandingAdaptor(this)
         viewPager.adapter = adaptor
+        setSearchView()
     }
 
     private fun setupTabs() {
         tabLayout.addTab(tabLayout.newTab().setText("YAP contacts"))
         tabLayout.addTab(tabLayout.newTab().setText("All contacts"))
+    }
+
+    private fun setSearchView() {
+        svContacts.initializeSearch(requireContext(), object : SearchingListener {
+            override fun onCancel() {
+                svContacts.clearInputField()
+            }
+
+            override fun onSearchKeyPressed(search: String?) {
+
+                showToast("start search $search")
+            }
+
+        }, false, true)
+
     }
 
     private val clickEventObserver = Observer<Int> {

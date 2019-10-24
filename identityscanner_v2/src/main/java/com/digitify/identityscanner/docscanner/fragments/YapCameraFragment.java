@@ -35,8 +35,11 @@ import com.digitify.identityscanner.utils.ImageUtils;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.security.Permission;
+
 import co.yap.translation.Strings;
 import co.yap.translation.Translator;
+import co.yap.yapcore.helpers.PermissionHelper;
 
 public class YapCameraFragment extends BaseFragment implements ICamera.View, CameraListener {
 
@@ -82,7 +85,7 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
         cardOverlay = getView().findViewById(R.id.cardOverlay);
         cardOverlay.setCardRatio(getParentViewModel().getDocumentType() == DocumentType.PASSPORT ? TransparentCardView.PASSPORT_RATIO : TransparentCardView.ID_CARD_RATIO);
 
-        getView().findViewById(R.id.camFab).setOnClickListener((v) -> capturePicture());
+
 
         getViewModel().setDocumentType(getParentViewModel().getDocumentType());
         getViewModel().setScanMode(getParentViewModel().getState().getScanMode());
@@ -91,7 +94,7 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
     private void capturePicture() {
 
         if (binding.camera.isTakingPicture()) return;
-        getViewModel().getState().setCapturing(true);
+        getViewModel().getState().setCapturing(false);
         binding.camera.takePicture();
     }
 
@@ -183,11 +186,15 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
 
     @Override
     public void onCameraOpened(@NonNull CameraOptions options) {
-
+        getViewModel().getState().setCapturing(true);
+        binding.camFab.setEnabled(true);
+        binding.camFab.setOnClickListener((v) -> capturePicture());
     }
 
     @Override
     public void onCameraClosed() {
+        binding.camFab.setOnClickListener(null);
+        binding.camFab.setEnabled(false);
         getViewModel().getState().setCapturing(false);
     }
 

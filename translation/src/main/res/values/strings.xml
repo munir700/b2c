@@ -474,6 +474,11 @@
     <string name="screen_unverified_display_button_later">Maybe later</string>;
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
 
+    <!--     Transactions Filters Screen-->
+
+    <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>;
+    <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>;
+
     <!--    Yap to Yap Home Screen-->
     <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">None of your friends have YAP yet.  Invite them now and earn AED XX for every friend that stars using YAP!</string>
     <string name="screen_yap_to_yap_display_text_button">Invite now</string>

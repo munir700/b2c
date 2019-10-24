@@ -2,6 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
+import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
@@ -35,6 +36,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CHANGE_UNVERIFIED_EMAIL = "customers/api/change-unverified-email"
     const val URL_Y2Y_BENEFICIARIES = "customers/api/y2y-beneficiaries"
 
+    const val URL_DETECT = "digi-ocr/detect/"
+
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
 
@@ -67,7 +70,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun uploadDocuments(document: UploadDocumentsRequest): RetroApiResponse<ApiResponse> =
         document.run {
-            val dateFormatter = SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH)
+            val dateFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
             val files = ArrayList<MultipartBody.Part>()
             filePaths.forEach {
                 val file = File(it)
@@ -127,6 +130,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
+
+    override suspend fun detectCardData(file: MultipartBody.Part) = executeSafely(call = { api.uploadIdCard(file) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
         executeSafely(call = { api.getY2YBeneficiaries(contacts) })

@@ -9,10 +9,11 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
 import co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
+import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.BR
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
-class YapContactsFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
+class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_to_yap
 
@@ -24,6 +25,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         tabLayout.addTab(tabLayout.newTab().setText("YAP contacts"))
         tabLayout.addTab(tabLayout.newTab().setText("All contacts"))
+        setSearchView()
         svContacts.setOnClickListener { findNavController().navigate(R.id.y2YTransferFragment) }
     }
 
@@ -34,4 +36,20 @@ class YapContactsFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
             }
         }
     }
+
+    private fun setSearchView() {
+        svContacts.initializeSearch(requireContext(),object: SearchingListener {
+            override fun onCancel() {
+                svContacts.clearInputField()
+            }
+
+            override fun onSearchKeyPressed(search: String?) {
+
+                showToast("start search $search")
+            }
+
+        },false,true)
+
+    }
+
 }
