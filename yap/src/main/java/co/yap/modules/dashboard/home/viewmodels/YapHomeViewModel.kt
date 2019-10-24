@@ -2,17 +2,27 @@ package co.yap.modules.dashboard.viewmodels
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Transformations
+import androidx.paging.LivePagedListBuilder
+import androidx.paging.PagedList
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.models.TransactionModel
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
+import co.yap.modules.dashboard.store.paging.transactions.TransactionsDataSource
+import co.yap.modules.dashboard.store.paging.transactions.TransactionsDataSourceFactory
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.PagingState
 import org.json.JSONObject
 import java.io.IOException
 import java.nio.charset.StandardCharsets
@@ -23,8 +33,8 @@ import java.util.*
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
-    override var MAX_CLOSING_BALANCE: Double= 0.0
-    var contentList: ArrayList<Content> = arrayListOf()
+    override var MAX_CLOSING_BALANCE: Double = 0.0
+    //    var contentList: ArrayList<Content> = arrayListOf()
     var closingBalanceArray: java.util.ArrayList<Double> = arrayListOf()
 
     override lateinit var debitCardSerialNumber: String
@@ -36,6 +46,30 @@ class YapHomeViewModel(application: Application) :
     private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
 
+    private lateinit var storeSourceFactory: TransactionsDataSourceFactory
+    var contentList: ArrayList<Content> = arrayListOf()
+
+    lateinit var storesLiveData: LiveData<PagedList<HomeTransactionListData>>
+
+    fun setUpTransactionsRepo() {
+        storeSourceFactory = TransactionsDataSourceFactory(transactionsRepository)
+        storesLiveData = LivePagedListBuilder(storeSourceFactory, getPagingConfigs()).build()
+
+    }
+
+    private fun getPagingConfigs(): PagedList.Config {
+        return PagedList.Config.Builder()
+            .setPageSize(20)
+            .setPrefetchDistance(10)
+            .setInitialLoadSizeHint(30 * 2)
+            .setEnablePlaceholders(false)
+            .build()
+    }
+
+
+    fun getState(): LiveData<PagingState> = Transformations.switchMap<TransactionsDataSource,
+            PagingState>(storeSourceFactory.storeDataSourceLiveData, TransactionsDataSource::state)
+
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()
@@ -43,6 +77,7 @@ class YapHomeViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
+
     }
 
 
@@ -73,49 +108,49 @@ class YapHomeViewModel(application: Application) :
             var homeTransactionsRequest: HomeTransactionsRequest =
                 HomeTransactionsRequest(1, 5, 10.00, 100.00, true, true, true)
 
-//            when (val response =
-//                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
-//                is RetroApiResponse.Success -> {
-//                    Log.i(
-//                        "getAccountTransactions",
-//                        response.data.toString()
-//                    )
-//                    if (null != response.data.data) {
+            when (val response =
+                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
+                is RetroApiResponse.Success -> {
+                    Log.i(
+                        "getAccountTransactions",
+                        response.data.toString()
+                    )
+                    if (null != response.data.data) {
 
-            loadJSONDummyList()
-            Collections.sort(contentList, object :
-                Comparator<Content> {
-                override fun compare(
-                    o1: Content,
-                    o2: Content
-                ): Int {
-                    return o2.updatedDate.compareTo(o1.updatedDate)
-                }
-            })
+                        loadJSONDummyList()
+                        Collections.sort(contentList, object :
+                            Comparator<Content> {
+                            override fun compare(
+                                o1: Content,
+                                o2: Content
+                            ): Int {
+                                return o2.updatedDate.compareTo(o1.updatedDate)
+                            }
+                        })
 
-            val groupByDate = contentList.groupBy { item ->
-                convertDate(item.updatedDate)
+                        val groupByDate = contentList.groupBy { item ->
+                            convertDate(item.updatedDate)
 //                            item.updatedDate
-            }
+                        }
 
-            println(groupByDate.entries.joinToString(""))
+                        println(groupByDate.entries.joinToString(""))
 
-            var transactionModelData: java.util.ArrayList<TransactionModel> =
-                arrayListOf()
+                        var transactionModelData: java.util.ArrayList<TransactionModel> =
+                            arrayListOf()
 
-            for (transactionsDay in groupByDate.entries) {
+                        for (transactionsDay in groupByDate.entries) {
 
 
-                var contentsList: java.util.ArrayList<Content> = arrayListOf()
-                println(transactionsDay.key)
-                println(transactionsDay.value)
-                contentsList = transactionsDay.value as java.util.ArrayList<Content>
-                contentsList.sortByDescending { it ->
-                    it.updatedDate
-                }
+                            var contentsList: java.util.ArrayList<Content> = arrayListOf()
+                            println(transactionsDay.key)
+                            println(transactionsDay.value)
+                            contentsList = transactionsDay.value as java.util.ArrayList<Content>
+                            contentsList.sortByDescending { it ->
+                                it.updatedDate
+                            }
 
-                var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
-                closingBalanceArray.add(closingBalanceOfTheDay)
+                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+                            closingBalanceArray.add(closingBalanceOfTheDay)
 //                            var calculateTotalAmount: Double = 0.0
 //
 //                            for (contentValue in transactionsDay.value) {
@@ -124,54 +159,34 @@ class YapHomeViewModel(application: Application) :
 //                            }
 
 
-                var transactionModel: TransactionModel = TransactionModel(
-                    "Type",
-                    "AED",
-                    transactionsDay.key!!,
-                    contentsList.get(0).totalAmount.toString(),
-                    contentsList.get(0).balanceAfter,
-                    80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                            var transactionModel: TransactionModel = TransactionModel(
+                                "Type",
+                                "AED",
+                                transactionsDay.key!!,
+                                contentsList.get(0).totalAmount.toString(),
+                                contentsList.get(0).balanceAfter,
+                                80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
 
-                    contentsList
+                                contentsList
 
-                )
-                transactionModelData.add(transactionModel)// this should be that main list
+                            )
+                            transactionModelData.add(transactionModel)// this should be that main list
 
-                transactionLogicHelper.transactionList = transactionModelData
-                MAX_CLOSING_BALANCE = closingBalanceArray.max()!!
+                            transactionLogicHelper.transactionList = transactionModelData
+                            MAX_CLOSING_BALANCE = closingBalanceArray.max()!!
+                        }
+                    }
+                    //                            calculateCummulativeClosingBalance(closingBalanceArray)
+                }
+
+                is RetroApiResponse.Error -> {
+
+                }
             }
+
+            state.loading = false
         }
-        //                            calculateCummulativeClosingBalance(closingBalanceArray)
-//                }
-
-//                is RetroApiResponse.Error -> {
-//
-//
-//                }
-//
-//            }
-//
-//            state.loading = false
-//        }
     }
-//
-//    fun calculateCummulativeClosingBalance(closingBalanceArray:ArrayList<Double>) : Double {
-////will count it in the end beacause we already kniw the current closing balance if rhe kast transactiuon in thr day
-//        val maxClosingBalance = closingBalanceArray.max()
-////        transactions closing balance of all the days from past
-//
-//        return
-////        return closingBalanceArray.map { (0 / maxClosingBalance) * 100
-//
-//    }
-
-//    func processDataSet(balanceAfter: [Double]) : Double()
-//    {
-//                let maxClosingBalance = balanceAfter.max()!
-//                return dataSet.map { ($0 / max) * 100 }
-//           
-//    }
-
 
     fun convertDate(updatedDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")
@@ -246,16 +261,10 @@ class YapHomeViewModel(application: Application) :
                         )
 
                     newList.add(contect)
-
 //                    transactioModelList.add(transactionModel)
                 }
             }
         }
-
         contentList = newList
-
-
     }
-
-
 }
