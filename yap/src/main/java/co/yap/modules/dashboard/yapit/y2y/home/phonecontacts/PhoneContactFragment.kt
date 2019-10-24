@@ -4,9 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentPhoneContactsBinding
+import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
+import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
+import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -67,7 +71,16 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
 
                 }
                 R.id.lyContact -> {
-
+                    if (data is Contact && data.yapUser!!) {
+                        if (parentFragment is YapToYapFragment) {
+                            (parentFragment as YapToYapFragment).findNavController().navigate(
+                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+                                    data.beneficiaryPictureUrl!!
+                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!
+                                )
+                            )
+                        }
+                    }
                 }
             }
         }
