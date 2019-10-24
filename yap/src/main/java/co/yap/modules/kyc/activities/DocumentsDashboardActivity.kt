@@ -22,7 +22,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         var isFromMoreSection: Boolean = false
         var hasStartedScanner: Boolean = false
 
-        const val key = "type"
+        const val key = "name"
         const val data = "payLoad"
         fun getIntent(context: Context, name: String, isFromMoreSection: Boolean): Intent {
             val intent = Intent(context, DocumentsDashboardActivity::class.java)

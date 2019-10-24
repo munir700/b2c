@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.y2ytransfer.transfer.fragments
 
 import android.os.Bundle
+import android.os.UserManager
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
@@ -9,6 +10,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import co.yap.R
 import co.yap.modules.dashboard.yapit.y2ytransfer.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YFundsTransfer
@@ -18,9 +20,11 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
 class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
+    val args: Y2YTransferFragmentArgs by navArgs()
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_y2y_funds_transfer
@@ -31,7 +35,7 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
         setObservers()
     }
 
@@ -42,7 +46,13 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
-            findNavController().navigate(R.id.action_y2YTransferFragment_to_y2YFundsTransferSuccessFragment)
+            val action =
+                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
+                    "Sufyan",
+                    "AED",
+                    viewModel.state.amount
+                )
+            findNavController().navigate(action)
         })
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
@@ -53,12 +63,15 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
     private fun setUpData() {
 
+        viewModel.state.fullName = args.beneficiaryName
+        viewModel.receiverUUID = args.receiverUUID
+
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
                 viewModel.state.availableBalance
             )
         etAmount.filters =
-            arrayOf<InputFilter>(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
         etAmount.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
             }
@@ -68,10 +81,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 if (p0?.length!! > 0) {
-                    // puts the caret after the text when unempty
-                    etAmount.setGravity(Gravity.CENTER)
+                    etAmount.gravity = Gravity.CENTER
                 } else {
-                    etAmount.setGravity(Gravity.START or Gravity.CENTER_VERTICAL)
+                    etAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
                 }
             }
         })
@@ -85,5 +97,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         )
     }
 
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+
+    }
 
 }

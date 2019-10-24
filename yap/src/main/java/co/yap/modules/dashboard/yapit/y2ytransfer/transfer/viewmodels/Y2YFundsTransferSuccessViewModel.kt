@@ -5,15 +5,16 @@ import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.interfaces.IY2YFundsT
 import co.yap.modules.dashboard.yapit.y2ytransfer.transfer.states.Y2YFundsTransferSuccessState
 import co.yap.modules.dashboard.yapit.y2ytransfer.viewmodels.Y2YBaseViewModel
 import co.yap.translation.Strings
+import co.yap.yapcore.SingleClickEvent
 
 class Y2YFundsTransferSuccessViewModel(application: Application) :
     Y2YBaseViewModel<IY2YFundsTransferSuccess.State>(application),
     IY2YFundsTransferSuccess.ViewModel {
-
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: Y2YFundsTransferSuccessState = Y2YFundsTransferSuccessState()
 
     override fun handlePressOnDashboardButton(id: Int) {
-
+        clickEvent.call()
     }
 
     override fun onResume() {

@@ -13,6 +13,15 @@ import co.yap.yapcore.BaseState
 class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTransfer.State {
 
     val context: Context = application.applicationContext
+
+    @get:Bindable
+    override var fullName: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fullName)
+        }
+
+
     @get:Bindable
     override var amountBackground: Drawable? =
         context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
@@ -22,7 +31,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
         }
 
     @get:Bindable
-    override var amount: String? = ""
+    override var amount: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.amount)
@@ -43,7 +52,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
         }
 
     @get:Bindable
-    override var availableBalance: String = "500"
+    override var availableBalance: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.availableBalance)
@@ -83,10 +92,16 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             notifyPropertyChanged(BR.availableBalanceGuide)
         }
 
+    @get:Bindable
+    override var noteValue: String=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.noteValue)
+        }
 
     fun checkValidity(): String {
         if (amount != "") {
-            if (amount?.toDouble()!! > availableBalance.toDouble()) {
+            if (amount.toDouble() > availableBalance!!.toDouble()) {
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
                 errorDescription = Translator.getString(
@@ -106,7 +121,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
     private fun clearError() {
         if (amount != "") {
             if (amount != ".") {
-                valid = amount?.toDouble()!! >= minLimit
+                valid = amount.toDouble() >= minLimit
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
             }

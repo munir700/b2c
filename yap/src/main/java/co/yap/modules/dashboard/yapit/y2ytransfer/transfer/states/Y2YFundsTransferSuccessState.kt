@@ -14,5 +14,13 @@ class Y2YFundsTransferSuccessState : BaseState(), IY2YFundsTransferSuccess.State
             field=value
             notifyPropertyChanged(BR.transferredAmount)
         }
+    @get:Bindable
+    override var title: String=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.title)
+        }
+
+
 
 }
