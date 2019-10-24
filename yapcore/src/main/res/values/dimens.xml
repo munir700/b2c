@@ -55,6 +55,9 @@
     <!-- Meeting Confirmation-->
     <dimen name="eid_layout_size">@dimen/_50sdp</dimen>
 
+    <!-- Searching widget height-->
+    <dimen name="search_widget_height">@dimen/_30sdp</dimen>
+
     <!--tooltipdimen-->
 
     <dimen name="tooltip_default_arrow_height">8dp</dimen>

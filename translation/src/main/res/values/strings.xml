@@ -475,7 +475,6 @@
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
 
     <!--     Transactions Filters Screen-->
-
     <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>;
     <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>;
 
@@ -493,6 +492,8 @@
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
 
     <!--Y2Y Contacts-->
-    <string name="screen_y2y_contacts_display_text_empty_list">None of your friends have YAP yet.</string>
+    <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
+    <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
+    <string name="screen_y2y_display_button_all_contacts">All contacts</string>
 
 </resources>

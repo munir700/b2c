@@ -2,31 +2,34 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rLSearchView"
     android:layout_width="match_parent"
-    android:layout_height="36dp"
+    android:layout_marginStart="@dimen/margin_medium"
+    android:layout_marginEnd="@dimen/margin_medium"
+    android:layout_height="@dimen/search_widget_height"
     android:gravity="center">
 
     <EditText
         android:id="@+id/etSearch"
         style="@style/ASmall"
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginEnd="16.3dp"
+        android:layout_height="match_parent"
         android:layout_toStartOf="@+id/tvCancel"
         android:background="@drawable/bg_search_widget"
         android:gravity="center"
         android:imeOptions="actionSearch"
-        android:inputType="text"
+        android:inputType="textFilter"
         android:maxLines="1"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp" />
+        android:paddingStart="@dimen/margin_small"
+        android:paddingEnd="@dimen/margin_small" />
 
     <ImageView
         android:id="@+id/ivSearch"
         android:layout_width="@dimen/_15sdp"
         android:layout_height="@dimen/_15sdp"
-        android:layout_centerInParent="true"
+        android:layout_alignTop="@+id/tvSearch"
+        android:layout_alignBottom="@+id/tvSearch"
         android:layout_marginEnd="4dp"
         android:layout_toStartOf="@id/tvSearch"
+        android:paddingTop="@dimen/_2sdp"
         android:src="@drawable/ic_search_grey" />
 
     <TextView
@@ -36,7 +39,6 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="Search" />
-
 
     <ProgressBar
         android:id="@+id/pb_loading_indicator"
@@ -49,13 +51,13 @@
         android:padding="@dimen/margin_small"
         android:visibility="gone" />
 
-
     <TextView
         android:id="@+id/tvCancel"
         style="@style/ASmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_marginStart="@dimen/margin_small"
         android:layout_centerVertical="true"
         android:text="@string/common_button_cancel"
         android:textColor="@color/colorPrimary"

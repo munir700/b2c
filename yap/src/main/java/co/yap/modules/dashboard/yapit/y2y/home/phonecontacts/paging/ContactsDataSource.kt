@@ -49,10 +49,6 @@ class ContactsDataSource(
                             null
                         )
                         updateState(PagingState.ERROR)
-
-                        //setRetry(Action { loadInitial(params, callback) })
-                        //callback.onResult(listOf(), 111L, 1221L)
-                        //updateState(PagingState.ERROR)
                     }
                 }
             } else {
@@ -102,23 +98,6 @@ class ContactsDataSource(
     }
 
     override fun loadAfter(params: LoadParams<Long>, callback: LoadCallback<Long, Contact>) {
-//        updateState(PagingState.LOADING)
-//        GlobalScope.launch {
-//            when (val response =
-//                storeRepo.getYapStores(CreateStoreRequest())) {
-//                is RetroApiResponse.Success -> {
-//                    callback.onResult(
-//                        response.data.stores,
-//                        params.key + 1
-//                    )
-//                    updateState(PagingState.DONE)
-//                }
-//                is RetroApiResponse.Error -> {
-//                    callback.onResult(listOf(), 111L)
-//                    updateState(PagingState.ERROR)
-//                }
-//            }
-//        }
     }
 
     override fun loadBefore(params: LoadParams<Long>, callback: LoadCallback<Long, Contact>) {
