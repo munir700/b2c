@@ -241,7 +241,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             it
             when (it.itemId) {
                 R.id.yapIt -> {
-                    startActivity(YapToYapDashboardActivity.getIntent(this, null))
+                    checkPermission()
                 }
             }
         }

@@ -43,18 +43,25 @@ class ContactsDataSource(
                         updateState(PagingState.DONE)
                     }
                     is RetroApiResponse.Error -> {
-                    callback.onResult(
-                        listOf(),
-                        null,
-                        null
-                    )
-                        updateState(PagingState.DONE)
+                        callback.onResult(
+                            listOf(),
+                            null,
+                            null
+                        )
+                        updateState(PagingState.ERROR)
 
                         //setRetry(Action { loadInitial(params, callback) })
                         //callback.onResult(listOf(), 111L, 1221L)
                         //updateState(PagingState.ERROR)
                     }
                 }
+            } else {
+                callback.onResult(
+                    listOf(),
+                    null,
+                    null
+                )
+                updateState(PagingState.ERROR)
             }
         }
     }

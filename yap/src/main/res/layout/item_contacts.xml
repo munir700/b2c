@@ -16,8 +16,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorWhite"
-        android:orientation="horizontal">
+        android:background="@color/colorWhite">
 
         <include
             android:id="@+id/lyUserImage"

@@ -782,4 +782,8 @@ object Strings {
     const val screen_yap_to_yap_transfer_text_header: String =
         "screen_yap_to_yap_transfer_text_header"
 
+    //Y2Y contacts
+    const val screen_y2y_contacts_display_text_empty_list: String =
+        "screen_y2y_contacts_display_text_empty_list"
+
 }
