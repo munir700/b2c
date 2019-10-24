@@ -1,5 +1,6 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
+
 data class Pageable(
     var offset: Int,
     var pageNumber: Int,

@@ -89,13 +89,13 @@ class YapHomeViewModel(application: Application) :
                                 o1: Content,
                                 o2: Content
                             ): Int {
-                                return o2.txnDate.compareTo(o1.txnDate)
+                                return o2.updatedDate.compareTo(o1.updatedDate)
                             }
                         })
 
                         val groupByDate = contentList.groupBy { item ->
-                            convertDate(item.txnDate)
-//                            item.txnDate
+                            convertDate(item.updatedDate)
+//                            item.updatedDate
                         }
 
                         println(groupByDate.entries.joinToString(""))
@@ -111,16 +111,16 @@ class YapHomeViewModel(application: Application) :
                             println(transactionsDay.value)
                             contentsList = transactionsDay.value as java.util.ArrayList<Content>
                             contentsList.sortByDescending { it ->
-                                it.txnDate
+                                it.updatedDate
                             }
 
-                            var closingBalanceOfTheDay: Double = contentsList.get(0).closingBalance
+                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
                             closingBalanceArray.add(closingBalanceOfTheDay)
                             var calculateTotalAmount: Double = 0.0
 
 
                             for (contentValue in transactionsDay.value) {
-                                calculateTotalAmount = calculateTotalAmount + contentValue.txnAmount
+                                calculateTotalAmount = calculateTotalAmount + contentValue.amount
                                 println(calculateTotalAmount)
                             }
 
@@ -143,7 +143,6 @@ class YapHomeViewModel(application: Application) :
 
 
                     }
-//
 
                     //                            calculateCummulativeClosingBalance(closingBalanceArray)
 
@@ -171,18 +170,18 @@ class YapHomeViewModel(application: Application) :
 //
 //    }
 
-//    func processDataSet(closingBalance: [Double]) : Double()
+//    func processDataSet(balanceAfter: [Double]) : Double()
 //    {
-//                let maxClosingBalance = closingBalance.max()!
+//                let maxClosingBalance = balanceAfter.max()!
 //                return dataSet.map { ($0 / max) * 100 }
 //           
 //    }
 
 
-    fun convertDate(txnDate: String): String? {
+    fun convertDate(updatedDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")
         parser.setTimeZone(TimeZone.getTimeZone("UTC"))
-        val convertedDate = parser.parse(txnDate)
+        val convertedDate = parser.parse(updatedDate)
 
         val pattern = "MMMM dd, yyyy"
         val simpleDateFormat = SimpleDateFormat(pattern)
@@ -219,23 +218,39 @@ class YapHomeViewModel(application: Application) :
                 for (i in 0 until mainDataList!!.length()) {
 
                     val parentArrayList = mainDataList!!.getJSONObject(i)
+
                     val contect: Content =
                         Content(
-                            parentArrayList.getString("closingBalance").toDouble(),
-                            parentArrayList.getString("id").toInt(),
-                            parentArrayList.getString("merchant"),
-                            parentArrayList.getString("paymentMode"),
-                            parentArrayList.getString("title"),
-                            parentArrayList.getString("txnAmount").toDouble(),
-                            parentArrayList.getString("txnCategory"),
+                            "accountUuid1",
+                            parentArrayList.getString("amount").toDouble(),
+                            parentArrayList.getString("balanceAfter").toDouble(),
+                            10.0,
+                            "1000000000168",
+                            "TRANSACTION",
+                            "111",
+                            "111",
                             parentArrayList.getString("txnCurrency"),
-//                          this!!.convertDate(parentArrayList.getString("txnDate"))!!,
-                            parentArrayList.getString("txnDate"),
-                            parentArrayList.getString("txnType")
+                            "3000000000098",
+                            "test",
+                            "AE070333000000000120068",
+                            "YAP",
+                            parentArrayList.getString("paymentMode"),
+                            "CR050819073136236111",
+                            "CD",
+                            "B2C_IBAN_ACCOUNT_HOLDER",
+                            "Approved Transaction",
+                            parentArrayList.getString("senderName"),
+                            "SUCCESS",
+                            850.00,
+                            "728172817281",
+                            "6666",
+                            parentArrayList.getString("txnType"),
+                            "111",
+                            parentArrayList.getString("updatedDate"),
+                            "B2C_ACCOUNT"
                         )
 
-//                    contentList.
-                    newList.add(contect)
+                     newList.add(contect)
 
 //                    transactioModelList.add(transactionModel)
                 }

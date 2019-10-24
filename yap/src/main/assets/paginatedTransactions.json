@@ -9,7 +9,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 3331.99,
-        "title": null,
+        "senderName": null,
         "merchant": null
       },   {
         "id": 144,
@@ -20,7 +20,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 111.99,
-        "title": null,
+        "senderName": null,
         "merchant": null
       },   {
         "id": 144,
@@ -31,7 +31,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 333.99,
-        "title": null,
+        "senderName": null,
         "merchant": null
       },   {
         "id": 144,
@@ -42,7 +42,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 222.99,
-        "title": null,
+        "senderName": null,
         "merchant": null
       },
 
@@ -55,7 +55,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 122.99,
-        "title": null,
+        "senderName": null,
         "merchant": null
       },
       {
@@ -67,7 +67,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 431.99,
-        "title": null,
+        "senderName": null,
         "merchant": null
       },
       {
@@ -79,7 +79,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 831.00,
-        "title": null,
+        "senderName": null,
         "merchant": null
       },
       {
@@ -91,7 +91,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 12.99,
-        "title": null,
+        "senderName": null,
         "merchant": null
       },
       {
@@ -103,7 +103,7 @@
         "txnCategory": 1,
         "paymentMode": "DEBIT",
         "closingBalance": 77.99,
-        "title": null,
+        "senderName": null,
         "merchant": null
       }
     ],
