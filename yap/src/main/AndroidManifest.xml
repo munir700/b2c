@@ -132,5 +132,8 @@
         <activity
             android:name=".modules.transaction_filters.activities.TransactionFiltersActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.transaction.activities.TransactionDetailsActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

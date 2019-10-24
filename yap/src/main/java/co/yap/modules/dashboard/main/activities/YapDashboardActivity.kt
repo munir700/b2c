@@ -28,6 +28,7 @@ import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
@@ -218,7 +219,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(0, false)
                 }
                 R.id.yapStore -> {
-                    getViewBinding().viewPager.setCurrentItem(1, false)
+                    // getViewBinding().viewPager.setCurrentItem(1, false)
+                    startActivity(Intent(this, TransactionDetailsActivity::class.java))
                 }
                 R.id.yapIt -> {
                 }
