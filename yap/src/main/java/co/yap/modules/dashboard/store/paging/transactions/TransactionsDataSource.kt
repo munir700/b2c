@@ -6,6 +6,7 @@ import co.yap.modules.dashboard.home.models.TransactionModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.PagingState
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -127,8 +128,8 @@ class TransactionsDataSource(private val storeRepo: TransactionsRepository) :
                 storeRepo.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
                     callback.onResult(
-                        response.data.data   as MutableList<TransactionModel>,
-                        null,
+                        response.data.data /*(HomeTransactionListData can't cast ->)*/   as MutableList<HomeTransactionListData>,// its crashing at this line because HomeTransactionListData from response is equivalnat to HomeTransactionListData
+                        1,
                         2
                     )
                     updateState(PagingState.DONE)

@@ -10,5 +10,5 @@ data class TransactionModel(
     var totalAmount: String,
     var closingBalance: Double,
     var amountPercentage: Double,
-    @Nullable var transactionItems: ArrayList<Content>
+    @Nullable var content: ArrayList<Content>
 )

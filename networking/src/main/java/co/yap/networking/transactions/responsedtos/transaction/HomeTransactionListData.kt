@@ -1,8 +1,18 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
+import androidx.annotation.Nullable
+
 data class HomeTransactionListData(
+    var type: String,
+    var totalAmountType: String,
+    var date: String,
+    var totalAmount: String,
+    var closingBalance: Double,
+    var amountPercentage: Double,
+
 
     var content: List<Content>,
+
     var first: Boolean,
     var last: Boolean,
     var number: Int,

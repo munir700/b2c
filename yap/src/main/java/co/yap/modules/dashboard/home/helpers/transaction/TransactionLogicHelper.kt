@@ -37,7 +37,7 @@ class TransactionLogicHelper(
 //                    var closingBalance: String = parentArrayList.getString("closingBalance")
 //                    var amountPercentage: Double = parentArrayList.getDouble("amountPercentage")
 //
-//                    val childArrayList = parentArrayList!!.getJSONArray("transactionItems")
+//                    val childArrayList = parentArrayList!!.getJSONArray("content")
 //                    val transactionsArrayList: ArrayList<Content> = ArrayList<Content>()
 //
 //                    for (j in 0 until childArrayList!!.length()) {
