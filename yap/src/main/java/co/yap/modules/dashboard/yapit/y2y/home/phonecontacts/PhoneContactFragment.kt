@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
@@ -30,7 +31,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
     }
 
     private fun initComponents() {
-        //getBinding().recycler.layoutManager = LinearLayoutManager(context!!)
         getBinding().recycler.adapter = PhoneContactsAdaptor { viewModel.retry() }
         (getBinding().recycler.adapter as PhoneContactsAdaptor).setItemListener(listener)
     }
@@ -49,6 +49,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
                 (getBinding().recycler.adapter as PhoneContactsAdaptor)?.setState(state)
+                viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
             }
         })
     }
@@ -68,7 +69,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
 
                 }
                 R.id.tvInvite -> {
-
+                    Utils.shareText(requireContext(), getBody())
                 }
                 R.id.lyContact -> {
                     if (data is Contact && data.yapUser!!) {
@@ -84,6 +85,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
                 }
             }
         }
+    }
+
+    private fun getBody(): String {
+        return "App LInk"
     }
 
     private val observer = Observer<Int> {

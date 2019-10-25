@@ -330,15 +330,34 @@ object Utils {
     }
 
     fun getPhoneNumberCountryCode(mobileNo: String): String {
-        val phoneUtil = PhoneNumberUtil.getInstance()
-        val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
-        //didt find any other way to get number zero
-        return """00${pn.countryCode}"""
+        return try {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
+            //didt find any other way to get number zero
+            return """00${pn.countryCode}"""
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
     }
 
     fun getPhoneWithoutCountryCode(mobileNo: String): String {
-        val phoneUtil = PhoneNumberUtil.getInstance()
-        val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
-        return pn.nationalNumber.toString()
+        return try {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
+            pn.nationalNumber.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    fun shareText(context: Context, body: String) {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        // not set because ios team is not doing this.
+        //sharingIntent.putExtra(Intent.EXTRA_SUBJECT, viewModel.state.title.get())
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
+        context.startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 }
