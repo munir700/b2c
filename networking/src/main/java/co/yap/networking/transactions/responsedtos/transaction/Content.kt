@@ -1,20 +1,6 @@
 package co.yap.networking.transactions.responsedtos.transaction
 
 data class Content(
-//    old transactions response
-
-//    var closingBalance: Double,
-//    var id: Int,
-//    var merchant: Any?,
-//    var paymentMode: String,
-//    var title: Any?,
-//    var txnAmount: Double,
-//    var txnCategory: String,
-//    var txnCurrency: String,
-//    var txnDate: String,
-//    var txnType: String
-
-    // new transactions response params
 
     var accountUuid1: String,
     var amount: Double,
@@ -43,6 +29,5 @@ data class Content(
     var updatedBy: String,
     var updatedDate: String,
     var userType1: String
-
 
 )
