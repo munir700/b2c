@@ -22,7 +22,7 @@ android {
         }
 
         qa {
-            versionCode 6
+            versionCode 7
             applicationIdSuffix ".qa"
             buildConfigField("String", "BASE_URL", "\"https://qa.yap.co\"")
             resValue "string", "app_name", "YAP QA"
