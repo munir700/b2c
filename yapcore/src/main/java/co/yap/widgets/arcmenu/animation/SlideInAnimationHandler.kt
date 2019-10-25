@@ -128,11 +128,14 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
     ) : Animator.AnimatorListener {
 
         override fun onAnimationStart(animation: Animator) {
+            menu!!.mainActionView.isClickable = false
 
         }
 
         override fun onAnimationEnd(animation: Animator) {
+            menu!!.mainActionView.isClickable = true
             restoreSubActionViewAfterAnimation(subActionItem, actionType)
+
         }
 
         override fun onAnimationCancel(animation: Animator) {

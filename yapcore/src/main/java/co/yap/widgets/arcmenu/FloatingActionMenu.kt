@@ -12,9 +12,12 @@ import android.graphics.*
 import android.view.*
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
+import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import co.yap.widgets.arcmenu.animation.DefaultAnimationHandler
 import co.yap.widgets.arcmenu.animation.MenuAnimationHandler
 import co.yap.yapcore.R
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
 /**
@@ -37,7 +40,7 @@ class FloatingActionMenu
     /**
      * Reference to the view (usually a button) to trigger the menu to show
      */
-    private val mainActionView: View,
+    val mainActionView: View,
     /**
      * The angle (in degrees, modulus 360) which the circular menu starts from
      */
@@ -348,26 +351,21 @@ class FloatingActionMenu
      * @param animated if true, the open/close action is executed by the current [MenuAnimationHandler]
      */
     fun toggle(view: View, animated: Boolean) {
-        //getMainActionViewParent().setAlpha(0);
-        //
-        //        PropertyValuesHolder pvhA = PropertyValuesHolder.ofFloat(View.ALPHA, 0,1);
-        //        final ObjectAnimator animation1 = ObjectAnimator.ofPropertyValuesHolder(get, pvhA);
-        //        animation1.setDuration(300);
-        //        animation1.setInterpolator(new AccelerateDecelerateInterpolator());
-        //       // animation1.start();
-        //
-        //
+
         val pvhY = PropertyValuesHolder.ofFloat(View.ROTATION, if (isOpen) 0f else -180f)
 
         val animation = ObjectAnimator.ofPropertyValuesHolder(mainActionView, pvhY)
-        animation.duration = 125
+        animation.duration = 300
         animation.interpolator = DecelerateInterpolator()
         animation.addListener(object : Animator.AnimatorListener {
             override fun onAnimationStart(animation: Animator) {
-
+                mainActionView.isClickable = false
+                mainActionView.setOnClickListener(null)
             }
 
             override fun onAnimationEnd(animation: Animator) {
+                mainActionView.isClickable = true
+                mainActionView.setOnClickListener(ActionViewClickListener())
 
             }
 
@@ -668,10 +666,25 @@ class FloatingActionMenu
          * @param context a valid context
          * @return the builder object itself
          */
-        fun addSubActionView(resId: Int, context: Context): Builder {
+        fun addSubActionView(layoutResId: Int, context: Context): Builder {
             val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            val view = inflater.inflate(resId, null, false)
+            val view = inflater.inflate(layoutResId, null, false)
+            view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
+        }
+
+        fun addSubActionView(
+            title: String,
+            iconResId: Int,
+            layoutResId: Int,
+            context: Context
+        ): Builder {
+            val inflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(layoutResId, null, false)
+            view.findViewById<TextView>(R.id.tvTitle).text = title
+            view.findViewById<FloatingActionButton>(R.id.ivYapIt).setImageResource(iconResId)
             view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
             return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
         }

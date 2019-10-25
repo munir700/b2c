@@ -65,9 +65,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(230)
             .setAnimationHandler(SlideInAnimationHandler())
-            .addSubActionView(R.layout.component_yap_menu_sub_button, this)
-            .addSubActionView(R.layout.component_yap_menu_sub_button, this)
-            .addSubActionView(R.layout.component_yap_menu_sub_button, this)
+            .addSubActionView(getString(R.string.yap_to_yap),R.drawable.ic_yap_to_yap,R.layout.component_yap_menu_sub_button, this)
+            .addSubActionView(getString(R.string.top_up),R.drawable.ic_top_up,R.layout.component_yap_menu_sub_button, this)
+            .addSubActionView(getString(R.string.send_money),R.drawable.ic_send_money,R.layout.component_yap_menu_sub_button, this)
             .attachTo(getViewBinding().ivYapIt)
             .build()
     }
