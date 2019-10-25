@@ -20,7 +20,6 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import org.json.JSONObject
@@ -102,11 +101,14 @@ class YapHomeViewModel(application: Application) :
 
     fun requestAccountTransactions() {
 
+
+//need to make this page count request dynamic in pagination as per page
+
+        var homeTransactionsRequest: HomeTransactionsRequest =
+            HomeTransactionsRequest(1, 40, 0.00, 200000.00, true, true, true)
+
         launch {
             state.loading = true
-
-            var homeTransactionsRequest: HomeTransactionsRequest =
-                HomeTransactionsRequest(1, 30, 0.00, 200000.00, true, true, true)
 
             when (val response =
                 transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
@@ -116,7 +118,7 @@ class YapHomeViewModel(application: Application) :
                         response.data.toString()
                     )
                     if (null != response.data.data) {
-                        contentList=response.data.data.content as  ArrayList<Content>
+                        contentList = response.data.data.content as ArrayList<Content>
 //                        loadJSONDummyList()
                         Collections.sort(contentList, object :
                             Comparator<Content> {
@@ -124,13 +126,12 @@ class YapHomeViewModel(application: Application) :
                                 o1: Content,
                                 o2: Content
                             ): Int {
-                                return o2.updatedDate!!.compareTo(o1.updatedDate!!)
+                                return o2.creationDate!!.compareTo(o1.creationDate!!)
                             }
                         })
 
                         val groupByDate = contentList.groupBy { item ->
-                            convertDate(item.updatedDate!!)
-//                            item.updatedDate
+                            convertDate(item.creationDate!!)
                         }
 
                         println(groupByDate.entries.joinToString(""))
@@ -146,13 +147,12 @@ class YapHomeViewModel(application: Application) :
                             println(transactionsDay.value)
                             contentsList = transactionsDay.value as java.util.ArrayList<Content>
                             contentsList.sortByDescending { it ->
-                                it.updatedDate
+                                it.creationDate
                             }
 
                             var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
                             closingBalanceArray.add(closingBalanceOfTheDay)
 //                            var calculateTotalAmount: Double = 0.0
-//
 //                            for (contentValue in transactionsDay.value) {
 //                                calculateTotalAmount = calculateTotalAmount + contentValue.amount
 //                                println(calculateTotalAmount)
@@ -166,17 +166,15 @@ class YapHomeViewModel(application: Application) :
                                 contentsList.get(0).totalAmount.toString(),
                                 contentsList.get(0).balanceAfter,
                                 80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-
                                 contentsList
 
                             )
-                            transactionModelData.add(transactionModel)// this should be that main list
+                            transactionModelData.add(transactionModel)
 
                             transactionLogicHelper.transactionList = transactionModelData
                             MAX_CLOSING_BALANCE = closingBalanceArray.max()!!
                         }
                     }
-                    //                            calculateCummulativeClosingBalance(closingBalanceArray)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -188,10 +186,10 @@ class YapHomeViewModel(application: Application) :
         }
     }
 
-    fun convertDate(updatedDate: String): String? {
+    fun convertDate(creationDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")
         parser.setTimeZone(TimeZone.getTimeZone("UTC"))
-        val convertedDate = parser.parse(updatedDate)
+        val convertedDate = parser.parse(creationDate)
 
         val pattern = "MMMM dd, yyyy"
         val simpleDateFormat = SimpleDateFormat(pattern)
@@ -261,7 +259,6 @@ class YapHomeViewModel(application: Application) :
                         )
 
                     newList.add(contect)
-//                    transactioModelList.add(transactionModel)
                 }
             }
         }
