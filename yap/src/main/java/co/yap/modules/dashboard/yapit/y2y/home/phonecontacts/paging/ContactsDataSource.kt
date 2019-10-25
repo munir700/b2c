@@ -66,6 +66,43 @@ class ContactsDataSource(
         }
     }
 
+    private fun fetchContactsEmail() {
+        val PROJECTION = arrayOf(
+            ContactsContract.RawContacts._ID,
+            ContactsContract.Contacts.DISPLAY_NAME,
+            ContactsContract.Contacts.PHOTO_ID,
+            ContactsContract.CommonDataKinds.Email.DATA,
+            ContactsContract.CommonDataKinds.Photo.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Phone.NUMBER
+        )
+        val order = ("CASE WHEN "
+                + ContactsContract.Contacts.DISPLAY_NAME
+                + " NOT LIKE '%@%' THEN 1 ELSE 2 END, "
+                + ContactsContract.Contacts.DISPLAY_NAME
+                + ", "
+                + ContactsContract.CommonDataKinds.Email.DATA
+                + " COLLATE NOCASE")
+        val filter = ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE ''"
+        val cur = context.contentResolver.query(
+            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+            PROJECTION,
+            filter,
+            null,
+            order
+        )
+        if (cur!!.moveToFirst()) {
+            do {
+
+                val name = cur.getString(1)
+                val emlAddr = cur.getString(3)
+                // keep unique only
+                Log.d("ContactEmail", "name $name and email $emlAddr")
+            } while (cur.moveToNext())
+        }
+
+        cur.close()
+    }
+
     private fun fetchContacts(context: Context): MutableList<Contact> {
 
         val contacts: MutableList<Contact> = ArrayList()
@@ -73,16 +110,7 @@ class ContactsDataSource(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
         )
-
-        val PROJECTION = arrayOf(
-            ContactsContract.RawContacts._ID,
-            ContactsContract.Contacts.DISPLAY_NAME,
-            ContactsContract.Contacts.PHOTO_ID,
-            ContactsContract.CommonDataKinds.Email.DATA,
-            ContactsContract.CommonDataKinds.Photo.CONTACT_ID
-        )
-
-
+        fetchContactsEmail()
         if ((cursor?.count ?: 0) > 0) {
             while (cursor!!.moveToNext()) {
                 val name =
