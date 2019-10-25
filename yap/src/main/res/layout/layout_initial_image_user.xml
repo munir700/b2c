@@ -13,6 +13,10 @@
             name="image"
             type="String" />
 
+        <variable
+            name="color"
+            type="String" />
+
         <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 

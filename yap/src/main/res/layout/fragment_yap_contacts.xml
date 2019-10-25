@@ -25,22 +25,41 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:visibility="visible" />
 
         <!-- Your Desired landing design-->
         <TextView
             android:id="@+id/txt_error"
             style="@style/SmallGrey"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:visibility="visible"
+            android:layout_marginBottom="@dimen/margin_large"
+            app:layout_constraintBottom_toTopOf="@+id/btnInvite"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:text="@{Strings.screen_y2y_display_text_no_yap_contacts}"
+            tools:text="@string/screen_y2y_display_text_no_yap_contacts"
+            tools:visibility="visible" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnInvite"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+            android:text="Invite Now"
+            app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:text="@{Strings.screen_y2y_display_text_no_yap_contacts}"
-            tools:text="@string/screen_y2y_display_text_no_yap_contacts" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"

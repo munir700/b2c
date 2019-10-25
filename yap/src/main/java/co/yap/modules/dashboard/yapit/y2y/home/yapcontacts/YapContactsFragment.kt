@@ -36,21 +36,23 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     }
 
     private fun initState() {
-        //retryBtn.setOnClickListener { viewModel.retry() }
         viewModel.getState().observe(this, Observer { state ->
-            if (viewModel.listIsEmpty()) {
+            if ((getBinding().recycler.adapter as YapContactsAdaptor).getDataList().isNullOrEmpty()) {
                 getBinding().recycler.visibility = View.GONE
                 getBinding().txtError.visibility =
+                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
+                getBinding().btnInvite.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
             } else {
                 getBinding().txtError.visibility = View.GONE
+                getBinding().btnInvite.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
-                // (getBinding().recycler.adapter as YapContactsAdaptor)?.setState(state)
             }
         })
+        viewModel.pagingState.value = PagingState.LOADING
     }
 
     private fun setObservers() {
@@ -58,14 +60,15 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             (getBinding().recycler.adapter as YapContactsAdaptor).setList(it)
             //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
+            viewModel.pagingState.value = PagingState.DONE
         })
     }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
-                R.id.userPackageType -> {
-
+                R.id.btnInvite -> {
+                    Utils.shareText(requireContext(), getBody())
                 }
                 R.id.tvInvite -> {
                     Utils.shareText(requireContext(), getBody())

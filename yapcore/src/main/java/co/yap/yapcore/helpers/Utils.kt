@@ -324,9 +324,14 @@ object Utils {
     }
 
     fun getFormattedPhone(mobileNo: String): String {
-        val pnu = PhoneNumberUtil.getInstance()
-        val pn = pnu.parse(mobileNo, Locale.getDefault().country)
-        return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+        return try {
+            val pnu = PhoneNumberUtil.getInstance()
+            val pn = pnu.parse(mobileNo, Locale.getDefault().country)
+            return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
     }
 
     fun getPhoneNumberCountryCode(mobileNo: String): String {

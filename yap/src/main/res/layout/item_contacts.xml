@@ -11,14 +11,16 @@
 
         <import type="android.view.View" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lyContact"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
-        android:background="@color/colorWhite">
+        android:background="@color/colorWhite"
+        android:onClick="@{(v) -> viewModel.onViewClicked(v)}">
 
         <include
             android:id="@+id/lyUserImage"
@@ -32,9 +34,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_normal"
+            android:layout_marginEnd="@dimen/margin_small"
             android:gravity="center"
             android:orientation="vertical"
-            android:layout_marginEnd="@dimen/margin_small"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/tvInvite"
             app:layout_constraintStart_toEndOf="@+id/lyUserImage"
@@ -58,8 +60,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_1sdp"
                 android:layout_weight="1"
-                android:text="@{viewModel.contact.mobileNo}"
+                android:text="@{Utils.INSTANCE.getFormattedPhone(viewModel.contact.mobileNo)}"
                 tools:text="+971 12 345 6789" />
+            <!--            android:text="@{Utils.INSTANCE.getFormattedPhone(viewModel.contact.countryCode+viewModel.contact.mobileNo)}"-->
+
         </LinearLayout>
 
         <TextView

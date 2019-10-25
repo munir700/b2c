@@ -15,7 +15,6 @@ interface IYapContact {
         val clickEvent: SingleClickEvent
         fun getState(): LiveData<PagingState>
         fun handlePressOnView(id: Int)
-        fun listIsEmpty(): Boolean
         fun retry()
     }
 
