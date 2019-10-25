@@ -68,4 +68,6 @@
     <dimen name="cardview_compat_inset_shadow">@dimen/_10sdp</dimen>
     <dimen name="cardview_elevation">@dimen/_10sdp</dimen>
     <dimen name="cardview_radius">@dimen/_10sdp</dimen>
+<!--Arc Menu-->
+    <dimen name="action_menu_radius">90dp</dimen>
 </resources>

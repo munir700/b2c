@@ -31,6 +31,8 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
+import co.yap.widgets.arcmenu.FloatingActionMenu
+import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.managers.MyUserManager
@@ -59,6 +61,15 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
+        FloatingActionMenu.Builder(this)
+            .setStartAngle(0)
+            .setEndAngle(-180).setRadius(230)
+            .setAnimationHandler(SlideInAnimationHandler())
+            .addSubActionView(R.layout.component_yap_menu_sub_button, this)
+            .addSubActionView(R.layout.component_yap_menu_sub_button, this)
+            .addSubActionView(R.layout.component_yap_menu_sub_button, this)
+            .attachTo(getViewBinding().ivYapIt)
+            .build()
     }
 
     private fun setupPager() {
@@ -221,6 +232,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
+//                    getViewBinding().ivYapIt
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
