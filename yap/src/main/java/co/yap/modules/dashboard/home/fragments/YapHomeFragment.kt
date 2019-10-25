@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
+import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -26,6 +27,7 @@ import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.DiscreteScrollView
@@ -55,6 +57,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         super.onViewCreated(view, savedInstanceState)
         setObservers()
         setAvailableBalance(viewModel.state.availableBalance)
+
+
+        initState()
+        initComponents()
     }
 
     override fun setObservers() {
@@ -136,6 +142,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         vGraph.visibility = View.VISIBLE
         view?.let {
             transactionViewHelper = TransactionsViewHelper(
+                this,
                 requireContext(),
                 it,
                 viewModel
@@ -292,6 +299,51 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (resultCode == RESULT_OK) {
                 showToast("data is "+data!!.getIntExtra(TransactionFiltersActivity.KEY_FILTER_START_AMOUNT,0))
             }
+        }
+    }
+
+    //
+
+
+//
+    private fun initComponents() {
+        rvTransaction.adapter = TransactionsHeaderAdapter { viewModel.retry() }
+        (rvTransaction.adapter as TransactionsHeaderAdapter).setItemListener(
+            listener
+        )
+    }
+
+    private fun initState() {
+        //retryBtn.setOnClickListener { viewModel.retry() }
+        viewModel.getState().observe(this, Observer { state ->
+            if (viewModel.listIsEmpty()) {
+                rvTransaction.visibility = View.GONE
+//                txt_error.visibility =
+//                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
+//                progress_bar.visibility =
+//                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+            } else {
+//                txt_error.visibility = View.GONE
+//                progress_bar.visibility = View.GONE
+//                rvTransaction.visibility = View.VISIBLE
+                getRecycleViewAdaptor()?.setState(state)
+            }
+        })
+    }
+
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+//            val action =
+//                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((data as Store).id.toString())
+//            view.findNavController().navigate(action)
+        }
+    }
+
+    private fun getRecycleViewAdaptor(): TransactionsHeaderAdapter? {
+        return if (rvTransaction.adapter is TransactionsHeaderAdapter) {
+            (rvTransaction.adapter as TransactionsHeaderAdapter)
+        } else {
+            null
         }
     }
 }

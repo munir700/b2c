@@ -11,6 +11,8 @@ import android.util.DisplayMetrics
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -22,15 +24,19 @@ import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.models.TransactionModel
 import co.yap.widgets.tooltipview.TooltipView
+import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
 
 
 class TransactionsViewHelper(
+    val owner: LifecycleOwner,
     val context: Context, val transactionsView: View,
     val viewModel: IYapHome.ViewModel
+
 ) {
     private var tooltip: TooltipView? = null
     var checkScroll: Boolean = false
@@ -39,14 +45,24 @@ class TransactionsViewHelper(
 
 
     init {
+//
+////        initState()
+//        initComponents()
         previouslySelected = 0
         setUpTransactionsListRecyclerView()
+        viewModel.storesLiveData.observe(owner, Observer {
+            (transactionsView.rvTransaction.adapter as TransactionsHeaderAdapter).submitList(it)
+            getRecycleViewAdaptor()?.setState(PagingState.DONE)
+        })
+
+
         setUpGraphRecyclerView()
         setOnGraphBarClickListeners()
         setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
         initCustomTooltip()
         // setTooltipOnZero()
+
     }
 
 //
@@ -139,11 +155,11 @@ class TransactionsViewHelper(
         transactionsView.rvTransaction.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context)
         transactionsView.rvTransaction.layoutManager = layoutManager
-        transactionsView.rvTransaction.adapter =
-            TransactionsHeaderAdapter(
-                context,
-                viewModel.transactionLogicHelper.transactionList
-            )
+//        transactionsView.rvTransaction.adapter =
+//            TransactionsHeaderAdapter(
+//                context,
+//                viewModel.transactionLogicHelper.transactionList
+//            )
     }
 
     private fun setUpGraphRecyclerView() {
@@ -249,10 +265,10 @@ class TransactionsViewHelper(
 //                        checkScroll = false
 
 //                        checkScroll = false
-////                        checkScroll = true
+//                        checkScroll = true
 //                        isCellHighlighted = false
 //                        isCellHighlightedFromTransaction = false
-////
+//
 //                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
 //                            .performClick()
 //                        horizontalScrollPosition = position
@@ -262,12 +278,12 @@ class TransactionsViewHelper(
 
 //                        val newView =
 //                            transactionsView.rvTransactionsBarChart.getChildAt(position)
-////                                .apply {
-////                                performClick()
-////                            }
+//                                .apply {
+//                                performClick()
+//                            }
 //                        transactionsView.rvTransaction.smoothScrollToPosition(position)
-////                        previouslySelected = position
-////
+//                        previouslySelected = position
+//
 //                        addTooltip(
 //                            newView.findViewById(R.id.transactionBar),
 //                            viewModel.transactionLogicHelper.transactionList[position]
@@ -399,8 +415,6 @@ class TransactionsViewHelper(
             previouslySelected = horizontalScrollPosition
         }
 
-//            }
-//        }
     }
 
     private fun scrollBarsFromListTouch(
@@ -485,5 +499,46 @@ class TransactionsViewHelper(
         toolbarCollapsed = false
     }
 
+//
+//    private fun initComponents() {
+//        transactionsView.rvTransaction.adapter = TransactionsHeaderAdapter { viewModel.retry() }
+//        (transactionsView.rvTransaction.adapter as TransactionsHeaderAdapter).setItemListener(
+//            listener
+//        )
+//    }
+//
+//    private fun initState() {
+//        //retryBtn.setOnClickListener { viewModel.retry() }
+//        viewModel.getState().observe(owner, Observer { state ->
+//            if (viewModel.listIsEmpty()) {
+//                transactionsView.rvTransaction.visibility = View.GONE
+////                txt_error.visibility =
+////                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
+////                progress_bar.visibility =
+////                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+//            } else {
+////                txt_error.visibility = View.GONE
+////                progress_bar.visibility = View.GONE
+////                transactionsView.rvTransaction.visibility = View.VISIBLE
+//                getRecycleViewAdaptor()?.setState(state)
+//            }
+//        })
+//    }
+//
+//    val listener = object : OnItemClickListener {
+//        override fun onItemClick(view: View, data: Any, pos: Int) {
+////            val action =
+////                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((data as Store).id.toString())
+////            view.findNavController().navigate(action)
+//        }
+//    }
+//
+    private fun getRecycleViewAdaptor(): TransactionsHeaderAdapter? {
+        return if (transactionsView.rvTransaction.adapter is TransactionsHeaderAdapter) {
+            (transactionsView.rvTransaction.adapter as TransactionsHeaderAdapter)
+        } else {
+            null
+        }
+    }
 
 }

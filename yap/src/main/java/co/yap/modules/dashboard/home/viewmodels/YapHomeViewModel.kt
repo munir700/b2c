@@ -19,7 +19,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Content
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import org.json.JSONObject
@@ -32,6 +31,8 @@ import java.util.*
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
+
+
     override var MAX_CLOSING_BALANCE: Double = 0.0
     //    var contentList: ArrayList<Content> = arrayListOf()
     var closingBalanceArray: java.util.ArrayList<Double> = arrayListOf()
@@ -48,8 +49,11 @@ class YapHomeViewModel(application: Application) :
     private lateinit var storeSourceFactory: TransactionsDataSourceFactory
     var contentList: ArrayList<Content> = arrayListOf()
 
-    lateinit var storesLiveData: LiveData<PagedList<HomeTransactionListData>>
+    override lateinit var storesLiveData: LiveData<PagedList<TransactionModel>>
+init {
+    setUpTransactionsRepo()
 
+}
     fun setUpTransactionsRepo() {
         storeSourceFactory = TransactionsDataSourceFactory(transactionsRepository)
         storesLiveData = LivePagedListBuilder(storeSourceFactory, getPagingConfigs()).build()
@@ -65,12 +69,26 @@ class YapHomeViewModel(application: Application) :
             .build()
     }
 
+    override fun listIsEmpty(): Boolean {
+        return storesLiveData.value?.isEmpty() ?: true
+    }
 
-    fun getState(): LiveData<PagingState> = Transformations.switchMap<TransactionsDataSource,
-            PagingState>(storeSourceFactory.storeDataSourceLiveData, TransactionsDataSource::state)
+    override fun retry() {
+//        storeSourceFactory.storeDataSourceLiveData.value?.retry()
+        setUpTransactionsRepo()
+
+    }
+
+    override fun getState(): LiveData<PagingState> =
+        Transformations.switchMap<TransactionsDataSource,
+                PagingState>(
+            storeSourceFactory.storeDataSourceLiveData,
+            TransactionsDataSource::state
+        )
 
     override fun onCreate() {
         super.onCreate()
+//        setUpTransactionsRepo()
         requestAccountTransactions()
     }
 

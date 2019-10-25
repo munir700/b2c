@@ -2,16 +2,16 @@ package co.yap.modules.dashboard.store.paging.transactions
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
+import co.yap.modules.dashboard.home.models.TransactionModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.PagingState
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class TransactionsDataSource(private val storeRepo: TransactionsRepository) :
-    PageKeyedDataSource<Long, HomeTransactionListData>() {
+    PageKeyedDataSource<Long, TransactionModel>() {
 
     var state: MutableLiveData<PagingState> = MutableLiveData()
 
@@ -116,7 +116,7 @@ class TransactionsDataSource(private val storeRepo: TransactionsRepository) :
 
     override fun loadInitial(
         params: PageKeyedDataSource.LoadInitialParams<Long>,
-        callback: PageKeyedDataSource.LoadInitialCallback<Long, HomeTransactionListData>
+        callback: PageKeyedDataSource.LoadInitialCallback<Long, TransactionModel>
     ) {
 
         var homeTransactionsRequest: HomeTransactionsRequest =
@@ -127,7 +127,7 @@ class TransactionsDataSource(private val storeRepo: TransactionsRepository) :
                 storeRepo.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
                     callback.onResult(
-                        response.data.data   as MutableList<HomeTransactionListData>,
+                        response.data.data   as MutableList<TransactionModel>,
                         null,
                         2
                     )
@@ -157,7 +157,7 @@ class TransactionsDataSource(private val storeRepo: TransactionsRepository) :
 
     override fun loadAfter(
         params: PageKeyedDataSource.LoadParams<Long>,
-        callback: PageKeyedDataSource.LoadCallback<Long, HomeTransactionListData>
+        callback: PageKeyedDataSource.LoadCallback<Long, TransactionModel>
     ) {
         updateState(PagingState.LOADING)
         GlobalScope.launch {
@@ -165,7 +165,7 @@ class TransactionsDataSource(private val storeRepo: TransactionsRepository) :
                 storeRepo.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
                     callback.onResult(
-                        response.data.data   as MutableList<HomeTransactionListData>,
+                        response.data.data   as MutableList<TransactionModel>,
                         params.key + 1
                     )
                     updateState(PagingState.DONE)
@@ -181,7 +181,7 @@ class TransactionsDataSource(private val storeRepo: TransactionsRepository) :
 
     override fun loadBefore(
         params: PageKeyedDataSource.LoadParams<Long>,
-        callback: PageKeyedDataSource.LoadCallback<Long, HomeTransactionListData>
+        callback: PageKeyedDataSource.LoadCallback<Long, TransactionModel>
     ) {
     }
 

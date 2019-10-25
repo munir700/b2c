@@ -1,9 +1,13 @@
 package co.yap.modules.dashboard.home.interfaces
 
+import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
+import co.yap.modules.dashboard.home.models.TransactionModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.PagingState
 
 interface IYapHome {
 
@@ -21,6 +25,12 @@ interface IYapHome {
         fun getDebitCards()
         val transactionLogicHelper: TransactionLogicHelper
         fun handlePressOnView(id: Int)
+
+        val storesLiveData: LiveData<PagedList<TransactionModel>>
+        fun getState(): LiveData<PagingState>
+        fun listIsEmpty(): Boolean
+        fun retry()
+
     }
 
     interface State : IBase.State{
