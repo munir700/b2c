@@ -106,7 +106,7 @@ class YapHomeViewModel(application: Application) :
             state.loading = true
 
             var homeTransactionsRequest: HomeTransactionsRequest =
-                HomeTransactionsRequest(1, 5, 10.00, 100.00, true, true, true)
+                HomeTransactionsRequest(1, 30, 0.00, 200000.00, true, true, true)
 
             when (val response =
                 transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
@@ -116,20 +116,20 @@ class YapHomeViewModel(application: Application) :
                         response.data.toString()
                     )
                     if (null != response.data.data) {
-
-                        loadJSONDummyList()
+                        contentList=response.data.data.content as  ArrayList<Content>
+//                        loadJSONDummyList()
                         Collections.sort(contentList, object :
                             Comparator<Content> {
                             override fun compare(
                                 o1: Content,
                                 o2: Content
                             ): Int {
-                                return o2.updatedDate.compareTo(o1.updatedDate)
+                                return o2.updatedDate!!.compareTo(o1.updatedDate!!)
                             }
                         })
 
                         val groupByDate = contentList.groupBy { item ->
-                            convertDate(item.updatedDate)
+                            convertDate(item.updatedDate!!)
 //                            item.updatedDate
                         }
 

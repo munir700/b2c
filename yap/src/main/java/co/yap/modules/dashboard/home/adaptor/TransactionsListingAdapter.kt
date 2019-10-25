@@ -35,7 +35,7 @@ class TransactionsListingAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transaction: Content = transactionsList[position]
-        if (transaction.txnType.toLowerCase() == "credit") {
+        if (transaction.txnType!!.toLowerCase() == "credit") {
             holder.tvTransactionAmount?.setTextColor(
                 ContextCompat.getColor(
                     context,
@@ -44,7 +44,7 @@ class TransactionsListingAdapter(
             )
             holder.tvTransactionAmount?.text =
                 "+" + Utils.getFormattedCurrency(transaction.amount.toString())
-        } else if (transaction.txnType.toLowerCase() == "debit") {
+        } else if (transaction.txnType!!.toLowerCase() == "debit") {
             holder.tvTransactionAmount?.setTextColor(
                 ContextCompat.getColor(
                     context,
@@ -55,13 +55,13 @@ class TransactionsListingAdapter(
                 "-" + Utils.getFormattedCurrency(transaction.amount.toString())
         }
 
-        holder.tvTransactionName?.text = transaction.senderName
-        holder.tvNameInitials?.text = shortName(transaction.senderName)
+        holder.tvTransactionName?.text = transaction?.senderName
+        holder.tvNameInitials?.text = transaction?.senderName?.let { shortName(it) }
         holder.tvTransactionTimeAndCategory?.text = Translator.getString(
             context,
             R.string.screen_fragment_home_transaction_time_category,
-            splitTimeString(transaction.updatedDate),
-            transaction.category.toLowerCase().capitalize()
+            splitTimeString(transaction.updatedDate!!),
+            transaction.category!!.toLowerCase().capitalize()
         )
         holder.tvCurrency?.text = transaction.currency
     }
