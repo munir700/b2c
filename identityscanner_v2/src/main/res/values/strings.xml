@@ -78,6 +78,7 @@
 
     <string name="action_retake">Rescan</string>
     <string name="action_done">Done</string>
+    <string name="all_permission_msg">All permission needed to proceed.</string>
 
 
     <string name="message_gallery_permission_denied">External Storage permissions is needed to select Image. Please turn on requested permissions from Settings > Permissions.</string>
