@@ -1,27 +1,27 @@
 package co.yap.modules.dashboard.helpers.transaction
 
 import android.content.Context
-import co.yap.modules.dashboard.home.models.TransactionModel
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import java.io.IOException
 import java.nio.charset.StandardCharsets
 
 class TransactionLogicHelper(
     val context: Context
 ) {
-    var transactionList: ArrayList<TransactionModel> = arrayListOf()
+    var transactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 //    var transactioncontentList: List<Content> = arrayListOf()
 
     init {
 //        transactionList = loadJSONDummyList()
-//        TransactionModel
+//        HomeTransactionListData
 //    var contentList: List<HomeTransactionsResponse.HomeTransactionListData.Content>
 
 //   now structure that lis data
     }
-//    val transactioModelList: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
+//    val transactioModelList: ArrayList<HomeTransactionListData> = ArrayList<HomeTransactionListData>()
 
-    private fun loadJSONDummyList(): ArrayList<TransactionModel> {
-        val transactioModelList: ArrayList<TransactionModel> = ArrayList<TransactionModel>()
+    private fun loadJSONDummyList(): ArrayList<HomeTransactionListData> {
+        val transactioModelList: ArrayList<HomeTransactionListData> = ArrayList<HomeTransactionListData>()
 
 //        val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
 //        if (mainObj != null) {
@@ -64,7 +64,7 @@ class TransactionLogicHelper(
 //                        transactionsArrayList.add(transaction)
 //                    }
 //
-//                    val transactionModel: TransactionModel = TransactionModel(
+//                    val transactionModel: HomeTransactionListData = HomeTransactionListData(
 //                        "HEADER",
 //                        totalAmountType,
 //                        date,
@@ -78,8 +78,8 @@ class TransactionLogicHelper(
 //                }
 //            }
 //        }
-//        Collections.sort(transactioModelList, object : Comparator<TransactionModel> {
-//            override fun compare(o1: TransactionModel, o2: TransactionModel): Int {
+//        Collections.sort(transactioModelList, object : Comparator<HomeTransactionListData> {
+//            override fun compare(o1: HomeTransactionListData, o2: HomeTransactionListData): Int {
 //                return o2.date.compareTo(o1.date)
 //            }
 //        })

@@ -1,6 +1,6 @@
 package co.yap.modules.dashboard.home.helpers.transaction
 
-import co.yap.modules.dashboard.home.models.TransactionModel
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 
-class ItemHeaderTransactionsViewModel (val transactionViewModel: TransactionModel?){
+class ItemHeaderTransactionsViewModel (val transactionViewModel: HomeTransactionListData?){
 }

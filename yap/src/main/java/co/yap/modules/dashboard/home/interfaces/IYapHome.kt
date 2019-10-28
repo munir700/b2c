@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.paging.PagedList
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
-import co.yap.modules.dashboard.home.models.TransactionModel
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
@@ -26,7 +26,7 @@ interface IYapHome {
         val transactionLogicHelper: TransactionLogicHelper
         fun handlePressOnView(id: Int)
 
-        val storesLiveData: LiveData<PagedList<TransactionModel>>
+        val storesLiveData: LiveData<PagedList<HomeTransactionListData>>
         fun getState(): LiveData<PagingState>
         fun listIsEmpty(): Boolean
         fun retry()

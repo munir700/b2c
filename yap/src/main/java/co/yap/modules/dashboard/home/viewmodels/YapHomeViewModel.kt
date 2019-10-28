@@ -9,7 +9,6 @@ import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.modules.dashboard.home.models.TransactionModel
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.modules.dashboard.store.paging.transactions.TransactionsDataSource
@@ -19,6 +18,9 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Pageable
+import co.yap.networking.transactions.responsedtos.transaction.Sort
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import org.json.JSONObject
@@ -49,11 +51,13 @@ class YapHomeViewModel(application: Application) :
     private lateinit var storeSourceFactory: TransactionsDataSourceFactory
     var contentList: ArrayList<Content> = arrayListOf()
 
-    override lateinit var storesLiveData: LiveData<PagedList<TransactionModel>>
-init {
-    setUpTransactionsRepo()
+    override lateinit var storesLiveData: LiveData<PagedList<HomeTransactionListData>>
 
-}
+    init {
+        setUpTransactionsRepo()
+
+    }
+
     fun setUpTransactionsRepo() {
         storeSourceFactory = TransactionsDataSourceFactory(transactionsRepository)
         storesLiveData = LivePagedListBuilder(storeSourceFactory, getPagingConfigs()).build()
@@ -131,10 +135,9 @@ init {
             when (val response =
                 transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
-                    Log.i(
-                        "getAccountTransactions",
-                        response.data.toString()
-                    )
+
+                    Log.i("getAccountTransactions", response.data.toString())
+
                     if (null != response.data.data) {
                         contentList = response.data.data.content as ArrayList<Content>
 //                        loadJSONDummyList()
@@ -154,7 +157,7 @@ init {
 
                         println(groupByDate.entries.joinToString(""))
 
-                        var transactionModelData: java.util.ArrayList<TransactionModel> =
+                        var transactionModelData: java.util.ArrayList<HomeTransactionListData> =
                             arrayListOf()
 
                         for (transactionsDay in groupByDate.entries) {
@@ -176,16 +179,26 @@ init {
 //                                println(calculateTotalAmount)
 //                            }
 
-
-                            var transactionModel: TransactionModel = TransactionModel(
+                            var transactionModel: HomeTransactionListData = HomeTransactionListData(
                                 "Type",
                                 "AED",
                                 transactionsDay.key!!,
                                 contentsList.get(0).totalAmount.toString(),
                                 contentsList.get(0).balanceAfter,
                                 80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-                                contentsList
+                                contentsList,
 
+                                //
+
+                                response.data.data.first,
+                                response.data.data.last,
+                                response.data.data.number,
+                                response.data.data.numberOfElements,
+                                response.data.data.pageable,
+                                response.data.data.size,
+                                response.data.data.sort,
+                                response.data.data.totalElements,
+                                response.data.data.totalPages
                             )
                             transactionModelData.add(transactionModel)
 

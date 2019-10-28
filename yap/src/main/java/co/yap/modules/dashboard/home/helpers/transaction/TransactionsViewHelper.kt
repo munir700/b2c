@@ -22,12 +22,11 @@ import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter.Companion.isCellHi
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter.Companion.previouslySelected
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.interfaces.IYapHome
-import co.yap.modules.dashboard.home.models.TransactionModel
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.widgets.tooltipview.TooltipView
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
 
@@ -46,7 +45,7 @@ class TransactionsViewHelper(
 
     init {
 //
-////        initState()
+//        initState()
 //        initComponents()
         previouslySelected = 0
         setUpTransactionsListRecyclerView()
@@ -67,13 +66,13 @@ class TransactionsViewHelper(
 
 //
 //    fun calculatePercentagePerDayFromClosingBalance(closingBalance : Double) : Double {
-////will count it in the end beacause we already kniw the current closing balance if rhe kast transactiuon in thr day
-////        val maxClosingBalance = closingBalanceArray.max()
-////        transactions closing balance of all the days from past
+////  will count it in the end beacause we already kniw the current closing balance if rhe kast transactiuon in thr day
+////  val maxClosingBalance = closingBalanceArray.max()
+//  transactions closing balance of all the days from past
 //
 //        return (closingBalance/viewModel.MAX_CLOSING_BALANCE) * 100
 //
-////        return closingBalanceArray.map { (0 / viewModel.MAX_CLOSING_BALANCE) * 100
+//        return closingBalanceArray.map { (0 / viewModel.MAX_CLOSING_BALANCE) * 100
 //
 //    }
 
@@ -99,7 +98,7 @@ class TransactionsViewHelper(
         }
     }
 
-    private fun addTooltip(view: View?, data: TransactionModel) {
+    private fun addTooltip(view: View?, data: HomeTransactionListData) {
         view?.let {
             val text =
                 data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance.toString())
@@ -499,7 +498,7 @@ class TransactionsViewHelper(
         toolbarCollapsed = false
     }
 
-//
+    //
 //    private fun initComponents() {
 //        transactionsView.rvTransaction.adapter = TransactionsHeaderAdapter { viewModel.retry() }
 //        (transactionsView.rvTransaction.adapter as TransactionsHeaderAdapter).setItemListener(

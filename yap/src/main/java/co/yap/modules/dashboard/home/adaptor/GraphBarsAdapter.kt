@@ -7,12 +7,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.home.ChartView
-import co.yap.modules.dashboard.home.models.TransactionModel
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import kotlinx.android.synthetic.main.item_bar_chart.view.*
 
 
 class GraphBarsAdapter(
-    private val listItems: ArrayList<TransactionModel>,
+    private val listItems: ArrayList<HomeTransactionListData>,
     val context: Context,
     val maxClosingBalance : Double
 ) :
@@ -37,7 +37,7 @@ class GraphBarsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         viewHolder = holder
-        val transactionModel: TransactionModel = listItems[position]
+        val transactionModel: HomeTransactionListData = listItems[position]
         transactionModel.amountPercentage = calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance)
         holder.transactionBar.onFocusChangeListener = this
         holder.transactionBar.setBarHeight(transactionModel.amountPercentage)

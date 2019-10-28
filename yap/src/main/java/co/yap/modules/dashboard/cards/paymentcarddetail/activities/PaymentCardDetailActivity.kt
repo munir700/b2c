@@ -372,11 +372,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         rvTransaction.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
         rvTransaction.layoutManager = layoutManager
-        rvTransaction.adapter =
-            TransactionsHeaderAdapter(
-                this,
-                viewModel.transactionLogicHelper.transactionList
-            )
+//        rvTransaction.adapter =
+//            TransactionsHeaderAdapter(
+//                this,
+//                viewModel.transactionLogicHelper.transactionList
+//            )
     }
 
     override fun onDestroy() {
