@@ -204,4 +204,10 @@
 <!--        android:label="YapToYapDashboardActivity"-->
 <!--        tools:layout="@layout/activity_yap_to_yap_dashboard"/>-->
 
+    <activity
+        android:id="@+id/transactionDetailsActivity"
+        android:name="co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity"
+        android:label="transactionDetailsActivity"
+        tools:layout="@layout/activity_transaction_details"/>
+
 </navigation>
