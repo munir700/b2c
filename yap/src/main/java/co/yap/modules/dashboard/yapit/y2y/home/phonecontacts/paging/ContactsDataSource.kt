@@ -66,7 +66,8 @@ class ContactsDataSource(
         }
     }
 
-    private fun fetchContactsEmail() {
+    private fun fetchContactsEmail(id: Long): String {
+        var emlAdd = ""
         val PROJECTION = arrayOf(
             ContactsContract.RawContacts._ID,
             ContactsContract.Contacts.DISPLAY_NAME,
@@ -82,7 +83,10 @@ class ContactsDataSource(
                 + ", "
                 + ContactsContract.CommonDataKinds.Email.DATA
                 + " COLLATE NOCASE")
-        val filter = ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE ''"
+        val filter2 =
+            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE ''"
+        val filter =
+            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE '' AND " + ContactsContract.RawContacts._ID + " = " + (id + 1)
         val cur = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Email.CONTENT_URI,
             PROJECTION,
@@ -92,15 +96,16 @@ class ContactsDataSource(
         )
         if (cur!!.moveToFirst()) {
             do {
-
+                val idd = cur.getString(0)
                 val name = cur.getString(1)
-                val emlAddr = cur.getString(3)
+                emlAdd = cur.getString(3)
                 // keep unique only
-                Log.d("ContactEmail", "name $name and email $emlAddr")
+                Log.d("ContactEmail", "name $name and email $emlAdd id is $idd")
             } while (cur.moveToNext())
         }
 
         cur.close()
+        return emlAdd
     }
 
     private fun fetchContacts(context: Context): MutableList<Contact> {
@@ -110,50 +115,68 @@ class ContactsDataSource(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
         )
-        fetchContactsEmail()
-        if ((cursor?.count ?: 0) > 0) {
-            while (cursor!!.moveToNext()) {
-                val name =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
 
-                val phoneWihtoutCountryCode =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+        try {
 
-                val phoneNo = Utils.getPhoneWithoutCountryCode(phoneWihtoutCountryCode)
-                val countryCode = Utils.getPhoneNumberCountryCode(phoneWihtoutCountryCode)
+            if ((cursor?.count ?: 0) > 0) {
+                while (cursor!!.moveToNext()) {
+                    val name =
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
 
-                val email =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA))
+                    val phoneWihtoutCountryCode =
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                val photoContentUri =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+                    val phoneNo = Utils.getPhoneWithoutCountryCode(phoneWihtoutCountryCode)
+                    val countryCode = Utils.getPhoneNumberCountryCode(phoneWihtoutCountryCode)
 
-                var photoUri: Uri? = null
-                if (photoContentUri != null) {
-                    val photoId =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID))
-                    val person = ContentUris.withAppendedId(
-                        ContactsContract.Contacts.CONTENT_URI, java.lang.Long
-                            .parseLong(photoId)
+                    val id =
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.NAME_RAW_CONTACT_ID))
+                    val id2 =
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.RawContacts._ID))
+
+                    val id3 =
+                        cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts.NAME_RAW_CONTACT_ID))
+                    val id4 =
+                        cursor.getLong(cursor.getColumnIndex(ContactsContract.RawContacts._ID))
+
+//                    fetchContactsEmail(id2.toLong())
+
+                    val email = fetchContactsEmail(id4)
+                    val photoContentUri =
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+
+                    var photoUri: Uri? = null
+                    if (photoContentUri != null) {
+                        val photoId =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID))
+                        val person = ContentUris.withAppendedId(
+                            ContactsContract.Contacts.CONTENT_URI, java.lang.Long
+                                .parseLong(photoId)
+                        )
+                        photoUri = Uri.withAppendedPath(
+                            person,
+                            ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
+                        )
+                    }
+                    Log.d(
+                        "contact",
+                        "getAllContacts: $name $countryCode $phoneNo $email  ${photoUri.toString()}"
                     )
-                    photoUri = Uri.withAppendedPath(
-                        person,
-                        ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
+                    val contact = Contact(
+                        name,
+                        countryCode,
+                        phoneNo,
+                        email,
+                        photoUri.toString(),
+                        false, null
                     )
+                    contacts.add(contact)
                 }
-                Log.d("contact", "getAllContacts: $name $countryCode $phoneNo $email  ${photoUri.toString()}")
-                val contact = Contact(
-                    name,
-                    countryCode,
-                    phoneNo,
-                    email,
-                    photoUri.toString(),
-                    false, null
-                )
-                contacts.add(contact)
             }
+            cursor?.close()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
-        cursor?.close()
         return contacts
     }
 
