@@ -15,6 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <RelativeLayout
                 android:id="@+id/rlYapIt"
                 android:layout_width="wrap_content"
@@ -47,6 +48,7 @@
 
             </RelativeLayout>
 
+
             <com.google.android.material.bottomnavigation.BottomNavigationView
                 android:id="@+id/bottomNav"
                 android:layout_width="match_parent"
@@ -64,6 +66,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_above="@id/bottomNav" />
+            <FrameLayout
+                android:id="@+id/flAlphaOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0"
+                android:background="@color/white"/>
 
         </RelativeLayout>
 
