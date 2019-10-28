@@ -307,7 +307,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 //
     private fun initComponents() {
-        rvTransaction.adapter = TransactionsHeaderAdapter { viewModel.retry() }
+    rvTransaction.adapter = TransactionsHeaderAdapter (activity!!.applicationContext, {viewModel.retry() })
+
         (rvTransaction.adapter as TransactionsHeaderAdapter).setItemListener(
             listener
         )
