@@ -12,6 +12,13 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 class YapContactsAdaptor(context: Context, private val list: MutableList<Contact>) :
     BaseBindingRecyclerAdapter<Contact, RecyclerView.ViewHolder>(list) {
 
+    private val contactColors = arrayListOf(
+        "#29F44774",
+        "#29478DF4",
+        "#D600B9AE",
+        "#D6F57F17"
+    )
+
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_contacts
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
@@ -21,7 +28,7 @@ class YapContactsAdaptor(context: Context, private val list: MutableList<Contact
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is YapContactItemViewHolder) {
-            holder.onBind(list[position], position, onItemClickListener)
+            holder.onBind(contactColors, list[position], position, onItemClickListener)
         }
     }
 

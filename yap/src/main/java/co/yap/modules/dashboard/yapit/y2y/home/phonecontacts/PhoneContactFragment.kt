@@ -31,7 +31,14 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
     }
 
     private fun initComponents() {
-        getBinding().recycler.adapter = PhoneContactsAdaptor { viewModel.retry() }
+        val contactColors = arrayListOf(
+            "#F44774",
+            "#478DF4",
+            "#00B9AE",
+            "#F57F17"
+        )
+
+        getBinding().recycler.adapter = PhoneContactsAdaptor(contactColors) { viewModel.retry() }
         (getBinding().recycler.adapter as PhoneContactsAdaptor).setItemListener(listener)
     }
 
