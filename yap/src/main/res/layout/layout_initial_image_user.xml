@@ -23,15 +23,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
-            android:layout_width="@dimen/_45sdp"
-            android:layout_height="@dimen/_45sdp"
-            android:background="@drawable/bg_round_with_space_white"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,7 +41,6 @@
             android:id="@+id/lyNameInitials"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_round_with_space_white"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -51,9 +48,9 @@
 
             <TextView
                 android:id="@+id/tvNameInitials"
-                style="@style/ALarge"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
+                style="@style/ARegular"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
                 android:background="@drawable/bg_round_purple"
                 android:drawableTint="@color/colorPrimary"
                 android:gravity="center"
@@ -61,7 +58,6 @@
                 android:textColor="@color/colorPrimary"
                 tools:text="NM" />
         </LinearLayout>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
