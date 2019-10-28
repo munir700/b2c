@@ -6,13 +6,11 @@ package co.yap.widgets.arcmenu
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.TextView
 import co.yap.widgets.arcmenu.animation.DefaultAnimationHandler
@@ -391,7 +389,7 @@ class FloatingActionMenu
         val animator2 = ObjectAnimator.ofFloat(mainActionView, "rotation", -180f)
         animator2.repeatCount = 0
         animator2.duration = 400
-        val alphaArray = if (isOpen)floatArrayOf(1f, 0f)else floatArrayOf(0f, 1f)
+        val alphaArray = if (isOpen) floatArrayOf(1f, 0f) else floatArrayOf(0f, 1f)
         var alphaAnimation: ObjectAnimator? = null
         if (alphaOverlay != null) {
             alphaOverlay.alpha = if (isOpen) 1f else 0f
@@ -411,8 +409,7 @@ class FloatingActionMenu
             set.play(alphaAnimation)
         }
         set.start()
-        set.addListener(object :Animator.AnimatorListener
-        {
+        set.addListener(object : Animator.AnimatorListener {
             override fun onAnimationRepeat(animation: Animator?) {
             }
 
@@ -735,7 +732,8 @@ class FloatingActionMenu
             title: String,
             iconResId: Int,
             layoutResId: Int,
-            context: Context
+            context: Context,
+            onclick: View.OnClickListener
         ): Builder {
             val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -743,6 +741,7 @@ class FloatingActionMenu
             view.findViewById<TextView>(R.id.tvTitle).text = title
             view.findViewById<FloatingActionButton>(R.id.ivYapIt).setImageResource(iconResId)
             view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            view.setOnClickListener { onclick.onClick(view) }
             return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
         }
 
@@ -788,6 +787,7 @@ class FloatingActionMenu
             this.actionView = actionView
             return this
         }
+
 
         fun build(): FloatingActionMenu {
             return FloatingActionMenu(

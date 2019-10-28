@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentYapToYapBinding
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.PHONE_CONTACTS
@@ -54,7 +53,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
         getBindingView().svContacts.initializeSearch(requireContext(), object : SearchingListener {
             override fun onCancel() {
                 svContacts.clearInputField()
-                findNavController().navigate(YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment())
             }
 
             override fun onSearchKeyPressed(search: String?) {
@@ -63,13 +61,13 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
             }
 
         }, false, true)
-        getBindingView().svContacts.setOnClickListener { findNavController().navigate(R.id.y2YTransferFragment) }
+        getBindingView().svContacts.setOnClickListener { }
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.btnInvite -> {
-                findNavController().navigate(YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment())
+
             }
         }
     }
