@@ -4,16 +4,17 @@
 package co.yap.widgets.arcmenu
 
 import android.animation.Animator
+import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
 import android.view.*
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.databinding.DataBindingUtil
 import co.yap.widgets.arcmenu.animation.DefaultAnimationHandler
 import co.yap.widgets.arcmenu.animation.MenuAnimationHandler
 import co.yap.yapcore.R
@@ -74,7 +75,9 @@ class FloatingActionMenu
     /**
      * Reference to a listener that listens open/close actions
      */
-    private var stateChangeListener: MenuStateChangeListener?
+    private var stateChangeListener: MenuStateChangeListener?,
+    val alphaOverlay: View?
+
 ) {
     /**
      * whether the menu is currently open or not
@@ -335,7 +338,7 @@ class FloatingActionMenu
             for (i in subActionItems.indices) {
                 removeViewFromCurrentContainer(subActionItems[i].view)
             }
-            detachOverlayContainer()
+            //detachOverlayContainer()
         }
         // do not forget to specify that the menu is now closed.
         isOpen = false
@@ -352,32 +355,80 @@ class FloatingActionMenu
      */
     fun toggle(view: View, animated: Boolean) {
 
-        val pvhY = PropertyValuesHolder.ofFloat(View.ROTATION, if (isOpen) 0f else -180f)
+//        val pvhY = PropertyValuesHolder.ofFloat(View.ROTATION, if (isOpen) 0f else -180f)
+//
+//        val animation = ObjectAnimator.ofPropertyValuesHolder(mainActionView, pvhY)
+//        animation.duration = 300
+//        animation.interpolator = DecelerateInterpolator()
+//        animation.addListener(object : Animator.AnimatorListener {
+//            override fun onAnimationStart(animation: Animator) {
+//                mainActionView.isClickable = false
+//                mainActionView.setOnClickListener(null)
+//            }
+//
+//            override fun onAnimationEnd(animation: Animator) {
+//                mainActionView.isClickable = true
+//                mainActionView.setOnClickListener(ActionViewClickListener())
+//
+//            }
+//
+//            override fun onAnimationCancel(animation: Animator) {
+//
+//            }
+//
+//            override fun onAnimationRepeat(animation: Animator) {
+//
+//            }
+//        })
+//        animation.start()
 
-        val animation = ObjectAnimator.ofPropertyValuesHolder(mainActionView, pvhY)
-        animation.duration = 300
-        animation.interpolator = DecelerateInterpolator()
-        animation.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationStart(animation: Animator) {
+//------------------------------------
+        val animator1 =
+            ObjectAnimator.ofFloat(mainActionView, "rotation", if (isOpen) 0f else -180f)
+        animator1.repeatCount = 0
+        animator1.duration = 400
+
+        val animator2 = ObjectAnimator.ofFloat(mainActionView, "rotation", -180f)
+        animator2.repeatCount = 0
+        animator2.duration = 400
+        val alphaArray = if (isOpen)floatArrayOf(1f, 0f)else floatArrayOf(0f, 1f)
+        var alphaAnimation: ObjectAnimator? = null
+        if (alphaOverlay != null) {
+            alphaOverlay.alpha = if (isOpen) 1f else 0f
+            alphaAnimation = ObjectAnimator.ofFloat(
+                alphaOverlay,
+                View.ALPHA,
+                *alphaArray
+            )
+            alphaAnimation.duration = 400
+            alphaAnimation.repeatCount = 0
+        }
+
+        val set = AnimatorSet()
+        set.interpolator = AccelerateDecelerateInterpolator()
+        set.play(animator1)
+        if (alphaAnimation != null) {
+            set.play(alphaAnimation)
+        }
+        set.start()
+        set.addListener(object :Animator.AnimatorListener
+        {
+            override fun onAnimationRepeat(animation: Animator?) {
+            }
+
+            override fun onAnimationEnd(animation: Animator?) {
+                mainActionView.isClickable = true
+                mainActionView.setOnClickListener(ActionViewClickListener())
+            }
+
+            override fun onAnimationCancel(animation: Animator?) {
+            }
+
+            override fun onAnimationStart(animation: Animator?) {
                 mainActionView.isClickable = false
                 mainActionView.setOnClickListener(null)
             }
-
-            override fun onAnimationEnd(animation: Animator) {
-                mainActionView.isClickable = true
-                mainActionView.setOnClickListener(ActionViewClickListener())
-
-            }
-
-            override fun onAnimationCancel(animation: Animator) {
-
-            }
-
-            override fun onAnimationRepeat(animation: Animator) {
-
-            }
         })
-        animation.start()
         if (isOpen) {
             close(animated)
         } else {
@@ -611,6 +662,7 @@ class FloatingActionMenu
         private var animationHandler: MenuAnimationHandler? = null
         private var animated: Boolean = false
         private var stateChangeListener: MenuStateChangeListener? = null
+        private var alphaOverlay: View? = null
 
         init {
             subActionItems = ArrayList()
@@ -639,6 +691,11 @@ class FloatingActionMenu
 
         fun addSubActionView(subActionView: View, width: Int, height: Int): Builder {
             subActionItems.add(Item(subActionView, width, height))
+            return this
+        }
+
+        fun setAlphaOverlay(alphaOverlay: View): Builder {
+            this.alphaOverlay = alphaOverlay
             return this
         }
 
@@ -741,7 +798,8 @@ class FloatingActionMenu
                 subActionItems,
                 animationHandler,
                 animated,
-                stateChangeListener
+                stateChangeListener,
+                alphaOverlay
             )
         }
     }

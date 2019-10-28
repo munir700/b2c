@@ -68,7 +68,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .addSubActionView(getString(R.string.yap_to_yap),R.drawable.ic_yap_to_yap,R.layout.component_yap_menu_sub_button, this)
             .addSubActionView(getString(R.string.top_up),R.drawable.ic_top_up,R.layout.component_yap_menu_sub_button, this)
             .addSubActionView(getString(R.string.send_money),R.drawable.ic_send_money,R.layout.component_yap_menu_sub_button, this)
-            .attachTo(getViewBinding().ivYapIt)
+            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
             .build()
     }
 
