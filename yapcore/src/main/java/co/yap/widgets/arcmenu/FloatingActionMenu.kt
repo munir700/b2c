@@ -6,14 +6,12 @@ package co.yap.widgets.arcmenu
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
-import android.animation.PropertyValuesHolder
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
 import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.TextView
 import co.yap.widgets.arcmenu.animation.DefaultAnimationHandler
@@ -645,7 +643,8 @@ class FloatingActionMenu
             title: String,
             iconResId: Int,
             layoutResId: Int,
-            context: Context
+            context: Context,
+            onclick: View.OnClickListener
         ): Builder {
             val inflater =
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -653,6 +652,7 @@ class FloatingActionMenu
             view.findViewById<TextView>(R.id.tvTitle).text = title
             view.findViewById<FloatingActionButton>(R.id.ivYapIt).setImageResource(iconResId)
             view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            view.setOnClickListener { onclick.onClick(view) }
             return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
         }
 
@@ -669,8 +669,8 @@ class FloatingActionMenu
             view.findViewById<TextView>(R.id.tvTitle).text = title
             view.findViewById<FloatingActionButton>(R.id.ivYapIt).setImageResource(iconResId)
             view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            view.setOnClickListener{
-                listener.onItemClick(it,title,-1)
+            view.setOnClickListener {
+                listener.onItemClick(it, title, -1)
             }
             return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
         }
@@ -717,6 +717,7 @@ class FloatingActionMenu
             this.actionView = actionView
             return this
         }
+
 
         fun build(): FloatingActionMenu {
             return FloatingActionMenu(

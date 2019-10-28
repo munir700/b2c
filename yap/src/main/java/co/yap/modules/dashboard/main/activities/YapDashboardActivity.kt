@@ -73,22 +73,28 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 getString(R.string.yap_to_yap),
                 R.drawable.ic_yap_to_yap,
                 R.layout.component_yap_menu_sub_button,
-                this
+                this, listener
             )
             .addSubActionView(
                 getString(R.string.top_up),
                 R.drawable.ic_top_up,
                 R.layout.component_yap_menu_sub_button,
-                this
+                this, listener
             )
             .addSubActionView(
                 getString(R.string.send_money),
                 R.drawable.ic_send_money,
                 R.layout.component_yap_menu_sub_button,
-                this
+                this, listener
             )
             .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
             .build()
+    }
+
+    val listener = View.OnClickListener {
+        // when (it.id) {
+        checkPermission()
+        // }
     }
 
     private fun setupPager() {
@@ -315,7 +321,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
     }
 
-    fun getViewBinding(): ActivityYapDashboardBinding {
+    private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
     }
 
