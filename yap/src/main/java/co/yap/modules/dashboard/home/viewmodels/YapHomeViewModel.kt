@@ -53,13 +53,13 @@ class YapHomeViewModel(application: Application) :
 
     override lateinit var storesLiveData: LiveData<PagedList<HomeTransactionListData>>
 
-    init {
-        setUpTransactionsRepo()
-
-    }
+//    init {
+//        setUpTransactionsRepo()
+//
+//    }
 
     fun setUpTransactionsRepo() {
-        storeSourceFactory = TransactionsDataSourceFactory(transactionsRepository)
+        storeSourceFactory = TransactionsDataSourceFactory(transactionsRepository, this)
         storesLiveData = LivePagedListBuilder(storeSourceFactory, getPagingConfigs()).build()
 
     }
@@ -93,7 +93,8 @@ class YapHomeViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
 //        setUpTransactionsRepo()
-        requestAccountTransactions()
+//        requestAccountTransactions()
+        setUpTransactionsRepo()
     }
 
     override fun handlePressOnView(id: Int) {

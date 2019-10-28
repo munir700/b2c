@@ -327,6 +327,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                txt_error.visibility = View.GONE
 //                progress_bar.visibility = View.GONE
 //                rvTransaction.visibility = View.VISIBLE
+
+                //now call that method here top calculate header section item content & sorting things
+
+
                 getRecycleViewAdaptor()?.setState(state)
             }
         })

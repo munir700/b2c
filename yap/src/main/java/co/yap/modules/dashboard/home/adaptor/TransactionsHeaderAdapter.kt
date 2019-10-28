@@ -87,12 +87,6 @@ class TransactionsHeaderAdapter(val context: Context, retry: () -> Unit) :
                 TransactionsListingAdapter(context!!, store.content as ArrayList<Content>)
         }
 
-
-
-
-
-            //
-
         }
     }
 //}
