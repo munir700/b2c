@@ -1,32 +1,30 @@
 package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 
-import android.app.Activity
 import android.content.Intent
-import android.content.pm.ApplicationInfo
-import android.content.pm.ResolveInfo
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentPhoneContactsBinding
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.ShareIntentListAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import android.net.Uri
 
-class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
+
+class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
+    InvitePhoneContactBottomSheet.OnItemClickListener {
+
+
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_phone_contacts
-
+    private lateinit var inviteFriendBottomSheet: InvitePhoneContactBottomSheet
     override val viewModel: PhoneContactViewModel
         get() = ViewModelProviders.of(this).get(PhoneContactViewModel::class.java)
 
@@ -76,7 +74,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
 
                 }
                 R.id.tvInvite -> {
-                    sendInvite((data as Contact).mobileNo!!)
+                    sendInvite((data as Contact))
 //                    Utils.shareText(requireContext(), getBody())
                 }
                 R.id.lyContact -> {
@@ -95,60 +93,41 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
         }
     }
 
-    private fun sendInvite(phoneNo:String) {
-//        val sendIntent = Intent(Intent.ACTION_SEND)
-        val sendIntent: Intent = Intent().apply {
-            action = Intent.ACTION_SEND
-//            putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
-            type = "text/plain"
-        }
-        val activities =
-            context?.packageManager?.queryIntentActivities(sendIntent, 0) as List<ResolveInfo>
-        val filteredPackages: ArrayList<ResolveInfo> = ArrayList()
-        for (app: ResolveInfo in activities) {
-            if (app.activityInfo.name.startsWith("com.whatsapp")) {
-                filteredPackages.add(app)
-            }else if(app.activityInfo.name.startsWith("com.google.android.gm")){
-                filteredPackages.add(app)
-            }
-        }
-        val builder = AlertDialog.Builder(context!!)
-        builder.setTitle("Share with...")
-        val adapter = ShareIntentListAdaptor(
-            context as Activity,
-            R.layout.item_send_invite_contact,
-            filteredPackages
-        )
-
-        builder.setAdapter(adapter) { dialog, which ->
-            val info = adapter.getItem(which) as ResolveInfo
-            val intent = Intent(Intent.ACTION_SENDTO)
-            intent.setClassName(info.activityInfo.packageName, info.activityInfo.name)
-            if(info.activityInfo.packageName.equals("com.whatsapp")){
-                openWhatsappContact(phoneNo)
-            }
-            startActivity(intent)
-        }
-        builder.create()
-        builder.show()
+    private fun sendInvite(contact: Contact) {
+        //TODO: Add check if whatsapp exist or not if not then hide whatsapp text
+        inviteFriendBottomSheet = InvitePhoneContactBottomSheet(this, contact)
+        inviteFriendBottomSheet.show(this.fragmentManager!!, "")
 
     }
-    fun openWhatsappContact(number: String) {
+
+    override fun onClick(viewId: Int, contact: Contact) {
+
+        when (viewId) {
+            R.id.tvChooseEmail -> inviteViaEmail(contact.email!!)
+            R.id.tvChooseSMS -> inviteViaSms(contact.mobileNo!!)
+            R.id.tvChooseWhatsapp -> inviteViaWhatsapp(contact.mobileNo!!)
+        }
+    }
+
+    fun inviteViaWhatsapp(number: String) {
+        val url = "https://api.whatsapp.com/send?phone=$number"
+        val i = Intent(Intent.ACTION_VIEW)
+        i.data = Uri.parse(url)
+        startActivity(i)
+    }
+
+    fun inviteViaEmail(email: String) {
+        val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+        intent.putExtra(Intent.EXTRA_TEXT, getBody())
+        startActivity(Intent.createChooser(intent, "Send mail..."))
+    }
+
+    fun inviteViaSms(number: String) {
         val uri = Uri.parse("smsto:$number")
-        val i = Intent(Intent.ACTION_SENDTO, uri)
-        i.`package` = "com.whatsapp"
-        i.type = "text/plain"
-        startActivity(Intent.createChooser(i, ""))
-    }
-    private fun isPackageExisted(targetPackage: String): Boolean {
-        val packages: List<ApplicationInfo> =
-            context?.packageManager?.getInstalledApplications(0) as List<ApplicationInfo>
-
-        for (packageInfo in packages) {
-            if (packageInfo.packageName.equals(targetPackage))
-                return true
-        }
-        return false
+        val it = Intent(Intent.ACTION_SENDTO, uri)
+        it.putExtra("sms_body", getBody())
+        startActivity(it)
     }
 
     private fun getBody(): String {

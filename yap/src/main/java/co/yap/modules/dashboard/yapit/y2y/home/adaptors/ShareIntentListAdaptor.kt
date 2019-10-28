@@ -14,24 +14,15 @@ import co.yap.R
 class ShareIntentListAdaptor(
     context: Context,
     private val layoutId: Int,
-    private val items: List<Any>
+    private val items: List<String>
 ) :
-    ArrayAdapter<Any>(context, layoutId, items) {
-
+    ArrayAdapter<String>(context, layoutId, items) {
 
     override fun getView(pos: Int, convertView: View?, parent: ViewGroup): View {
         val layoutInflater: LayoutInflater = LayoutInflater.from(context)
         val row = layoutInflater.inflate(layoutId, null)
         val label = row.findViewById(R.id.tvAppName) as TextView
-        label.text =
-            (items[pos] as ResolveInfo).activityInfo.applicationInfo.loadLabel(context.packageManager)
-                .toString()
-        val image = row.findViewById(R.id.ivAppIcon) as ImageView
-        image.setImageDrawable(
-            (items[pos] as ResolveInfo).activityInfo.applicationInfo.loadIcon(
-                context.packageManager
-            )
-        )
+        label.text = items[pos]
 
         return row
     }
