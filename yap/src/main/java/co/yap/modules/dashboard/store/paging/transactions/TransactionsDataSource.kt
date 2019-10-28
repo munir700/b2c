@@ -21,7 +21,7 @@ class TransactionsDataSource(
     PageKeyedDataSource<Long, HomeTransactionListData>() {
 
     var pageNumber: Int = 1
-    var getPages: Int = 20
+    var getPages: Int = 10
     //
     var minAmount: Double = 0.00
     var maxAmount: Double = 20000.00
@@ -57,7 +57,7 @@ class TransactionsDataSource(
     ) {
 
         updateState(PagingState.LOADING)
-          pageNumber = 1
+        pageNumber = 1
         GlobalScope.launch {
             when (val response =
                 storeRepo.getAccountTransactions(homeTransactionsRequest)) {
@@ -67,8 +67,17 @@ class TransactionsDataSource(
                         setUpSectionHeader(response)
                     if (response.data.data.pageable.offset < response.data.data.totalElements) {
 
-//                    homeTransactionsRequest  =  HomeTransactionsRequest(pageNumber, getPages, minAmount, maxAmount, creditSearch, debitSearch, yapYoungTransfer)
                         pageNumber = response.data.data.pageable.pageNumber + 1
+                        homeTransactionsRequest = HomeTransactionsRequest(
+                            pageNumber,
+                            getPages,
+                            minAmount,
+                            maxAmount,
+                            creditSearch,
+                            debitSearch,
+                            yapYoungTransfer
+                        )
+
 
                         callback.onResult(
                             transactionModelData,
@@ -102,11 +111,19 @@ class TransactionsDataSource(
                     if (response.data.data.pageable.offset < response.data.data.totalElements) {
 
                         pageNumber = response.data.data.pageable.pageNumber + 1
-
+                        homeTransactionsRequest = HomeTransactionsRequest(
+                            pageNumber,
+                            getPages,
+                            minAmount,
+                            maxAmount,
+                            creditSearch,
+                            debitSearch,
+                            yapYoungTransfer
+                        )
                         callback.onResult(
                             transactionModelData,
-                            pageNumber.toLong()
-                            /*params.key + 1*/
+//                            pageNumber.toLong()
+                            params.key + 1
                         )
                         updateState(PagingState.LOADING)
                     } else {
@@ -164,7 +181,7 @@ class TransactionsDataSource(
                 transactionsDay.key!!,
                 contentsList.get(0).totalAmount.toString(),
                 contentsList.get(0).balanceAfter,
-                80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
                 contentsList,
 
                 response.data.data.first,
