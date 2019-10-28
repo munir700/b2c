@@ -47,11 +47,8 @@ class EidInfoReviewViewModel(application: Application) :
         parentViewModel?.let { populateState(it.identity) }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun handlePressOnRescanBtn() {
+        parentViewModel?.let { populateState(it.identity) }
         clickEvent.setValue(EVENT_RESCAN)
     }
 
@@ -218,7 +215,7 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun populateState(identity: IdentityScannerResult?) {
+    fun populateState(identity: IdentityScannerResult?) {
         identity?.let {
             state.fullName = it.identity.givenName + " " + it.identity.sirName
             state.fullNameValid = state.fullName.isNotBlank()
@@ -239,5 +236,18 @@ class EidInfoReviewViewModel(application: Application) :
             }
 
         }
+    }
+
+    override fun clearData() {
+        state.fullName = ""
+        state.fullNameValid = false
+        state.nationality = ""
+        state.nationalityValid = false
+        state.dateOfBirth = ""
+        state.dateOfBirthValid = false
+        state.expiryDate = ""
+        state.expiryDateValid = false
+        state.genderValid = false
+        state.gender = ""
     }
 }
