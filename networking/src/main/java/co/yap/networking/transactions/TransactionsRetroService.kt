@@ -1,6 +1,7 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
+import co.yap.networking.transactions.requestdtos.AddEditNoteRequest
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
@@ -37,4 +38,8 @@ interface TransactionsRetroService {
     // Get Card Statements
     @POST(TransactionsRepository.URL_Y2Y_FUNDS_TRANSFER)
     suspend fun y2yFundsTransferRequest(@Body y2YFundsTransferRequest: Y2YFundsTransferRequest): Response<ApiResponse>
+
+    // AddEdit Note
+    @POST(TransactionsRepository.URL_ADD_EDIT_NOTE)
+    suspend fun addEditNote(@Body addEditNoteRequest: AddEditNoteRequest): Response<AddEditNoteResponse>
 }

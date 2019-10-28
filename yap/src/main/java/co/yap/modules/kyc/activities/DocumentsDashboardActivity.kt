@@ -58,12 +58,14 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.name = "sdwds"//getBundledName()
+        viewModel.name = getBundledName()
         isFromMoreSection = intent.getBooleanExtra("isFromMoreSection", false)
     }
 
     private fun getBundledName(): String {
-        return intent.getStringExtra(getString(R.string.arg_name))
+        return if (intent.hasExtra("name"))
+            intent.getStringExtra("name")
+        else ""
     }
 
     override fun onDestroy() {
