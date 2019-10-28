@@ -12,7 +12,8 @@
 
     <item
         android:id="@+id/yapIt"
-        android:title=" " />
+        android:enabled="false"
+        android:title="" />
 
     <item
         android:id="@+id/yapCards"

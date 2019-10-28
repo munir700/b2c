@@ -33,6 +33,8 @@ import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActiv
 import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
+import co.yap.widgets.arcmenu.FloatingActionMenu
+import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.helpers.PermissionHelper
@@ -63,6 +65,30 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
+        FloatingActionMenu.Builder(this)
+            .setStartAngle(0)
+            .setEndAngle(-180).setRadius(230)
+            .setAnimationHandler(SlideInAnimationHandler())
+            .addSubActionView(
+                getString(R.string.yap_to_yap),
+                R.drawable.ic_yap_to_yap,
+                R.layout.component_yap_menu_sub_button,
+                this
+            )
+            .addSubActionView(
+                getString(R.string.top_up),
+                R.drawable.ic_top_up,
+                R.layout.component_yap_menu_sub_button,
+                this
+            )
+            .addSubActionView(
+                getString(R.string.send_money),
+                R.drawable.ic_send_money,
+                R.layout.component_yap_menu_sub_button,
+                this
+            )
+            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+            .build()
     }
 
     private fun setupPager() {
@@ -225,7 +251,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     getViewBinding().viewPager.setCurrentItem(1, false)
                 }
                 R.id.yapIt -> {
-                    checkPermission()
+                    //checkPermission()
+                    //getViewBinding().ivYapIt
                 }
                 R.id.yapCards -> {
                     getViewBinding().viewPager.setCurrentItem(2, false)
@@ -291,4 +318,5 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
     }
+
 }

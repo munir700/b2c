@@ -42,8 +42,8 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-//        state.titleName[0] = parentViewModel?.name
         state.titleName[0] = parentViewModel?.identity?.identity?.givenName
+        state.titleName[0] = parentViewModel?.name
         parentViewModel?.let { populateState(it.identity) }
     }
 
@@ -168,7 +168,7 @@ class EidInfoReviewViewModel(application: Application) :
                         parentViewModel?.identity = result
                         populateState(result)
                     } else {
-                            getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
+                        getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
                         clickEvent.setValue(EVENT_FINISH)
                     }
                     //}

@@ -4,7 +4,6 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import co.yap.networking.customers.CustomersRepository
@@ -66,6 +65,7 @@ class ContactsDataSource(
         }
     }
 
+
     private fun fetchContacts(context: Context): MutableList<Contact> {
 
         val contacts: MutableList<Contact> = ArrayList()
@@ -74,31 +74,20 @@ class ContactsDataSource(
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
         )
 
-        val PROJECTION = arrayOf(
-            ContactsContract.RawContacts._ID,
-            ContactsContract.Contacts.DISPLAY_NAME,
-            ContactsContract.Contacts.PHOTO_ID,
-            ContactsContract.CommonDataKinds.Email.DATA,
-            ContactsContract.CommonDataKinds.Photo.CONTACT_ID
-        )
-
-
         if ((cursor?.count ?: 0) > 0) {
             while (cursor!!.moveToNext()) {
+
+                val contactId =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.NAME_RAW_CONTACT_ID))
                 val name =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-
-                val phoneWihtoutCountryCode =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-
-                val phoneNo = Utils.getPhoneWithoutCountryCode(phoneWihtoutCountryCode)
-                val countryCode = Utils.getPhoneNumberCountryCode(phoneWihtoutCountryCode)
-
-                val email =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA))
-
                 val photoContentUri =
                     cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
+                val phoneWithoutCountryCode =
+                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                val phoneNo = Utils.getPhoneWithoutCountryCode(phoneWithoutCountryCode)
+                val countryCode = Utils.getPhoneNumberCountryCode(phoneWithoutCountryCode)
+                val email = "abc@gmai.com"
 
                 var photoUri: Uri? = null
                 if (photoContentUri != null) {
@@ -113,7 +102,6 @@ class ContactsDataSource(
                         ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
                     )
                 }
-                Log.d("contact", "getAllContacts: $name $countryCode $phoneNo $email  ${photoUri.toString()}")
                 val contact = Contact(
                     name,
                     countryCode,

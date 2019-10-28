@@ -11,6 +11,7 @@ object Strings {
     const val common_button_yes: String = "common_button_yes"
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
+    const val common_button_save: String = "common_button_save"
     const val common_button_activate: String = "common_button_activate"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"

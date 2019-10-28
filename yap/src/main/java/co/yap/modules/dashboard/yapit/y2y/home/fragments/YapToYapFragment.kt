@@ -46,6 +46,8 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = getTabTitle(position)
             }).attach()
+        getBindingView().viewPager.isUserInputEnabled = false
+        getBindingView().viewPager.offscreenPageLimit = 1
     }
 
     private fun setSearchView() {
