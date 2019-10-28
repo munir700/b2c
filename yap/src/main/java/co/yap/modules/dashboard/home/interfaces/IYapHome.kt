@@ -26,7 +26,7 @@ interface IYapHome {
         val transactionLogicHelper: TransactionLogicHelper
         fun handlePressOnView(id: Int)
 
-        val storesLiveData: LiveData<PagedList<HomeTransactionListData>>
+        val transactionsLiveData: LiveData<PagedList<HomeTransactionListData>>
         fun getState(): LiveData<PagingState>
         fun listIsEmpty(): Boolean
         fun retry()

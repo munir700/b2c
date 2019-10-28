@@ -9,11 +9,11 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionLi
 class TransactionsDataSourceFactory(private val storeRepo: TransactionsRepository,    val yapHomeViewModel: YapHomeViewModel) :
     DataSource.Factory<Long, HomeTransactionListData>() {
 
-    val storeDataSourceLiveData = MutableLiveData<TransactionsDataSource>()
+    val transactionDataSourceLiveData = MutableLiveData<TransactionsDataSource>()
 
     override fun create(): DataSource<Long, HomeTransactionListData> {
-        val storeDataSource = TransactionsDataSource(storeRepo, yapHomeViewModel)
-        storeDataSourceLiveData.postValue(storeDataSource)
-        return storeDataSource
+        val transactionsDataSource = TransactionsDataSource(storeRepo, yapHomeViewModel)
+        transactionDataSourceLiveData.postValue(transactionsDataSource)
+        return transactionsDataSource
     }
 }

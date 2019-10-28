@@ -19,8 +19,6 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-import co.yap.networking.transactions.responsedtos.transaction.Pageable
-import co.yap.networking.transactions.responsedtos.transaction.Sort
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import org.json.JSONObject
@@ -48,10 +46,10 @@ class YapHomeViewModel(application: Application) :
     private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
 
-    private lateinit var storeSourceFactory: TransactionsDataSourceFactory
+    private lateinit var transactionsDataSourceFactory: TransactionsDataSourceFactory
     var contentList: ArrayList<Content> = arrayListOf()
 
-    override lateinit var storesLiveData: LiveData<PagedList<HomeTransactionListData>>
+    override lateinit var transactionsLiveData: LiveData<PagedList<HomeTransactionListData>>
 
 //    init {
 //        setUpTransactionsRepo()
@@ -59,8 +57,8 @@ class YapHomeViewModel(application: Application) :
 //    }
 
     fun setUpTransactionsRepo() {
-        storeSourceFactory = TransactionsDataSourceFactory(transactionsRepository, this)
-        storesLiveData = LivePagedListBuilder(storeSourceFactory, getPagingConfigs()).build()
+        transactionsDataSourceFactory = TransactionsDataSourceFactory(transactionsRepository, this)
+        transactionsLiveData = LivePagedListBuilder(transactionsDataSourceFactory, getPagingConfigs()).build()
 
     }
 
@@ -74,11 +72,11 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun listIsEmpty(): Boolean {
-        return storesLiveData.value?.isEmpty() ?: true
+        return transactionsLiveData.value?.isEmpty() ?: true
     }
 
     override fun retry() {
-//        storeSourceFactory.storeDataSourceLiveData.value?.retry()
+//        transactionsDataSourceFactory.transactionDataSourceLiveData.value?.retry()
         setUpTransactionsRepo()
 
     }
@@ -86,7 +84,7 @@ class YapHomeViewModel(application: Application) :
     override fun getState(): LiveData<PagingState> =
         Transformations.switchMap<TransactionsDataSource,
                 PagingState>(
-            storeSourceFactory.storeDataSourceLiveData,
+            transactionsDataSourceFactory.transactionDataSourceLiveData,
             TransactionsDataSource::state
         )
 
