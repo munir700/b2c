@@ -1,10 +1,13 @@
 package co.yap.modules.dashboard.transaction.viewmodels
 
+import android.annotation.SuppressLint
 import android.app.Application
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -12,9 +15,12 @@ class TransactionDetailsViewModel(application: Application) :
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
+    @SuppressLint("SimpleDateFormat")
     override fun onCreate() {
         super.onCreate()
-        state.toolBarTitle="Jan 29, 2019・10:35am"
+        val dateString = Calendar.getInstance().time
+        val dateFormat=SimpleDateFormat("MMM dd, YYYY ・ HH:mmaa")
+        state.toolBarTitle =  dateFormat.format(dateString)
     }
 
     override fun handlePressOnBackButton(id: Int) {

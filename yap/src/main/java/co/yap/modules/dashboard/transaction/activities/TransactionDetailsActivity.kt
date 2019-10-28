@@ -27,7 +27,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
     var clickEvent = Observer<Int> {
         when (it) {
-            R.id.ivClose -> showToast("ivClose clicked")
+            R.id.ivClose -> finish()
             R.id.ivShare -> showToast("ivShare clicked")
         }
     }
