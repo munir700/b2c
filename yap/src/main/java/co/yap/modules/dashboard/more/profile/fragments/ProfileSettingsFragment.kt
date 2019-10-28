@@ -134,7 +134,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
             }
 
             override fun onPermissionDenied() {
-                showToast("Can't proceed with permissions")
+                showToast("Can't proceed without permissions")
             }
 
             override fun onPermissionDeniedBySystem() {

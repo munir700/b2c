@@ -39,6 +39,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(context is MoreActivity)
         (context as MoreActivity).visibleToolbar()
         viewModel.state.errorVisibility = showExpiredIcon
     }

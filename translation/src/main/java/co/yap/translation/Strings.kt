@@ -11,6 +11,7 @@ object Strings {
     const val common_button_yes: String = "common_button_yes"
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
+    const val common_button_save: String = "common_button_save"
     const val common_button_activate: String = "common_button_activate"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
@@ -776,10 +777,31 @@ object Strings {
         "screen_email_verification_display_text_heading"
 
 
-    //    Y2Y Transfer screen
+    //    Y2Y funds Transfer screen
+    const val screen_y2y_funds_transfer_display_text_title: String =
+        "screen_y2y_funds_transfer_display_text_title"
+    const val screen_y2y_funds_transfer_display_text_note_placeholder: String =
+        "screen_y2y_funds_transfer_display_text_note_placeholder"
+    const val screen_y2y_funds_transfer_display_text_error_exceeding_amount: String =
+        "screen_y2y_funds_transfer_display_text_error_exceeding_amount"
+    const val screen_y2y_funds_transfer_display_text_balance: String =
+        "screen_y2y_funds_transfer_display_text_balance"
     const val screen_yap_to_yap_transfer_display_text_button: String =
         "screen_yap_to_yap_transfer_display_text_button"
-    const val screen_yap_to_yap_transfer_text_header: String =
-        "screen_yap_to_yap_transfer_text_header"
 
+    //Y2Y contacts
+    const val screen_y2y_display_text_no_yap_contacts: String =
+        "screen_y2y_display_text_no_yap_contacts"
+    const val screen_y2y_display_button_yap_contacts: String =
+        "screen_y2y_display_button_yap_contacts"
+    const val screen_y2y_display_button_all_contacts: String =
+        "screen_y2y_display_button_all_contacts"
+
+    //    Y2Y funds Transfer success screen
+    const val screen_y2y_funds_transfer_success_display_text_title: String =
+        "screen_y2y_funds_transfer_success_display_text_title"
+    const val screen_y2y_funds_transfer_success_display_text_transfer: String =
+        "screen_y2y_funds_transfer_success_display_text_transfer"
+    const val screen_y2y_funds_transfer_success_button_back: String =
+        "screen_y2y_funds_transfer_success_button_back"
 }
