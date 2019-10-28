@@ -6,6 +6,7 @@ package co.yap.widgets.arcmenu
 import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.graphics.*
@@ -16,6 +17,7 @@ import android.widget.TextView
 import co.yap.widgets.arcmenu.animation.DefaultAnimationHandler
 import co.yap.widgets.arcmenu.animation.MenuAnimationHandler
 import co.yap.yapcore.R
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
@@ -201,6 +203,7 @@ class FloatingActionMenu
         // In the future, touch and drag events could be listened to offer an alternative behaviour
         this.mainActionView.isClickable = true
         this.mainActionView.setOnClickListener(ActionViewClickListener())
+        this.alphaOverlay?.setOnTouchListener(ActionOnTouchListener())
 
         // Do not forget to set the menu as self to our customizable animation handler
         if (animationHandler != null) {
@@ -237,16 +240,6 @@ class FloatingActionMenu
         // Get the center of the action view from the following function for efficiency
         // populate destination x,y coordinates of Items
         val center = calculateItemPositions()
-
-        var overlayParams: WindowManager.LayoutParams? = null
-
-//        if (isSystemOverlay) {
-//            // If this is a system overlay menu, use the overlay container and place it behind
-//            // the main action button so that all the views will be added into it.
-//            attachOverlayContainer()
-//
-//            overlayParams = overlayContainer!!.layoutParams as WindowManager.LayoutParams
-//        }
 
         if (animated && animationHandler != null) {
             // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
@@ -292,20 +285,10 @@ class FloatingActionMenu
                     subActionItems[i].height,
                     Gravity.TOP or Gravity.LEFT
                 )
-//                if (isSystemOverlay) {
-//                    params.setMargins(
-//                        subActionItems[i].x - overlayParams!!.x,
-//                        subActionItems[i].y - overlayParams.y,
-//                        0,
-//                        0
-//                    )
-//                    subActionItems[i].view.layoutParams = params
-//                } else {
                 params.setMargins(subActionItems[i].x, subActionItems[i].y, 0, 0)
                 subActionItems[i].view.layoutParams = params
                 // Because they are placed into the main content view of the Activity,
                 // which is itself a FrameLayout
-//                }
                 addViewToCurrentContainer(subActionItems[i].view, params)
             }
         }
@@ -352,35 +335,6 @@ class FloatingActionMenu
      * @param animated if true, the open/close action is executed by the current [MenuAnimationHandler]
      */
     fun toggle(view: View, animated: Boolean) {
-
-//        val pvhY = PropertyValuesHolder.ofFloat(View.ROTATION, if (isOpen) 0f else -180f)
-//
-//        val animation = ObjectAnimator.ofPropertyValuesHolder(mainActionView, pvhY)
-//        animation.duration = 300
-//        animation.interpolator = DecelerateInterpolator()
-//        animation.addListener(object : Animator.AnimatorListener {
-//            override fun onAnimationStart(animation: Animator) {
-//                mainActionView.isClickable = false
-//                mainActionView.setOnClickListener(null)
-//            }
-//
-//            override fun onAnimationEnd(animation: Animator) {
-//                mainActionView.isClickable = true
-//                mainActionView.setOnClickListener(ActionViewClickListener())
-//
-//            }
-//
-//            override fun onAnimationCancel(animation: Animator) {
-//
-//            }
-//
-//            override fun onAnimationRepeat(animation: Animator) {
-//
-//            }
-//        })
-//        animation.start()
-
-//------------------------------------
         val animator1 =
             ObjectAnimator.ofFloat(mainActionView, "rotation", if (isOpen) 0f else -180f)
         animator1.repeatCount = 0
@@ -416,6 +370,7 @@ class FloatingActionMenu
             override fun onAnimationEnd(animation: Animator?) {
                 mainActionView.isClickable = true
                 mainActionView.setOnClickListener(ActionViewClickListener())
+                alphaOverlay?.setOnTouchListener(ActionOnTouchListener())
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -424,6 +379,7 @@ class FloatingActionMenu
             override fun onAnimationStart(animation: Animator?) {
                 mainActionView.isClickable = false
                 mainActionView.setOnClickListener(null)
+                alphaOverlay?.setOnTouchListener(null)
             }
         })
         if (isOpen) {
@@ -499,9 +455,6 @@ class FloatingActionMenu
     }
 
     private fun addViewToCurrentContainer(view: View, layoutParams: ViewGroup.LayoutParams?) {
-//        if (isSystemOverlay) {
-//            overlayContainer!!.addView(view, layoutParams)
-//        } else {
 
         try {
             if (layoutParams != null) {
@@ -514,58 +467,6 @@ class FloatingActionMenu
             throw ClassCastException("layoutParams must be an instance of " + "FrameLayout.LayoutParams.")
         }
 
-//        }
-    }
-
-//    fun attachOverlayContainer() {
-//        try {
-//            val overlayParams = calculateOverlayContainerParams()
-//
-//            overlayContainer!!.layoutParams = overlayParams
-//            if (overlayContainer!!.parent == null) {
-//                windowManager.addView(overlayContainer, overlayParams)
-//            }
-//            windowManager.updateViewLayout(mainActionView, mainActionView.layoutParams)
-//        } catch (e: SecurityException) {
-//            throw SecurityException("Your application must have SYSTEM_ALERT_WINDOW " + "permission to create a system window.")
-//        }
-//
-//    }
-
-//    private fun calculateOverlayContainerParams(): WindowManager.LayoutParams {
-//        // calculate the minimum viable size of overlayContainer
-//        val overlayParams = defaultSystemWindowParams
-//        var left = 9999
-//        var right = 0
-//        var top = 9999
-//        var bottom = 0
-//        for (i in subActionItems.indices) {
-//            val lm = subActionItems[i].x
-//            val tm = subActionItems[i].y
-//
-//            if (lm < left) {
-//                left = lm
-//            }
-//            if (tm < top) {
-//                top = tm
-//            }
-//            if (lm + subActionItems[i].width > right) {
-//                right = lm + subActionItems[i].width
-//            }
-//            if (tm + subActionItems[i].height > bottom) {
-//                bottom = tm + subActionItems[i].height
-//            }
-//        }
-//        overlayParams.width = right - left
-//        overlayParams.height = bottom - top
-//        overlayParams.x = left
-//        overlayParams.y = top
-//        overlayParams.gravity = Gravity.TOP or Gravity.LEFT
-//        return overlayParams
-//    }
-
-    fun detachOverlayContainer() {
-        windowManager.removeView(overlayContainer)
     }
 
     fun addViewToCurrentContainer(view: View) {
@@ -591,6 +492,16 @@ class FloatingActionMenu
 
         override fun onClick(v: View) {
             toggle(v, animated)
+        }
+    }
+
+    inner class ActionOnTouchListener : View.OnTouchListener {
+        @SuppressLint("ClickableViewAccessibility")
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            if (isOpen && !animationHandler?.isAnimating()!!) {
+                toggle(v!!, animated)
+            }
+            return true
         }
     }
 
@@ -745,6 +656,25 @@ class FloatingActionMenu
             return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
         }
 
+        fun addSubActionView(
+            title: String,
+            iconResId: Int,
+            layoutResId: Int,
+            context: Context,
+            listener: OnItemClickListener
+        ): Builder {
+            val inflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(layoutResId, null, false)
+            view.findViewById<TextView>(R.id.tvTitle).text = title
+            view.findViewById<FloatingActionButton>(R.id.ivYapIt).setImageResource(iconResId)
+            view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            view.setOnClickListener {
+                listener.onItemClick(it, title, -1)
+            }
+            return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
+        }
+
         /**
          * Sets the current animation handler to the specified MenuAnimationHandler child
          *
@@ -803,22 +733,5 @@ class FloatingActionMenu
             )
         }
     }
-
-//    companion object {
-//
-//        val defaultSystemWindowParams: WindowManager.LayoutParams
-//            get() {
-//                val params = WindowManager.LayoutParams(
-//                    WindowManager.LayoutParams.WRAP_CONTENT,
-//                    WindowManager.LayoutParams.WRAP_CONTENT,
-//                    WindowManager.LayoutParams.TYPE_PHONE,
-//                    WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL or WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
-//                    PixelFormat.TRANSLUCENT
-//                )
-//                params.format = PixelFormat.RGBA_8888
-//                params.gravity = Gravity.TOP or Gravity.LEFT
-//                return params
-//            }
-//    }
 
 }

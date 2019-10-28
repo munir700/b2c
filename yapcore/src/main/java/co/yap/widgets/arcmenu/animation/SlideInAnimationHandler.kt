@@ -10,6 +10,7 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.FrameLayout
 import co.yap.widgets.arcmenu.FloatingActionMenu
 
+
 class SlideInAnimationHandler : MenuAnimationHandler() {
 
     /** holds the current state of animation  */
@@ -39,7 +40,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                 0,
                 0
             )
-            menu!!.subActionItems[i].view.setLayoutParams(params)
+            menu!!.subActionItems[i].view.layoutParams = params
 
             //            PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, menu.getSubActionItems().get(i).x/* - center.x + menu.getSubActionItems().get(i).width / 2*/);
             val pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -DIST_Y.toFloat())
@@ -64,12 +65,10 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
             if (i == 0) {
                 lastAnimation = animation
             }
-            if (i == 0) {
-                animation.startDelay = (menu!!.subActionItems.size * LAG_BETWEEN_ITEMS).toLong()
-            } else if (i == 1) {
-                animation.startDelay = LAG_BETWEEN_ITEMS.toLong()
-            } else {
-                animation.startDelay =
+            when (i) {
+                0 -> animation.startDelay = (menu!!.subActionItems.size * LAG_BETWEEN_ITEMS).toLong()
+                1 -> animation.startDelay = LAG_BETWEEN_ITEMS.toLong()
+                else -> animation.startDelay =
                     ((menu!!.subActionItems.size - 1) * LAG_BETWEEN_ITEMS).toLong()
                 //animation.setStartDelay((menu.getSubActionItems().size() - i) * LAG_BETWEEN_ITEMS);
             }
