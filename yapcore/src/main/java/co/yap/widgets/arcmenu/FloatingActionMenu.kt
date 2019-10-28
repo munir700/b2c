@@ -19,6 +19,7 @@ import android.widget.TextView
 import co.yap.widgets.arcmenu.animation.DefaultAnimationHandler
 import co.yap.widgets.arcmenu.animation.MenuAnimationHandler
 import co.yap.yapcore.R
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
@@ -652,6 +653,25 @@ class FloatingActionMenu
             view.findViewById<TextView>(R.id.tvTitle).text = title
             view.findViewById<FloatingActionButton>(R.id.ivYapIt).setImageResource(iconResId)
             view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
+        }
+
+        fun addSubActionView(
+            title: String,
+            iconResId: Int,
+            layoutResId: Int,
+            context: Context,
+            listener: OnItemClickListener
+        ): Builder {
+            val inflater =
+                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+            val view = inflater.inflate(layoutResId, null, false)
+            view.findViewById<TextView>(R.id.tvTitle).text = title
+            view.findViewById<FloatingActionButton>(R.id.ivYapIt).setImageResource(iconResId)
+            view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+            view.setOnClickListener{
+                listener.onItemClick(it,title,-1)
+            }
             return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
         }
 
