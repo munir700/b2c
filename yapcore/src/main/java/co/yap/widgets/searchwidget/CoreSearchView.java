@@ -11,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -20,7 +19,6 @@ import co.yap.yapcore.R;
 import co.yap.yapcore.helpers.Utils;
 
 public class CoreSearchView extends RelativeLayout implements TextWatcher, TextView.OnEditorActionListener {
-
 
     private EditText mEtSearch;
     private TextView tvCancel;
@@ -63,7 +61,6 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.view_searchview, this, true);
         initComponents(view);
-        AddListeners();
     }
 
 
@@ -86,12 +83,17 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
         mEtSearch = view.findViewById(R.id.etSearch);
         tvCancel = view.findViewById(R.id.tvCancel);
         pbLoadingIndicator = view.findViewById(R.id.pb_loading_indicator);
-        mEtSearch.clearFocus();
-        mEtSearch.setFocusable(false);
-        mEtSearch.setOnClickListener(view12 -> {
-            tvCancel.setVisibility(VISIBLE);
-            setFocus(mEtSearch);
-        });
+        if (searchingListener != null) {
+            mEtSearch.clearFocus();
+            mEtSearch.setFocusable(false);
+            mEtSearch.setOnClickListener(view12 -> {
+                tvCancel.setVisibility(VISIBLE);
+                setFocus(mEtSearch);
+            });
+            AddListeners();
+        } else {
+            mEtSearch.setEnabled(false);
+        }
         tvCancel.setOnClickListener(view1 -> cancelSearch());
     }
 
@@ -146,8 +148,6 @@ public class CoreSearchView extends RelativeLayout implements TextWatcher, TextV
 
     @Override
     public void afterTextChanged(Editable s) {
-
-
         if (mEtSearch.getText().toString().length() == 0) {
             IsSearching = false;
             searchData();

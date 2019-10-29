@@ -15,10 +15,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <co.yap.widgets.searchwidget.CoreSearchView
+        <!--        <co.yap.widgets.searchwidget.CoreSearchView-->
+        <!--            android:id="@+id/svContacts"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="@dimen/_50sdp"-->
+        <!--            android:gravity="center"-->
+        <!--            android:layout_marginTop="@dimen/margin_medium"-->
+        <!--            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/svContacts"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/_26sdp"
+            android:background="@drawable/bg_search_widget"
             android:gravity="center"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             app:layout_constraintEnd_toEndOf="parent"

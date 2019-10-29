@@ -27,6 +27,8 @@ class YapContactItemViewHolder(private val itemContactsBinding: ItemContactsBind
         val wrappedDrawable = DrawableCompat.wrap(unwrappedDrawable!!)
         DrawableCompat.setTint(wrappedDrawable, Color.parseColor(colors[position % colors.size]))
 
+        itemContactsBinding.lyUserImage.tvNameInitials.background = wrappedDrawable
+
         itemContactsBinding.viewModel =
             YapContactItemViewModel(contact, position, onItemClickListener)
         itemContactsBinding.executePendingBindings()

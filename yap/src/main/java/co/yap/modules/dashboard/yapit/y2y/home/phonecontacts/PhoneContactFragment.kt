@@ -67,6 +67,9 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
             (getBinding().recycler.adapter as PhoneContactsAdaptor).submitList(it)
             (getBinding().recycler.adapter as PhoneContactsAdaptor).setState(PagingState.DONE)
         })
+        viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
+            (getBinding().recycler.adapter as PhoneContactsAdaptor).itemCount
+        })
     }
 
     val listener = object : OnItemClickListener {

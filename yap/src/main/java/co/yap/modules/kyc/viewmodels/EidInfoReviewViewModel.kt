@@ -165,10 +165,9 @@ class EidInfoReviewViewModel(application: Application) :
                         parentViewModel?.identity = result
                         populateState(result)
                     } else {
-                        getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
                         clickEvent.setValue(EVENT_FINISH)
+                        state.toast = response.data.errors?.message!!
                     }
-                    //}
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

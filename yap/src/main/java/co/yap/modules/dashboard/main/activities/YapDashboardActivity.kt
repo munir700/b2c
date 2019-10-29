@@ -288,7 +288,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                startActivity(YapToYapDashboardActivity.getIntent(this@YapDashboardActivity, null))
+                startActivity(
+                    YapToYapDashboardActivity.getIntent(
+                        this@YapDashboardActivity,
+                        false,
+                        null
+                    )
+                )
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
