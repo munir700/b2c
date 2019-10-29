@@ -162,7 +162,6 @@ class ContactsDataSource(
                     val email = fetchContactsEmail(contactId)
 
                     val photoContentUri: Uri? = getPhotoUri(contactId2)
-
                     Log.d(
                         "contact",
                         "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
