@@ -66,15 +66,49 @@ class ContactsDataSource(
         }
     }
 
+    private fun getPhotoUri(contactId: Long): Uri? {
+        val cursor = context.contentResolver.query(
+            ContactsContract.Data.CONTENT_URI, null,
+            ContactsContract.Data.CONTACT_ID
+                    + "="
+                    + contactId
+                    + " AND "
+
+                    + ContactsContract.Data.MIMETYPE
+                    + "='"
+                    + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
+                    + "'", null, null
+        )
+        try {
+            if (cursor != null) {
+                if (!cursor.moveToFirst()) {
+                    cursor.close()
+                    return null // no photo
+                }
+            } else {
+                return null // error in cursor process
+            }
+
+        } catch (e: Exception) {
+            cursor?.close()
+            e.printStackTrace()
+            return null
+        }
+        val person = ContentUris.withAppendedId(
+            ContactsContract.Contacts.CONTENT_URI, contactId
+        )
+        return Uri.withAppendedPath(
+            person,
+            ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
+        )
+    }
+
+
     private fun fetchContactsEmail(id: Long): String {
         var emlAdd = ""
         val PROJECTION = arrayOf(
-            ContactsContract.RawContacts._ID,
-            ContactsContract.Contacts.DISPLAY_NAME,
-            ContactsContract.Contacts.PHOTO_ID,
-            ContactsContract.CommonDataKinds.Email.DATA,
-            ContactsContract.CommonDataKinds.Photo.CONTACT_ID,
-            ContactsContract.CommonDataKinds.Phone.NUMBER
+            ContactsContract.CommonDataKinds.Email.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Email.DATA
         )
         val order = ("CASE WHEN "
                 + ContactsContract.Contacts.DISPLAY_NAME
@@ -83,10 +117,9 @@ class ContactsDataSource(
                 + ", "
                 + ContactsContract.CommonDataKinds.Email.DATA
                 + " COLLATE NOCASE")
-        val filter2 =
-            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE ''"
+
         val filter =
-            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE '' AND " + ContactsContract.RawContacts._ID + " = " + (id + 1)
+            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE '' AND " + ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + (id)
         val cur = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Email.CONTENT_URI,
             PROJECTION,
@@ -96,11 +129,7 @@ class ContactsDataSource(
         )
         if (cur!!.moveToFirst()) {
             do {
-                val idd = cur.getString(0)
-                val name = cur.getString(1)
-                emlAdd = cur.getString(3)
-                // keep unique only
-                Log.d("ContactEmail", "name $name and email $emlAdd id is $idd")
+                emlAdd = cur.getString(1)
             } while (cur.moveToNext())
         }
 
@@ -113,8 +142,7 @@ class ContactsDataSource(
         val contacts: MutableList<Contact> = ArrayList()
         val cursor = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
-        )
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC")
 
         try {
 
@@ -129,45 +157,24 @@ class ContactsDataSource(
                     val phoneNo = Utils.getPhoneWithoutCountryCode(phoneWihtoutCountryCode)
                     val countryCode = Utils.getPhoneNumberCountryCode(phoneWihtoutCountryCode)
 
-                    val id =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.NAME_RAW_CONTACT_ID))
-                    val id2 =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.RawContacts._ID))
+                    val contactId =
+                        cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
+                    val contactId2 =
+                        cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
+                    val email = fetchContactsEmail(contactId)
 
-                    val id3 =
-                        cursor.getLong(cursor.getColumnIndex(ContactsContract.Contacts.NAME_RAW_CONTACT_ID))
-                    val id4 =
-                        cursor.getLong(cursor.getColumnIndex(ContactsContract.RawContacts._ID))
+                    val photoContentUri: Uri? = getPhotoUri(contactId2)
 
-//                    fetchContactsEmail(id2.toLong())
-
-                    val email = fetchContactsEmail(id4)
-                    val photoContentUri =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
-
-                    var photoUri: Uri? = null
-                    if (photoContentUri != null) {
-                        val photoId =
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID))
-                        val person = ContentUris.withAppendedId(
-                            ContactsContract.Contacts.CONTENT_URI, java.lang.Long
-                                .parseLong(photoId)
-                        )
-                        photoUri = Uri.withAppendedPath(
-                            person,
-                            ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
-                        )
-                    }
                     Log.d(
                         "contact",
-                        "getAllContacts: $name $countryCode $phoneNo $email  ${photoUri.toString()}"
+                        "getAllContacts: $name $countryCode $phoneNo $email  ${photoContentUri}"
                     )
                     val contact = Contact(
                         name,
                         countryCode,
                         phoneNo,
                         email,
-                        photoUri.toString(),
+                         photoContentUri?.toString(),
                         false, null
                     )
                     contacts.add(contact)

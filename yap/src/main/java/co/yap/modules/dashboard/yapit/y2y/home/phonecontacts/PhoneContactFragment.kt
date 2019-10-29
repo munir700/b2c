@@ -24,10 +24,11 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         initState()
         initComponents()
+        setObservers()
     }
+
 
     private fun initComponents() {
         //getBinding().recycler.layoutManager = LinearLayoutManager(context!!)
@@ -58,6 +59,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
         viewModel.phoneContactLiveData.observe(this, Observer {
             (getBinding().recycler.adapter as PhoneContactsAdaptor).submitList(it)
             (getBinding().recycler.adapter as PhoneContactsAdaptor).setState(PagingState.DONE)
+
         })
     }
 

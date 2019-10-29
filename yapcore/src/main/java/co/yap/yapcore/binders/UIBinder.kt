@@ -6,9 +6,11 @@ import `in`.aabhasjindal.otptextview.OtpTextView
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
+import android.provider.ContactsContract
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.TextWatcher
@@ -49,6 +51,34 @@ object UIBinder {
     fun setImageBitmap(view: ImageView, bitmap: Bitmap?) {
         if (bitmap != null)
             view.setImageBitmap(bitmap)
+    }
+
+    @BindingAdapter("stringToBitmap")
+    @JvmStatic
+    fun getPhoto(view: ImageView, photoUri: String?) {
+        if (photoUri == null) return
+
+
+        val cursor = view.context.contentResolver.query(
+            Uri.parse(photoUri),
+            arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
+        )
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val data = cursor.getBlob(0)
+                if (data != null) {
+                    cursor.close()
+                    val bitmap = byteArrayToBitmap(data)
+                    view.setImageBitmap(bitmap)
+                }
+            }
+            cursor.close()
+        }
+        cursor?.close()
+    }
+
+    fun byteArrayToBitmap(byteArray: ByteArray): Bitmap? {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
     // Delivery status and core action Button
