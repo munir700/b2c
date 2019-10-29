@@ -75,4 +75,6 @@
 
 <!--    others-->
     <integer name="note_max_length">150</integer>
+<!--Arc Menu-->
+    <dimen name="action_menu_radius">90dp</dimen>
 </resources>

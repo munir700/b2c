@@ -2,11 +2,12 @@ package co.yap.modules.dashboard.yapit.y2y.home.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentYapToYapBinding
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.PHONE_CONTACTS
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.TransferLandingAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.YAP_CONTACTS
@@ -15,10 +16,8 @@ import co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.BR
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
 
 class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
@@ -46,28 +45,45 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
             TabLayoutMediator.TabConfigurationStrategy { tab, position ->
                 tab.text = getTabTitle(position)
             }).attach()
+        getBindingView().viewPager.isUserInputEnabled = false
+        getBindingView().viewPager.offscreenPageLimit = 1
     }
 
     private fun setSearchView() {
-        getBindingView().svContacts.initializeSearch(requireContext(), object : SearchingListener {
-            override fun onCancel() {
-                svContacts.clearInputField()
-                findNavController().navigate(YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment())
-            }
 
-            override fun onSearchKeyPressed(search: String?) {
+        if (!viewModel.parentViewModel?.isSearching?.value!!) {
+            getBindingView().svContacts.isIconified = true
+            getBindingView().run { svContacts.setIconifiedByDefault(true) }
+        } else {
+            getBindingView().svContacts.setOnQueryTextListener(object :
+                SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    viewModel.parentViewModel?.searchQuery?.value = query
+                    return true
+                }
 
-                showToast("start search $search")
-            }
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return true
+                }
+            })
+            getBindingView().svContacts.isIconified = false
+            getBindingView().run { svContacts.setIconifiedByDefault(false) }
+        }
 
-        }, false, true)
-        getBindingView().svContacts.setOnClickListener { findNavController().navigate(R.id.y2YTransferFragment) }
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
-            R.id.btnInvite -> {
-                findNavController().navigate(YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment())
+            R.id.svContacts -> {
+                if (!viewModel.parentViewModel?.isSearching?.value!!) {
+                    startActivity(
+                        YapToYapDashboardActivity.getIntent(
+                            requireContext(),
+                            true,
+                            null
+                        )
+                    )
+                }
             }
         }
     }

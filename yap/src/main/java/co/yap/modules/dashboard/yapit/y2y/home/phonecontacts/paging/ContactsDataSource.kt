@@ -103,7 +103,6 @@ class ContactsDataSource(
         )
     }
 
-
     private fun fetchContactsEmail(id: Long): String {
         var emlAdd = ""
         val PROJECTION = arrayOf(
@@ -143,7 +142,6 @@ class ContactsDataSource(
         val cursor = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC")
-
         try {
 
             if ((cursor?.count ?: 0) > 0) {
@@ -174,7 +172,7 @@ class ContactsDataSource(
                         countryCode,
                         phoneNo,
                         email,
-                         photoContentUri?.toString(),
+                        photoContentUri?.toString(),
                         false, null
                     )
                     contacts.add(contact)

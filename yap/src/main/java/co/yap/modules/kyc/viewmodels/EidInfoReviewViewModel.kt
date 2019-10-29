@@ -42,16 +42,13 @@ class EidInfoReviewViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-//        state.titleName[0] = parentViewModel?.name
         state.titleName[0] = parentViewModel?.identity?.identity?.givenName
+        state.titleName[0] = parentViewModel?.name
         parentViewModel?.let { populateState(it.identity) }
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun handlePressOnRescanBtn() {
+        parentViewModel?.let { populateState(it.identity) }
         clickEvent.setValue(EVENT_RESCAN)
     }
 
@@ -168,10 +165,9 @@ class EidInfoReviewViewModel(application: Application) :
                         parentViewModel?.identity = result
                         populateState(result)
                     } else {
-                            getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
                         clickEvent.setValue(EVENT_FINISH)
+                        state.toast = response.data.errors?.message!!
                     }
-                    //}
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -218,7 +214,7 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun populateState(identity: IdentityScannerResult?) {
+    fun populateState(identity: IdentityScannerResult?) {
         identity?.let {
             state.fullName = it.identity.givenName + " " + it.identity.sirName
             state.fullNameValid = state.fullName.isNotBlank()
@@ -239,5 +235,18 @@ class EidInfoReviewViewModel(application: Application) :
             }
 
         }
+    }
+
+    override fun clearData() {
+        state.fullName = ""
+        state.fullNameValid = false
+        state.nationality = ""
+        state.nationalityValid = false
+        state.dateOfBirth = ""
+        state.dateOfBirthValid = false
+        state.expiryDate = ""
+        state.expiryDateValid = false
+        state.genderValid = false
+        state.gender = ""
     }
 }
