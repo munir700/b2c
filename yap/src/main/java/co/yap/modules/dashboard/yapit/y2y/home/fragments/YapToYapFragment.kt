@@ -9,6 +9,7 @@ import co.yap.R
 import co.yap.databinding.FragmentYapToYapBinding
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.PHONE_CONTACTS
+import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.TransferLandingAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.YAP_CONTACTS
 import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
@@ -18,6 +19,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
 
 class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
@@ -27,12 +29,23 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
     override val viewModel: YapToYapViewModel
         get() = ViewModelProviders.of(this).get(YapToYapViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.recentTransferData.observe(this, Observer {
+            layoutRecent?.visibility = if (it)View.VISIBLE else View.GONE
+
+        })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.clickEvent.observe(this, clickEventObserver)
         setupAdaptor()
         setupTabs()
         setSearchView()
+        viewModel.adapter.set(RecentTransferAdaptor(ArrayList()))
+        viewModel.getRecentBeneficiaries()
+
     }
 
     private fun setupAdaptor() {

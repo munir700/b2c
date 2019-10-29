@@ -509,6 +509,10 @@
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
     <string name="screen_y2y_funds_transfer_success_display_text_transfer">You have transferred</string>
     <string name="screen_y2y_funds_transfer_success_button_back">Back to dashboard</string>
+    
+<!--    Y2Y Recent Transfer-->
+    <string name="screen_y2y_display_text_recent_transfer">Recent transfers</string>
+    <string name="screen_y2y_display_text_send_money_to">Who do you want to send money to?</string>
 
 
 </resources>
