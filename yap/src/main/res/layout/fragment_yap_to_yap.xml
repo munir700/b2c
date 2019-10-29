@@ -28,10 +28,14 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"  />
 
-        <co.yap.widgets.searchwidget.CoreSearchView
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/svContacts"
             android:layout_width="0dp"
-            android:layout_height="@dimen/_50sdp"
+            android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/_26sdp"
+            android:background="@drawable/bg_search_widget"
             android:gravity="center"
 
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"

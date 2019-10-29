@@ -22,12 +22,13 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     IFragmentHolder {
 
     companion object {
-        const val key = "type"
+        const val searching = "searching"
         const val data = "payLoad"
-        fun getIntent(context: Context, payLoad: Parcelable?): Intent {
+        fun getIntent(context: Context, isSearching: Boolean, payLoad: Parcelable?): Intent {
             val intent = Intent(context, YapToYapDashboardActivity::class.java)
             if (payLoad != null)
                 intent.putExtra(data, payLoad)
+            intent.putExtra(searching, isSearching)
             return intent
         }
     }
@@ -45,8 +46,8 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
         viewModel.clickEvent.observe(this, clickEventObserver)
-
     }
 
     private val clickEventObserver = Observer<Int> {

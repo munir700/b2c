@@ -18,5 +18,7 @@ interface IYapContact {
         fun retry()
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var listCountDescription: String
+    }
 }
