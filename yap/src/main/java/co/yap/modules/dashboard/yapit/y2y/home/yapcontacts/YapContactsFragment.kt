@@ -45,6 +45,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+
             } else {
                 getBinding().txtError.visibility = View.GONE
                 getBinding().btnInvite.visibility = View.GONE
@@ -59,6 +60,9 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             (getBinding().recycler.adapter as YapContactsAdaptor).setList(it)
+            getBinding().tvContactListDescription.text =
+                (getBinding().recycler.adapter as YapContactsAdaptor).itemCount.toString() + " YAP contacts"
+
             //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
             viewModel.pagingState.value = PagingState.DONE
         })
@@ -74,7 +78,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                     Utils.shareText(requireContext(), getBody())
                 }
                 R.id.lyContact -> {
-                    if (data is Contact && data.yapUser!!) {
+                    if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
                         if (parentFragment is YapToYapFragment) {
                             (parentFragment as YapToYapFragment).findNavController().navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(

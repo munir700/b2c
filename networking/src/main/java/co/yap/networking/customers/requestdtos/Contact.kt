@@ -20,4 +20,10 @@ data class Contact(
         val accountType: String,
         val accountUuid: String
     ) : ApiResponse(), Parcelable
+
+    override fun toString(): String {
+        return "Contact(title=$title, countryCode=$countryCode, mobileNo=$mobileNo, email=$email, beneficiaryPictureUrl=$beneficiaryPictureUrl, yapUser=$yapUser, accountDetailList=$accountDetailList)"
+    }
+
+
 }

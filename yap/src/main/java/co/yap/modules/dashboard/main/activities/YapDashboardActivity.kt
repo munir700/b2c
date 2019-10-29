@@ -38,6 +38,7 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.helpers.PermissionHelper
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -65,7 +66,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
-        FloatingActionMenu.Builder(this)
+        val menu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(230)
             .setAnimationHandler(SlideInAnimationHandler())
@@ -73,28 +74,39 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 getString(R.string.yap_to_yap),
                 R.drawable.ic_yap_to_yap,
                 R.layout.component_yap_menu_sub_button,
-                this, listener
+                this,1
             )
             .addSubActionView(
                 getString(R.string.top_up),
                 R.drawable.ic_top_up,
                 R.layout.component_yap_menu_sub_button,
-                this, listener
+                this, 2
             )
             .addSubActionView(
                 getString(R.string.send_money),
                 R.drawable.ic_send_money,
                 R.layout.component_yap_menu_sub_button,
-                this, listener
+                this,3
             )
-            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
-            .build()
-    }
+            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay).setStateChangeListener(object :
+                FloatingActionMenu.MenuStateChangeListener
+            {
+                override fun onMenuOpened(menu: FloatingActionMenu) {
 
-    val listener = View.OnClickListener {
-        // when (it.id) {
-        checkPermission()
-        // }
+                }
+
+                override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
+                    when(subActionButtonId)
+                    {
+                        1->checkPermission()
+                        2->checkPermission()
+                        3->checkPermission()
+
+                    }
+                }
+
+            })
+            .build()
     }
 
     private fun setupPager() {
@@ -288,7 +300,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         )
         permissionHelper?.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                startActivity(YapToYapDashboardActivity.getIntent(this@YapDashboardActivity, null))
+                startActivity(
+                    YapToYapDashboardActivity.getIntent(
+                        this@YapDashboardActivity,
+                        false,
+                        null
+                    )
+                )
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {

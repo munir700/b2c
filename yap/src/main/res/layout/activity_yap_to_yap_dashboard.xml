@@ -18,7 +18,6 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_yaptoyap_toolbar"
-            android:visibility="@{viewModel.state.tootlBarVisibility}"
             app:viewModel="@{viewModel}" />
 
         <fragment

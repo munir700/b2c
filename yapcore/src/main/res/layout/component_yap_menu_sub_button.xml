@@ -9,30 +9,31 @@
     android:elevation="0dp"
     android:orientation="vertical">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ivYapIt"
+            style="@style/Widget.Design.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:pressedTranslationZ="0dp"
+            android:layout_margin="3dp"
+            android:backgroundTint="#5e35b1"
+            android:tint="@android:color/white"
+            app:fabCustomSize="62dp"
+            app:fabSize="mini"
+            app:maxImageSize="28dp"
+            app:srcCompat="@drawable/ic_yap_it" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/ivYapIt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="3dp"
-        android:backgroundTint="#5e35b1"
-        android:tint="@android:color/white"
-        app:fabCustomSize="62dp"
-        app:fabSize="mini"
-        app:maxImageSize="28dp"
-        app:srcCompat="@drawable/ic_yap_it" />
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="6sp"
+            android:layout_gravity="center"
+            android:textColor="#272262"
+            android:textSize="14sp"
+            android:textStyle="normal" />
 
-    <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:gravity="center_horizontal"
-        android:lineSpacingExtra="6sp"
-        android:text="Top up"
-        android:textColor="#272262"
-        android:textSize="14sp"
-        android:textStyle="normal" />
 
 </LinearLayout>
 
