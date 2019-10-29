@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.viewmodels
+package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
 import android.content.Context

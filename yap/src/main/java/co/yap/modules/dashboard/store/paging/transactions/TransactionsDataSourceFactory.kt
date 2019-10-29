@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.store.paging.transactions
 
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.DataSource
-import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
+import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 

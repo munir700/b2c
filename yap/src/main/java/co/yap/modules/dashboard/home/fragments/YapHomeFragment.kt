@@ -17,9 +17,9 @@ import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.interfaces.NotificationItemClickListener
 import co.yap.modules.dashboard.home.models.Notification
+import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
-import co.yap.modules.dashboard.viewmodels.YapHomeViewModel
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -32,7 +32,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
-import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -307,9 +306,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     //
 
 
-//
+    //
     private fun initComponents() {
-    rvTransaction.adapter = TransactionsHeaderAdapter (activity!!.applicationContext, {viewModel.retry() })
+        rvTransaction.adapter =
+            TransactionsHeaderAdapter(activity!!.applicationContext, { viewModel.retry() })
 
         (rvTransaction.adapter as TransactionsHeaderAdapter).setItemListener(
             listener
