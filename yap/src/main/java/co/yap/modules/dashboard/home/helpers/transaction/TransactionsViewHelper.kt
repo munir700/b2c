@@ -49,7 +49,7 @@ class TransactionsViewHelper(
 //        initComponents()
         previouslySelected = 0
         setUpTransactionsListRecyclerView()
-//        viewModel.transactionsLiveData.observe(owner, Observer {
+//        viewModel.transactionsLiveDataA.observe(owner, Observer {
 //            (transactionsView.rvTransaction.adapter as TransactionsHeaderAdapter).submitList(it)
 //            getRecycleViewAdaptor()?.setState(PagingState.DONE)
 //        })

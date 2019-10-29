@@ -25,7 +25,7 @@ class TransactionsDataSource(
     var homeTransactionsRequest: HomeTransactionsRequest =
         HomeTransactionsRequest(
             1,
-            30,
+            6,
             0.00,
             20000.00,
             true,

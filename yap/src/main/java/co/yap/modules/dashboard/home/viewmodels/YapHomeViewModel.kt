@@ -47,7 +47,9 @@ class YapHomeViewModel(application: Application) :
     private lateinit var transactionsDataSourceFactory: TransactionsDataSourceFactory
     var contentList: ArrayList<Content> = arrayListOf()
 
-    override lateinit var transactionsLiveData: LiveData<PagedList<HomeTransactionListData>>
+    override lateinit var transactionsLiveDataA: LiveData<PagedList<HomeTransactionListData>>
+    override lateinit var transactionsLiveDataB: LiveData<PagedList<HomeTransactionListData>>
+
 
 //    init {
 //        setUpTransactionsRepo()
@@ -56,26 +58,26 @@ class YapHomeViewModel(application: Application) :
 
     fun setUpTransactionsRepo() {
         transactionsDataSourceFactory = TransactionsDataSourceFactory(transactionsRepository, this)
-        transactionsLiveData =
-            LivePagedListBuilder(transactionsDataSourceFactory, getPagingConfigs()).build()
+        transactionsLiveDataA = LivePagedListBuilder(transactionsDataSourceFactory, getPagingConfigs()).build()
+        transactionsLiveDataB = transactionsLiveDataA
 
     }
 
     private fun getPagingConfigs(): PagedList.Config {
         return PagedList.Config.Builder()
-            .setPageSize(30)
-            .setPrefetchDistance(10)
-            .setInitialLoadSizeHint(30 * 2)
+            .setPageSize(6)
+            .setPrefetchDistance(1)
+            .setInitialLoadSizeHint(6 )
             .setEnablePlaceholders(false)
             .build()
     }
 
     override fun listIsEmpty(): Boolean {
-        return transactionsLiveData.value?.isEmpty() ?: true
+        return transactionsLiveDataB.value?.isEmpty() ?: true
     }
 
     override fun retry() {
-        transactionsDataSourceFactory.transactionDataSourceLiveData.value?.retry()
+//        transactionsDataSourceFactory.transactionDataSourceLiveData.value?.retry()
 //        setUpTransactionsRepo()
 
     }
@@ -153,7 +155,7 @@ class YapHomeViewModel(application: Application) :
                             convertDate(item.creationDate!!)
                         }
 
-                        println(groupByDate.entries.joinToString(""))
+//                        println(groupByDate.entries.joinToString(""))
 
                         var transactionModelData: java.util.ArrayList<HomeTransactionListData> =
                             arrayListOf()
@@ -162,8 +164,8 @@ class YapHomeViewModel(application: Application) :
 
 
                             var contentsList: java.util.ArrayList<Content> = arrayListOf()
-                            println(transactionsDay.key)
-                            println(transactionsDay.value)
+//                            println(transactionsDay.key)
+//                            println(transactionsDay.value)
                             contentsList = transactionsDay.value as java.util.ArrayList<Content>
                             contentsList.sortByDescending { it ->
                                 it.creationDate

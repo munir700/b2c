@@ -69,7 +69,6 @@ class TransactionsListingAdapter(
     fun splitTimeString(timeString: String): String {
 
         val originalTimeStrings = timeString.split("T").toTypedArray()
-        println(originalTimeStrings[1])
         var splitTimeStrings = originalTimeStrings[1].split(":").toTypedArray()
         var timeofTransaction = splitTimeStrings[0] + ":" + splitTimeStrings[1]
 
