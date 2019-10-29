@@ -63,6 +63,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
                 }
 
                 override fun onQueryTextChange(newText: String?): Boolean {
+                    viewModel.parentViewModel?.searchQuery?.value = newText
                     return true
                 }
             })

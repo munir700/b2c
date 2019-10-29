@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/margin_normal"
-    android:background="@color/white">
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/margin_normal">
 
     <TextView
         android:id="@+id/tvTransactionDate"
+        style="@style/SmallGrey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/SmallGrey"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginStart="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_normal"
         android:text="April 12"
-        />
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/tvTotalAmount"
+        style="@style/SmallGrey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/SmallGrey"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginEnd="@dimen/margin_medium"
         android:layout_marginTop="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_medium"
         android:text="-200.00"
-        />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_expanded_transactions_listing"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_24sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTransactionDate"
         app:layout_constraintVertical_bias="0.0"
-        android:layout_marginTop="@dimen/_24sdp"
         tools:layout_editor_absoluteX="-16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
