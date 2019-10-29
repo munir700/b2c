@@ -167,6 +167,7 @@ class EidInfoReviewViewModel(application: Application) :
                     } else {
                         clickEvent.setValue(EVENT_FINISH)
                         state.toast = response.data.errors?.message!!
+                        clearData()
                     }
                 }
                 is RetroApiResponse.Error -> {
