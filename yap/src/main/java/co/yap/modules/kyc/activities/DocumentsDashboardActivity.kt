@@ -22,7 +22,7 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
         var isFromMoreSection: Boolean = false
         var hasStartedScanner: Boolean = false
 
-        const val key = "txnType"
+        const val key = "name"
         const val data = "payLoad"
         fun getIntent(context: Context, name: String, isFromMoreSection: Boolean): Intent {
             val intent = Intent(context, DocumentsDashboardActivity::class.java)
@@ -63,7 +63,9 @@ class DocumentsDashboardActivity : BaseBindingActivity<IDocumentsDashboard.ViewM
     }
 
     private fun getBundledName(): String {
-        return intent.getStringExtra(getString(R.string.arg_name))
+        return if (intent.hasExtra("name"))
+            intent.getStringExtra("name")
+        else ""
     }
 
     override fun onDestroy() {

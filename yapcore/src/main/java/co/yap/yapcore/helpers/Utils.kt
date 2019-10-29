@@ -18,7 +18,9 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.text.DecimalFormat
+import java.util.*
 import java.util.regex.Pattern
 
 
@@ -82,6 +84,16 @@ object Utils {
         return if ("" != num && null != num) {
             val m = java.lang.Double.parseDouble(num)
             val formatter = DecimalFormat("###,###,##0.00")
+            formatter.format(m)
+        } else {
+            ""
+        }
+    }
+
+    fun getFormattedCurrencyWithoutDecimal(num: String?): String {
+        return if ("" != num && null != num) {
+            val m = java.lang.Double.parseDouble(num)
+            val formatter = DecimalFormat("#,###")
             formatter.format(m)
         } else {
             ""
@@ -181,7 +193,7 @@ object Utils {
         var inputStr: CharSequence = ""
         var isValid = false
         val expression =
-         //   "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+            //   "^[_A-Za-z0-9-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
             "^[a-zA-Z0-9._-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+\$"
         // with plus       String expression = "^[_A-Za-z0-9-+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
@@ -311,5 +323,46 @@ object Utils {
 
     }
 
+    fun getFormattedPhone(mobileNo: String): String {
+        return try {
+            val pnu = PhoneNumberUtil.getInstance()
+            val pn = pnu.parse(mobileNo, Locale.getDefault().country)
+            return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
 
+    fun getPhoneNumberCountryCode(mobileNo: String): String {
+        return try {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
+            //didt find any other way to get number zero
+            return """00${pn.countryCode}"""
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    fun getPhoneWithoutCountryCode(mobileNo: String): String {
+        return try {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
+            pn.nationalNumber.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    fun shareText(context: Context, body: String) {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        // not set because ios team is not doing this.
+        //sharingIntent.putExtra(Intent.EXTRA_SUBJECT, viewModel.state.title.get())
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
+        context.startActivity(Intent.createChooser(sharingIntent, "Share"))
+    }
 }

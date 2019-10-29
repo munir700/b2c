@@ -46,7 +46,7 @@
         </activity>
 
         <activity
-            android:name="co.yap.modules.dashboard.yapit.y2ytransfer.home.activities.YapToYapDashboardActivity"
+            android:name="co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity"
             android:screenOrientation="portrait">
             <nav-graph android:value="@navigation/yap_to_yap_navigation" />
         </activity>

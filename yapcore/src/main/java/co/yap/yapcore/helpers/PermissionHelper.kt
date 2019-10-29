@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import androidx.core.app.ActivityCompat
@@ -58,7 +59,7 @@ class PermissionHelper {
     //=========Constructors- END=========
     fun request(permissionCallback: PermissionCallback?) {
         this.mPermissionCallback = permissionCallback
-        if (hasPermission() == false) {
+        if (!hasPermission()) {
             showRational = shouldShowRational(permissions!!)
             if (activity != null)
                 ActivityCompat.requestPermissions(activity!!, filterNotGrantedPermission(permissions!!), REQUEST_CODE)
@@ -105,7 +106,7 @@ class PermissionHelper {
 
             if (denied) {
                 val currentShowRational = shouldShowRational(permissions)
-                if (showRational == false && currentShowRational == false) {
+                if (!showRational && !currentShowRational) {
                     Log.d(TAG, "PERMISSION: Permission Denied By System")
                     mPermissionCallback?.onPermissionDeniedBySystem()
                     deniedCallback(true)
@@ -256,4 +257,13 @@ class PermissionHelper {
         i.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
         getContext<Context>()!!.startActivity(i)
     }
+
+    companion object {
+
+        fun isGranted(context:Context, permissions: String): Boolean {
+            return ContextCompat.checkSelfPermission(context, permissions) == PackageManager.PERMISSION_GRANTED
+        }
+
+    }
+
 }

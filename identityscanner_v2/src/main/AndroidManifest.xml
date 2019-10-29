@@ -42,10 +42,6 @@
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Base.Theme.AppCompat" />
-
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="d534f0fcb796502c58019c856ee5e7165234979a" />
     </application>
 
 </manifest>

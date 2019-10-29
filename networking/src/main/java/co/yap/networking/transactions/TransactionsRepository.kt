@@ -2,15 +2,17 @@ package co.yap.networking.transactions
 
 import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
+import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.requestdtos.AddEditNoteRequest
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
+import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
-
     const val URL_ADD_FUNDS = "/transactions/api/top-up"
     const val URL_REMOVE_FUNDS = "/transactions/api/withdraw"
     const val URL_FUND_TRANSFER_LIMITS = "/transactions/api/product/{product-code}/limits"
@@ -18,6 +20,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/product/{product-code}/denominations"
     const val URL_GET_CARD_FEE = "/transactions/api/fees/spare-card/subscription/{card-type}"
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
+    const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
+    const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
     const val URL_GET_ACCOUNT_TRANSACTIONS =
         "/transactions/api/account-transactions/{number}/{size}/"
 
@@ -41,6 +45,12 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })
+
+    override suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.y2yFundsTransferRequest(y2YFundsTransferRequest) })
+
+    override suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse> =
+        executeSafely(call = { api.addEditNote(addEditNoteRequest) })
 
     override suspend fun getAccountTransactions(homeTransactionsResponse: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse> =
         executeSafely(call = {

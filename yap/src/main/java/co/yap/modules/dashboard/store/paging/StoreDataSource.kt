@@ -7,9 +7,7 @@ import co.yap.networking.store.StoresRepository
 import co.yap.networking.store.responsedtos.Store
 import co.yap.yapcore.helpers.PagingState
 
-class StoreDataSource(
-    private val storeRepo: StoresRepository
-) :
+class StoreDataSource(private val storeRepo: StoresRepository) :
     PageKeyedDataSource<Long, Store>() {
 
     var state: MutableLiveData<PagingState> = MutableLiveData()

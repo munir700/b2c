@@ -1,7 +1,5 @@
 package co.yap.modules.dashboard.home.fragments
 
-import android.app.Activity
-import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.os.Bundle
 import android.text.SpannableString
@@ -80,11 +78,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
-                   startActivityForResult(
+                    startActivityForResult(
                         TransactionFiltersActivity.newIntent(requireContext()),
                         TransactionFiltersActivity.INTENT_FILTER_REQUEST
                     )
-//                    startActivity(TransactionFiltersActivity.newIntent(requireContext()))
                 }
             }
         })
@@ -298,9 +295,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                showToast("data is "+data!!.getIntExtra(TransactionFiltersActivity.KEY_FILTER_START_AMOUNT,0))
-            }
+            showToast(
+                "data received " + data!!.getIntExtra(
+                    TransactionFiltersActivity.KEY_FILTER_START_AMOUNT,
+                    0
+                )
+            )
         }
     }
 

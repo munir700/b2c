@@ -26,6 +26,8 @@ interface IEidInfoReview {
             get() = 5
         val EVENT_NEXT: Int
             get() = 6
+        val EVENT_FINISH: Int
+            get() = 7
 
         val clickEvent: SingleClickEvent
         fun handlePressOnRescanBtn()

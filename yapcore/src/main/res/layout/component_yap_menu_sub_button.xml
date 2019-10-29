@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rlYapIt"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true"
+    android:elevation="0dp"
+    android:orientation="vertical">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/ivYapIt"
+            style="@style/Widget.Design.FloatingActionButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:pressedTranslationZ="0dp"
+            android:layout_margin="3dp"
+            android:backgroundTint="#5e35b1"
+            android:tint="@android:color/white"
+            app:fabCustomSize="62dp"
+            app:fabSize="mini"
+            app:maxImageSize="28dp"
+            app:srcCompat="@drawable/ic_yap_it" />
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="6sp"
+            android:layout_gravity="center"
+            android:textColor="#272262"
+            android:textSize="14sp"
+            android:textStyle="normal" />
+
+
+</LinearLayout>
+

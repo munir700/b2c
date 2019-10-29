@@ -45,11 +45,12 @@
                 app:cameraHdr="on"
                 app:cameraPictureSizeBiggest="true"
                 app:cameraWhiteBalance="auto"
-                app:cameraGestureTap="autoFocus"
-                app:cameraGestureLongTap="autoFocus"
+                app:cameraGestureTap="none"
+                app:cameraPictureMetering="false"
+                app:cameraGestureLongTap="none"
                 app:cameraGesturePinch="none"
-                app:cameraGestureScrollHorizontal="filterControl1"
-                app:cameraGestureScrollVertical="exposureCorrection"
+                app:cameraGestureScrollHorizontal="none"
+                app:cameraGestureScrollVertical="none"
                 app:cameraMode="picture"
                 app:cameraAutoFocusMarker="@string/cameraview_default_autofocus_marker"/>
 
@@ -142,6 +143,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:padding="8dp"
+                android:enabled="false"
                 android:clickable="@{!model.state.capturing}"/>
 
         </LinearLayout>
