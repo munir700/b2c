@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
@@ -7,10 +8,12 @@ import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Build
+import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -19,6 +22,7 @@ import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import io.michaelrocks.libphonenumber.android.NumberParseException
 import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -334,10 +338,31 @@ object Utils {
         }
     }
 
-    fun getPhoneNumberCountryCode(mobileNo: String): String {
+    fun getFormattedPhone2(context: Context, mobileNo: String): String {
+        return try {
+            val pnu = PhoneNumberUtil.getInstance()
+            val countryRegionCode =
+                getCountryIsoCode(getPhoneNumberCountryCode(context, mobileNo) + mobileNo)
+            val countryCode =
+                if (countryRegionCode == "") getCountryCode(context) else countryRegionCode
+            val pn = pnu.parse(mobileNo, countryCode)
+            return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    fun getCountryCode(context: Context): String {
+        val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        return tm.networkCountryIso.toUpperCase()
+    }
+
+    fun getPhoneNumberCountryCodeForAPI(context: Context, mobileNo: String): String {
         return try {
             val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
+            val pn = phoneUtil.parse(mobileNo, getCountryCode(context))
             //didt find any other way to get number zero
             return """00${pn.countryCode}"""
         } catch (e: Exception) {
@@ -346,15 +371,41 @@ object Utils {
         }
     }
 
-    fun getPhoneWithoutCountryCode(mobileNo: String): String {
+    fun getPhoneNumberCountryCode(context: Context, mobileNo: String): String {
         return try {
             val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
+            val pn = phoneUtil.parse(mobileNo, getCountryCode(context))
+            //didt find any other way to get number zero
+            return pn.countryCode.toString()
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    fun getPhoneWithoutCountryCode(context: Context, mobileNo: String): String {
+        return try {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            val pn = phoneUtil.parse(mobileNo, getCountryCode(context))
             pn.nationalNumber.toString()
         } catch (e: Exception) {
             e.printStackTrace()
             ""
         }
+    }
+
+    fun getCountryIsoCode(number: String): String {
+        val validatedNumber = "+$number"
+        val pnu = PhoneNumberUtil.getInstance()
+        val phoneNumber = try {
+            pnu.parse(validatedNumber, null)
+        } catch (e: NumberParseException) {
+            Log.e("UTILS", "error during parsing a number")
+            return ""
+        }
+            ?: return ""
+
+        return pnu.getRegionCodeForCountryCode(phoneNumber.countryCode)
     }
 
     fun shareText(context: Context, body: String) {
