@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="name"
             type="String" />
@@ -14,6 +13,7 @@
             type="String" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,13 +30,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:src="@{image}"
-            tools:visibility="visible" />
+            app:stringToBitmap="@{image}" />
 
         <LinearLayout
             android:id="@+id/lyNameInitials"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="@{image == null? View.VISIBLE :View.GONE}"
+            android:background="@drawable/bg_round_with_space_white"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

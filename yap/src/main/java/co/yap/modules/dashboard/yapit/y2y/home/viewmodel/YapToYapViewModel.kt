@@ -12,13 +12,18 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
     override val state: IYapToYap.State = YapToYapState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 
+
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
     }
 
     override fun onResume() {
         super.onResume()
-        toggleToolBarVisibility(true)
+        if (parentViewModel?.isSearching?.value != null)
+            toggleToolBarVisibility(!parentViewModel?.isSearching?.value!!)
+        else {
+            toggleToolBarVisibility(false)
+        }
         setToolBarTitle("YAP to YAP")
     }
 }

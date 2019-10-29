@@ -25,10 +25,11 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         initState()
         initComponents()
+        setObservers()
     }
+
 
     private fun initComponents() {
         val contactColors = intArrayOf(
@@ -68,6 +69,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
         viewModel.phoneContactLiveData.observe(this, Observer {
             (getBinding().recycler.adapter as PhoneContactsAdaptor).submitList(it)
             (getBinding().recycler.adapter as PhoneContactsAdaptor).setState(PagingState.DONE)
+
+        })
+        viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
+            (getBinding().recycler.adapter as PhoneContactsAdaptor).itemCount
         })
     }
 
