@@ -11,12 +11,11 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class YapContactsAdaptor(context: Context, private val list: MutableList<Contact>) :
     BaseBindingRecyclerAdapter<Contact, RecyclerView.ViewHolder>(list) {
-
-    private val contactColors = arrayListOf(
-        "#29F44774",
-        "#29478DF4",
-        "#D600B9AE",
-        "#D6F57F17"
+    private val contactColors = intArrayOf(
+        R.drawable.bg_round_light_red,
+        R.drawable.bg_round_light_blue,
+        R.drawable.bg_round_light_green,
+        R.drawable.bg_round_light_orange
     )
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_contacts

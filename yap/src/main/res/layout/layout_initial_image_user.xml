@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="name"
             type="String" />
@@ -13,6 +14,7 @@
             type="String" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
+
         <import type="android.view.View" />
     </data>
 
@@ -36,8 +38,8 @@
             android:id="@+id/lyNameInitials"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="@{image == null? View.VISIBLE :View.GONE}"
             android:background="@drawable/bg_round_with_space_white"
+            android:visibility="@{image.equals(``)? View.VISIBLE :View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +50,6 @@
                 style="@style/ARegular"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:background="@drawable/bg_round_purple"
                 android:gravity="center"
                 android:text="@{Utils.INSTANCE.shortName(name)}"
                 tools:text="NM" />

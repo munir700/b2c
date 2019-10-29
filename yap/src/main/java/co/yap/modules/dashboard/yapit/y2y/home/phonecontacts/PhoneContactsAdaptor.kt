@@ -10,7 +10,7 @@ import co.yap.yapcore.BasePagingBindingRecyclerAdapter
 import co.yap.yapcore.databinding.ItemListFooterBinding
 
 
-class PhoneContactsAdaptor(private val colors: ArrayList<String>, retry: () -> Unit) :
+class PhoneContactsAdaptor(private val colors: IntArray, retry: () -> Unit) :
     BasePagingBindingRecyclerAdapter<Contact>(retry, diffCallback) {
 
 
