@@ -119,101 +119,101 @@ class YapHomeViewModel(application: Application) :
     }
 
 
-    fun requestAccountTransactions() {
-
-
-//need to make this page count request dynamic in pagination as per page
-
-        var homeTransactionsRequest: HomeTransactionsRequest =
-            HomeTransactionsRequest(1, 40, 0.00, 200000.00, true, true, true)
-
-        launch {
-            state.loading = true
-
-            when (val response =
-                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
-                is RetroApiResponse.Success -> {
-
-                    Log.i("getAccountTransactions", response.data.toString())
-
-                    if (null != response.data.data) {
-                        contentList = response.data.data.content as ArrayList<Content>
-//                        loadJSONDummyList()
-                        Collections.sort(contentList, object :
-                            Comparator<Content> {
-                            override fun compare(
-                                o1: Content,
-                                o2: Content
-                            ): Int {
-                                return o2.creationDate!!.compareTo(o1.creationDate!!)
-                            }
-                        })
-
-                        val groupByDate = contentList.groupBy { item ->
-                            convertDate(item.creationDate!!)
-                        }
-
-                        println(groupByDate.entries.joinToString(""))
-
-                        var transactionModelData: java.util.ArrayList<HomeTransactionListData> =
-                            arrayListOf()
-
-                        for (transactionsDay in groupByDate.entries) {
-
-
-                            var contentsList: java.util.ArrayList<Content> = arrayListOf()
-                            println(transactionsDay.key)
-                            println(transactionsDay.value)
-                            contentsList = transactionsDay.value as java.util.ArrayList<Content>
-                            contentsList.sortByDescending { it ->
-                                it.creationDate
-                            }
-
-                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
-                            closingBalanceArray.add(closingBalanceOfTheDay)
-//                            var calculateTotalAmount: Double = 0.0
-//                            for (contentValue in transactionsDay.value) {
-//                                calculateTotalAmount = calculateTotalAmount + contentValue.amount
-//                                println(calculateTotalAmount)
+//    fun requestAccountTransactions() {
+//
+//
+////need to make this page count request dynamic in pagination as per page
+//
+//        var homeTransactionsRequest: HomeTransactionsRequest =
+//            HomeTransactionsRequest(1, 40, 0.00, 200000.00, true, true, true)
+//
+//        launch {
+//            state.loading = true
+//
+//            when (val response =
+//                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
+//                is RetroApiResponse.Success -> {
+//
+//                    Log.i("getAccountTransactions", response.data.toString())
+//
+//                    if (null != response.data.data) {
+//                        contentList = response.data.data.content as ArrayList<Content>
+////                        loadJSONDummyList()
+//                        Collections.sort(contentList, object :
+//                            Comparator<Content> {
+//                            override fun compare(
+//                                o1: Content,
+//                                o2: Content
+//                            ): Int {
+//                                return o2.creationDate!!.compareTo(o1.creationDate!!)
 //                            }
-
-                            var transactionModel: HomeTransactionListData = HomeTransactionListData(
-                                "Type",
-                                "AED",
-                                transactionsDay.key!!,
-                                contentsList.get(0).totalAmount.toString(),
-                                contentsList.get(0).balanceAfter,
-                                80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-                                contentsList,
-
-                                //
-
-                                response.data.data.first,
-                                response.data.data.last,
-                                response.data.data.number,
-                                response.data.data.numberOfElements,
-                                response.data.data.pageable,
-                                response.data.data.size,
-                                response.data.data.sort,
-                                response.data.data.totalElements,
-                                response.data.data.totalPages
-                            )
-                            transactionModelData.add(transactionModel)
-
-                            transactionLogicHelper.transactionList = transactionModelData
-                            MAX_CLOSING_BALANCE = closingBalanceArray.max()!!
-                        }
-                    }
-                }
-
-                is RetroApiResponse.Error -> {
-
-                }
-            }
-
-            state.loading = false
-        }
-    }
+//                        })
+//
+//                        val groupByDate = contentList.groupBy { item ->
+//                            convertDate(item.creationDate!!)
+//                        }
+//
+//                        println(groupByDate.entries.joinToString(""))
+//
+//                        var transactionModelData: java.util.ArrayList<HomeTransactionListData> =
+//                            arrayListOf()
+//
+//                        for (transactionsDay in groupByDate.entries) {
+//
+//
+//                            var contentsList: java.util.ArrayList<Content> = arrayListOf()
+//                            println(transactionsDay.key)
+//                            println(transactionsDay.value)
+//                            contentsList = transactionsDay.value as java.util.ArrayList<Content>
+//                            contentsList.sortByDescending { it ->
+//                                it.creationDate
+//                            }
+//
+//                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+//                            closingBalanceArray.add(closingBalanceOfTheDay)
+////                            var calculateTotalAmount: Double = 0.0
+////                            for (contentValue in transactionsDay.value) {
+////                                calculateTotalAmount = calculateTotalAmount + contentValue.amount
+////                                println(calculateTotalAmount)
+////                            }
+//
+//                            var transactionModel: HomeTransactionListData = HomeTransactionListData(
+//                                "Type",
+//                                "AED",
+//                                transactionsDay.key!!,
+//                                contentsList.get(0).totalAmount.toString(),
+//                                contentsList.get(0).balanceAfter,
+//                                80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+//                                contentsList,
+//
+//                                //
+//
+//                                response.data.data.first,
+//                                response.data.data.last,
+//                                response.data.data.number,
+//                                response.data.data.numberOfElements,
+//                                response.data.data.pageable,
+//                                response.data.data.size,
+//                                response.data.data.sort,
+//                                response.data.data.totalElements,
+//                                response.data.data.totalPages
+//                            )
+//                            transactionModelData.add(transactionModel)
+//
+//                            transactionLogicHelper.transactionList = transactionModelData
+//                            MAX_CLOSING_BALANCE = closingBalanceArray.max()!!
+//                        }
+//                    }
+//                }
+//
+//                is RetroApiResponse.Error -> {
+//
+//                }
+//            }
+//
+//            state.loading = false
+//        }
+//    }
 
     fun convertDate(creationDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")
@@ -243,54 +243,54 @@ class YapHomeViewModel(application: Application) :
         return json
     }
 
-    private fun loadJSONDummyList() {
-
-        val newList: ArrayList<Content> = arrayListOf()
-
-        val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
-        if (mainObj != null) {
-            val mainDataList = mainObj.getJSONArray("content")
-            if (mainDataList != null) {
-
-                for (i in 0 until mainDataList!!.length()) {
-
-                    val parentArrayList = mainDataList!!.getJSONObject(i)
-
-                    val contect: Content =
-                        Content(
-                            "accountUuid1",
-                            parentArrayList.getDouble("amount"),
-                            parentArrayList.getDouble("balanceAfter"),
-                            10.0,
-                            "1000000000168",
-                            "TRANSACTION",
-                            "111",
-                            "111",
-                            parentArrayList.getString("txnCurrency"),
-                            "3000000000098",
-                            "test",
-                            "AE070333000000000120068",
-                            "YAP",
-                            parentArrayList.getString("paymentMode"),
-                            "CR050819073136236111",
-                            "CD",
-                            "B2C_IBAN_ACCOUNT_HOLDER",
-                            "Approved Content",
-                            parentArrayList.getString("senderName"),
-                            "SUCCESS",
-                            parentArrayList.getDouble("amount"),
-                            "728172817281",
-                            "6666",
-                            parentArrayList.getString("txnType"),
-                            "111",
-                            parentArrayList.getString("updatedDate"),
-                            "B2C_ACCOUNT"
-                        )
-
-                    newList.add(contect)
-                }
-            }
-        }
-        contentList = newList
-    }
+//    private fun loadJSONDummyList() {
+//
+//        val newList: ArrayList<Content> = arrayListOf()
+//
+//        val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
+//        if (mainObj != null) {
+//            val mainDataList = mainObj.getJSONArray("content")
+//            if (mainDataList != null) {
+//
+//                for (i in 0 until mainDataList!!.length()) {
+//
+//                    val parentArrayList = mainDataList!!.getJSONObject(i)
+//
+//                    val contect: Content =
+//                        Content(
+//                            "accountUuid1",
+//                            parentArrayList.getDouble("amount"),
+//                            parentArrayList.getDouble("balanceAfter"),
+//                            10.0,
+//                            "1000000000168",
+//                            "TRANSACTION",
+//                            "111",
+//                            "111",
+//                            parentArrayList.getString("txnCurrency"),
+//                            "3000000000098",
+//                            "test",
+//                            "AE070333000000000120068",
+//                            "YAP",
+//                            parentArrayList.getString("paymentMode"),
+//                            "CR050819073136236111",
+//                            "CD",
+//                            "B2C_IBAN_ACCOUNT_HOLDER",
+//                            "Approved Content",
+//                            parentArrayList.getString("senderName"),
+//                            "SUCCESS",
+//                            parentArrayList.getDouble("amount"),
+//                            "728172817281",
+//                            "6666",
+//                            parentArrayList.getString("txnType"),
+//                            "111",
+//                            parentArrayList.getString("updatedDate"),
+//                            "B2C_ACCOUNT"
+//                        )
+//
+//                    newList.add(contect)
+//                }
+//            }
+//        }
+//        contentList = newList
+//    }
 }
