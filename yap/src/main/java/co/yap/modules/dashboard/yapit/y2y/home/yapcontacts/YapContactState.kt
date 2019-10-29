@@ -7,7 +7,7 @@ import co.yap.yapcore.BaseState
 
 class YapContactState : BaseState(), IYapContact.State {
     @get:Bindable
-    override var listCountDescription: String="My namne is dione"
+    override var listCountDescription: String=""
         set(value) {
             field=value
             notifyPropertyChanged(BR.listCountDescription)
