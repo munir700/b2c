@@ -1,11 +1,13 @@
 package co.yap.modules.dashboard.transaction.activities
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
+import co.yap.modules.transaction_note.activities.TransactionNoteActivity
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
@@ -28,7 +30,8 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.ivClose -> finish()
-            R.id.ivShare -> showToast("ivShare clicked")
+           // R.id.clNote -> //startActivityForResult( TransactionNoteActivity.INTENT_ADD_NOTE_REQUEST))
+            // R.id.ivShare -> showToast("ivShare clicked")
         }
     }
 }
