@@ -49,10 +49,10 @@ class TransactionsViewHelper(
 //        initComponents()
         previouslySelected = 0
         setUpTransactionsListRecyclerView()
-        viewModel.transactionsLiveData.observe(owner, Observer {
-            (transactionsView.rvTransaction.adapter as TransactionsHeaderAdapter).submitList(it)
-            getRecycleViewAdaptor()?.setState(PagingState.DONE)
-        })
+//        viewModel.transactionsLiveData.observe(owner, Observer {
+//            (transactionsView.rvTransaction.adapter as TransactionsHeaderAdapter).submitList(it)
+//            getRecycleViewAdaptor()?.setState(PagingState.DONE)
+//        })
 
 
         setUpGraphRecyclerView()
