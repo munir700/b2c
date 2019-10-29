@@ -33,10 +33,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
 
     private fun initComponents() {
         val contactColors = intArrayOf(
+            R.drawable.bg_round_light_red,
             R.drawable.bg_round_light_blue,
-            R.drawable.bg_round_red,
-            R.drawable.bg_round_purple,
-            R.drawable.bg_round_light_blue
+            R.drawable.bg_round_light_green,
+            R.drawable.bg_round_light_orange
         )
 
         getBinding().recycler.adapter = PhoneContactsAdaptor(contactColors) { viewModel.retry() }

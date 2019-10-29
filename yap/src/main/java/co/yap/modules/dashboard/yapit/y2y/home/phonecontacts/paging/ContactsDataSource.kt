@@ -141,7 +141,8 @@ class ContactsDataSource(
         val contacts: MutableList<Contact> = ArrayList()
         val cursor = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC")
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+        )
         try {
 
             if ((cursor?.count ?: 0) > 0) {
@@ -161,12 +162,9 @@ class ContactsDataSource(
                         cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
                     val email = fetchContactsEmail(contactId)
 
-                    val photoContentUri: Uri? = getPhotoUri(contactId2)
+                    var photoContentUri: Uri? = getPhotoUri(contactId2)
+                    if (photoContentUri== null) photoContentUri= Uri.EMPTY
 
-                    Log.d(
-                        "contact",
-                        "getAllContacts: $name $countryCode $phoneNo $email  ${photoContentUri}"
-                    )
                     val contact = Contact(
                         name,
                         countryCode,
@@ -175,6 +173,7 @@ class ContactsDataSource(
                         photoContentUri?.toString(),
                         false, null
                     )
+                    Log.e("contactlatrum", contact.toString())
                     contacts.add(contact)
                 }
             }

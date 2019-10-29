@@ -56,8 +56,10 @@ object UIBinder {
     @BindingAdapter("stringToBitmap")
     @JvmStatic
     fun getPhoto(view: ImageView, photoUri: String?) {
-        if (photoUri == null) return
-
+        if (photoUri == null) {
+            view.visibility = View.GONE
+            return
+        }
 
         val cursor = view.context.contentResolver.query(
             Uri.parse(photoUri),
@@ -69,6 +71,7 @@ object UIBinder {
                 if (data != null) {
                     cursor.close()
                     val bitmap = byteArrayToBitmap(data)
+                    view.visibility = View.VISIBLE
                     view.setImageBitmap(bitmap)
                 }
             }
@@ -577,7 +580,7 @@ object UIBinder {
 //        }
     }
 
-     @BindingAdapter("src", "isRound")
+    @BindingAdapter("src", "isRound")
     @JvmStatic
     fun setProfilePicture(view: ImageView, imageSrc: String, circular: Boolean) {
         Glide.with(view.context)
