@@ -7,15 +7,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.modules.transaction_filters.interfaces.ITransactionFilters
 import co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel
-import co.yap.widgets.searchwidget.SearchingListener
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.yapcore.BaseBindingActivity
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
-import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
-import kotlinx.android.synthetic.main.layout_transaction_filters_toolbar.*
 
 class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewModel>(),
     ITransactionFilters.View {
@@ -93,13 +92,22 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun setFilterValues() {
-        val data = Intent()
-        data.putExtra(KEY_FILTER_IN_TRANSACTION, cbInTransFilter.isChecked)
-        data.putExtra(KEY_FILTER_OUT_TRANSACTION, cbOutTransFilter.isChecked)
-        data.putExtra(KEY_FILTER_START_AMOUNT, rsbAmount.leftSeekBar.progress.toInt())
-        data.putExtra(KEY_FILTER_END_AMOUNT, rsbAmount.rightSeekBar.progress.toInt())
 
-        setResult(INTENT_FILTER_REQUEST,data)
+        YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
+            1, 40,
+            rsbAmount.leftSeekBar.progress.toDouble(), rsbAmount.rightSeekBar.progress.toDouble(),
+            cbInTransFilter.isChecked, cbOutTransFilter.isChecked,
+            true
+        )
+
+
+//        val data = Intent()
+//        data.putExtra(KEY_FILTER_IN_TRANSACTION, cbInTransFilter.isChecked)
+//        data.putExtra(KEY_FILTER_OUT_TRANSACTION, cbOutTransFilter.isChecked)
+//        data.putExtra(KEY_FILTER_START_AMOUNT, rsbAmount.leftSeekBar.progress.toInt())
+//        data.putExtra(KEY_FILTER_END_AMOUNT, rsbAmount.rightSeekBar.progress.toInt())
+//
+//        setResult(INTENT_FILTER_REQUEST, data)
         finish()
     }
 

@@ -10,6 +10,8 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
+import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
@@ -234,6 +236,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
             checkUserStatus()
         }
+        if (null != homeTransactionsRequest) {
+            showToast(YAPApplication.homeTransactionsRequest?.debitSearch.toString() + " debitSearch" + YAPApplication.homeTransactionsRequest?.minAmount.toString() + " ,min,max " + YAPApplication.homeTransactionsRequest?.minAmount.toString())
+        }
     }
 
     override fun onDestroyView() {
@@ -293,20 +298,21 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
-            showToast(
-                "data received " + data!!.getIntExtra(
-                    TransactionFiltersActivity.KEY_FILTER_START_AMOUNT,
-                    0
-                )
-            )
+
+        if (null != homeTransactionsRequest) {
+            showToast(YAPApplication.homeTransactionsRequest?.debitSearch.toString() + " debitSearch" + YAPApplication.homeTransactionsRequest?.minAmount.toString() + " ,min,max " + YAPApplication.homeTransactionsRequest?.minAmount.toString())
+
         }
+//        if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
+//            showToast(
+//                "data received " + data!!.getIntExtra(
+//                    TransactionFiltersActivity.KEY_FILTER_START_AMOUNT,
+//                    0
+//                )
+//            )
+//        }
     }
 
-    //
-
-
-    //
     private fun initComponents() {
         rvTransaction.adapter =
             TransactionsHeaderAdapter(activity!!.applicationContext, { viewModel.retry() })
