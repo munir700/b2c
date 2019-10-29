@@ -31,11 +31,11 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
     }
 
     private fun initComponents() {
-        val contactColors = arrayListOf(
-            "#F44774",
-            "#478DF4",
-            "#00B9AE",
-            "#F57F17"
+        val contactColors = intArrayOf(
+            R.drawable.bg_round_light_blue,
+            R.drawable.bg_round_red,
+            R.drawable.bg_round_purple,
+            R.drawable.bg_round_light_blue
         )
 
         getBinding().recycler.adapter = PhoneContactsAdaptor(contactColors) { viewModel.retry() }
@@ -47,6 +47,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
         viewModel.getState().observe(this, Observer { state ->
             if (viewModel.listIsEmpty()) {
                 getBinding().recycler.visibility = View.GONE
+                getBinding().tvContactListDescription.visibility=View.GONE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
@@ -55,6 +56,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>() {
                 getBinding().txtError.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
+                getBinding().tvContactListDescription.visibility=View.VISIBLE
                 (getBinding().recycler.adapter as PhoneContactsAdaptor)?.setState(state)
                 viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
             }

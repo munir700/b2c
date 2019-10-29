@@ -47,7 +47,6 @@
                 style="@style/ARegular"
                 android:layout_width="@dimen/_40sdp"
                 android:layout_height="@dimen/_40sdp"
-                android:background="@drawable/bg_round_purple"
                 android:gravity="center"
                 android:text="@{Utils.INSTANCE.shortName(name)}"
                 tools:text="NM" />
