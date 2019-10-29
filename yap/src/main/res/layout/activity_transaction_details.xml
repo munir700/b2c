@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -20,66 +21,50 @@
 
         <TextView
             android:id="@+id/tvTransactionHeading"
-            android:layout_width="0dp"
-            android:gravity="center"
-            android:layout_height="wrap_content"
             style="@style/Large"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
             android:padding="@dimen/margin_extra_large"
+            android:text="@{viewModel.state.transactionTitle}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:text="Transaction Details"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"/>
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:text="Transaction Details" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clTransactionDetails"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/greySoftSelected"
-            android:paddingTop="@dimen/margin_extra_large"
             android:paddingStart="@dimen/margin_medium"
+            android:paddingTop="@dimen/margin_extra_large"
             android:paddingEnd="@dimen/margin_medium"
             android:paddingBottom="@dimen/margin_extra_large"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading">
 
-            <TextView
-                android:id="@+id/tvCardType"
-                style="@style/ASmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Metal card"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/tvCardNumber"
-                style="@style/ASmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="*6901"
-                app:layout_constraintBottom_toBottomOf="@+id/tvCardType"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvCardType" />
 
             <TextView
                 android:id="@+id/tvCardSpent"
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:text="Spent"
+                android:text="@{viewModel.state.spentTitle}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardType" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Spent" />
 
             <TextView
                 android:id="@+id/tvCardSpendAmount"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1500"
+                android:text="@{viewModel.state.spentAmount}"
                 app:layout_constraintBottom_toBottomOf="@+id/tvCardSpent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvCardSpent" />
+                app:layout_constraintTop_toTopOf="@+id/tvCardSpent"
+                tools:text="1500" />
 
             <TextView
                 android:id="@+id/tvFee"
@@ -87,19 +72,44 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="Fee"
+                android:text="@{viewModel.state.feeTitle}"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvCardSpent" />
+                app:layout_constraintTop_toBottomOf="@+id/tvCardSpent"
+                tools:text="Fee" />
 
             <TextView
                 android:id="@+id/tvFeeAmount"
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1500"
+                android:text="@{viewModel.state.feeAmount}"
                 app:layout_constraintBottom_toBottomOf="@+id/tvFee"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvFee" />
+                app:layout_constraintTop_toTopOf="@+id/tvFee"
+                tools:text="1000" />
+
+
+            <TextView
+                android:id="@+id/tvTotalAmount"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@{viewModel.state.totalTitle}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFee"
+                tools:text="Total" />
+
+            <TextView
+                android:id="@+id/tvTotalAmountValue"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.totalAmount}"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTotalAmount"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvTotalAmount"
+                tools:text="2500" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -108,50 +118,55 @@
             android:id="@+id/clEditIcon"
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium_large"
-            app:layout_constraintTop_toBottomOf="@+id/clTransactionDetails"
-            android:background="@drawable/bg_round_purple">
+            android:background="@drawable/bg_round_purple"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clTransactionDetails">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_edit"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clNote"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="@+id/clEditIcon"
-            app:layout_constraintLeft_toRightOf="@+id/clEditIcon"
-            app:layout_constraintBottom_toBottomOf="@+id/clEditIcon"
-            app:layout_constraintRight_toRightOf="parent"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
-            >
-        <TextView
-            android:id="@+id/tvNoteHeading"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            style="@style/Small"
-            android:textColor="@color/colorPrimary"
-            app:layout_constraintBottom_toTopOf="@+id/tvNoteDetails"
-            android:text="Add a note"/>
-        <TextView
-            android:id="@+id/tvNoteDetails"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/AMicroGrey"
-            app:layout_constraintTop_toBottomOf="@+id/tvNoteHeading"
-            app:layout_constraintLeft_toLeftOf="@+id/tvNoteHeading"
-            android:text="Stay organized by adding transaction notes"/>
+            android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
+            app:layout_constraintBottom_toBottomOf="@+id/clEditIcon"
+            app:layout_constraintLeft_toRightOf="@+id/clEditIcon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/clEditIcon">
+
+            <TextView
+                android:id="@+id/tvNoteHeading"
+                style="@style/Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.addNoteTitle}"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintBottom_toTopOf="@+id/tvNoteDetails"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Add a note" />
+
+            <TextView
+                android:id="@+id/tvNoteDetails"
+                style="@style/AMicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.noteValue}"
+                app:layout_constraintLeft_toLeftOf="@+id/tvNoteHeading"
+                app:layout_constraintTop_toBottomOf="@+id/tvNoteHeading"
+                tools:text="Stay organized by adding transaction notes" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
