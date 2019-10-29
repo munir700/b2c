@@ -493,6 +493,10 @@
     <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
     <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
     <string name="screen_y2y_display_button_all_contacts">All contacts</string>
+    <string name="screen_y2y_display_text_title_invite_contact">Invite friend via</string>
+    <string name="screen_y2y_display_text_invite_via_email">Email</string>
+    <string name="screen_y2y_display_text_invite_via_sms">SMS</string>
+    <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
 
 <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
@@ -505,6 +509,10 @@
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
     <string name="screen_y2y_funds_transfer_success_display_text_transfer">You have transferred</string>
     <string name="screen_y2y_funds_transfer_success_button_back">Back to dashboard</string>
+    
+<!--    Y2Y Recent Transfer-->
+    <string name="screen_y2y_display_text_recent_transfer">Recent transfers</string>
+    <string name="screen_y2y_display_text_send_money_to">Who do you want to send money to?</string>
 
 
 </resources>

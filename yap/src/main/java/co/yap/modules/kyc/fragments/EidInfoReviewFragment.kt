@@ -18,7 +18,6 @@ import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.translation.Strings
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
-import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import kotlinx.android.synthetic.main.activity_eid_info_review.*
 
 
@@ -140,7 +139,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
     override fun openCardScanner() {
         //clear existing state
-        viewModel.clearData()
+//        viewModel.clearData()
         if (DocumentsDashboardActivity.isFromMoreSection) {
             hasStartedScanner = true
         }

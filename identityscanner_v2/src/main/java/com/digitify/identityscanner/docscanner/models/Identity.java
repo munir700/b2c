@@ -2,6 +2,7 @@ package com.digitify.identityscanner.docscanner.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 import com.digitify.identityscanner.core.arch.Gender;
 
@@ -53,9 +54,9 @@ public class Identity implements Parcelable {
     public Date expirationDate;
     private boolean expiryDateValid;
     private Gender gender;
-    private String givenName;
-    private String sirName;
-    private String nationality;
+    private String givenName="";
+    private String sirName="";
+    private String nationality="";
     private String issuingCountry;
 
     public Identity() {
