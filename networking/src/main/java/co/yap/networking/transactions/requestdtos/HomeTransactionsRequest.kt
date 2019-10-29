@@ -2,12 +2,12 @@ package co.yap.networking.transactions.requestdtos
 
 
 data class HomeTransactionsRequest(
-    val number: Int,
-    val size: Int,
+    var number: Int,
+    var size: Int,
 
-    val minAmount: Double,
-    val maxAmount: Double,
-    val creditSearch: Boolean,
-    val debitSearch: Boolean,
-    val yapYoungTransfer: Boolean
+    var minAmount: Double,
+    var maxAmount: Double,
+    var creditSearch: Boolean,
+    var debitSearch: Boolean,
+    var yapYoungTransfer: Boolean
 )

@@ -27,15 +27,13 @@ import java.nio.charset.StandardCharsets
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 class YapHomeViewModel(application: Application) :
     YapDashboardChildViewModel<IYapHome.State>(application),
     IYapHome.ViewModel {
 
 
     override var MAX_CLOSING_BALANCE: Double = 0.0
-    //    var contentList: ArrayList<Content> = arrayListOf()
-    var closingBalanceArray: java.util.ArrayList<Double> = arrayListOf()
+    var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -58,13 +56,14 @@ class YapHomeViewModel(application: Application) :
 
     fun setUpTransactionsRepo() {
         transactionsDataSourceFactory = TransactionsDataSourceFactory(transactionsRepository, this)
-        transactionsLiveData = LivePagedListBuilder(transactionsDataSourceFactory, getPagingConfigs()).build()
+        transactionsLiveData =
+            LivePagedListBuilder(transactionsDataSourceFactory, getPagingConfigs()).build()
 
     }
 
     private fun getPagingConfigs(): PagedList.Config {
         return PagedList.Config.Builder()
-            .setPageSize(20)
+            .setPageSize(30)
             .setPrefetchDistance(10)
             .setInitialLoadSizeHint(30 * 2)
             .setEnablePlaceholders(false)

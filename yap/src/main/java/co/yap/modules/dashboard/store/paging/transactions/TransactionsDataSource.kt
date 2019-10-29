@@ -16,124 +16,81 @@ import java.util.*
 
 class TransactionsDataSource(
     private val storeRepo: TransactionsRepository,
-    val yapHomeViewModel: YapHomeViewModel
+    private val yapHomeViewModel: YapHomeViewModel
 ) :
-    PageKeyedDataSource<Long, HomeTransactionListData>() {
-
-    var pageNumber: Int = 1
-    var getPages: Int = 40
-    //
-    var minAmount: Double = 0.00
-    var maxAmount: Double = 20000.00
-    var creditSearch: Boolean = true
-    var debitSearch: Boolean = true
-    var yapYoungTransfer: Boolean = true
+    PageKeyedDataSource<Int, HomeTransactionListData>() {
 
     var state: MutableLiveData<PagingState> = MutableLiveData()
 
-    fun retry() {
-
-    }
-
-    private fun setRetry() {
-
-    }
-
-
     var homeTransactionsRequest: HomeTransactionsRequest =
         HomeTransactionsRequest(
-            pageNumber,
-            getPages,
-            minAmount,
-            maxAmount,
-            creditSearch,
-            debitSearch,
-            yapYoungTransfer
+            1,
+            30,
+            0.00,
+            20000.00,
+            true,
+            debitSearch = true,
+            yapYoungTransfer = true
         )
 
     override fun loadInitial(
-        params: PageKeyedDataSource.LoadInitialParams<Long>,
-        callback: PageKeyedDataSource.LoadInitialCallback<Long, HomeTransactionListData>
+        params: LoadInitialParams<Int>,
+        callback: LoadInitialCallback<Int, HomeTransactionListData>
     ) {
 
         updateState(PagingState.LOADING)
-        pageNumber = 1
+        homeTransactionsRequest.number = 1
+        homeTransactionsRequest.size = params.requestedLoadSize
+
         GlobalScope.launch {
             when (val response =
                 storeRepo.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
 
-                    var transactionModelData: java.util.ArrayList<HomeTransactionListData> =
+                    var transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
                     if (response.data.data.pageable.offset < response.data.data.totalElements) {
-
-                        pageNumber = response.data.data.pageable.pageNumber + 1
-                        homeTransactionsRequest = HomeTransactionsRequest(
-                            pageNumber,
-                            getPages,
-                            minAmount,
-                            maxAmount,
-                            creditSearch,
-                            debitSearch,
-                            yapYoungTransfer
-                        )
-
-
+                        homeTransactionsRequest.number = +1
                         callback.onResult(
                             transactionModelData,
-                            response.data.data.pageable.pageNumber.toLong(),
-                            response.data.data.pageable.pageNumber.toLong() + 1
+                            response.data.data.pageable.pageNumber - 1,
+                            response.data.data.pageable.pageNumber + 1
                         )
+                        updateState(PagingState.DONE)
                     } else {
-
                         updateState(PagingState.LOADING)
                     }
                 }
                 is RetroApiResponse.Error -> {
-                    updateState(PagingState.DONE)
-
+                    updateState(PagingState.ERROR)
                 }
             }
         }
     }
 
     override fun loadAfter(
-        params: PageKeyedDataSource.LoadParams<Long>,
-        callback: PageKeyedDataSource.LoadCallback<Long, HomeTransactionListData>
+        params: LoadParams<Int>,
+        callback: LoadCallback<Int, HomeTransactionListData>
     ) {
         updateState(PagingState.LOADING)
+        homeTransactionsRequest.number = params.key
+        homeTransactionsRequest.size = params.requestedLoadSize
         GlobalScope.launch {
             when (val response =
                 storeRepo.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
-                    var transactionModelData: java.util.ArrayList<HomeTransactionListData> =
+                    var transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
-                    if (response.data.data.pageable.offset < response.data.data.totalElements) {
+                    homeTransactionsRequest.number = +1
+                    callback.onResult(
+                        transactionModelData,
+                        if (response.data.data.last) null else params.key + 1
+                    )
+                    updateState(PagingState.DONE)
 
-                        pageNumber = response.data.data.pageable.pageNumber + 1
-                        homeTransactionsRequest = HomeTransactionsRequest(
-                            pageNumber,
-                            getPages,
-                            minAmount,
-                            maxAmount,
-                            creditSearch,
-                            debitSearch,
-                            yapYoungTransfer
-                        )
-                        callback.onResult(
-                            transactionModelData,
-//                            pageNumber.toLong()
-                            params.key + 1
-                        )
-                        updateState(PagingState.LOADING)
-                    } else {
-
-
-                        updateState(PagingState.DONE)
-                    }
                 }
                 is RetroApiResponse.Error -> {
-                    callback.onResult(listOf(), 111L)
+                    callback.onResult(listOf(), homeTransactionsRequest.number)
                     updateState(PagingState.ERROR)
                 }
             }
@@ -206,12 +163,16 @@ class TransactionsDataSource(
 
 
     override fun loadBefore(
-        params: PageKeyedDataSource.LoadParams<Long>,
-        callback: PageKeyedDataSource.LoadCallback<Long, HomeTransactionListData>
+        params: LoadParams<Int>,
+        callback: LoadCallback<Int, HomeTransactionListData>
     ) {
     }
 
     private fun updateState(state: PagingState) {
         this.state.postValue(state)
+    }
+
+    fun retry() {
+
     }
 }
