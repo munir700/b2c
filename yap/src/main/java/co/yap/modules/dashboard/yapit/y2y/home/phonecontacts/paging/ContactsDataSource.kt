@@ -4,6 +4,7 @@ import android.content.ContentUris
 import android.content.Context
 import android.net.Uri
 import android.provider.ContactsContract
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.paging.PageKeyedDataSource
 import co.yap.networking.customers.CustomersRepository
@@ -65,6 +66,75 @@ class ContactsDataSource(
         }
     }
 
+    private fun getPhotoUri(contactId: Long): Uri? {
+        val cursor = context.contentResolver.query(
+            ContactsContract.Data.CONTENT_URI, null,
+            ContactsContract.Data.CONTACT_ID
+                    + "="
+                    + contactId
+                    + " AND "
+
+                    + ContactsContract.Data.MIMETYPE
+                    + "='"
+                    + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
+                    + "'", null, null
+        )
+        try {
+            if (cursor != null) {
+                if (!cursor.moveToFirst()) {
+                    cursor.close()
+                    return null // no photo
+                }
+            } else {
+                return null // error in cursor process
+            }
+
+        } catch (e: Exception) {
+            cursor?.close()
+            e.printStackTrace()
+            return null
+        }
+        val person = ContentUris.withAppendedId(
+            ContactsContract.Contacts.CONTENT_URI, contactId
+        )
+        return Uri.withAppendedPath(
+            person,
+            ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
+        )
+    }
+
+    private fun fetchContactsEmail(id: Long): String {
+        var emlAdd = ""
+        val PROJECTION = arrayOf(
+            ContactsContract.CommonDataKinds.Email.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Email.DATA
+        )
+        val order = ("CASE WHEN "
+                + ContactsContract.Contacts.DISPLAY_NAME
+                + " NOT LIKE '%@%' THEN 1 ELSE 2 END, "
+                + ContactsContract.Contacts.DISPLAY_NAME
+                + ", "
+                + ContactsContract.CommonDataKinds.Email.DATA
+                + " COLLATE NOCASE")
+
+        val filter =
+            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE '' AND " + ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + (id)
+        val cur = context.contentResolver.query(
+            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+            PROJECTION,
+            filter,
+            null,
+            order
+        )
+        if (cur!!.moveToFirst()) {
+            do {
+                emlAdd = cur.getString(1)
+            } while (cur.moveToNext())
+        }
+
+        cur.close()
+        return emlAdd
+    }
 
     private fun fetchContacts(context: Context): MutableList<Contact> {
 
@@ -73,47 +143,44 @@ class ContactsDataSource(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
             ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
         )
+        try {
 
-        if ((cursor?.count ?: 0) > 0) {
-            while (cursor!!.moveToNext()) {
+            if ((cursor?.count ?: 0) > 0) {
+                while (cursor!!.moveToNext()) {
+                    val name =
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
 
-                val contactId =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.NAME_RAW_CONTACT_ID))
-                val name =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
-                val photoContentUri =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.PHOTO_URI))
-                val phoneWithoutCountryCode =
-                    cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                val phoneNo = Utils.getPhoneWithoutCountryCode(phoneWithoutCountryCode)
-                val countryCode = Utils.getPhoneNumberCountryCode(phoneWithoutCountryCode)
-                val email = "abc@gmai.com"
+                    val phoneWihtoutCountryCode =
+                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                var photoUri: Uri? = null
-                if (photoContentUri != null) {
-                    val photoId =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_ID))
-                    val person = ContentUris.withAppendedId(
-                        ContactsContract.Contacts.CONTENT_URI, java.lang.Long
-                            .parseLong(photoId)
+                    val phoneNo = Utils.getPhoneWithoutCountryCode(phoneWihtoutCountryCode)
+                    val countryCode = Utils.getPhoneNumberCountryCode(phoneWihtoutCountryCode)
+
+                    val contactId =
+                        cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
+                    val contactId2 =
+                        cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
+                    val email = fetchContactsEmail(contactId)
+
+                    var photoContentUri: Uri? = getPhotoUri(contactId2)
+                    if (photoContentUri== null) photoContentUri= Uri.EMPTY
+
+                    val contact = Contact(
+                        name,
+                        countryCode,
+                        phoneNo,
+                        email,
+                        photoContentUri?.toString(),
+                        false, null
                     )
-                    photoUri = Uri.withAppendedPath(
-                        person,
-                        ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
-                    )
+                    Log.e("contactlatrum", contact.toString())
+                    contacts.add(contact)
                 }
-                val contact = Contact(
-                    name,
-                    countryCode,
-                    phoneNo,
-                    email,
-                    photoUri.toString(),
-                    false, null
-                )
-                contacts.add(contact)
             }
+            cursor?.close()
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
-        cursor?.close()
         return contacts
     }
 

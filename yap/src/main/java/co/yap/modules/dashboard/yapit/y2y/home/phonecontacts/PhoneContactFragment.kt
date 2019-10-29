@@ -30,13 +30,21 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         initState()
         initComponents()
+        setObservers()
     }
 
+
     private fun initComponents() {
-        getBinding().recycler.adapter = PhoneContactsAdaptor { viewModel.retry() }
+        val contactColors = intArrayOf(
+            R.drawable.bg_round_light_red,
+            R.drawable.bg_round_light_blue,
+            R.drawable.bg_round_light_green,
+            R.drawable.bg_round_light_orange
+        )
+
+        getBinding().recycler.adapter = PhoneContactsAdaptor(contactColors) { viewModel.retry() }
         (getBinding().recycler.adapter as PhoneContactsAdaptor).setItemListener(listener)
     }
 
@@ -45,6 +53,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         viewModel.getState().observe(this, Observer { state ->
             if (viewModel.listIsEmpty()) {
                 getBinding().recycler.visibility = View.GONE
+                getBinding().tvContactListDescription.visibility=View.GONE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
@@ -53,6 +62,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                 getBinding().txtError.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
+                getBinding().tvContactListDescription.visibility=View.VISIBLE
                 (getBinding().recycler.adapter as PhoneContactsAdaptor)?.setState(state)
                 viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
             }
@@ -64,6 +74,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         viewModel.phoneContactLiveData.observe(this, Observer {
             (getBinding().recycler.adapter as PhoneContactsAdaptor).submitList(it)
             (getBinding().recycler.adapter as PhoneContactsAdaptor).setState(PagingState.DONE)
+
+        })
+        viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
+            (getBinding().recycler.adapter as PhoneContactsAdaptor).itemCount
         })
     }
 
