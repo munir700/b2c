@@ -331,10 +331,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                rvTransaction.visibility = View.VISIBLE
 
                 //now call that method here top calculate header section item content & sorting things
-
+                showTransactionsAndGraph()
                 getRecycleViewAdaptor()?.setState(state)
 
-                showTransactionsAndGraph()
+//
             }
         })
         viewModel.transactionsLiveData.observe(this, Observer {

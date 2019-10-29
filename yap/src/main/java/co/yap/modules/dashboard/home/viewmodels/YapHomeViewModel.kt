@@ -76,8 +76,8 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun retry() {
-//        transactionsDataSourceFactory.transactionDataSourceLiveData.value?.retry()
-        setUpTransactionsRepo()
+        transactionsDataSourceFactory.transactionDataSourceLiveData.value?.retry()
+//        setUpTransactionsRepo()
 
     }
 

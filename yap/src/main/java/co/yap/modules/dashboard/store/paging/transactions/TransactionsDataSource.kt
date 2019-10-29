@@ -21,7 +21,7 @@ class TransactionsDataSource(
     PageKeyedDataSource<Long, HomeTransactionListData>() {
 
     var pageNumber: Int = 1
-    var getPages: Int = 10
+    var getPages: Int = 40
     //
     var minAmount: Double = 0.00
     var maxAmount: Double = 20000.00
@@ -156,7 +156,7 @@ class TransactionsDataSource(
             yapHomeViewModel.convertDate(item.creationDate!!)
         }
 
-        println(groupByDate.entries.joinToString(""))
+//        println(groupByDate.entries.joinToString(""))
 
         var transactionModelData: ArrayList<HomeTransactionListData> =
             arrayListOf()
