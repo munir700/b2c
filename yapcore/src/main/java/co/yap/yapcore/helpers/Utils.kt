@@ -7,6 +7,7 @@ import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
 import android.icu.util.TimeZone
+import android.icu.util.ULocale
 import android.net.Uri
 import android.os.Build
 import android.telephony.TelephonyManager
