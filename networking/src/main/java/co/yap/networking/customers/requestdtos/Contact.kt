@@ -1,5 +1,6 @@
 package co.yap.networking.customers.requestdtos
 
+import android.graphics.Color
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import kotlinx.android.parcel.Parcelize

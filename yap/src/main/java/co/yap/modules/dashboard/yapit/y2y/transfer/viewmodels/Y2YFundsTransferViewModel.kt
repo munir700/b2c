@@ -27,9 +27,9 @@ class Y2YFundsTransferViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         if (state.checkValidity() == "") {
-            clickEvent.postValue(id)
+           // clickEvent.postValue(id)
 //            temporary comment this service for
-            //y2yFundsTransferRequest(id)
+            y2yFundsTransferRequest(id)
 
         } else {
             errorEvent.postValue(id)
