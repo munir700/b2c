@@ -29,9 +29,13 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
     override val viewModel: YapToYapViewModel
         get() = ViewModelProviders.of(this).get(YapToYapViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, clickEventObserver)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEventObserver)
         setupAdaptor()
         setupTabs()
         setSearchView()
@@ -117,6 +121,11 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
             )
             else -> null
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.observe(this, clickEventObserver)
     }
 
     private fun getBindingView(): FragmentYapToYapBinding {
