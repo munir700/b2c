@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.y2y.home.adaptors
 
 import android.view.View
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.NavController
 import co.yap.BR
 import co.yap.modules.dashboard.yapit.y2y.home.viewmodel.RecentTransferItemVM
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiary
@@ -10,7 +11,7 @@ import co.yap.yapcore.BaseViewHolder
 import kotlin.reflect.full.primaryConstructor
 
 
-class RecentTransferAdaptor(mValue: MutableList<RecentBeneficiary>): BaseRVAdapter<RecentBeneficiary, RecentTransferItemVM, RecentTransferAdaptor.ViewHolder>(mValue) {
+class RecentTransferAdaptor(mValue: MutableList<RecentBeneficiary>, navigation: NavController): BaseRVAdapter<RecentBeneficiary, RecentTransferItemVM, RecentTransferAdaptor.ViewHolder>(mValue,navigation) {
     override fun getLayoutId(viewType: Int) = getViewModel().layoutRes()
     override fun getViewHolder(
         view: View,

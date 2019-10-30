@@ -9,12 +9,13 @@ import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseViewHolder<T, VM>>
-    (private var datas: MutableList<T>) :
+    (private var datas: MutableList<T>,private var navigation: NavController) :
     RecyclerView.Adapter<VH>() {
 
 
@@ -41,7 +42,7 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
 
     protected fun createViewModel(): VM {
         val viewModel: VM = getViewModel()
-        viewModel.onCreate(Bundle())
+        viewModel.onCreate(Bundle(),navigation)
         onItemClickListener = viewModel
         return viewModel
     }

@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_18sdp"
             android:layout_marginTop="@dimen/margin_normal_large"
+            android:visibility="gone"
             android:text="Invite contacts from your address book"
             android:layout_marginBottom="@dimen/margin_medium"
             app:layout_constraintBottom_toTopOf="@+id/clMain"

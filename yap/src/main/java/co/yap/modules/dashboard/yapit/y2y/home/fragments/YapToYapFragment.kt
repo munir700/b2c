@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentYapToYapBinding
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
@@ -43,18 +44,27 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         if (viewModel.parentViewModel?.isSearching?.value!!) {
             layoutRecent.visibility = View.GONE
         } else {
-            val adapter = RecentTransferAdaptor(ArrayList())
-            viewModel.adapter.set(adapter)
-            viewModel.adapter.get()?.onItemClickListener = this
+            //val adapter = RecentTransferAdaptor(ArrayList(),findNavController())
+           // viewModel.adapter.set(adapter)
+            //viewModel.adapter.get()?.onItemClickListener = this
+            //adapter.onItemClickListener = this
             viewModel.getRecentBeneficiaries()
             viewModel.recentTransferData.observe(this, Observer {
                 layoutRecent?.visibility = if (it) View.VISIBLE else View.GONE
             })
-            viewModel.adapter.set(RecentTransferAdaptor(ArrayList()))
+            viewModel.adapter.set(RecentTransferAdaptor(ArrayList(),findNavController()))
         }
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
+
+        showToast("click on recent")
+         findNavController().navigate(
+            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+//                data.beneficiaryPictureUrl!!
+//                , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
+            )
+        )
 
     }
 
