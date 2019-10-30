@@ -153,9 +153,9 @@ class ContactsDataSource(
                     val phoneWihtoutCountryCode =
                         cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                    val phoneNo = Utils.getPhoneWithoutCountryCode(phoneWihtoutCountryCode)
-                    val countryCode = Utils.getPhoneNumberCountryCode(phoneWihtoutCountryCode)
-
+                    val phoneNo = Utils.getPhoneWithoutCountryCode(context, phoneWihtoutCountryCode)
+                    val countryCode =
+                        Utils.getPhoneNumberCountryCodeForAPI(context, phoneWihtoutCountryCode)
                     val contactId =
                         cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
                     val contactId2 =
@@ -165,6 +165,10 @@ class ContactsDataSource(
                     var photoContentUri: Uri? = getPhotoUri(contactId2)
                     if (photoContentUri== null) photoContentUri= Uri.EMPTY
 
+                    Log.d(
+                        "contact",
+                        "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
+                    )
                     val contact = Contact(
                         name,
                         countryCode,
@@ -173,7 +177,6 @@ class ContactsDataSource(
                         photoContentUri?.toString(),
                         false, null
                     )
-                    Log.e("contactlatrum", contact.toString())
                     contacts.add(contact)
                 }
             }

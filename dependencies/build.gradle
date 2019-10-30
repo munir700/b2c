@@ -39,6 +39,7 @@ project.ext {
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
             otpView                  : 'com.github.aabhasr1:OtpView:1.0.6',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.10.13',
+            numberFomaterGoogle      : 'com.googlecode.libphonenumber:libphonenumber:v8.10.21',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
             gson                     : 'com.google.code.gson:gson:2.8.5',
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",

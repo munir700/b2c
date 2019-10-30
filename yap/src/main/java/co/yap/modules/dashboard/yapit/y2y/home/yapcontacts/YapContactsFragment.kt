@@ -9,6 +9,7 @@ import co.yap.R
 import co.yap.databinding.FragmentYapContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
+import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.PhoneContactsAdaptor
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BR
@@ -65,6 +66,10 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
 
             //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
             viewModel.pagingState.value = PagingState.DONE
+        })
+
+        viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
+            (getBinding().recycler.adapter as YapContactsAdaptor).filter.filter(it)
         })
     }
 

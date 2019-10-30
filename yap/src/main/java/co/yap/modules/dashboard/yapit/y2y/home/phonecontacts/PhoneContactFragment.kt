@@ -53,7 +53,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         viewModel.getState().observe(this, Observer { state ->
             if (viewModel.listIsEmpty()) {
                 getBinding().recycler.visibility = View.GONE
-                getBinding().tvContactListDescription.visibility=View.GONE
+                getBinding().tvContactListDescription.visibility = View.GONE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
@@ -63,7 +63,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                 getBinding().txtError.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
-                getBinding().tvContactListDescription.visibility=View.VISIBLE
+                getBinding().tvContactListDescription.visibility = View.VISIBLE
                 (getBinding().recycler.adapter as PhoneContactsAdaptor)?.setState(state)
                 viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
             }
@@ -78,7 +78,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
 
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
-            (getBinding().recycler.adapter as PhoneContactsAdaptor).itemCount
+            //(getBinding().recycler.adapter as PhoneContactsAdaptor).filter?.filter(it)
         })
     }
 
@@ -93,7 +93,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
 //                    Utils.shareText(requireContext(), getBody())
                 }
                 R.id.lyContact -> {
-                    if (data is Contact && data.yapUser!!) {
+                    if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
                         if (parentFragment is YapToYapFragment) {
                             (parentFragment as YapToYapFragment).findNavController().navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
