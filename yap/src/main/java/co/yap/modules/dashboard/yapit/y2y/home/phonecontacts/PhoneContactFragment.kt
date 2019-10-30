@@ -53,12 +53,14 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                 getBinding().tvContactListDescription.visibility = View.GONE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
-                //getBinding().progressBar.visibility =
-                //    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
-                viewModel.parentViewModel?.yapContactLiveData?.postValue(mutableListOf())
+                getBinding().progressBar.visibility =
+                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+                if (state == PagingState.LOADING) viewModel.parentViewModel?.yapContactLiveData?.postValue(
+                    mutableListOf()
+                )
             } else {
                 getBinding().txtError.visibility = View.GONE
-                //getBinding().progressBar.visibility = View.GONE
+                getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
                 getBinding().tvContactListDescription.visibility = View.VISIBLE
                 viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
