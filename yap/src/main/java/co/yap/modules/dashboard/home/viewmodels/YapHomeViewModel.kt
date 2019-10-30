@@ -53,6 +53,7 @@ class YapHomeViewModel(application: Application) :
 
     var pageNumber: Int = 1
     var size: Int = 6
+    var isLastPage: Boolean = false
 
     fun setUpTransactionsRepo() {
         transactionsDataSourceFactory = TransactionsDataSourceFactory(transactionsRepository, this)
@@ -134,6 +135,7 @@ class YapHomeViewModel(application: Application) :
                     var transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
                     sortedCombinedTransactionList.addAll(transactionModelData)
+                    isLastPage=response.data.data.last
                     if (!response.data.data.last) {
 
                         pageNumber = response.data.data.number + 1
@@ -165,7 +167,9 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun loadMore() {
-        requestAccountTransactions()
+        if (!isLastPage){
+            requestAccountTransactions()
+        }
     }
 //}
 
