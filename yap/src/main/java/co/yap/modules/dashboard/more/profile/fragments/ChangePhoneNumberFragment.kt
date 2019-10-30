@@ -30,7 +30,7 @@ class ChangePhoneNumberFragment : MoreBaseFragment<IChangePhoneNumber.ViewModel>
             val action =
                 ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToSuccessFragment(
                     getString(Strings.screen_phone_number_success_display_text_sub_heading),
-                    MyUserManager.user?.currentCustomer?.getFormattedPhone().toString()
+                    MyUserManager.user?.currentCustomer?.getFormattedPhoneNumber(requireContext()).toString()
                 )
             findNavController().navigate(action)
         })
