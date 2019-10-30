@@ -100,6 +100,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                             )
                         }
                     }
+
                 }
             }
         }
