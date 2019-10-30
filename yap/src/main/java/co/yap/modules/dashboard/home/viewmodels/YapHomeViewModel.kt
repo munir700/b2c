@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
@@ -10,7 +9,6 @@ import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
-import co.yap.modules.dashboard.store.paging.transactions.TransactionsDataSource
 import co.yap.modules.dashboard.store.paging.transactions.TransactionsDataSourceFactory
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
@@ -20,7 +18,6 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.PagingState
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -77,23 +74,12 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun retry() {
-//        transactionsDataSourceFactory.transactionDataSourceLiveData.value?.retry()
-//        setUpTransactionsRepo()
 
     }
 
-//    override fun getState(): LiveData<PagingState> =
-//        Transformations.switchMap<TransactionsDataSource,
-//                PagingState>(
-//            transactionsDataSourceFactory.transactionDataSourceLiveData,
-//            TransactionsDataSource::state
-//        )
-
     override fun onCreate() {
         super.onCreate()
-//        setUpTransactionsRepo()
-//        requestAccountTransactions()
-//        setUpTransactionsRepo()
+
         requestAccountTransactions()
     }
 
@@ -116,14 +102,15 @@ class YapHomeViewModel(application: Application) :
 
     fun requestAccountTransactions() {
         homeTransactionsRequest =
-        HomeTransactionsRequest(
-            pageNumber,
-            size,
-            0.00,
-            20000.00,
-            true,
-            debitSearch = true,
-            yapYoungTransfer = true)
+            HomeTransactionsRequest(
+                pageNumber,
+                size,
+                0.00,
+                20000.00,
+                true,
+                debitSearch = true,
+                yapYoungTransfer = true
+            )
         launch {
             state.loading = true
 
@@ -135,26 +122,84 @@ class YapHomeViewModel(application: Application) :
                     var transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
                     sortedCombinedTransactionList.addAll(transactionModelData)
-                    isLastPage=response.data.data.last
+
+                    val unionList =
+                        (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
+                            .distinct()
+                            .groupBy({ it.date })
+
+                    for (lists in unionList.entries) {
+                        if (lists.value.size > 1) {
+                            var contentsList: ArrayList<Content> = arrayListOf()
+
+                            for (transactionsDay in lists.value) {
+                                contentsList.addAll(transactionsDay.content)
+
+                            }
+
+                            contentsList.sortByDescending { it ->
+                                it.creationDate
+                            }
+
+
+                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+                            closingBalanceArray.add(closingBalanceOfTheDay)
+
+                            var transactionModel: HomeTransactionListData = HomeTransactionListData(
+                                "Type",
+                                "AED",
+                                /* transactionsDay.key!!*/
+                                convertDate(contentsList.get(0).creationDate)!!,
+                                contentsList.get(0).totalAmount.toString(),
+                                contentsList.get(0).balanceAfter,
+                                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                                contentsList,
+
+                                response.data.data.first,
+                                response.data.data.last,
+                                response.data.data.number,
+                                response.data.data.numberOfElements,
+                                response.data.data.pageable,
+                                response.data.data.size,
+                                response.data.data.sort,
+                                response.data.data.totalElements,
+                                response.data.data.totalPages
+                            )
+                            var numberstoReplace: Int = 0
+                            var replaceNow: Boolean = false
+
+
+                            val iterator = sortedCombinedTransactionList.iterator()
+                            while (iterator.hasNext()) {
+                                val item = iterator.next()
+                                if (item.date.equals(convertDate(contentsList.get(0).creationDate))) {
+                                    numberstoReplace = sortedCombinedTransactionList.indexOf(item)
+                                    iterator.remove()
+                                    replaceNow = true
+
+                                }
+
+                            }
+                            if (replaceNow) {
+                                sortedCombinedTransactionList.add(
+                                    sortedCombinedTransactionList.size,
+                                    transactionModel
+                                )
+                                replaceNow = false
+                            }
+                        }
+                    }
+
+                    isLastPage = response.data.data.last
                     if (!response.data.data.last) {
 
                         pageNumber = response.data.data.number + 1
 //                        loadMore()
                     }
-
+                    state.loading = false
 //
 
-//                        callback.onResult(
-//                            transactionModelData,
-//                            response.data.data.pageable.pageNumber - 1,
-//                            response.data.data.pageable.pageNumber + 1
-//                        )
-//                        updateState(PagingState.DONE)
                 }
-//                else {
-////                        updateState(PagingState.LOADING)
-//                }
-//            }
 
                 is RetroApiResponse.Error -> {
 
@@ -167,7 +212,7 @@ class YapHomeViewModel(application: Application) :
     }
 
     override fun loadMore() {
-        if (!isLastPage){
+        if (!isLastPage) {
             requestAccountTransactions()
         }
     }
