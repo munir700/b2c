@@ -38,7 +38,6 @@ import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.helpers.PermissionHelper
-import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -99,8 +98,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     when(subActionButtonId)
                     {
                         1->checkPermission()
-                        2->checkPermission()
-                        3->checkPermission()
+//                        2->checkPermission()
+//                        3->checkPermission()
 
                     }
                 }

@@ -25,8 +25,8 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         initState()
+        setObservers()
         initComponents()
     }
 
@@ -43,13 +43,13 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().btnInvite.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
-                //getBinding().progressBar.visibility =
-                //    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+                getBinding().progressBar.visibility =
+                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
 
             } else {
                 getBinding().txtError.visibility = View.GONE
                 getBinding().btnInvite.visibility = View.GONE
-                //getBinding().progressBar.visibility = View.GONE
+                getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
             }
         })
@@ -63,8 +63,9 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
             getBinding().tvContactListDescription.text =
                 (getBinding().recycler.adapter as YapContactsAdaptor).itemCount.toString() + " YAP contacts"
 
-            //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
+            //if (!it.isEmpty() && !viewModel.getState() == PagingState.LOADING)
             viewModel.pagingState.value = PagingState.DONE
+            //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
         })
 
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
@@ -87,7 +88,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                             (parentFragment as YapToYapFragment).findNavController().navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                                     data.beneficiaryPictureUrl!!
-                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!
+                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
                                 )
                             )
                         }

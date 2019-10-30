@@ -8,7 +8,6 @@ import android.provider.ContactsContract
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.PageKeyedDataSource
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact
@@ -17,8 +16,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class PhoneContactViewModel(application: Application) :
     Y2YBaseViewModel<IPhoneContact.State>(application),
@@ -43,8 +40,9 @@ class PhoneContactViewModel(application: Application) :
     }
 
     override fun getY2YBeneficiaries() {
+        pagingState.value = PagingState.LOADING
         launch {
-            state.loading = true
+            //state.loading = true
             val response = fetchContacts(context)
             when (val response = repository.getY2YBeneficiaries(response)) {
                 is RetroApiResponse.Success -> {
@@ -56,7 +54,7 @@ class PhoneContactViewModel(application: Application) :
                     pagingState.value = PagingState.ERROR
                 }
             }
-            state.loading = false
+            //state.loading = false
         }
     }
 

@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.telephony.TelephonyManager
@@ -20,6 +21,7 @@ import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.android.NumberParseException
@@ -416,4 +418,26 @@ object Utils {
         sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
         context.startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
+
+    fun getContactColors(context: Context,position: Int): Int {
+        return ContextCompat.getColor(context,contactColors[position % contactColors.size])
+    }
+
+    fun getContactBackground(context: Context,position: Int): Drawable? {
+        return ContextCompat.getDrawable(context,backgrounds[position % backgrounds.size])
+    }
+
+    private val backgrounds = intArrayOf(
+        R.drawable.bg_round_light_red,
+        R.drawable.bg_round_light_blue,
+        R.drawable.bg_round_light_green,
+        R.drawable.bg_round_light_orange
+    )
+
+    private val contactColors = intArrayOf(
+        R.color.colorSecondaryMagenta,
+        R.color.colorSecondaryBlue,
+        R.color.colorSecondaryGreen,
+        R.color.colorSecondaryOrange
+    )
 }
