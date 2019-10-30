@@ -129,9 +129,10 @@ class YapHomeViewModel(application: Application) :
                     if (!response.data.data.last) {
 
                         pageNumber = response.data.data.number + 1
+//                        loadMore()
                     }
 
-                    loadMore()
+//
 
 //                        callback.onResult(
 //                            transactionModelData,
