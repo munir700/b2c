@@ -18,6 +18,14 @@
         android:background="@color/white"
         android:fitsSystemWindows="true">
 
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/clSnackbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:rotation="180"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/tvAvailableBalance"

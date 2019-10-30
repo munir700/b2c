@@ -34,7 +34,8 @@ class TransactionNoteViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.addEditNote(AddEditNoteRequest(transactionId, transactionDetail))) {
+                repository.addEditNote(AddEditNoteRequest(transactionId, transactionDetail)))
+            {
                 is RetroApiResponse.Success -> addEditNoteSuccess.value = true
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
