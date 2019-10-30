@@ -11,6 +11,8 @@
         tools:layout="@layout/fragment_yap_to_yap">
         <action
             android:id="@+id/action_yapToYapHome_to_y2YTransferFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
             app:destination="@id/y2YTransferFragment" />
     </fragment>
 
@@ -38,9 +40,10 @@
             android:defaultValue="0" />
         <action
             android:id="@+id/action_y2YTransferFragment_to_y2YFundsTransferSuccessFragment"
-            app:destination="@id/y2YFundsTransferSuccessFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left" />
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/y2YFundsTransferSuccessFragment"
+    />
     </fragment>
     <fragment
         android:id="@+id/y2YFundsTransferSuccessFragment"
