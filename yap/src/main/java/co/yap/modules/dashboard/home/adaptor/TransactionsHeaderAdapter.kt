@@ -1,9 +1,6 @@
 package co.yap.modules.dashboard.home.adaptor
 
-import android.content.Context
-import android.widget.TextView
 import androidx.databinding.ViewDataBinding
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -12,81 +9,48 @@ import co.yap.databinding.ItemTransactionListHeaderBinding
 import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsViewModel
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-import co.yap.yapcore.BasePagingBindingRecyclerAdapter
-import co.yap.yapcore.databinding.ItemListFooterBinding
-import kotlinx.android.synthetic.main.item_transaction_list_header.view.*
+import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-
-class TransactionsHeaderAdapter(val context: Context, retry: () -> Unit) :
-    BasePagingBindingRecyclerAdapter<HomeTransactionListData>(retry, diffCallback) {
+class TransactionsHeaderAdapter(private val list: MutableList<HomeTransactionListData>) :
+    BaseBindingRecyclerAdapter<HomeTransactionListData, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list_header
 
-    override fun getLayoutIdForFooterType(viewType: Int): Int = R.layout.item_list_footer
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (getItemViewType(position) == contentView)
-            (holder as HeaderViewHolder).onBind(getItem(position),context)
-
-        else (holder as ListFooterViewHolder).onBind(getState())
+        (holder as HeaderViewHolder).onBind(list[position])
     }
 
-    override fun onCreateContentViewHolder(binding: ViewDataBinding): HeaderViewHolder {
+    override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return HeaderViewHolder(binding as ItemTransactionListHeaderBinding)
     }
 
-    override fun onCreateFooterViewHolder(binding: ViewDataBinding): ListFooterViewHolder {
-        return ListFooterViewHolder(binding as ItemListFooterBinding)
-    }
-
-    companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<HomeTransactionListData>() {
-            override fun areItemsTheSame(
-                oldItem: HomeTransactionListData,
-                newItem: HomeTransactionListData
-            ): Boolean =
-//              oldItem.id == newItem.id
-                oldItem.date == newItem.date
-
-            override fun areContentsTheSame(
-                oldItem: HomeTransactionListData,
-                newItem: HomeTransactionListData
-            ): Boolean = oldItem == newItem
-        }
-    }
-
-
-    class HeaderViewHolder(val itemTransactionListHeaderBinding: ItemTransactionListHeaderBinding) :
+    class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransactionListHeaderBinding) :
         RecyclerView.ViewHolder(itemTransactionListHeaderBinding.root) {
-        val tvTransactionDate: TextView? = itemView.tvTransactionDate
-        val tvTotalAmount: TextView? = itemView.tvTotalAmount
-        var horizontalView: RecyclerView = itemView.rv_expanded_transactions_listing
 
+        fun onBind(homeTransaction: HomeTransactionListData) {
 
-        fun onBind(store: HomeTransactionListData? ,  context: Context) {
-            itemTransactionListHeaderBinding.viewModel = ItemHeaderTransactionsViewModel(store)
-            itemTransactionListHeaderBinding.executePendingBindings()
+            itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date
+            itemTransactionListHeaderBinding.tvTotalAmount.text = homeTransaction.totalAmount
 
-         tvTransactionDate!!.text=store!!.date
-            tvTotalAmount!!.text=store!!.totalAmount
-
-            //
-
-            horizontalView.layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.VERTICAL, false
-            )
+            itemTransactionListHeaderBinding.rvExpandedTransactionsListing.layoutManager =
+                LinearLayoutManager(
+                    itemTransactionListHeaderBinding.rvExpandedTransactionsListing.context,
+                    LinearLayoutManager.VERTICAL, false
+                )
 
             val snapHelper = PagerSnapHelper()
+            itemTransactionListHeaderBinding.rvExpandedTransactionsListing.onFlingListener = null
+            snapHelper.attachToRecyclerView(itemTransactionListHeaderBinding.rvExpandedTransactionsListing)
+            itemTransactionListHeaderBinding.rvExpandedTransactionsListing.adapter =
+                TransactionsListingAdapter(
+                    itemTransactionListHeaderBinding.rvExpandedTransactionsListing.context,
+                    homeTransaction.content as ArrayList<Content>
+                )
 
-           horizontalView.onFlingListener = null
-
-            snapHelper.attachToRecyclerView(horizontalView)
-
-           horizontalView.adapter =
-                TransactionsListingAdapter(context!!, store.content as ArrayList<Content>)
+            itemTransactionListHeaderBinding.viewModel =
+                ItemHeaderTransactionsViewModel(homeTransaction)
+            itemTransactionListHeaderBinding.executePendingBindings()
         }
 
-        }
     }
-//}
+}
