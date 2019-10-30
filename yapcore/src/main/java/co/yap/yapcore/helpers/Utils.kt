@@ -7,7 +7,6 @@ import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
 import android.icu.util.TimeZone
-import android.icu.util.ULocale
 import android.net.Uri
 import android.os.Build
 import android.telephony.TelephonyManager
@@ -350,7 +349,7 @@ object Utils {
     }
 
     @SuppressLint("DefaultLocale")
-    fun getCountryCode(context: Context): String {
+    fun getCountryCodeFromTelephony(context: Context): String {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
         return tm.networkCountryIso.toUpperCase()
     }
@@ -396,13 +395,17 @@ object Utils {
 //    }
 
     fun getDefaultCountryCode(context: Context): String {
-        val countryCode = getCountryCode(context)
-        return if (countryCode == "") getCountryCodeFromTimeZone() else countryCode
+        val countryCode = getCountryCodeFromTimeZone(context)
+        return if (countryCode == "") "AE" else countryCode
     }
 
-    private fun getCountryCodeFromTimeZone(): String {
+    private fun getCountryCodeFromTimeZone(context: Context): String {
         val curTimeZoneId = Calendar.getInstance().timeZone.id
-        return TimeZone.getRegion(curTimeZoneId)
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            TimeZone.getRegion(curTimeZoneId)
+        } else {
+            getCountryCodeFromTelephony(context)
+        }
     }
 
     fun shareText(context: Context, body: String) {
