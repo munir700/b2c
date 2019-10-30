@@ -122,4 +122,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         return viewDataBinding as FragmentY2yFundsTransferBinding
     }
 
+    override fun onBackPressed(): Boolean {
+        viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
+        return super.onBackPressed()
+    }
+
 }
