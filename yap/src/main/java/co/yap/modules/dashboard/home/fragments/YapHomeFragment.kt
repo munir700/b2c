@@ -23,6 +23,7 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
+import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
@@ -70,6 +71,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
+                    if (viewModel.transactionLogicHelper.transactionList.size == 0) {
+                        showErrorSnackBar("No Transactions Found")
+                        return@Observer
+                    }
                     startActivityForResult(
                         TransactionFiltersActivity.newIntent(requireContext()),
                         TransactionFiltersActivity.INTENT_FILTER_REQUEST
@@ -287,11 +292,19 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
             showToast(
-                "data received " + data!!.getIntExtra(
+                "data received " + data?.getIntExtra(
                     TransactionFiltersActivity.KEY_FILTER_START_AMOUNT,
                     0
                 )
             )
         }
+    }
+
+    private fun showErrorSnackBar(error: String) {
+        CustomSnackbar.showErrorCustomSnackbar(
+            context = requireContext(),
+            layout = clSnackbar,
+            message = error
+        )
     }
 }
