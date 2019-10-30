@@ -7,11 +7,13 @@ import android.text.style.RelativeSizeSpan
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
+import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
@@ -26,19 +28,17 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
-import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.EndlessScrollListener
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
-import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 
+
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
-    DiscreteScrollView.OnItemChangedListener<RecyclerView.ViewHolder>,
-    DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder>,
     NotificationItemClickListener {
 
     private lateinit var mAdapter: NotificationAdapter
@@ -53,15 +53,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_home
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initComponents()
         setObservers()
         setAvailableBalance(viewModel.state.availableBalance)
+    }
 
-
-        initState()
-        initComponents()
+    private fun initComponents() {
+        rvTransaction.adapter =
+            TransactionsHeaderAdapter(mutableListOf())
     }
 
     override fun setObservers() {
@@ -99,8 +100,35 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         MyUserManager.cardBalance.observe(this, Observer { value ->
             setAvailableBalance(value.availableBalance.toString())
         })
-    }
 
+        viewModel.transactionsLiveData.observe(this, Observer {
+            if (viewModel.isLoadMore.value!!) {
+                getRecycleViewAdaptor()?.addList(it)
+            } else {
+                getRecycleViewAdaptor()?.setList(it)
+            }
+        })
+
+        getRecycleViewAdaptor()?.setItemListener(listener)
+        //getBindings().lyInclude.rvTransaction.addOnScrollListener(endlessScrollListener)
+        getBindings().lyInclude.rvTransaction.addOnScrollListener(object :
+            RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy);
+                val layoutManager =
+                    getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
+                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                    if (!viewModel.isLoadMore.value!!) {
+                        viewModel.isLoadMore.value = true
+                        viewModel.homeTransactionsRequest.number = +1
+                        viewModel.loadMore()
+                    }
+                }
+            }
+        })
+
+    }
 
     private fun checkUserStatus() {
         //MyUserManager.user?.notificationStatuses = Constants.USER_STATUS_ON_BOARDED
@@ -169,8 +197,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         rvNotificationList.setSlideOnFling(false)
         rvNotificationList.setOverScrollEnabled(true)
         rvNotificationList.adapter = mAdapter
-        rvNotificationList.addOnItemChangedListener(this)
-        rvNotificationList.addScrollStateChangeListener(this)
+        //rvNotificationList.addOnItemChangedListener(this)
+        //rvNotificationList.addScrollStateChangeListener(this)
         rvNotificationList.smoothScrollToPosition(0)
         rvNotificationList.setItemTransitionTimeMillis(100)
         rvNotificationList.setItemTransformer(
@@ -179,7 +207,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 .build()
         )
     }
-
 
     private fun addCompleteVerificationNotification() {
         notificationsList.add(
@@ -200,8 +227,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         rvNotificationList.setSlideOnFling(false)
         rvNotificationList.setOverScrollEnabled(true)
         rvNotificationList.adapter = mAdapter
-        rvNotificationList.addOnItemChangedListener(this)
-        rvNotificationList.addScrollStateChangeListener(this)
+        //rvNotificationList.addOnItemChangedListener(this)
+        //rvNotificationList.addScrollStateChangeListener(this)
         rvNotificationList.smoothScrollToPosition(0)
         rvNotificationList.setItemTransitionTimeMillis(100)
         rvNotificationList.setItemTransformer(
@@ -210,25 +237,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 .build()
         )
 
-    }
-
-
-    override fun onCurrentItemChanged(p0: RecyclerView.ViewHolder?, p1: Int) {
-    }
-
-    override fun onScrollEnd(p0: RecyclerView.ViewHolder, p1: Int) {
-    }
-
-    override fun onScrollStart(p0: RecyclerView.ViewHolder, p1: Int) {
-    }
-
-    override fun onScroll(
-        p0: Float,
-        p1: Int,
-        p2: Int,
-        p3: RecyclerView.ViewHolder?,
-        p4: RecyclerView.ViewHolder?
-    ) {
     }
 
     override fun onResume() {
@@ -281,7 +289,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         }
     }
 
-
     private val appbarListener = object : AppBarStateChangeListener() {
         override fun onStateChanged(appBarLayout: AppBarLayout?, state: State?) {
             if (state == State.COLLAPSED) {
@@ -313,43 +320,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //        }
     }
 
-    private fun initComponents() {
-        rvTransaction.adapter =
-            TransactionsHeaderAdapter(activity!!.applicationContext, { viewModel.retry() })
-
-        (rvTransaction.adapter as TransactionsHeaderAdapter).setItemListener(
-            listener
-        )
-    }
-
-    private fun initState() {
-        //retryBtn.setOnClickListener { viewModel.retry() }
-        viewModel.getState().observe(this, Observer { state ->
-            if (viewModel.listIsEmpty()) {
-                rvTransaction.visibility = View.GONE
-//                txt_error.visibility =
-//                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
-//                progress_bar.visibility =
-//                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
-            } else {
-//                txt_error.visibility = View.GONE
-//                progress_bar.visibility = View.GONE
-//                rvTransaction.visibility = View.VISIBLE
-
-                //now call that method here top calculate header section item content & sorting things
-//                showTransactionsAndGraph()
-                getRecycleViewAdaptor()?.setState(state)
-
-//
-            }
-        })
-
-        viewModel.transactionsLiveDataB.observe(this, Observer {
-            (rvTransaction.adapter as TransactionsHeaderAdapter).submitList(it)
-            getRecycleViewAdaptor()?.setState(PagingState.DONE)
-        })
-    }
-
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
 //            val action =
@@ -364,5 +334,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         } else {
             null
         }
+    }
+
+    private fun getBindings(): FragmentYapHomeBinding {
+        return viewDataBinding as FragmentYapHomeBinding
     }
 }
