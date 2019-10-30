@@ -25,6 +25,7 @@ interface IEidInfoReview {
     interface View : IBase.View<ViewModel> {
         fun showUnderAgeAlert()
         fun showExpiredEidAlert()
+        fun showInvalidEidAlert()
         fun showUSACitizenAlert()
         fun openCardScanner()
     }
@@ -44,6 +45,8 @@ interface IEidInfoReview {
             get() = 6
         val EVENT_FINISH: Int
             get() = 7
+        val EVENT_ERROR_INVALID_EID: Int
+            get() = 8
 
         val clickEvent: SingleClickEvent
         fun handlePressOnRescanBtn()
@@ -51,6 +54,5 @@ interface IEidInfoReview {
         fun handleUserRejection(reason: Int)
         fun handleUserAcceptance(reason: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
-        fun clearData()
     }
 }

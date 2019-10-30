@@ -22,5 +22,6 @@ class RecentTransferItemVM : BaseListItemViewModel<RecentBeneficiary>() {
     override fun layoutRes() = R.layout.item_recent_transfer
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
+
     }
 }

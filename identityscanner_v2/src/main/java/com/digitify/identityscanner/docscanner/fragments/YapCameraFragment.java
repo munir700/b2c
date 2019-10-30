@@ -207,6 +207,7 @@ public class YapCameraFragment extends BaseFragment implements ICamera.View, Cam
 
     @Override
     public void onPictureTaken(@NonNull PictureResult result) {
+
         result.toFile(ImageUtils.getFilePrivately(requireContext()), file -> getViewModel().handleOnPressCapture(file));
 
     }

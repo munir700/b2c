@@ -38,11 +38,15 @@ public class Identity implements Parcelable {
     public Date dateOfBirth;
 
     public boolean isDateOfBirthValid() {
-        return dateOfBirthValid=DateUtils.INSTANCE.getAge(dateOfBirth)>=18;
+
+        return dateOfBirthValid = dateOfBirth != null && DateUtils.INSTANCE.getAge(dateOfBirth) >= 18;
     }
 
     public boolean isExpiryDateValid() {
 
+        if (expirationDate == null) {
+            return expiryDateValid =false;
+        }
         return !(expiryDateValid = DateUtils.INSTANCE.isDatePassed(expirationDate));
     }
 
@@ -57,7 +61,7 @@ public class Identity implements Parcelable {
     private String givenName="";
     private String sirName="";
     private String nationality="";
-    private String issuingCountry;
+    private String issuingCountry = "";
 
     public Identity() {
     }

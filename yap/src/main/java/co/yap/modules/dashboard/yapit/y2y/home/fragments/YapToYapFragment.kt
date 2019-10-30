@@ -18,11 +18,12 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
 
-class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
+class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_to_yap
 
@@ -42,13 +43,19 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
         if (viewModel.parentViewModel?.isSearching?.value!!) {
             layoutRecent.visibility = View.GONE
         } else {
+            val adapter = RecentTransferAdaptor(ArrayList())
+            viewModel.adapter.set(adapter)
+            viewModel.adapter.get()?.onItemClickListener = this
             viewModel.getRecentBeneficiaries()
             viewModel.recentTransferData.observe(this, Observer {
                 layoutRecent?.visibility = if (it) View.VISIBLE else View.GONE
-
             })
             viewModel.adapter.set(RecentTransferAdaptor(ArrayList()))
         }
+    }
+
+    override fun onItemClick(view: View, data: Any, pos: Int) {
+
     }
 
     private fun setupAdaptor() {

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.digitify.identityscanner.R;
@@ -46,7 +47,9 @@ public class DocReviewFragment extends BaseFragment implements IDocReview.View {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         FragmentDocReviewBinding binding = DataBindingUtil.inflate(inflater, R.layout.fragment_doc_review, container, false);
         View view = binding.getRoot();
+
         binding.setModel(getViewModel());
+
         return view;
     }
 
@@ -60,6 +63,13 @@ public class DocReviewFragment extends BaseFragment implements IDocReview.View {
         super.onActivityCreated(savedInstanceState);
         getViewModel().init(getFilePath(), getDocType(), getDocumentPageType(), this);
         getViewModel().onStart();
+
+        getViewModel().getSingleClickEvent().observe(this, integer -> {
+            if (integer == R.id.btnDone) {
+                requestDone();
+
+            }
+        });
     }
 
     public String getFilePath() {
@@ -93,12 +103,14 @@ public class DocReviewFragment extends BaseFragment implements IDocReview.View {
     }
 
     public DocReviewViewModel getViewModel() {
-        if (viewModel == null) viewModel = ViewModelProviders.of(this).get(DocReviewViewModel.class);
+        if (viewModel == null)
+            viewModel = ViewModelProviders.of(this).get(DocReviewViewModel.class);
         return viewModel;
     }
 
     public IdentityScannerViewModel getParentViewModel() {
-        if (parentViewModel == null) parentViewModel = ViewModelProviders.of(getActivity()).get(IdentityScannerViewModel.class);
+        if (parentViewModel == null)
+            parentViewModel = ViewModelProviders.of(getActivity()).get(IdentityScannerViewModel.class);
         return parentViewModel;
     }
 
@@ -109,11 +121,13 @@ public class DocReviewFragment extends BaseFragment implements IDocReview.View {
 
     @Override
     public void requestDone() {
-        getParentViewModel().onPictureReviewComplete(getFilePath());
+        if (!viewModel.isDone)
+            getParentViewModel().onPictureReviewComplete(getFilePath());
     }
 
     @Override
     public void requestRetake() {
+        viewModel.isDone = false;
         getParentViewModel().onPictureReviewFailed();
     }
 

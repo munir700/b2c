@@ -7,6 +7,8 @@ import android.graphics.drawable.shapes.RectShape
 import android.graphics.drawable.shapes.RoundRectShape
 import java.util.*
 
+
+
 class TextDrawable private constructor(builder: Builder) : ShapeDrawable(builder.shape) {
     private var textPaint: Paint = Paint()
     private var borderPaint: Paint = Paint()
@@ -122,181 +124,188 @@ class TextDrawable private constructor(builder: Builder) : ShapeDrawable(builder
     override fun getIntrinsicHeight() = height
 
 
-    class Builder private constructor() : IConfigBuilder, IShapeBuilder, IBuilder {
 
-        var text: String? = null
 
-        var color: Int = 0
 
-        var borderThickness: Int = 0
 
-        var width: Int = 0
+    companion object {
+        interface IConfigBuilder {
+            fun width(width: Int): IConfigBuilder
 
-        var height: Int = 0
+            fun height(height: Int): IConfigBuilder
 
-        var font: Typeface? = null
+            fun textColor(color: Int): IConfigBuilder
 
-        var shape: RectShape? = null
+            fun withBorder(thickness: Int): IConfigBuilder
 
-        var textColor: Int = 0
+            fun useFont(font: Typeface): IConfigBuilder
 
-        var fontSize: Int = 0
+            fun fontSize(size: Int): IConfigBuilder
 
-        var isBold: Boolean = false
+            fun bold(): IConfigBuilder
 
-        var toUpperCase: Boolean = true
+            fun toUpperCase(): IConfigBuilder
 
-        var radius: Float = 0.toFloat()
+            fun endConfig(): IShapeBuilder
+        }
+        interface IBuilder {
 
-        init {
-            text = ""
-            color = Color.GRAY
-            textColor = Color.WHITE
-            borderThickness = 0
-            width = -1
-            height = -1
-            shape = RectShape()
-            font = Typeface.create("sans-serif-light", Typeface.NORMAL)
-            fontSize = -1
-            isBold = false
-            toUpperCase = true
+            fun build(text: String, color: Int): TextDrawable
+        }
+        class Builder : IConfigBuilder, IShapeBuilder, IBuilder {
+
+            var text: String? = null
+
+            var color: Int = 0
+
+            var borderThickness: Int = 0
+
+            var width: Int = 0
+
+            var height: Int = 0
+
+            var font: Typeface? = null
+
+            var shape: RectShape? = null
+
+            var textColor: Int = 0
+
+            var fontSize: Int = 0
+
+            var isBold: Boolean = false
+
+            var toUpperCase: Boolean = true
+
+            var radius: Float = 0.toFloat()
+
+            init {
+                text = ""
+                color = Color.GRAY
+                textColor = Color.WHITE
+                borderThickness = 0
+                width = -1
+                height = -1
+                shape = RectShape()
+                font = Typeface.create("sans-serif-light", Typeface.NORMAL)
+                fontSize = -1
+                isBold = false
+                toUpperCase = true
+            }
+
+            override fun width(width: Int): IConfigBuilder {
+                this.width = width
+                return this
+            }
+
+            override fun height(height: Int): IConfigBuilder {
+                this.height = height
+                return this
+            }
+
+            override fun textColor(color: Int): IConfigBuilder {
+                this.textColor = color
+                return this
+            }
+
+            override fun withBorder(thickness: Int): IConfigBuilder {
+                this.borderThickness = thickness
+                return this
+            }
+
+            override fun useFont(font: Typeface): IConfigBuilder {
+                this.font = font
+                return this
+            }
+
+            override fun fontSize(size: Int): IConfigBuilder {
+                this.fontSize = size
+                return this
+            }
+
+            override fun bold(): IConfigBuilder {
+                this.isBold = true
+                return this
+            }
+
+            override fun toUpperCase(): IConfigBuilder {
+                this.toUpperCase = true
+                return this
+            }
+
+            override fun beginConfig(): IConfigBuilder {
+                return this
+            }
+
+            override fun endConfig(): IShapeBuilder {
+                return this
+            }
+
+            override fun rect(): IBuilder {
+                this.shape = RectShape()
+                return this
+            }
+
+            override fun round(): IBuilder {
+                this.shape = OvalShape()
+                return this
+            }
+
+            override fun roundRect(radius: Int): IBuilder {
+                this.radius = radius.toFloat()
+                val radii = floatArrayOf(
+                    radius.toFloat(),
+                    radius.toFloat(),
+                    radius.toFloat(),
+                    radius.toFloat(),
+                    radius.toFloat(),
+                    radius.toFloat(),
+                    radius.toFloat(),
+                    radius.toFloat()
+                )
+                this.shape = RoundRectShape(radii, null, null)
+                return this
+            }
+
+            override fun buildRect(text: String, color: Int): TextDrawable {
+                rect()
+                return build(text, color)
+            }
+
+            override fun buildRoundRect(text: String, color: Int, radius: Int): TextDrawable {
+                roundRect(radius)
+                return build(text, color)
+            }
+
+            override fun buildRound(text: String, color: Int): TextDrawable {
+                round()
+                return build(text, color)
+            }
+
+            override fun build(text: String, color: Int): TextDrawable {
+                this.color = color
+                this.text = text
+                return TextDrawable(this)
+            }
         }
 
-        override fun width(width: Int): IConfigBuilder {
-            this.width = width
-            return this
+        interface IShapeBuilder {
+
+            fun beginConfig(): IConfigBuilder
+
+            fun rect(): IBuilder
+
+            fun round(): IBuilder
+
+            fun roundRect(radius: Int): IBuilder
+
+            fun buildRect(text: String, color: Int): TextDrawable
+
+            fun buildRoundRect(text: String, color: Int, radius: Int): TextDrawable
+
+            fun buildRound(text: String, color: Int): TextDrawable
         }
-
-        override fun height(height: Int): IConfigBuilder {
-            this.height = height
-            return this
+        fun builder(): IShapeBuilder {
+            return Builder()
         }
-
-        override fun textColor(color: Int): IConfigBuilder {
-            this.textColor = color
-            return this
-        }
-
-        override fun withBorder(thickness: Int): IConfigBuilder {
-            this.borderThickness = thickness
-            return this
-        }
-
-        override fun useFont(font: Typeface): IConfigBuilder {
-            this.font = font
-            return this
-        }
-
-        override fun fontSize(size: Int): IConfigBuilder {
-            this.fontSize = size
-            return this
-        }
-
-        override fun bold(): IConfigBuilder {
-            this.isBold = true
-            return this
-        }
-
-        override fun toUpperCase(): IConfigBuilder {
-            this.toUpperCase = true
-            return this
-        }
-
-        override fun beginConfig(): IConfigBuilder {
-            return this
-        }
-
-        override fun endConfig(): IShapeBuilder {
-            return this
-        }
-
-        override fun rect(): IBuilder {
-            this.shape = RectShape()
-            return this
-        }
-
-        override fun round(): IBuilder {
-            this.shape = OvalShape()
-            return this
-        }
-
-        override fun roundRect(radius: Int): IBuilder {
-            this.radius = radius.toFloat()
-            val radii = floatArrayOf(
-                radius.toFloat(),
-                radius.toFloat(),
-                radius.toFloat(),
-                radius.toFloat(),
-                radius.toFloat(),
-                radius.toFloat(),
-                radius.toFloat(),
-                radius.toFloat()
-            )
-            this.shape = RoundRectShape(radii, null, null)
-            return this
-        }
-
-        override fun buildRect(text: String, color: Int): TextDrawable {
-            rect()
-            return build(text, color)
-        }
-
-        override fun buildRoundRect(text: String, color: Int, radius: Int): TextDrawable {
-            roundRect(radius)
-            return build(text, color)
-        }
-
-        override fun buildRound(text: String, color: Int): TextDrawable {
-            round()
-            return build(text, color)
-        }
-
-        override fun build(text: String, color: Int): TextDrawable {
-            this.color = color
-            this.text = text
-            return TextDrawable(this)
-        }
-    }
-
-    interface IConfigBuilder {
-        fun width(width: Int): IConfigBuilder
-
-        fun height(height: Int): IConfigBuilder
-
-        fun textColor(color: Int): IConfigBuilder
-
-        fun withBorder(thickness: Int): IConfigBuilder
-
-        fun useFont(font: Typeface): IConfigBuilder
-
-        fun fontSize(size: Int): IConfigBuilder
-
-        fun bold(): IConfigBuilder
-
-        fun toUpperCase(): IConfigBuilder
-
-        fun endConfig(): IShapeBuilder
-    }
-
-    interface IBuilder {
-
-        fun build(text: String, color: Int): TextDrawable
-    }
-
-    interface IShapeBuilder {
-
-        fun beginConfig(): IConfigBuilder
-
-        fun rect(): IBuilder
-
-        fun round(): IBuilder
-
-        fun roundRect(radius: Int): IBuilder
-
-        fun buildRect(text: String, color: Int): TextDrawable
-
-        fun buildRoundRect(text: String, color: Int, radius: Int): TextDrawable
-
-        fun buildRound(text: String, color: Int): TextDrawable
     }
 }
