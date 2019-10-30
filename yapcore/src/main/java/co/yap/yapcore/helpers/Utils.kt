@@ -6,6 +6,7 @@ import android.app.AlertDialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
+import android.icu.util.TimeZone
 import android.net.Uri
 import android.os.Build
 import android.telephony.TelephonyManager
@@ -13,7 +14,6 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.Window
@@ -22,7 +22,6 @@ import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import co.yap.yapcore.R
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import io.michaelrocks.libphonenumber.android.NumberParseException
 import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -338,14 +337,10 @@ object Utils {
         }
     }
 
-    fun getFormattedPhone2(context: Context, mobileNo: String): String {
+    fun getFormattedPhoneNumber(context: Context, mobileNo: String): String {
         return try {
             val pnu = PhoneNumberUtil.getInstance()
-            val countryRegionCode =
-                getCountryIsoCode(getPhoneNumberCountryCode(context, mobileNo) + mobileNo)
-            val countryCode =
-                if (countryRegionCode == "") getCountryCode(context) else countryRegionCode
-            val pn = pnu.parse(mobileNo, countryCode)
+            val pn = pnu.parse(mobileNo, getDefaultCountryCode(context))
             return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -359,10 +354,13 @@ object Utils {
         return tm.networkCountryIso.toUpperCase()
     }
 
-    fun getPhoneNumberCountryCodeForAPI(context: Context, mobileNo: String): String {
+    fun getPhoneNumberCountryCodeForAPI(
+        defaultCountryCode: String,
+        mobileNo: String
+    ): String {
         return try {
             val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, getCountryCode(context))
+            val pn = phoneUtil.parse(mobileNo, defaultCountryCode)
             //didt find any other way to get number zero
             return """00${pn.countryCode}"""
         } catch (e: Exception) {
@@ -371,22 +369,10 @@ object Utils {
         }
     }
 
-    fun getPhoneNumberCountryCode(context: Context, mobileNo: String): String {
+    fun getPhoneWithoutCountryCode(defaultCountryCode: String, mobileNo: String): String {
         return try {
             val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, getCountryCode(context))
-            //didt find any other way to get number zero
-            return pn.countryCode.toString()
-        } catch (e: Exception) {
-            e.printStackTrace()
-            ""
-        }
-    }
-
-    fun getPhoneWithoutCountryCode(context: Context, mobileNo: String): String {
-        return try {
-            val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, getCountryCode(context))
+            val pn = phoneUtil.parse(mobileNo, defaultCountryCode)
             pn.nationalNumber.toString()
         } catch (e: Exception) {
             e.printStackTrace()
@@ -394,18 +380,28 @@ object Utils {
         }
     }
 
-    fun getCountryIsoCode(number: String): String {
-        val validatedNumber = "+$number"
-        val pnu = PhoneNumberUtil.getInstance()
-        val phoneNumber = try {
-            pnu.parse(validatedNumber, null)
-        } catch (e: NumberParseException) {
-            Log.e("UTILS", "error during parsing a number")
-            return ""
-        }
-            ?: return ""
+//    fun getCountryIsoCode(number: String): String {
+//        val validatedNumber = "+$number"
+//        val pnu = PhoneNumberUtil.getInstance()
+//        val phoneNumber = try {
+//            pnu.parse(validatedNumber, null)
+//        } catch (e: NumberParseException) {
+//            Log.e("UTILS", "error during parsing a number")
+//            return ""
+//        }
+//            ?: return ""
+//
+//        return pnu.getRegionCodeForCountryCode(phoneNumber.countryCode)
+//    }
 
-        return pnu.getRegionCodeForCountryCode(phoneNumber.countryCode)
+    fun getDefaultCountryCode(context: Context): String {
+        val countryCode = getCountryCode(context)
+        return if (countryCode == "") getCountryCodeFromTimeZone() else countryCode
+    }
+
+    private fun getCountryCodeFromTimeZone(): String {
+        val curTimeZoneId = Calendar.getInstance().timeZone.id
+        return TimeZone.getRegion(curTimeZoneId)
     }
 
     fun shareText(context: Context, body: String) {

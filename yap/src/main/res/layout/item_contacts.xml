@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{Utils.INSTANCE.getFormattedPhone2(context,viewModel.contact.countryCode+viewModel.contact.mobileNo)}"
+                android:text="@{Utils.INSTANCE.getFormattedPhoneNumber(context,viewModel.contact.countryCode+viewModel.contact.mobileNo)}"
                 tools:text="+971 12 345 6789" />
             <!--            android:text="@{Utils.INSTANCE.getFormattedPhone(viewModel.contact.countryCode+viewModel.contact.mobileNo)}"-->
 
