@@ -60,8 +60,12 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             (getBinding().recycler.adapter as YapContactsAdaptor).setList(it)
+            getBinding().tvContactListDescription.visibility =
+                if (it.isEmpty()) View.GONE else View.VISIBLE
+
             getBinding().tvContactListDescription.text =
                 (getBinding().recycler.adapter as YapContactsAdaptor).itemCount.toString() + " YAP contacts"
+
 
             //if (!it.isEmpty() && !viewModel.getState() == PagingState.LOADING)
             viewModel.pagingState.value = PagingState.DONE
