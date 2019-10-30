@@ -114,7 +114,15 @@ class YapHomeViewModel(application: Application) :
 
 
     fun requestAccountTransactions() {
-
+        homeTransactionsRequest =
+        HomeTransactionsRequest(
+            pageNumber,
+            size,
+            0.00,
+            20000.00,
+            true,
+            debitSearch = true,
+            yapYoungTransfer = true)
         launch {
             state.loading = true
 
