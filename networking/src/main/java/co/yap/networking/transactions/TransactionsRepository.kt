@@ -20,6 +20,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
     const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
     const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
+    const val URL_SEARCH_FILTER_AMOUNT = "/transactions/api/transactions/search-filter/amount"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -47,5 +48,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse> =
         executeSafely(call = { api.addEditNote(addEditNoteRequest) })
+
+    override suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse> =
+        executeSafely(call = { api.getSearchFilterAmount() })
 
 }

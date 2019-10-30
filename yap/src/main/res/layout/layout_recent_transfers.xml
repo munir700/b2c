@@ -12,20 +12,21 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/lyRecentParent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical">
+
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvSendMoneyTo"
+            style="@style/Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_6sdp"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="6sp"
-            style="@style/Regular"
-
-            android:layout_gravity="center_horizontal"
             android:text="@string/screen_y2y_display_text_send_money_to"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="@dimen/_14sdp" />
@@ -34,8 +35,8 @@
             style="@style/AppFontRegular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lineSpacingExtra="6sp"
             android:layout_marginTop="@dimen/_12sdp"
+            android:lineSpacingExtra="6sp"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
             android:text="@string/screen_y2y_display_text_recent_transfer"
@@ -58,9 +59,9 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/_1sdp"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:background="#1e979797"
             android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            android:layout_marginTop="@dimen/_14sdp"
-            android:background="#1e979797" />
+            android:paddingEnd="@dimen/_16sdp" />
     </LinearLayout>
 </layout>

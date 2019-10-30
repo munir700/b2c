@@ -32,23 +32,30 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.recentTransferData.observe(this, Observer {
-            layoutRecent?.visibility = if (it) View.VISIBLE else View.GONE
-
-        })
+        viewModel.clickEvent.observe(this, clickEventObserver)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEventObserver)
         setupAdaptor()
         setupTabs()
         setSearchView()
-        val adapter = RecentTransferAdaptor(ArrayList())
-        viewModel.adapter.set(adapter)
-        viewModel.adapter.get()?.onItemClickListener = this
-        viewModel.getRecentBeneficiaries()
+        setupRecent()
+    }
 
+    private fun setupRecent() {
+        if (viewModel.parentViewModel?.isSearching?.value!!) {
+            layoutRecent.visibility = View.GONE
+        } else {
+            val adapter = RecentTransferAdaptor(ArrayList())
+            viewModel.adapter.set(adapter)
+            viewModel.adapter.get()?.onItemClickListener = this
+            viewModel.getRecentBeneficiaries()
+            viewModel.recentTransferData.observe(this, Observer {
+                layoutRecent?.visibility = if (it) View.VISIBLE else View.GONE
+            })
+            viewModel.adapter.set(RecentTransferAdaptor(ArrayList()))
+        }
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -121,6 +128,11 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             )
             else -> null
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.observe(this, clickEventObserver)
     }
 
     private fun getBindingView(): FragmentYapToYapBinding {

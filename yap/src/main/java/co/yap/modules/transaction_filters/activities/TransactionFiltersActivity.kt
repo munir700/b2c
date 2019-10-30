@@ -3,18 +3,18 @@ package co.yap.modules.transaction_filters.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.databinding.Observable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.transaction_filters.interfaces.ITransactionFilters
 import co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel
-import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.BaseState
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
-import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 import kotlinx.android.synthetic.main.layout_transaction_filters_toolbar.*
 
 class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewModel>(),
@@ -46,6 +46,11 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
+        viewModel.searchFilterAmount.observe(this, searchFilterAmountObserver)
+        if (viewModel.state is BaseState) {
+            (viewModel.state as BaseState).addOnPropertyChangedCallback(stateObserver)
+        }
+
     }
 
     private fun setRangeSeekBar() {
@@ -53,9 +58,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         rsbAmount?.setProgress(0f, 20000f)
         viewModel.updateRangeValue(rsbAmount)
         rsbAmount.setOnRangeChangedListener(object : OnRangeChangedListener {
-            override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
-
-            }
+            override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
 
             override fun onRangeChanged(
                 rangeSeekbar: RangeSeekBar?,
@@ -66,9 +69,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
                 viewModel.updateRangeValue(rangeSeekbar!!)
             }
 
-            override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
-
-            }
+            override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
 
         })
     }
@@ -80,9 +81,22 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             }
             R.id.btnApplyFilters -> setFilterValues()
             R.id.IvClose -> {
-                showToast("corss clicked")
+                finish()
             }
         }
+    }
+    private val searchFilterAmountObserver = Observer<List<Double>> {
+        // 0 index contains start range 1 index contains end range
+        rsbAmount?.setProgress(it[0].toFloat(), it[1].toFloat())
+    }
+
+    private val stateObserver = object : Observable.OnPropertyChangedCallback() {
+        override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
+            if (propertyId == BR.error && viewModel.state.error.isNotBlank()) {
+                finish()
+            }
+        }
+
     }
 
     private fun resetAllFilters() {

@@ -11,6 +11,7 @@ import co.yap.R
 import co.yap.databinding.FragmentPhoneContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
+import co.yap.modules.dashboard.yapit.y2y.home.yapcontacts.YapContactsAdaptor
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BR
@@ -28,28 +29,24 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     override val viewModel: PhoneContactViewModel
         get() = ViewModelProviders.of(this).get(PhoneContactViewModel::class.java)
 
+    lateinit var adaptor: YapContactsAdaptor
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initState()
         initComponents()
         setObservers()
+        viewModel.getY2YBeneficiaries()
     }
 
 
     private fun initComponents() {
-        val contactColors = intArrayOf(
-            R.drawable.bg_round_light_red,
-            R.drawable.bg_round_light_blue,
-            R.drawable.bg_round_light_green,
-            R.drawable.bg_round_light_orange
-        )
-
-        getBinding().recycler.adapter = PhoneContactsAdaptor(contactColors) { viewModel.retry() }
-        (getBinding().recycler.adapter as PhoneContactsAdaptor).setItemListener(listener)
+        adaptor = YapContactsAdaptor(mutableListOf())
+        getBinding().recycler.adapter = adaptor
+        adaptor.setItemListener(listener)
     }
 
     private fun initState() {
-        //retryBtn.setOnClickListener { viewModel.retry() }
         viewModel.getState().observe(this, Observer { state ->
             if (viewModel.listIsEmpty()) {
                 getBinding().recycler.visibility = View.GONE
@@ -58,13 +55,14 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
-                viewModel.parentViewModel?.yapContactLiveData?.postValue(mutableListOf())
+                if (state == PagingState.LOADING) viewModel.parentViewModel?.yapContactLiveData?.postValue(
+                    mutableListOf()
+                )
             } else {
                 getBinding().txtError.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
                 getBinding().tvContactListDescription.visibility = View.VISIBLE
-                (getBinding().recycler.adapter as PhoneContactsAdaptor)?.setState(state)
                 viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
             }
         })
@@ -73,12 +71,11 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.phoneContactLiveData.observe(this, Observer {
-            (getBinding().recycler.adapter as PhoneContactsAdaptor).submitList(it)
-            (getBinding().recycler.adapter as PhoneContactsAdaptor).setState(PagingState.DONE)
+            adaptor.setList(it)
 
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
-            //(getBinding().recycler.adapter as PhoneContactsAdaptor).filter?.filter(it)
+            adaptor.filter.filter(it)
         })
     }
 
@@ -98,7 +95,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                             (parentFragment as YapToYapFragment).findNavController().navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                                     data.beneficiaryPictureUrl!!
-                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!
+                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
                                 )
                             )
                         }

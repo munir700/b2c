@@ -9,7 +9,6 @@ import co.yap.R
 import co.yap.databinding.FragmentYapContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
-import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.PhoneContactsAdaptor
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BR
@@ -26,13 +25,13 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         initState()
+        setObservers()
         initComponents()
     }
 
     private fun initComponents() {
-        getBinding().recycler.adapter = YapContactsAdaptor(requireContext(), mutableListOf())
+        getBinding().recycler.adapter = YapContactsAdaptor( mutableListOf())
         (getBinding().recycler.adapter as YapContactsAdaptor).setItemListener(listener)
     }
 
@@ -64,8 +63,9 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
             getBinding().tvContactListDescription.text =
                 (getBinding().recycler.adapter as YapContactsAdaptor).itemCount.toString() + " YAP contacts"
 
-            //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
+            //if (!it.isEmpty() && !viewModel.getState() == PagingState.LOADING)
             viewModel.pagingState.value = PagingState.DONE
+            //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
         })
 
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
@@ -88,7 +88,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                             (parentFragment as YapToYapFragment).findNavController().navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                                     data.beneficiaryPictureUrl!!
-                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!
+                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
                                 )
                             )
                         }

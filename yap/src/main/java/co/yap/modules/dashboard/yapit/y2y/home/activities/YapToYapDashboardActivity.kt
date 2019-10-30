@@ -33,7 +33,6 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         }
     }
 
-
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_yap_to_yap_dashboard
     override val viewModel: IY2Y.ViewModel get() = ViewModelProviders.of(this).get(Y2YViewModel::class.java)

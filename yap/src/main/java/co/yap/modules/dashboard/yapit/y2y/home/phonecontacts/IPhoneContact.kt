@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 
 import androidx.lifecycle.LiveData
-import androidx.paging.PagedList
+import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -13,11 +13,11 @@ interface IPhoneContact {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
+        val phoneContactLiveData: MutableLiveData<List<Contact>>
         fun getState(): LiveData<PagingState>
-        val phoneContactLiveData: LiveData<PagedList<Contact>>
         fun handlePressOnView(id: Int)
+        fun getY2YBeneficiaries()
         fun listIsEmpty(): Boolean
-        fun retry()
     }
 
     interface State : IBase.State {
