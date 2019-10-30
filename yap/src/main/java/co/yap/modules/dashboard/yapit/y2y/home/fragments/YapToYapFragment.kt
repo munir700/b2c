@@ -38,7 +38,6 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEventObserver)
         setupAdaptor()
         setupTabs()
         setSearchView()
@@ -50,27 +49,24 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             layoutRecent.visibility = View.GONE
         } else {
             //val adapter = RecentTransferAdaptor(ArrayList(),findNavController())
-           // viewModel.adapter.set(adapter)
+            // viewModel.adapter.set(adapter)
             //viewModel.adapter.get()?.onItemClickListener = this
             //adapter.onItemClickListener = this
             viewModel.getRecentBeneficiaries()
             viewModel.recentTransferData.observe(this, Observer {
                 layoutRecent?.visibility = if (it) View.VISIBLE else View.GONE
             })
-            viewModel.adapter.set(RecentTransferAdaptor(ArrayList(),findNavController()))
+            viewModel.adapter.set(RecentTransferAdaptor(ArrayList(), findNavController()))
         }
     }
 
     override fun onItemClick(view: View, data: Any, pos: Int) {
-
-        showToast("click on recent")
-         findNavController().navigate(
+        findNavController().navigate(
             YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
 //                data.beneficiaryPictureUrl!!
 //                , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
             )
         )
-
     }
 
     private fun setupAdaptor() {

@@ -55,7 +55,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
-                if (state == PagingState.LOADING) viewModel.parentViewModel?.yapContactLiveData?.postValue(
+                if (state == PagingState.DONE) viewModel.parentViewModel?.yapContactLiveData?.postValue(
                     mutableListOf()
                 )
             } else {
