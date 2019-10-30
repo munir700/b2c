@@ -1,9 +1,13 @@
 package com.digitify.identityscanner.docscanner.interfaces;
 
-import com.digitify.identityscanner.interfaces.IBase;
+import android.view.View;
+
 import com.digitify.identityscanner.docscanner.enums.DocumentPageType;
 import com.digitify.identityscanner.docscanner.enums.DocumentType;
 import com.digitify.identityscanner.docscanner.states.DocReviewState;
+import com.digitify.identityscanner.interfaces.IBase;
+
+import co.yap.yapcore.SingleClickEvent;
 
 public interface IDocReview {
 
@@ -22,10 +26,13 @@ public interface IDocReview {
 
         void handleClickOnCancel();
 
-        void handleClickOnDone();
+        void handleClickOnDone(android.view.View v);
 
         void handleClickOnRetake();
 
         DocReviewState getState();
+
+        SingleClickEvent getSingleClickEvent();
+//        val clickEvent: SingleClickEvent
     }
 }
