@@ -2,6 +2,7 @@ package com.digitify.identityscanner.docscanner.viewmodels;
 
 import android.app.Application;
 import android.graphics.Bitmap;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 
@@ -14,6 +15,7 @@ import com.digitify.identityscanner.utils.ImageUtils;
 import com.digitify.identityscanner.base.BaseAndroidViewModel;
 
 import co.yap.translation.Strings;
+import co.yap.yapcore.SingleClickEvent;
 
 public class DocReviewViewModel extends BaseAndroidViewModel implements IDocReview.ViewModel {
     private String filepath;
@@ -21,6 +23,7 @@ public class DocReviewViewModel extends BaseAndroidViewModel implements IDocRevi
     private DocumentType docType;
     private IDocReview.View view;
     private DocReviewState state;
+    public boolean isDone =false;
 
     public DocReviewViewModel(@NonNull Application application) {
         super(application);
@@ -43,6 +46,11 @@ public class DocReviewViewModel extends BaseAndroidViewModel implements IDocRevi
     public void onStart() {
         super.onStart();
         initiateReview(getFilepath());
+    }
+
+    @Override
+    public SingleClickEvent getSingleClickEvent() {
+        return new SingleClickEvent();
     }
 
     private void initiateReview(String path) {
@@ -91,12 +99,15 @@ public class DocReviewViewModel extends BaseAndroidViewModel implements IDocRevi
     }
 
     @Override
-    public void handleClickOnDone() {
+    public void handleClickOnDone(View v) {
+
         getView().requestDone();
+        isDone = true;
     }
 
     @Override
     public void handleClickOnRetake() {
+        isDone = false;
         getView().requestRetake();
     }
 

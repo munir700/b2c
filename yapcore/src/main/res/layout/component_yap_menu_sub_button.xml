@@ -18,9 +18,10 @@
             android:layout_margin="3dp"
             android:backgroundTint="#5e35b1"
             android:tint="@android:color/white"
-            app:fabCustomSize="62dp"
+            app:fabCustomSize="@dimen/_46sdp"
             app:fabSize="mini"
-            app:maxImageSize="28dp"
+            app:elevation="0dp"
+            app:maxImageSize="@dimen/_18sdp"
             app:srcCompat="@drawable/ic_yap_it" />
 
         <TextView
@@ -31,7 +32,7 @@
             android:lineSpacingExtra="6sp"
             android:layout_gravity="center"
             android:textColor="#272262"
-            android:textSize="14sp"
+            android:textSize="@dimen/_14sdp"
             android:textStyle="normal" />
 
 

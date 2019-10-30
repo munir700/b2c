@@ -47,6 +47,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
+                viewModel.EVENT_ERROR_INVALID_EID->showInvalidEidAlert()
                 viewModel.EVENT_ERROR_EXPIRED_EID -> showExpiredEidAlert()
                 viewModel.EVENT_ERROR_UNDER_AGE -> showUnderAgeAlert()
                 viewModel.EVENT_ERROR_FROM_USA -> showUSACitizenAlert()
@@ -100,6 +101,18 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
                 )
             }
             setNegativeButton(getString(Strings.screen_b2c_eid_info_review_button_valid_emirates_id)) { dialog, which ->
+                viewModel.handleUserRejection(
+                    viewModel.EVENT_ERROR_EXPIRED_EID
+                )
+            }
+        }.create().show()
+    }
+
+    override fun showInvalidEidAlert() {
+        AlertDialog.Builder(requireContext()).apply {
+            setCancelable(true)
+            setMessage(getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable))
+            setPositiveButton(getString(R.string.ok)) { dialog, which ->
                 viewModel.handleUserRejection(
                     viewModel.EVENT_ERROR_EXPIRED_EID
                 )

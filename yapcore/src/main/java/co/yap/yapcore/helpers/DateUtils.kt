@@ -60,8 +60,18 @@ object DateUtils {
     fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
         SimpleDateFormat(format, Locale.US).format(toDate(day, month, year))
 
-    fun dateToString(date: Date, format: String = DEFAULT_DATE_FORMAT) =
-        SimpleDateFormat(format, Locale.US).format(date)
+    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT):String {
+
+        try {
+            return SimpleDateFormat(format, Locale.US).format(date)
+
+        }catch (e:Exception)
+        {
+            return " ";
+        }
+
+
+    }
 
 
 }
