@@ -33,6 +33,7 @@ import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.loadImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide
@@ -61,23 +62,27 @@ object UIBinder {
             return
         }
 
-        val cursor = view.context.contentResolver.query(
-            Uri.parse(photoUri),
-            arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
-        )
-        cursor?.use {
-            if (it.moveToFirst()) {
-                val data = cursor.getBlob(0)
-                if (data != null) {
-                    cursor.close()
-                    val bitmap = byteArrayToBitmap(data)
-                    view.visibility = View.VISIBLE
-                    view.setImageBitmap(bitmap)
+        if (photoUri.contains("http")) {
+            view.loadImage(photoUri)
+        } else {
+            val cursor = view.context.contentResolver.query(
+                Uri.parse(photoUri),
+                arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
+            )
+            cursor?.use {
+                if (it.moveToFirst()) {
+                    val data = cursor.getBlob(0)
+                    if (data != null) {
+                        cursor.close()
+                        val bitmap = byteArrayToBitmap(data)
+                        view.visibility = View.VISIBLE
+                        view.setImageBitmap(bitmap)
+                    }
                 }
+                cursor.close()
             }
-            cursor.close()
+            cursor?.close()
         }
-        cursor?.close()
     }
 
     fun byteArrayToBitmap(byteArray: ByteArray): Bitmap? {
