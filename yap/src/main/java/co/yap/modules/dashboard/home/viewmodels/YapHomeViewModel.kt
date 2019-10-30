@@ -1,11 +1,10 @@
 package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
-import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.paging.LivePagedListBuilder
+import androidx.paging.PageKeyedDataSource
 import androidx.paging.PagedList
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -19,11 +18,11 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
-import org.json.JSONObject
-import java.io.IOException
-import java.nio.charset.StandardCharsets
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -46,19 +45,19 @@ class YapHomeViewModel(application: Application) :
 
     private lateinit var transactionsDataSourceFactory: TransactionsDataSourceFactory
     var contentList: ArrayList<Content> = arrayListOf()
+    var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
     override lateinit var transactionsLiveDataA: LiveData<PagedList<HomeTransactionListData>>
     override lateinit var transactionsLiveDataB: LiveData<PagedList<HomeTransactionListData>>
 
 
-//    init {
-//        setUpTransactionsRepo()
-//
-//    }
+    var pageNumber: Int = 1
+    var size: Int = 6
 
     fun setUpTransactionsRepo() {
         transactionsDataSourceFactory = TransactionsDataSourceFactory(transactionsRepository, this)
-        transactionsLiveDataA = LivePagedListBuilder(transactionsDataSourceFactory, getPagingConfigs()).build()
+        transactionsLiveDataA =
+            LivePagedListBuilder(transactionsDataSourceFactory, getPagingConfigs()).build()
         transactionsLiveDataB = transactionsLiveDataA
 
     }
@@ -67,7 +66,7 @@ class YapHomeViewModel(application: Application) :
         return PagedList.Config.Builder()
             .setPageSize(6)
             .setPrefetchDistance(1)
-            .setInitialLoadSizeHint(6 )
+            .setInitialLoadSizeHint(6)
             .setEnablePlaceholders(false)
             .build()
     }
@@ -82,23 +81,177 @@ class YapHomeViewModel(application: Application) :
 
     }
 
-    override fun getState(): LiveData<PagingState> =
-        Transformations.switchMap<TransactionsDataSource,
-                PagingState>(
-            transactionsDataSourceFactory.transactionDataSourceLiveData,
-            TransactionsDataSource::state
-        )
+//    override fun getState(): LiveData<PagingState> =
+//        Transformations.switchMap<TransactionsDataSource,
+//                PagingState>(
+//            transactionsDataSourceFactory.transactionDataSourceLiveData,
+//            TransactionsDataSource::state
+//        )
 
     override fun onCreate() {
         super.onCreate()
 //        setUpTransactionsRepo()
 //        requestAccountTransactions()
-        setUpTransactionsRepo()
+//        setUpTransactionsRepo()
+        requestAccountTransactions()
     }
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
 
+    }
+
+    var homeTransactionsRequest: HomeTransactionsRequest =
+        HomeTransactionsRequest(
+            pageNumber,
+            size,
+            0.00,
+            20000.00,
+            true,
+            debitSearch = true,
+            yapYoungTransfer = true
+        )
+
+
+    fun requestAccountTransactions() {
+
+        launch {
+            state.loading = true
+
+            when (val response =
+                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
+                is RetroApiResponse.Success -> {
+
+
+                    var transactionModelData: ArrayList<HomeTransactionListData> =
+                        setUpSectionHeader(response)
+                    sortedCombinedTransactionList.addAll(transactionModelData)
+                    if (!response.data.data.last) {
+
+                        pageNumber = response.data.data.number + 1
+                    }
+
+                    loadMore()
+
+//                        callback.onResult(
+//                            transactionModelData,
+//                            response.data.data.pageable.pageNumber - 1,
+//                            response.data.data.pageable.pageNumber + 1
+//                        )
+//                        updateState(PagingState.DONE)
+                }
+//                else {
+////                        updateState(PagingState.LOADING)
+//                }
+//            }
+
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+
+        }
+
+        state.loading = false
+    }
+
+    override fun loadMore() {
+        requestAccountTransactions()
+    }
+//}
+
+
+    fun loadAfter(
+        params: PageKeyedDataSource.LoadParams<Int>,
+        callback: PageKeyedDataSource.LoadCallback<Int, HomeTransactionListData>
+    ) {
+//        updateState(PagingState.LOADING)
+        homeTransactionsRequest.number = params.key
+        homeTransactionsRequest.size = params.requestedLoadSize
+        GlobalScope.launch {
+            when (val response =
+                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
+                is RetroApiResponse.Success -> {
+                    var transactionModelData: ArrayList<HomeTransactionListData> =
+                        setUpSectionHeader(response)
+                    homeTransactionsRequest.number = +1
+                    callback.onResult(
+                        transactionModelData,
+                        if (response.data.data.last) null else params.key + 1
+                    )
+//                    updateState(PagingState.DONE)
+
+                }
+                is RetroApiResponse.Error -> {
+                    callback.onResult(listOf(), homeTransactionsRequest.number)
+//                    updateState(PagingState.ERROR)
+                }
+            }
+        }
+    }
+
+    private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
+        contentList = response.data.data.content as ArrayList<Content>
+        Collections.sort(contentList, object :
+            Comparator<Content> {
+            override fun compare(
+                o1: Content,
+                o2: Content
+            ): Int {
+                return o2.creationDate!!.compareTo(o1.creationDate!!)
+            }
+        })
+
+        val groupByDate = contentList.groupBy { item ->
+            convertDate(item.creationDate!!)
+        }
+
+//        println(groupByDate.entries.joinToString(""))
+
+        var transactionModelData: ArrayList<HomeTransactionListData> =
+            arrayListOf()
+
+        for (transactionsDay in groupByDate.entries) {
+
+
+            var contentsList: ArrayList<Content> = arrayListOf()
+            println(transactionsDay.key)
+            println(transactionsDay.value)
+            contentsList = transactionsDay.value as ArrayList<Content>
+            contentsList.sortByDescending { it ->
+                it.creationDate
+            }
+
+            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
+            closingBalanceArray.add(closingBalanceOfTheDay)
+
+            var transactionModel: HomeTransactionListData = HomeTransactionListData(
+                "Type",
+                "AED",
+                transactionsDay.key!!,
+                contentsList.get(0).totalAmount.toString(),
+                contentsList.get(0).balanceAfter,
+                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
+                contentsList,
+
+                response.data.data.first,
+                response.data.data.last,
+                response.data.data.number,
+                response.data.data.numberOfElements,
+                response.data.data.pageable,
+                response.data.data.size,
+                response.data.data.sort,
+                response.data.data.totalElements,
+                response.data.data.totalPages
+            )
+            transactionModelData.add(transactionModel)
+
+            transactionLogicHelper.transactionList =
+                transactionModelData
+            MAX_CLOSING_BALANCE =
+                closingBalanceArray.max()!!
+        }
+        return transactionModelData
     }
 
 
@@ -121,102 +274,6 @@ class YapHomeViewModel(application: Application) :
     }
 
 
-    fun requestAccountTransactions() {
-
-
-//need to make this page count request dynamic in pagination as per page
-
-        var homeTransactionsRequest: HomeTransactionsRequest =
-            HomeTransactionsRequest(1, 40, 0.00, 200000.00, true, true, true)
-
-        launch {
-            state.loading = true
-
-            when (val response =
-                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
-                is RetroApiResponse.Success -> {
-
-                    Log.i("getAccountTransactions", response.data.toString())
-
-                    if (null != response.data.data) {
-                        contentList = response.data.data.content as ArrayList<Content>
-//                        loadJSONDummyList()
-                        Collections.sort(contentList, object :
-                            Comparator<Content> {
-                            override fun compare(
-                                o1: Content,
-                                o2: Content
-                            ): Int {
-                                return o2.creationDate!!.compareTo(o1.creationDate!!)
-                            }
-                        })
-
-                        val groupByDate = contentList.groupBy { item ->
-                            convertDate(item.creationDate!!)
-                        }
-
-//                        println(groupByDate.entries.joinToString(""))
-
-                        var transactionModelData: java.util.ArrayList<HomeTransactionListData> =
-                            arrayListOf()
-
-                        for (transactionsDay in groupByDate.entries) {
-
-
-                            var contentsList: java.util.ArrayList<Content> = arrayListOf()
-//                            println(transactionsDay.key)
-//                            println(transactionsDay.value)
-                            contentsList = transactionsDay.value as java.util.ArrayList<Content>
-                            contentsList.sortByDescending { it ->
-                                it.creationDate
-                            }
-
-                            var closingBalanceOfTheDay: Double = contentsList.get(0).balanceAfter
-                            closingBalanceArray.add(closingBalanceOfTheDay)
-//                            var calculateTotalAmount: Double = 0.0
-//                            for (contentValue in transactionsDay.value) {
-//                                calculateTotalAmount = calculateTotalAmount + contentValue.amount
-//                                println(calculateTotalAmount)
-//                            }
-
-                            var transactionModel: HomeTransactionListData = HomeTransactionListData(
-                                "Type",
-                                "AED",
-                                transactionsDay.key!!,
-                                contentsList.get(0).totalAmount.toString(),
-                                contentsList.get(0).balanceAfter,
-                                80.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
-                                contentsList,
-
-                                //
-
-                                response.data.data.first,
-                                response.data.data.last,
-                                response.data.data.number,
-                                response.data.data.numberOfElements,
-                                response.data.data.pageable,
-                                response.data.data.size,
-                                response.data.data.sort,
-                                response.data.data.totalElements,
-                                response.data.data.totalPages
-                            )
-                            transactionModelData.add(transactionModel)
-
-                            transactionLogicHelper.transactionList = transactionModelData
-                            MAX_CLOSING_BALANCE = closingBalanceArray.max()!!
-                        }
-                    }
-                }
-
-                is RetroApiResponse.Error -> {
-
-                }
-            }
-
-            state.loading = false
-        }
-    }
-
     fun convertDate(creationDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")
         parser.setTimeZone(TimeZone.getTimeZone("UTC"))
@@ -229,70 +286,4 @@ class YapHomeViewModel(application: Application) :
         return date
     }
 
-    private fun loadTransactionFromJsonAssets(context: Context): String? {
-        val json: String?
-        try {
-            val `is` = context.assets.open("paginatedTransactions.json")
-            val size = `is`.available()
-            val buffer = ByteArray(size)
-            `is`.read(buffer)
-            `is`.close()
-            json = String(buffer, StandardCharsets.UTF_8)
-        } catch (ex: IOException) {
-            ex.printStackTrace()
-            return null
-        }
-        return json
-    }
-
-    private fun loadJSONDummyList() {
-
-        val newList: ArrayList<Content> = arrayListOf()
-
-        val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
-        if (mainObj != null) {
-            val mainDataList = mainObj.getJSONArray("content")
-            if (mainDataList != null) {
-
-                for (i in 0 until mainDataList!!.length()) {
-
-                    val parentArrayList = mainDataList!!.getJSONObject(i)
-
-                    val contect: Content =
-                        Content(
-                            "accountUuid1",
-                            parentArrayList.getDouble("amount"),
-                            parentArrayList.getDouble("balanceAfter"),
-                            10.0,
-                            "1000000000168",
-                            "TRANSACTION",
-                            "111",
-                            "111",
-                            parentArrayList.getString("txnCurrency"),
-                            "3000000000098",
-                            "test",
-                            "AE070333000000000120068",
-                            "YAP",
-                            parentArrayList.getString("paymentMode"),
-                            "CR050819073136236111",
-                            "CD",
-                            "B2C_IBAN_ACCOUNT_HOLDER",
-                            "Approved Content",
-                            parentArrayList.getString("senderName"),
-                            "SUCCESS",
-                            parentArrayList.getDouble("amount"),
-                            "728172817281",
-                            "6666",
-                            parentArrayList.getString("txnType"),
-                            "111",
-                            parentArrayList.getString("updatedDate"),
-                            "B2C_ACCOUNT"
-                        )
-
-                    newList.add(contect)
-                }
-            }
-        }
-        contentList = newList
-    }
 }
