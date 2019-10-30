@@ -1,15 +1,11 @@
 package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.LiveData
-import androidx.paging.LivePagedListBuilder
-import androidx.paging.PageKeyedDataSource
-import androidx.paging.PagedList
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
-import co.yap.modules.dashboard.store.paging.transactions.TransactionsDataSourceFactory
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
@@ -18,8 +14,6 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.SingleClickEvent
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,59 +33,15 @@ class YapHomeViewModel(application: Application) :
 
     private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
-
-    private lateinit var transactionsDataSourceFactory: TransactionsDataSourceFactory
-    var contentList: ArrayList<Content> = arrayListOf()
+    override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
+        MutableLiveData()
+    override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
-    override lateinit var transactionsLiveDataA: LiveData<PagedList<HomeTransactionListData>>
-    override lateinit var transactionsLiveDataB: LiveData<PagedList<HomeTransactionListData>>
-
-
-    var pageNumber: Int = 1
-    var size: Int = 6
-    var isLastPage: Boolean = false
-
-    fun setUpTransactionsRepo() {
-        transactionsDataSourceFactory = TransactionsDataSourceFactory(transactionsRepository, this)
-        transactionsLiveDataA =
-            LivePagedListBuilder(transactionsDataSourceFactory, getPagingConfigs()).build()
-        transactionsLiveDataB = transactionsLiveDataA
-
-    }
-
-    private fun getPagingConfigs(): PagedList.Config {
-        return PagedList.Config.Builder()
-            .setPageSize(6)
-            .setPrefetchDistance(1)
-            .setInitialLoadSizeHint(6)
-            .setEnablePlaceholders(false)
-            .build()
-    }
-
-    override fun listIsEmpty(): Boolean {
-        return transactionsLiveDataB.value?.isEmpty() ?: true
-    }
-
-    override fun retry() {
-
-    }
-
-    override fun onCreate() {
-        super.onCreate()
-
-        requestAccountTransactions()
-    }
-
-    override fun handlePressOnView(id: Int) {
-        clickEvent.setValue(id)
-
-    }
-
-    var homeTransactionsRequest: HomeTransactionsRequest =
+    override val homeTransactionsRequest: HomeTransactionsRequest =
         HomeTransactionsRequest(
-            pageNumber,
-            size,
+            1,
+            20,
             0.00,
             20000.00,
             true,
@@ -99,28 +49,28 @@ class YapHomeViewModel(application: Application) :
             yapYoungTransfer = true
         )
 
+    override fun onCreate() {
+        super.onCreate()
+//        setUpTransactionsRepo()
+//        requestAccountTransactions()
+//        setUpTransactionsRepo()
+        requestAccountTransactions()
+    }
 
-    fun requestAccountTransactions() {
-        homeTransactionsRequest =
-            HomeTransactionsRequest(
-                pageNumber,
-                size,
-                0.00,
-                20000.00,
-                true,
-                debitSearch = true,
-                yapYoungTransfer = true
-            )
+    private fun requestAccountTransactions() {
         launch {
-            state.loading = true
-
+            if (!isLoadMore.value!!)
+                state.loading = true
             when (val response =
                 transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
-
-
-                    var transactionModelData: ArrayList<HomeTransactionListData> =
+                    val transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
+//                    transactionsLiveData.value = transactionModelData
+//                    isLoadMore.value = false
+                    //
+
+// reorder & sort
                     sortedCombinedTransactionList.addAll(transactionModelData)
 
                     val unionList =
@@ -189,67 +139,33 @@ class YapHomeViewModel(application: Application) :
                             }
                         }
                     }
-
-                    isLastPage = response.data.data.last
-                    if (!response.data.data.last) {
-
-                        pageNumber = response.data.data.number + 1
-//                        loadMore()
-                    }
-                    state.loading = false
 //
+//                    transactionsLiveData.value.
+                    //first clear the older one right now its adding the newly sorted list with old one
+
+                     transactionsLiveData.value = sortedCombinedTransactionList
+                    isLoadMore.value = false
+
 
                 }
-
                 is RetroApiResponse.Error -> {
-
+                    isLoadMore.value = false
                 }
             }
-
         }
-
         state.loading = false
     }
 
     override fun loadMore() {
-        if (!isLastPage) {
-            requestAccountTransactions()
-        }
+        requestAccountTransactions()
     }
-//}
 
-
-    fun loadAfter(
-        params: PageKeyedDataSource.LoadParams<Int>,
-        callback: PageKeyedDataSource.LoadCallback<Int, HomeTransactionListData>
-    ) {
-//        updateState(PagingState.LOADING)
-        homeTransactionsRequest.number = params.key
-        homeTransactionsRequest.size = params.requestedLoadSize
-        GlobalScope.launch {
-            when (val response =
-                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
-                is RetroApiResponse.Success -> {
-                    var transactionModelData: ArrayList<HomeTransactionListData> =
-                        setUpSectionHeader(response)
-                    homeTransactionsRequest.number = +1
-                    callback.onResult(
-                        transactionModelData,
-                        if (response.data.data.last) null else params.key + 1
-                    )
-//                    updateState(PagingState.DONE)
-
-                }
-                is RetroApiResponse.Error -> {
-                    callback.onResult(listOf(), homeTransactionsRequest.number)
-//                    updateState(PagingState.ERROR)
-                }
-            }
-        }
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
     }
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
-        contentList = response.data.data.content as ArrayList<Content>
+        val contentList = response.data.data.content as ArrayList<Content>
         Collections.sort(contentList, object :
             Comparator<Content> {
             override fun compare(
@@ -312,9 +228,7 @@ class YapHomeViewModel(application: Application) :
         return transactionModelData
     }
 
-
     override fun getDebitCards() {
-
         launch {
             state.loading = true
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
@@ -331,8 +245,7 @@ class YapHomeViewModel(application: Application) :
 
     }
 
-
-    fun convertDate(creationDate: String): String? {
+    private fun convertDate(creationDate: String): String? {
         val parser = SimpleDateFormat("yyyy-MM-dd")
         parser.setTimeZone(TimeZone.getTimeZone("UTC"))
         val convertedDate = parser.parse(creationDate)
@@ -343,5 +256,4 @@ class YapHomeViewModel(application: Application) :
 
         return date
     }
-
 }

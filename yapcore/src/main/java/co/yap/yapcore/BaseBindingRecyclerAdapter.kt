@@ -58,6 +58,12 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
         notifyDataSetChanged()
     }
 
+    fun addList(list: List<T>) {
+        val from = this.list.size
+        this.list.addAll(list)
+        notifyItemRangeInserted(from, this.list.size)
+    }
+
     fun setItemAt(position: Int, item: T) {
         this.list[position] = item
         notifyItemChanged(position)
