@@ -9,7 +9,6 @@ import co.yap.R
 import co.yap.databinding.FragmentYapContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
-import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.PhoneContactsAdaptor
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BR
@@ -32,7 +31,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     }
 
     private fun initComponents() {
-        getBinding().recycler.adapter = YapContactsAdaptor(requireContext(), mutableListOf())
+        getBinding().recycler.adapter = YapContactsAdaptor( mutableListOf())
         (getBinding().recycler.adapter as YapContactsAdaptor).setItemListener(listener)
     }
 
@@ -44,13 +43,13 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().btnInvite.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
-                getBinding().progressBar.visibility =
-                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+                //getBinding().progressBar.visibility =
+                //    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
 
             } else {
                 getBinding().txtError.visibility = View.GONE
                 getBinding().btnInvite.visibility = View.GONE
-                getBinding().progressBar.visibility = View.GONE
+                //getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
             }
         })

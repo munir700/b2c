@@ -21,7 +21,6 @@ class PhoneContactsAdaptor(private val colors: IntArray, retry: () -> Unit) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         if (getItemViewType(position) == contentView)
             (holder as YapContactItemViewHolder).onBind(
-                colors,
                 getItem(position),
                 position,
                 onItemClickListener
