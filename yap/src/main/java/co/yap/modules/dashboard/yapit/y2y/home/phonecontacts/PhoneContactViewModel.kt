@@ -129,7 +129,7 @@ class PhoneContactViewModel(application: Application) :
     }
 
     private fun fetchContacts(context: Context): MutableList<Contact> {
-
+        val defaultCountryCode = Utils.getDefaultCountryCode(context)
         val contacts: MutableList<Contact> = ArrayList()
         val cursor = context.contentResolver.query(
             ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
@@ -145,9 +145,15 @@ class PhoneContactViewModel(application: Application) :
                     val phoneWihtoutCountryCode =
                         cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                    val phoneNo = Utils.getPhoneWithoutCountryCode(context, phoneWihtoutCountryCode)
+                    val phoneNo = Utils.getPhoneWithoutCountryCode(
+                        defaultCountryCode,
+                        phoneWihtoutCountryCode
+                    )
                     val countryCode =
-                        Utils.getPhoneNumberCountryCodeForAPI(context, phoneWihtoutCountryCode)
+                        Utils.getPhoneNumberCountryCodeForAPI(
+                            defaultCountryCode,
+                            phoneWihtoutCountryCode
+                        )
                     val contactId =
                         cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
                     val contactId2 =
