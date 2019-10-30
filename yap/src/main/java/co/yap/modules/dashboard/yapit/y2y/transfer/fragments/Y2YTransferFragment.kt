@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
+import co.yap.databinding.FragmentY2yFundsTransferBinding
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
@@ -64,6 +65,21 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
 
         viewModel.state.fullName = args.beneficiaryName
         viewModel.receiverUUID = args.receiverUUID
+        viewModel.state.imageUrl = args.imagePath
+
+
+        getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
+            getBinding().lyUserImage.tvNameInitials.context,
+            args.position
+        )
+
+
+        getBinding().lyUserImage.tvNameInitials.setTextColor(
+            Utils.getContactColors(
+                getBinding().lyUserImage.tvNameInitials.context, args.position
+            )
+        )
+
 
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
@@ -100,6 +116,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
 
+    }
+
+    override fun getBinding(): FragmentY2yFundsTransferBinding {
+        return viewDataBinding as FragmentY2yFundsTransferBinding
     }
 
 }

@@ -93,10 +93,17 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
         }
 
     @get:Bindable
-    override var noteValue: String=""
+    override var noteValue: String = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.noteValue)
+        }
+
+    @get:Bindable
+    override var imageUrl: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.imageUrl)
         }
 
     fun checkValidity(): String {
