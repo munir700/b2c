@@ -27,10 +27,9 @@ class RecentTransferItemVM : BaseListItemViewModel<RecentBeneficiary>() {
     override fun onItemClick(view: View, data: Any, pos: Int) {
         navigation?.navigate(
             YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-//                data.beneficiaryPictureUrl!!
-//                , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
+                (data as RecentBeneficiary).beneficiaryPictureUrl
+                , data.accountUuid, data.title, pos
             )
         )
-
     }
 }
