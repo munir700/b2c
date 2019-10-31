@@ -7,13 +7,15 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentY2yFundsTransferSuccessBinding
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransferSuccess
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferSuccessViewModel
+import co.yap.yapcore.helpers.Utils
 
 class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess.ViewModel>(),
     IY2YFundsTransferSuccess.View {
-    val args: Y2YFundsTransferSuccessFragmentArgs by navArgs()
+    private val args: Y2YFundsTransferSuccessFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_y2y_funds_transfer_success
@@ -30,14 +32,38 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpData()
+
+    }
+
+    private fun setUpData() {
         viewModel.state.title = args.title
         viewModel.state.transferredAmount = args.currencyType + " " + args.amount
 
+        getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
+            getBinding().lyUserImage.tvNameInitials.context,
+            args.position
+        )
+
+
+        getBinding().lyUserImage.tvNameInitials.setTextColor(
+            Utils.getContactColors(
+                getBinding().lyUserImage.tvNameInitials.context, args.position
+            )
+        )
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
 
+    }
+
+    override fun getBinding(): FragmentY2yFundsTransferSuccessBinding {
+        return viewDataBinding as FragmentY2yFundsTransferSuccessBinding
+    }
+
+    override fun onBackPressed(): Boolean {
+        return true
     }
 }
