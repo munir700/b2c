@@ -48,9 +48,9 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
         viewModel.clickEvent.observe(this, Observer {
             val action =
                 Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-                    "Sufyan",
+                    viewModel.state.fullName,
                     "AED",
-                    viewModel.state.amount
+                    viewModel.state.amount,args.position
                 )
             findNavController().navigate(action)
         })

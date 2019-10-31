@@ -280,11 +280,11 @@ class AddressSelectionFragment : BaseMapFragment<IAddressSelection.ViewModel>(),
                             viewModel.mDefaultLocation.longitude.toString()
                         )
                         if (!viewModel.state.placeTitle.isNullOrEmpty()) {
-                            MyUserManager.userAddress!!.address2 = viewModel.state.placeTitle
+                            MyUserManager.userAddress!!.address2 = viewModel.state.landmarkField
                         }
 
                         if (!viewModel.state.placeSubTitle.isNullOrEmpty()) {
-                            MyUserManager.userAddress!!.address1 = viewModel.state.placeSubTitle
+                            MyUserManager.userAddress!!.address1 = viewModel.state.addressField
                         }
 
                         viewModel.requestUpdateAddress(updateAddressRequest)

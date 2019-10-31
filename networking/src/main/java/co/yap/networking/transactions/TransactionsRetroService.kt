@@ -6,6 +6,7 @@ import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -46,4 +47,25 @@ interface TransactionsRetroService {
     // Dashboard filter Amount
     @GET(TransactionsRepository.URL_SEARCH_FILTER_AMOUNT)
     suspend fun  getSearchFilterAmount(): Response<SearchFilterAmountResponse>
+
+    // Get Account Transaction
+    @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
+    suspend fun getAccountTransactions(
+        @Path("number") number: Int,
+        @Path("size") size: Int,
+        @Query("minAmount") minAmount: Double,
+        @Query("maxAmount") maxAmount: Double,
+        @Query("creditSearch") creditSearch: Boolean,
+        @Query("debitSearch") debitSearch: Boolean,
+        @Query("yapYoungTransfer") yapYoungTransfer: Boolean
+    ): Response<HomeTransactionsResponse>
+
+    // Get Account Transaction
+    @GET(TransactionsRepository.URL_GET_CARD_TRANSACTIONS)
+    suspend fun getCardTransactions(
+        @Path("number") number: Int,
+        @Path("size") size: Int,
+        @Query("cardSerialNumber") cardSerialNumber: String
+    ): Response<HomeTransactionsResponse>
+
 }

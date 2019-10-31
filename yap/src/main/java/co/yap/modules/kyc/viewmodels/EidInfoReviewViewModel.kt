@@ -82,62 +82,6 @@ class EidInfoReviewViewModel(application: Application) :
         uploadDocuments(result)
     }
 
-    fun uploadDocument(result: IdentityScannerResult) {
-        val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder()
-            .connectTimeout(100, TimeUnit.SECONDS)
-            .writeTimeout(100, TimeUnit.SECONDS)
-            .readTimeout(100, TimeUnit.SECONDS)
-            .addInterceptor(logger).build()
-        val retro: Retrofit = Retrofit.Builder()
-            .baseUrl("http://172.21.200.181:8000/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(client).build()
-        val service = retro.create(UploadIdCardRetroService::class.java)
-        val file = File(result.document.files[1].croppedFile)
-        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
-        val part =
-            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
-        state.loading = true
-        service.uploadIdCard(file = part).enqueue(object : Callback<CardScanResponse> {
-            override fun onFailure(call: Call<CardScanResponse>, t: Throwable) {
-                state.loading = false
-            }
-
-            override fun onResponse(
-                call: Call<CardScanResponse>,
-                response: Response<CardScanResponse>?
-            ) {
-                state.loading = false
-                if (response?.body()?.success!!) {
-                    val identity = Identity()
-                    identity.nationality = response.body()?.nationality
-
-                    identity.gender =
-                        if (response.body()?.sex.equals("M")) Gender.Male else Gender.Female
-                    identity.sirName = response.body()?.surname
-                    identity.givenName = response.body()?.names
-                    identity.citizenNumber = response.body()?.number
-                    val calender = Calendar.getInstance()
-//                    calender.time =
-                    identity.expirationDate =
-                        DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")
-                    identity.dateOfBirth =
-                        DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
-                    result.identity = identity
-
-                    parentViewModel?.identity = result
-                    populateState(result)
-                } else {
-                    state.toast =
-                        getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
-                }
-
-            }
-        })
-
-    }
 
     fun uploadDocuments(result: IdentityScannerResult) {
         val file = File(result.document.files[1].croppedFile)
@@ -239,7 +183,7 @@ class EidInfoReviewViewModel(application: Application) :
                     this == Gender.Female -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
                     else -> {
                         state.genderValid = false
-                        getString(Strings.screen_b2c_eid_info_review_display_text_gender_unknown)
+                        ""
                     }
                 }
             }

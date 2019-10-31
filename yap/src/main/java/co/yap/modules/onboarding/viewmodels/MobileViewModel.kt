@@ -34,7 +34,7 @@ class MobileViewModel(application: Application) : OnboardingChildViewModel<IMobi
     }
 
     override fun handlePressOnNext() {
-        // Record the time
+        // Record the updatedDate
         parentViewModel?.onboardingData?.startTime = Date()
         // Send OTP request
         createOtp()
