@@ -10,12 +10,12 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.transaction_filters.interfaces.ITransactionFilters
 import co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel
+import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
-import kotlinx.android.synthetic.main.layout_transaction_filters_toolbar.*
 
 class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewModel>(),
     ITransactionFilters.View {
@@ -37,25 +37,28 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         }
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setRangeSeekBar()
         setObservers()
     }
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
-        viewModel.searchFilterAmount.observe(this, searchFilterAmountObserver)
+        viewModel.transactionFilters.observe(this, searchFilterAmountObserver)
         if (viewModel.state is BaseState) {
             (viewModel.state as BaseState).addOnPropertyChangedCallback(stateObserver)
         }
-
     }
 
-    private fun setRangeSeekBar() {
-        //TODO: set left value and right value from backend provided values
-        rsbAmount?.setProgress(0f, 20000f)
+    private fun setRangeSeekBar(transactionFilters: TransactionFilters) {
+        rsbAmount?.setRange(
+            transactionFilters.minAmount.toFloat(),
+            transactionFilters.maxAmount.toFloat()
+        )
+        rsbAmount?.setProgress(
+            transactionFilters.minAmount.toFloat(),
+            transactionFilters.maxAmount.toFloat()
+        )
         viewModel.updateRangeValue(rsbAmount)
         rsbAmount.setOnRangeChangedListener(object : OnRangeChangedListener {
             override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
@@ -85,9 +88,12 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             }
         }
     }
-    private val searchFilterAmountObserver = Observer<List<Double>> {
-        // 0 index contains start range 1 index contains end range
-        rsbAmount?.setProgress(it[0].toFloat(), it[1].toFloat())
+    private val searchFilterAmountObserver = Observer<TransactionFilters> {
+        if (it != null) {
+            setRangeSeekBar(it)
+            // 0 index contains start range 1 index contains end range
+            rsbAmount?.setProgress(it.minAmount.toFloat(), it.maxAmount.toFloat())
+        }
     }
 
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
@@ -100,7 +106,10 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun resetAllFilters() {
-        rsbAmount?.setProgress(0f, 20000f)
+        rsbAmount?.setProgress(
+            viewModel.transactionFilters.value?.minAmount?.toFloat()!!,
+            viewModel.transactionFilters.value?.maxAmount?.toFloat()!!
+        )
         viewModel.updateRangeValue(rsbAmount)
         cbInTransFilter.isChecked = false
         cbOutTransFilter.isChecked = false
@@ -113,7 +122,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         data.putExtra(KEY_FILTER_START_AMOUNT, rsbAmount.leftSeekBar.progress.toInt())
         data.putExtra(KEY_FILTER_END_AMOUNT, rsbAmount.rightSeekBar.progress.toInt())
 
-        setResult(INTENT_FILTER_REQUEST,data)
+        setResult(INTENT_FILTER_REQUEST, data)
         finish()
     }
 

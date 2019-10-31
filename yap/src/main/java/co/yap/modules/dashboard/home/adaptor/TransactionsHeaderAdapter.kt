@@ -64,6 +64,5 @@ class TransactionsHeaderAdapter(
                 ItemHeaderTransactionsViewModel(homeTransaction)
             itemTransactionListHeaderBinding.executePendingBindings()
         }
-
     }
 }
