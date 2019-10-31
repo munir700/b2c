@@ -12,6 +12,7 @@
     </data>
 
     <RelativeLayout
+        android:id="@+id/homeParent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -30,7 +31,7 @@
                 app:dsv_orientation="horizontal" />
 
 
-            <!--     Transaction Graph Center       -->
+            <!--     Content Graph Center       -->
             <include
                 android:id="@+id/vGraph"
                 layout="@layout/view_graph"
@@ -86,7 +87,7 @@
                 android:background="@color/divider"
                 android:paddingTop="@dimen/_12sdp" />
 
-            <!--     Transaction List-->
+            <!--     Content List-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransaction"
                 android:layout_width="match_parent"

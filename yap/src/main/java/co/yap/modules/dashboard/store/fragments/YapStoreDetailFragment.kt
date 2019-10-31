@@ -55,7 +55,7 @@ class YapStoreDetailFragment : BaseBindingFragment<IYapStoreDetail.ViewModel>(),
             viewModel.state.storeHeading =
                 "Allocate specific budget to your child, track and fully."
             viewModel.state.storeDetail =
-                "Allocate specific budget to your child, track and fully control your child spending by setting limits to the card. Save time with an innovative real-time money request system. Allocate specific budget to your child, track and fully control your child spending by setting limits to the card. Save time with an innovative real-time money request."
+                "Allocate specific budget to your child, track and fully control your child spending by setting limits to the card. Save updatedDate with an innovative real-updatedDate money request system. Allocate specific budget to your child, track and fully control your child spending by setting limits to the card. Save updatedDate with an innovative real-updatedDate money request."
             viewModel.state.storeIcon = R.drawable.ic_young_smile
         }
         setupRecycleView()

@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.modules.dashboard.home.ChartView
-import co.yap.modules.dashboard.home.models.TransactionModel
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import kotlinx.android.synthetic.main.item_bar_chart.view.*
 
 
 class GraphBarsAdapter(
-    private val listItems: ArrayList<TransactionModel>,
-    val context: Context
+    private val listItems: ArrayList<HomeTransactionListData>,
+    val context: Context,
+    val maxClosingBalance : Double
 ) :
     RecyclerView.Adapter<GraphBarsAdapter.ViewHolder>(), View.OnFocusChangeListener {
     lateinit var viewHolder: ViewHolder
@@ -36,7 +37,8 @@ class GraphBarsAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         viewHolder = holder
-        val transactionModel: TransactionModel = listItems[position]
+        val transactionModel: HomeTransactionListData = listItems[position]
+        transactionModel.amountPercentage = calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance)
         holder.transactionBar.onFocusChangeListener = this
         holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
 
@@ -59,6 +61,15 @@ class GraphBarsAdapter(
         }
     }
 
+
+    fun calculatePercentagePerDayFromClosingBalance(closingBalance : Double) : Double {
+
+        return (closingBalance/maxClosingBalance) * 100
+
+
+    }
+
+
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
         if (!viewHolder.transactionBar.hasFocus()) {
             viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
@@ -68,4 +79,5 @@ class GraphBarsAdapter(
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
          val transactionBar: ChartView = itemView.transactionBar
     }
+
 }

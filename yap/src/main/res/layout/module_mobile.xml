@@ -8,9 +8,9 @@
 
         <!--<variable-->
             <!--name="mobileViewModel"-->
-            <!--type="co.yap.modules.onboarding.viewmodels.MobileViewModel"/>-->
+            <!--txnType="co.yap.modules.onboarding.viewmodels.MobileViewModel"/>-->
 
-        <!--<import type="co.yap.translation.Strings"/>-->
+        <!--<import txnType="co.yap.translation.Strings"/>-->
 
     <!--</data>-->
 

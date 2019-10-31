@@ -1,8 +1,11 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.interfaces
 
-import co.yap.modules.dashboard.home.helpers.transaction.TransactionLogicHelper
+import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardDetail
+import co.yap.networking.transactions.requestdtos.CardTransactionRequest
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -18,14 +21,25 @@ interface IPaymentCardDetail {
         val EVENT_CARD_DETAILS: Int get() = 2
         val EVENT_REMOVE_CARD: Int get() = 3
         val clickEvent: SingleClickEvent
-        var card: Card
-        var cardDetail : CardDetail
+        var card: MutableLiveData<Card>
+        var cardDetail: CardDetail
         val transactionLogicHelper: TransactionLogicHelper
         fun handlePressOnView(id: Int)
         fun getCardBalance()
         fun freezeUnfreezeCard()
         fun getCardDetails()
         fun removeCard()
+        //
+        val cardTransactionRequest: CardTransactionRequest
+        val EVENT_SET_CARD_PIN: Int get() = 1
+        val EVENT_SET_COMPLETE_VEERIFICATION: Int get() = 2
+        var MAX_CLOSING_BALANCE: Double
+        var debitCardSerialNumber: String
+        fun getDebitCards()
+        fun requestAccountTransactions()
+        val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
+        val isLoadMore: MutableLiveData<Boolean>
+        fun loadMore()
     }
 
     interface State : IBase.State {
