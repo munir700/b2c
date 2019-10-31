@@ -48,6 +48,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     private fun initState() {
         viewModel.getState().observe(this, Observer { state ->
             if (viewModel.listIsEmpty()) {
+                getBinding().tvNoResult.visibility = View.GONE
                 getBinding().recycler.visibility = View.GONE
                 getBinding().tvContactListDescription.visibility = View.GONE
                 getBinding().txtError.visibility =
@@ -58,6 +59,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     mutableListOf()
                 )
             } else {
+                getBinding().tvNoResult.visibility = View.GONE
                 getBinding().txtError.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
@@ -78,6 +80,16 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
             adaptor.filter.filter(it)
         })
+
+        adaptor.filterCount.observe(this, Observer {
+
+            getBinding().tvContactListDescription.visibility =
+                if (it == 0) View.GONE else View.VISIBLE
+
+            getBinding().tvNoResult.visibility = if (it == 0) View.VISIBLE else View.GONE
+
+        })
+
     }
 
     val listener = object : OnItemClickListener {

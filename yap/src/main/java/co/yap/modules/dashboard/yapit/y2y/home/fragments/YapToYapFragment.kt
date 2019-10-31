@@ -83,6 +83,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     }
 
     private fun setSearchView(show: Boolean) {
+
         getBindingView().layoutSearchView.ivSearch.visibility =
             if (!show) View.VISIBLE else View.GONE
         getBindingView().layoutSearchView.tvSearch.visibility =

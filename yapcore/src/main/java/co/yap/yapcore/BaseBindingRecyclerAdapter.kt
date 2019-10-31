@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import android.widget.Filter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -16,6 +17,7 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     var allowFullItemClickListener: Boolean = false
     lateinit var filter: ItemFilter
     private lateinit var list: MutableList<T>
+    var filterCount = MutableLiveData<Int>()
     private lateinit var duplicate: MutableList<T>
 
     constructor(list: MutableList<T>) : this() {
@@ -117,19 +119,24 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
 
             val filterString = constraint.toString().toLowerCase()
             val results = FilterResults()
-
             val list = mutableListOf<T>()
             list.addAll(duplicate)
 
             val count = list.size
             val nlist = ArrayList<T>(count)
             var filterableString: String
+            var filterableStringForName: String
 
             if (!constraint.isNullOrEmpty()) {
                 for (i in 0 until count) {
                     if (list[i] is Contact) {
-                        filterableString = (list[i] as Contact).mobileNo!!
-                        if (filterableString.toLowerCase().contains(filterString)) {
+                        filterableString =
+                            (list[i] as Contact).countryCode!! + "" + (list[i] as Contact).mobileNo!!
+                        filterableStringForName = (list[i] as Contact).title!!
+                        if (filterableString.toLowerCase().contains(filterString) || filterableStringForName.toLowerCase().contains(
+                                filterString
+                            )
+                        ) {
                             nlist.add(list[i])
                         }
                     }
@@ -145,6 +152,7 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
 
         override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
             list.clear()
+            filterCount.value = results?.count
             list.addAll(results?.values as MutableList<T>)
             notifyDataSetChanged()
         }
