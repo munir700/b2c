@@ -17,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import co.yap.widgets.arcmenu.animation.DefaultAnimationHandler
 import co.yap.widgets.arcmenu.animation.MenuAnimationHandler
+import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -90,6 +91,7 @@ class FloatingActionMenu
         private set
 
 
+    var animStatus: AnimationStatus = AnimationStatus.NONE
 
     /**
      * Gets the coordinates of the main action view
@@ -376,6 +378,7 @@ class FloatingActionMenu
             }
 
             override fun onAnimationStart(animation: Animator?) {
+                animStatus = AnimationStatus.ANIMATING
                 mainActionView.elevation = 10F
                 mainActionView.isClickable = false
                 mainActionView.setOnClickListener(null)
@@ -580,6 +583,7 @@ class FloatingActionMenu
         private var alphaOverlay: View? = null
 
         init {
+           // val activity = context as BaseBindingActivity<*>
             subActionItems = ArrayList()
             // Default settings
             radius = context.resources.getDimensionPixelSize(R.dimen.action_menu_radius)
@@ -731,6 +735,10 @@ class FloatingActionMenu
                 alphaOverlay
             )
         }
+    }
+
+    enum class AnimationStatus {
+        NONE, ANIMATING, ANIMATED
     }
 
 }
