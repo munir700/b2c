@@ -2,16 +2,28 @@ package co.yap.yapcore
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>(private val list: MutableList<T>) :
+abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>() :
     RecyclerView.Adapter<VH>() {
 
     var onItemClickListener: OnItemClickListener? = null
     var allowFullItemClickListener: Boolean = false
+    lateinit var filter: ItemFilter
+    private lateinit var list: MutableList<T>
+    private lateinit var duplicate: MutableList<T>
+
+    constructor(list: MutableList<T>) : this() {
+        this.list = list
+        duplicate = mutableListOf()
+        this.duplicate.addAll(list)
+        filter = ItemFilter(list)
+    }
 
     protected abstract fun onCreateViewHolder(binding: ViewDataBinding): VH
 
@@ -56,6 +68,13 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
         this.list.clear()
         this.list.addAll(list)
         notifyDataSetChanged()
+        updateLists()
+    }
+
+    private fun updateLists() {
+        duplicate = mutableListOf()
+        duplicate.addAll(list)
+        filter = ItemFilter(list)
     }
 
     fun addList(list: List<T>) {
@@ -88,6 +107,45 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
         fun bind(obj: T) {
 //            binding.setVariable(BR.data, obj)
 //            binding.executePendingBindings()
+        }
+    }
+
+    inner class ItemFilter(private val dataList: MutableList<T>) : Filter() {
+
+        override fun performFiltering(constraint: CharSequence?): FilterResults {
+
+            val filterString = constraint.toString().toLowerCase()
+            val results = FilterResults()
+
+            val list = mutableListOf<T>()
+            list.addAll(duplicate)
+
+            val count = list.size
+            val nlist = ArrayList<T>(count)
+            var filterableString: String
+
+            if (!constraint.isNullOrEmpty()) {
+                for (i in 0 until count) {
+                    if (list[i] is Contact) {
+                        filterableString = (list[i] as Contact).mobileNo!!
+                        if (filterableString.toLowerCase().contains(filterString)) {
+                            nlist.add(list[i])
+                        }
+                    }
+                }
+            } else {
+                nlist.addAll(list)
+            }
+
+            results.values = nlist
+            results.count = nlist.size
+            return results
+        }
+
+        override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+            list.clear()
+            list.addAll(results?.values as MutableList<T>)
+            notifyDataSetChanged()
         }
     }
 

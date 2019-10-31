@@ -1,6 +1,7 @@
 package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
+import android.text.TextUtils
 import co.yap.modules.kyc.fragments.CardScanResponse
 import co.yap.modules.kyc.fragments.UploadIdCardRetroService
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
@@ -48,6 +49,7 @@ class EidInfoReviewViewModel(application: Application) :
     }
 
     override fun handlePressOnRescanBtn() {
+        parentViewModel?.let { populateState(it.identity) }
         clickEvent.setValue(EVENT_RESCAN)
     }
 
@@ -55,6 +57,7 @@ class EidInfoReviewViewModel(application: Application) :
         parentViewModel?.identity?.identity?.let {
             //            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
             when {
+                TextUtils.isEmpty(it.givenName) ||  TextUtils.isEmpty(it.nationality)-> clickEvent.setValue(EVENT_ERROR_INVALID_EID)
                 !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
                 !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
 
@@ -164,10 +167,14 @@ class EidInfoReviewViewModel(application: Application) :
                         parentViewModel?.identity = result
                         populateState(result)
                     } else {
-                        getString(Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable)
+                        result.identity = Identity()
+                        parentViewModel?.identity = result
+                        populateState(result)
                         clickEvent.setValue(EVENT_FINISH)
+                        state.toast = response.data.errors?.message!!
+
+                        //clearData()
                     }
-                    //}
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
@@ -214,7 +221,7 @@ class EidInfoReviewViewModel(application: Application) :
         }
     }
 
-    private fun populateState(identity: IdentityScannerResult?) {
+    fun populateState(identity: IdentityScannerResult?) {
         identity?.let {
             state.fullName = it.identity.givenName + " " + it.identity.sirName
             state.fullNameValid = state.fullName.isNotBlank()
@@ -230,7 +237,10 @@ class EidInfoReviewViewModel(application: Application) :
                 when {
                     this == Gender.Male -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_male)
                     this == Gender.Female -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_female)
-                    else -> getString(Strings.screen_b2c_eid_info_review_display_text_gender_unknown)
+                    else -> {
+                        state.genderValid = false
+                        getString(Strings.screen_b2c_eid_info_review_display_text_gender_unknown)
+                    }
                 }
             }
 

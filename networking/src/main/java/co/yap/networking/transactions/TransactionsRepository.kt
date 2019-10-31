@@ -22,6 +22,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_CARD_STATEMENTS = "/transactions/api/card-statements"
     const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
     const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
+    const val URL_SEARCH_FILTER_AMOUNT = "/transactions/api/transactions/search-filter/amount"
     const val URL_GET_ACCOUNT_TRANSACTIONS =
         "/transactions/api/account-transactions/{number}/{size}/"
 
@@ -64,4 +65,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 homeTransactionsResponse.yapYoungTransfer
             )
         })
+    override suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse> =
+        executeSafely(call = { api.getSearchFilterAmount() })
+
 }

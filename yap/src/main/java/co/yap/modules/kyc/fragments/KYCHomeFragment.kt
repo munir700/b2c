@@ -41,6 +41,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         } else {
             //todo need to verify that code
             //IdentityScannerActivity.CLOSE_SCANNER = false
+            viewModel.state.eidScanStatus  = DocScanStatus.SCAN_PENDING
             tvSkip.visibility = View.VISIBLE
         }
         if (checkMore && checkScanned) {

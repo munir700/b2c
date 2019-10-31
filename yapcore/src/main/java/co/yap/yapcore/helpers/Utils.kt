@@ -1,12 +1,16 @@
 package co.yap.yapcore.helpers
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
+import android.graphics.drawable.Drawable
+import android.icu.util.TimeZone
 import android.net.Uri
 import android.os.Build
+import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
@@ -17,6 +21,7 @@ import android.view.Window
 import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
+import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.text.DecimalFormat
@@ -334,10 +339,30 @@ object Utils {
         }
     }
 
-    fun getPhoneNumberCountryCode(mobileNo: String): String {
+    fun getFormattedPhoneNumber(context: Context, mobileNo: String): String {
+        return try {
+            val pnu = PhoneNumberUtil.getInstance()
+            val pn = pnu.parse(mobileNo, getDefaultCountryCode(context))
+            return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+    @SuppressLint("DefaultLocale")
+    fun getCountryCodeFromTelephony(context: Context): String {
+        val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        return tm.networkCountryIso.toUpperCase()
+    }
+
+    fun getPhoneNumberCountryCodeForAPI(
+        defaultCountryCode: String,
+        mobileNo: String
+    ): String {
         return try {
             val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
+            val pn = phoneUtil.parse(mobileNo, defaultCountryCode)
             //didt find any other way to get number zero
             return """00${pn.countryCode}"""
         } catch (e: Exception) {
@@ -346,14 +371,42 @@ object Utils {
         }
     }
 
-    fun getPhoneWithoutCountryCode(mobileNo: String): String {
+    fun getPhoneWithoutCountryCode(defaultCountryCode: String, mobileNo: String): String {
         return try {
             val phoneUtil = PhoneNumberUtil.getInstance()
-            val pn = phoneUtil.parse(mobileNo, Locale.getDefault().country)
+            val pn = phoneUtil.parse(mobileNo, defaultCountryCode)
             pn.nationalNumber.toString()
         } catch (e: Exception) {
             e.printStackTrace()
             ""
+        }
+    }
+
+//    fun getCountryIsoCode(number: String): String {
+//        val validatedNumber = "+$number"
+//        val pnu = PhoneNumberUtil.getInstance()
+//        val phoneNumber = try {
+//            pnu.parse(validatedNumber, null)
+//        } catch (e: NumberParseException) {
+//            Log.e("UTILS", "error during parsing a number")
+//            return ""
+//        }
+//            ?: return ""
+//
+//        return pnu.getRegionCodeForCountryCode(phoneNumber.countryCode)
+//    }
+
+    fun getDefaultCountryCode(context: Context): String {
+        val countryCode = getCountryCodeFromTimeZone(context)
+        return if (countryCode == "") "AE" else countryCode
+    }
+
+    private fun getCountryCodeFromTimeZone(context: Context): String {
+        val curTimeZoneId = Calendar.getInstance().timeZone.id
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            TimeZone.getRegion(curTimeZoneId)
+        } else {
+            getCountryCodeFromTelephony(context)
         }
     }
 
@@ -365,4 +418,26 @@ object Utils {
         sharingIntent.putExtra(Intent.EXTRA_TEXT, body)
         context.startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
+
+    fun getContactColors(context: Context,position: Int): Int {
+        return ContextCompat.getColor(context,contactColors[position % contactColors.size])
+    }
+
+    fun getContactBackground(context: Context,position: Int): Drawable? {
+        return ContextCompat.getDrawable(context,backgrounds[position % backgrounds.size])
+    }
+
+    private val backgrounds = intArrayOf(
+        R.drawable.bg_round_light_red,
+        R.drawable.bg_round_light_blue,
+        R.drawable.bg_round_light_green,
+        R.drawable.bg_round_light_orange
+    )
+
+    private val contactColors = intArrayOf(
+        R.color.colorSecondaryMagenta,
+        R.color.colorSecondaryBlue,
+        R.color.colorSecondaryGreen,
+        R.color.colorSecondaryOrange
+    )
 }

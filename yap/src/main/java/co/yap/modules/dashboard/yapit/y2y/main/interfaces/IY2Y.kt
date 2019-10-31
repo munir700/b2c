@@ -21,7 +21,8 @@ interface IY2Y {
         fun handlePressOnView(id: Int)
         val clickEvent: SingleClickEvent
         val yapContactLiveData: MutableLiveData<List<Contact>>
-
+        val isSearching: MutableLiveData<Boolean>
+        val searchQuery: MutableLiveData<String>
     }
 
     interface View : IBase.View<ViewModel>

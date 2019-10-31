@@ -12,6 +12,7 @@ import co.yap.yapcore.databinding.ItemListFooterBinding
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.interfaces.OnItemClickListener
 
+
 abstract class BasePagingBindingRecyclerAdapter<T : Any>(
     private val retry: () -> Unit,
     diffCallback: DiffUtil.ItemCallback<T>
@@ -23,6 +24,7 @@ abstract class BasePagingBindingRecyclerAdapter<T : Any>(
 
     private var state = PagingState.LOADING
     var onItemClickListener: OnItemClickListener? = null
+    private var filteredData: ArrayList<T>? = null
 
     protected abstract fun onCreateContentViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder
 
@@ -65,6 +67,7 @@ abstract class BasePagingBindingRecyclerAdapter<T : Any>(
 
     override fun getItemViewType(position: Int): Int {
         return if (position < super.getItemCount()) contentView else footerView
+
     }
 
     override fun getItemCount(): Int {
@@ -84,6 +87,7 @@ abstract class BasePagingBindingRecyclerAdapter<T : Any>(
         return state
     }
 
+
     class ListFooterViewHolder(private val itemListFooterBinding: ItemListFooterBinding) :
         RecyclerView.ViewHolder(itemListFooterBinding.root) {
 
@@ -96,8 +100,6 @@ abstract class BasePagingBindingRecyclerAdapter<T : Any>(
     abstract inner class ViewHolder(private val binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(obj: Store) {
-//            binding.setVariable(BR.data, obj)
-//            binding.executePendingBindings()
         }
     }
 

@@ -135,7 +135,7 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/clTransContainer"
             app:rsb_max="20000"
-            app:rsb_mode="range"
+            app:rsb_mode="single"
             app:rsb_progress_height="@dimen/_4sdp"
             app:rsb_progress_radius="@dimen/_2sdp"
             app:rsb_min="0"

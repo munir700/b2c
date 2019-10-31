@@ -2,11 +2,15 @@ package co.yap.modules.dashboard.yapit.y2y.home.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.SearchView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentYapToYapBinding
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.PHONE_CONTACTS
+import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.TransferLandingAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.adaptors.YAP_CONTACTS
 import co.yap.modules.dashboard.yapit.y2y.home.interfaces.IYapToYap
@@ -14,25 +18,54 @@ import co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.widgets.searchwidget.SearchingListener
 import co.yap.yapcore.BR
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 
-
-class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
+class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickListener {
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_yap_to_yap
 
     override val viewModel: YapToYapViewModel
         get() = ViewModelProviders.of(this).get(YapToYapViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, clickEventObserver)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.clickEvent.observe(this, clickEventObserver)
         setupAdaptor()
         setupTabs()
         setSearchView()
+        setupRecent()
+    }
+
+    private fun setupRecent() {
+        if (viewModel.parentViewModel?.isSearching?.value!!) {
+            layoutRecent.visibility = View.GONE
+        } else {
+            //val adapter = RecentTransferAdaptor(ArrayList(),findNavController())
+            // viewModel.adapter.set(adapter)
+            //viewModel.adapter.get()?.onItemClickListener = this
+            //adapter.onItemClickListener = this
+            viewModel.getRecentBeneficiaries()
+            viewModel.recentTransferData.observe(this, Observer {
+                layoutRecent?.visibility = if (it) View.VISIBLE else View.GONE
+            })
+            viewModel.adapter.set(RecentTransferAdaptor(ArrayList(), findNavController()))
+        }
+    }
+
+    override fun onItemClick(view: View, data: Any, pos: Int) {
+        findNavController().navigate(
+            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+//                data.beneficiaryPictureUrl!!
+//                , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
+            )
+        )
     }
 
     private fun setupAdaptor() {
@@ -50,24 +83,41 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
     }
 
     private fun setSearchView() {
-        getBindingView().svContacts.initializeSearch(requireContext(), object : SearchingListener {
-            override fun onCancel() {
-                svContacts.clearInputField()
-            }
 
-            override fun onSearchKeyPressed(search: String?) {
+        if (!viewModel.parentViewModel?.isSearching?.value!!) {
+            getBindingView().svContacts.isIconified = true
+            getBindingView().run { svContacts.setIconifiedByDefault(true) }
+        } else {
+            getBindingView().svContacts.setOnQueryTextListener(object :
+                SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    viewModel.parentViewModel?.searchQuery?.value = query
+                    return true
+                }
 
-                showToast("start search $search")
-            }
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    viewModel.parentViewModel?.searchQuery?.value = newText
+                    return true
+                }
+            })
+            getBindingView().svContacts.isIconified = false
+            getBindingView().run { svContacts.setIconifiedByDefault(false) }
+        }
 
-        }, false, true)
-        getBindingView().svContacts.setOnClickListener { }
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
-            R.id.btnInvite -> {
-
+            R.id.svContacts -> {
+                if (!viewModel.parentViewModel?.isSearching?.value!!) {
+                    startActivity(
+                        YapToYapDashboardActivity.getIntent(
+                            requireContext(),
+                            true,
+                            null
+                        )
+                    )
+                }
             }
         }
     }
@@ -85,6 +135,12 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>() {
             else -> null
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clickEvent.observe(this, clickEventObserver)
+    }
+
 
     private fun getBindingView(): FragmentYapToYapBinding {
         return (viewDataBinding as FragmentYapToYapBinding)

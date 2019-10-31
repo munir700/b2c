@@ -2,6 +2,7 @@ package co.yap.networking.customers
 
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
@@ -31,4 +32,5 @@ interface CustomersApi {
     suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse>
     suspend fun detectCardData(file: MultipartBody.Part): RetroApiResponse<ApiResponse>
     suspend fun getY2YBeneficiaries(contacts: List<Contact>): RetroApiResponse<Y2YBeneficiariesResponse>
+    suspend fun getRecentY2YBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
 }

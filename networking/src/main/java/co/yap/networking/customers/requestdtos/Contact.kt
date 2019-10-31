@@ -1,5 +1,6 @@
 package co.yap.networking.customers.requestdtos
 
+import android.graphics.Color
 import android.os.Parcelable
 import co.yap.networking.models.ApiResponse
 import kotlinx.android.parcel.Parcelize
@@ -20,4 +21,10 @@ data class Contact(
         val accountType: String,
         val accountUuid: String
     ) : ApiResponse(), Parcelable
+
+    override fun toString(): String {
+        return "Contact(title=$title, countryCode=$countryCode, mobileNo=$mobileNo, email=$email, beneficiaryPictureUrl=$beneficiaryPictureUrl, yapUser=$yapUser, accountDetailList=$accountDetailList)"
+    }
+
+
 }

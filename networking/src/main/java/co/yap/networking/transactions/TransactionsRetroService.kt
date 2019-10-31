@@ -44,6 +44,10 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_ADD_EDIT_NOTE)
     suspend fun addEditNote(@Body addEditNoteRequest: AddEditNoteRequest): Response<AddEditNoteResponse>
 
+    // Dashboard filter Amount
+    @GET(TransactionsRepository.URL_SEARCH_FILTER_AMOUNT)
+    suspend fun  getSearchFilterAmount(): Response<SearchFilterAmountResponse>
+
     // Get Account Transaction
     @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
     suspend fun getAccountTransactions(

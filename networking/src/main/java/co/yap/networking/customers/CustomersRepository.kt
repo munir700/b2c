@@ -35,6 +35,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CHANGE_VERIFIED_EMAIL = "customers/api/change-email/{email}"
     const val URL_CHANGE_UNVERIFIED_EMAIL = "customers/api/change-unverified-email"
     const val URL_Y2Y_BENEFICIARIES = "customers/api/y2y-beneficiaries"
+    const val URL_Y2Y_RECENT_BENEFICIARIES = "customers/api/recent-beneficiaries/y2y"
 
     const val URL_DETECT = "digi-ocr/detect/"
 
@@ -135,4 +136,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
         executeSafely(call = { api.getY2YBeneficiaries(contacts) })
+
+    override suspend fun getRecentY2YBeneficiaries() = executeSafely(call = { api.getRecentY2YBeneficiaries() })
 }

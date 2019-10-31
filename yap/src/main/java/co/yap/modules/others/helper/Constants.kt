@@ -1,5 +1,7 @@
 package co.yap.modules.others.helper
 
+import co.yap.yapcore.helpers.Utils
+
 object Constants {
 
     const val CARD_TYPE_DEBIT: String = "DEBIT"
@@ -27,7 +29,6 @@ object Constants {
 
     const val EVENT_ADD_PHOTO: Int = 6
     const val EVENT_CHOOSE_PHOTO: Int = 7
-
 
 
 

@@ -1,5 +1,10 @@
 package co.yap.networking.customers.responsedtos
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.icu.util.TimeZone
+import android.os.Build
+import android.telephony.TelephonyManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.util.*
 
@@ -32,10 +37,11 @@ class Customer(
         return "$countryCode $mobileNo"
     }
 
-    fun getFormattedPhone(): String {
+
+    fun getFormattedPhoneNumber(context: Context): String {
         return try {
             val pnu = PhoneNumberUtil.getInstance()
-            val pn = pnu.parse(mobileNo, Locale.getDefault().country)
+            val pn = pnu.parse(getCompletePhone(), getDefaultCountryCode(context))
             return pnu.format(pn, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -43,6 +49,25 @@ class Customer(
         }
     }
 
+    @SuppressLint("DefaultLocale")
+    fun getCountryCodeFromTelephony(context: Context): String {
+        val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+        return tm.networkCountryIso.toUpperCase()
+    }
+
+    fun getDefaultCountryCode(context: Context): String {
+        val countryCode = getCountryCodeFromTimeZone(context)
+        return if (countryCode == "") "AE" else countryCode
+    }
+
+    private fun getCountryCodeFromTimeZone(context: Context): String {
+        val curTimeZoneId = Calendar.getInstance().timeZone.id
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            TimeZone.getRegion(curTimeZoneId)
+        } else {
+            getCountryCodeFromTelephony(context)
+        }
+    }
 
     fun getPicture(): String {
         return if (profilePictureName.isNullOrEmpty()) "" else profilePictureName!!

@@ -146,10 +146,10 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
 
     companion object {
         /** duration of animations, in milliseconds  */
-        protected val DURATION = 300
+        protected val DURATION = 275
         /** duration to wait between each of   */
         protected val LAG_BETWEEN_ITEMS = 100
 
-        protected val DIST_Y = 55
+        protected val DIST_Y = 60
     }
 }

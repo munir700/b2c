@@ -5,7 +5,6 @@ import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IUpdateCardName
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils
-import co.yap.yapcore.helpers.Utils
 
 class UpdateCardNameState : BaseState(), IUpdateCardName.State {
 

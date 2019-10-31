@@ -30,7 +30,7 @@
             app:image="@{viewModel.contact.beneficiaryPictureUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:name="@{viewModel.contact.title}" />
+            app:name="@{viewModel.contact.title}"/>
 
         <LinearLayout
             android:layout_width="0dp"
@@ -60,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@{Utils.INSTANCE.getFormattedPhone(viewModel.contact.mobileNo)}"
+                android:text="@{Utils.INSTANCE.getFormattedPhoneNumber(context,viewModel.contact.countryCode+viewModel.contact.mobileNo)}"
                 tools:text="+971 12 345 6789" />
             <!--            android:text="@{Utils.INSTANCE.getFormattedPhone(viewModel.contact.countryCode+viewModel.contact.mobileNo)}"-->
 

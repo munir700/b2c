@@ -1,7 +1,7 @@
 package co.yap.modules.transaction_filters.interfaces
 
-import androidx.databinding.Observable
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import com.jaygoo.widget.RangeSeekBar
@@ -13,6 +13,7 @@ interface ITransactionFilters {
         fun handlePressOnView(id: Int)
         fun handlePressOnBackButton(id: Int)
         fun updateRangeValue(seekBar: RangeSeekBar)
+        val searchFilterAmount: MutableLiveData<List<Double>>
     }
 
     interface State : IBase.State {

@@ -52,6 +52,20 @@ class PhoneNumberUtils {
         return number
     }
 
+   fun getInterNationalNumber(unFormattedNumber: String, codeString: String): String? {
+        val phoneUtil = PhoneNumberUtil.getInstance()
+        var number: String? = null
+        try {
+            val ph = phoneUtil.parse(unFormattedNumber, codeString)
+            ph.setCountryCode(ph.getCountryCode())
+            number = phoneUtil.format(ph, PhoneNumberUtil.PhoneNumberFormat.E164)
+            //number = "+" + ph.getCountryCode() + "" + ph.getNationalNumber();
+            return number
+        } catch (e: NumberParseException) {
+        }
+        return number
+    }
+
     fun getNationalNumber(text: String, code: Int, codeString: String): String? {
         val phoneUtil = PhoneNumberUtil.getInstance()
         val tempNo = text.trim { it <= ' ' }

@@ -76,6 +76,7 @@
                     android:text="@string/retake"/>
 
                 <co.yap.widgets.CoreButton
+                    android:id="@+id/btnDone"
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -83,7 +84,7 @@
                     style="@style/RectangleBtnStyle"
                     android:visibility="@{model.state.docValid ? View.VISIBLE : View.GONE}"
                     android:background="@drawable/border_round_filled_background"
-                    android:onClick="@{(v) -> model.handleClickOnDone()}"
+                    android:onClick="@{(v) -> model.handleClickOnDone(v)}"
                     android:text="@string/done"/>
             </LinearLayout>
 

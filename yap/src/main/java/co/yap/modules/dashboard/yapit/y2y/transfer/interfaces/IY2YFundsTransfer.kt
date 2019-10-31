@@ -1,12 +1,15 @@
 package co.yap.modules.dashboard.yapit.y2y.transfer.interfaces
 
 import android.graphics.drawable.Drawable
+import androidx.databinding.ViewDataBinding
+import co.yap.databinding.FragmentY2yFundsTransferBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 class IY2YFundsTransfer {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
+        fun getBinding(): ViewDataBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -30,5 +33,6 @@ class IY2YFundsTransfer {
         var availableBalanceGuide: String
         var fullName: String
         var noteValue: String
+        var imageUrl: String
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="recentTransferItemVM"
+            type="co.yap.modules.dashboard.yapit.y2y.home.viewmodel.RecentTransferItemVM" />
+
+    </data>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/imgProfile"
+            android:layout_width="@dimen/_40sdp"
+            android:src="@drawable/ic_store_b2b"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_gravity="center_horizontal"
+            app:imageUrl="@{recentTransferItemVM.item.beneficiaryPictureUrl}"
+            app:fullName = "@{recentTransferItemVM.item.title}"
+            android:contentDescription="@string/empty_string" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_24sdp"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="normal"
+            style="@style/AppFontRegular"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:textColor="@color/greyDark"
+            android:lineSpacingExtra="2sp"
+            android:gravity="center_horizontal"
+            android:text="@{recentTransferItemVM.item.title}" />
+
+    </LinearLayout>
+</layout>

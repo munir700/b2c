@@ -11,6 +11,7 @@ import co.yap.R
 import co.yap.databinding.FragmentPhoneContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
+import co.yap.modules.dashboard.yapit.y2y.home.yapcontacts.YapContactsAdaptor
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BR
@@ -28,32 +29,40 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     override val viewModel: PhoneContactViewModel
         get() = ViewModelProviders.of(this).get(PhoneContactViewModel::class.java)
 
+    lateinit var adaptor: YapContactsAdaptor
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         initState()
         initComponents()
+        setObservers()
+        viewModel.getY2YBeneficiaries()
     }
 
+
     private fun initComponents() {
-        getBinding().recycler.adapter = PhoneContactsAdaptor { viewModel.retry() }
-        (getBinding().recycler.adapter as PhoneContactsAdaptor).setItemListener(listener)
+        adaptor = YapContactsAdaptor(mutableListOf())
+        getBinding().recycler.adapter = adaptor
+        adaptor.setItemListener(listener)
     }
 
     private fun initState() {
-        //retryBtn.setOnClickListener { viewModel.retry() }
         viewModel.getState().observe(this, Observer { state ->
             if (viewModel.listIsEmpty()) {
                 getBinding().recycler.visibility = View.GONE
+                getBinding().tvContactListDescription.visibility = View.GONE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+                if (state == PagingState.DONE) viewModel.parentViewModel?.yapContactLiveData?.postValue(
+                    mutableListOf()
+                )
             } else {
                 getBinding().txtError.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
-                (getBinding().recycler.adapter as PhoneContactsAdaptor)?.setState(state)
+                getBinding().tvContactListDescription.visibility = View.VISIBLE
                 viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
             }
         })
@@ -62,8 +71,13 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.phoneContactLiveData.observe(this, Observer {
-            (getBinding().recycler.adapter as PhoneContactsAdaptor).submitList(it)
-            (getBinding().recycler.adapter as PhoneContactsAdaptor).setState(PagingState.DONE)
+            adaptor.setList(it)
+            getBinding().tvContactListDescription.visibility =
+                if (it.isEmpty()) View.GONE else View.VISIBLE
+
+        })
+        viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
+            adaptor.filter.filter(it)
         })
     }
 
@@ -78,16 +92,17 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
 //                    Utils.shareText(requireContext(), getBody())
                 }
                 R.id.lyContact -> {
-                    if (data is Contact && data.yapUser!!) {
+                    if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
                         if (parentFragment is YapToYapFragment) {
                             (parentFragment as YapToYapFragment).findNavController().navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                                     data.beneficiaryPictureUrl!!
-                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!
+                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
                                 )
                             )
                         }
                     }
+
                 }
             }
         }
