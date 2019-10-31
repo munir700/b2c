@@ -18,4 +18,5 @@ interface TransactionsApi {
     suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse>
     suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse>
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
+    suspend fun getTransactionDetails(): RetroApiResponse<TransactionDetailsResponse>
 }
