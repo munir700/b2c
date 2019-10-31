@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.home.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
@@ -22,9 +23,6 @@ class YapHomeViewModel(application: Application) :
     IYapHome.ViewModel {
 
 
-    override var MAX_CLOSING_BALANCE: Double = 0.0
-    var closingBalanceArray: ArrayList<Double> = arrayListOf()
-
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
@@ -35,25 +33,32 @@ class YapHomeViewModel(application: Application) :
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
-    override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
-
+    override var MAX_CLOSING_BALANCE: Double = 0.0
+    var closingBalanceArray: ArrayList<Double> = arrayListOf()
     override var homeTransactionsRequest: HomeTransactionsRequest =
-        HomeTransactionsRequest(
-            1,
-            20,
-            0.00,
-            20000.00,
-            true,
-            debitSearch = true,
-            yapYoungTransfer = true
-        )
+        YAPApplication.homeTransactionsRequest
 
     override fun onCreate() {
         super.onCreate()
 //        setUpTransactionsRepo()
 //        requestAccountTransactions()
 //        setUpTransactionsRepo()
+        requestAccountTransactions()
+    }
+
+    override fun filterTransactions() {
+        homeTransactionsRequest = YAPApplication.homeTransactionsRequest
+        isLoadMore.value = false
+        MAX_CLOSING_BALANCE = 0.0
+        closingBalanceArray.clear()
+
+        if (!sortedCombinedTransactionList.isNullOrEmpty()) {
+            sortedCombinedTransactionList.clear()
+
+        }
+
         requestAccountTransactions()
     }
 
@@ -141,12 +146,12 @@ class YapHomeViewModel(application: Application) :
 
                     transactionsLiveData.value = sortedCombinedTransactionList
                     isLoadMore.value = false
-            transactionLogicHelper.transactionList = sortedCombinedTransactionList
+                    transactionLogicHelper.transactionList = sortedCombinedTransactionList
 
-
+                    state.loading = false
                 }
                 is RetroApiResponse.Error -> {
-                    isLoadMore.value = false
+                    state.loading = false
                 }
             }
         }
