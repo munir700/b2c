@@ -15,7 +15,7 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
         }
 
     @get:Bindable
-    override var transactionTitle: String = ""
+    override var transactionTitle: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transactionTitle)

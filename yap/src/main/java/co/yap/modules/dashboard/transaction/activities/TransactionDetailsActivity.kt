@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -17,6 +18,13 @@ import co.yap.yapcore.constants.Constants
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
 
+    companion object{
+        fun newIntent(context: Context, transactionId: String): Intent {
+            val intent = Intent(context, TransactionDetailsActivity::class.java)
+            intent.putExtra(Constants.TRANSACTION_ID, transactionId)
+            return intent
+        }
+    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -28,7 +36,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-
+        viewModel.transactionId = intent.getStringExtra(Constants.TRANSACTION_ID)
     }
 
     var clickEvent = Observer<Int> {
@@ -42,6 +50,10 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     startActivityForResult(TransactionNoteActivity.newIntent(this, viewModel.state.noteValue), Constants.INTENT_ADD_NOTE_REQUEST)
                 }
         }
+    }
+
+    private fun setUpData(){
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

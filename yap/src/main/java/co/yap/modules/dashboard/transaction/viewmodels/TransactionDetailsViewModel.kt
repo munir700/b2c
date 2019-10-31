@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.Application
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
@@ -16,14 +18,18 @@ class TransactionDetailsViewModel(application: Application) :
 
     override val state: TransactionDetailsState = TransactionDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    private var transactionRepository: TransactionsRepository = TransactionsRepository
+    override var transactionId: String = ""
+
 
     @SuppressLint("SimpleDateFormat")
     override fun onCreate() {
         super.onCreate()
+        getTransactionDetails()
         val dateString = Calendar.getInstance().time
         val dateFormat = SimpleDateFormat("MMM dd, YYYY ・ HH:mmaa")
         state.toolBarTitle = dateFormat.format(dateString)
-        state.transactionTitle = "Transaction Details"
+
         state.spentTitle = "Spent"
         state.feeTitle = "Fee"
         state.totalTitle = "Total"
@@ -42,12 +48,34 @@ class TransactionDetailsViewModel(application: Application) :
     override fun handlePressOnBackButton(id: Int) {
         clickEvent.postValue(id)
     }
+
     override fun handlePressOnEditNoteClickEvent(id: Int) {
-       clickEvent.postValue(id)
+        clickEvent.postValue(id)
     }
 
     override fun handlePressOnShareButton(id: Int) {
         clickEvent.postValue(id)
+    }
+
+    private fun getTransactionDetails() {
+
+        launch {
+            state.loading = true
+            when (val response = transactionRepository.getTransactionDetails()) {
+                is RetroApiResponse.Success -> {
+                    //success
+                    state.transactionTitle = response.data.data?.title
+
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+
+                }
+            }
+        }
+
     }
 
     private fun addValues(spentAmount: String = "", feeAmount: String = ""): Double {
