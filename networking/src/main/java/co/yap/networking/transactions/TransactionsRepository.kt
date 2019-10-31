@@ -4,11 +4,9 @@ import co.yap.networking.BaseRepository
 import co.yap.networking.RetroNetwork
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.transactions.requestdtos.AddEditNoteRequest
-import co.yap.networking.transactions.requestdtos.AddFundsRequest
-import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
-import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
+import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_ADD_FUNDS = "/transactions/api/top-up"
@@ -21,6 +19,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
     const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
     const val URL_SEARCH_FILTER_AMOUNT = "/transactions/api/transactions/search-filter/amount"
+    const val URL_GET_ACCOUNT_TRANSACTIONS =
+        "/transactions/api/account-transactions/{number}/{size}/"
+    const val URL_GET_CARD_TRANSACTIONS =
+        "/transactions/api/cards-transactions/{number}/{size}/"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -49,7 +51,29 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse> =
         executeSafely(call = { api.addEditNote(addEditNoteRequest) })
 
+    override suspend fun getAccountTransactions(homeTransactionsResponse: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse> =
+        executeSafely(call = {
+            api.getAccountTransactions(
+                homeTransactionsResponse.number,
+                homeTransactionsResponse.size,
+                homeTransactionsResponse.minAmount,
+                homeTransactionsResponse.maxAmount,
+                homeTransactionsResponse.creditSearch,
+                homeTransactionsResponse.debitSearch,
+                homeTransactionsResponse.yapYoungTransfer
+            )
+        })
+
     override suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse> =
         executeSafely(call = { api.getSearchFilterAmount() })
+
+    override suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse> =
+        executeSafely(call = {
+            api.getCardTransactions(
+                cardTransactionRequest.number,
+                cardTransactionRequest.size,
+                cardTransactionRequest.serialNumber
+            )
+        })
 
 }

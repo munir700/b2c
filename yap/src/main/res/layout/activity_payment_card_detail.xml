@@ -78,7 +78,7 @@
                     android:background="@color/divider"
                     android:paddingTop="@dimen/_12sdp" />
 
-                <!--     Transaction List-->
+                <!--     Content List-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvTransaction"
                     android:layout_width="match_parent"

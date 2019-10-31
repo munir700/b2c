@@ -130,6 +130,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <include
+            android:id="@+id/lyInclude"
             layout="@layout/content_fragment_yap_home"
             android:visibility="visible"
             app:viewModel="@{viewModel}" />

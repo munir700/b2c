@@ -33,11 +33,16 @@
     <TextView
         android:id="@+id/tvTransactionName"
         style="@style/ASmall"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/margin_large"
-        app:layout_constraintLeft_toRightOf="@+id/ivTransaction"
+        android:singleLine="true"
+
+        app:layout_constraintBottom_toBottomOf="@+id/tvNameInitials"
+        app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/ivTransaction"
         app:layout_constraintTop_toTopOf="@+id/ivTransaction"
+        android:layout_marginLeft="@dimen/margin_normal"
         tools:text="Amazon" />
 
     <TextView
@@ -73,6 +78,7 @@
         tools:text="AED" />
 
     <View
+        android:id="@+id/view"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/margin_normal"

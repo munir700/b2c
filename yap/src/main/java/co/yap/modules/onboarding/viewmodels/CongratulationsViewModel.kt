@@ -16,7 +16,7 @@ class CongratulationsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        // calculate elapsed time for onboarding
+        // calculate elapsed updatedDate for onboarding
         elapsedOnboardingTime = parentViewModel?.onboardingData?.elapsedOnboardingTime ?: 0
         state.nameList[0] = parentViewModel!!.onboardingData.firstName
         state.ibanNumber = maskIbanNumber(parentViewModel!!.onboardingData.ibanNumber.trim())
