@@ -71,7 +71,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
         rvTransactionsBarChart.adapter =
-            GraphBarsAdapter(mutableListOf(),viewModel.MAX_CLOSING_BALANCE)
+            GraphBarsAdapter(mutableListOf(),viewModel)
 
     }
 
@@ -360,11 +360,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                    /*activity!!.applicationContext,*/
 //                    viewModel.MAX_CLOSING_BALANCE
 //                )
-            rvTransactionsBarChart.layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                true
-            )
+//            rvTransactionsBarChart.layoutManager = LinearLayoutManager(
+//                context,
+//                LinearLayoutManager.HORIZONTAL,
+//                true
+//            )
 //        }
     }
 
