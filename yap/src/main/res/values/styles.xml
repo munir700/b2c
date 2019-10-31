@@ -38,4 +38,13 @@
         parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bg_round_top_corners</item>
     </style>
+
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView" >
+        <item name="android:textSize">@dimen/text_size_c4</item>
+        <item name="android:editTextColor">@color/colorPrimaryDark</item>
+        <item name="android:textStyle">normal</item>
+        <item name="closeIcon">@android:color/transparent</item>
+
+
+    </style>
 </resources>
