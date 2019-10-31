@@ -103,7 +103,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
-                getRecycleViewAdaptor()?.addList(it)
+                getRecycleViewAdaptor()?.setList(it)
             } else {
                 getRecycleViewAdaptor()?.setList(it)
             }
@@ -121,7 +121,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 if (lastVisiblePosition == layoutManager.itemCount - 1) {
                     if (!viewModel.isLoadMore.value!!) {
                         viewModel.isLoadMore.value = true
-                        viewModel.homeTransactionsRequest.number = +1
+                        viewModel.homeTransactionsRequest.number = viewModel.homeTransactionsRequest.number +1
                         viewModel.loadMore()
                     }
                 }
