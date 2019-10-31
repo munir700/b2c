@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -10,14 +11,18 @@ import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsV
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.interfaces.OnItemClickListener
 
-class TransactionsHeaderAdapter(private val list: MutableList<HomeTransactionListData>) :
+class TransactionsHeaderAdapter(
+    private val list: MutableList<HomeTransactionListData>,
+    private val adaptorClick: OnItemClickListener
+) :
     BaseBindingRecyclerAdapter<HomeTransactionListData, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list_header
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as HeaderViewHolder).onBind(list[position])
+        (holder as HeaderViewHolder).onBind(list[position], adaptorClick)
     }
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
@@ -27,7 +32,7 @@ class TransactionsHeaderAdapter(private val list: MutableList<HomeTransactionLis
     class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransactionListHeaderBinding) :
         RecyclerView.ViewHolder(itemTransactionListHeaderBinding.root) {
 
-        fun onBind(homeTransaction: HomeTransactionListData) {
+        fun onBind(homeTransaction: HomeTransactionListData, adaptorClick: OnItemClickListener) {
 
             itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date
             itemTransactionListHeaderBinding.tvTotalAmount.text = homeTransaction.totalAmount
@@ -41,11 +46,19 @@ class TransactionsHeaderAdapter(private val list: MutableList<HomeTransactionLis
             val snapHelper = PagerSnapHelper()
             itemTransactionListHeaderBinding.rvExpandedTransactionsListing.onFlingListener = null
             snapHelper.attachToRecyclerView(itemTransactionListHeaderBinding.rvExpandedTransactionsListing)
-            itemTransactionListHeaderBinding.rvExpandedTransactionsListing.adapter =
-                TransactionsListingAdapter(
-                    itemTransactionListHeaderBinding.rvExpandedTransactionsListing.context,
-                    homeTransaction.content as ArrayList<Content>
-                )
+
+            val mutableList = mutableListOf<Content>()
+            mutableList.addAll(homeTransaction.content)
+
+            val adaptor =
+                TransactionsListingAdapter(mutableList)
+            itemTransactionListHeaderBinding.rvExpandedTransactionsListing.adapter = adaptor
+            adaptor.allowFullItemClickListener = true
+            adaptor.setItemListener(object : OnItemClickListener {
+                override fun onItemClick(view: View, data: Any, pos: Int) {
+                    adaptorClick.onItemClick(view, data, pos)
+                }
+            })
 
             itemTransactionListHeaderBinding.viewModel =
                 ItemHeaderTransactionsViewModel(homeTransaction)

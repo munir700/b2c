@@ -8,7 +8,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.view.View
 import android.view.Window
 import android.widget.ImageView
@@ -33,6 +32,7 @@ import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
@@ -405,7 +405,15 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         rvTransaction.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(this)
         rvTransaction.layoutManager = layoutManager
-        rvTransaction.adapter = TransactionsHeaderAdapter(mutableListOf())
+        rvTransaction.adapter = TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
+    }
+
+    private val adaptorlistener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Content) {
+
+            }
+        }
     }
 
     override fun onDestroy() {

@@ -14,6 +14,7 @@ import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.FragmentYapHomeBinding
+import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
@@ -29,6 +30,7 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
+import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
@@ -38,6 +40,7 @@ import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
+import kotlinx.android.synthetic.main.view_graph.*
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -63,10 +66,28 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun initComponents() {
+//        setUpGraph()
+
         rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf())
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
+            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
+
+
+        rvTransactionsBarChart.adapter =
+            GraphBarsAdapter(mutableListOf(), viewModel.MAX_CLOSING_BALANCE)
+
     }
+
+
+    private val adaptorlistener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Content) {
+
+            }
+        }
+    }
+
 
     override fun setObservers() {
         listenForToolbarExpansion()
@@ -79,11 +100,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             viewModel.debitCardSerialNumber
                         )
                     )
-                    //findNavController().navigate(R.id.action_yapHome_to_setCardPinWelcomeActivity)
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
-                    if (viewModel.transactionLogicHelper.transactionList.size == 0) {
+                    if (null != viewModel.transactionLogicHelper.transactionList && viewModel.transactionLogicHelper.transactionList!!.size == 0) {
                         showErrorSnackBar("No Transactions Found")
                         return@Observer
                     }
@@ -111,11 +131,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
                 getRecycleViewAdaptor()?.setList(it)
+                getGraphRecycleViewAdapter()?.setList(it)
             } else {
                 getRecycleViewAdaptor()?.setList(it)
+                getGraphRecycleViewAdapter()?.setList(it)
             }
         })
 
+//        getGraphRecycleViewAdapter()?.setItemListener(listener)
         getRecycleViewAdaptor()?.setItemListener(listener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
         //getBindings().lyInclude.rvTransaction.addOnScrollListener(endlessScrollListener)
@@ -340,6 +363,30 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun getRecycleViewAdaptor(): TransactionsHeaderAdapter? {
         return if (rvTransaction.adapter is TransactionsHeaderAdapter) {
             (rvTransaction.adapter as TransactionsHeaderAdapter)
+        } else {
+            null
+        }
+    }
+
+    fun setUpGraph() {
+//        if (!viewModel.transactionLogicHelper.transactionList.isNullOrEmpty()) {
+//            rvTransactionsBarChart.adapter =
+//                GraphBarsAdapter(
+//                    viewModel.transactionLogicHelper.transactionList,
+//                    /*activity!!.applicationContext,*/
+//                    viewModel.MAX_CLOSING_BALANCE
+//                )
+        rvTransactionsBarChart.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            true
+        )
+//        }
+    }
+
+    private fun getGraphRecycleViewAdapter(): GraphBarsAdapter? {
+        return if (rvTransactionsBarChart.adapter is GraphBarsAdapter) {
+            (rvTransactionsBarChart.adapter as GraphBarsAdapter)
         } else {
             null
         }

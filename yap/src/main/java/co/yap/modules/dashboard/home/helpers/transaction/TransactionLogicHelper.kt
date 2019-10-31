@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets
 class TransactionLogicHelper(
     val context: Context
 ) {
-    var transactionList: ArrayList<HomeTransactionListData> = arrayListOf()
+    var transactionList: MutableList<HomeTransactionListData> = mutableListOf()
+
+//    var transactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 //    var transactioncontentList: List<Content> = arrayListOf()
 
     init {
@@ -21,7 +23,8 @@ class TransactionLogicHelper(
 //    val transactioModelList: ArrayList<HomeTransactionListData> = ArrayList<HomeTransactionListData>()
 
     private fun loadJSONDummyList(): ArrayList<HomeTransactionListData> {
-        val transactioModelList: ArrayList<HomeTransactionListData> = ArrayList<HomeTransactionListData>()
+        val transactioModelList: ArrayList<HomeTransactionListData> =
+            ArrayList<HomeTransactionListData>()
 
 //        val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
 //        if (mainObj != null) {
