@@ -141,6 +141,7 @@ class YapHomeViewModel(application: Application) :
 
                     transactionsLiveData.value = sortedCombinedTransactionList
                     isLoadMore.value = false
+            transactionLogicHelper.transactionList = sortedCombinedTransactionList
 
 
                 }
@@ -212,8 +213,10 @@ class YapHomeViewModel(application: Application) :
             )
             transactionModelData.add(transactionModel)
 
-            transactionLogicHelper.transactionList =
-                transactionModelData
+//            transactionLogicHelper.transactionList = transactionModelData
+
+//            transactionLogicHelper.transactionList =
+//                transactionModelData
             MAX_CLOSING_BALANCE =
                 closingBalanceArray.max()!!
         }
