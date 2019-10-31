@@ -15,7 +15,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter.Companion.isCellHighlighted
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter.Companion.isCellHighlightedFromTransaction
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter.Companion.previouslySelected
@@ -167,11 +166,11 @@ class TransactionsViewHelper(
 //                   /* context,*/
 //                    viewModel.MAX_CLOSING_BALANCE
 //                )
-            transactionsView.rvTransactionsBarChart.layoutManager = LinearLayoutManager(
-                context,
-                LinearLayoutManager.HORIZONTAL,
-                true
-            )
+        transactionsView.rvTransactionsBarChart.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            true
+        )
 //        }
     }
 

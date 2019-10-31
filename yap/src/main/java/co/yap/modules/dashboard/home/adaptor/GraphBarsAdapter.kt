@@ -16,7 +16,7 @@ class GraphBarsAdapter(
 //    private val listItems: MutableLiveData<List<HomeTransactionListData>>,
     /*val context: Context,*/
     val maxClosingBalance: Double
-) : BaseBindingRecyclerAdapter<HomeTransactionListData, GraphBarsAdapter.ViewHolder>()/*,
+) : BaseBindingRecyclerAdapter<HomeTransactionListData, GraphBarsAdapter.ViewHolder>(listItems)/*,
     View.OnFocusChangeListener*/ {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_bar_chart
