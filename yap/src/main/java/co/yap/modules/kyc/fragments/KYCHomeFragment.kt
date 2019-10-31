@@ -60,6 +60,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     }
                 }
                 R.id.tvSkip -> {
+                    checkScanned = false
                     findNavController().navigate(R.id.action_goto_DashboardActivity)
                     activity?.finish()
                 }
