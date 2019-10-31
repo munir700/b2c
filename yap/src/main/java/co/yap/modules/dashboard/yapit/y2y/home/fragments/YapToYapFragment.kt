@@ -40,7 +40,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         super.onViewCreated(view, savedInstanceState)
         setupAdaptor()
         setupTabs()
-        setSearchView()
+        setSearchView(viewModel.parentViewModel?.isSearching?.value!!)
         setupRecent()
     }
 
@@ -83,13 +83,23 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
         getBindingView().viewPager.offscreenPageLimit = 1
     }
 
-    private fun setSearchView() {
+    private fun setSearchView(show: Boolean) {
+        getBindingView().layoutSearchView.ivSearch.visibility =
+            if (!show) View.VISIBLE else View.GONE
+        getBindingView().layoutSearchView.tvSearch.visibility =
+            if (!show) View.VISIBLE else View.GONE
+        getBindingView().layoutSearchView.svContacts.visibility =
+            if (!show) View.GONE else View.VISIBLE
 
-        if (!viewModel.parentViewModel?.isSearching?.value!!) {
-            getBindingView().svContacts.isIconified = true
-            getBindingView().run { svContacts.setIconifiedByDefault(true) }
+        if (!show) {
+            getBindingView().layoutSearchView.svContacts.isIconified = true
+            getBindingView().run { layoutSearchView.svContacts.setIconifiedByDefault(false) }
+            getBindingView().tvCancel.visibility = View.GONE
         } else {
-            getBindingView().svContacts.setOnQueryTextListener(object :
+            getBindingView().tvCancel.visibility = View.VISIBLE
+            getBindingView().layoutSearchView.svContacts.isIconified = false
+            getBindingView().run { layoutSearchView.svContacts.setIconifiedByDefault(false) }
+            getBindingView().layoutSearchView.svContacts.setOnQueryTextListener(object :
                 SearchView.OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     viewModel.parentViewModel?.searchQuery?.value = query
@@ -101,15 +111,12 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
                     return true
                 }
             })
-            getBindingView().svContacts.isIconified = false
-            getBindingView().run { svContacts.setIconifiedByDefault(false) }
         }
-
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
-            R.id.svContacts -> {
+            R.id.layoutSearchView -> {
                 if (!viewModel.parentViewModel?.isSearching?.value!!) {
                     startActivity(
                         YapToYapDashboardActivity.getIntent(
@@ -119,6 +126,9 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
                         )
                     )
                 }
+            }
+            R.id.tvCancel -> {
+              activity?.finish()
             }
         }
     }
