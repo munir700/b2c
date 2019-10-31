@@ -28,8 +28,8 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar
-import co.yap.yapcore.helpers.EndlessScrollListener
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -126,7 +126,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 if (lastVisiblePosition == layoutManager.itemCount - 1) {
                     if (!viewModel.isLoadMore.value!!) {
                         viewModel.isLoadMore.value = true
-                        viewModel.homeTransactionsRequest.number = viewModel.homeTransactionsRequest.number +1
+                        viewModel.homeTransactionsRequest.number =
+                            viewModel.homeTransactionsRequest.number + 1
                         viewModel.loadMore()
                     }
                 }
@@ -327,9 +328,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            val action =
-//                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((data as Store).id.toString())
-//            view.findNavController().navigate(action)
+            (data as HomeTransactionListData).content.get(0).transactionId
         }
     }
 
