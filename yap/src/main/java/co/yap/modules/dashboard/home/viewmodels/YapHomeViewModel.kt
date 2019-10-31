@@ -38,7 +38,7 @@ class YapHomeViewModel(application: Application) :
     override val isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
-    override val homeTransactionsRequest: HomeTransactionsRequest =
+    override var homeTransactionsRequest: HomeTransactionsRequest =
         HomeTransactionsRequest(
             1,
             20,
@@ -66,12 +66,10 @@ class YapHomeViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     val transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
-//                    transactionsLiveData.value = transactionModelData
-//                    isLoadMore.value = false
-                    //
 
-// reorder & sort
-                    sortedCombinedTransactionList.addAll(transactionModelData)
+                    if (!sortedCombinedTransactionList.equals(transactionModelData)) {
+                        sortedCombinedTransactionList.addAll(transactionModelData)
+                    }
 
                     val unionList =
                         (sortedCombinedTransactionList.asSequence() + transactionModelData.asSequence())
@@ -79,7 +77,7 @@ class YapHomeViewModel(application: Application) :
                             .groupBy({ it.date })
 
                     for (lists in unionList.entries) {
-                        if (lists.value.size > 1) {
+                        if (lists.value.size > 1) {// sortedCombinedTransactionList.equals(transactionModelData fails in this case
                             var contentsList: ArrayList<Content> = arrayListOf()
 
                             for (transactionsDay in lists.value) {
@@ -132,18 +130,16 @@ class YapHomeViewModel(application: Application) :
                             }
                             if (replaceNow) {
                                 sortedCombinedTransactionList.add(
-                                    sortedCombinedTransactionList.size,
+                                    numberstoReplace,
                                     transactionModel
                                 )
                                 replaceNow = false
                             }
                         }
                     }
-//
-//                    transactionsLiveData.value.
-                    //first clear the older one right now its adding the newly sorted list with old one
+//                    sortedCombinedTransactionList.sortBy { it ->  it.date  }
 
-                     transactionsLiveData.value = sortedCombinedTransactionList
+                    transactionsLiveData.value = sortedCombinedTransactionList
                     isLoadMore.value = false
 
 
@@ -180,8 +176,6 @@ class YapHomeViewModel(application: Application) :
             convertDate(item.creationDate!!)
         }
 
-//        println(groupByDate.entries.joinToString(""))
-
         var transactionModelData: ArrayList<HomeTransactionListData> =
             arrayListOf()
 
@@ -189,8 +183,6 @@ class YapHomeViewModel(application: Application) :
 
 
             var contentsList: ArrayList<Content> = arrayListOf()
-            println(transactionsDay.key)
-            println(transactionsDay.value)
             contentsList = transactionsDay.value as ArrayList<Content>
             contentsList.sortByDescending { it ->
                 it.creationDate
