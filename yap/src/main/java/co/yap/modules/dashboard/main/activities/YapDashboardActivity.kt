@@ -68,6 +68,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
+        setupYapButton()
+    }
+
+    private fun setupYapButton() {
         val menu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
@@ -324,7 +328,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         })
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
