@@ -49,7 +49,6 @@ class YapToYapViewModel(application: Application) : Y2YBaseViewModel<IYapToYap.S
                     }else{
                         recentTransferData.value  = false
                     }
-
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

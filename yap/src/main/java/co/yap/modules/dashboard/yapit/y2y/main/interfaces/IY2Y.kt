@@ -1,8 +1,6 @@
 package co.yap.modules.dashboard.yapit.y2y.main.interfaces
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.paging.PagedList
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent

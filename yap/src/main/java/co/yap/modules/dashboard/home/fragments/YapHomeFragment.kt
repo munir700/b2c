@@ -29,8 +29,9 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
-import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+ import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
+ import co.yap.networking.transactions.responsedtos.transaction.Content
+ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -68,13 +69,22 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //        setUpGraph()
 
         rvTransaction.adapter =
-            TransactionsHeaderAdapter(mutableListOf())
+            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
 
 
-        rvTransactionsBarChart.adapter =
-            GraphBarsAdapter(mutableListOf(), viewModel)
+        rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
     }
+
+
+    private val adaptorlistener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Content) {
+
+            }
+        }
+    }
+
 
     override fun setObservers() {
         listenForToolbarExpansion()
@@ -87,7 +97,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             viewModel.debitCardSerialNumber
                         )
                     )
-                    //findNavController().navigate(R.id.action_yapHome_to_setCardPinWelcomeActivity)
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
@@ -339,7 +348,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun getFilterTransactions() {
         rvTransaction.adapter =
-            TransactionsHeaderAdapter(mutableListOf())
+            TransactionsHeaderAdapter(mutableListOf(),listener)
 
 
         rvTransactionsBarChart.adapter =
@@ -370,11 +379,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //                    /*activity!!.applicationContext,*/
 //                    viewModel.MAX_CLOSING_BALANCE
 //                )
+
 //            rvTransactionsBarChart.layoutManager = LinearLayoutManager(
 //                context,
 //                LinearLayoutManager.HORIZONTAL,
 //                true
 //            )
+
 //        }
     }
 
