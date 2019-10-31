@@ -65,10 +65,11 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     }
 
     fun setList(list: List<T>) {
-        this.list.clear()
-        this.list.addAll(list)
-        notifyDataSetChanged()
-        updateLists()
+            this.list.clear()
+            this.list.addAll(list)
+            notifyDataSetChanged()
+            updateLists()
+
     }
 
     private fun updateLists() {
