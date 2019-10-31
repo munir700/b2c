@@ -22,7 +22,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     InvitePhoneContactBottomSheet.OnItemClickListener {
 
-
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_phone_contacts
     private lateinit var inviteFriendBottomSheet: InvitePhoneContactBottomSheet
@@ -102,7 +101,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                             )
                         }
                     }
-
                 }
             }
         }
