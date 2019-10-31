@@ -96,10 +96,10 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         return@Observer
                     }
 
-//                    startActivityForResult(
-//                        TransactionFiltersActivity.newIntent(requireContext()),
-//                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
-//                    )
+                    startActivityForResult(
+                        TransactionFiltersActivity.newIntent(requireContext()),
+                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
+                    )
                 }
             }
         })
