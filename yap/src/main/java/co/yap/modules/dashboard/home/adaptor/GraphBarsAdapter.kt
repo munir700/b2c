@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemBarChartBinding
 import co.yap.modules.dashboard.home.ChartView
+import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import kotlinx.android.synthetic.main.item_bar_chart.view.*
@@ -15,14 +16,15 @@ class GraphBarsAdapter(
     private val listItems: MutableList<HomeTransactionListData>,
 //    private val listItems: MutableLiveData<List<HomeTransactionListData>>,
     /*val context: Context,*/
-    val maxClosingBalance: Double
-) : BaseBindingRecyclerAdapter<HomeTransactionListData, GraphBarsAdapter.ViewHolder>(listItems)/*,
-    View.OnFocusChangeListener*/ {
+     val viewModel: IYapHome.ViewModel
+) : BaseBindingRecyclerAdapter<HomeTransactionListData, GraphBarsAdapter.ViewHolder>(listItems),
+    View.OnFocusChangeListener {
+
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_bar_chart
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
-        return ViewHolder(binding as ItemBarChartBinding,maxClosingBalance)
+        return ViewHolder(binding as ItemBarChartBinding,viewModel.MAX_CLOSING_BALANCE)
     }
 
 
@@ -51,40 +53,45 @@ class GraphBarsAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         (holder as ViewHolder).onBind(listItems[position])
 
-//        viewHolder = holder
-//        val transactionModel: HomeTransactionListData = listItems!![position]
-//        transactionModel.amountPercentage =
-//            calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance)
-//        holder.transactionBar.onFocusChangeListener = this
-//        holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
-//
-//        holder.itemView.setOnClickListener(object : View.OnClickListener {
-//            override fun onClick(v: View?) {
-//                if (isCellHighlighted) {
-//                    if (isCellHighlightedFromTransaction) {
-//                        holder.transactionBar.unSelectHighlightedBarOnTransactionCellClick(true)
-//                    } else {
-//                        holder.transactionBar.unSelectHighlightedBarOnTransactionCellClick(false)
-//                    }
-//                } else {
-//                    holder.transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
-//                }
-//            }
-//
-//        })
-//        if (position == 0) {
-//            holder.transactionBar.OnBarItemTouchEvent()
-//        }
+        viewHolder = holder
+        val transactionModel: HomeTransactionListData = listItems!![position]
+        transactionModel.amountPercentage =
+            calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance)
+        holder.transactionBar.onFocusChangeListener = this
+        holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
+
+        holder.itemView.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                if (isCellHighlighted) {
+                    if (isCellHighlightedFromTransaction) {
+                        holder.transactionBar.unSelectHighlightedBarOnTransactionCellClick(true)
+                    } else {
+                        holder.transactionBar.unSelectHighlightedBarOnTransactionCellClick(false)
+                    }
+                } else {
+                    holder.transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
+                }
+            }
+
+        })
+        if (position == 0) {
+            holder.transactionBar.OnBarItemTouchEvent()
+        }
+    }
+
+    fun calculatePercentagePerDayFromClosingBalance(closingBalance: Double): Double {
+
+        return (closingBalance / viewModel.MAX_CLOSING_BALANCE) * 100
+
+
     }
 
 
-
-
-//    override fun onFocusChange(v: View?, hasFocus: Boolean) {
-//        if (!viewHolder.transactionBar.hasFocus()) {
-//            viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
-//        }
-//    }
+    override fun onFocusChange(v: View?, hasFocus: Boolean) {
+        if (!viewHolder.transactionBar.hasFocus()) {
+            viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
+        }
+    }
 
 //    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 //        val transactionBar: ChartView = itemView.transactionBar
@@ -100,36 +107,37 @@ class GraphBarsAdapter(
         val maxClosingBalance: Double
     ) :
         RecyclerView.ViewHolder(itemBarChartBinding.root) {
+        val transactionBar: ChartView = itemView.transactionBar
         //
 //        val transactionBar: ChartView = itemView.transactionBar
 
         fun onBind(transactionModel: HomeTransactionListData) {
 //            itemBarChartBinding.transactionBar= homeTransaction.date
 
-            val transactionBar: ChartView = itemView.transactionBar
+//            val transactionBar: ChartView = itemView.transactionBar
 
-//            viewHolder = holder
-             transactionModel.amountPercentage =  calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance)
-//           transactionBar.onFocusChangeListener = this
-            transactionBar.setBarHeight(transactionModel.amountPercentage)
-
-            itemView.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
-                    if (isCellHighlighted) {
-                        if (isCellHighlightedFromTransaction) {
-                            transactionBar.unSelectHighlightedBarOnTransactionCellClick(true)
-                        } else {
-                            transactionBar.unSelectHighlightedBarOnTransactionCellClick(false)
-                        }
-                    } else {
-                        transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
-                    }
-                }
-
-            })
-            if (position == 0) {
-                transactionBar.OnBarItemTouchEvent()
-            }
+////            viewHolder = holder
+//             transactionModel.amountPercentage =  calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance)
+////           transactionBar.onFocusChangeListener = this
+//            transactionBar.setBarHeight(transactionModel.amountPercentage)
+//
+//            itemView.setOnClickListener(object : View.OnClickListener {
+//                override fun onClick(v: View?) {
+//                    if (isCellHighlighted) {
+//                        if (isCellHighlightedFromTransaction) {
+//                            transactionBar.unSelectHighlightedBarOnTransactionCellClick(true)
+//                        } else {
+//                            transactionBar.unSelectHighlightedBarOnTransactionCellClick(false)
+//                        }
+//                    } else {
+//                        transactionBar.unSelectHighlightedBarOnGraphClick(isCellHighlighted)
+//                    }
+//                }
+//
+//            })
+//            if (position == 0) {
+//                transactionBar.OnBarItemTouchEvent()
+//            }
 
         }
         fun calculatePercentagePerDayFromClosingBalance(closingBalance: Double): Double {

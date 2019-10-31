@@ -8,8 +8,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.modules.transaction_filters.interfaces.ITransactionFilters
 import co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
@@ -115,14 +117,17 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun setFilterValues() {
-        val data = Intent()
-        data.putExtra(KEY_FILTER_IN_TRANSACTION, cbInTransFilter.isChecked)
-        data.putExtra(KEY_FILTER_OUT_TRANSACTION, cbOutTransFilter.isChecked)
-        data.putExtra(KEY_FILTER_START_AMOUNT, rsbAmount.leftSeekBar.progress.toInt())
-        data.putExtra(KEY_FILTER_END_AMOUNT, rsbAmount.rightSeekBar.progress.toInt())
 
-        setResult(INTENT_FILTER_REQUEST, data)
+        YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
+            1, 20,
+            rsbAmount.leftSeekBar.progress.toDouble(), rsbAmount.rightSeekBar.progress.toDouble(),
+            cbInTransFilter.isChecked, cbOutTransFilter.isChecked,
+            true
+        )
+
+        setResult(INTENT_FILTER_REQUEST)
         finish()
     }
+
 
 }

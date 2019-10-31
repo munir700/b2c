@@ -16,7 +16,7 @@ interface IYapHome {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val homeTransactionsRequest: HomeTransactionsRequest
+        var homeTransactionsRequest: HomeTransactionsRequest
         val EVENT_SET_CARD_PIN: Int get() = 1
         val EVENT_SET_COMPLETE_VEERIFICATION: Int get() = 2
         var MAX_CLOSING_BALANCE: Double
@@ -26,8 +26,9 @@ interface IYapHome {
         val transactionLogicHelper: TransactionLogicHelper
         fun handlePressOnView(id: Int)
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
-        val isLoadMore: MutableLiveData<Boolean>
+        var isLoadMore: MutableLiveData<Boolean>
         fun loadMore()
+        fun filterTransactions()
 
     }
 
