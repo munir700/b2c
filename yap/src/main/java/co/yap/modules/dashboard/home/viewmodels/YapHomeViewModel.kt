@@ -50,7 +50,6 @@ class YapHomeViewModel(application: Application) :
 
     override fun filterTransactions() {
         homeTransactionsRequest = YAPApplication.homeTransactionsRequest
-        isLoadMore.value = false
         MAX_CLOSING_BALANCE = 0.0
         closingBalanceArray.clear()
 
@@ -145,7 +144,8 @@ class YapHomeViewModel(application: Application) :
 //                    sortedCombinedTransactionList.sortBy { it ->  it.date  }
 
                     transactionsLiveData.value = sortedCombinedTransactionList
-                    isLoadMore.value = false
+                    if (isLoadMore.value!!)
+                        isLoadMore.value = false
                     transactionLogicHelper.transactionList = sortedCombinedTransactionList
 
                     state.loading = false

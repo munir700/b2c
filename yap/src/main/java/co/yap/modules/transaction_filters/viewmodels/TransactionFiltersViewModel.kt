@@ -48,7 +48,7 @@ class TransactionFiltersViewModel(application: Application) :
         val startRangeValue =
             Utils.getFormattedCurrencyWithoutDecimal(seekBar.leftSeekBar.progress.toString())
         val endRangeValues =
-            Utils.getFormattedCurrencyWithoutDecimal(seekBar.rightSeekBar.progress.toString())
+            Utils.getFormattedCurrencyWithoutDecimal(seekBar.maxProgress.toString())
         state.rangeStartValue.set(startRangeValue)
         state.rangeEndValue.set(endRangeValues)
     }

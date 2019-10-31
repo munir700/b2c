@@ -146,14 +146,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 if (lastVisiblePosition == layoutManager.itemCount - 1) {
                     if (!viewModel.isLoadMore.value!!) {
                         viewModel.isLoadMore.value = true
-                        viewModel.homeTransactionsRequest.number =
-                            viewModel.homeTransactionsRequest.number + 1
-                        viewModel.loadMore()
                     }
                 }
             }
         })
 
+        viewModel.isLoadMore.observe(this, Observer {
+            if (it) {
+                viewModel.homeTransactionsRequest.number =
+                    viewModel.homeTransactionsRequest.number + 1
+                val item =
+                    getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)?.copy()
+                item?.totalAmount = "loader"
+                getRecycleViewAdaptor()?.addListItem(item!!)
+                viewModel.loadMore()
+            } else {
+                if (getRecycleViewAdaptor()?.itemCount!! > 0)
+                    getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
+            }
+
+        })
     }
 
     private fun checkUserStatus() {

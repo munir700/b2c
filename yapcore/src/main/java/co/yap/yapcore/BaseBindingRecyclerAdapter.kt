@@ -67,10 +67,10 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     }
 
     fun setList(list: List<T>) {
-            this.list.clear()
-            this.list.addAll(list)
-            notifyDataSetChanged()
-            updateLists()
+        this.list.clear()
+        this.list.addAll(list)
+        notifyDataSetChanged()
+        updateLists()
 
     }
 
@@ -78,6 +78,11 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
         duplicate = mutableListOf()
         duplicate.addAll(list)
         filter = ItemFilter(list)
+    }
+
+    fun addListItem(list: T) {
+        this.list.add(list)
+        notifyItemInserted(this.list.size)
     }
 
     fun addList(list: List<T>) {

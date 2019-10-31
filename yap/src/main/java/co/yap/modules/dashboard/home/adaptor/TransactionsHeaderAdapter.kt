@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
+import co.yap.databinding.ItemEmptyBinding
 import co.yap.databinding.ItemTransactionListHeaderBinding
 import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsViewModel
 import co.yap.networking.transactions.responsedtos.transaction.Content
@@ -19,14 +20,38 @@ class TransactionsHeaderAdapter(
 ) :
     BaseBindingRecyclerAdapter<HomeTransactionListData, RecyclerView.ViewHolder>(list) {
 
-    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_transaction_list_header
+    private val empty = 1
+    private val actual = 2
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as HeaderViewHolder).onBind(list[position], adaptorClick)
-    }
+    override fun getLayoutIdForViewType(viewType: Int): Int =
+        if (viewType == actual) R.layout.item_transaction_list_header else R.layout.item_empty
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
-        return HeaderViewHolder(binding as ItemTransactionListHeaderBinding)
+        return if (binding is ItemTransactionListHeaderBinding) HeaderViewHolder(binding) else EmptyItemViewHolder(
+            binding as ItemEmptyBinding
+        )
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        if (holder is HeaderViewHolder) {
+            holder.onBind(list[position], adaptorClick)
+        } else {
+            if (holder is EmptyItemViewHolder)
+                holder.onBind(position)
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return if (list[position].totalAmount == "loader") empty else actual
+    }
+
+    class EmptyItemViewHolder(private val itemEmptyBinding: ItemEmptyBinding) :
+        RecyclerView.ViewHolder(itemEmptyBinding.root) {
+
+        fun onBind(position: Int) {
+            itemEmptyBinding.executePendingBindings()
+        }
     }
 
     class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransactionListHeaderBinding) :
