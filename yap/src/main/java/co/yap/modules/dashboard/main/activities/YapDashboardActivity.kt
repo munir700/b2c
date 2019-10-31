@@ -37,9 +37,7 @@ import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
-import co.yap.yapcore.getScreenWidth
 import co.yap.yapcore.helpers.PermissionHelper
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.dimen
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
@@ -60,6 +58,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     lateinit var adapter: YapDashboardAdaptor
     var permissionHelper: PermissionHelper? = null
+    private var actionMenu: FloatingActionMenu? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,7 +67,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
-        val menu = FloatingActionMenu.Builder(this)
+        actionMenu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
@@ -76,7 +75,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 getString(R.string.yap_to_yap),
                 R.drawable.ic_yap_to_yap,
                 R.layout.component_yap_menu_sub_button,
-                this,1
+                this, 1
             )
             .addSubActionView(
                 getString(R.string.top_up),
@@ -88,19 +87,18 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 getString(R.string.send_money),
                 R.drawable.ic_send_money,
                 R.layout.component_yap_menu_sub_button,
-                this,3
+                this, 3
             )
-            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay).setStateChangeListener(object :
-                FloatingActionMenu.MenuStateChangeListener
-            {
+            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+            .setStateChangeListener(object :
+                FloatingActionMenu.MenuStateChangeListener {
                 override fun onMenuOpened(menu: FloatingActionMenu) {
 
                 }
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
-                    when(subActionButtonId)
-                    {
-                        1->checkPermission()
+                    when (subActionButtonId) {
+                        1 -> checkPermission()
 //                        2->checkPermission()
 //                        3->checkPermission()
 
@@ -250,7 +248,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
+        if (actionMenu?.isOpen!!) {
+            actionMenu?.toggle(ivYapIt, true)
+        } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else super.onBackPressed()
     }
 
