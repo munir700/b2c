@@ -55,6 +55,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             transactionFilters.minAmount.toFloat(),
             transactionFilters.maxAmount.toFloat()
         )
+
         rsbAmount?.setProgress(
             transactionFilters.minAmount.toFloat(),
             transactionFilters.maxAmount.toFloat()
@@ -91,8 +92,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     private val searchFilterAmountObserver = Observer<TransactionFilters> {
         if (it != null) {
             setRangeSeekBar(it)
-            // 0 index contains start range 1 index contains end range
-            rsbAmount?.setProgress(it.minAmount.toFloat(), it.maxAmount.toFloat())
         }
     }
 

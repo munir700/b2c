@@ -24,6 +24,7 @@ class YapContactViewModel(application: Application) :
     }
 
     override fun retry() {
+
     }
 
 }
