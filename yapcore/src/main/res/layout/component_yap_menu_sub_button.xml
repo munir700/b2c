@@ -18,11 +18,12 @@
             android:layout_margin="3dp"
             android:backgroundTint="#5e35b1"
             android:tint="@android:color/white"
-            app:fabCustomSize="@dimen/_46sdp"
+            app:fabCustomSize="@dimen/_44sdp"
             app:fabSize="mini"
+            android:layout_gravity="center_horizontal"
             app:elevation="0dp"
-            app:maxImageSize="@dimen/_18sdp"
-            app:srcCompat="@drawable/ic_yap_it" />
+            app:maxImageSize="@dimen/_16sdp"
+            app:srcCompat="@drawable/ic_yap_to_yap" />
 
         <TextView
             android:id="@+id/tvTitle"
@@ -32,7 +33,7 @@
             android:lineSpacingExtra="6sp"
             android:layout_gravity="center"
             android:textColor="#272262"
-            android:textSize="@dimen/_14sdp"
+            android:textSize="@dimen/_12sdp"
             android:textStyle="normal" />
 
 

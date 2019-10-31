@@ -366,6 +366,7 @@ class FloatingActionMenu
             }
 
             override fun onAnimationEnd(animation: Animator?) {
+                mainActionView.elevation = 10F
                 mainActionView.isClickable = true
                 mainActionView.setOnClickListener(ActionViewClickListener())
                 alphaOverlay?.setOnTouchListener(ActionOnTouchListener())
@@ -375,6 +376,7 @@ class FloatingActionMenu
             }
 
             override fun onAnimationStart(animation: Animator?) {
+                mainActionView.elevation = 10F
                 mainActionView.isClickable = false
                 mainActionView.setOnClickListener(null)
                 alphaOverlay?.setOnTouchListener(null)

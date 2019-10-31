@@ -37,7 +37,10 @@ import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.getScreenWidth
 import co.yap.yapcore.helpers.PermissionHelper
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.dimen
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
@@ -67,7 +70,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         val menu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)
-            .setEndAngle(-180).setRadius(230)
+            .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
             .addSubActionView(
                 getString(R.string.yap_to_yap),
