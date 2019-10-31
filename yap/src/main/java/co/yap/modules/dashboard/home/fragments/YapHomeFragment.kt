@@ -29,6 +29,7 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
+import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
@@ -71,7 +72,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
         rvTransactionsBarChart.adapter =
-            GraphBarsAdapter(mutableListOf(),viewModel)
+            GraphBarsAdapter(mutableListOf(), viewModel)
 
     }
 
@@ -94,10 +95,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                         showErrorSnackBar("No Transactions Found")
                         return@Observer
                     }
-                    startActivityForResult(
-                        TransactionFiltersActivity.newIntent(requireContext()),
-                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
-                    )
+
+//                    startActivityForResult(
+//                        TransactionFiltersActivity.newIntent(requireContext()),
+//                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
+//                    )
                 }
             }
         })
@@ -324,18 +326,26 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (null != homeTransactionsRequest) {
-            showToast(YAPApplication.homeTransactionsRequest?.debitSearch.toString() + " debitSearch" + YAPApplication.homeTransactionsRequest?.minAmount.toString() + " ,min,max " + YAPApplication.homeTransactionsRequest?.minAmount.toString())
+//        if (null != homeTransactionsRequest) {
+//            showToast(YAPApplication.homeTransactionsRequest?.debitSearch.toString() + " debitSearch" + YAPApplication.homeTransactionsRequest?.minAmount.toString() + " ,min,max " + YAPApplication.homeTransactionsRequest?.minAmount.toString())
+//
+//        }
+
+        if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
+            getFilterTransactions()
 
         }
-//        if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
-//            showToast(
-//                "data received " + data!!.getIntExtra(
-//                    TransactionFiltersActivity.KEY_FILTER_START_AMOUNT,
-//                    0
-//                )
-//            )
-//        }
+    }
+
+    private fun getFilterTransactions() {
+        rvTransaction.adapter =
+            TransactionsHeaderAdapter(mutableListOf())
+
+
+        rvTransactionsBarChart.adapter =
+            GraphBarsAdapter(mutableListOf(), viewModel)
+
+        viewModel.filterTransactions()
     }
 
     val listener = object : OnItemClickListener {
