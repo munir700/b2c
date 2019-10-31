@@ -28,7 +28,7 @@ class RecentTransferItemVM : BaseListItemViewModel<RecentBeneficiary>() {
         navigation?.navigate(
             YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                 (data as RecentBeneficiary).beneficiaryPictureUrl
-                , data.accountUuid, data.title, pos
+                , data.beneficiaryUuid, data.title, pos
             )
         )
     }
