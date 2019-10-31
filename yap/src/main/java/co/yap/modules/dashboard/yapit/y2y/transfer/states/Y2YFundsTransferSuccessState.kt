@@ -7,6 +7,7 @@ import co.yap.yapcore.BaseState
 
 
 class Y2YFundsTransferSuccessState : BaseState(), IY2YFundsTransferSuccess.State {
+
     @get:Bindable
     override var transferredAmount: String = "AED 500"
         set(value) {
@@ -20,5 +21,10 @@ class Y2YFundsTransferSuccessState : BaseState(), IY2YFundsTransferSuccess.State
             notifyPropertyChanged(BR.title)
         }
 
-
+    @get:Bindable
+    override var imageUrl: String=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.imageUrl)
+        }
 }

@@ -60,4 +60,12 @@ interface TransactionsRetroService {
         @Query("yapYoungTransfer") yapYoungTransfer: Boolean
     ): Response<HomeTransactionsResponse>
 
+    // Get Account Transaction
+    @GET(TransactionsRepository.URL_GET_CARD_TRANSACTIONS)
+    suspend fun getCardTransactions(
+        @Path("number") number: Int,
+        @Path("size") size: Int,
+        @Query("cardSerialNumber") cardSerialNumber: String
+    ): Response<HomeTransactionsResponse>
+
 }
