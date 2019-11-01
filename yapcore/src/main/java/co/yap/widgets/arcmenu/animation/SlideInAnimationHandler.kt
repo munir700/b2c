@@ -72,7 +72,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                     ((menu!!.subActionItems.size - 1) * LAG_BETWEEN_ITEMS).toLong()
                 //animation.setStartDelay((menu.getSubActionItems().size() - i) * LAG_BETWEEN_ITEMS);
             }
-
+            menu!!.mainActionView.isClickable = false
             //animation.setStartDelay(Math.abs(menu.getSubActionItems().size()/2-i) * LAG_BETWEEN_ITEMS);
             animation.start()
         }
@@ -129,10 +129,11 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
         override fun onAnimationStart(animation: Animator) {
             menu!!.mainActionView.isClickable = false
 
+
         }
 
         override fun onAnimationEnd(animation: Animator) {
-            menu!!.mainActionView.isClickable = true
+
             restoreSubActionViewAfterAnimation(subActionItem, actionType)
 
         }
