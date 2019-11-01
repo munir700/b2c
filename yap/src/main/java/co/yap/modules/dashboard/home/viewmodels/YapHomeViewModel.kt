@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.home.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.app.YAPApplication
-import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.modules.dashboard.home.states.YapHomeState
 import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
@@ -26,8 +25,6 @@ class YapHomeViewModel(application: Application) :
     override lateinit var debitCardSerialNumber: String
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: YapHomeState = YapHomeState()
-    override val transactionLogicHelper: TransactionLogicHelper =
-        TransactionLogicHelper(context)
 
     private val cardsRepository: CardsRepository = CardsRepository
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
@@ -61,7 +58,7 @@ class YapHomeViewModel(application: Application) :
         requestAccountTransactions()
     }
 
-     override fun requestAccountTransactions() {
+    override fun requestAccountTransactions() {
         launch {
             if (!isLoadMore.value!!)
                 state.loading = true
@@ -146,7 +143,7 @@ class YapHomeViewModel(application: Application) :
                     transactionsLiveData.value = sortedCombinedTransactionList
                     if (isLoadMore.value!!)
                         isLoadMore.value = false
-                    transactionLogicHelper.transactionList = sortedCombinedTransactionList
+                    //transactionLogicHelper.transactionList = sortedCombinedTransactionList
 
                     state.loading = false
                 }

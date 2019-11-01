@@ -3,24 +3,20 @@ package co.yap.modules.dashboard.home
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.*
-import android.util.AttributeSet
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.LinearLayout
 import co.yap.R
-import kotlin.math.roundToInt
 
-class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
+class ChartView(context: Context, private var barHeight: Int) : View(context),
     View.OnTouchListener, View.OnFocusChangeListener {
 
 
     private var barWeight: Int = 26
-    private var barHeight: Int = 0
-    private var minBarHeight: Int = 0
-    private var maxBarHeight: Int = 100
+    //private var barHeight: Int = 0
+    //private var minBarHeight: Int = 0
+    //private var maxBarHeight: Int = 100
     private var roundRadius: Int = 7
     private var barRadius: Int = 0
     private var seletedColor: Int = 0
@@ -45,7 +41,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
         customizePaint(context)
         this.performClick()
         setOnTouchListener(this)
-
     }
 
     private fun customizeAnimation(context: Context) {
@@ -114,17 +109,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
 
     }
 
-    @SuppressLint("ResourceType")
-    protected override fun onDraw(canvas: Canvas) {
-
-        rectF.set(0f, 0f, barWeight.toFloat(), barHeight.toFloat())
-        canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
-    }
-
-    protected override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
-        setMeasuredDimension(barWeight, barHeight)
-    }
-
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
         fadeOutBarAnimation()
     }
@@ -154,17 +138,6 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
         fadeInAnim(fadeOutBarAnimation)
     }
 
-
-    fun setBarHeight(height: Double) {
-        // layoutParams = LinearLayout.LayoutParams(width, 0, height.toFloat())
-
-        barHeight = ( height.toInt())
-        Log.i("amountPercentage","barHeight is"+barHeight.toString())
-
-        // invalidate()
-    }
-
-
     fun unSelectHighlightedBarOnGraphClick(highlighted: Boolean) {
         fadeOutBarAnimation()
     }
@@ -178,6 +151,26 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
             fadeOutBarAnimation()
 
         }
+    }
+
+//    fun setBarHeight(height: Double) {
+//        // layoutParams = LinearLayout.LayoutParams(width, 0, height.toFloat())
+//
+//        barHeight = (height.toInt())
+//        Log.i("amountPercentage", "barHeight is" + barHeight.toString())
+//
+//        // invalidate()
+//    }
+
+    @SuppressLint("ResourceType")
+    protected override fun onDraw(canvas: Canvas) {
+
+        rectF.set(0f, 0f, barWeight.toFloat(), barHeight.toFloat())
+        canvas.drawRoundRect(rectF, roundRadius.toFloat(), roundRadius.toFloat(), paint)
+    }
+
+    protected override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
+        setMeasuredDimension(barWeight, barHeight)
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {

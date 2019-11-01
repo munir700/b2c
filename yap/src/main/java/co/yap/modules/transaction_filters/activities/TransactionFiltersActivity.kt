@@ -45,8 +45,8 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun initViews() {
-        cbInTransFilter.isChecked = YAPApplication.homeTransactionsRequest.creditSearch
-        cbOutTransFilter.isChecked = YAPApplication.homeTransactionsRequest.debitSearch
+        cbInTransFilter.isChecked = YAPApplication.homeTransactionsRequest.creditSearch!!
+        cbOutTransFilter.isChecked = YAPApplication.homeTransactionsRequest.debitSearch!!
 
     }
 
@@ -71,7 +71,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         )
         if (YAPApplication.homeTransactionsRequest.minAmount != 0.00) {
             rsbAmount?.setProgress(
-                YAPApplication.homeTransactionsRequest.minAmount.toFloat(),
+                YAPApplication.homeTransactionsRequest.minAmount!!.toFloat(),
                 transactionFilters.maxAmount.toFloat()
             )
         }

@@ -68,19 +68,25 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun initComponents() {
 //        setUpGraph()
 
+        rvTransaction.layoutManager = LinearLayoutManager(context)
         rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
 
-        refreshLayout.setOnRefreshListener(this)
+        //refreshLayout.setOnRefreshListener(this)
+        rvTransactionsBarChart.layoutManager = LinearLayoutManager(
+            context,
+            LinearLayoutManager.HORIZONTAL,
+            true
+        )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
     }
 
     override fun onRefresh() {
         viewModel.requestAccountTransactions()
-        refreshLayout.isRefreshing = false
+        //refreshLayout.isRefreshing = false
 
     }
 
@@ -112,7 +118,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
-                    if (null != viewModel.transactionLogicHelper.transactionList && viewModel.transactionLogicHelper.transactionList!!.size == 0) {
+                    if (null != viewModel.transactionsLiveData.value?.isEmpty()) {
                         showErrorSnackBar("No Transactions Found")
                         return@Observer
                     }
@@ -141,11 +147,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
                 getRecycleViewAdaptor()?.setList(it)
-                getGraphRecycleViewAdapter()?.setList(it)
+                //getGraphRecycleViewAdapter()?.setList(it)
             } else {
                 getRecycleViewAdaptor()?.setList(it)
-                getGraphRecycleViewAdapter()?.setList(it)
+                //getGraphRecycleViewAdapter()?.setList(it)
             }
+            getGraphRecycleViewAdapter()?.setList(it)
         })
 
 //        getGraphRecycleViewAdapter()?.setItemListener(listener)
@@ -225,7 +232,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         vGraph.visibility = View.VISIBLE
         view?.let {
             transactionViewHelper = TransactionsViewHelper(
-                this,
                 requireContext(),
                 it,
                 viewModel

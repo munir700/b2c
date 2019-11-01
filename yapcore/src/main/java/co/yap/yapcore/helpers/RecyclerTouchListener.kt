@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 class RecyclerTouchListener(
     context: Context, val checkTouch: Boolean,
     var recyclerView: RecyclerView,
-    private val clickListener: ClickListener?
+    private val clickListener: ClickListener
 ) : RecyclerView.OnItemTouchListener {
 
     private val gestureDetector: GestureDetector
@@ -34,7 +34,7 @@ class RecyclerTouchListener(
 
                 override fun onLongPress(e: MotionEvent) {
                     val child = recyclerView.findChildViewUnder(e.getX(), e.getY())
-                    if (child != null && clickListener != null) {
+                    if (child != null) {
                         clickListener.onLongClick(
                             child,
                             recyclerView.getChildAdapterPosition(child)
@@ -47,18 +47,14 @@ class RecyclerTouchListener(
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
 
         val child = recyclerView.findChildViewUnder(e.getX(), e.getY())
-        if (child != null && clickListener != null) {
-//            clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
-            clickListener!!.onItemTouchEvent(child, recyclerView.getChildAdapterPosition(child!!))
-//            return false
+        if (child != null) {
+            clickListener.onItemTouchEvent(child, recyclerView.getChildAdapterPosition(child))
         }
 
         when (e.action) {
-
-
             MotionEvent.ACTION_UP -> {
-                if (child != null && clickListener != null) {
-                    clickListener!!.scrollOnItemsTouchEvent(
+                if (child != null) {
+                    clickListener.scrollOnItemsTouchEvent(
                         child,
                         recyclerView.getChildAdapterPosition(child!!)
                     )
@@ -75,7 +71,6 @@ class RecyclerTouchListener(
 //        if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
 //            clickListener.onClick(child, rv.getChildAdapterPosition(child))
 //        }
-
         return false
     }
 

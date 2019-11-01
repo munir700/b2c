@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.home.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
@@ -24,7 +23,6 @@ interface IYapHome {
         var debitCardSerialNumber: String
         val clickEvent: SingleClickEvent
         fun getDebitCards()
-        val transactionLogicHelper: TransactionLogicHelper
         fun handlePressOnView(id: Int)
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
         var isLoadMore: MutableLiveData<Boolean>
