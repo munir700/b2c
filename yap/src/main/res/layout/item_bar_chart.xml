@@ -25,4 +25,31 @@
         android:id="@+id/transactionBar"
         android:layout_width="wrap_content"
         android:layout_height="0dp" />
-    </LinearLayout></layout>
+    </LinearLayout>
+
+
+
+
+<!--    <LinearLayout-->
+
+<!--        android:id="@+id/chartContainer"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="bottom"-->
+<!--        android:layout_marginLeft=".2dp"-->
+<!--        android:layout_marginRight=".2dp"-->
+<!--        android:gravity="bottom"-->
+
+<!--        android:background="@color/warning"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <co.yap.modules.dashboard.home.ChartView-->
+<!--            android:id="@+id/transactionBar"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="0dp"-->
+<!--            android:foregroundGravity="bottom" />-->
+<!--    </LinearLayout>-->
+
+
+</layout>
