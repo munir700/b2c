@@ -64,9 +64,8 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             transactionFilters.maxAmount.toFloat()
         )
 
-
         rsbAmount?.setProgress(
-            transactionFilters.minAmount.toFloat(),
+            transactionFilters.maxAmount.toFloat(),
             transactionFilters.maxAmount.toFloat()
         )
         if (YAPApplication.homeTransactionsRequest.minAmount != 0.00) {
@@ -122,20 +121,23 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun resetAllFilters() {
-        rsbAmount?.setProgress(
-            viewModel.transactionFilters.value?.minAmount?.toFloat()!!,
-            viewModel.transactionFilters.value?.maxAmount?.toFloat()!!
+
+        YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
+            1, 20,
+           null, null,
+            null, null,
+            0,
+            null
         )
-        viewModel.updateRangeValue(rsbAmount)
-        cbInTransFilter.isChecked = false
-        cbOutTransFilter.isChecked = false
+        finish()
+
     }
 
     private fun setFilterValues() {
         var count = 0
         if (cbOutTransFilter.isChecked) count++
         if (cbInTransFilter.isChecked) count++
-        if (rsbAmount.leftSeekBar.progress.toFloat() != viewModel.transactionFilters.value?.minAmount?.toFloat()!!) count++
+        if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.minAmount?.toFloat()!!) count++
         YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
             1, 20,
             rsbAmount.leftSeekBar.progress.toDouble(), rsbAmount.maxProgress.toDouble(),
