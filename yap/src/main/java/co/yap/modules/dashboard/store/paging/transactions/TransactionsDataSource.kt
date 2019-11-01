@@ -6,7 +6,6 @@ import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
-import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.yapcore.helpers.PagingState
@@ -30,6 +29,7 @@ class TransactionsDataSource(
             20000.00,
             true,
             debitSearch = true,
+            totalAppliedFilter = 0,
             yapYoungTransfer = true
         )
 

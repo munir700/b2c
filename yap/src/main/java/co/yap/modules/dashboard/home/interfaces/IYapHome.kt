@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.helpers.transaction.TransactionLogicHelper
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
@@ -34,5 +35,6 @@ interface IYapHome {
 
     interface State : IBase.State {
         var availableBalance: String
+        var filterCount: ObservableField<Int>
     }
 }

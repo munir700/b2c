@@ -252,7 +252,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     override fun onBackPressed() {
-        if (actionMenu?.isOpen!!) {
+        if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
             actionMenu?.toggle(ivYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
         else super.onBackPressed()

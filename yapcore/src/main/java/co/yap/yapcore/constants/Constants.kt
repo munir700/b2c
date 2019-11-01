@@ -9,6 +9,7 @@ object Constants {
     const val CHANGE_MOBILE_NO: String = "CHANGE_MOBILE_NO"
     const val CHANGE_EMAIL: String = "CHANGE_EMAIL"
     const val CHANGE_PASSCODE: String = "CHANGE_PASSCODE"
+    const val TRANSACTION_ID: String = "TRANSACTION_ID"
     const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
 
 
@@ -21,6 +22,7 @@ object Constants {
     //Add Note flow constants
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
+
 
 
 
