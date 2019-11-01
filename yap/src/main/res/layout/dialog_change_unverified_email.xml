@@ -11,9 +11,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/margin_normal"
         android:background="@drawable/bg_white_round"
-        android:padding="@dimen/margin_large">
+        android:padding="@dimen/margin_medium">
 
         <ImageView
             android:id="@+id/ivUnverifiedIcon"
@@ -54,10 +53,10 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:gravity="center"
             android:lineSpacingExtra="3sp"
+            android:text="@string/screen_email_verified_popup_display_text_sub_title"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvEmail"
-            android:text="@string/screen_email_verified_popup_display_text_sub_title"
             tools:text="@string/screen_email_verified_popup_display_text_sub_title" />
 
         <TextView
@@ -68,10 +67,10 @@
             android:layout_marginTop="@dimen/margin_medium"
             android:gravity="center"
             android:lineSpacingExtra="3sp"
-            tools:text="@string/screen_email_verified_popup_display_text_click_here"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUserGuide" />
+            app:layout_constraintTop_toBottomOf="@+id/tvUserGuide"
+            tools:text="@string/screen_email_verified_popup_display_text_click_here" />
 
 
         <co.yap.widgets.CoreButton
@@ -93,7 +92,8 @@
             style="@style/Regular"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginTop="@dimen/margin_small"
+            android:padding="@dimen/_10sdp"
             android:text="@string/screen_unverified_display_button_later"
             android:textColor="@color/colorPrimary"
             app:layout_constraintLeft_toLeftOf="parent"
