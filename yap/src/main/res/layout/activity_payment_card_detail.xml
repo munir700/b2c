@@ -93,9 +93,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_extra_large"
-                android:src="@drawable/ic_no_transaction"
-                tools:visibility="@{viewModel.transactionsLiveData.empty?}"
-                android:visibility="gone" />
+                android:src="@drawable/ic_no_transaction" />
 
         </LinearLayout>
         <!--        </androidx.core.widget.NestedScrollView>-->
