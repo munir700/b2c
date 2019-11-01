@@ -67,7 +67,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
-        actionMenu = FloatingActionMenu.Builder(this)
+        setupYapButton()
+    }
+
+    private fun setupYapButton() {
+         actionMenu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
@@ -324,7 +328,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
         })
     }
-
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
