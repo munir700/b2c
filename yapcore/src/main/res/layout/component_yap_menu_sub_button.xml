@@ -9,32 +9,32 @@
     android:elevation="0dp"
     android:orientation="vertical">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/ivYapIt"
-            style="@style/Widget.Design.FloatingActionButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:pressedTranslationZ="0dp"
-            android:layout_margin="3dp"
-            android:backgroundTint="#5e35b1"
-            android:tint="@android:color/white"
-            app:fabCustomSize="@dimen/_44sdp"
-            app:fabSize="mini"
-            android:layout_gravity="center_horizontal"
-            app:elevation="0dp"
-            app:maxImageSize="@dimen/_16sdp"
-            app:srcCompat="@drawable/ic_yap_to_yap" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/ivYapIt"
+        style="@style/Widget.Design.FloatingActionButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="3dp"
+        android:backgroundTint="@color/colorPrimary"
+        android:tint="@android:color/white"
+        app:elevation="0dp"
+        app:fabCustomSize="@dimen/_40sdp"
+        app:fabSize="mini"
+        app:maxImageSize="@dimen/_20sdp"
+        app:pressedTranslationZ="0dp"
+        app:srcCompat="@drawable/ic_yap_to_yap" />
 
-        <TextView
-            android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:lineSpacingExtra="6sp"
-            android:layout_gravity="center"
-            android:textColor="#272262"
-            android:textSize="@dimen/_12sdp"
-            android:textStyle="normal" />
+    <TextView
+        android:id="@+id/tvTitle"
+        style="@style/Micro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center_horizontal"
+        android:lineSpacingExtra="6sp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="@dimen/_12sdp" />
 
 
 </LinearLayout>

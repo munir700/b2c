@@ -57,11 +57,11 @@ interface TransactionsRetroService {
     suspend fun getAccountTransactions(
         @Path("number") number: Int,
         @Path("size") size: Int,
-        @Query("minAmount") minAmount: Double,
-        @Query("maxAmount") maxAmount: Double,
-        @Query("creditSearch") creditSearch: Boolean,
-        @Query("debitSearch") debitSearch: Boolean,
-        @Query("yapYoungTransfer") yapYoungTransfer: Boolean
+        @Query("minAmount") minAmount: Double?,
+        @Query("maxAmount") maxAmount: Double?,
+        @Query("creditSearch") creditSearch: Boolean?,
+        @Query("debitSearch") debitSearch: Boolean?,
+        @Query("yapYoungTransfer") yapYoungTransfer: Boolean?
     ): Response<HomeTransactionsResponse>
 
     // Get Account Transaction

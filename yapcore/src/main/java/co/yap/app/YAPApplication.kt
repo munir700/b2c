@@ -10,12 +10,12 @@ open class YAPApplication : Application() {
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
             1,
             pageSize,
-            0.00,
-            20000.00,
-            true,
-            debitSearch = true,
+            null,
+            null,
+            null,
+            null,
             totalAppliedFilter = 0,
-            yapYoungTransfer = true
+            yapYoungTransfer = null
         )
     }
 }
