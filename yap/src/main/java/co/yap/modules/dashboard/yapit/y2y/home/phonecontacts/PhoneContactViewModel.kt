@@ -16,6 +16,9 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 
 class PhoneContactViewModel(application: Application) :
     Y2YBaseViewModel<IPhoneContact.State>(application),
@@ -26,6 +29,8 @@ class PhoneContactViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     private var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var phoneContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
+    private val backgroundCoroutine: CoroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
+    private lateinit var localContacts: MutableList<Contact>
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -39,22 +44,31 @@ class PhoneContactViewModel(application: Application) :
         return phoneContactLiveData.value?.isEmpty() ?: true
     }
 
+    private fun getLocalContacts(): MutableList<Contact> = runBlocking {
+        return@runBlocking fetchContacts(context)
+    }
+
     override fun getY2YBeneficiaries() {
+
         pagingState.value = PagingState.LOADING
-        launch {
-            //state.loading = true
-            val response = fetchContacts(context)
-            when (val response = repository.getY2YBeneficiaries(response)) {
-                is RetroApiResponse.Success -> {
-                    phoneContactLiveData.value = response.data.data
-                    pagingState.value = PagingState.DONE
+        localContacts = getLocalContacts()
+        if (localContacts.isEmpty()) {
+            phoneContactLiveData.value = mutableListOf()
+            pagingState.value = PagingState.DONE
+        } else {
+            launch {
+                when (val response = repository.getY2YBeneficiaries(localContacts)) {
+                    is RetroApiResponse.Success -> {
+                        phoneContactLiveData.value = response.data.data
+                        pagingState.value = PagingState.DONE
+                    }
+                    is RetroApiResponse.Error -> {
+                        state.toast = response.error.message
+                        pagingState.value = PagingState.ERROR
+                    }
                 }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    pagingState.value = PagingState.ERROR
-                }
+                //state.loading = false
             }
-            //state.loading = false
         }
     }
 
@@ -128,7 +142,7 @@ class PhoneContactViewModel(application: Application) :
         return emlAdd
     }
 
-    private fun fetchContacts(context: Context): MutableList<Contact> {
+    private suspend fun fetchContacts(context: Context): MutableList<Contact> {
         val defaultCountryCode = Utils.getDefaultCountryCode(context)
         val contacts: MutableList<Contact> = ArrayList()
         val cursor = context.contentResolver.query(
