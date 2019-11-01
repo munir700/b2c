@@ -1,11 +1,16 @@
 package co.yap.yapcore.helpers
 
+import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 
 object DateUtils {
 
     private const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
+    val GMT = TimeZone.getTimeZone("GMT")
+    val TIME_ZONE_Default = TimeZone.getDefault()
+    val FORMAT_LONG_OUTPUT = "yyyy-MM-dd・hh:mm a"//2015-11-28 10:17:18//2016-12-12 12:23:00
+    val FORMAT_LONG_INPUT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -70,7 +75,33 @@ object DateUtils {
             return " ";
         }
 
+    }
+    fun dateToString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
+        var result = ""
+        val formatter = SimpleDateFormat(format, Locale.getDefault())
+        formatter.timeZone = timeZone
+        val symbols = DateFormatSymbols(Locale.getDefault())
+        symbols.amPmStrings = arrayOf("am", "pm")
+        formatter.dateFormatSymbols = symbols
+        try {
+            result = formatter.format(date!!)
+        } catch (e: Exception) {
+        }
 
+        return result
+    }
+    fun stringToDate(dateStr: String, format: String , timeZone: TimeZone = GMT): Date? {
+        var d: Date? = null
+        val formatter = SimpleDateFormat(format, Locale.getDefault())
+        formatter.timeZone = timeZone
+        try {
+            formatter.isLenient = false
+            d = formatter.parse(dateStr)
+        } catch (e: Exception) {
+            d = null
+        }
+
+        return d
     }
 
 

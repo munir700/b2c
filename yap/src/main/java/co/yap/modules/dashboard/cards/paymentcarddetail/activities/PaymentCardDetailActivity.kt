@@ -180,6 +180,7 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
         })
 
         viewModel.transactionsLiveData.observe(this, Observer {
+            ivNoTransaction.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
             if (viewModel.isLoadMore.value!!) {
                 getRecycleViewAdaptor().setList(it)
             } else {

@@ -75,7 +75,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
             adaptor.setList(it)
             getBinding().tvContactListDescription.visibility =
                 if (it.isEmpty()) View.GONE else View.VISIBLE
-
+            getBinding().tvNoResult.visibility = View.GONE
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
             adaptor.filter.filter(it)

@@ -61,7 +61,7 @@ class YapHomeViewModel(application: Application) :
         requestAccountTransactions()
     }
 
-    private fun requestAccountTransactions() {
+     override fun requestAccountTransactions() {
         launch {
             if (!isLoadMore.value!!)
                 state.loading = true

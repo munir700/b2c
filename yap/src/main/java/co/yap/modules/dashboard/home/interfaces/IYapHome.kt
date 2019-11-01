@@ -30,6 +30,7 @@ interface IYapHome {
         var isLoadMore: MutableLiveData<Boolean>
         fun loadMore()
         fun filterTransactions()
+        fun requestAccountTransactions()
 
     }
 
