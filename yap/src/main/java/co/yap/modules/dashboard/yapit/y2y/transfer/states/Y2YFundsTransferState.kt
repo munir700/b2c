@@ -45,7 +45,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
             notifyPropertyChanged(BR.valid)
         }
     @get:Bindable
-    override var minLimit: Double = 0.00
+    override var minLimit: Double = 0.01
         set(value) {
             field = value
             notifyPropertyChanged(BR.minLimit)

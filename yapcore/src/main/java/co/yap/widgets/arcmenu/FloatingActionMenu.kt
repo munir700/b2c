@@ -334,12 +334,13 @@ class FloatingActionMenu
      * @param animated if true, the open/close action is executed by the current [MenuAnimationHandler]
      */
     fun toggle(view: View, animated: Boolean) {
+        val rotationArray = if (isOpen) floatArrayOf(10f,0f) else floatArrayOf(-195f, -180f)
         val animator1 =
             ObjectAnimator.ofFloat(mainActionView, "rotation", if (isOpen) 0f else -180f)
         animator1.repeatCount = 0
         animator1.duration = 400
 
-        val animator2 = ObjectAnimator.ofFloat(mainActionView, "rotation", -180f)
+        val animator2 = ObjectAnimator.ofFloat(mainActionView, "rotation", *rotationArray)
         animator2.repeatCount = 0
         animator2.duration = 400
         val alphaArray = if (isOpen) floatArrayOf(1f, 0f) else floatArrayOf(0f, 1f)
@@ -357,7 +358,7 @@ class FloatingActionMenu
 
         val set = AnimatorSet()
         set.interpolator = AccelerateDecelerateInterpolator()
-        set.play(animator1)
+        set.play(animator1).before(animator2)
         if (alphaAnimation != null) {
             set.play(alphaAnimation)
         }
