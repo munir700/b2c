@@ -9,5 +9,6 @@ data class HomeTransactionsRequest(
     var maxAmount: Double,
     var creditSearch: Boolean,
     var debitSearch: Boolean,
+    var totalAppliedFilter: Int,
     var yapYoungTransfer: Boolean
 )

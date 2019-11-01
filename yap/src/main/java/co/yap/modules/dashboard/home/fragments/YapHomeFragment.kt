@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
-import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
@@ -29,9 +28,8 @@ import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
- import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
- import co.yap.networking.transactions.responsedtos.transaction.Content
- import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.networking.transactions.responsedtos.transaction.Content
+import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -274,7 +272,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             checkUserStatus()
         }
         if (null != homeTransactionsRequest) {
-            showToast(YAPApplication.homeTransactionsRequest?.debitSearch.toString() + " debitSearch" + YAPApplication.homeTransactionsRequest?.minAmount.toString() + " ,min,max " + YAPApplication.homeTransactionsRequest?.minAmount.toString())
+            viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
+            showToast(homeTransactionsRequest?.debitSearch.toString() + " debitSearch" + homeTransactionsRequest?.minAmount.toString() + " ,min,max " + homeTransactionsRequest?.minAmount.toString()+" total"+ homeTransactionsRequest.totalAppliedFilter)
         }
     }
 

@@ -13,6 +13,7 @@ open class YAPApplication : Application() {
             20000.00,
             true,
             debitSearch = true,
+            totalAppliedFilter = 0,
             yapYoungTransfer = true
         )
     }

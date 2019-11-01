@@ -44,6 +44,12 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         setObservers()
     }
 
+    private fun initViews() {
+        cbInTransFilter.isChecked = YAPApplication.homeTransactionsRequest.creditSearch
+        cbOutTransFilter.isChecked = YAPApplication.homeTransactionsRequest.debitSearch
+
+    }
+
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.transactionFilters.observe(this, searchFilterAmountObserver)
@@ -58,10 +64,18 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             transactionFilters.maxAmount.toFloat()
         )
 
+
         rsbAmount?.setProgress(
             transactionFilters.minAmount.toFloat(),
             transactionFilters.maxAmount.toFloat()
         )
+        if (YAPApplication.homeTransactionsRequest.minAmount != 0.00) {
+            rsbAmount?.setProgress(
+                YAPApplication.homeTransactionsRequest.minAmount.toFloat(),
+                transactionFilters.maxAmount.toFloat()
+            )
+        }
+
         viewModel.updateRangeValue(rsbAmount)
         rsbAmount.setOnRangeChangedListener(object : OnRangeChangedListener {
             override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
@@ -94,6 +108,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     private val searchFilterAmountObserver = Observer<TransactionFilters> {
         if (it != null) {
             setRangeSeekBar(it)
+            initViews()
         }
     }
 
@@ -117,11 +132,15 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun setFilterValues() {
-
+        var count = 0
+        if (cbOutTransFilter.isChecked) count++
+        if (cbInTransFilter.isChecked) count++
+        if (rsbAmount.leftSeekBar.progress.toFloat() != viewModel.transactionFilters.value?.minAmount?.toFloat()!!) count++
         YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
             1, 20,
-            rsbAmount.leftSeekBar.progress.toDouble(), rsbAmount.rightSeekBar.progress.toDouble(),
+            rsbAmount.leftSeekBar.progress.toDouble(), rsbAmount.maxProgress.toDouble(),
             cbInTransFilter.isChecked, cbOutTransFilter.isChecked,
+            count,
             true
         )
 
