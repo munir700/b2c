@@ -51,11 +51,32 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             // viewModel.adapter.set(adapter)
             //viewModel.adapter.get()?.onItemClickListener = this
             //adapter.onItemClickListener = this
-            viewModel.getRecentBeneficiaries()
-            viewModel.recentTransferData.observe(this, Observer {
-                layoutRecent?.visibility = if (it) View.VISIBLE else View.GONE
-            })
-            viewModel.adapter.set(RecentTransferAdaptor(ArrayList(), findNavController()))
+            if (viewModel.adapter.get() == null) {
+                viewModel.getRecentBeneficiaries()
+                viewModel.recentTransferData.observe(this, Observer {
+                    if (it.isEmpty()) {
+                        layoutRecent?.visibility = View.GONE
+                    } else {
+                        viewModel.adapter.set(
+                            RecentTransferAdaptor(
+                                it.toMutableList(),
+                                findNavController()
+                            )
+                        )
+                        layoutRecent?.visibility = View.VISIBLE
+                    }
+                })
+            } else {
+                if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
+                    viewModel.adapter.set(
+                        RecentTransferAdaptor(
+                            viewModel.recentTransferData.value?.toMutableList()!!,
+                            findNavController()
+                        )
+                    )
+                    layoutRecent?.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
@@ -128,7 +149,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
                 }
             }
             R.id.tvCancel -> {
-              activity?.finish()
+                activity?.finish()
             }
         }
     }
