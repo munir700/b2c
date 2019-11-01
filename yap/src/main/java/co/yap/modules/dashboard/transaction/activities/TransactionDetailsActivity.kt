@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.transaction.activities
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -17,6 +18,13 @@ import co.yap.yapcore.constants.Constants
 class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewModel>(),
     ITransactionDetails.View {
 
+    companion object{
+        fun newIntent(context: Context, transactionId: String): Intent {
+            val intent = Intent(context, TransactionDetailsActivity::class.java)
+            intent.putExtra(Constants.TRANSACTION_ID, transactionId)
+            return intent
+        }
+    }
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -28,7 +36,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, clickEvent)
-
+        viewModel.transactionId = intent.getStringExtra(Constants.TRANSACTION_ID)
     }
 
     var clickEvent = Observer<Int> {
@@ -37,18 +45,22 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
             R.id.clNote ->
                 if (viewModel.state.noteValue=="Stay organized by adding transaction notes"){
-                    startActivityForResult(TransactionNoteActivity.newIntent(this, ""), Constants.INTENT_ADD_NOTE_REQUEST)
+                    startActivityForResult(TransactionNoteActivity.newIntent(this, "",viewModel.transactionId), Constants.INTENT_ADD_NOTE_REQUEST)
                 }else{
-                    startActivityForResult(TransactionNoteActivity.newIntent(this, viewModel.state.noteValue), Constants.INTENT_ADD_NOTE_REQUEST)
+                    startActivityForResult(TransactionNoteActivity.newIntent(this, viewModel.state.noteValue,viewModel.transactionId), Constants.INTENT_ADD_NOTE_REQUEST)
                 }
         }
+    }
+
+    private fun setUpData(){
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.state.addNoteTitle="Note added"
+                viewModel.state.addNoteTitle="Edit a note"
                 viewModel.state.noteValue = data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
             }
         }

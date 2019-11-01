@@ -10,16 +10,17 @@ interface ITransactionDetails {
         fun handlePressOnShareButton(id: Int)
         fun handlePressOnEditNoteClickEvent(id: Int)
         var clickEvent: SingleClickEvent
+        var transactionId: String
 
     }
 
     interface State : IBase.State {
-        var toolBarTitle: String
-        var transactionTitle: String
-        var spentTitle: String
+        var toolBarTitle: String?
+        var transactionTitle: String?
+        var spentTitle: String?
         var spentAmount: String
         var feeTitle: String
-        var feeAmount: String
+        var feeAmount: String?
         var totalTitle: String
         var totalAmount: String
         var addNoteTitle: String

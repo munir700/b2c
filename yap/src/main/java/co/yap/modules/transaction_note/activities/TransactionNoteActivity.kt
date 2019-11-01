@@ -24,15 +24,20 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
         get() = ViewModelProviders.of(this).get(TransactionNoteViewModel::class.java)
 
     companion object {
-        fun newIntent(context: Context, noteValue: String = ""): Intent {
+        fun newIntent(context: Context, noteValue: String = "", transactionId: String): Intent {
             val intent = Intent(context, TransactionNoteActivity::class.java)
             intent.putExtra(Constants.KEY_NOTE_VALUE, noteValue)
+            intent.putExtra(Constants.TRANSACTION_ID, transactionId)
             return intent
         }
     }
 
     private fun getNoteValue(): String {
         return intent.getStringExtra(Constants.KEY_NOTE_VALUE)
+    }
+
+    private fun getTransactionId(): String {
+        return intent.getStringExtra(Constants.TRANSACTION_ID)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +66,7 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
                 finish()
             }
             R.id.tvSave -> {
-                viewModel.addEditNote("123456", viewModel.state.noteValue.get()!!)
+                viewModel.addEditNote(getTransactionId(), viewModel.state.noteValue.get()!!)
             }
         }
     }

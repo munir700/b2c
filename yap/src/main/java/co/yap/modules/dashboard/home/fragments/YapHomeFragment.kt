@@ -24,6 +24,7 @@ import co.yap.modules.dashboard.home.models.Notification
 import co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel
 import co.yap.modules.dashboard.main.fragments.YapDashboardChildFragment
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
@@ -68,6 +69,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
+        getRecycleViewAdaptor()?.allowFullItemClickListener = true
+
 
 
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
@@ -78,7 +81,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Content) {
-
+                startActivity(
+                    TransactionDetailsActivity.newIntent(
+                        requireContext(),
+                        data.transactionId
+                    )
+                )
             }
         }
     }
@@ -136,6 +144,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 //        getGraphRecycleViewAdapter()?.setItemListener(listener)
         getRecycleViewAdaptor()?.setItemListener(listener)
+        getRecycleViewAdaptor()?.allowFullItemClickListener = true
         //getBindings().lyInclude.rvTransaction.addOnScrollListener(endlessScrollListener)
         getBindings().lyInclude.rvTransaction.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
@@ -370,6 +379,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            //  showToast("olalal")
+//            startActivity(TransactionDetailsActivity.)
             (data as HomeTransactionListData).content.get(0).transactionId
         }
     }
