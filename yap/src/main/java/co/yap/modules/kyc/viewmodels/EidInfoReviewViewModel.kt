@@ -2,6 +2,7 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.kyc.fragments.CardScanResponse
 import co.yap.modules.kyc.fragments.UploadIdCardRetroService
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
@@ -57,13 +58,15 @@ class EidInfoReviewViewModel(application: Application) :
         parentViewModel?.identity?.identity?.let {
             //            val expiry = it.expirationDate.run { DateUtils.toDate(day, month, year) }
             when {
-                TextUtils.isEmpty(it.givenName) ||  TextUtils.isEmpty(it.nationality)-> clickEvent.setValue(EVENT_ERROR_INVALID_EID)
+                TextUtils.isEmpty(it.givenName) || TextUtils.isEmpty(it.nationality) -> clickEvent.setValue(
+                    EVENT_ERROR_INVALID_EID
+                )
                 !it.isExpiryDateValid -> clickEvent.setValue(EVENT_ERROR_EXPIRED_EID)
                 !it.isDateOfBirthValid -> clickEvent.setValue(EVENT_ERROR_UNDER_AGE)
 
                 it.nationality.equals("USA", true) -> clickEvent.setValue(EVENT_ERROR_FROM_USA)
                 else -> {
-                    // All checks passed.
+
                     performUploadDocumentsRequest()
                 }
             }
@@ -155,7 +158,8 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        clickEvent.setValue(EVENT_NEXT)
+                        if (DocumentsDashboardActivity.isFromMoreSection) clickEvent.setValue(EVENT_FINISH)
+                        else clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message

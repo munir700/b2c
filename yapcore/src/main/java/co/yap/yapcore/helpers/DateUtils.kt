@@ -9,8 +9,10 @@ object DateUtils {
     private const val DEFAULT_DATE_FORMAT: String = "dd/MM/yyyy"
     val GMT = TimeZone.getTimeZone("GMT")
     val TIME_ZONE_Default = TimeZone.getDefault()
-    val FORMAT_LONG_OUTPUT = "yyyy-MM-dd・hh:mm a"//2015-11-28 10:17:18//2016-12-12 12:23:00
+    val FORMAT_LONG_OUTPUT = "MMM dd, YYYY・HH:mma"//2015-11-28 10:17:18//2016-12-12 12:23:00
     val FORMAT_LONG_INPUT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
+
+//    Jan 29, 2019・10:35am
 
     fun getAge(date: Date): Int {
         val today = Calendar.getInstance()
@@ -76,7 +78,7 @@ object DateUtils {
         }
 
     }
-    fun dateToString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
+    fun datetoString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
         var result = ""
         val formatter = SimpleDateFormat(format, Locale.getDefault())
         formatter.timeZone = timeZone

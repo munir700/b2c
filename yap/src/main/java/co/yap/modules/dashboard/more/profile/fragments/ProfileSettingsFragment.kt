@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.others.helper.Constants
@@ -201,6 +202,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         MyUserManager.cards.value?.clear()
         MyUserManager.userAddress = null
         MoreActivity.showExpiredIcon =false
+        // clear filters
+
+        YAPApplication.clearFilters()
         activity?.finish()
     }
 
@@ -263,6 +267,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvLogOut -> {
+
+
+
+
+
                     logoutAlert()
                 }
 

@@ -45,9 +45,12 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun initViews() {
-        cbInTransFilter.isChecked = YAPApplication.homeTransactionsRequest.creditSearch!!
-        cbOutTransFilter.isChecked = YAPApplication.homeTransactionsRequest.debitSearch!!
-
+        YAPApplication.homeTransactionsRequest.creditSearch?.let {
+            cbInTransFilter.isChecked = it
+        }
+        YAPApplication.homeTransactionsRequest.debitSearch?.let {
+            cbOutTransFilter.isChecked = it
+        }
     }
 
     private fun setObservers() {
@@ -66,10 +69,10 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
 
         rsbAmount?.setProgress(
-            transactionFilters.minAmount.toFloat(),
+            transactionFilters.maxAmount.toFloat(),
             transactionFilters.maxAmount.toFloat()
         )
-        if (YAPApplication.homeTransactionsRequest.minAmount != 0.00) {
+        if (YAPApplication.homeTransactionsRequest.minAmount != null && YAPApplication.homeTransactionsRequest.minAmount != 0.00) {
             rsbAmount?.setProgress(
                 YAPApplication.homeTransactionsRequest.minAmount!!.toFloat(),
                 transactionFilters.maxAmount.toFloat()
@@ -122,22 +125,17 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun resetAllFilters() {
-        rsbAmount?.setProgress(
-            viewModel.transactionFilters.value?.minAmount?.toFloat()!!,
-            viewModel.transactionFilters.value?.maxAmount?.toFloat()!!
-        )
-        viewModel.updateRangeValue(rsbAmount)
-        cbInTransFilter.isChecked = false
-        cbOutTransFilter.isChecked = false
+        YAPApplication.clearFilters()
+        finish()
     }
 
     private fun setFilterValues() {
         var count = 0
         if (cbOutTransFilter.isChecked) count++
         if (cbInTransFilter.isChecked) count++
-        if (rsbAmount.leftSeekBar.progress.toFloat() != viewModel.transactionFilters.value?.minAmount?.toFloat()!!) count++
+        if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.minAmount?.toFloat()!!) count++
         YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
-            1, 200,
+            0, YAPApplication.pageSize,
             rsbAmount.leftSeekBar.progress.toDouble(), rsbAmount.maxProgress.toDouble(),
             cbInTransFilter.isChecked, cbOutTransFilter.isChecked,
             count,
@@ -147,6 +145,5 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         setResult(INTENT_FILTER_REQUEST)
         finish()
     }
-
 
 }

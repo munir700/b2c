@@ -21,12 +21,13 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:padding="@dimen/_8sdp">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
-            android:layout_width="@dimen/_45sdp"
-            android:layout_height="@dimen/_45sdp"
+            android:layout_width="@dimen/_62sdp"
+            android:layout_height="@dimen/_62sdp"
             android:contentDescription="@string/empty_string"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -37,6 +38,7 @@
             android:id="@+id/lyNameInitials"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:background="@drawable/bg_round_with_space_white"
             android:visibility="@{image.equals(``)? View.VISIBLE :View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
@@ -47,8 +49,9 @@
             <TextView
                 android:id="@+id/tvNameInitials"
                 style="@style/ARegular"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
+                android:layout_width="@dimen/_62sdp"
+                android:layout_height="@dimen/_62sdp"
+                android:textSize="@dimen/_22sdp"
                 android:gravity="center"
                 android:text="@{Utils.INSTANCE.shortName(name)}"
                 tools:text="NM" />

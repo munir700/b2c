@@ -807,5 +807,24 @@ object Strings {
     const val screen_y2y_funds_transfer_success_button_back: String =
         "screen_y2y_funds_transfer_success_button_back"
 
-    const val screen_y2y_display_text_recent_transfer = "screen_y2y_display_text_recent_transfer"
+
+    //Transaction details screen
+    const val screen_transaction_details_display_text_spent: String =
+        "screen_transaction_details_display_text_spent"
+    const val screen_transaction_details_display_text_received: String =
+        "screen_transaction_details_display_text_received"
+    const val screen_transaction_details_display_text_fee: String =
+        "screen_transaction_details_display_text_fee"
+    const val screen_transaction_details_display_text_total_amount: String =
+        "screen_transaction_details_display_text_total_amount"
+    const val screen_transaction_details_display_text_add_note: String =
+        "screen_transaction_details_display_text_add_note"
+    const val screen_transaction_details_display_text_edit_note: String =
+        "screen_transaction_details_display_text_edit_note"
+    const val screen_transaction_details_display_text_note_description: String =
+        "screen_transaction_details_display_text_note_description"
+    const val screen_add_note_display_text_type_something: String =
+        "screen_add_note_display_text_type_something"
+    const val screen_add_note_display_text_save: String =
+        "screen_add_note_display_text_save"
 }

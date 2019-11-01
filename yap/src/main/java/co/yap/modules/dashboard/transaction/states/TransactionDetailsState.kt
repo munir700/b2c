@@ -70,7 +70,7 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
         }
 
     @get:Bindable
-    override var noteValue: String = ""
+    override var noteValue: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.noteValue)

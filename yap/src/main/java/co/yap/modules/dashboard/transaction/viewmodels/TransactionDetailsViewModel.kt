@@ -6,17 +6,14 @@ import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
-import co.yap.yapcore.helpers.DateUtils.dateToString
+import co.yap.yapcore.helpers.DateUtils.datetoString
 import co.yap.yapcore.helpers.DateUtils.stringToDate
 import co.yap.yapcore.helpers.Utils
-import java.lang.Exception
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class TransactionDetailsViewModel(application: Application) :
@@ -32,18 +29,12 @@ class TransactionDetailsViewModel(application: Application) :
         super.onCreate()
         getTransactionDetails()
 
-        state.feeTitle = "Fee"
-        state.totalTitle = "Total amount"
-        state.addNoteTitle = "Add a note"
-        state.noteValue = "Stay organized by adding transaction notes"
-
-        state.feeAmount = Utils.getFormattedCurrency("0")
-        /* state.totalAmount = Utils.getFormattedCurrency(
-             addValues(
-                 spentAmount = state.spentAmount,
-                 feeAmount = state.feeAmount
-             ).toString()*/
-        //)
+        state.feeTitle = getString(Strings.screen_transaction_details_display_text_fee)
+        state.totalTitle = getString(Strings.screen_transaction_details_display_text_total_amount)
+        state.addNoteTitle = getString(Strings.screen_transaction_details_display_text_add_note)
+        state.noteValue =
+            getString(Strings.screen_transaction_details_display_text_note_description)
+        // state.feeAmount = Utils.getFormattedCurrency("0")
     }
 
     override fun handlePressOnBackButton(id: Int) {
@@ -74,17 +65,25 @@ class TransactionDetailsViewModel(application: Application) :
                         response.data.data?.currency + " " + response.data.data?.fee else state.feeAmount =
                         response.data.data?.currency + " " + "0.00"
 
+                    if (response.data.data?.transactionNote != null) {
+                        state.addNoteTitle =
+                            getString(Strings.screen_transaction_details_display_text_edit_note)
+                        state.noteValue = response.data.data?.transactionNote
+                    } else {
+                        state.noteValue =
+                            getString(Strings.screen_transaction_details_display_text_note_description)
+                    }
+
                     state.totalAmount =
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())
                     //val dateFormat = SimpleDateFormat("MMM dd, YYYY ・ HH:mmaa")
                     try {
-                        val date= stringToDate(response.data.data?.creationDate!! , FORMAT_LONG_INPUT)
-                        state.toolBarTitle = dateToString(date,FORMAT_LONG_OUTPUT)
+                        val date =
+                            stringToDate(response.data.data?.creationDate!!, FORMAT_LONG_INPUT)
+                        state.toolBarTitle = datetoString(date, FORMAT_LONG_OUTPUT)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-
-                    //2018-11-23T01:01:01
 
                 }
 
@@ -96,16 +95,6 @@ class TransactionDetailsViewModel(application: Application) :
             }
             state.loading = false
         }
-
-    }
-
-    private fun addValues(spentAmount: String = "", feeAmount: String = ""): Double {
-        if (feeAmount != "") {
-            return Utils.getFormattedCurrencyWithoutComma("1500.00").toDouble() + Utils.getFormattedCurrencyWithoutComma(
-                "0.00"
-            ).toDouble()
-        }
-        return 0.00
 
     }
 }

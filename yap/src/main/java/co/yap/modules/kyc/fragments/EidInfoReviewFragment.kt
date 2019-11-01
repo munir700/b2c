@@ -60,7 +60,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
     }
 
     fun enableBtn() {
-        DocumentsDashboardActivity.isFromMoreSection
+
         if (viewModel.state.fullNameValid && viewModel.state.nationalityValid && viewModel.state.dateOfBirthValid && viewModel.state.genderValid && viewModel.state.expiryDateValid) {
             btnTouchId.enableButton(true)
         } else {
