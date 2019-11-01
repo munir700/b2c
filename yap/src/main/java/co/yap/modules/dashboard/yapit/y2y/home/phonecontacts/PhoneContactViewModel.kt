@@ -67,7 +67,6 @@ class PhoneContactViewModel(application: Application) :
                         pagingState.value = PagingState.ERROR
                     }
                 }
-                //state.loading = false
             }
         }
     }
