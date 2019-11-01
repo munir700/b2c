@@ -8,6 +8,11 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
+import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
+import co.yap.yapcore.helpers.DateUtils.dateToString
+import co.yap.yapcore.helpers.DateUtils.stringToDate
 import co.yap.yapcore.helpers.Utils
 import java.lang.Exception
 import java.text.SimpleDateFormat
@@ -73,10 +78,8 @@ class TransactionDetailsViewModel(application: Application) :
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())
                     //val dateFormat = SimpleDateFormat("MMM dd, YYYY ・ HH:mmaa")
                     try {
-                        val dateFormat = SimpleDateFormat("yyyy-MMM-dd'T'HH:mm")
-                        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-                        val date = dateFormat.parse(response.data.data?.creationDate)
-                        state.toolBarTitle = dateFormat.format(date)
+                        val date= stringToDate(response.data.data?.creationDate!! , FORMAT_LONG_INPUT)
+                        state.toolBarTitle = dateToString(date,FORMAT_LONG_OUTPUT)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }

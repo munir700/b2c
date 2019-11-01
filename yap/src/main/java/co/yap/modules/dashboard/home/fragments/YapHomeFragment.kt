@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
@@ -43,7 +44,7 @@ import kotlinx.android.synthetic.main.view_graph.*
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
-    NotificationItemClickListener {
+    NotificationItemClickListener, SwipeRefreshLayout.OnRefreshListener {
 
     private lateinit var mAdapter: NotificationAdapter
     private lateinit var parentViewModel: YapDashBoardViewModel
@@ -72,11 +73,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
 
-
+        refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
     }
 
+    override fun onRefresh() {
+        viewModel.requestAccountTransactions()
+        refreshLayout.isRefreshing = false
+
+    }
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
@@ -166,7 +172,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 viewModel.homeTransactionsRequest.number =
                     viewModel.homeTransactionsRequest.number + 1
                 val item =
-                    getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)?.copy()
+                    getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
+                        ?.copy()
                 item?.totalAmount = "loader"
                 getRecycleViewAdaptor()?.addListItem(item!!)
                 viewModel.loadMore()

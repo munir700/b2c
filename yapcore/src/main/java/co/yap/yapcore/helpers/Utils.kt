@@ -419,19 +419,29 @@ object Utils {
         context.startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
-    fun getContactColors(context: Context,position: Int): Int {
-        return ContextCompat.getColor(context,contactColors[position % contactColors.size])
+    fun getContactColors(context: Context, position: Int): Int {
+        return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
 
-    fun getContactBackground(context: Context,position: Int): Drawable? {
-        return ContextCompat.getDrawable(context,backgrounds[position % backgrounds.size])
-    }
+    fun getContactBackground(context: Context, position: Int) =
+        ContextCompat.getDrawable(context, backgrounds[position % backgrounds.size])
+
+
+    fun getBackgroundColor(context: Context, position: Int) =
+        ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
     private val backgrounds = intArrayOf(
         R.drawable.bg_round_light_red,
         R.drawable.bg_round_light_blue,
         R.drawable.bg_round_light_green,
         R.drawable.bg_round_light_orange
+    )
+
+    private val backgroundColors = intArrayOf(
+        R.color.bg_round_light_red,
+        R.color.bg_round_light_blue,
+        R.color.bg_round_light_green,
+        R.color.bg_round_light_orange
     )
 
     private val contactColors = intArrayOf(

@@ -33,6 +33,14 @@
     <color name="colorSecondaryBlue">#478df4</color>
     <color name="colorSecondaryMagenta">#f44774</color>
 
+<!--    Backgorunds Colors-->
+
+    <color name="bg_round_light_red">#28f44774</color>
+    <color name="bg_round_light_blue">#28478df4</color>
+    <color name="bg_round_light_green">#2900B9AE</color>
+    <color name="bg_round_light_orange">#29F57F17</color>
+
+
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
 
