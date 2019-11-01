@@ -76,6 +76,10 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
             //if (!it.isEmpty() && !viewModel.getState() == PagingState.LOADING)
             viewModel.pagingState.value = PagingState.DONE
             //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
+            getBinding().tvContactListDescription.visibility =
+                if (it.isEmpty()) View.GONE else View.VISIBLE
+            getBinding().tvContactListDescription.text =
+                if (it.size==1) "${it.size} YAP contact" else "${it.size} YAP contacts"
         })
 
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
@@ -86,9 +90,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
 
             getBinding().tvContactListDescription.visibility =
                 if (it == 0) View.GONE else View.VISIBLE
-
             getBinding().tvNoResult.visibility = if (it == 0) View.VISIBLE else View.GONE
-
             getBinding().tvContactListDescription.text =
                 if (it == 1) "$it YAP contact" else "$it YAP contacts"
         })
