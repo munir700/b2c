@@ -91,7 +91,6 @@ class FloatingActionMenu
         private set
 
 
-    var animStatus: AnimationStatus = AnimationStatus.NONE
 
     /**
      * Gets the coordinates of the main action view
@@ -306,7 +305,7 @@ class FloatingActionMenu
      *
      * @param animated if true, this action is executed by the current [MenuAnimationHandler]
      */
-    fun close(view: View,animated: Boolean) {
+    fun close(view: View, animated: Boolean) {
         // If animations are enabled and we have a MenuAnimationHandler, let it do the heavy work
         if (animated && animationHandler != null) {
             if (animationHandler.isAnimating()) {
@@ -325,7 +324,7 @@ class FloatingActionMenu
         isOpen = false
 
         if (stateChangeListener != null) {
-            stateChangeListener!!.onMenuClosed(this,view.id)
+            stateChangeListener!!.onMenuClosed(this, view.id)
         }
     }
 
@@ -378,7 +377,7 @@ class FloatingActionMenu
             }
 
             override fun onAnimationStart(animation: Animator?) {
-                animStatus = AnimationStatus.ANIMATING
+                animationHandler?.setAnimating(true)
                 mainActionView.elevation = 10F
                 mainActionView.isClickable = false
                 mainActionView.setOnClickListener(null)
@@ -387,12 +386,14 @@ class FloatingActionMenu
         })
         if (isOpen) {
             alphaOverlay?.visibility = View.GONE
-            close(view,animated)
+            close(view, animated)
         } else {
             alphaOverlay?.visibility = View.VISIBLE
             open(animated)
         }
     }
+
+    fun isAnimating() = animationHandler?.isAnimating()
 
     /**
      * Recalculates the positions of each sub action item on demand.
@@ -461,8 +462,8 @@ class FloatingActionMenu
 
     private fun addViewToCurrentContainer(view: View, layoutParams: ViewGroup.LayoutParams?) {
 //        view.findViewById<FloatingActionButton>(R.id.ivYapIt)
-        view.findViewById<FloatingActionButton>(R.id.ivYapIt).setOnClickListener{
-            toggle(view,true)
+        view.findViewById<FloatingActionButton>(R.id.ivYapIt).setOnClickListener {
+            toggle(view, true)
 
         }
 
@@ -501,7 +502,8 @@ class FloatingActionMenu
     inner class ActionViewClickListener : View.OnClickListener {
 
         override fun onClick(v: View) {
-            toggle(v, animated)
+            if (!animationHandler?.isAnimating()!!)
+                toggle(v, animated)
         }
     }
 
@@ -542,7 +544,7 @@ class FloatingActionMenu
     /**
      * A simple structure to put a view and its x, y, width and height values together
      */
-    class Item(var view: View, var width: Int, var height: Int ,var title: String) {
+    class Item(var view: View, var width: Int, var height: Int, var title: String) {
         var x: Int = 0
         var y: Int = 0
 
@@ -562,7 +564,7 @@ class FloatingActionMenu
     interface MenuStateChangeListener {
         fun onMenuOpened(menu: FloatingActionMenu)
 
-        fun onMenuClosed(menu: FloatingActionMenu , subActionButtonId:Int)
+        fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int)
     }
 
     /**
@@ -583,7 +585,7 @@ class FloatingActionMenu
         private var alphaOverlay: View? = null
 
         init {
-           // val activity = context as BaseBindingActivity<*>
+            // val activity = context as BaseBindingActivity<*>
             subActionItems = ArrayList()
             // Default settings
             radius = context.resources.getDimensionPixelSize(R.dimen.action_menu_radius)
@@ -609,7 +611,7 @@ class FloatingActionMenu
         }
 
         fun addSubActionView(subActionView: View, width: Int, height: Int, title: String): Builder {
-            subActionItems.add(Item(subActionView, width, height,title))
+            subActionItems.add(Item(subActionView, width, height, title))
             return this
         }
 
@@ -626,7 +628,7 @@ class FloatingActionMenu
          */
         fun addSubActionView(subActionView: View): Builder {
 
-            return this.addSubActionView(subActionView, 0, 0,"")
+            return this.addSubActionView(subActionView, 0, 0, "")
         }
 
         /**
@@ -641,7 +643,7 @@ class FloatingActionMenu
                 context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
             val view = inflater.inflate(layoutResId, null, false)
             view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            return this.addSubActionView(view, view.measuredWidth, view.measuredHeight,"")
+            return this.addSubActionView(view, view.measuredWidth, view.measuredHeight, "")
         }
 
         fun addSubActionView(
@@ -649,7 +651,7 @@ class FloatingActionMenu
             iconResId: Int,
             layoutResId: Int,
             context: Context,
-            position:Int
+            position: Int
             //clickListener: View.OnClickListener
         ): Builder {
             val inflater =
@@ -658,10 +660,10 @@ class FloatingActionMenu
             view.findViewById<TextView>(R.id.tvTitle).text = title
             val actionButton = view.findViewById<FloatingActionButton>(R.id.ivYapIt)
             actionButton.setImageResource(iconResId)
-           // actionButton.setOnClickListener(clickListener)
+            // actionButton.setOnClickListener(clickListener)
             view.id = position
             view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-            return this.addSubActionView(view, view.measuredWidth, view.measuredHeight,title)
+            return this.addSubActionView(view, view.measuredWidth, view.measuredHeight, title)
         }
 
 //        fun addSubActionView(
@@ -736,9 +738,4 @@ class FloatingActionMenu
             )
         }
     }
-
-    enum class AnimationStatus {
-        NONE, ANIMATING, ANIMATED
-    }
-
 }

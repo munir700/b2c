@@ -92,10 +92,12 @@ abstract class MenuAnimationHandler {
 
         override fun onAnimationEnd(animation: Animator?) {
             setAnimating(false)
+            menu!!.mainActionView.isClickable = true
         }
 
         override fun onAnimationCancel(animation: Animator?) {
             setAnimating(false)
+            menu!!.mainActionView.isClickable = true
         }
 
         override fun onAnimationStart(animation: Animator?) {
