@@ -30,17 +30,30 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <include
-                android:id="@+id/lyUserImage"
+            <LinearLayout
+                android:id="@+id/lnUserImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                layout="@layout/layout_initial_image_user"
-                android:layout_marginTop="@dimen/margin_extra_large"
-                app:image="@{viewModel.state.imageUrl}"
+                android:layout_marginTop="@dimen/margin_xl"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:name="@{viewModel.state.fullName}"/>
+                app:layout_constraintTop_toTopOf="parent">
+
+                <include
+                    android:id="@+id/lyUserImage"
+                    layout="@layout/layout_initial_image_user"
+                    app:image="@{viewModel.state.imageUrl}"
+                    app:name="@{viewModel.state.fullName}" />
+            </LinearLayout>
+
+
+            <!--            <include-->
+            <!--                android:id="@+id/lyUserImage"-->
+            <!--                layout="@layout/layout_initial_image_user"-->
+            <!--                app:image="@{viewModel.contact.beneficiaryPictureUrl}"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent"-->
+            <!--                app:name="@{viewModel.contact.title}"/>-->
 
             <TextView
                 android:id="@+id/tvFullName"
@@ -49,11 +62,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
                 android:text="@{viewModel.state.fullName}"
-                tools:text="Sufyan Shabbir"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lyUserImage"
-                />
+                app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
+                tools:text="Sufyan Shabbir" />
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivFlag"
