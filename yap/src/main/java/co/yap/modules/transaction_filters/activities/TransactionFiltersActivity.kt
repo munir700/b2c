@@ -134,7 +134,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         if (cbInTransFilter.isChecked) count++
         if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.minAmount?.toFloat()!!) count++
         YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
-            1, YAPApplication.pageSize,
+            0, YAPApplication.pageSize,
             rsbAmount.leftSeekBar.progress.toDouble(), rsbAmount.maxProgress.toDouble(),
             cbInTransFilter.isChecked, cbOutTransFilter.isChecked,
             count,

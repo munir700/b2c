@@ -24,6 +24,6 @@ interface ITransactionDetails {
         var totalTitle: String
         var totalAmount: String
         var addNoteTitle: String
-        var noteValue: String
+        var noteValue: String?
     }
 }

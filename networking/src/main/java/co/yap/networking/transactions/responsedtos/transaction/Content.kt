@@ -21,6 +21,7 @@ data class Content(
     var productName: String,
     var remarks: String,
     var senderName: String,
+    var receiverName: String?,
     var status: String,
     var totalAmount: Double,
     var transactionId: String,

@@ -24,7 +24,7 @@ class TransactionNoteActivity : BaseBindingActivity<ITransactionNote.ViewModel>(
         get() = ViewModelProviders.of(this).get(TransactionNoteViewModel::class.java)
 
     companion object {
-        fun newIntent(context: Context, noteValue: String = "", transactionId: String): Intent {
+        fun newIntent(context: Context, noteValue: String? = "", transactionId: String): Intent {
             val intent = Intent(context, TransactionNoteActivity::class.java)
             intent.putExtra(Constants.KEY_NOTE_VALUE, noteValue)
             intent.putExtra(Constants.TRANSACTION_ID, transactionId)

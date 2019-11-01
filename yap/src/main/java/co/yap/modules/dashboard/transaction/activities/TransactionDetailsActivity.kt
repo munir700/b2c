@@ -10,6 +10,7 @@ import co.yap.R
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
 import co.yap.modules.transaction_note.activities.TransactionNoteActivity
+import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
@@ -43,7 +44,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
             R.id.ivClose -> finish()
 
             R.id.clNote ->
-                if (viewModel.state.noteValue == "Stay organized by adding transaction notes") {
+                if (viewModel.state.noteValue == getString(Strings.screen_transaction_details_display_text_note_description)) {
                     startActivityForResult(
                         TransactionNoteActivity.newIntent(
                             this,
@@ -61,7 +62,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                     )
                 }
             R.id.clEditIcon ->
-                if (viewModel.state.noteValue == "Stay organized by adding transaction notes") {
+                if (viewModel.state.noteValue == getString(Strings.screen_transaction_details_display_text_note_description)) {
                     startActivityForResult(
                         TransactionNoteActivity.newIntent(
                             this,
@@ -82,15 +83,12 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         }
     }
 
-    private fun setUpData() {
-
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.state.addNoteTitle = "Edit a note"
+                viewModel.state.addNoteTitle =
+                    getString(Strings.screen_transaction_details_display_text_edit_note)
                 viewModel.state.noteValue =
                     data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
             }

@@ -8,7 +8,7 @@ open class YAPApplication : Application() {
         var AUTO_RESTART_APP = true
         const val pageSize = 100
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
-            1,
+            0,
             pageSize,
             null,
             null,
@@ -21,7 +21,7 @@ open class YAPApplication : Application() {
 
         fun clearFilters() {
             homeTransactionsRequest = HomeTransactionsRequest(
-                1, pageSize,
+                0, pageSize,
                 null, null,
                 null, null,
                 0,

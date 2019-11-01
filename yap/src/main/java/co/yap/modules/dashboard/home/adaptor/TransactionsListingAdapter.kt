@@ -55,9 +55,14 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     "-" + Utils.getFormattedCurrency(transaction.amount.toString())
             }
 
-            itemTransactionListBinding.tvTransactionName?.text = transaction?.senderName
+
+            transaction.receiverName = transaction.receiverName ?: "Unknown"
+            itemTransactionListBinding.tvTransactionName?.text = transaction.receiverName
             itemTransactionListBinding.tvNameInitials?.text =
-                transaction?.senderName?.let { shortName(it) }
+                transaction?.receiverName?.let { shortName(it) }
+
+//            itemTransactionListBinding.tvTransactionName?.text = transaction?.senderName
+            // itemTransactionListBinding.tvNameInitials?.text = transaction?.senderName?.let { shortName(it) }
             itemTransactionListBinding.tvTransactionTimeAndCategory?.text = Translator.getString(
                 context,
                 R.string.screen_fragment_home_transaction_time_category,
