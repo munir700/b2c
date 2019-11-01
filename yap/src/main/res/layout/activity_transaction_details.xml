@@ -7,6 +7,8 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel" />
+
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -24,9 +26,8 @@
             style="@style/Large"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="@dimen/margin_extra_large"
-            android:text="@{viewModel.state.transactionTitle, default=Unknown}"
+            android:padding="@dimen/margin_normal"
+            android:text="@{viewModel.state.transactionTitle!=null?viewModel.state.transactionTitle:`Unknown`}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
@@ -38,9 +39,9 @@
             android:layout_height="wrap_content"
             android:background="@color/greySoftSelected"
             android:paddingStart="@dimen/margin_medium"
-            android:paddingTop="@dimen/margin_extra_large"
+            android:paddingTop="@dimen/margin_large"
             android:paddingEnd="@dimen/margin_medium"
-            android:paddingBottom="@dimen/margin_extra_large"
+            android:paddingBottom="@dimen/margin_large"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading">
 
@@ -50,7 +51,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.spentTitle}"
+                android:text="@{viewModel.state.spentTitle==`CREDIT`?`Received`:`Spent`}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Spent" />
@@ -82,7 +83,7 @@
                 style="@style/ASmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.feeAmount}"
+                android:text="@{viewModel.state.feeAmount!=null?viewModel.state.feeAmount:`0.00`}"
                 app:layout_constraintBottom_toBottomOf="@+id/tvFee"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/tvFee"

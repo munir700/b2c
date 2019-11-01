@@ -20,6 +20,7 @@ data class TransactionDetails(
     val otpVerificationReq: Boolean?,
     val creationDate: String?,
     val paymentMode: String?,
-    val count: Int?
+    val count: Int?,
+    val fee: Double?
 )
 

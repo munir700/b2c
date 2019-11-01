@@ -8,7 +8,7 @@ import co.yap.yapcore.BaseState
 class TransactionDetailsState : BaseState(), ITransactionDetails.State {
 
     @get:Bindable
-    override var toolBarTitle: String = ""
+    override var toolBarTitle: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.toolBarTitle)
@@ -22,7 +22,7 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
         }
 
     @get:Bindable
-    override var spentTitle: String = ""
+    override var spentTitle: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.spentTitle)
@@ -42,7 +42,7 @@ class TransactionDetailsState : BaseState(), ITransactionDetails.State {
         }
 
     @get:Bindable
-    override var feeAmount: String = ""
+    override var feeAmount: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeAmount)

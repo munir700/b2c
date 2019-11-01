@@ -69,9 +69,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 //        setUpGraph()
 
         rvTransaction.adapter =
-            TransactionsHeaderAdapter(mutableListOf())
-        getRecycleViewAdaptor()?.allowFullItemClickListener = true
             TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
+        getRecycleViewAdaptor()?.allowFullItemClickListener = true
+
 
 
         rvTransactionsBarChart.adapter =
@@ -83,7 +83,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Content) {
-
+                startActivity(
+                    TransactionDetailsActivity.newIntent(
+                        requireContext(),
+                        data.transactionId
+                    )
+                )
             }
         }
     }
@@ -354,7 +359,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            showToast("olalal")
+            //  showToast("olalal")
 //            startActivity(TransactionDetailsActivity.)
             (data as HomeTransactionListData).content.get(0).transactionId
         }

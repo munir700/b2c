@@ -45,9 +45,9 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
 
             R.id.clNote ->
                 if (viewModel.state.noteValue=="Stay organized by adding transaction notes"){
-                    startActivityForResult(TransactionNoteActivity.newIntent(this, ""), Constants.INTENT_ADD_NOTE_REQUEST)
+                    startActivityForResult(TransactionNoteActivity.newIntent(this, "",viewModel.transactionId), Constants.INTENT_ADD_NOTE_REQUEST)
                 }else{
-                    startActivityForResult(TransactionNoteActivity.newIntent(this, viewModel.state.noteValue), Constants.INTENT_ADD_NOTE_REQUEST)
+                    startActivityForResult(TransactionNoteActivity.newIntent(this, viewModel.state.noteValue,viewModel.transactionId), Constants.INTENT_ADD_NOTE_REQUEST)
                 }
         }
     }
@@ -60,7 +60,7 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.INTENT_ADD_NOTE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                viewModel.state.addNoteTitle="Note added"
+                viewModel.state.addNoteTitle="Edit a note"
                 viewModel.state.noteValue = data?.getStringExtra(Constants.KEY_NOTE_VALUE).toString()
             }
         }

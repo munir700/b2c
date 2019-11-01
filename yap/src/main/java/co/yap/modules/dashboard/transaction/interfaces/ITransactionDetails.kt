@@ -15,12 +15,12 @@ interface ITransactionDetails {
     }
 
     interface State : IBase.State {
-        var toolBarTitle: String
+        var toolBarTitle: String?
         var transactionTitle: String?
-        var spentTitle: String
+        var spentTitle: String?
         var spentAmount: String
         var feeTitle: String
-        var feeAmount: String
+        var feeAmount: String?
         var totalTitle: String
         var totalAmount: String
         var addNoteTitle: String

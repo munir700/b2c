@@ -19,7 +19,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_Y2Y_FUNDS_TRANSFER = "/transactions/api/y2y"
     const val URL_ADD_EDIT_NOTE = "/transactions/api/transaction-note"
     const val URL_SEARCH_FILTER_AMOUNT = "/transactions/api/transactions/search-filter/amount"
-    const val URL_GET_TRANSACTION_DETAILS = "/transactions/api/transaction/transactionId/{transactionId}"
+    const val URL_GET_TRANSACTION_DETAILS =
+        "/transactions/api/transaction/transactionId/{transactionId}"
     const val URL_GET_ACCOUNT_TRANSACTIONS =
         "/transactions/api/account-transactions/{number}/{size}/"
     const val URL_GET_CARD_TRANSACTIONS =
@@ -68,8 +69,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse> =
         executeSafely(call = { api.getSearchFilterAmount() })
 
-    override suspend fun getTransactionDetails(): RetroApiResponse<TransactionDetailsResponse> =
-        executeSafely(call = { api.getTransactionDetails() })
+    override suspend fun getTransactionDetails(transactionId: String): RetroApiResponse<TransactionDetailsResponse> =
+        executeSafely(call = { api.getTransactionDetails(transactionId) })
 
     override suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse> =
         executeSafely(call = {

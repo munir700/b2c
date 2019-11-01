@@ -46,11 +46,11 @@ interface TransactionsRetroService {
 
     // Dashboard filter Amount
     @GET(TransactionsRepository.URL_SEARCH_FILTER_AMOUNT)
-    suspend fun  getSearchFilterAmount(): Response<SearchFilterAmountResponse>
+    suspend fun getSearchFilterAmount(): Response<SearchFilterAmountResponse>
 
     // Transaction details
     @GET(TransactionsRepository.URL_GET_TRANSACTION_DETAILS)
-    suspend fun  getTransactionDetails(): Response<TransactionDetailsResponse>
+    suspend fun getTransactionDetails(@Path("transactionId") transactionId: String): Response<TransactionDetailsResponse>
 
     // Get Account Transaction
     @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)

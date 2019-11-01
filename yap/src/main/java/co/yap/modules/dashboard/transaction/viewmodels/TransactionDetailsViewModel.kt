@@ -9,6 +9,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -22,27 +23,22 @@ class TransactionDetailsViewModel(application: Application) :
     override var transactionId: String = ""
 
 
-    @SuppressLint("SimpleDateFormat")
     override fun onCreate() {
         super.onCreate()
         getTransactionDetails()
-        val dateString = Calendar.getInstance().time
-        val dateFormat = SimpleDateFormat("MMM dd, YYYY ・ HH:mmaa")
-        state.toolBarTitle = dateFormat.format(dateString)
 
-        state.spentTitle = "Spent"
         state.feeTitle = "Fee"
-        state.totalTitle = "Total"
+        state.totalTitle = "Total amount"
         state.addNoteTitle = "Add a note"
         state.noteValue = "Stay organized by adding transaction notes"
-        state.spentAmount = Utils.getFormattedCurrency("1500")
+
         state.feeAmount = Utils.getFormattedCurrency("0")
-        state.totalAmount = Utils.getFormattedCurrency(
-            addValues(
-                spentAmount = state.spentAmount,
-                feeAmount = state.feeAmount
-            ).toString()
-        )
+        /* state.totalAmount = Utils.getFormattedCurrency(
+             addValues(
+                 spentAmount = state.spentAmount,
+                 feeAmount = state.feeAmount
+             ).toString()*/
+        //)
     }
 
     override fun handlePressOnBackButton(id: Int) {
@@ -57,14 +53,35 @@ class TransactionDetailsViewModel(application: Application) :
         clickEvent.postValue(id)
     }
 
+    @SuppressLint("SimpleDateFormat")
     private fun getTransactionDetails() {
 
         launch {
             state.loading = true
-            when (val response = transactionRepository.getTransactionDetails()) {
+            when (val response = transactionRepository.getTransactionDetails(transactionId)) {
                 is RetroApiResponse.Success -> {
                     //success
                     state.transactionTitle = response.data.data?.title
+                    state.spentTitle = response.data.data?.txnType
+                    state.spentAmount =
+                        response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.amount.toString())
+                    if (response.data.data?.fee != null) state.feeAmount =
+                        response.data.data?.currency + " " + response.data.data?.fee else state.feeAmount =
+                        response.data.data?.currency + " " + "0.00"
+
+                    state.totalAmount =
+                        response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.totalAmount.toString())
+                    //val dateFormat = SimpleDateFormat("MMM dd, YYYY ・ HH:mmaa")
+                    try {
+                        val dateFormat = SimpleDateFormat("yyyy-MMM-dd'T'HH:mm")
+                        dateFormat.timeZone = TimeZone.getTimeZone("UTC")
+                        val date = dateFormat.parse(response.data.data?.creationDate)
+                        state.toolBarTitle = dateFormat.format(date)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                    }
+
+                    //2018-11-23T01:01:01
 
                 }
 
@@ -74,6 +91,7 @@ class TransactionDetailsViewModel(application: Application) :
 
                 }
             }
+            state.loading = false
         }
 
     }
