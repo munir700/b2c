@@ -30,7 +30,7 @@
             app:image="@{viewModel.contact.beneficiaryPictureUrl}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:name="@{viewModel.contact.title}"/>
+            app:name="@{viewModel.contact.title}" />
 
         <LinearLayout
             android:layout_width="0dp"
