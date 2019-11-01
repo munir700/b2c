@@ -124,14 +124,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun resetAllFilters() {
-
-        YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
-            1, 20,
-           null, null,
-            null, null,
-            0,
-            null
-        )
+        YAPApplication.clearFilters()
         finish()
     }
 

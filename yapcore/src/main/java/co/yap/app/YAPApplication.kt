@@ -17,5 +17,16 @@ open class YAPApplication : Application() {
             totalAppliedFilter = 0,
             yapYoungTransfer = null
         )
+
+
+        fun clearFilters() {
+            homeTransactionsRequest = HomeTransactionsRequest(
+                1, pageSize,
+                null, null,
+                null, null,
+                0,
+                null
+            )
+        }
     }
 }
