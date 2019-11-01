@@ -133,7 +133,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             null
         )
         finish()
-
     }
 
     private fun setFilterValues() {
@@ -152,6 +151,5 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         setResult(INTENT_FILTER_REQUEST)
         finish()
     }
-
 
 }
