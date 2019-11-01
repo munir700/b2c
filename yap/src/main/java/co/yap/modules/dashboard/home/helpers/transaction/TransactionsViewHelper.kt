@@ -52,10 +52,10 @@ class TransactionsViewHelper(
 //        })
 
 
-//        setUpGraphRecyclerView()
-        setOnGraphBarClickListeners()
-        setOnTransactionCellClickListeners()
-        autoScrollGraphBarsOnTransactionsListScroll()
+        setUpGraphRecyclerView()
+//        setOnGraphBarClickListeners()
+//        setOnTransactionCellClickListeners()
+//        autoScrollGraphBarsOnTransactionsListScroll()
         initCustomTooltip()
         // setTooltipOnZero()
 
@@ -166,12 +166,16 @@ class TransactionsViewHelper(
 //                   /* context,*/
 //                    viewModel.MAX_CLOSING_BALANCE
 //                )
-        transactionsView.rvTransactionsBarChart.layoutManager = LinearLayoutManager(
+
+            transactionsView.rvTransactionsBarChart.layoutManager = LinearLayoutManager(
             context,
+
             LinearLayoutManager.HORIZONTAL,
             true
         )
-//        }
+
+//        transactionsView.rvTransactionsBarChart.layoutManager.reve.setReverseLayout(true);
+ //        }
     }
 
     private fun setOnGraphBarClickListeners() {
@@ -260,29 +264,29 @@ class TransactionsViewHelper(
                 context, false, transactionsView.rvTransaction,
                 object : RecyclerTouchListener.ClickListener {
                     override fun scrollOnItemsTouchEvent(view: View?, position: Int) {
-//                        checkScroll = false
-//                        checkScroll = false
-////                        checkScroll = true
-//                        isCellHighlighted = false
-//                        isCellHighlightedFromTransaction = false
-////
-//                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
-//                            .performClick()
-//                        horizontalScrollPosition = position
-//                        isCellHighlighted = true
-//                        isCellHighlightedFromTransaction = true
-//                        val newView =
-//                            transactionsView.rvTransactionsBarChart.getChildAt(position)
-////                                .apply {
-////                                performClick()
-////                            }
-//                        transactionsView.rvTransaction.smoothScrollToPosition(position)
-////                        previouslySelected = position
-////
-//                        addTooltip(
-//                            newView.findViewById(R.id.transactionBar),
-//                            viewModel.transactionLogicHelper.transactionList[position]
-//                        )
+                        checkScroll = false
+                        checkScroll = false
+//                        checkScroll = true
+                        isCellHighlighted = false
+                        isCellHighlightedFromTransaction = false
+//
+                        transactionsView.rvTransactionsBarChart.getChildAt(previouslySelected)
+                            .performClick()
+                        horizontalScrollPosition = position
+                        isCellHighlighted = true
+                        isCellHighlightedFromTransaction = true
+                        val newView =
+                            transactionsView.rvTransactionsBarChart.getChildAt(position)
+//                                .apply {
+//                                performClick()
+//                            }
+                        transactionsView.rvTransaction.smoothScrollToPosition(position)
+//                        previouslySelected = position
+//
+                        addTooltip(
+                            newView.findViewById(R.id.transactionBar),
+                            viewModel.transactionLogicHelper.transactionList[position]
+                        )
                     }
 
                     override fun onItemTouchEvent(view: View?, position: Int) {

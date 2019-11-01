@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.util.Log
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -16,7 +17,7 @@ class GraphBarsAdapter(
     private val listItems: MutableList<HomeTransactionListData>,
 //    private val listItems: MutableLiveData<List<HomeTransactionListData>>,
     /*val context: Context,*/
-     val viewModel: IYapHome.ViewModel
+    val viewModel: IYapHome.ViewModel
 ) : BaseBindingRecyclerAdapter<HomeTransactionListData, GraphBarsAdapter.ViewHolder>(listItems),
     View.OnFocusChangeListener {
 
@@ -24,7 +25,7 @@ class GraphBarsAdapter(
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_bar_chart
 
     override fun onCreateViewHolder(binding: ViewDataBinding): ViewHolder {
-        return ViewHolder(binding as ItemBarChartBinding,viewModel.MAX_CLOSING_BALANCE)
+        return ViewHolder(binding as ItemBarChartBinding, viewModel.MAX_CLOSING_BALANCE)
     }
 
 
@@ -57,6 +58,10 @@ class GraphBarsAdapter(
         val transactionModel: HomeTransactionListData = listItems!![position]
         transactionModel.amountPercentage =
             calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance)
+        Log.i(
+            "amountPercentage",
+            "amountPercentage is" + transactionModel.amountPercentage.toString()
+        )
         holder.transactionBar.onFocusChangeListener = this
         holder.transactionBar.setBarHeight(transactionModel.amountPercentage)
 
@@ -80,8 +85,12 @@ class GraphBarsAdapter(
     }
 
     fun calculatePercentagePerDayFromClosingBalance(closingBalance: Double): Double {
-
-        return (closingBalance / viewModel.MAX_CLOSING_BALANCE) * 100
+        closingBalance.toString().replace("-", "").toDouble()
+        val percentage: Double = (closingBalance.toString().replace(
+            "-",
+            ""
+        ).toDouble() / viewModel.MAX_CLOSING_BALANCE) * 100
+        return percentage
 
 
     }
@@ -108,7 +117,7 @@ class GraphBarsAdapter(
     ) :
         RecyclerView.ViewHolder(itemBarChartBinding.root) {
         val transactionBar: ChartView = itemView.transactionBar
-        //
+
 //        val transactionBar: ChartView = itemView.transactionBar
 
         fun onBind(transactionModel: HomeTransactionListData) {
@@ -140,6 +149,7 @@ class GraphBarsAdapter(
 //            }
 
         }
+
         fun calculatePercentagePerDayFromClosingBalance(closingBalance: Double): Double {
 
             return (closingBalance / maxClosingBalance) * 100

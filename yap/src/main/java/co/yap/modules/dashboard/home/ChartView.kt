@@ -159,6 +159,7 @@ class ChartView(context: Context, attrs: AttributeSet) : View(context, attrs),
         // layoutParams = LinearLayout.LayoutParams(width, 0, height.toFloat())
 
         barHeight = ( height.toInt())
+        Log.i("amountPercentage","barHeight is"+barHeight.toString())
 
         // invalidate()
     }
