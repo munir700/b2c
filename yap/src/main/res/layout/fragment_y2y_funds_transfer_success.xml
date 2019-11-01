@@ -20,7 +20,7 @@
             android:id="@+id/lyUserImage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            layout="@layout/layout_initial_image_user"
+            layout="@layout/layout_y_to_y_transfer_initial_image"
             android:layout_marginTop="@dimen/margin_extra_large"
             app:image="@{viewModel.state.imageUrl}"
             app:layout_constraintLeft_toLeftOf="parent"
