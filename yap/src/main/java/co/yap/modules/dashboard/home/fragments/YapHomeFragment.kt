@@ -292,10 +292,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
             checkUserStatus()
         }
-        if (null != homeTransactionsRequest) {
-            viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
-            showToast(homeTransactionsRequest?.debitSearch.toString() + " debitSearch" + homeTransactionsRequest?.minAmount.toString() + " ,min,max " + homeTransactionsRequest?.minAmount.toString()+" total"+ homeTransactionsRequest.totalAppliedFilter)
-        }
+        viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
     }
 
     override fun onDestroyView() {
