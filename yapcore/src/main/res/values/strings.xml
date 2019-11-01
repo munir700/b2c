@@ -22,4 +22,5 @@
     <string name="biometric_failure">Login not successful!</string>
     <string name="biometric_cancelled">Authentication cancelled by user</string>
     <string name="biometric_success">Login Successful</string>
+    <string name="scroll_behavior" translatable="false">@string/appbar_scrolling_view_behavior</string>
 </resources>

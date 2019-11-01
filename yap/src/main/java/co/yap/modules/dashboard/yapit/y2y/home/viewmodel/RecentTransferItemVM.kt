@@ -10,16 +10,18 @@ import co.yap.yapcore.BaseListItemViewModel
 
 class RecentTransferItemVM : BaseListItemViewModel<RecentBeneficiary>() {
     private lateinit var mItem: RecentBeneficiary
-    private var navigation: NavController?=null
+    private var navigation: NavController? = null
+    var position: Int = -1
 
-    override fun setItem(item: RecentBeneficiary) {
+    override fun setItem(item: RecentBeneficiary, position: Int) {
         this.mItem = item
+        this.position = position
         notifyChange()
     }
 
     override fun getItem() = mItem
 
-    override fun onFirsTimeUiCreate(bundle: Bundle?,navigation: NavController) {
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController) {
         this.navigation = navigation
     }
 

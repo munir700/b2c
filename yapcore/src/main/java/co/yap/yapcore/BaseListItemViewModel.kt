@@ -93,13 +93,13 @@ import co.yap.yapcore.interfaces.OnItemClickListener
  * </>
  */
 
-abstract class  BaseListItemViewModel<ITEM:Any>: ViewModel(), Observable,OnItemClickListener {
+abstract class BaseListItemViewModel<ITEM : Any> : ViewModel(), Observable, OnItemClickListener {
     @Transient
     private var mCallbacks: PropertyChangeRegistry? = null
 
     private var isFirstTimeUiCreate = true
 
-    abstract fun setItem(item: ITEM)
+    abstract fun setItem(item: ITEM, position: Int)
     abstract fun getItem(): ITEM
 
 
@@ -155,9 +155,9 @@ abstract class  BaseListItemViewModel<ITEM:Any>: ViewModel(), Observable,OnItemC
      * @param bundle argument data
      */
     @CallSuper
-    open fun onCreate(bundle: Bundle? , navigation: NavController) {
+    open fun onCreate(bundle: Bundle?, navigation: NavController) {
         if (isFirstTimeUiCreate) {
-            onFirsTimeUiCreate(bundle,navigation)
+            onFirsTimeUiCreate(bundle, navigation)
             isFirstTimeUiCreate = false
         }
     }
@@ -173,7 +173,7 @@ abstract class  BaseListItemViewModel<ITEM:Any>: ViewModel(), Observable,OnItemC
      *
      * @param bundle
      */
-    abstract fun onFirsTimeUiCreate(bundle: Bundle?,navigation: NavController)
+    abstract fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController)
 
     /**
      * It is importance to un-reference activity / fragment instance after they are destroyed

@@ -24,7 +24,7 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
     override fun getItemCount() = datas.count()
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.setItem(datas[position])
+        holder.setItem(datas[position], position)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {

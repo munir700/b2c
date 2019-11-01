@@ -1,14 +1,16 @@
 package co.yap.modules.others.helper
 
-import android.graphics.Color
+import android.content.res.Resources
 import android.net.Uri
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
+import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.databinding.BindingAdapter
+import co.yap.R
 import co.yap.widgets.TextDrawable
-
 import co.yap.yapcore.helpers.Utils
-
+import co.yap.yapcore.helpers.dimen
 import com.homemedics.app.glide.setCircleCropImage
 import com.homemedics.app.glide.setImage
 
@@ -33,14 +35,22 @@ object ImageBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["imageUrl", "fullName"], requireAll = false)
-    fun loadAvatar(imageView: ImageView, imageUrl: String, fullName: String) {
+    @BindingAdapter(value = ["imageUrl", "fullName", "position"], requireAll = false)
+    fun loadAvatar(imageView: ImageView, imageUrl: String, fullName: String, position: Int) {
         val builder = TextDrawable.builder();
-        builder.beginConfig().width(45).height(45)
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
+            .height(imageView.context.dimen(R.dimen._40sdp)).
+                fontSize(imageView.context.dimen(R.dimen.text_size_h3))
+            .useFont(ResourcesCompat.getFont(imageView.context , R.font.roboto_regular)!!)
+            .textColor(Utils.getContactColors(imageView.context, position = position))
+
         setCircleCropImage(
             imageView,
             imageUrl,
-            builder.buildRect(Utils.shortName(fullName), Color.RED)
+            builder.buildRect(
+                Utils.shortName(fullName),
+                Utils.getBackgroundColor(imageView.context, position = position)
+            )
         )
     }
 

@@ -2,11 +2,9 @@ package com.digitify.identityscanner.docscanner.models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.TextUtils;
 
 import com.digitify.identityscanner.core.arch.Gender;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import co.yap.yapcore.helpers.DateUtils;

@@ -22,6 +22,7 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_gravity="center_horizontal"
             app:imageUrl="@{recentTransferItemVM.item.beneficiaryPictureUrl}"
+            app:position="@{recentTransferItemVM.position}"
             app:fullName = "@{recentTransferItemVM.item.title}"
             android:contentDescription="@string/empty_string" />
 
