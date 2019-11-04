@@ -10,6 +10,5 @@ data class HomeTransactionsRequest(
     var creditSearch: Boolean?,
     var debitSearch: Boolean?,
     var totalAppliedFilter: Int,
-    var yapYoungTransfer: Boolean?,
-    var hasFilterStateChanged: Boolean?
+    var yapYoungTransfer: Boolean?
 )

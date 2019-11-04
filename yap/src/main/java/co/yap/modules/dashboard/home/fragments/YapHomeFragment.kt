@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
@@ -366,7 +367,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
-            getFilterTransactions()
+            if (YAPApplication.hasFilterStateChanged)
+                getFilterTransactions()
         }
     }
 
