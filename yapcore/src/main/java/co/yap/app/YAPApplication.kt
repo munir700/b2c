@@ -15,7 +15,8 @@ open class YAPApplication : Application() {
             null,
             null,
             totalAppliedFilter = 0,
-            yapYoungTransfer = null
+            yapYoungTransfer = null,
+            hasFilterStateChanged = false
         )
 
 
@@ -25,7 +26,8 @@ open class YAPApplication : Application() {
                 null, null,
                 null, null,
                 0,
-                null
+                null,
+                false
             )
         }
     }

@@ -365,14 +365,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-//        if (null != homeTransactionsRequest) {
-//            showToast(YAPApplication.homeTransactionsRequest?.debitSearch.toString() + " debitSearch" + YAPApplication.homeTransactionsRequest?.minAmount.toString() + " ,min,max " + YAPApplication.homeTransactionsRequest?.minAmount.toString())
-//
-//        }
-
         if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
             getFilterTransactions()
-
         }
     }
 

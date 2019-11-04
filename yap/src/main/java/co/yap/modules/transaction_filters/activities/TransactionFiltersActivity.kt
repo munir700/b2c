@@ -28,6 +28,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     override val viewModel: ITransactionFilters.ViewModel
         get() = ViewModelProviders.of(this).get(TransactionFiltersViewModel::class.java)
 
+
     companion object {
         const val INTENT_FILTER_REQUEST = 1111
         const val KEY_FILTER_IN_TRANSACTION = "incomingTransaction"
@@ -67,7 +68,6 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             transactionFilters.maxAmount.toFloat()
         )
 
-
         rsbAmount?.setProgress(
             transactionFilters.maxAmount.toFloat(),
             transactionFilters.maxAmount.toFloat()
@@ -104,6 +104,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             }
             R.id.btnApplyFilters -> setFilterValues()
             R.id.IvClose -> {
+                YAPApplication.homeTransactionsRequest.hasFilterStateChanged = false
                 finish()
             }
         }
@@ -136,14 +137,27 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.minAmount?.toFloat()!!) count++
         YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
             0, YAPApplication.pageSize,
-            rsbAmount.leftSeekBar.progress.toDouble(), rsbAmount.maxProgress.toDouble(),
+            rsbAmount.minProgress.toDouble(), rsbAmount.leftSeekBar.progress.toDouble(),
             cbInTransFilter.isChecked, cbOutTransFilter.isChecked,
             count,
-            true
+            true,
+            hasFiltersStateChanged()
         )
-
         setResult(INTENT_FILTER_REQUEST)
         finish()
     }
 
+    private fun hasFiltersStateChanged(): Boolean {
+        return when {
+            YAPApplication.homeTransactionsRequest.creditSearch!! != cbInTransFilter.isChecked -> true
+            YAPApplication.homeTransactionsRequest.debitSearch!! != cbOutTransFilter.isChecked -> true
+            YAPApplication.homeTransactionsRequest.maxAmount!! != rsbAmount.leftSeekBar.progress.toDouble() -> true
+            else -> false
+        }
+    }
+
+    override fun onBackPressed() {
+        YAPApplication.homeTransactionsRequest.hasFilterStateChanged = false
+        super.onBackPressed()
+    }
 }

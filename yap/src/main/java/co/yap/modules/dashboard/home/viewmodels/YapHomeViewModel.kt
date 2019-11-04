@@ -55,7 +55,8 @@ class YapHomeViewModel(application: Application) :
 
         }
 
-        requestAccountTransactions()
+        if (homeTransactionsRequest.hasFilterStateChanged!!)
+            requestAccountTransactions()
     }
 
     override fun requestAccountTransactions() {
