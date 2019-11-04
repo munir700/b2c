@@ -2,13 +2,30 @@ package co.yap.modules.onboarding.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
+import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 
 interface IEidInfoReview {
+
+    interface State : IBase.State {
+        var titleName: Array<String?>
+        var fullName: String
+        var nationality: String
+        var dateOfBirth: String
+        var gender: String
+        var expiryDate: String
+
+        var fullNameValid: Boolean
+        var nationalityValid: Boolean
+        var dateOfBirthValid: Boolean
+        var genderValid: Boolean
+        var expiryDateValid: Boolean
+        var valid: Boolean
+    }
 
     interface View : IBase.View<ViewModel> {
         fun showUnderAgeAlert()
         fun showExpiredEidAlert()
+        fun showInvalidEidAlert()
         fun showUSACitizenAlert()
         fun openCardScanner()
     }
@@ -26,6 +43,10 @@ interface IEidInfoReview {
             get() = 5
         val EVENT_NEXT: Int
             get() = 6
+        val EVENT_FINISH: Int
+            get() = 7
+        val EVENT_ERROR_INVALID_EID: Int
+            get() = 8
 
         val clickEvent: SingleClickEvent
         fun handlePressOnRescanBtn()
@@ -33,21 +54,5 @@ interface IEidInfoReview {
         fun handleUserRejection(reason: Int)
         fun handleUserAcceptance(reason: Int)
         fun onEIDScanningComplete(result: IdentityScannerResult)
-    }
-
-    interface State : IBase.State {
-        var titleName: Array<String?>
-        var fullName: String
-        var nationality: String
-        var dateOfBirth: String
-        var gender: String
-        var expiryDate: String
-
-        var fullNameValid: Boolean
-        var nationalityValid: Boolean
-        var dateOfBirthValid: Boolean
-        var genderValid: Boolean
-        var expiryDateValid: Boolean
-        var valid: Boolean
     }
 }

@@ -15,8 +15,8 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHelpSupportBinding
-import co.yap.modules.dashboard.activities.YapDashboardActivity
-import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
+import co.yap.modules.dashboard.main.activities.YapDashboardActivity
+import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
@@ -57,12 +57,19 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
+        viewModel.urlUpdated.observe(this, Observer {
+            if (!it.isNullOrEmpty()) {
+                openFaqsPage(it)
+            } else {
+                showToast("Invalid url.")
+            }
+        })
     }
 
     private val observer = Observer<Int> {
         when (it) {
             R.id.lLyFaqs -> {
-                openFaqsPage("https://yap.co/")
+                viewModel.getFaqsUrl()
             }
             R.id.lyChat -> {
                 chatSetup()

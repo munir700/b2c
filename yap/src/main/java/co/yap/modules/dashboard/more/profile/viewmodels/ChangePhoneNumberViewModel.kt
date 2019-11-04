@@ -9,7 +9,7 @@ import androidx.navigation.findNavController
 import co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragmentDirections
 import co.yap.modules.dashboard.more.profile.intefaces.IChangePhoneNumber
 import co.yap.modules.dashboard.more.profile.states.ChangePhoneNumberState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
@@ -40,7 +40,7 @@ class ChangePhoneNumberViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.validatePhoneNumber(state.countryCode, state.mobile.replace(" ", ""))) {
+                repository.validatePhoneNumber("00971", state.mobile.replace(" ", ""))) {
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.errorMessage = response.error.message
@@ -73,7 +73,7 @@ class ChangePhoneNumberViewModel(application: Application) :
                     val action =
                         ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToGenericOtpFragment(
                             otpType = Constants.CHANGE_MOBILE_NO,
-                            mobileNumber = state.countryCode + state.mobile.replace(" ", "")
+                            mobileNumber = state.countryCode + " "+state.mobile
                         )
                     view.findNavController().navigate(action)
                 }
@@ -111,6 +111,6 @@ class ChangePhoneNumberViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("Change phone number")
+        setToolBarTitle("")
     }
 }

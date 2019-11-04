@@ -1,10 +1,11 @@
 package co.yap.modules.dashboard.more.help.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.states.HelpSupportState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.models.RetroApiResponse
@@ -16,6 +17,7 @@ class HelpSupportViewModel(application: Application) :
 
     override val repository: MessagesRepository = MessagesRepository
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override val urlUpdated: MutableLiveData<String> = MutableLiveData()
     override val state: HelpSupportState = HelpSupportState()
 
     init {
@@ -40,6 +42,23 @@ class HelpSupportViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.contactPhone.set(response.data.data)
+                }
+            }
+        }
+    }
+
+    override fun getFaqsUrl() {
+        launch {
+            state.loading = true
+            when (val response =
+                repository.getFaqsUrl()) {
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+
+                }
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    urlUpdated.value = response.data.data
                 }
             }
         }

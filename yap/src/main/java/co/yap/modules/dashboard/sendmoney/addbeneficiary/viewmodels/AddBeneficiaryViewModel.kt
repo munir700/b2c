@@ -16,7 +16,7 @@ class AddBeneficiaryViewModel(application: Application) :
 
     override val repository: CustomersRepository = CustomersRepository
 
-    override val state: AddBeneficiaryStates = AddBeneficiaryStates()
+    override val state: AddBeneficiaryStates = AddBeneficiaryStates(getApplication())
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 

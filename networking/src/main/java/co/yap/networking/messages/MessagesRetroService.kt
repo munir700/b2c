@@ -2,6 +2,7 @@ package co.yap.networking.messages
 
 import co.yap.networking.messages.requestdtos.*
 import co.yap.networking.messages.responsedtos.CreateForgotPasscodeOtpResponse
+import co.yap.networking.messages.responsedtos.FaqsResponse
 import co.yap.networking.messages.responsedtos.HelpDeskResponse
 import co.yap.networking.messages.responsedtos.ValidateDeviceResponse
 import co.yap.networking.models.ApiResponse
@@ -45,4 +46,7 @@ interface MessagesRetroService {
 
     @GET(MessagesRepository.URL_HELP_DESK_PHONE)
     suspend fun getHelpDeskContact(): Response<HelpDeskResponse>
+
+    @GET(MessagesRepository.URL_FAQS)
+    suspend fun getFaqs(): Response<FaqsResponse>
 }

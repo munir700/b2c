@@ -24,7 +24,7 @@ project.ext {
             translation: ':translation',
             yap        : ':yap',
             yapcore    : ':yapcore',
-            kyc        : ':identityscanner'
+            kyc        : ':identityscanner_v2'
     ]
 
     // All libraries that any module can contain
@@ -33,17 +33,20 @@ project.ext {
             // Android
             sdp                      : 'com.intuit.sdp:sdp-android:1.0.5',
             kotlinStdlib             : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version",
+            kotlinreflect            : "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version",
             databindingCompiler      : 'com.android.databinding:compiler:3.4.1',
-            material                 : 'com.google.android.material:material:1.0.0',
+            material                 : 'com.google.android.material:material:1.2.0-alpha01',
             viewpagerDots            : 'com.tbuonomo.andrui:viewpagerdotsindicator:3.0.3',
             otpView                  : 'com.github.aabhasr1:OtpView:1.0.6',
             numberFomater            : 'io.michaelrocks:libphonenumber-android:8.10.13',
+            numberFomaterGoogle      : 'com.googlecode.libphonenumber:libphonenumber:v8.10.21',
             recyclerfastscroll       : 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5',
             gson                     : 'com.google.code.gson:gson:2.8.5',
             discretescrollview       : "com.yarolegovich:discrete-scrollview:1.4.9",
             tooltip                  : 'com.github.sephiroth74:android-target-tooltip:2.0.4',
             baloon                   : "com.github.skydoves:balloon:1.0.5",
             quickAction              : "me.piruin:quickaction:2.4.3",
+            rangeSeekbar             : "com.github.Jay-Goo:RangeSeekBar:v3.0.0",
 
 
             // Dagger
@@ -103,6 +106,10 @@ project.ext {
             livechat                 : 'com.liveperson.android:lp_messaging_sdk:4.2.1',
             fineWebView              : 'com.thefinestartist:finestwebview:1.2.7',
 
+            //phone lib
+            phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:7.2.2',
+            easyImage                : 'com.github.jkwiecien:EasyImage:1.3.1',
+
     ]
     // Test dependencies which need to be added in all modules
     testDependencies = [
@@ -115,6 +122,7 @@ project.ext {
     commonDependencies = [
             [configuration: "implementation", dependency: libraries.sdp],
             [configuration: "implementation", dependency: libraries.kotlinStdlib],
+            [configuration: "implementation", dependency: libraries.kotlinreflect],
             // [configuration: "kapt", dependency: libraries.databindingCompiler],
             [configuration: "implementation", dependency: libraries.material],
             [configuration: "implementation", dependency: libraries.dagger],
@@ -127,7 +135,9 @@ project.ext {
             [configuration: "implementation", dependency: libraries.paging],
             [configuration: "implementation", dependency: libraries.viewpager2],
             [configuration: "implementation", dependency: libraries.livechat],
-            [configuration: "implementation", dependency: libraries.fineWebView]
+            [configuration: "implementation", dependency: libraries.fineWebView],
+            [configuration: "implementation", dependency: libraries.phoneLib],
+            [configuration: "implementation", dependency: libraries.easyImage]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -154,6 +164,7 @@ project.ext {
             [configuration: "implementation", dependency: libraries.expandableLayout],
             [configuration: "implementation", dependency: libraries.tooltip],
             [configuration: "implementation", dependency: libraries.baloon],
+            [configuration: "implementation", dependency: libraries.rangeSeekbar]
     ]
 
     // dependencies which need to be added in yapcore module only in conjunction with commonDependencies

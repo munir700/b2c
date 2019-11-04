@@ -17,11 +17,9 @@ import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
 import co.yap.yapcore.BR
-import com.digitify.identityscanner.modules.docscanner.activities.IdentityScannerActivity
-import com.digitify.identityscanner.modules.docscanner.enums.DocumentType
+import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
+import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_kyc_home.*
-
-private const val SCAN_EID_CAM = 12
 
 class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
@@ -41,7 +39,9 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
 
         } else {
-            IdentityScannerActivity.CLOSE_SCANNER = false
+            //todo need to verify that code
+            //IdentityScannerActivity.CLOSE_SCANNER = false
+            viewModel.state.eidScanStatus  = DocScanStatus.SCAN_PENDING
             tvSkip.visibility = View.VISIBLE
         }
         if (checkMore && checkScanned) {
@@ -60,6 +60,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                     }
                 }
                 R.id.tvSkip -> {
+                    checkScanned = false
                     findNavController().navigate(R.id.action_goto_DashboardActivity)
                     activity?.finish()
                 }
@@ -88,13 +89,11 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
+        if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
-                data?.let {
-
                     viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
                     checkScanned = true
-                }
+
             }
         }
     }
@@ -106,7 +105,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
                 DocumentType.EID,
                 IdentityScannerActivity.SCAN_FROM_CAMERA
             ),
-            SCAN_EID_CAM
+            IdentityScannerActivity.SCAN_EID_CAM
         )
     }
 

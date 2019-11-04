@@ -3,22 +3,20 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.states.PersonalDetailState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
-import co.yap.modules.kyc.enums.DocScanStatus
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
-import com.digitify.identityscanner.modules.docscanner.models.IdentityScannerResult
 
 class PersonalDetailsViewModel(application: Application) :
     MoreBaseViewModel<IPersonalDetail.State>(application), IPersonalDetail.ViewModel,
     IRepositoryHolder<CardsRepository> {
 
+    override var UPDATE_ADDRESS_UI: Int = 10
 
     override val repository: CardsRepository = CardsRepository
     lateinit var address: Address
@@ -55,7 +53,7 @@ class PersonalDetailsViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_personal_detail_display_text_title))
         state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-        state.phoneNumber = MyUserManager.user!!.currentCustomer.getCompletePhone()
+        state.phoneNumber = MyUserManager.user!!.currentCustomer.getFormattedPhoneNumber(context)
         state.email = MyUserManager.user!!.currentCustomer.email
         if (MyUserManager.userAddress == null) {
             requestGetAddressForPhysicalCard()
@@ -75,6 +73,7 @@ class PersonalDetailsViewModel(application: Application) :
                         address = response.data.data
 
                         setUpAddressFields()
+                        clickEvent.setValue(UPDATE_ADDRESS_UI)
                     }
                 }
 
@@ -93,16 +92,20 @@ class PersonalDetailsViewModel(application: Application) :
             addresstitle = address.address2!!
         }
 
-        if (!address.address2.isNullOrEmpty()) {
+        if (!address.address1.isNullOrEmpty()) {
             addressDetail = address.address1!!
         }
 
-        state.address = addresstitle + " " + addressDetail
+        state.address = addressDetail
         MyUserManager.userAddress = address
     }
 
-     override fun toggleToolBar(hide: Boolean) {
+    override fun toggleToolBar(hide: Boolean) {
         toggleToolBarVisibility(hide)
     }
 
- }
+    override fun updateToolBarText(heading: String) {
+        setToolBarTitle(heading)
+    }
+
+}

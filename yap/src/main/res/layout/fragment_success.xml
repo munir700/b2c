@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -9,7 +10,7 @@
             type="co.yap.modules.dashboard.more.profile.viewmodels.SuccessViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -21,10 +22,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_xl"
             android:gravity="center"
-            tools:text="Success!"
-            app:text="@{viewModel.state.topMainHeading}"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:text="@{viewModel.state.topMainHeading}"
+            tools:text="Success!" />
 
         <TextView
             android:id="@+id/tvSuccessSubHeading"
@@ -34,10 +35,83 @@
             android:gravity="center"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
-            tools:text="Your email address has been changed to newemail@website.com"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading" />
+            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+            tools:text="Your email address has been changed to newemail@website.com" />
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cvLocationCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_medium"
+            android:minHeight="@dimen/_115sdp"
+            android:visibility="gone"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnAction"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvSuccessSubHeading"
+            app:layout_constraintVertical_bias="0.0"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingStart="@dimen/margin_normal_large"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_normal_large"
+                android:paddingBottom="@dimen/margin_medium"
+                android:weightSum="100"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/ivLocationPhoto"
+                    android:layout_width="@dimen/_84sdp"
+                    android:layout_height="@dimen/_84sdp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_normal"
+                    android:layout_marginBottom="@dimen/margin_extra_small"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvAddressTitle"
+                        style="@style/Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        app:layout_constraintLeft_toRightOf="@+id/ivLocationPhoto"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Burj Residence Tower 1" />
+
+                    <TextView
+                        android:id="@+id/tvAddressSubTitle"
+                        style="@style/ASmallGrey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:ellipsize="end"
+                        android:lineSpacingExtra="3sp"
+                        android:maxLines="4"
+                        app:layout_constraintStart_toStartOf="@+id/tvAddressTitle"
+                        app:layout_constraintTop_toBottomOf="@+id/tvAddressTitle"
+                        tools:text="31 J3 Opposite، # 4، Expo Center Rd, Block J 3 Phase 2 جوہر ٹاؤن، لاہور" />
+
+
+                </LinearLayout>
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
 
         <co.yap.widgets.CoreButton
             android:id="@+id/btnAction"

@@ -92,11 +92,15 @@
             android:name="destinationValue"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="successType"
+            android:defaultValue=" "
+            app:argType="string" />
     </fragment>
 
     <activity
         android:id="@+id/DashboardActivity"
-        android:name="co.yap.modules.dashboard.activities.YapDashboardActivity"
+        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
         android:label="LiteDashboardActivity"
         tools:layout="@layout/activity_yap_dashboard" />
 

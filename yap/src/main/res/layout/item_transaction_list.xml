@@ -1,84 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginStart="@dimen/margin_medium_large"
-    android:layout_marginEnd="@dimen/margin_medium_large"
-    android:background="@color/white">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <co.yap.widgets.CoreCircularImageView
-        android:id="@+id/ivTransaction"
-        android:layout_width="@dimen/_35sdp"
-        android:layout_height="@dimen/_35sdp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-
-        android:layout_marginTop="@dimen/margin_normal"
-        android:src="@color/disabled"/>
-    <TextView
-        android:id="@+id/tvNameInitials"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:id="@+id/lyTransaction"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="@+id/ivTransaction"
-        android:textColor="@color/colorPrimaryDark"
-        tools:text="NM"
-        app:layout_constraintBottom_toBottomOf="@+id/ivTransaction"
-        app:layout_constraintLeft_toLeftOf="@+id/ivTransaction"
-        app:layout_constraintRight_toRightOf="@+id/ivTransaction"/>
+        android:layout_marginStart="@dimen/margin_medium_large"
+        android:layout_marginEnd="@dimen/margin_medium_large"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvTransactionName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/ASmall"
-        tools:text="Amazon"
-        app:layout_constraintTop_toTopOf="@+id/ivTransaction"
-        app:layout_constraintLeft_toRightOf="@+id/ivTransaction"
-        android:layout_marginStart="@dimen/margin_large"/>
+        <co.yap.widgets.CoreCircularImageView
+            android:id="@+id/ivTransaction"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:src="@color/disabled"
 
-    <TextView
-        android:id="@+id/tvTransactionTimeAndCategory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_extra_small"
-        style="@style/SmallGrey"
-        android:textColor="@color/greyNormalDark"
-        app:layout_constraintLeft_toLeftOf="@+id/tvTransactionName"
-        app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
-        tools:text="18:25"
-        />
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvNameInitials"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintBottom_toBottomOf="@+id/ivTransaction"
+            app:layout_constraintLeft_toLeftOf="@+id/ivTransaction"
+            app:layout_constraintRight_toRightOf="@+id/ivTransaction"
+            app:layout_constraintTop_toTopOf="@+id/ivTransaction"
+            tools:text="NM" />
+
+        <TextView
+            android:id="@+id/tvTransactionName"
+            style="@style/ASmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_normal"
+
+            android:singleLine="true"
+            app:layout_constraintBottom_toBottomOf="@+id/tvNameInitials"
+            app:layout_constraintEnd_toStartOf="@+id/tvTransactionAmount"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/ivTransaction"
+            app:layout_constraintTop_toTopOf="@+id/ivTransaction"
+            tools:text="Amazon" />
+
+        <TextView
+            android:id="@+id/tvTransactionTimeAndCategory"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:textColor="@color/greyNormalDark"
+            app:layout_constraintLeft_toLeftOf="@+id/tvTransactionName"
+            app:layout_constraintTop_toBottomOf="@+id/tvTransactionName"
+            tools:text="18:25" />
 
 
-    <TextView
-        android:id="@+id/tvTransactionAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        tools:text="- 21.00"
-        style="@style/ASmall"
+        <TextView
+            android:id="@+id/tvTransactionAmount"
+            style="@style/ASmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
 
-        app:layout_constraintTop_toTopOf="@+id/tvTransactionName"
-        app:layout_constraintRight_toRightOf="parent"/>
+            app:layout_constraintTop_toTopOf="@+id/tvTransactionName"
+            tools:text="- 21.00" />
 
-    <TextView
-        android:id="@+id/tvCurrency"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        style="@style/SmallGrey"
-        tools:text="AED"
-        android:textColor="@color/greyNormalDark"
-        app:layout_constraintRight_toRightOf="@+id/tvTransactionAmount"
-       app:layout_constraintTop_toTopOf="@+id/tvTransactionTimeAndCategory"
-        />
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/divider"
-        app:layout_constraintRight_toRightOf="@+id/tvCurrency"
-        app:layout_constraintLeft_toLeftOf="@+id/tvTransactionTimeAndCategory"
-        app:layout_constraintTop_toBottomOf="@+id/ivTransaction"
-        android:layout_marginTop="@dimen/margin_normal"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/tvCurrency"
+            style="@style/SmallGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/greyNormalDark"
+            app:layout_constraintRight_toRightOf="@+id/tvTransactionAmount"
+            app:layout_constraintTop_toTopOf="@+id/tvTransactionTimeAndCategory"
+            tools:text="AED" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:background="@color/divider"
+            app:layout_constraintLeft_toLeftOf="@+id/tvTransactionTimeAndCategory"
+            app:layout_constraintRight_toRightOf="@+id/tvCurrency"
+            app:layout_constraintTop_toBottomOf="@+id/ivTransaction" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

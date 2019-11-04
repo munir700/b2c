@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.more.profile.intefaces.IChangeEmail
 import co.yap.modules.dashboard.more.profile.states.ChangeEmailState
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
@@ -32,24 +32,27 @@ open class ChangeEmailViewModel(application: Application) :
 
 
     override fun onHandlePressOnNextButton() {
-        if (state.confirmEmailValidation()) {
+        if (state.newEmailValidation() && state.confirmEmailValidation()) {
+            if (state.newEmail == state.newConfirmEMail) {
+                launch {
+                    state.loading = true
+                    when (val response =
+                        repository.validateEmail(state.newEmail)) {
+                        is RetroApiResponse.Success -> {
+                            createOtp()
+                        }
 
-            launch {
-                state.loading = true
-                when (val response =
-                    repository.validateEmail(state.newEmail)) {
-                    is RetroApiResponse.Success -> {
-                        createOtp()
+                        is RetroApiResponse.Error -> {
+                            state.loading = false
+                            state.setErrors(response.error.message)
+                        }
+
                     }
-
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.errorMessage = response.error.message
-                        state.setErrors()
-                    }
-
                 }
+            } else {
+                state.setErrors("Email is not matched.")
             }
+
         }
     }
 
@@ -84,10 +87,12 @@ open class ChangeEmailViewModel(application: Application) :
                     MyUserManager.user?.currentCustomer?.email = state.newEmail
                     sharedPreferenceManager.saveUserName(state.newEmail)
                     changeEmailSuccessEvent.call()
+
+
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
                     state.loading = false
+                    state.setErrors(response.error.message)
                 }
             }
             state.loading = false

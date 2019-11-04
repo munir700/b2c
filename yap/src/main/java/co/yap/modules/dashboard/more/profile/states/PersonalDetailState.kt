@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.R
+import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.isDocumentRequired
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.translation.Strings
 import co.yap.translation.Translator
@@ -87,10 +88,18 @@ class PersonalDetailState(val application: Application) : BaseState(), IPersonal
         } else {
             drawbleRight =
                 application!!.resources.getDrawable(R.drawable.ic_doc_error)
-            verificationText = Translator.getString(
-                application,
-                Strings.screen_personal_detail_display_text_verification_expired
-            )
+            if (isDocumentRequired){
+                verificationText = Translator.getString(
+                    application,
+                    Strings.screen_personal_detail_display_text_verification_required
+                )
+            }else{
+                verificationText = Translator.getString(
+                    application,
+                    Strings.screen_personal_detail_display_text_verification_expired
+                )
+            }
+
         }
 
         notifyPropertyChanged(BR.drawbleRight)

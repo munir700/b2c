@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.home.viewmodels.YapHomeViewModel" />
+
+        <import type="android.view.View" />
+
+    </data>
 
     <RelativeLayout
+        android:id="@+id/homeParent"
         android:layout_width="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -23,50 +33,64 @@
                 app:dsv_orientation="horizontal" />
 
 
-            <!--     Transaction Graph Center       -->
+            <!--     Content Graph Center       -->
             <include
                 android:id="@+id/vGraph"
                 layout="@layout/view_graph"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <RelativeLayout
                 android:id="@+id/rlTransactionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_small"
                 android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginEnd="@dimen/margin_medium_large">
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_small">
 
                 <TextView
                     android:id="@+id/tvTransactionTitle"
+                    style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    style="@style/ASmall"
-                    android:text="Transactions"/>
+                    android:text="Transactions" />
 
                 <RelativeLayout
                     android:id="@+id/rlFilter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:layout_alignParentEnd="true">
+
+                    <TextView
+                        android:id="@+id/tvFilterCount"
+                        style="@style/ASmall"
+                        android:layout_width="@dimen/_22sdp"
+                        android:layout_height="@dimen/_22sdp"
+                        android:background="@drawable/bg_round_purple"
+                        android:gravity="center"
+                        android:text="@{viewModel.state.filterCount.toString()}"
+                        android:textColor="@color/colorPrimary"
+                        android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"
+                        tools:text="6" />
 
                     <ImageView
                         android:id="@+id/ivFilters"
+                        android:layout_toEndOf="@+id/tvFilterCount"
                         android:layout_width="wrap_content"
-                        android:layout_marginEnd="2dp"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/ic_filter"/>
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_filter" />
 
                     <TextView
                         android:id="@+id/tvFilters"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:layout_toEndOf="@+id/ivFilters"
+                        style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        style="@style/ASmall"
-                        android:textColor="@color/colorPrimary"
-                        android:text="Filter"/>
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_toEndOf="@+id/ivFilters"
+                        android:text="Filter"
+                        android:textColor="@color/colorPrimary" />
 
                 </RelativeLayout>
 
@@ -74,11 +98,11 @@
 
             <View
                 android:layout_width="match_parent"
-                android:paddingTop="@dimen/_12sdp"
+                android:layout_height="1dp"
                 android:background="@color/divider"
-                android:layout_height="1dp"/>
+                android:paddingTop="@dimen/_12sdp" />
 
-            <!--     Transaction List-->
+            <!--     Content List-->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvTransaction"
                 android:layout_width="match_parent"
@@ -90,10 +114,10 @@
                 android:id="@+id/ivNoTransaction"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:visibility="gone"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_extra_large"
-                android:src="@drawable/ic_no_transaction"/>
+                android:src="@drawable/ic_no_transaction"
+                android:visibility="gone" />
 
         </LinearLayout>
 
@@ -101,15 +125,15 @@
             android:id="@+id/tooltip"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="wrap_content"
+            android:background="@color/divider"
             android:elevation="5dp"
             android:gravity="center"
-            android:paddingTop="@dimen/_2sdp"
             android:paddingStart="@dimen/_4sdp"
+            android:paddingTop="@dimen/_2sdp"
             android:paddingEnd="@dimen/_4sdp"
             android:paddingBottom="@dimen/_8sdp"
             android:text="Tooltip"
             android:visibility="gone"
-            android:background="@color/divider"
             app:arrowAlignment="custom"
             app:arrowHeight="@dimen/_8sdp"
             app:arrowLocation="bottom"
@@ -122,12 +146,5 @@
 
     </RelativeLayout>
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="co.yap.modules.dashboard.viewmodels.YapHomeViewModel" />
-
-    </data>
 
 </layout>

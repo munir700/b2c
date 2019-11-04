@@ -6,14 +6,15 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.isDocumentRequired
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
-import co.yap.modules.dashboard.more.viewmodels.MoreBaseViewModel
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
-import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.MyUserManager
 import okhttp3.MediaType
@@ -90,10 +91,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-
-        setToolBarTitle(getString(Strings.screen_profile_settings_display_text_title))
-
-
+       // setToolBarTitle(getString(Strings.screen_profile_settings_display_text_title))
     }
 
     override fun onCreate() {
@@ -163,7 +161,7 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     override fun requestProfileDocumentsInformation() {
-
+ 
         launch {
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
 
@@ -177,7 +175,11 @@ class ProfileSettingsViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.errorBadgeVisibility = VISIBLE
+                    MoreActivity.showExpiredIcon = true
                     showExpiredBadge = true
+                     if (response.error.message.equals("HomeTransactionListData not found")){
+                         isDocumentRequired = true
+                    }
                 }
             }
         }
@@ -196,9 +198,13 @@ class ProfileSettingsViewModel(application: Application) :
         if (expireyDate > previousDayDate) {
             state.errorBadgeVisibility = GONE
             showExpiredBadge = false
+            MoreActivity.showExpiredIcon = false
+
         } else {
             state.errorBadgeVisibility = VISIBLE
             showExpiredBadge = true
+            MoreActivity.showExpiredIcon = true
         }
+
     }
 }

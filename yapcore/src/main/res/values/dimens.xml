@@ -55,6 +55,9 @@
     <!-- Meeting Confirmation-->
     <dimen name="eid_layout_size">@dimen/_50sdp</dimen>
 
+    <!-- Searching widget height-->
+    <dimen name="search_widget_height">@dimen/_30sdp</dimen>
+
     <!--tooltipdimen-->
 
     <dimen name="tooltip_default_arrow_height">8dp</dimen>
@@ -68,4 +71,10 @@
     <dimen name="cardview_compat_inset_shadow">@dimen/_10sdp</dimen>
     <dimen name="cardview_elevation">@dimen/_10sdp</dimen>
     <dimen name="cardview_radius">@dimen/_10sdp</dimen>
+
+
+<!--    others-->
+    <integer name="note_max_length">150</integer>
+<!--Arc Menu-->
+    <dimen name="action_menu_radius">90dp</dimen>
 </resources>

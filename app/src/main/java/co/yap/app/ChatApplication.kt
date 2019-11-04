@@ -1,6 +1,5 @@
 package co.yap.app
 
-import android.app.Application
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -19,7 +18,7 @@ import com.liveperson.messaging.model.AgentData
 import com.liveperson.messaging.sdk.api.LivePerson
 
 
-open class ChatApplication : Application() {
+open class ChatApplication : YAPApplication() {
 
     private val authKey = "17038977"
     private val atg = ChatApplication::class.java.simpleName

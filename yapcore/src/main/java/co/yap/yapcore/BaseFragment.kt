@@ -9,7 +9,8 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnBackPressedListener
 
 
-abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>, OnBackPressedListener {
+abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.View<V>,
+    OnBackPressedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,8 +99,11 @@ abstract class BaseFragment<V : IBase.ViewModel<*>> : BaseNavFragment(), IBase.V
 
     // TODO: Support PermissionsManager.OnPermissionGrantedListener functions in BaseFragment
 
-    override fun getString(resourceKey: String): String = Translator.getString(context!!, resourceKey)
-    fun getString(resourceKey: String, vararg arg: String): String = Translator.getString(context!!, resourceKey, *arg)
+    override fun getString(resourceKey: String): String =
+        Translator.getString(context!!, resourceKey)
+
+    fun getString(resourceKey: String, vararg arg: String): String =
+        Translator.getString(context!!, resourceKey, *arg)
 
     override fun onBackPressed(): Boolean = false
 

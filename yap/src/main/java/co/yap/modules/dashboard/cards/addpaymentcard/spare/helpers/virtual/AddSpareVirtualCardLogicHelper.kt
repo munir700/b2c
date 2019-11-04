@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.cards.addpaymentcard.spare.helpers.virtual
 
 import android.content.Context
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.interfaces.IAddSpareCard
-import co.yap.modules.dashboard.models.TransactionModel
+import co.yap.modules.onboarding.models.TransactionModel
 
 class AddSpareVirtualCardLogicHelper(
     val context: Context,

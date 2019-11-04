@@ -8,4 +8,5 @@ class HelpSupportState : BaseState(), IHelpSupport.State {
 
     override var title: ObservableField<String> = ObservableField()
     override var contactPhone: ObservableField<String> = ObservableField()
+    override var FaqsUrl: ObservableField<String> = ObservableField()
 }

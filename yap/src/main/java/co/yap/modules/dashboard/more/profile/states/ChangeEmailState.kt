@@ -18,7 +18,8 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
         set(value) {
             field = value
             notifyPropertyChanged(BR.newEmail)
-            confirmEmailValidation()
+            newEmailValidation()
+            setButtonState()
         }
     @get:Bindable
     override var newConfirmEMail: String = ""
@@ -26,6 +27,8 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             field = value
             notifyPropertyChanged(BR.newConfirmEMail)
             confirmEmailValidation()
+            setButtonState()
+
         }
 
     @get:Bindable
@@ -71,48 +74,62 @@ class ChangeEmailState(application: Application) : BaseState(), IChangeEmail.Sta
             notifyPropertyChanged(BR.drawableNew)
         }
 
-    fun confirmEmailValidation(): Boolean {
+
+    fun newEmailValidation(): Boolean {
+        errorMessage = ""
         return if (Utils.validateEmail(newEmail)) {
-            backgroundNew =
-                context.getDrawable(R.drawable.bg_edit_text_under_line)
             drawableNew =
                 context.getDrawable(R.drawable.path)
-            if (newEmail != newConfirmEMail) {
-                backgroundConfirm =
-                    context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.bg_edit_text_under_line else R.drawable.bg_edit_text_under_line)
-                drawableConfirm = null
-                valid = false
-                false
-            } else {
-                valid = true
-                backgroundConfirm =
-                    context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.bg_edit_text_under_line else R.drawable.bg_edit_text_under_line)
-                drawableConfirm =
-                    context.getDrawable(if (Utils.validateEmail(newConfirmEMail)) R.drawable.path else R.drawable.path)
-                errorMessage = ""
-                true
-            }
+            true
         } else {
-            backgroundNew =
-                context.getDrawable(R.drawable.bg_edit_text_under_line)
             drawableNew = null
+            false
+        }
+    }
 
-            backgroundConfirm =
-                context.getDrawable(R.drawable.bg_edit_text_under_line)
+
+    fun confirmEmailValidation(): Boolean {
+        errorMessage = ""
+        return if (Utils.validateEmail(newConfirmEMail)) {
+            drawableConfirm =
+                context.getDrawable(R.drawable.path)
+            true
+        } else {
             drawableConfirm = null
             valid = false
             false
         }
     }
 
-    fun setErrors() {
+    private fun setButtonState() {
+        valid = Utils.validateEmail(newEmail) && Utils.validateEmail(newConfirmEMail)
         backgroundNew =
-            context.getDrawable(R.drawable.bg_edit_text_red_under_line)
-        drawableNew =  context.getDrawable(R.drawable.ic_error)
+            context.getDrawable(R.drawable.bg_edit_text_under_line)
+        drawableNew =
+            if (Utils.validateEmail(newEmail)) context.getDrawable(R.drawable.path) else null
 
         backgroundConfirm =
-            context.getDrawable(R.drawable.bg_edit_text_red_under_line)
-        drawableConfirm =  context.getDrawable(R.drawable.ic_error)
+            context.getDrawable(R.drawable.bg_edit_text_under_line)
+        drawableConfirm =
+            if (Utils.validateEmail(newConfirmEMail)) context.getDrawable(R.drawable.path) else null
+    }
+
+    fun setErrors(errorMesage: String) {
+        if (errorMesage == "email should match") {
+            backgroundConfirm =
+                context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+            drawableConfirm = context.getDrawable(R.drawable.ic_error)
+        } else {
+            /*  backgroundNew =
+                  context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+              drawableNew = context.getDrawable(R.drawable.ic_error)
+  */
+            backgroundConfirm =
+                context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+            drawableConfirm = context.getDrawable(R.drawable.ic_error)
+        }
+        errorMessage = errorMesage
+
     }
 
 }

@@ -1,36 +1,23 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.Manifest
-import android.app.Activity
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.res.AssetFileDescriptor
-import android.database.Cursor
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
-import android.text.TextUtils
-import android.util.Log
 import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
-import co.yap.modules.dashboard.constants.Constants
-import co.yap.modules.dashboard.more.activities.MoreActivity
-import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.others.helper.Constants
+import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.networking.cards.responsedtos.CardBalance
@@ -42,38 +29,23 @@ import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.swTouchId
 import kotlinx.android.synthetic.main.layout_profile_settings.*
-import java.io.ByteArrayOutputStream
+import pl.aprilapps.easyphotopicker.DefaultCallback
+import pl.aprilapps.easyphotopicker.EasyImage
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile.View,
     CardClickListener {
-    val IMAGE_PATH = Environment
-        .getExternalStorageDirectory().path + "/eidScan"
 
     private lateinit var updatePhotoBottomSheet: UpdatePhotoBottomSheet
-
     override fun getBindingVariable(): Int = BR.viewModel
-
     override fun getLayoutId(): Int = R.layout.fragment_profile
 
-    private var imageUri: Uri? = null
     private val FINAL_TAKE_PHOTO = 1
     private val FINAL_CHOOSE_PHOTO = 2
-    internal var pictureSelectionType = false
     internal var permissionHelper: PermissionHelper? = null
-
-
-    var checkPermissionGranted = false
 
     override val viewModel: IProfile.ViewModel
         get() = ViewModelProviders.of(this).get(ProfileSettingsViewModel::class.java)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -121,13 +93,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
         when (eventType) {
             Constants.EVENT_ADD_PHOTO -> {
-                takePicture()
+                checkPermission(FINAL_TAKE_PHOTO)
             }
 
             Constants.EVENT_CHOOSE_PHOTO -> {
-                // choose photo
-                selectProfilePicture()
-
+                checkPermission(FINAL_CHOOSE_PHOTO)
             }
 
             R.id.tvNotificationsView -> {
@@ -136,46 +106,39 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         }
     }
 
-    fun checkPermission() {
+    private fun checkPermission(type: Int) {
         permissionHelper = PermissionHelper(
-            this,
-            arrayOf(
+            this, arrayOf(
                 Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ),
-            100
+            ), 100
         )
 
         permissionHelper!!.request(object : PermissionHelper.PermissionCallback {
             override fun onPermissionGranted() {
-                Log.d("ProfileSettingsFragment", "onPermissionGranted() called")
-                pictureSelectionType
-
-                if (pictureSelectionType) {
-                    takePicture()
-
+                if (type == FINAL_TAKE_PHOTO) {
+                    EasyImage.openCamera(this@ProfileSettingsFragment, FINAL_TAKE_PHOTO)
                 } else {
-                    selectProfilePicture()
+                    EasyImage.openGallery(this@ProfileSettingsFragment, FINAL_CHOOSE_PHOTO)
                 }
 
             }
 
             override fun onIndividualPermissionGranted(grantedPermission: Array<String>) {
-                Log.d(
-                    "ProfileSettingsFragment",
-                    "onIndividualPermissionGranted() called with: grantedPermission = [" + TextUtils.join(
-                        ",",
-                        grantedPermission
-                    ) + "]"
-                )
+                if (type == FINAL_TAKE_PHOTO) {
+                    if (grantedPermission.contains(Manifest.permission.CAMERA))
+                        EasyImage.openCamera(this@ProfileSettingsFragment, FINAL_TAKE_PHOTO)
+                } else {
+                    if (grantedPermission.contains(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                        EasyImage.openGallery(this@ProfileSettingsFragment, FINAL_CHOOSE_PHOTO)
+                }
             }
 
             override fun onPermissionDenied() {
-                Log.d("ProfileSettingsFragment", "onPermissionDenied() called")
+                showToast("Can't proceed without permissions")
             }
 
             override fun onPermissionDeniedBySystem() {
-                Log.d("ProfileSettingsFragment", "onPermissionDeniedBySystem() called")
                 permissionHelper!!.openAppDetailsActivity()
 
 
@@ -183,171 +146,38 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         })
     }
 
-    private fun selectProfilePicture() {
-        pictureSelectionType = true
-        if (ContextCompat.checkSelfPermission(
-                activity!!,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                activity!!,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) run {
-            checkPermission()
-        } else {
-            pictureSelectionType = false
 
-            val intent = Intent()
-            intent.type = "image/jpeg"
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(
-                Intent.createChooser(
-                    intent,
-                    "Select Picture"
-                ), FINAL_CHOOSE_PHOTO
-            )
-        }
-    }
-
-
-    private fun takePicture() {
-        pictureSelectionType = true
-        if (ContextCompat.checkSelfPermission(
-                activity!!,
-                Manifest.permission.CAMERA
-            ) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(
-                activity!!,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
-            ) != PackageManager.PERMISSION_GRANTED
-        ) run {
-            checkPermission()
-        } else {
-            pictureSelectionType = true
-
-            val tempFolder = File(IMAGE_PATH)
-
-            for (f in tempFolder.listFiles())
-                f.delete()
-            val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-            val file = File(
-                IMAGE_PATH, "IMG_" + timeStamp +
-                        ".jpg"
-            )
-
-            imageUri = if (Build.VERSION.SDK_INT >= 24) {
-                FileProvider.getUriForFile(
-                    activity!!.applicationContext,
-                    "co.yap.fileprovider",
-                    file
-                )
-            } else {
-                Uri.fromFile(file)
-            }
-
-            val intent = Intent("android.media.action.IMAGE_CAPTURE")
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-            startActivityForResult(intent, FINAL_TAKE_PHOTO)
-        }
-    }
-
-    fun getRealPathFromURI(context: Context, contentUri: Uri): String {
-        var cursor: Cursor? = null
-        try {
-            val proj = arrayOf(MediaStore.Images.Media.DATA)
-            cursor = context.contentResolver.query(contentUri, proj, null, null, null)
-            val column_index = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            cursor.moveToFirst()
-            return cursor.getString(column_index)
-        } catch (e: Exception) {
-            Log.e("", "getRealPathFromURI Exception : $e")
-            return ""
-        } finally {
-            cursor?.close()
-        }
-    }
-
-    fun getImageUri(inContext: Context, inImage: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        inImage.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
-        val path =
-            MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "title", null)
-        return Uri.parse(path)
+    private fun onPhotosReturned(path: File, position: Int, source: EasyImage.ImageSource?) {
+        viewModel.uploadProfconvertUriToFile(path.toUri())
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        var bitmap: Bitmap? = null
 
-        when (requestCode) {
-            FINAL_CHOOSE_PHOTO ->
-                if (resultCode == Activity.RESULT_OK) {
-
-                    try {
-                        imageUri = data!!.getData()
-                        var selectedImage: Bitmap
-                        if (imageUri == null) {
-                            selectedImage = data!!.getExtras()!!.get("data") as Bitmap
-                            selectedImage = data!!.data as Bitmap
-                        } else {
-                            selectedImage = getBitmap(imageUri)
-                        }
-
-                        val uri = getImageUri(activity!!, selectedImage)
-                        val imgPath = getRealPathFromURI(activity!!, uri)
-                        viewModel.uploadProfconvertUriToFile(Uri.parse(imgPath))
-
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
+        EasyImage.handleActivityResult(requestCode, resultCode, data, activity,
+            object : DefaultCallback() {
+                override fun onImagePicked(
+                    imageFile: File?,
+                    source: EasyImage.ImageSource?,
+                    type: Int
+                ) {
+                    onPhotosReturned(imageFile!!, type, source)
                 }
 
-            FINAL_TAKE_PHOTO ->
-                if (resultCode == Activity.RESULT_OK) {
-                    val bitmap = getBitmap(imageUri)
-
-                    imageUri = getUri(bitmap)
-                    if (imageUri != null) {
-
-                        imageUri = Uri.parse(
-                            viewModel.getRealPathFromUri(
-                                this!!.context!!, imageUri!!
-                            )
-                        )
-
-                        viewModel.uploadProfconvertUriToFile(imageUri!!)
-                    }
+                override fun onImagePickerError(
+                    e: Exception?,
+                    source: EasyImage.ImageSource?,
+                    type: Int
+                ) {
+                    //Some error handling
+                    showToast(e!!.message.toString())
                 }
-        }
-    }
-
-    fun getUri(bitmap: Bitmap): Uri {
-        val bytes = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes)
-
-        val path = MediaStore.Images.Media.insertImage(
-            context!!.contentResolver,
-            bitmap,
-            Date().time.toString() + "_Title",
-            null
-        )
-        return Uri.parse(path)
-    }
-
-    fun getBitmap(selectedimg: Uri?): Bitmap {
-        val options = BitmapFactory.Options()
-        options.inSampleSize = 3
-        var fileDescriptor: AssetFileDescriptor? = null
-        fileDescriptor = activity!!.getContentResolver().openAssetFileDescriptor(selectedimg!!, "r")
-        return BitmapFactory.decodeFileDescriptor(
-            fileDescriptor!!.fileDescriptor, null, options
-        )
+            })
     }
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-
     }
 
     fun logoutAlert() {
@@ -371,6 +201,10 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         MyUserManager.cardBalance.value = CardBalance()
         MyUserManager.cards.value?.clear()
         MyUserManager.userAddress = null
+        MoreActivity.showExpiredIcon =false
+        // clear filters
+
+        YAPApplication.clearFilters()
         activity?.finish()
     }
 
@@ -433,6 +267,11 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 }
 
                 R.id.tvLogOut -> {
+
+
+
+
+
                     logoutAlert()
                 }
 
@@ -450,9 +289,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
     }
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
-
 
 }

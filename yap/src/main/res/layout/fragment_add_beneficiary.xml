@@ -211,8 +211,7 @@
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@{viewModel.state.backgroundNew}"
-                    android:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}"
+                     android:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:text="@{viewModel.state.nickName}" />
@@ -236,8 +235,7 @@
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@{viewModel.state.backgroundNew}"
-                    android:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}"
+                     android:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:text="@{viewModel.state.firstName}" />
@@ -261,8 +259,7 @@
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@{viewModel.state.backgroundNew}"
-                    android:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}"
+                     android:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:text="@{viewModel.state.lastName}" />

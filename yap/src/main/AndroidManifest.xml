@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -21,9 +22,9 @@
             <nav-graph android:value="@navigation/kyc_navigation" />
         </activity>
         <activity
-            android:name=".modules.dashboard.activities.YapDashboardActivity"
+            android:name=".modules.dashboard.main.activities.YapDashboardActivity"
             android:screenOrientation="portrait">
-            <nav-graph android:value="@navigation/yap_navigation" />
+            <!--            <nav-graph android:value="@navigation/yap_navigation" />-->
         </activity>
 
         <meta-data
@@ -68,10 +69,10 @@
         </activity>
 
         <activity
-            android:name=".modules.dashboard.more.activities.MoreActivity"
+            android:name=".modules.dashboard.more.main.activities.MoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|adjustPan">
+            android:windowSoftInputMode="adjustResize">
             <nav-graph android:value="@navigation/more_main_navigation" />
         </activity>
 
@@ -115,18 +116,12 @@
             android:name=".modules.dashboard.cards.paymentcarddetail.statments.activities.CardStatementsActivity"
             android:screenOrientation="portrait" />
 
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="co.yap.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths" />
-        </provider>
-
         <activity
             android:name=".modules.dashboard.more.bankdetails.activities.BankDetailActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.others.fragmentpresenter.activities.FragmentPresenterActivity"
             android:screenOrientation="portrait" />
 
         <activity
@@ -136,11 +131,22 @@
             android:theme="@style/FinestWebViewTheme.Light" />
 
         <activity
+
+            android:name=".modules.transaction_filters.activities.TransactionFiltersActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.transaction.activities.TransactionDetailsActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.transaction_note.activities.TransactionNoteActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
             android:name=".modules.dashboard.sendmoney.activities.SendMoneyHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <nav-graph android:value="@navigation/send_money_main_navigation" />
         </activity>
-
     </application>
 </manifest>

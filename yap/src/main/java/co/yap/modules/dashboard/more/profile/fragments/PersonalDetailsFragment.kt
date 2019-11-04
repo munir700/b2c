@@ -9,11 +9,14 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.more.activities.MoreActivity
-import co.yap.modules.dashboard.more.fragments.MoreBaseFragment
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
+import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.showExpiredIcon
+import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IPersonalDetail
 import co.yap.modules.dashboard.more.profile.viewmodels.PersonalDetailsViewModel
 import co.yap.yapcore.managers.MyUserManager
+import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
+import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_personal_detail.*
 
 
@@ -34,29 +37,16 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
     override val viewModel: IPersonalDetail.ViewModel
         get() = ViewModelProviders.of(this).get(PersonalDetailsViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val showExpiredIcon =
-            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired }
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if(context is MoreActivity)
         (context as MoreActivity).visibleToolbar()
-
-        viewModel.state.errorVisibility =
-            arguments?.let { PersonalDetailsFragmentArgs.fromBundle(it).showExpired } as Boolean
-
-        if (MyUserManager.user!!.documentInformation == null && viewModel.state.errorVisibility) {
-            cvCard.visibility = VISIBLE
-        } else {
-            cvCard.visibility = GONE
-        }
-
+        viewModel.state.errorVisibility = showExpiredIcon
     }
 
     override fun onResume() {
         super.onResume()
+        viewModel.state.errorVisibility = showExpiredIcon
         viewModel.toggleToolBar(true)
 
         viewModel.clickEvent.observe(this, Observer {
@@ -71,6 +61,8 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                 }
 
                 R.id.tvEditAddress -> {
+                    viewModel.toggleToolBar(true)
+
                     changeAddress = true
                     val action =
                         PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToAddressSelectionFragment(
@@ -82,7 +74,6 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
 
                 R.id.cvCard -> {
                     if (viewModel.state.errorVisibility) {
-
                         val action =
                             PersonalDetailsFragmentDirections.actionPersonalDetailsFragmentToDocumentsDashboardActivity(
                                 viewModel.state.fullName, true
@@ -91,9 +82,17 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
                     }
 
                 }
+
+                viewModel.UPDATE_ADDRESS_UI -> {
+                    toggleAddressVisiblity()
+                }
             }
         })
 
+        toggleAddressVisiblity()
+    }
+
+    private fun toggleAddressVisiblity() {
         if (MyUserManager.userAddress == null) {
             llAddress.visibility = GONE
         } else {
@@ -105,7 +104,9 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         super.onPause()
         viewModel.clickEvent.removeObservers(this)
         if (changeAddress) {
-            viewModel.toggleToolBar(false)
+            viewModel.toggleToolBar(true)
+            viewModel.updateToolBarText("")
+
             changeAddress = true
         }
     }
@@ -114,7 +115,7 @@ class PersonalDetailsFragment : MoreBaseFragment<IPersonalDetail.ViewModel>(),
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
         if (changeAddress) {
-            viewModel.toggleToolBar(false)
+            viewModel.toggleToolBar(true)
             changeAddress = true
         }
 

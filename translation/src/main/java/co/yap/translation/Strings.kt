@@ -11,6 +11,7 @@ object Strings {
     const val common_button_yes: String = "common_button_yes"
     const val common_button_cancel: String = "common_button_cancel"
     const val common_button_settings: String = "common_button_settings"
+    const val common_button_save: String = "common_button_save"
     const val common_button_activate: String = "common_button_activate"
     const val common_text_currency_type: String = "common_text_currency_type"
     const val common_amount_hint: String = "common_amount_hint"
@@ -663,6 +664,8 @@ object Strings {
         "screen_personal_detail_display_text_verification_completed"
     const val screen_personal_detail_display_text_verification_expired: String =
         "screen_personal_detail_display_text_verification_expired"
+    const val screen_personal_detail_display_text_verification_required: String =
+        "screen_personal_detail_display_text_verification_required"
 
 
     // logout dialogue
@@ -843,4 +846,95 @@ object Strings {
         "screen_add_beneficiary_detail_display_button_block_alert_yes"
     const val screen_add_beneficiary_detail_display_button_block_alert_no: String =
         "screen_add_beneficiary_detail_display_button_block_alert_no"
+
+    //Change email screen
+    const val screen_change_email_display_text_heading: String =
+        "screen_change_email_display_text_heading"
+    const val screen_change_email_placeholder_email_address: String =
+        "screen_change_email_placeholder_email_address"
+    const val screen_change_email_placeholder_confirm_email_address: String =
+        "screen_change_email_placeholder_confirm_email_address"
+    const val screen_change_email_display_text_description: String =
+        "screen_change_email_display_text_description"
+    const val screen_change_email_display_text_email_title: String =
+        "screen_change_email_display_text_email_title"
+    const val screen_change_email_display_text_confirm_email_title: String =
+        "screen_change_email_display_text_confirm_email_title"
+
+
+    //    Change Phone Number Screen
+    const val screen_change_phone_number_display_text_heading: String =
+        "screen_change_phone_number_display_text_heading"
+    const val screen_change_phone_number_display_text_text_field_title: String =
+        "screen_change_phone_number_display_text_text_field_title"
+
+
+    //    Current passcode screen
+    const val screen_current_passcode_display_text_heading: String =
+        "screen_current_passcode_display_text_heading"
+
+    //    Update new passcode screen
+    const val screen_set_passcode_display_text_heading: String =
+        "screen_set_passcode_display_text_heading"
+
+    //    Update confirm passcode screen
+    const val screen_confirm_passcode_display_text_heading: String =
+        "screen_confirm_passcode_display_text_heading"
+
+
+    //Email Verification Screen
+    const val screen_email_verification_display_text_heading: String =
+        "screen_email_verification_display_text_heading"
+
+
+    //    Y2Y funds Transfer screen
+    const val screen_y2y_funds_transfer_display_text_title: String =
+        "screen_y2y_funds_transfer_display_text_title"
+    const val screen_y2y_funds_transfer_display_text_note_placeholder: String =
+        "screen_y2y_funds_transfer_display_text_note_placeholder"
+    const val screen_y2y_funds_transfer_display_text_error_exceeding_amount: String =
+        "screen_y2y_funds_transfer_display_text_error_exceeding_amount"
+    const val screen_y2y_funds_transfer_display_text_balance: String =
+        "screen_y2y_funds_transfer_display_text_balance"
+    const val screen_yap_to_yap_transfer_display_text_button: String =
+        "screen_yap_to_yap_transfer_display_text_button"
+
+    //Y2Y contacts
+    const val screen_y2y_display_text_no_yap_contacts: String =
+        "screen_y2y_display_text_no_yap_contacts"
+    const val screen_y2y_display_button_yap_contacts: String =
+        "screen_y2y_display_button_yap_contacts"
+    const val screen_y2y_display_button_all_contacts: String =
+        "screen_y2y_display_button_all_contacts"
+    const val screen_y2y_display_text_send_money_to: String =
+        "screen_y2y_display_text_send_money_to"
+
+    //    Y2Y funds Transfer success screen
+    const val screen_y2y_funds_transfer_success_display_text_title: String =
+        "screen_y2y_funds_transfer_success_display_text_title"
+    const val screen_y2y_funds_transfer_success_display_text_transfer: String =
+        "screen_y2y_funds_transfer_success_display_text_transfer"
+    const val screen_y2y_funds_transfer_success_button_back: String =
+        "screen_y2y_funds_transfer_success_button_back"
+
+
+    //Transaction details screen
+    const val screen_transaction_details_display_text_spent: String =
+        "screen_transaction_details_display_text_spent"
+    const val screen_transaction_details_display_text_received: String =
+        "screen_transaction_details_display_text_received"
+    const val screen_transaction_details_display_text_fee: String =
+        "screen_transaction_details_display_text_fee"
+    const val screen_transaction_details_display_text_total_amount: String =
+        "screen_transaction_details_display_text_total_amount"
+    const val screen_transaction_details_display_text_add_note: String =
+        "screen_transaction_details_display_text_add_note"
+    const val screen_transaction_details_display_text_edit_note: String =
+        "screen_transaction_details_display_text_edit_note"
+    const val screen_transaction_details_display_text_note_description: String =
+        "screen_transaction_details_display_text_note_description"
+    const val screen_add_note_display_text_type_something: String =
+        "screen_add_note_display_text_type_something"
+    const val screen_add_note_display_text_save: String =
+        "screen_add_note_display_text_save"
 }

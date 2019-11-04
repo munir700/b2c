@@ -33,7 +33,7 @@ abstract class BaseRepository : IRepository {
     private fun <T : ApiResponse> detectError(response: Response<T>): ApiError {
         if (response.code() == 504) {
             // It is no internet connect error
-            // TODO: take default error message from repo to show here
+            // brTODO: take default error message from repo to show here
             return ApiError(response.code(), "")
         }
 

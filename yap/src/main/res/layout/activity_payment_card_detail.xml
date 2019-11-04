@@ -12,7 +12,7 @@
 
         <import type="android.view.View" />
 
-        <import type="co.yap.modules.dashboard.constants.Constants" />
+        <import type="co.yap.modules.others.helper.Constants" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -21,90 +21,90 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:gravity="bottom"
+            android:orientation="vertical"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <RelativeLayout
+                android:id="@+id/rlTransactionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:background="@color/white"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
-                android:orientation="vertical">
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:layout_marginBottom="@dimen/margin_small">
+
+                <TextView
+                    android:id="@+id/tvTransactionTitle"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Recent transactions" />
 
                 <RelativeLayout
-                    android:id="@+id/rlTransactionHeader"
-                    android:layout_width="match_parent"
+                    android:id="@+id/rlFilter"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:layout_marginStart="@dimen/margin_medium_large"
-                    android:layout_marginEnd="@dimen/margin_medium_large"
-                    android:layout_marginBottom="@dimen/margin_small">
+                    android:layout_alignParentEnd="true"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:id="@+id/ivFilters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="2dp"
+                        android:src="@drawable/ic_filter" />
 
                     <TextView
-                        android:id="@+id/tvTransactionTitle"
+                        android:id="@+id/tvFilters"
                         style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Transactions" />
-
-                    <RelativeLayout
-                        android:id="@+id/rlFilter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true">
-
-                        <ImageView
-                            android:id="@+id/ivFilters"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="2dp"
-                            android:src="@drawable/ic_filter" />
-
-                        <TextView
-                            android:id="@+id/tvFilters"
-                            style="@style/ASmall"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:layout_toEndOf="@+id/ivFilters"
-                            android:text="Filter"
-                            android:textColor="@color/colorPrimary" />
-
-                    </RelativeLayout>
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_toEndOf="@+id/ivFilters"
+                        android:text="Filter"
+                        android:textColor="@color/colorPrimary" />
 
                 </RelativeLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/divider"
-                    android:paddingTop="@dimen/_12sdp" />
+            </RelativeLayout>
 
-                <!--     Transaction List-->
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvTransaction"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible"
-                    tools:listitem="@layout/item_transaction_list" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:paddingTop="@dimen/_12sdp" />
 
-                <ImageView
-                    android:id="@+id/ivNoTransaction"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="@dimen/margin_extra_large"
-                    android:src="@drawable/ic_no_transaction"
-                    android:visibility="gone" />
+            <!--     Content List-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTransaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                tools:listitem="@layout/item_transaction_list" />
 
-            </LinearLayout>
-<!--        </androidx.core.widget.NestedScrollView>-->
+            <ImageView
+                android:id="@+id/ivNoTransaction"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/margin_extra_large"
+                android:src="@drawable/ic_no_transaction" />
+
+        </LinearLayout>
+        <!--        </androidx.core.widget.NestedScrollView>-->
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:fitsSystemWindows="true"
-            app:elevation="0dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="0dp">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsing_toolbar"
@@ -122,224 +122,224 @@
 
                     >
 
-                <!--        two layouts to be collapse-->
-                <RelativeLayout
-                    android:id="@+id/rlCardBalance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="@dimen/margin_medium">
-
-
+                    <!--        two layouts to be collapse-->
                     <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
-
-                        <TextView
-                            android:id="@+id/tvBalanceTitle"
-                            style="@style/ASmallGrey"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/margin_extra_small"
-                            android:text="Card balance" />
-
-                        <TextView
-                            android:id="@+id/tvCardBalance"
-                            style="@style/ALarge"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/tvBalanceTitle"
-                            android:layout_centerHorizontal="true"
-                            android:text="@={viewModel.state.cardBalance}"
-                            tools:text="AED 738.10" />
-
-                        <ProgressBar
-                            android:layout_width="@dimen/_17sdp"
-                            android:layout_height="@dimen/_17sdp"
-                            android:layout_below="@+id/tvBalanceTitle"
-                            android:layout_marginTop="@dimen/_3sdp"
-                            android:layout_marginEnd="@dimen/margin_small"
-                            android:layout_toStartOf="@+id/tvCardBalance"
-                            android:backgroundTint="@color/colorPrimary"
-                            android:foregroundTint="@color/colorPrimary"
-                            android:visibility="@{viewModel.state.balanceLoading ? View.VISIBLE : View.GONE}" />
-
-                    </RelativeLayout>
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/rlCardActions"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/rlCardBalance"
-                    android:layout_marginTop="@dimen/margin_medium">
-
-                    <RelativeLayout
-                        android:id="@+id/rlSpareCardActions"
-                        android:layout_width="match_parent"
+                        android:id="@+id/rlCardBalance"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_extra_small"
-                        android:background="@color/white"
-                        android:visibility="gone">
+                        android:layout_marginTop="@dimen/margin_medium"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:orientation="horizontal">
 
-                            <LinearLayout
-                                android:id="@+id/llAddFunds"
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
+
+                            <TextView
+                                android:id="@+id/tvBalanceTitle"
+                                style="@style/ASmallGrey"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                                android:orientation="vertical">
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/margin_extra_small"
+                                android:text="Card balance" />
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_add_funds" />
-
-                                <TextView
-                                    style="@style/Micro"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/margin_extra_small"
-                                    android:text="Add funds"
-                                    android:textColor="@color/colorPrimary" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/llFreezeSpareCard"
+                            <TextView
+                                android:id="@+id/tvCardBalance"
+                                style="@style/ALarge"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_medium"
-                                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                                android:orientation="vertical">
+                                android:layout_below="@+id/tvBalanceTitle"
+                                android:layout_centerHorizontal="true"
+                                android:text="@={viewModel.state.cardBalance}"
+                                tools:text="AED 738.10" />
 
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_freeze_card" />
+                            <ProgressBar
+                                android:layout_width="@dimen/_17sdp"
+                                android:layout_height="@dimen/_17sdp"
+                                android:layout_below="@+id/tvBalanceTitle"
+                                android:layout_marginTop="@dimen/_3sdp"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                android:layout_toStartOf="@+id/tvCardBalance"
+                                android:backgroundTint="@color/colorPrimary"
+                                android:foregroundTint="@color/colorPrimary"
+                                android:visibility="@{viewModel.state.balanceLoading ? View.VISIBLE : View.GONE}" />
 
-                                <TextView
-                                    android:id="@+id/tvSpareCardStatus"
-                                    style="@style/Micro"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/margin_extra_small"
-                                    android:text="Freeze card"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/colorPrimary" />
-
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:id="@+id/llRemoveFunds"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_medium"
-                                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                                android:orientation="vertical">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_remove_funds" />
-
-                                <TextView
-                                    style="@style/Micro"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/margin_extra_small"
-                                    android:text="Remove funds"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/colorPrimary" />
-
-                            </LinearLayout>
-
-                        </LinearLayout>
+                        </RelativeLayout>
 
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/rlPrimaryCardActions"
-                        android:layout_width="match_parent"
+                        android:id="@+id/rlCardActions"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/margin_extra_small"
-                        android:background="@color/white"
-                        android:visibility="gone">
+                        android:layout_marginTop="@dimen/margin_medium"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/rlCardBalance">
 
-                        <LinearLayout
-                            android:layout_width="wrap_content"
+                        <RelativeLayout
+                            android:id="@+id/rlSpareCardActions"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:orientation="horizontal">
-
+                            android:layout_margin="@dimen/margin_extra_small"
+                            android:background="@color/white"
+                            android:visibility="gone">
 
                             <LinearLayout
-                                android:id="@+id/llFreezePrimaryCard"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                                android:orientation="vertical">
+                                android:layout_centerHorizontal="true"
+                                android:orientation="horizontal">
 
-                                <ImageView
+                                <LinearLayout
+                                    android:id="@+id/llAddFunds"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_freeze_card" />
+                                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                    android:orientation="vertical">
 
-                                <TextView
-                                    android:id="@+id/tvPrimaryCardStatus"
-                                    style="@style/Micro"
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/ic_add_funds" />
+
+                                    <TextView
+                                        style="@style/Micro"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_extra_small"
+                                        android:text="Add funds"
+                                        android:textColor="@color/colorPrimary" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llFreezeSpareCard"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/margin_extra_small"
-                                    android:text="Freeze card"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/colorPrimary" />
+                                    android:layout_marginStart="@dimen/margin_medium"
+                                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/ic_freeze_card" />
+
+                                    <TextView
+                                        android:id="@+id/tvSpareCardStatus"
+                                        style="@style/Micro"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_extra_small"
+                                        android:text="Freeze card"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/colorPrimary" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llRemoveFunds"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginStart="@dimen/margin_medium"
+                                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/ic_remove_funds" />
+
+                                    <TextView
+                                        style="@style/Micro"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_extra_small"
+                                        android:text="Remove funds"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/colorPrimary" />
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/rlPrimaryCardActions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="@dimen/margin_extra_small"
+                            android:background="@color/white"
+                            android:visibility="gone">
+
                             <LinearLayout
-                                android:id="@+id/llCardLimits"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_marginStart="@dimen/margin_large"
-                                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                                android:orientation="vertical">
+                                android:layout_centerHorizontal="true"
+                                android:orientation="horizontal">
 
-                                <ImageView
+
+                                <LinearLayout
+                                    android:id="@+id/llFreezePrimaryCard"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_gravity="center_horizontal"
-                                    android:src="@drawable/ic_card_limits" />
+                                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                    android:orientation="vertical">
 
-                                <TextView
-                                    style="@style/Micro"
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/ic_freeze_card" />
+
+                                    <TextView
+                                        android:id="@+id/tvPrimaryCardStatus"
+                                        style="@style/Micro"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_extra_small"
+                                        android:text="Freeze card"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/colorPrimary" />
+
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:id="@+id/llCardLimits"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="@dimen/margin_extra_small"
-                                    android:text="Set limits"
-                                    android:textAlignment="center"
-                                    android:textColor="@color/colorPrimary" />
+                                    android:layout_marginStart="@dimen/margin_large"
+                                    android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                    android:orientation="vertical">
+
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_horizontal"
+                                        android:src="@drawable/ic_card_limits" />
+
+                                    <TextView
+                                        style="@style/Micro"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/margin_extra_small"
+                                        android:text="Set limits"
+                                        android:textAlignment="center"
+                                        android:textColor="@color/colorPrimary" />
+
+                                </LinearLayout>
 
                             </LinearLayout>
 
-                        </LinearLayout>
-
+                        </RelativeLayout>
                     </RelativeLayout>
-                </RelativeLayout>
-                <!--        end tag for two upper layouts-->
+                    <!--        end tag for two upper layouts-->
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -347,11 +347,11 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:background="@color/white"
                     android:elevation="0dp"
 
-                    android:background="@color/white"
-                    app:layout_collapseMode="pin">
+                    app:layout_collapseMode="pin"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -375,9 +375,9 @@
                             android:layout_marginStart="@dimen/margin_small"
                             android:layout_marginEnd="@dimen/margin_small"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                            app:layout_constraintBottom_toBottomOf="@+id/ivBack"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@+id/ivBack"
-                            app:layout_constraintBottom_toBottomOf="@+id/ivBack"
                             app:srcCompat="@drawable/ic_more" />
 
                         <TextView
@@ -385,17 +385,17 @@
                             style="@style/Regular"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/_2sdp"
-                            android:gravity="center"
                             android:layout_marginStart="@dimen/margin_small"
+                            android:layout_marginTop="@dimen/_2sdp"
                             android:layout_marginEnd="@dimen/margin_small"
-                            android:text="@={viewModel.state.cardName}"
                             android:ellipsize="end"
+                            android:gravity="center"
                             android:maxLines="1"
-                            app:layout_constraintTop_toTopOf="@+id/ivBack"
+                            android:text="@={viewModel.state.cardName}"
                             app:layout_constraintBottom_toBottomOf="@+id/ivBack"
                             app:layout_constraintLeft_toRightOf="@+id/ivBack"
                             app:layout_constraintRight_toLeftOf="@+id/ivMenu"
+                            app:layout_constraintTop_toTopOf="@+id/ivBack"
                             tools:text="Spare" />
 
                         <include
@@ -403,14 +403,14 @@
                             layout="@layout/layout_card_info"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
                             android:layout_marginTop="@dimen/margin_medium_large"
-                            app:layout_constraintLeft_toLeftOf="parent"
-                            app:layout_constraintRight_toRightOf="parent"
                             android:layout_marginBottom="@dimen/margin_medium"
                             app:buttonVisibility="@{true}"
                             app:cardName="@{viewModel.state.cardTypeText}"
-                            app:cardNumber="@{viewModel.state.cardPanNumber}" />
+                            app:cardNumber="@{viewModel.state.cardPanNumber}"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.appcompat.widget.Toolbar>
             </com.google.android.material.appbar.CollapsingToolbarLayout>

@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/toolbarTransFilters"
+            layout="@layout/layout_transaction_filters_toolbar"
+            app:viewModel="@{viewModel}" />
+
+        <View
+            android:id="@+id/vLine"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/greyLight"
+            app:layout_constraintTop_toBottomOf="@id/toolbarTransFilters" />
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clTransContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
+            android:layout_marginEnd="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@+id/vLine">
+
+            <TextView
+                android:id="@+id/tvInTrans"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Incoming transactions"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbInTransFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tvOutTrans"
+                style="@style/Regular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="Outgoing transations"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvInTrans" />
+
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/cbOutTransFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorPrimaryDark"
+                app:layout_constraintBottom_toBottomOf="@+id/tvOutTrans"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvOutTrans" />
+
+            <View
+                android:id="@+id/vLineTrans"
+                android:layout_width="match_parent"
+                android:layout_height="2px"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:background="@color/greyLight"
+                app:layout_constraintTop_toBottomOf="@id/tvOutTrans" />
+
+
+            <TextView
+                android:id="@+id/tvRangeTitle"
+                style="@style/ARegularGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="AED Balance"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vLineTrans" />
+
+            <TextView
+                android:id="@+id/tvTransStartRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_extra_small"
+                android:text="@{viewModel.state.rangeStartValue}"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintRight_toLeftOf="@+id/vRangeDivider"
+                app:layout_constraintTop_toTopOf="@+id/tvRangeTitle"
+                tools:ignore="RtlHardcoded" />
+
+            <View
+                android:id="@+id/vRangeDivider"
+                android:layout_width="10dp"
+                android:layout_height="3px"
+                android:layout_marginEnd="@dimen/margin_extra_small"
+                android:background="@color/colorPrimary"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTransEndRange"
+                app:layout_constraintRight_toLeftOf="@+id/tvTransEndRange"
+                app:layout_constraintTop_toTopOf="@+id/tvTransEndRange" />
+
+            <TextView
+                android:id="@+id/tvTransEndRange"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:gravity="center"
+                android:text="@{viewModel.state.rangeEndValue}"
+                android:textColor="@color/colorPrimary"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvRangeTitle"
+                tools:ignore="RtlHardcoded" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/rsbAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clTransContainer"
+            app:rsb_max="20000"
+            app:rsb_mode="single"
+            app:rsb_progress_height="@dimen/_4sdp"
+            app:rsb_progress_radius="@dimen/_2sdp"
+            app:rsb_min="0"
+            app:rsb_progress_default_color="@color/seekbarProgress"
+            app:rsb_progress_color="@color/colorPrimary"
+            app:rsb_thumb_drawable="@drawable/ic_seekbar_thumb"
+            app:rsb_thumb_height="@dimen/_50sdp"
+            app:rsb_thumb_width="@dimen/_50sdp" />
+        <View
+            android:id="@+id/vLineBalance"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:background="@color/greyLight"
+            android:layout_marginLeft="@dimen/margin_medium"
+            android:layout_marginRight="@dimen/margin_medium"
+            app:layout_constraintTop_toBottomOf="@id/rsbAmount" />
+
+        <View
+            android:id="@+id/vButtonsLine"
+            android:layout_width="match_parent"
+            android:layout_height="2px"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:background="@color/greyLight"
+            app:layout_constraintBottom_toTopOf="@id/btnApplyFilters" />
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnApplyFilters"
+            style="@style/RectangleBtnStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:onClick="@{(v) ->viewModel.handlePressOnView(v.id)}"
+            android:text="@string/screen_transaction_filters_display_button_apply_filters"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/tvClearFilters" />
+
+        <TextView
+            android:id="@+id/tvClearFilters"
+            style="@style/Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:text="@string/screen_transaction_filters_display_button_clear_filters"
+            android:textColor="@color/colorPrimary"
+            app:btn_enable="true"
+            app:layout_constraintBottom_toBottomOf="@id/btnApplyFilters"
+            app:layout_constraintEnd_toStartOf="@+id/btnApplyFilters"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btnApplyFilters" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
