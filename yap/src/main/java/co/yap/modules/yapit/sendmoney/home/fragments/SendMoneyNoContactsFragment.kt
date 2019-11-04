@@ -32,7 +32,7 @@ class SendMoneyNoContactsFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewMod
          viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.addContactsButton ->
-                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
+                    findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
             }
         })
 

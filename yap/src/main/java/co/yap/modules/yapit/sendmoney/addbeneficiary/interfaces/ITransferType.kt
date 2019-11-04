@@ -8,10 +8,11 @@ interface ITransferType {
     interface State : IBase.State {
     }
 
-    interface ViewModel : IBase.ViewModel<co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ITransferType.State> {
+    interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        fun handlePressOnType(id: Int)
+        fun handlePressOnTypeBankTransfer(id: Int)
+        fun handlePressOnTypeCashPickUp(id: Int)
     }
 
-    interface View : IBase.View<co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ITransferType.ViewModel>
+    interface View : IBase.View<ViewModel>
 }

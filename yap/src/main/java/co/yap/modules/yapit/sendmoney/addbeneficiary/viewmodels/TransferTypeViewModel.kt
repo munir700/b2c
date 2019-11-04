@@ -19,7 +19,11 @@ class TransferTypeViewModel(application: Application) :
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
-    override fun handlePressOnType(id: Int) {
+    override fun handlePressOnTypeBankTransfer(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override fun handlePressOnTypeCashPickUp(id: Int) {
         clickEvent.setValue(id)
     }
 

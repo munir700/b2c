@@ -11,13 +11,18 @@
         android:name="co.yap.modules.yapit.sendmoney.home.fragments.SendMoneyNoContactsFragment"
         android:label="YAP to YAP"
         tools:layout="@layout/fragment_send_money_no_contacts">
-
-                <action
-                    android:id="@+id/action_sendMoneyHomeFragment_to_selectCountryFragment"
-                    app:destination="@id/selectCountryFragment"
-                    app:enterAnim="@anim/slide_in_right"
-                    app:exitAnim="@anim/slide_out_left"
-                    app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_selectCountryFragment_to_transferTypeFragment"
+            app:destination="@id/transferTypeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+<!--                <action-->
+<!--                    android:id="@+id/action_sendMoneyHomeFragment_to_selectCountryFragment"-->
+<!--                    app:destination="@id/selectCountryFragment"-->
+<!--                    app:enterAnim="@anim/slide_in_right"-->
+<!--                    app:exitAnim="@anim/slide_out_left"-->
+<!--                    app:popUpToInclusive="true" />-->
 
     </fragment>
 
@@ -39,6 +44,14 @@
         android:id="@+id/transferTypeFragment"
         android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.TransferTypeFragment"
         android:label="Add beneficiary"
-        tools:layout="@layout/fragment_transfer_type"/>
+      tools:layout="@layout/fragment_transfer_type">
+
+      <action
+          android:id="@+id/action_sendMoneyHomeFragment_to_selectCountryFragment"
+          app:destination="@id/selectCountryFragment"
+          app:enterAnim="@anim/slide_in_right"
+          app:exitAnim="@anim/slide_out_left"
+          app:popUpToInclusive="true" />
+  </fragment>
 
 </navigation>

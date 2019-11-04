@@ -52,7 +52,7 @@
                 android:layout_marginRight="@dimen/margin_medium"
                 android:background="@drawable/card_border_selector"
                 android:clickable="true"
-                android:onClick="@{(v) -> viewModel.handlePressOnType(v.id)}"
+                android:onClick="@{(v) -> viewModel.handlePressOnTypeBankTransfer(v.id)}"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/margin_medium">
 
@@ -101,7 +101,7 @@
                 android:layout_height="@dimen/_149sdp"
                 android:background="@drawable/card_border_selector"
                 android:clickable="true"
-                android:onClick="@{(v) -> viewModel.handlePressOnType(v.id)}"
+                android:onClick="@{(v) -> viewModel.handlePressOnTypeCashPickUp(v.id)}"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/margin_medium">
 

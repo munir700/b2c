@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ITransferType
@@ -30,10 +31,12 @@ class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
             when (it) {
 
                 R.id.llBankTransferType -> {
+                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
 
                 }
 
                 R.id.llCashPickUpTransferType -> {
+                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
 
                 }
             }
