@@ -450,7 +450,7 @@
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
 
     <!--  Change Location Screen-->
-    <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
+    <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>
 
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
