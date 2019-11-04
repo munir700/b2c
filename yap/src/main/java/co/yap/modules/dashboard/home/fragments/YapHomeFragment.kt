@@ -131,7 +131,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
             }
         })
-
         parentViewModel =
             activity?.let { ViewModelProviders.of(it).get(YapDashBoardViewModel::class.java) }!!
 
@@ -148,12 +147,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
                 getRecycleViewAdaptor()?.setList(it)
-                //getGraphRecycleViewAdapter()?.setList(it)
+                getGraphRecycleViewAdapter()?.setList(it)
             } else {
-                getRecycleViewAdaptor()?.setList(it)
-                //getGraphRecycleViewAdapter()?.setList(it)
+                if (it.isEmpty()) {
+                    ivNoTransaction.visibility = View.VISIBLE
+                    rvTransaction.visibility = View.GONE
+                } else {
+                    getRecycleViewAdaptor()?.setList(it)
+                    getGraphRecycleViewAdapter()?.setList(it)
+                }
             }
-            getGraphRecycleViewAdapter()?.setList(it)
         })
 
 //        getGraphRecycleViewAdapter()?.setItemListener(listener)
