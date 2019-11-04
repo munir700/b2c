@@ -19,8 +19,8 @@ class SelectCountryViewModel(application: Application) :
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
-    override fun handlePressOnAddNow() {
-
+    override fun handlePressOnSeclectCountry(id: Int) {
+        clickEvent.setValue(id)
     }
 
 

@@ -9,10 +9,10 @@ interface ISelectCountry {
     interface State : IBase.State {
     }
 
-    interface ViewModel : IBase.ViewModel<co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry.State> {
+    interface ViewModel : IBase.ViewModel<State> {
          var clickEvent: SingleClickEvent
-         fun handlePressOnAddNow()
+         fun handlePressOnSeclectCountry(id:Int)
     }
 
-    interface View : IBase.View<co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry.ViewModel>
+    interface View : IBase.View<ViewModel>
 }
