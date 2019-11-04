@@ -40,7 +40,7 @@ class TransactionsViewHelper(
     init {
         previouslySelected = 0
         setOnGraphBarClickListeners()
-        setOnTransactionCellClickListeners()
+        //setOnTransactionCellClickListeners()
         autoScrollGraphBarsOnTransactionsListScroll()
         //initCustomTooltip()
         //setTooltipOnZero()
@@ -270,28 +270,31 @@ class TransactionsViewHelper(
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!checkScroll) {
-                    scrollBarsFromListTouch(
-                        recyclerView,
-                        totalItemsInView,
-                        visibleitems,
-                        verticalOffSet,
-                        dy,
-                        dx
-                    )
+                try {
+                    if (!checkScroll) {
+                        scrollBarsFromListTouch(
+                            recyclerView,
+                            totalItemsInView,
+                            visibleitems,
+                            verticalOffSet,
+                            dy,
+                            dx
+                        )
 
-                } else {
+                    } else {
 
-                    scrollBarsFromBarsOnTouch(
-                        totalItemsInView,
-                        visibleitems,
-                        verticalOffSet,
-                        recyclerView,
-                        dy,
-                        dx
-                    )
+                        scrollBarsFromBarsOnTouch(
+                            totalItemsInView,
+                            visibleitems,
+                            verticalOffSet,
+                            recyclerView,
+                            dy,
+                            dx
+                        )
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-
             }
 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
