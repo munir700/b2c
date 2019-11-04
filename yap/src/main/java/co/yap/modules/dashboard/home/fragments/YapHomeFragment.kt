@@ -118,15 +118,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
-                    if (null != viewModel.transactionsLiveData.value?.isEmpty()) {
+                    if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value!!.isEmpty()) {
                         showErrorSnackBar("No Transactions Found")
                         return@Observer
+                    } else {
+                        startActivityForResult(
+                            TransactionFiltersActivity.newIntent(requireContext()),
+                            TransactionFiltersActivity.INTENT_FILTER_REQUEST
+                        )
                     }
-
-                    startActivityForResult(
-                        TransactionFiltersActivity.newIntent(requireContext()),
-                        TransactionFiltersActivity.INTENT_FILTER_REQUEST
-                    )
                 }
             }
         })
