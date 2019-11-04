@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/sendMoneyHomeFragment"
-        android:name="co.yap.modules.dashboard.sendmoney.home.fragments.SendMoneyNoContactsFragment"
+        android:name="co.yap.modules.yapit.sendmoney.home.fragments.SendMoneyNoContactsFragment"
         android:label="YAP to YAP"
         tools:layout="@layout/fragment_send_money_no_contacts">
 
@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/selectCountryFragment"
-        android:name="co.yap.modules.dashboard.sendmoney.addbeneficiary.fragments.SelectCountryFragment"
+        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.SelectCountryFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_select_country">
 
@@ -37,7 +37,7 @@
 
   <fragment
         android:id="@+id/transferTypeFragment"
-        android:name="co.yap.modules.dashboard.sendmoney.addbeneficiary.fragments.TransferTypeFragment"
+        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.TransferTypeFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_transfer_type"/>
 

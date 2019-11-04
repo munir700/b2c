@@ -8,7 +8,7 @@
 
         <variable
             name="data"
-            type="co.yap.modules.dashboard.sendmoney.utils.Country" />
+            type="co.yap.modules.yapit.sendmoney.utils.Country" />
 
     </data>
 

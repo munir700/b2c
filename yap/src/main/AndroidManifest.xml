@@ -143,7 +143,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".modules.dashboard.sendmoney.activities.SendMoneyHomeActivity"
+            android:name=".modules.yapit.sendmoney.activities.SendMoneyHomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <nav-graph android:value="@navigation/send_money_main_navigation" />
