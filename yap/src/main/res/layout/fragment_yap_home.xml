@@ -134,7 +134,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            app:layout_behavior="@string/scroll_behavior">
+            app:layout_behavior="@string/scroll_behavior"
+            app:srcCompat="@color/colorPrimary">
 
             <include
                 android:id="@+id/lyInclude"

@@ -14,6 +14,8 @@ import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirecti
 import co.yap.modules.dashboard.yapit.y2y.home.yapcontacts.YapContactsAdaptor
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -48,7 +50,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     private fun initState() {
         viewModel.getState().observe(this, Observer { state ->
             if (viewModel.listIsEmpty()) {
-                getBinding().tvNoResult.visibility = View.GONE
                 getBinding().recycler.visibility = View.GONE
                 getBinding().tvContactListDescription.visibility = View.GONE
                 getBinding().txtError.visibility =
@@ -59,7 +60,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     mutableListOf()
                 )
             } else {
-                getBinding().tvNoResult.visibility = View.GONE
                 getBinding().txtError.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
                 getBinding().recycler.visibility = View.VISIBLE
@@ -74,19 +74,31 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         viewModel.phoneContactLiveData.observe(this, Observer {
             adaptor.setList(it)
             getBinding().tvContactListDescription.visibility =
-                if (it.isEmpty()) View.GONE else View.VISIBLE
-            getBinding().tvNoResult.visibility = View.GONE
+                if (it.isEmpty()) {
+                    View.GONE
+                } else {
+                    View.VISIBLE
+                }
+            getBinding().txtError.text =
+                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
+                    requireContext(),
+                    Strings.screen_y2y_display_text_no_yap_contacts
+                )
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
             adaptor.filter.filter(it)
         })
-
         adaptor.filterCount.observe(this, Observer {
 
             getBinding().tvContactListDescription.visibility =
                 if (it == 0) View.GONE else View.VISIBLE
 
-            getBinding().tvNoResult.visibility = if (it == 0) View.VISIBLE else View.GONE
+            getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
+            getBinding().txtError.text =
+                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
+                    requireContext(),
+                    Strings.screen_y2y_display_text_no_yap_contacts
+                )
 
         })
 
@@ -108,7 +120,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                             (parentFragment as YapToYapFragment).findNavController().navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                                     data.beneficiaryPictureUrl!!
-                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
+                                    ,
+                                    data.accountDetailList?.get(0)?.accountUuid!!,
+                                    data.title!!,
+                                    pos
                                 )
                             )
                         }

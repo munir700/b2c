@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.home.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
-import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -16,7 +15,6 @@ interface IYapHome {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        var homeTransactionsRequest: HomeTransactionsRequest
         val EVENT_SET_CARD_PIN: Int get() = 1
         val EVENT_SET_COMPLETE_VEERIFICATION: Int get() = 2
         var MAX_CLOSING_BALANCE: Double
@@ -26,6 +24,8 @@ interface IYapHome {
         fun handlePressOnView(id: Int)
         val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>>
         var isLoadMore: MutableLiveData<Boolean>
+        var isRefreshing: MutableLiveData<Boolean>
+        var isLast: MutableLiveData<Boolean>
         fun loadMore()
         fun filterTransactions()
         fun requestAccountTransactions()

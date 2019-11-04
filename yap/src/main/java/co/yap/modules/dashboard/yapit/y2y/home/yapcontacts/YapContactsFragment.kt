@@ -12,6 +12,8 @@ import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
@@ -33,14 +35,13 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
 
     private fun initComponents() {
 
-        getBinding().recycler.adapter = YapContactsAdaptor( mutableListOf())
+        getBinding().recycler.adapter = YapContactsAdaptor(mutableListOf())
         (getBinding().recycler.adapter as YapContactsAdaptor).setItemListener(listener)
     }
 
     private fun initState() {
         viewModel.getState().observe(this, Observer { state ->
             if ((getBinding().recycler.adapter as YapContactsAdaptor).getDataList().isNullOrEmpty()) {
-                getBinding().tvNoResult.visibility = View.GONE
                 getBinding().recycler.visibility = View.GONE
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
@@ -50,7 +51,6 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
 
             } else {
-                getBinding().tvNoResult.visibility = View.GONE
                 getBinding().txtError.visibility = View.GONE
                 getBinding().btnInvite.visibility = View.GONE
                 getBinding().progressBar.visibility = View.GONE
@@ -65,21 +65,18 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             (getBinding().recycler.adapter as YapContactsAdaptor).setList(it)
-            getBinding().tvNoResult.visibility = View.GONE
-            getBinding().tvContactListDescription.visibility =
-                if (it.isEmpty()) View.GONE else View.VISIBLE
+            getBinding().txtError.visibility = View.GONE
+            getBinding().tvContactListDescription.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
 
-            getBinding().tvContactListDescription.text =
-                (getBinding().recycler.adapter as YapContactsAdaptor).itemCount.toString() + " YAP contacts"
-
-
-            //if (!it.isEmpty() && !viewModel.getState() == PagingState.LOADING)
             viewModel.pagingState.value = PagingState.DONE
-            //(getBinding().recycler.adapter as YapContactsAdaptor).setState(PagingState.DONE)
-            getBinding().tvContactListDescription.visibility =
-                if (it.isEmpty()) View.GONE else View.VISIBLE
             getBinding().tvContactListDescription.text =
-                if (it.size==1) "${it.size} YAP contact" else "${it.size} YAP contacts"
+                if (it.size == 1) "${it.size} YAP contact" else "${it.size} YAP contacts"
+
+            getBinding().txtError.text =
+                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
+                    requireContext(),
+                    Strings.screen_y2y_display_text_no_yap_contacts
+                )
         })
 
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
@@ -90,7 +87,12 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
 
             getBinding().tvContactListDescription.visibility =
                 if (it == 0) View.GONE else View.VISIBLE
-            getBinding().tvNoResult.visibility = if (it == 0) View.VISIBLE else View.GONE
+            getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
+            getBinding().txtError.text =
+                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
+                    requireContext(),
+                    Strings.screen_y2y_display_text_no_yap_contacts
+                )
             getBinding().tvContactListDescription.text =
                 if (it == 1) "$it YAP contact" else "$it YAP contacts"
         })
@@ -111,7 +113,10 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                             (parentFragment as YapToYapFragment).findNavController().navigate(
                                 YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
                                     data.beneficiaryPictureUrl!!
-                                    , data.accountDetailList?.get(0)?.accountUuid!!, data.title!!,pos
+                                    ,
+                                    data.accountDetailList?.get(0)?.accountUuid!!,
+                                    data.title!!,
+                                    pos
                                 )
                             )
                         }
