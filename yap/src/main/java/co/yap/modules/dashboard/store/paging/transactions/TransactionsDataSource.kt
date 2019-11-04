@@ -30,7 +30,8 @@ class TransactionsDataSource(
             true,
             debitSearch = true,
             totalAppliedFilter = 0,
-            yapYoungTransfer = true
+            yapYoungTransfer = true,
+            hasFilterStateChanged = false
         )
 
     override fun loadInitial(
