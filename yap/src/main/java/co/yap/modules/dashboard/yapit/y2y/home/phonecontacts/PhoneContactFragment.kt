@@ -82,7 +82,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
             getBinding().txtError.text =
                 if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
                     requireContext(),
-                    Strings.screen_y2y_display_text_no_yap_contacts
+                    Strings.screen_y2y_display_text_no_contacts
                 )
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
@@ -97,11 +97,9 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
             getBinding().txtError.text =
                 if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
                     requireContext(),
-                    Strings.screen_y2y_display_text_no_yap_contacts
+                    Strings.screen_y2y_display_text_no_contacts
                 )
-
         })
-
     }
 
     val listener = object : OnItemClickListener {

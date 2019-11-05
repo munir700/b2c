@@ -61,8 +61,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:text="@{Strings.screen_y2y_display_text_no_yap_contacts}"
-                tools:text="@string/screen_y2y_display_text_no_yap_contacts" />
+                app:text="@{Strings.screen_y2y_display_text_no_contacts}"
+                tools:text="@string/screen_y2y_display_text_no_contacts" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
