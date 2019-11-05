@@ -46,7 +46,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().btnInvite.visibility =
-                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
+                    if (state == PagingState.DONE || state == PagingState.ERROR) if (viewModel.parentViewModel?.isSearching?.value!!) View.GONE else View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
 
@@ -66,7 +66,8 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             (getBinding().recycler.adapter as YapContactsAdaptor).setList(it)
             getBinding().txtError.visibility = View.GONE
-            getBinding().tvContactListDescription.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+            getBinding().tvContactListDescription.visibility =
+                if (it.isEmpty()) View.GONE else View.VISIBLE
 
             viewModel.pagingState.value = PagingState.DONE
             getBinding().tvContactListDescription.text =
