@@ -87,7 +87,7 @@
             android:layout_marginTop="@dimen/_60sdp"
             android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            android:text="@string/screen_add_beneficiary_display_text_select_country"
+            app:text="@{string.screen_add_beneficiary_display_text_select_country}"
             android:onClick="@{(v) -> viewModel.handlePressOnSeclectCountry(v.id)}"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -471,8 +471,8 @@
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>
 
     <!--     Transactions Filters Screen-->
-    <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>;
-    <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>;
+    <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>
+    <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>
 
     <!--    Yap to Yap Home Screen-->
     <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">None of your friends have YAP yet.  Invite them now and earn AED XX for every friend that stars using YAP!</string>
@@ -580,7 +580,7 @@
     <string name="screen_add_beneficiary_detail_display_button_block_alert_yes">YES, SEND IT NOW</string>
     <string name="screen_add_beneficiary_detail_display_button_block_alert_no">NO, DO IT LATER</string>
 
-    <string name="screen_unverified_success_display_text_heading">Success!</string>;
+    <string name="screen_unverified_success_display_text_heading">Success!</string>
     <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
     <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>
     <string name="screen_unverified_display_button_mail">Open Mail App</string>
@@ -593,7 +593,9 @@
     <string name="screen_bank_details_display_text_title">Tell us about the bank</string>
     <string name="screen_bank_details_display_text_bank_name">Bank name</string>
     <string name="screen_bank_details_display_text_branch_name">Bank branch</string>
+    <string name="screen_bank_details_input_text_branch_hint">Branch name</string>
     <string name="screen_bank_details_display_text_bank_city">Bank city</string>
+    <string name="screen_bank_details_input_text_city_hint">City</string>
     <string name="screen_bank_details_display_text_swift_code">Swift code</string>
     <string name="screen_bank_details_button_confirm">Confirm</string>
 

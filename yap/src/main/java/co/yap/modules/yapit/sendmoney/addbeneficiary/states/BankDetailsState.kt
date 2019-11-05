@@ -12,7 +12,7 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.bankName)
-
+            validate()
         }
 
     @get:Bindable
@@ -20,7 +20,7 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.swiftCode)
-
+            validate()
         }
 
 
@@ -29,7 +29,7 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.bankCity)
-
+            validate()
         }
 
 
@@ -38,11 +38,20 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.bankBranch)
+            validate()
+        }
 
+
+    @get:Bindable
+    override var valid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+            validate()
         }
 
     fun validate() {
-        if (!bankBranch.isNullOrEmpty() && !bankCity.isNullOrEmpty() && !swiftCode.isNullOrEmpty()&& !bankName.isNullOrEmpty()) {
+        if (!bankBranch.isNullOrEmpty() && !bankCity.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !bankName.isNullOrEmpty()) {
             valid = true
             notifyPropertyChanged(BR.valid)
         }

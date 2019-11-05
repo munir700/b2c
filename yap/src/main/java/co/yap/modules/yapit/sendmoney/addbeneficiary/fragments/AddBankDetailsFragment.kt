@@ -26,7 +26,6 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Utils.ConfirmAddBeneficiary(this.activity!!)
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -52,21 +51,5 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
 
         return super.onBackPressed()
     }
-
-//    fun ConfirmAddBeneficiary() {
-//        AlertDialog.Builder(this!!.activity!!)
-//            .setTitle(getString(R.string.screen_add_beneficiary_detail_display_text_alert_title))
-//            .setMessage(getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_description))
-//            .setPositiveButton(getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_yes),
-//                DialogInterface.OnClickListener { dialog, which ->
-//                    //                    doLogout()
-//                })
-//
-//            .setNegativeButton(
-//                getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_no),
-//                null
-//            )
-//            .show()
-//    }
 
 }
