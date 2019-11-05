@@ -134,7 +134,7 @@
             android:paddingEnd="@dimen/_4sdp"
             android:paddingBottom="@dimen/_8sdp"
             android:text="Tooltip"
-            android:visibility="gone"
+            android:visibility="visible"
             app:arrowAlignment="custom"
             app:arrowHeight="@dimen/_8sdp"
             app:arrowLocation="bottom"

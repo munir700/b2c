@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.home.adaptor
 
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
 import androidx.databinding.ViewDataBinding
@@ -57,6 +56,7 @@ class GraphBarsAdapter(
                     transactionModel.amountPercentage.toInt()
                 )
 
+            item.id = position
             val params = LinearLayout.LayoutParams(
                 26,
                 transactionModel.amountPercentage.toInt()
@@ -64,30 +64,26 @@ class GraphBarsAdapter(
             params.marginStart = 5
             params.marginEnd = 5
             //holder.transactionBar.onFocusChangeListener = this
+            itemBarChartBinding.root.setOnClickListener {
+                if (isCellHighlighted) {
+                    if (isCellHighlightedFromTransaction) {
+                        item.unSelectHighlightedBarOnTransactionCellClick(
+                            true
+                        )
+                    } else {
+                        item.unSelectHighlightedBarOnTransactionCellClick(
+                            false
+                        )
+                    }
+                } else {
+                    item.unSelectHighlightedBarOnGraphClick(
+                        isCellHighlighted
+                    )
+                }
+            }
             itemBarChartBinding.parent.addView(item, params)
-            Log.e(
-                "graph1",
-                "pos $adapterPosition graph_height -> " + transactionModel.amountPercentage
-            )
-//            itemBarChartBinding.root.setOnClickListener {
-//                if (isCellHighlighted) {
-//                    if (isCellHighlightedFromTransaction) {
-//                        itemBarChartBinding.transactionBar.unSelectHighlightedBarOnTransactionCellClick(
-//                            true
-//                        )
-//                    } else {
-//                        itemBarChartBinding.transactionBar.unSelectHighlightedBarOnTransactionCellClick(
-//                            false
-//                        )
-//                    }
-//                } else {
-//                    itemBarChartBinding.transactionBar.unSelectHighlightedBarOnGraphClick(
-//                        isCellHighlighted
-//                    )
-//                }
-//            }
             if (position == 0) {
-                //itemBarChartBinding.transactionBar.OnBarItemTouchEvent()
+                item.OnBarItemTouchEvent()
             }
         }
 

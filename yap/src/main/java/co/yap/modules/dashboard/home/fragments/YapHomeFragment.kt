@@ -74,7 +74,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
 
-        refreshLayout.setOnRefreshListener(this)
+        //refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
@@ -87,8 +87,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.isRefreshing.value = true
         YAPApplication.homeTransactionsRequest.number = 0
         viewModel.requestAccountTransactions()
-        refreshLayout.isRefreshing = false
-
+        //refreshLayout.isRefreshing = false
     }
 
     private val adaptorlistener = object : OnItemClickListener {
@@ -103,7 +102,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         }
     }
-
 
     override fun setObservers() {
         listenForToolbarExpansion()
