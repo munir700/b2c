@@ -18,7 +18,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
 
+            app:srcCompat="@color/colorPrimary">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -121,7 +127,7 @@
                 android:visibility="gone" />
 
         </LinearLayout>
-
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
         <co.yap.widgets.tooltipview.TooltipView
             android:id="@+id/tooltip"
             android:layout_width="@dimen/_100sdp"
@@ -146,6 +152,7 @@
             app:tooltipColor="@color/white" />
 
     </RelativeLayout>
+
 
 
 </layout>
