@@ -42,7 +42,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var currency: String = ""
+    override var currency: String = "AED"
         set(value) {
             field = value
             notifyPropertyChanged(BR.currency)

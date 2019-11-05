@@ -9,6 +9,7 @@ import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 
+
 class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
 
@@ -24,7 +25,6 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
     }
 

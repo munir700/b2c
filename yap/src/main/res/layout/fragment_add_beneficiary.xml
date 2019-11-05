@@ -158,6 +158,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:weightSum="1">
+                    //add field in state to change the icon of currency type
 
                     <TextView
                         android:id="@+id/labelCardType"
@@ -166,7 +167,7 @@
                         android:layout_marginTop="@dimen/_15sdp"
                         android:background="@drawable/round_light_gery_background"
                         android:gravity="center"
-                        android:text="$ CAD"
+                        android:text="@{viewModel.state.currency}"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_9sdp"
                         app:btn_unpressed_color="@color/disabledLight"
@@ -186,7 +187,6 @@
 
                 </LinearLayout>
 
-
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -203,18 +203,19 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_nick_name}"
+                    app:textColor="@{viewModel.state.nickName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name" />
-
 
                 <EditText
                     android:id="@+id/etnickName"
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     android:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}"
+                    android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:text="@{viewModel.state.nickName}" />
+                    android:text="@={viewModel.state.nickName}"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
 
 
                 <TextView
@@ -227,6 +228,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}"
+                    app:textColor="@{viewModel.state.firstName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_first_name" />
 
 
@@ -235,10 +237,11 @@
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     android:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}"
+                    android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:text="@{viewModel.state.firstName}" />
+                    android:text="@={viewModel.state.firstName}"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
 
 
                 <TextView
@@ -251,6 +254,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_last_name}"
+                    app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_last_name" />
 
 
@@ -259,11 +263,36 @@
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                     android:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}"
+                    android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
-                    android:text="@{viewModel.state.lastName}" />
+                    android:text="@={viewModel.state.lastName}"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
+                <TextView
+                    style="@style/Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_phone}"
+                    app:textColor="@{viewModel.state.phoneNumber.empty ? true : false}"
+                    tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone" />
+
+
+                <EditText
+                    android:id="@+id/etPhoneNumber"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/greyLight"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:text="@={viewModel.state.phoneNumber}"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
             </LinearLayout>
 

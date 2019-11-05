@@ -594,4 +594,14 @@ object UIBinder {
             .into(view)
 
     }
+
+    @BindingAdapter("textColor")
+    @JvmStatic
+    fun setSelectedTextColor(view: TextView, isActive: Boolean) {
+        if (isActive) {
+            view.setTextColor(view.context.resources.getColor(R.color.colorPrimaryDark))
+        } else {
+            view.setTextColor(view.context.resources.getColor(R.color.greyDark))
+        }
+    }
 }
