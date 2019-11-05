@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.more.profile.intefaces
 
 import android.content.Context
 import android.net.Uri
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -17,7 +18,7 @@ interface IProfile {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-
+        val authRepository: AuthRepository
         var clickEvent: SingleClickEvent
 
         val showExpiredBadge: Boolean
@@ -25,6 +26,7 @@ interface IProfile {
         val data: GetMoreDocumentsResponse
 
         var PROFILE_PICTURE_UPLOADED: Int
+        var EVENT_LOGOUT_SUCCESS: Int
 
         fun handlePressOnBackButton()
 
@@ -57,6 +59,7 @@ interface IProfile {
         fun uploadProfconvertUriToFile(selectedImageUri: Uri)
 
         fun getRealPathFromUri(context: Context, contentUri: Uri): String
+        fun logout()
 
     }
 
