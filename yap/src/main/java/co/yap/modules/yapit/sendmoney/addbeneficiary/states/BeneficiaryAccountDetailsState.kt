@@ -2,17 +2,16 @@ package co.yap.modules.yapit.sendmoney.addbeneficiary.states
 
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
-import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.yapcore.BaseState
 
 class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.State {
 
     @get:Bindable
-    override var bankName: String = ""
+    override var accountIban: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.bankName)
+            notifyPropertyChanged(BR.accountIban)
             validate()
         }
 
@@ -26,19 +25,19 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
 
 
     @get:Bindable
-    override var bankCity: String = ""
+    override var beneficiaryAccountNumber: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.bankCity)
+            notifyPropertyChanged(BR.beneficiaryAccountNumber)
             validate()
         }
 
 
     @get:Bindable
-    override var bankBranch: String = ""
+    override var countryBankRequirementFieldCode: String = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.bankBranch)
+            notifyPropertyChanged(BR.countryBankRequirementFieldCode)
             validate()
         }
 
@@ -52,10 +51,36 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         }
 
     fun validate() {
-        if (!bankBranch.isNullOrEmpty() && !bankCity.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !bankName.isNullOrEmpty()) {
+        if (!countryBankRequirementFieldCode.isNullOrEmpty() && !beneficiaryAccountNumber.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !accountIban.isNullOrEmpty()) {
             valid = true
             notifyPropertyChanged(BR.valid)
         }
     }
 
+    @get:Bindable
+    override var bankName: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.bankName)
+        }
+
+    @get:Bindable
+    override var idCode: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.idCode)
+        }
+
+    @get:Bindable
+    override var bankAddress: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.bankAddress)
+        }
+    @get:Bindable
+    override var bankPhoneNumber: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.bankPhoneNumber)
+        }
 }

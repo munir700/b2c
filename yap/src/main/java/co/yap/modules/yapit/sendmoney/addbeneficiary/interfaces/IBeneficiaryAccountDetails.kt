@@ -7,11 +7,17 @@ import co.yap.yapcore.SingleLiveEvent
 interface IBeneficiaryAccountDetails {
 
     interface State : IBase.State {
-        var bankName: String
-        var bankBranch: String
-        var bankCity: String
+        var accountIban: String
+        var countryBankRequirementFieldCode: String
+        var beneficiaryAccountNumber: String
         var swiftCode: String
         var valid: Boolean
+
+        var bankName: String
+        var idCode: String
+        var bankAddress: String
+        var bankPhoneNumber: String
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {

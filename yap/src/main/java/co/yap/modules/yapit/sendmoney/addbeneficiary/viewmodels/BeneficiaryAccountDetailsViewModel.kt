@@ -25,7 +25,7 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle(getString(Strings.screen_send_money_display_text_title))
+        setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         toggleAddButtonVisibility(false)
     }
 }

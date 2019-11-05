@@ -3,9 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/send_money_main_navigation"
-    app:startDestination="@id/addBankDetailsFragment">
-<!--    app:startDestination="@id/addBeneficiaryFragment">-->
-<!--    app:startDestination="@id/sendMoneyHomeFragment">-->
+    app:startDestination="@id/beneficiaryAccountDetailsFragment">
+    <!--    app:startDestination="@id/addBankDetailsFragment">-->
+    <!--    app:startDestination="@id/addBeneficiaryFragment">-->
+    <!--    app:startDestination="@id/sendMoneyHomeFragment">-->
 
 
     <fragment
@@ -19,12 +20,12 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
-<!--                <action-->
-<!--                    android:id="@+id/action_sendMoneyHomeFragment_to_selectCountryFragment"-->
-<!--                    app:destination="@id/selectCountryFragment"-->
-<!--                    app:enterAnim="@anim/slide_in_right"-->
-<!--                    app:exitAnim="@anim/slide_out_left"-->
-<!--                    app:popUpToInclusive="true" />-->
+        <!--                <action-->
+        <!--                    android:id="@+id/action_sendMoneyHomeFragment_to_selectCountryFragment"-->
+        <!--                    app:destination="@id/selectCountryFragment"-->
+        <!--                    app:enterAnim="@anim/slide_in_right"-->
+        <!--                    app:exitAnim="@anim/slide_out_left"-->
+        <!--                    app:popUpToInclusive="true" />-->
 
     </fragment>
 
@@ -42,19 +43,19 @@
             app:popUpToInclusive="true" />
     </fragment>
 
-  <fragment
+    <fragment
         android:id="@+id/transferTypeFragment"
         android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.TransferTypeFragment"
         android:label="Add beneficiary"
-      tools:layout="@layout/fragment_transfer_type">
+        tools:layout="@layout/fragment_transfer_type">
 
-      <action
-          android:id="@+id/action_transferTypeFragment_to_selectCountryFragment"
-          app:destination="@id/selectCountryFragment"
-          app:enterAnim="@anim/slide_in_right"
-          app:exitAnim="@anim/slide_out_left"
-          app:popUpToInclusive="true" />
-  </fragment>
+        <action
+            android:id="@+id/action_transferTypeFragment_to_selectCountryFragment"
+            app:destination="@id/selectCountryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 
     <fragment
@@ -63,26 +64,29 @@
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_add_beneficiary">
 
-<!--        <action-->
-<!--            android:id="@+id/action_addBeneficiaryFragment_to_transferTypeFragment"-->
-<!--            app:destination="@id/transferTypeFragment"-->
-<!--            app:enterAnim="@anim/slide_in_right"-->
-<!--            app:exitAnim="@anim/slide_out_left"-->
-<!--            app:popUpToInclusive="true" />-->
+        <!--        <action-->
+        <!--            android:id="@+id/action_addBeneficiaryFragment_to_transferTypeFragment"-->
+        <!--            app:destination="@id/transferTypeFragment"-->
+        <!--            app:enterAnim="@anim/slide_in_right"-->
+        <!--            app:exitAnim="@anim/slide_out_left"-->
+        <!--            app:popUpToInclusive="true" />-->
     </fragment>
 
-  <fragment
+    <fragment
         android:id="@+id/addBankDetailsFragment"
         android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.AddBankDetailsFragment"
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_add_bank_detail">
 
-<!--        <action-->
-<!--            android:id="@+id/action_addBeneficiaryFragment_to_transferTypeFragment"-->
-<!--            app:destination="@id/transferTypeFragment"-->
-<!--            app:enterAnim="@anim/slide_in_right"-->
-<!--            app:exitAnim="@anim/slide_out_left"-->
-<!--            app:popUpToInclusive="true" />-->
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/beneficiaryAccountDetailsFragment"
+        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.BeneficiaryAccountDetailsFragment"
+        android:label="Add beneficiary"
+        tools:layout="@layout/fragment_beneficiary_account_detail">
+
     </fragment>
 
 
