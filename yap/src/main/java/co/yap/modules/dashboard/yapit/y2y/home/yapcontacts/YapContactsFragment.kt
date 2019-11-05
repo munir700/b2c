@@ -102,9 +102,6 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
-                R.id.btnInvite -> {
-                    Utils.shareText(requireContext(), getBody())
-                }
                 R.id.tvInvite -> {
                     Utils.shareText(requireContext(), getBody())
                 }
@@ -128,12 +125,13 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     }
 
     private fun getBody(): String {
-        return "App LInk"
+        return "App link"
     }
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.imgStoreShopping -> {
+            R.id.btnInvite -> {
+                Utils.shareText(requireContext(), getBody())
             }
         }
     }
