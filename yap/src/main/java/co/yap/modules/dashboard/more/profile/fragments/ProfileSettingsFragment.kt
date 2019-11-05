@@ -268,10 +268,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 R.id.tvLogOut -> {
 
-
-
-
-
                     logoutAlert()
                 }
 

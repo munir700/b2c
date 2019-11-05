@@ -2,12 +2,14 @@ package co.yap.modules.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.yapcore.helpers.Utils
 
 
 class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
@@ -25,7 +27,14 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Utils.ConfirmAddBeneficiary(this.activity!!)
 
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.confirmButton ->
+                    Utils.ConfirmAddBeneficiary(this.activity!!)
+            }
+        })
     }
 
     override fun onPause() {
@@ -37,11 +46,6 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
     override fun onResume() {
         super.onResume()
 
-//        viewModel.clickEvent.observe(this, Observer {
-//            when (it) {
-//
-//            }
-//        })
 
     }
 
@@ -50,5 +54,20 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
         return super.onBackPressed()
     }
 
+//    fun ConfirmAddBeneficiary() {
+//        AlertDialog.Builder(this!!.activity!!)
+//            .setTitle(getString(R.string.screen_add_beneficiary_detail_display_text_alert_title))
+//            .setMessage(getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_description))
+//            .setPositiveButton(getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_yes),
+//                DialogInterface.OnClickListener { dialog, which ->
+//                    //                    doLogout()
+//                })
+//
+//            .setNegativeButton(
+//                getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_no),
+//                null
+//            )
+//            .show()
+//    }
 
 }

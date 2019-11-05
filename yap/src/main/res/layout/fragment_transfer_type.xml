@@ -73,7 +73,7 @@
 
 
                 <TextView
-                    style="@style/Small"
+                    style="@style/Micro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
@@ -83,7 +83,7 @@
                     app:text="@{Strings.screen_add_beneficiary_display_text_transfer_type_bank}" />
 
                 <TextView
-                    style="@style/SmallGrey"
+                    style="@style/MicroGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
@@ -122,7 +122,7 @@
 
                 <TextView
                     android:id="@+id/tvPhysicalCardTitle"
-                    style="@style/Small"
+                    style="@style/Micro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
@@ -132,7 +132,7 @@
                     app:text="@{Strings.screen_add_beneficiary_display_text_transfer_type_cash_pickup}" />
 
                 <TextView
-                    style="@style/SmallGrey"
+                    style="@style/MicroGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"

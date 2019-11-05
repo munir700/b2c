@@ -21,7 +21,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
 
-    override fun handlePressOnAddNow() {
+    override fun handlePressOnAddNow(id:Int) {
 
     }
 

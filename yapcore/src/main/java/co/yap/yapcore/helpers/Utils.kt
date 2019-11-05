@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.os.Build
@@ -22,6 +21,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import co.yap.translation.Translator
+import co.yap.translation.Translator.getString
 import co.yap.yapcore.R
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.text.DecimalFormat
@@ -30,7 +31,7 @@ import java.util.regex.Pattern
 
 
 object Utils {
-      var context: Context ?= null
+    var context: Context? = null
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)
@@ -451,4 +452,33 @@ object Utils {
         R.color.colorSecondaryGreen,
         R.color.colorSecondaryOrange
     )
+
+    fun ConfirmAddBeneficiary(context: Context) {
+        androidx.appcompat.app.AlertDialog.Builder(context)
+            .setTitle(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+                )
+            )
+            .setMessage(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                )
+            )
+            .setPositiveButton(Translator.getString(
+                context,
+                R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
+            ),
+                DialogInterface.OnClickListener { dialog, which ->
+                    //                    doLogout()
+                })
+
+            .setNegativeButton(
+                Translator.getString(context, R.string.screen_add_beneficiary_detail_display_button_block_alert_no),
+                null
+            )
+            .show()
+    }
 }

@@ -1,6 +1,7 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.states
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
@@ -54,7 +55,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         set(value) {
             field = value
             notifyPropertyChanged(BR.nickName)
-
+            validate()
         }
 
     @get:Bindable
@@ -62,7 +63,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)
-
+            validate()
         }
 
     @get:Bindable
@@ -70,7 +71,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         set(value) {
             field = value
             notifyPropertyChanged(BR.lastName)
-
+            validate()
         }
 
 
@@ -79,7 +80,41 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
+        }
+
+// for phone number field validation to be work on
+
+    @get:Bindable
+    override var drawbleRight: Drawable? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(co.yap.BR.drawbleRight)
 
         }
 
+    @get:Bindable
+    override var mobile: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(co.yap.BR.mobile)
+            if (mobile.length < 9) {
+                mobileNoLength = 11
+
+            }
+
+        }
+
+    @get:Bindable
+    override var mobileNoLength: Int = 11
+        set(value) {
+            field = value
+            notifyPropertyChanged(co.yap.BR.mobileNoLength)
+        }
+
+    fun validate() {
+        if (!lastName.isNullOrEmpty() && !nickName.isNullOrEmpty() && !lastName.isNullOrEmpty()) {
+            valid = true
+            notifyPropertyChanged(BR.valid)
+        }
+    }
 }
