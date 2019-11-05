@@ -15,6 +15,7 @@ import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.Utils
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
@@ -68,10 +69,10 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             transactionFilters.maxAmount.toFloat()
         )
 
-        if (YAPApplication.homeTransactionsRequest.maxAmount != null && YAPApplication.homeTransactionsRequest.maxAmount != transactionFilters.maxAmount) {
+        if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters.maxAmount) {
             rsbAmount?.setProgress(
-                YAPApplication.homeTransactionsRequest.maxAmount!!.toFloat(),
-                YAPApplication.homeTransactionsRequest.maxAmount!!.toFloat()
+                YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat(),
+                YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat()
             )
         } else {
             rsbAmount?.setProgress(
@@ -125,20 +126,24 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun resetAllFilters() {
+        YAPApplication.hasFilterStateChanged =
+            YAPApplication.homeTransactionsRequest.totalAppliedFilter != 0
+
         YAPApplication.clearFilters()
-        YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
         finish()
     }
 
     private fun setFilterValues() {
         var count = 0
+
         if (cbOutTransFilter.isChecked) count++
         if (cbInTransFilter.isChecked) count++
         if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) count++
         YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
         YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
             0, YAPApplication.pageSize,
-            rsbAmount.minProgress.toDouble(), rsbAmount.leftSeekBar.progress.toDouble(),
+            Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
+            Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
             cbInTransFilter.isChecked, cbOutTransFilter.isChecked,
             count,
             true
@@ -151,7 +156,10 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         var isStateChanged: Boolean
         if (YAPApplication.homeTransactionsRequest.debitSearch == null && cbOutTransFilter.isChecked) return true
         if (YAPApplication.homeTransactionsRequest.creditSearch == null && cbInTransFilter.isChecked) return true
-        if (YAPApplication.homeTransactionsRequest.maxAmount == null && rsbAmount.leftSeekBar.progress.toDouble() == YAPApplication.homeTransactionsRequest.maxAmount) return true
+        if (YAPApplication.homeTransactionsRequest.amountEndRange == null && Utils.getTwoDecimalPlaces(
+                rsbAmount.leftSeekBar.progress.toDouble()
+            ) != viewModel.transactionFilters.value?.maxAmount
+        ) return true
 
         whenNotNull(YAPApplication.homeTransactionsRequest.creditSearch) {
             isStateChanged = it != cbInTransFilter.isChecked
@@ -161,8 +169,9 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             isStateChanged = it != cbOutTransFilter.isChecked
             if (isStateChanged) return true
         }
-        whenNotNull(YAPApplication.homeTransactionsRequest.maxAmount) {
-            isStateChanged = it != rsbAmount.leftSeekBar.progress.toDouble()
+        whenNotNull(YAPApplication.homeTransactionsRequest.amountEndRange) {
+            isStateChanged =
+                it != Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble())
             if (isStateChanged) return true
         }
 

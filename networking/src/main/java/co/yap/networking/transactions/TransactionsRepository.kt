@@ -58,8 +58,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             api.getAccountTransactions(
                 homeTransactionsResponse.number,
                 homeTransactionsResponse.size,
-                homeTransactionsResponse.minAmount,
-                homeTransactionsResponse.maxAmount,
+                homeTransactionsResponse.amountStartRange,
+                homeTransactionsResponse.amountEndRange,
                 homeTransactionsResponse.creditSearch,
                 homeTransactionsResponse.debitSearch,
                 homeTransactionsResponse.yapYoungTransfer
