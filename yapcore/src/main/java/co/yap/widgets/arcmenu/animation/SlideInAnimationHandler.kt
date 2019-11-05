@@ -43,7 +43,8 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
             menu!!.subActionItems[i].view.layoutParams = params
 
             //            PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, menu.getSubActionItems().get(i).x/* - center.x + menu.getSubActionItems().get(i).width / 2*/);
-            val pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f,-(DIST_Y.toFloat()+20f),-DIST_Y.toFloat())
+           // val pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f,-(DIST_Y.toFloat()+20f),-DIST_Y.toFloat())
+            val pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f,-DIST_Y.toFloat())
             //            PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1);
             //            PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1);
             val pvhA = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
@@ -53,7 +54,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                 pvhY,
                 pvhA
             )
-            animation.duration = DURATION.toLong()
+            animation.duration = 300
             animation.interpolator = DecelerateInterpolator()
             animation.addListener(
                 SubActionItemAnimationListener(
