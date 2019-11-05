@@ -470,6 +470,52 @@
     <!--  Change Location Screen-->
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>
 
+    <!--     Transactions Filters Screen-->
+    <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>;
+    <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>;
+
+    <!--    Yap to Yap Home Screen-->
+    <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">None of your friends have YAP yet.  Invite them now and earn AED XX for every friend that stars using YAP!</string>
+    <string name="screen_yap_to_yap_display_text_button">Invite now</string>
+    <string name="screen_yap_to_yap_display_text_search_hint">Search</string>
+
+
+    <!--Y2Y Contacts-->
+    <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
+    <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
+    <string name="screen_y2y_display_button_all_contacts">All contacts</string>
+    <string name="screen_y2y_display_text_title_invite_contact">Invite friend via</string>
+    <string name="screen_y2y_display_text_invite_via_email">Email</string>
+    <string name="screen_y2y_display_text_invite_via_sms">SMS</string>
+    <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
+
+    <!--    Y2Y funds Transfer screen-->
+    <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
+    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Type a note here</string>
+    <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
+    <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
+    <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
+
+    <!--    Y2Y funds Transfer success screen-->
+    <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
+    <string name="screen_y2y_funds_transfer_success_display_text_transfer">You have transferred</string>
+    <string name="screen_y2y_funds_transfer_success_button_back">Back to dashboard</string>
+
+    <!--    Y2Y Recent Transfer-->
+    <string name="screen_y2y_display_text_recent_transfer">Recent transfers</string>
+    <string name="screen_y2y_display_text_send_money_to">Who do you want to send money to?</string>
+
+    <!--    Transaction details screen-->
+    <string name="screen_transaction_details_display_text_spent">Spent</string>
+    <string name="screen_transaction_details_display_text_received">Received</string>
+    <string name="screen_transaction_details_display_text_fee">Fee</string>
+    <string name="screen_transaction_details_display_text_total_amount">Total amount</string>
+    <string name="screen_transaction_details_display_text_add_note">Add a note</string>
+    <string name="screen_transaction_details_display_text_edit_note">Edit a note</string>
+    <string name="screen_transaction_details_display_text_note_description">Stay organized by adding transaction notes</string>
+    <string name="screen_add_note_display_text_type_something">Type something…</string>
+    <string name="screen_add_note_display_text_save">Save</string>
+
     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
     <string name="screen_send_money_no_contacts_display_text_sub_heading">Who do you want to send money to?</string>
@@ -537,55 +583,28 @@
     <string name="screen_unverified_success_display_text_heading">Success!</string>;
     <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
     <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>
-    <string name="screen_unverified_display_button_mail">Open Mail App</string>;
-    <string name="screen_unverified_display_button_later">Maybe later</string>;
-    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
-
-    <!--     Transactions Filters Screen-->
-    <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>;
-    <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>;
-
-    <!--    Yap to Yap Home Screen-->
-    <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">None of your friends have YAP yet.  Invite them now and earn AED XX for every friend that stars using YAP!</string>
-    <string name="screen_yap_to_yap_display_text_button">Invite now</string>
-    <string name="screen_yap_to_yap_display_text_search_hint">Search</string>
+    <string name="screen_unverified_display_button_mail">Open Mail App</string>
+    <string name="screen_unverified_display_button_later">Maybe later</string>
+    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
 
 
-    <!--Y2Y Contacts-->
-    <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
-    <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
-    <string name="screen_y2y_display_button_all_contacts">All contacts</string>
-    <string name="screen_y2y_display_text_title_invite_contact">Invite friend via</string>
-    <string name="screen_y2y_display_text_invite_via_email">Email</string>
-    <string name="screen_y2y_display_text_invite_via_sms">SMS</string>
-    <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
+    <!--  bank details screen -->
 
-    <!--    Y2Y funds Transfer screen-->
-    <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
-    <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Type a note here</string>
-    <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
-    <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
-    <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
+    <string name="screen_bank_details_display_text_title">Tell us about the bank</string>
+    <string name="screen_bank_details_display_text_bank_name">Bank name</string>
+    <string name="screen_bank_details_display_text_branch_name">Bank branch</string>
+    <string name="screen_bank_details_display_text_bank_city">Bank city</string>
+    <string name="screen_bank_details_display_text_swift_code">Swift code</string>
+    <string name="screen_bank_details_button_confirm">Confirm</string>
 
-    <!--    Y2Y funds Transfer success screen-->
-    <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
-    <string name="screen_y2y_funds_transfer_success_display_text_transfer">You have transferred</string>
-    <string name="screen_y2y_funds_transfer_success_button_back">Back to dashboard</string>
 
-    <!--    Y2Y Recent Transfer-->
-    <string name="screen_y2y_display_text_recent_transfer">Recent transfers</string>
-    <string name="screen_y2y_display_text_send_money_to">Who do you want to send money to?</string>
+    <!--  Beneficiary account details screen -->
 
-    <!--    Transaction details screen-->
-    <string name="screen_transaction_details_display_text_spent">Spent</string>
-    <string name="screen_transaction_details_display_text_received">Received</string>
-    <string name="screen_transaction_details_display_text_fee">Fee</string>
-    <string name="screen_transaction_details_display_text_total_amount">Total amount</string>
-    <string name="screen_transaction_details_display_text_add_note">Add a note</string>
-    <string name="screen_transaction_details_display_text_edit_note">Edit a note</string>
-    <string name="screen_transaction_details_display_text_note_description">Stay organized by adding transaction notes</string>
-    <string name="screen_add_note_display_text_type_something">Type something…</string>
-    <string name="screen_add_note_display_text_save">Save</string>
+    <string name="screen_beneficiary_account_details_display_text_title">Beneficiary account details</string>
+    <string name="screen_beneficiary_account_details_display_text_iban">Enter IBAN</string>
+    <string name="screen_beneficiary_account_details_display_text_account_number">Enter account number</string>
+    <string name="screen_beneficiary_account_details_display_text_swift_code">Enter swift code</string>
+    <string name="screen_beneficiary_account_details_display_text_field_code">Country Bank Requirement Field code</string>
 
 
 </resources>

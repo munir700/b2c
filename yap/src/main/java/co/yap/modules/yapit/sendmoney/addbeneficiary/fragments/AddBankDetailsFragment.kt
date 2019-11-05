@@ -6,24 +6,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
-import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
+import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
+import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.yapcore.helpers.Utils
 
-
-
-//this wil be the common screen in all three case only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
-
-
-class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
-    IAddBeneficiary.View {
+class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
+    IBankDetails.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary
+    override fun getLayoutId(): Int = R.layout.fragment_add_bank_detail
 
-    override val viewModel: IAddBeneficiary.ViewModel
-        get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
+    override val viewModel: IBankDetails.ViewModel
+        get() = ViewModelProviders.of(this).get(BankDetailsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
