@@ -56,7 +56,8 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
-                tools:text="Sufyan Shabbir" />
+                android:gravity="center"
+                tools:text="Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir  Sufyan Shabbir" />
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivFlag"

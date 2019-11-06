@@ -38,7 +38,8 @@ class Y2YFundsTransferSuccessFragment : Y2YBaseFragment<IY2YFundsTransferSuccess
 
     private fun setUpData() {
         viewModel.state.title = args.title
-        viewModel.state.transferredAmount = args.currencyType + " " + args.amount
+        viewModel.state.transferredAmount =
+            args.currencyType + " " + Utils.getFormattedCurrency(args.amount)
 
         getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
             getBinding().lyUserImage.tvNameInitials.context,

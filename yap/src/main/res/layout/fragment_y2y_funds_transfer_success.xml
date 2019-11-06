@@ -49,7 +49,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
             android:text="@{viewModel.state.title}"
-            tools:text="Sufyan Shabbir"
+            android:gravity="center"
+            tools:text="Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan ShabbirSufyan Shabbir Sufyan Shabbir Sufyan Shabbir Sufyan Shabbir"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/lyUserImage" />
