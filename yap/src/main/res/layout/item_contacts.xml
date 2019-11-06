@@ -50,9 +50,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="end"
                 android:gravity="bottom"
+                android:lineSpacingExtra="0dp"
+                android:lines="2"
                 android:text="@{viewModel.contact.title}"
-                tools:text="Bril Lizzie Hughes" />
+                tools:text="Bril Lizzie Hugsadfjlkasdfjklhes" />
 
             <TextView
                 android:id="@+id/tvNumber"
@@ -60,8 +63,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
                 android:text="@{Utils.INSTANCE.getFormattedPhoneNumber(context,viewModel.contact.countryCode+viewModel.contact.mobileNo)}"
-                tools:text="+971 12 345 6789" />
+                tools:text="+971 12 345 6" />
             <!--            android:text="@{Utils.INSTANCE.getFormattedPhone(viewModel.contact.countryCode+viewModel.contact.mobileNo)}"-->
 
         </LinearLayout>
