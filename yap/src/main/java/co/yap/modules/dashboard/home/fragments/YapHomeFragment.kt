@@ -74,7 +74,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
-       // swipeToRefresh = view?.findViewById(R.id.refreshLayout) as SwipeRefreshLayout
+        // swipeToRefresh = view?.findViewById(R.id.refreshLayout) as SwipeRefreshLayout
         getBindings().lyInclude.refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.layoutManager = LinearLayoutManager(
             context,
@@ -313,6 +313,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             checkUserStatus()
         }
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
+        MyUserManager.updateCardBalance()
     }
 
     override fun onDestroyView() {
