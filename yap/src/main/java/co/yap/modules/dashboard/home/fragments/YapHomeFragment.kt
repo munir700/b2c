@@ -392,8 +392,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            //  showToast("olalal")
-//            startActivity(TransactionDetailsActivity.)
             (data as HomeTransactionListData).content.get(0).transactionId
         }
     }

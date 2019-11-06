@@ -51,7 +51,7 @@
                 style="@style/ASmallGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.spentTitle==`CREDIT`?`Received`:`Spent`}"
+                android:text="@{viewModel.state.spentTitle}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Spent" />
@@ -143,9 +143,9 @@
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_medium"
             android:onClick="@{(v)-> viewModel.handlePressOnEditNoteClickEvent(v.id)}"
-            app:layout_constraintBottom_toBottomOf="@+id/clEditIcon"
             app:layout_constraintLeft_toRightOf="@+id/clEditIcon"
             app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clTransactionDetails"
             app:layout_constraintTop_toTopOf="@+id/clEditIcon">
 
             <TextView
@@ -155,20 +155,24 @@
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.state.addNoteTitle}"
                 android:textColor="@color/colorPrimary"
-                app:layout_constraintBottom_toTopOf="@+id/tvNoteDetails"
-                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Add a note" />
 
             <TextView
                 android:id="@+id/tvNoteDetails"
                 style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="2"
                 android:text="@{viewModel.state.noteValue}"
-                app:layout_constraintLeft_toLeftOf="@+id/tvNoteHeading"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvNoteHeading"
                 app:layout_constraintTop_toBottomOf="@+id/tvNoteHeading"
-                tools:text="Stay organized by adding transaction notes" />
+                tools:text="transaction notes" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

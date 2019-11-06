@@ -11,7 +11,7 @@ object Constants {
     const val CHANGE_PASSCODE: String = "CHANGE_PASSCODE"
     const val TRANSACTION_ID: String = "TRANSACTION_ID"
     const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
-
+    const val TRANSACTION_TYPE_CREDIT: String = "CREDIT"
 
     //More Option Constants
     const val MORE_NOTIFICATION: Int = 1
