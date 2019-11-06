@@ -74,7 +74,7 @@
                 android:layout_marginRight="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                android:text="Invite Now"
+                android:text="Invite now"
                 app:btn_enable="true"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
