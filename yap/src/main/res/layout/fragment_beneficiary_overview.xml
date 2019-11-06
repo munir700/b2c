@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="co.yap.translation.Strings" />
 
         <variable
@@ -30,7 +29,7 @@
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium">
-                <!--            app:text="@{Strings.screen_profile_settings_display_text_view}"-->
+
                 <TextView
                     style="@style/Large"
                     android:layout_width="match_parent"
@@ -101,7 +100,6 @@
                         <!--                            android:gravity="center_vertical"-->
                         <!--                            android:text="@{viewModel.state.country}"-->
                         <!--                            tools:text="united kingdom" />-->
-
 
                     </LinearLayout>
 
@@ -220,7 +218,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greyLight"
-                    android:editable="false"
+                    android:enabled="false"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
@@ -248,7 +246,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greyLight"
-                    android:editable="false"
+                    android:enabled="false"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
@@ -276,7 +274,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greyLight"
-                    android:editable="false"
+                    android:enabled="false"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
@@ -344,7 +342,7 @@
                             android:background="@null"
                             android:digits="1234567890 "
                             android:drawableRight="@{viewModel.state.drawbleRight}"
-                            android:editable="false"
+                            android:enabled="false"
                             android:imeOptions="actionDone"
                             android:inputType="phone"
                             android:maxLength="@{viewModel.state.mobileNoLength}"
@@ -363,7 +361,6 @@
                         android:layout_marginEnd="@dimen/_2sdp"
                         android:background="@color/greyLight" />
                 </LinearLayout>
-                <!--                android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"-->
 
 
                 <LinearLayout
@@ -453,12 +450,12 @@
 
 
                 <EditText
-                    android:id="@+id/etBranch"
+                    android:id="@+id/etAccountIbanNumber"
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greyLight"
-                    android:editable="false"
+                    android:enabled="false"
                     android:hint="34564567"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
@@ -485,7 +482,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greyLight"
-                    android:editable="false"
+                    android:enabled="false"
                     android:hint="34564567"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
@@ -513,7 +510,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_100sdp"
                     android:backgroundTint="@color/greyLight"
-                    android:editable="false"
+                    android:enabled="false"
                     android:hint="1234"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"

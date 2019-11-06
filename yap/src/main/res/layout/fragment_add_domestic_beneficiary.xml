@@ -220,23 +220,6 @@
                     tools:layout_editor_absoluteX="44dp"
                     tools:text="@string/common_button_next" />
             </LinearLayout>
-
-            <!--            <co.yap.widgets.CoreButton-->
-            <!--                android:id="@+id/confirmDomesticButton"-->
-            <!--                style="@style/FragmentsBtnStyle"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"-->
-            <!--                android:layout_marginTop="@dimen/_100sdp"-->
-            <!--                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"-->
-            <!--                android:layout_marginBottom="@dimen/margin_medium_large"-->
-            <!--                android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"-->
-            <!--                app:enableCoreButton="@{viewModel.state.validateDomesticButton}"-->
-            <!--                app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--                app:text="@{Strings.common_button_next}"-->
-            <!--                tools:ignore="MissingConstraints"-->
-            <!--                tools:layout_editor_absoluteX="44dp"-->
-            <!--                tools:text="@string/common_button_next" />-->
         </LinearLayout>
     </ScrollView>
 </layout>

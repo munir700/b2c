@@ -14,11 +14,14 @@ import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryOver
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryOverviewViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
+import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 
 // Need to check whether to add account detail screen on click of bank details box & hide button or
 
 class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.ViewModel>(),
     IBeneficiaryOverview.View {
+
+    var isFromAddBeneficiary: Boolean = false
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_beneficiary_overview
@@ -30,8 +33,22 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
         super.onCreate(savedInstanceState)
     }
 
+    private fun editBeneficiaryScreen() {
+        etnickName.isEnabled = true
+        etFirstName.isEnabled = true
+        etLastName.isEnabled = true
+        etAccountIbanNumber.isEnabled = true
+        etnickName.isEnabled = true
+        etSwiftCode.isEnabled = true
+        etBankREquiredFieldCode.isEnabled = true
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!isFromAddBeneficiary) {
+            editBeneficiaryScreen()
+        }
+
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -40,7 +57,12 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
 
                 R.id.confirmButton ->
-                    ConfirmAddBeneficiary(activity!!)
+                    if (!isFromAddBeneficiary) {
+                        //may be show a dialogue to confirm edit beneficairy call and go back???
+                    } else {
+                        ConfirmAddBeneficiary(activity!!)
+
+                    }
             }
         })
     }
