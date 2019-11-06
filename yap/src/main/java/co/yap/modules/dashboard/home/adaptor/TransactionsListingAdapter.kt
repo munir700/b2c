@@ -56,10 +56,10 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             }
 
 
-            transaction.receiverName = transaction.receiverName ?: "Unknown"
-            itemTransactionListBinding.tvTransactionName?.text = transaction.receiverName
+            transaction.title = transaction.title ?: "Unknown"
+            itemTransactionListBinding.tvTransactionName?.text = transaction.title
             itemTransactionListBinding.tvNameInitials?.text =
-                transaction?.receiverName?.let { shortName(it) }
+                transaction.title?.let { shortName(it) }
 
 //            itemTransactionListBinding.tvTransactionName?.text = transaction?.senderName
             // itemTransactionListBinding.tvNameInitials?.text = transaction?.senderName?.let { shortName(it) }
