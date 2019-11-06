@@ -6,7 +6,6 @@ import android.app.AlertDialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.os.Build
@@ -24,6 +23,7 @@ import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -450,4 +450,10 @@ object Utils {
         R.color.colorSecondaryGreen,
         R.color.colorSecondaryOrange
     )
+
+    fun getTwoDecimalPlaces(value: Double): Double {
+        val df = DecimalFormat("#.###")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(value).toDouble()
+    }
 }

@@ -8,6 +8,7 @@ open class YAPApplication : Application() {
         var AUTO_RESTART_APP = true
         const val pageSize = 100
         var hasFilterStateChanged = false
+        var isAllChecked = false
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
             0,
             pageSize,
@@ -15,8 +16,7 @@ open class YAPApplication : Application() {
             null,
             null,
             null,
-            totalAppliedFilter = 0,
-            yapYoungTransfer = null
+            totalAppliedFilter = 0
         )
 
 
@@ -25,8 +25,7 @@ open class YAPApplication : Application() {
                 0, pageSize,
                 null, null,
                 null, null,
-                0,
-                null
+                0
             )
         }
     }
