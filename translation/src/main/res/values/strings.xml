@@ -574,6 +574,8 @@
     <string name="screen_add_beneficiary_detail_display_text_transfer_last_name">Last name</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_phone">Phone number (optional)</string>
     <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
+    <string name="screen_sdd_beneficiary_display_confirm_iban">Confirm IBAN</string>
+
 
     <string name="screen_add_beneficiary_detail_display_text_alert_title">Beneficiary has been added successfully</string>
     <string name="screen_add_beneficiary_detail_display_button_block_alert_description">Send money to this beneficiary now?</string>
@@ -615,6 +617,7 @@
     <string name="screen_beneficiary_overview_display_text_swift_code">Swift code</string>
     <string name="screen_beneficiary_overview_display_text_field_code">Country Bank Requirement Field code</string>
     <string name="screen_beneficiary_overview_button_confirm">Confirm</string>
+
 
 
 

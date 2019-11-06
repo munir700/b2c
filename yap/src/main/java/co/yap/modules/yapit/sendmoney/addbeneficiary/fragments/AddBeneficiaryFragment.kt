@@ -13,7 +13,6 @@ import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
-import co.yap.yapcore.helpers.Utils
 
 
 //this wil be the common screen in all three case only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
@@ -38,6 +37,9 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton ->
+                    ConfirmAddBeneficiary(this.activity!!)
+
+                R.id.confirmDomesticButton ->
                     ConfirmAddBeneficiary(this.activity!!)
             }
         })

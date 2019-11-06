@@ -925,6 +925,8 @@ object Strings {
         "screen_add_beneficiary_detail_input_text_first_name_hint"
     const val screen_add_beneficiary_detail_input_text_last_name_hint: String =
         "screen_add_beneficiary_detail_input_text_last_name_hint"
+    const val screen_sdd_beneficiary_display_confirm_iban: String =
+        "screen_sdd_beneficiary_display_confirm_iban"
 
 
     const val screen_add_beneficiary_detail_display_text_alert_title: String =

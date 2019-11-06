@@ -30,7 +30,7 @@
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
                 android:paddingRight="@dimen/margin_medium">
-                <!--            app:text="@{Strings.screen_profile_settings_display_text_view}"-->
+
                 <TextView
                     style="@style/Large"
                     android:layout_width="match_parent"
@@ -44,181 +44,52 @@
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_title}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_title" />
 
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:weightSum="1">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".5"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/SmallGrey"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_large"
-                            android:gravity="center"
-                            android:text="@string/screen_add_beneficiary_detail_display_text_country"
-                            app:text="@{Strings.screen_add_beneficiary_detail_display_text_country}"
-                            tools:text="@string/screen_add_beneficiary_detail_display_text_country" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingTop="@dimen/margin_medium"
-                            android:paddingBottom="@dimen/margin_medium">
-
-                            <co.yap.widgets.CoreCircularImageView
-                                android:id="@+id/flag_img"
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
-                                android:layout_alignParentStart="true"
-                                android:layout_alignParentTop="true"
-                                android:layout_centerVertical="true"
-                                android:background="@drawable/bitmap"
-                                app:src="@{viewModel.state.flagDrawableResId}" />
-
-                            <TextView
-                                style="@style/Small"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="@dimen/margin_medium"
-                                android:gravity="center_vertical"
-                                android:text="@{viewModel.state.country}"
-                                tools:text="united kingdom" />
-
-
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight=".5"
-                        android:orientation="vertical">
-
-                        <TextView
-                            style="@style/SmallGrey"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_large"
-                            android:gravity="center"
-                            android:text="@string/screen_add_beneficiary_detail_display_text_transfer_type"
-                            app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_type}"
-                            tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_type" />
-
-
-                        <TextView
-                            style="@style/Small"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/margin_normal"
-                            android:drawableStart="@drawable/ic_bank"
-                            android:drawablePadding="@dimen/margin_small"
-                            android:drawableTint="@color/greyDark"
-                            android:gravity="center_vertical"
-                            android:text="@{viewModel.state.transferType}"
-                            tools:text="Bank Transfer" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:background="@color/divider" />
-
-
-                <!--
-                    this wil be the common screen in all three case
-                     only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
-                  -->
-
                 <TextView
                     style="@style/SmallGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_large"
                     android:gravity="center"
-                    android:text="@string/screen_add_beneficiary_detail_display_text_currency"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_currency}"
-                    tools:text="@string/screen_add_beneficiary_detail_display_text_currency" />
+                    android:text="@string/screen_add_beneficiary_detail_display_text_country"
+                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_country}"
+                    tools:text="@string/screen_add_beneficiary_detail_display_text_country" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:weightSum="1">
+                    android:paddingTop="@dimen/margin_medium"
+                    android:paddingBottom="@dimen/margin_medium">
 
-                    //add field in state to change the icon of currency type
-
-                    <TextView
-                        android:id="@+id/labelCardType"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_marginTop="@dimen/_15sdp"
-                        android:background="@drawable/round_light_gery_background"
-                        android:gravity="center"
-                        android:text="@{viewModel.state.currency}"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/_9sdp"
-                        app:btn_unpressed_color="@color/disabledLight"
-                        tools:text="$ CAD" />
+                    <co.yap.widgets.CoreCircularImageView
+                        android:id="@+id/flag_img"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/bitmap"
+                        app:src="@{viewModel.state.flagDrawableResId}" />
 
                     <TextView
                         style="@style/Small"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium"
-                        android:gravity="end"
-                        android:text="@string/screen_add_beneficiary_detail_display_text_change_currency"
-                        android:textColor="@color/colorPrimary"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:text="@{Strings.screen_add_beneficiary_detail_display_text_change_currency}" />
+                        android:layout_marginLeft="@dimen/margin_medium"
+                        android:gravity="center_vertical"
+                        android:text="@{viewModel.state.country}"
+                        tools:text="united kingdom" />
+
 
                 </LinearLayout>
+
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:background="@color/divider" />
-
-                <TextView
-                    style="@style/Small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_nick_name}"
-                    app:textColor="@{viewModel.state.nickName.empty ? true : false}"
-                    tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name" />
-
-                <EditText
-                    android:id="@+id/etnickName"
-                    style="@style/Regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/greyLight"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:maxLength="50"
-                    android:text="@={viewModel.state.nickName}"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
-
+                    android:layout_marginStart="@dimen/_2sdp"
+                    android:layout_marginEnd="@dimen/_2sdp"
+                    android:background="@color/greyLight" />
 
                 <TextView
                     style="@style/Small"
@@ -273,6 +144,61 @@
                     android:text="@={viewModel.state.lastName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
+
+                <TextView
+                    style="@style/Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                    app:text="@{Strings.screen_beneficiary_account_details_display_text_iban}"
+                    app:textColor="@{viewModel.state.lastName.empty ? true : false}"
+                    tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
+
+
+                <EditText
+                    android:id="@+id/etIban"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/greyLight"
+                    android:hint="xxxxxxxxx"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:maxLength="50"
+                    android:text="@={viewModel.state.lastName}" />
+
+
+                <TextView
+                    style="@style/Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                    app:text="@{Strings.screen_sdd_beneficiary_display_confirm_iban}"
+                    app:textColor="@{viewModel.state.lastName.empty ? true : false}"
+                    tools:text="@string/screen_sdd_beneficiary_display_confirm_iban" />
+
+
+                <EditText
+                    android:id="@+id/etConfirmIban"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/greyLight"
+                    android:hint="xxxxxxxxx"
+                    android:imeOptions="actionNext"
+                    android:importantForAutofill="no"
+                    android:maxLength="50"
+                    android:text="@={viewModel.state.lastName}" />
+
+
                 <TextView
                     style="@style/Small"
                     android:layout_width="match_parent"
@@ -285,19 +211,6 @@
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_phone}"
                     app:textColor="@{viewModel.state.mobile.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone" />
-
-
-                <!--                <EditText-->
-                <!--                    android:id="@+id/etPhoneNumber"-->
-                <!--                    style="@style/Regular"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:backgroundTint="@color/greyLight"-->
-                <!--                    android:imeOptions="actionNext"-->
-                <!--                    android:importantForAutofill="no"-->
-                <!--                    android:text="@={viewModel.state.phoneNumber}"-->
-                <!--                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />-->
-
 
                 <LinearLayout
                     android:id="@+id/viewPhoneNumber"
@@ -355,12 +268,10 @@
                         android:layout_marginBottom="@dimen/_100sdp"
                         android:background="@color/greyLight" />
                 </LinearLayout>
-
-
             </LinearLayout>
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/confirmButton"
+                android:id="@+id/confirmDomesticButton"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -368,8 +279,8 @@
                 android:layout_marginTop="@dimen/_60sdp"
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
-                app:enableCoreButton="@{viewModel.state.valid}"
+                android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
+                app:enableCoreButton="@{viewModel.state.validateDomesticButton}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.common_button_next}"
                 tools:ignore="MissingConstraints"

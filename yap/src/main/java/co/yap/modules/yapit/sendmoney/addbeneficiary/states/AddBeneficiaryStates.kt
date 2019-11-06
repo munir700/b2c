@@ -64,6 +64,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             field = value
             notifyPropertyChanged(BR.firstName)
             validate()
+            validateDomesticUser()
         }
 
     @get:Bindable
@@ -72,6 +73,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             field = value
             notifyPropertyChanged(BR.lastName)
             validate()
+            validateDomesticUser()
         }
 
 
@@ -117,4 +119,38 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             notifyPropertyChanged(BR.valid)
         }
     }
+
+    // fields for domestic user
+
+
+    @get:Bindable
+    override var validateDomesticButton: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.validateDomesticButton)
+        }
+
+    @get:Bindable
+    override var iban: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.iban)
+            validateDomesticUser()
+        }
+
+    @get:Bindable
+    override var confirmIban: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.confirmIban)
+            validateDomesticUser()
+        }
+
+    fun validateDomesticUser() {
+        if (!lastName.isNullOrEmpty() && !iban.isNullOrEmpty() && !lastName.isNullOrEmpty() && !confirmIban.isNullOrEmpty()) {
+            validateDomesticButton = true
+            notifyPropertyChanged(BR.validateDomesticButton)
+        }
+    }
+
 }

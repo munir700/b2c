@@ -25,6 +25,10 @@ class AddBeneficiaryViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override fun handlePressOnAddDomestic(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
 
