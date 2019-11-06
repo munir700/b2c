@@ -141,8 +141,15 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun resetAllFilters() {
-        YAPApplication.hasFilterStateChanged =
-            YAPApplication.homeTransactionsRequest.totalAppliedFilter != 0
+        if (YAPApplication.isAllChecked || !YAPApplication.isAllChecked) {
+            YAPApplication.hasFilterStateChanged =
+                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
+                    viewModel.transactionFilters.value?.maxAmount!!
+                )
+        } else {
+            YAPApplication.hasFilterStateChanged =
+                YAPApplication.homeTransactionsRequest.totalAppliedFilter != 0
+        }
         YAPApplication.isAllChecked = false
         YAPApplication.clearFilters()
         finish()
