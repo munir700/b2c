@@ -86,7 +86,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onRefresh() {
         viewModel.isRefreshing.value = true
-        YAPApplication.homeTransactionsRequest.number = 0
+        homeTransactionsRequest.number = 0
         viewModel.requestAccountTransactions()
         getBindings().lyInclude.refreshLayout.isRefreshing = false
 
@@ -120,7 +120,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
-                    if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value!!.isEmpty()) {
+                    if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value!!.isEmpty() && homeTransactionsRequest.totalAppliedFilter == 0) {
                         showErrorSnackBar("No Transactions Found")
                         return@Observer
                     } else {
@@ -183,8 +183,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.isLoadMore.observe(this, Observer {
             if (it) {
-                YAPApplication.homeTransactionsRequest.number =
-                    YAPApplication.homeTransactionsRequest.number + 1
+                homeTransactionsRequest.number =
+                    homeTransactionsRequest.number + 1
                 val item =
                     getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
                         ?.copy()
