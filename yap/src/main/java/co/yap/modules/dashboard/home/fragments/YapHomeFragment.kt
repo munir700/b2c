@@ -35,6 +35,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.fixSwipeToRefresh
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
@@ -82,14 +83,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             true
         )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
+
+        getBindings().lyInclude.rvTransaction.apply {
+            fixSwipeToRefresh(getBindings().lyInclude.refreshLayout)
+        }
     }
+
 
     override fun onRefresh() {
         viewModel.isRefreshing.value = true
         homeTransactionsRequest.number = 0
         viewModel.requestAccountTransactions()
         getBindings().lyInclude.refreshLayout.isRefreshing = false
-
     }
 
     private val adaptorlistener = object : OnItemClickListener {
