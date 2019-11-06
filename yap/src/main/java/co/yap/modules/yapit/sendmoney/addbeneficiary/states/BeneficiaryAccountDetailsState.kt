@@ -47,8 +47,7 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
-            validate()
-        }
+         }
 
     fun validate() {
         if (!countryBankRequirementFieldCode.isNullOrEmpty() && !beneficiaryAccountNumber.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !accountIban.isNullOrEmpty()) {

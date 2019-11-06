@@ -1,16 +1,19 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.fragments
 
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
-
 
 
 //this wil be the common screen in all three case only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
@@ -31,12 +34,11 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Utils.ConfirmAddBeneficiary(this.activity!!)
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton ->
-                    Utils.ConfirmAddBeneficiary(this.activity!!)
+                    ConfirmAddBeneficiary(this.activity!!)
             }
         })
     }
@@ -58,6 +60,38 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
         return super.onBackPressed()
     }
 
+    fun ConfirmAddBeneficiary(context: Context) {
+        androidx.appcompat.app.AlertDialog.Builder(context)
+            .setTitle(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+                )
+            )
+            .setMessage(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                )
+            )
+            .setPositiveButton(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
+                ),
+                DialogInterface.OnClickListener { dialog, which ->
+                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
+                })
+
+            .setNegativeButton(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+                ),
+                null
+            )
+            .show()
+    }
 //    fun ConfirmAddBeneficiary() {
 //        AlertDialog.Builder(this!!.activity!!)
 //            .setTitle(getString(R.string.screen_add_beneficiary_detail_display_text_alert_title))

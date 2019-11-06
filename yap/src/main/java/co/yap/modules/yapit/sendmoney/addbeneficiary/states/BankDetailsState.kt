@@ -47,7 +47,7 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
-            validate()
+//            validate()
         }
 
     fun validate() {

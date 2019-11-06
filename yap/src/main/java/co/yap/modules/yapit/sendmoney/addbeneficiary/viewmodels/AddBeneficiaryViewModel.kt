@@ -22,7 +22,7 @@ class AddBeneficiaryViewModel(application: Application) :
 
 
     override fun handlePressOnAddNow(id: Int) {
-
+        clickEvent.setValue(id)
     }
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
