@@ -798,6 +798,8 @@ object Strings {
         "screen_y2y_display_button_all_contacts"
     const val screen_y2y_display_text_send_money_to: String =
         "screen_y2y_display_text_send_money_to"
+    const val screen_y2y_display_text_no_contacts: String =
+        "screen_y2y_display_text_no_contacts"
 
     //    Y2Y funds Transfer success screen
     const val screen_y2y_funds_transfer_success_display_text_title: String =

@@ -16,10 +16,10 @@ import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
-import co.yap.modules.others.helper.Constants
 import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
+import co.yap.modules.others.helper.Constants
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.PermissionHelper
@@ -27,6 +27,7 @@ import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.biometric.BiometricUtil
 import co.yap.yapcore.managers.MyUserManager
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.fragment_lite_dashboard.swTouchId
 import kotlinx.android.synthetic.main.layout_profile_settings.*
 import pl.aprilapps.easyphotopicker.DefaultCallback
@@ -51,6 +52,8 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         super.onViewCreated(view, savedInstanceState)
         if (context is MoreActivity)
             (context as MoreActivity).visibleToolbar()
+
+        Glide.with(activity!!)
 
         var sharedPreferenceManager: SharedPreferenceManager =
             SharedPreferenceManager(requireContext())
@@ -180,13 +183,13 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         super.onDestroy()
     }
 
-    fun logoutAlert() {
-        AlertDialog.Builder(this!!.activity!!)
+    private fun logoutAlert() {
+        AlertDialog.Builder(this.activity!!)
             .setTitle(getString(R.string.screen_profile_settings_logout_display_text_alert_title))
             .setMessage(getString(R.string.screen_profile_settings_logout_display_text_alert_message))
             .setPositiveButton(getString(R.string.screen_profile_settings_logout_display_text_alert_logout),
                 DialogInterface.OnClickListener { dialog, which ->
-                    doLogout()
+                    viewModel.logout()
                 })
 
             .setNegativeButton(
@@ -201,9 +204,7 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
         MyUserManager.cardBalance.value = CardBalance()
         MyUserManager.cards.value?.clear()
         MyUserManager.userAddress = null
-        MoreActivity.showExpiredIcon =false
-        // clear filters
-
+        MoreActivity.showExpiredIcon = false
         YAPApplication.clearFilters()
         activity?.finish()
     }
@@ -269,9 +270,6 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
                 R.id.tvLogOut -> {
 
 
-
-
-
                     logoutAlert()
                 }
 
@@ -282,6 +280,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
                 viewModel.PROFILE_PICTURE_UPLOADED -> {
 
+                }
+                viewModel.EVENT_LOGOUT_SUCCESS -> {
+                    doLogout()
                 }
             }
         })

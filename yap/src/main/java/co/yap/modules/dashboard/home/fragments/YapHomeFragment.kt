@@ -58,6 +58,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_home
+    private lateinit var swipeToRefresh: SwipeRefreshLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,8 +74,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
-
-        refreshLayout.setOnRefreshListener(this)
+       // swipeToRefresh = view?.findViewById(R.id.refreshLayout) as SwipeRefreshLayout
+        getBindings().lyInclude.refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
@@ -87,7 +88,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.isRefreshing.value = true
         homeTransactionsRequest.number = 0
         viewModel.requestAccountTransactions()
-        refreshLayout.isRefreshing = false
+        getBindings().lyInclude.refreshLayout.isRefreshing = false
 
     }
 
