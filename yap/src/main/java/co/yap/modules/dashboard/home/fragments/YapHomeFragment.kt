@@ -76,7 +76,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
         // swipeToRefresh = view?.findViewById(R.id.refreshLayout) as SwipeRefreshLayout
-        getBindings().lyInclude.refreshLayout.setOnRefreshListener(this)
+        getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
@@ -85,7 +85,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
         getBindings().lyInclude.rvTransaction.apply {
-            fixSwipeToRefresh(getBindings().lyInclude.refreshLayout)
+            fixSwipeToRefresh(getBindings().refreshLayout)
         }
     }
 
@@ -94,7 +94,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         viewModel.isRefreshing.value = true
         homeTransactionsRequest.number = 0
         viewModel.requestAccountTransactions()
-        getBindings().lyInclude.refreshLayout.isRefreshing = false
+        getBindings().refreshLayout.isRefreshing = false
     }
 
     private val adaptorlistener = object : OnItemClickListener {
