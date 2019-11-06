@@ -7,8 +7,7 @@ data class HomeTransactionsRequest(
 
     var amountStartRange: Double?,
     var amountEndRange: Double?,
-    var creditSearch: Boolean?,
-    var debitSearch: Boolean?,
-    var totalAppliedFilter: Int,
-    var yapYoungTransfer: Boolean?
+    var txnType: String?,
+    var title: String?,
+    var totalAppliedFilter: Int
 )
