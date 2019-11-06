@@ -22,7 +22,8 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
     IAddBeneficiary.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary
+    override fun getLayoutId(): Int = R.layout.fragment_add_domestic_beneficiary
+//    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary
 
     override val viewModel: IAddBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)

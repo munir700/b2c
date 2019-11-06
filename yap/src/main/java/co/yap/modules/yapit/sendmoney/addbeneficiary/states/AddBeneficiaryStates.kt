@@ -10,7 +10,7 @@ import co.yap.yapcore.BaseState
 class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.State {
 
     @get:Bindable
-    override var flagDrawableResId: Int = -1
+     override var flagDrawableResId: Int = -1
         set(value) {
             field = value
             notifyPropertyChanged(BR.flagDrawableResId)
@@ -25,7 +25,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var country: String = ""
+    override var country: String = "United Arab Emierates"
         set(value) {
             field = value
             notifyPropertyChanged(BR.country)

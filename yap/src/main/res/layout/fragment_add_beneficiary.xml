@@ -91,9 +91,7 @@
                                 android:layout_marginLeft="@dimen/margin_medium"
                                 android:gravity="center_vertical"
                                 android:text="@{viewModel.state.country}"
-                                tools:text="united kingdom" />
-
-
+                                tools:text="United Arab Emierates" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -213,9 +211,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greyLight"
-                    android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
+                    android:imeOptions="actionNext"
                     android:text="@={viewModel.state.nickName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
 
@@ -286,19 +284,6 @@
                     app:textColor="@{viewModel.state.mobile.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone" />
 
-
-                <!--                <EditText-->
-                <!--                    android:id="@+id/etPhoneNumber"-->
-                <!--                    style="@style/Regular"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:backgroundTint="@color/greyLight"-->
-                <!--                    android:imeOptions="actionNext"-->
-                <!--                    android:importantForAutofill="no"-->
-                <!--                    android:text="@={viewModel.state.phoneNumber}"-->
-                <!--                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />-->
-
-
                 <LinearLayout
                     android:id="@+id/viewPhoneNumber"
                     android:layout_width="match_parent"
@@ -355,8 +340,6 @@
                         android:layout_marginBottom="@dimen/_100sdp"
                         android:background="@color/greyLight" />
                 </LinearLayout>
-
-
             </LinearLayout>
 
             <co.yap.widgets.CoreButton
