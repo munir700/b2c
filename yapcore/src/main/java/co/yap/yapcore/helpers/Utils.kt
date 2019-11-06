@@ -452,7 +452,7 @@ object Utils {
     )
 
     fun getTwoDecimalPlaces(value: Double): Double {
-        val df = DecimalFormat("#.###")
+        val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.CEILING
         return df.format(value).toDouble()
     }
