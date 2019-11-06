@@ -618,8 +618,14 @@
     <string name="screen_beneficiary_overview_display_text_field_code">Country Bank Requirement Field code</string>
     <string name="screen_beneficiary_overview_button_confirm">Confirm</string>
 
+    <!--  Beneficiary cash transfer success screen -->
 
-
+    <string name="screen_crash_transfer_success_display_text_title">Transfer successful</string>
+    <string name="screen_crash_transfer_success_display_text_transfer">You have transferred</string>
+    <string name="screen_crash_transfer_success_display_text_reference_number">Reference number</string>
+    <string name="screen_crash_transfer_success_display_text_agent_location">Pickup agent location</string>
+    <string name="screen_crash_transfer_success_display_text_share_code">Share this code</string>
+    <string name="screen_crash_transfer_success_button_text_back">Back to dashboard</string>
 
 
 
