@@ -68,6 +68,11 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         }
     }
 
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+    }
+
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.transactionFilters.observe(this, searchFilterAmountObserver)
