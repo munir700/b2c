@@ -7,7 +7,6 @@ import androidx.navigation.fragment.navArgs
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
-import co.yap.modules.generic_otp.GenericOtpFragmentArgs
 import co.yap.yapcore.helpers.Utils
 
 class GenericOtpFragment : ForgotPasscodeOtpFragment() {
