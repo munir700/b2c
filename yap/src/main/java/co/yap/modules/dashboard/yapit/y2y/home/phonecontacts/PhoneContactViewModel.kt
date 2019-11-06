@@ -1,11 +1,14 @@
 package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 
+import android.Manifest
 import android.app.Application
 import android.content.ContentUris
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.ContactsContract
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
@@ -140,58 +143,67 @@ class PhoneContactViewModel(application: Application) :
     }
 
     private fun fetchContacts(context: Context): MutableList<Contact> {
-        val defaultCountryCode = Utils.getDefaultCountryCode(context)
+
         val contacts: MutableList<Contact> = ArrayList()
-        val cursor = context.contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
-        )
-        try {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
 
-            if ((cursor?.count ?: 0) > 0) {
-                while (cursor!!.moveToNext()) {
-                    val name =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+            val defaultCountryCode = Utils.getDefaultCountryCode(context)
 
-                    val phoneWihtoutCountryCode =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+            val cursor = context.contentResolver.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+            )
+            try {
 
-                    val phoneNo = Utils.getPhoneWithoutCountryCode(
-                        defaultCountryCode,
-                        phoneWihtoutCountryCode
-                    )
-                    val countryCode =
-                        Utils.getPhoneNumberCountryCodeForAPI(
+                if ((cursor?.count ?: 0) > 0) {
+                    while (cursor!!.moveToNext()) {
+                        val name =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+
+                        val phoneWihtoutCountryCode =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                        val phoneNo = Utils.getPhoneWithoutCountryCode(
                             defaultCountryCode,
                             phoneWihtoutCountryCode
                         )
-                    val contactId =
-                        cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
-                    val contactId2 =
-                        cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
-                    val email = fetchContactsEmail(contactId)
+                        val countryCode =
+                            Utils.getPhoneNumberCountryCodeForAPI(
+                                defaultCountryCode,
+                                phoneWihtoutCountryCode
+                            )
+                        val contactId =
+                            cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
+                        val contactId2 =
+                            cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
+                        val email = fetchContactsEmail(contactId)
 
-                    var photoContentUri: Uri? = getPhotoUri(contactId2)
-                    if (photoContentUri == null) photoContentUri = Uri.EMPTY
+                        var photoContentUri: Uri? = getPhotoUri(contactId2)
+                        if (photoContentUri == null) photoContentUri = Uri.EMPTY
 
-                    Log.d(
-                        "contact",
-                        "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
-                    )
-                    val contact = Contact(
-                        name,
-                        countryCode,
-                        phoneNo,
-                        email,
-                        photoContentUri?.toString(),
-                        false, null
-                    )
-                    contacts.add(contact)
+                        Log.d(
+                            "contact",
+                            "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
+                        )
+                        val contact = Contact(
+                            name,
+                            countryCode,
+                            phoneNo,
+                            email,
+                            photoContentUri?.toString(),
+                            false, null
+                        )
+                        contacts.add(contact)
+                    }
                 }
+                cursor?.close()
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
-            cursor?.close()
-        } catch (ex: Exception) {
-            ex.printStackTrace()
         }
         return contacts
     }
