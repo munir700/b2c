@@ -542,6 +542,7 @@
     <string name="screen_edit_beneficiary_display_text_swift_code">Swift code</string>
     <string name="screen_edit_beneficiary_display_text_requirement_field_code">Country Bank Requirement Field code</string>
     <string name="screen_edit_beneficiary_display_text_coonfirm">Confirm</string>
+    <string name="screen_edit_display_text_beneficiary_overview">Beneficiary overview</string>
 
 
     <!--  Add Beneficiary -->
@@ -607,6 +608,8 @@
     <string name="screen_beneficiary_account_details_display_text_account_number">Enter account number</string>
     <string name="screen_beneficiary_account_details_display_text_swift_code">Enter swift code</string>
     <string name="screen_beneficiary_account_details_display_text_field_code">Country Bank Requirement Field code</string>
+
+
 
 
 </resources>
