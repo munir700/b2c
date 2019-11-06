@@ -32,21 +32,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_medium"
-
             android:orientation="vertical"
-            android:padding="@dimen/margin_extra_small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
 
             <LinearLayout
                 android:id="@+id/lLyFaqs"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_normal"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:orientation="horizontal"
+                android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
@@ -54,6 +51,7 @@
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
@@ -95,9 +93,9 @@
                 android:id="@+id/lyChat"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_normal"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:orientation="horizontal"
+                android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lLyFaqs">
 
                 <ImageView
@@ -105,12 +103,13 @@
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:padding="@dimen/_10sdp"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_phone_vector" />
+                    app:srcCompat="@drawable/ic_chat" />
 
                 <TextView
                     android:id="@+id/tvChat"
@@ -139,7 +138,6 @@
                     android:rotation="180"
                     app:srcCompat="@drawable/ic_back_arrow_left" />
 
-
             </LinearLayout>
 
 
@@ -147,22 +145,23 @@
                 android:id="@+id/lyLiveWhatsApp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_normal"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:orientation="horizontal"
+                android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lyChat">
 
                 <ImageView
                     android:id="@+id/imgWhatsApp"
-                    android:layout_width="@dimen/_40sdp"
-                    android:layout_height="@dimen/_40sdp"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                     android:padding="@dimen/_10sdp"
                     android:tint="@color/colorPrimary"
-                    app:srcCompat="@drawable/ic_phone_vector" />
+                    app:srcCompat="@drawable/ic_whatsapp" />
 
                 <TextView
                     android:id="@+id/tvWhatsApp"
@@ -198,9 +197,9 @@
                 android:id="@+id/lyCall"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/margin_normal"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:orientation="horizontal"
+                android:padding="@dimen/margin_small"
                 app:layout_constraintTop_toBottomOf="@+id/lyLiveWhatsApp">
 
                 <ImageView
@@ -208,6 +207,7 @@
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center"
+                    android:layout_marginStart="@dimen/margin_small"
                     android:background="@drawable/bg_round_purple"
                     android:contentDescription="@string/empty_string"
                     android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
@@ -264,6 +264,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium"
                     android:layout_weight="1"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="center|end"
