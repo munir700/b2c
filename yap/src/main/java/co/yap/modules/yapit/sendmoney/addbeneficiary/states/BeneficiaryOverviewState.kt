@@ -16,7 +16,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         }
 
     @get:Bindable
-    override var valid: Boolean = false
+    override var valid: Boolean = true
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
@@ -54,7 +54,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.nickName)
-            validate()
+
         }
 
     @get:Bindable
@@ -62,7 +62,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)
-            validate()
+
         }
 
     @get:Bindable
@@ -70,7 +70,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.lastName)
-            validate()
+
         }
 
 
@@ -110,10 +110,30 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
             notifyPropertyChanged(BR.mobileNoLength)
         }
 
-    fun validate() {
-        if (!lastName.isNullOrEmpty() && !nickName.isNullOrEmpty() && !lastName.isNullOrEmpty()) {
-            valid = true
-            notifyPropertyChanged(BR.valid)
+    //
+
+    @get:Bindable
+    override var accountIban: String = "1234"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.accountIban)
+
         }
-    }
+
+    @get:Bindable
+    override var swiftCode: String = "5467"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.swiftCode)
+
+        }
+
+    @get:Bindable
+    override var countryBankRequirementFieldCode: String = "11344"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.countryBankRequirementFieldCode)
+
+        }
+
 }

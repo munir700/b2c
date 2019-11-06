@@ -967,4 +967,20 @@ object Strings {
         "screen_beneficiary_account_details_display_text_swift_code"
     const val screen_beneficiary_account_details_display_text_field_code: String =
         "screen_beneficiary_account_details_display_text_field_code"
+
+
+    //Beneficiary overview screen
+
+    const val screen_beneficiary_overview_display_text_title: String =
+        "screen_beneficiary_overview_display_text_title"
+    const val screen_beneficiary_overview_display_text_account_number_iban: String =
+        "screen_beneficiary_overview_display_text_account_number_iban"
+    const val screen_beneficiary_overview_display_text_swift_code: String =
+        "screen_beneficiary_overview_display_text_swift_code"
+    const val screen_beneficiary_overview_display_text_field_code: String =
+        "screen_beneficiary_overview_display_text_field_code"
+    const val screen_beneficiary_overview_button_confirm: String =
+        "screen_beneficiary_overview_button_confirm"
+
+
 }

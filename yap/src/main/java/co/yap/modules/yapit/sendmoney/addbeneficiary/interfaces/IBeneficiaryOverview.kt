@@ -16,11 +16,15 @@ interface IBeneficiaryOverview {
         var lastName: String
         var phoneNumber: String
         var flagDrawableResId: Int
-        var valid: Boolean
         var mobile: String
         var drawbleRight: Drawable?
         var mobileNoLength: Int
 
+        var accountIban: String
+        var countryBankRequirementFieldCode: String
+        var swiftCode: String
+
+        var valid: Boolean
 
     }
 
@@ -29,6 +33,7 @@ interface IBeneficiaryOverview {
         var clickEvent: SingleClickEvent
 
         fun handlePressOnAddNow(id: Int)
+        fun handlePressOnConfirm(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

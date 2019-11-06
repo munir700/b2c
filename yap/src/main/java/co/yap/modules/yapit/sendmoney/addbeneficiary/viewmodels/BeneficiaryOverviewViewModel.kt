@@ -25,6 +25,10 @@ class BeneficiaryOverviewViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override fun handlePressOnConfirm(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
 

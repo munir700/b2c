@@ -1,6 +1,8 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.fragments
 
 
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -11,6 +13,7 @@ import co.yap.R
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryOverviewViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.translation.Translator
 
 // Need to check whether to add account detail screen on click of bank details box & hide button or
 
@@ -32,8 +35,12 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.llBankDetail ->
-                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_beneficiaryAccountDetailsFragment)
+//                R.id.llBankDetail ->
+//                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_beneficiaryAccountDetailsFragment)
+
+
+                R.id.confirmButton ->
+                    ConfirmAddBeneficiary(activity!!)
             }
         })
     }
@@ -44,15 +51,48 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-
-    }
 
     override fun onBackPressed(): Boolean {
 
         return super.onBackPressed()
+    }
+
+    fun ConfirmAddBeneficiary(context: Context) {
+        androidx.appcompat.app.AlertDialog.Builder(context)
+            .setTitle(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+                )
+            )
+            .setMessage(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                )
+            )
+            .setPositiveButton(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
+                ),
+                DialogInterface.OnClickListener { dialog, which ->
+                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)// start funds transfer screen
+
+                })
+
+            .setNegativeButton(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+                ),
+                DialogInterface.OnClickListener { dialog, which ->
+
+                    super.onBackPressed() // finish this nav graph or all screens till here and start the required screen
+
+                })
+
+            .show()
     }
 
 }
