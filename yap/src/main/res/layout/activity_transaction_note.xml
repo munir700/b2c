@@ -34,7 +34,7 @@
             android:layout_marginStart="@dimen/margin_normal_large"
             android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/margin_normal_large"
-            android:hint="Type Something..."
+            android:hint="Type Something...sadsadsadasdasdasdasdasd asdasdsadad asdasdsadsa adasda"
             android:gravity="top"
             android:focusable="true"
             android:text="@={viewModel.state.noteValue}"
