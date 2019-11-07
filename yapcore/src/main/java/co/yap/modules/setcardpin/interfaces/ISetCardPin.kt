@@ -29,6 +29,8 @@ interface ISetCardPin {
             cardSerialNumber: String,
             id: Int
         )
+
+        fun forgotCardPinRequest(cardSerialNumber: String, newPin: String)
         //forgot passcode variables
         var emailOtp: Boolean
         var mobileNumber: String
@@ -43,7 +45,7 @@ interface ISetCardPin {
         var similar: Boolean
         var titleSetPin: String
         var buttonTitle: String
-
+        var flowType: String
         var oldPin: String
         var newPin: String
         var confirmPin: String

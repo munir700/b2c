@@ -16,6 +16,8 @@ class PrimaryCardBottomSheet(private val mListener: CardClickListener) : BottomS
         val view = inflater.inflate(R.layout.bottom_sheet_primary_card, container, false)
         view.tvAddCardName.setOnClickListener { mListener.onClick(Constants.EVENT_ADD_CARD_NAME)}
         view.tvChangePin.setOnClickListener { mListener.onClick(Constants.EVENT_CHANGE_PIN)}
+        view.tvForgotCardPin.setOnClickListener { mListener.onClick(Constants.EVENT_FORGOT_CARD_PIN)}
+
         view.tvViewStatements.setOnClickListener { mListener.onClick(Constants.EVENT_VIEW_STATEMENTS)}
         view.tvReportCard.setOnClickListener { mListener.onClick(Constants.EVENT_REPORT_CARD)}
         return view

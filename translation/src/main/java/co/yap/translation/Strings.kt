@@ -833,4 +833,9 @@ object Strings {
         "screen_add_note_display_text_type_something"
     const val screen_add_note_display_text_save: String =
         "screen_add_note_display_text_save"
+
+
+    // Forgot card pin screen
+    const val screen_forgot_pin_display_text_heading: String =
+        "screen_forgot_pin_display_text_heading"
 }

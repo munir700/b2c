@@ -528,5 +528,8 @@
     <string name="screen_add_note_display_text_type_something">Type something…</string>
     <string name="screen_add_note_display_text_save">Save</string>
 
+<!--    Forgot card pin screen-->
+    <string name="screen_forgot_pin_display_text_heading">Verify your PIN change</string>
+
 
 </resources>

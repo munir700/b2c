@@ -72,7 +72,7 @@ class TransactionDetailsViewModel(application: Application) :
                         response.data.data?.currency + " " + response.data.data?.fee else state.feeAmount =
                         response.data.data?.currency + " " + "0.00"
 
-                    if (response.data.data?.transactionNote != null && response.data.data?.transactionNote != "") {
+                    if (response.data.data?.transactionNote != null) {
                         state.addNoteTitle =
                             getString(Strings.screen_transaction_details_display_text_edit_note)
                         state.noteValue = response.data.data?.transactionNote

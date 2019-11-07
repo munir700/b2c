@@ -79,4 +79,8 @@ interface CardsRetroService {
     @PUT(CardsRepository.URL_GET_PHYSICAL_CARD_ADDRESS)
     suspend fun editAddressRequest(@Body address: UpdateAddressRequest): Response<ApiResponse>
 
+    // forgot card pin
+    @POST(CardsRepository.URL_FORGOT_CARD_PIN)
+    suspend fun forgotCardPin(@Path("card-serial-number") cardSerialNumber: String, @Body forgotCardPin: ForgotCardPin): Response<ApiResponse>
+
 }

@@ -16,6 +16,7 @@ object Constants {
     const val EVENT_VIEW_STATEMENTS: Int = 3
     const val EVENT_REPORT_CARD: Int = 4
     const val EVENT_REMOVE_CARD: Int = 5
+    const val EVENT_FORGOT_CARD_PIN: Int = 6
 
     const val ADD_FUNDS_PRODUCT_CODE: String = "P001"
     const val REMOVE_FUNDS_PRODUCT_CODE: String = "P004"

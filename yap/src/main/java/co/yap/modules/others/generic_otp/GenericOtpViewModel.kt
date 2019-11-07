@@ -19,10 +19,13 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
 
     override fun onCreate() {
         super.onCreate()
-        if(action==Constants.CHANGE_EMAIL){
-            state.verificationTitle =getString(Strings.screen_email_verification_display_text_heading)
-        }else{
-            state.verificationTitle =getString(Strings.screen_forgot_passcode_otp_display_text_heading)
+        when (action) {
+            Constants.CHANGE_EMAIL -> state.verificationTitle =
+                getString(Strings.screen_email_verification_display_text_heading)
+            Constants.FORGOT_CARD_PIN_ACTION -> state.verificationTitle =
+                getString(Strings.screen_forgot_pin_display_text_heading)
+            else -> state.verificationTitle =
+                getString(Strings.screen_forgot_passcode_otp_display_text_heading)
         }
 
         state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
@@ -42,7 +45,8 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
                 state.loading = true
                 when (val response =
                     repository.verifyOtpGenericWithPhone(
-                        state.mobileNumber[0]!!.replace(" ","").replace("+",""), VerifyOtpGenericRequest(action, state.otp)
+                        state.mobileNumber[0]!!.replace(" ", "").replace("+", ""),
+                        VerifyOtpGenericRequest(action, state.otp)
                     )
                     ) {
                     is RetroApiResponse.Success -> {
@@ -79,13 +83,12 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
     }
 
     override fun handlePressOnResendOTP(id: Int) {
-        if(action==Constants.CHANGE_EMAIL){
+        if (action == Constants.CHANGE_EMAIL || action == Constants.FORGOT_CARD_PIN_ACTION) {
             createOtp()
-        }else if (action==Constants.CHANGE_MOBILE_NO){
+        } else if (action == Constants.CHANGE_MOBILE_NO) {
             createOtpForPhoneNumber()
         }
     }
-
 
 
     private fun createOtp() {
@@ -94,11 +97,12 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
             when (val response =
                 messagesRepository.createOtpGeneric(
                     createOtpGenericRequest = CreateOtpGenericRequest(
-                        Constants.CHANGE_EMAIL
+                        action
                     )
                 )) {
                 is RetroApiResponse.Success -> {
-                    state.toast=getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    state.toast =
+                        getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
                     state.validResend = false
                 }
@@ -117,9 +121,16 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
 
             state.loading = true
             when (val response =
-                messagesRepository.createOtpGenericWithPhone(phone = state.mobileNumber[0]!!.replace(" ", "").replace("+",""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
+                messagesRepository.createOtpGenericWithPhone(
+                    phone = state.mobileNumber[0]!!.replace(
+                        " ",
+                        ""
+                    ).replace("+", ""),
+                    createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO)
+                )) {
                 is RetroApiResponse.Success -> {
-                    state.toast=getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
+                    state.toast =
+                        getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
                     state.validResend = false
                 }

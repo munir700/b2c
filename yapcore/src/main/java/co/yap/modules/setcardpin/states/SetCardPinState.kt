@@ -94,9 +94,16 @@ open class SetCardPinState : BaseState(), ISetCardPin.State {
             notifyPropertyChanged(BR.forgotTextVisibility)
         }
 
+    @get:Bindable
+    override var flowType: String=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.flowType)
+        }
+
 
     fun validate() {
-        if (pincode.length == 4) {
+        if (pincode.length >= 4) {
             valid = true
         } else {
             dialerError = ""
