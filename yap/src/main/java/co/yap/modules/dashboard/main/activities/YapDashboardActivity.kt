@@ -93,7 +93,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.layout.component_yap_menu_sub_button,
                 this, 3
             )
-            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay).setTxtYapIt(getViewBinding().txtYapIt)
             .setStateChangeListener(object :
                 FloatingActionMenu.MenuStateChangeListener {
                 override fun onMenuOpened(menu: FloatingActionMenu) {
