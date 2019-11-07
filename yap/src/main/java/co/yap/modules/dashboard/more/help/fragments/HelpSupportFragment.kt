@@ -217,6 +217,9 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             .progressBarHeight(Utils.convertDpToPx(context!!, 3f))
             .progressBarColorRes(R.color.colorPrimaryDark)
             .backPressToClose(false)
+            .webViewUseWideViewPort(true)
+            .webViewSupportZoom(true)
+            .webViewBuiltInZoomControls(true)
             .setCustomAnimations(
                 R.anim.activity_open_enter,
                 R.anim.activity_open_exit,

@@ -54,7 +54,7 @@
                 android:ellipsize="end"
                 android:gravity="bottom"
                 android:lineSpacingExtra="0dp"
-                android:lines="2"
+                android:lines="1"
                 android:text="@{viewModel.contact.title}"
                 tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
