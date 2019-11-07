@@ -353,7 +353,7 @@ class FloatingActionMenu
                 View.ALPHA,
                 *alphaArray
             )
-            alphaAnimation.duration = if (isOpen) 1700 else 400
+            alphaAnimation.duration = if (isOpen) 400 else 400
             alphaAnimation.repeatCount = 0
         }
 
