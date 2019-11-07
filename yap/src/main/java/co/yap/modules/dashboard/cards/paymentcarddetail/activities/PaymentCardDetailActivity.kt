@@ -303,7 +303,12 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
             }
 
             Constants.EVENT_FORGOT_CARD_PIN -> {
-                startActivity(ForgotCardPinActivity.newIntent(this, viewModel.card.value!!.cardSerialNumber))
+                startActivity(
+                    ForgotCardPinActivity.newIntent(
+                        this,
+                        viewModel.card.value!!.cardSerialNumber
+                    )
+                )
             }
 
             Constants.EVENT_VIEW_STATEMENTS -> {
