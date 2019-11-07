@@ -10,8 +10,12 @@ object Constants {
     const val CHANGE_EMAIL: String = "CHANGE_EMAIL"
     const val CHANGE_PASSCODE: String = "CHANGE_PASSCODE"
     const val TRANSACTION_ID: String = "TRANSACTION_ID"
+    const val CARD_SERIAL_NUMBER: String = "CARD_SERIAL_NUMBER"
     const val FORGOT_PASSCODE_FROM_CHANGE_PASSCODE: String = "forgotPasscodeFromChangePasscodeFlow"
     const val TRANSACTION_TYPE_CREDIT: String = "CREDIT"
+    const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
+    const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
+
 
     //More Option Constants
     const val MORE_NOTIFICATION: Int = 1
@@ -30,4 +34,5 @@ object Constants {
 
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
+    const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
 }

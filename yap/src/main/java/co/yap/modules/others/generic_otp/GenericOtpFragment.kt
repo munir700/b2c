@@ -4,9 +4,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.forgotpasscode.fragments.ForgotPasscodeOtpFragment
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
 class GenericOtpFragment : ForgotPasscodeOtpFragment() {
@@ -23,8 +25,11 @@ class GenericOtpFragment : ForgotPasscodeOtpFragment() {
                     2,
                     "+"
                 )
+        } else if (args?.mobileNumber!!.startsWith("+")) {
+            viewModel.state.mobileNumber[0] = Utils.getFormattedPhone(args?.mobileNumber.toString())
         } else {
-            viewModel.state.mobileNumber[0] = Utils.formatePhoneWithPlus(args?.mobileNumber.toString())
+            viewModel.state.mobileNumber[0] =
+                Utils.formatePhoneWithPlus(args?.mobileNumber.toString())
         }
 
         viewModel.destination = args!!.username
@@ -34,7 +39,13 @@ class GenericOtpFragment : ForgotPasscodeOtpFragment() {
 
     override fun setObservers() {
         viewModel.nextButtonPressEvent.observe(this, Observer {
-            MoreActivity.navigationVariable = true
+
+            if (activity is ForgotCardPinActivity) {
+                (activity as ForgotCardPinActivity).viewModel.state.currentScreen =
+                    Constants.FORGOT_CARD_PIN_ACTION
+            } else {
+                MoreActivity.navigationVariable = true
+            }
             findNavController().navigateUp()
         })
     }

@@ -30,9 +30,9 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
     }
 
     override fun handlePressOnNextButton(id: Int) {
-        if (validateAggressively()) {
-            validateCurrentPasscode(id)
-        }
+//        if (validateAggressively()) {
+        validateCurrentPasscode(id)
+        // }
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {

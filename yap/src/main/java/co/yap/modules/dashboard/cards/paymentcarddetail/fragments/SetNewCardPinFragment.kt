@@ -28,11 +28,15 @@ open class SetNewCardPinFragment : SetCardPinFragment() {
             when (it) {
                 R.id.btnAction -> {
                     oldPinCode = args.oldPinCode
-                    //    val action = ChangeCardPinFragmentDirections.actionChangeCardPinFragmentToSetNewCardPinFragment(viewModel.state.pincode)
-                    //   findNavController().navigate(action)
-                    val action=SetNewCardPinFragmentDirections.actionSetNewCardPinFragmentToConfirmNewCardPinFragment(oldPinCode.toString(),viewModel.state.pincode)
+                    val action =
+                        SetNewCardPinFragmentDirections.actionSetNewCardPinFragmentToConfirmNewCardPinFragment(
+                            args.flowType,
+                            oldPinCode.toString(),
+                            viewModel.state.pincode
+
+                        )
+
                     findNavController().navigate(action)
-//                    findNavController().navigate(R.id.action_setNewCardPinFragment_to_confirmNewCardPinFragment)
                 }
             }
         })

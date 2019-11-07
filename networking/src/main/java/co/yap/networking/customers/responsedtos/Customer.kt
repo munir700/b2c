@@ -37,7 +37,6 @@ class Customer(
         return "$countryCode $mobileNo"
     }
 
-
     fun getFormattedPhoneNumber(context: Context): String {
         return try {
             val pnu = PhoneNumberUtil.getInstance()

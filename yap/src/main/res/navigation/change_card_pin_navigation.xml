@@ -22,7 +22,12 @@
         android:label="SetNewCardPinFragment"
         tools:layout="@layout/fragment_set_card_pin">
         <argument
+            android:name="flowType"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
             android:name="oldPinCode"
+            android:defaultValue=" "
             app:argType="string" />
         <action
             android:id="@+id/action_setNewCardPinFragment_to_confirmNewCardPinFragment"
@@ -36,13 +41,17 @@
         android:label="ConfirmNewCardPinFragment"
         tools:layout="@layout/fragment_set_card_pin">
         <argument
+            android:name="flowType"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
             android:name="oldPinCode"
-            app:argType="string"
-            android:defaultValue=" "/>
+            android:defaultValue=" "
+            app:argType="string" />
         <argument
             android:name="newPinCode"
-            app:argType="string"
-            android:defaultValue=" "/>
+            android:defaultValue=" "
+            app:argType="string" />
         <action
             android:id="@+id/action_confirmNewCardPinFragment_to_changePinSuccessFragment"
             app:destination="@id/changePinSuccessFragment"

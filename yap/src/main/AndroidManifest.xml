@@ -141,5 +141,11 @@
             android:name=".modules.transaction_note.activities.TransactionNoteActivity"
             android:screenOrientation="portrait" />
 
+
+        <activity
+            android:name=".modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity"
+            android:screenOrientation="portrait"/>
+
+
     </application>
 </manifest>
