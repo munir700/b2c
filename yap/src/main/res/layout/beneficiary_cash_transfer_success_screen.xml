@@ -44,6 +44,110 @@
                     tools:text="@string/screen_crash_transfer_success_display_text_title" />
 
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_116sdp"
+                    android:background="@color/white"
+                    android:gravity="center|center_vertical">
+
+                    <RelativeLayout
+                        android:id="@+id/rlPicture"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center|center_vertical"
+                        android:gravity="center|center_vertical">
+
+                        <TextView
+                            android:id="@+id/tvAccountHolderNameInitials"
+                            android:layout_width="@dimen/_65sdp"
+                            android:layout_height="@dimen/_65sdp"
+                            android:background="@drawable/bg_round_red"
+                            android:backgroundTint="#D8F6F3"
+                            android:contentDescription="@string/app_name"
+                            android:gravity="center"
+                            android:maxLength="2"
+                            android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.fullName)}"
+                            android:textColor="@color/colorSecondaryGreen"
+                            android:textSize="@dimen/_24sdp" />
+
+                        <co.yap.widgets.CoreCircularImageView
+                            android:id="@+id/ivProfilePic"
+                            android:layout_width="@dimen/_65sdp"
+                            android:layout_height="@dimen/_65sdp"
+                            android:contentDescription="@string/app_name"
+                            android:onClick="@{(v) -> viewModel.handlePressOnPhoto(v.id)}"
+                            android:visibility="@{viewModel.state.nameInitialsVisibility}"
+                            app:src="@{viewModel.state.profilePictureUrl}" />
+
+                        <RelativeLayout
+                            android:id="@+id/rlAddNewProfilePic"
+                            android:layout_width="@dimen/_36sdp"
+                            android:layout_height="@dimen/_36sdp"
+                            android:layout_alignTop="@+id/tvAccountHolderNameInitials"
+                            android:layout_alignEnd="@+id/tvAccountHolderNameInitials"
+                            android:layout_alignBottom="@+id/tvAccountHolderNameInitials"
+                            android:layout_marginTop="35dp"
+                            android:layout_marginEnd="-25dp"
+                            android:layout_marginBottom="-1dp"
+                            android:background="@drawable/bg_round_red"
+                            android:backgroundTint="@color/white"
+                            android:gravity="right|bottom"
+                            android:onClick="@{(v) -> viewModel.handlePressOnAddNewPhoto(v.id)}">
+
+                            <FrameLayout
+                                android:layout_width="@dimen/_36sdp"
+                                android:layout_height="@dimen/_36sdp"
+                                android:layout_gravity="center"
+                                android:layout_margin="@dimen/_2sdp"
+                                android:background="@drawable/bg_round_red"
+                                android:backgroundTint="@color/white">
+
+                                <ImageView
+                                    android:id="@+id/ivAddProfilePic"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/ic_add" />
+
+                            </FrameLayout>
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/tvBeneficiaryName"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                    tools:text="Bernard Erickson" />
+
+                <TextView
+                    android:id="@+id/tvTransferCaption"
+                    style="@style/MicroGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_c3"
+                    tools:text="@string/screen_crash_transfer_success_display_text_transfer" />
+
+
+                <TextView
+                    android:id="@+id/tvAmount"
+                    style="@style/Large"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_extra_small"
+                    android:gravity="center"
+                    android:textSize="@dimen/text_size_h5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:text="AED 410.00" />
+
                 <LinearLayout
                     android:id="@+id/llBankDetail"
                     android:layout_width="match_parent"
@@ -57,32 +161,6 @@
                     android:paddingTop="@dimen/margin_medium"
                     android:paddingBottom="@dimen/margin_medium">
 
-                    <FrameLayout
-                        android:layout_width="@dimen/_42sdp"
-                        android:layout_height="@dimen/_42sdp"
-                        android:layout_gravity="center"
-                        android:layout_margin="@dimen/_2sdp"
-                        android:background="@drawable/bg_round_purple">
-
-                        <!--                        <ImageView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_gravity="center"-->
-                        <!--                            android:src="@drawable/ic_bank" />-->
-
-                    </FrameLayout>
-
-
-                    <TextView
-                        android:id="@+id/tvBankName"
-                        style="@style/Micro"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:gravity="center"
-                        android:text="TD BANK"
-                        android:textSize="@dimen/text_size_c3" />
-
                     <TextView
                         android:id="@+id/tvIdCode"
                         style="@style/MicroGrey"
@@ -90,47 +168,61 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
-                        android:text="ID Code: 8060"
+                        android:text="@string/screen_crash_transfer_success_display_text_reference_number"
+                        android:textSize="@dimen/text_size_c3" />
+
+
+                    <TextView
+                        android:id="@+id/tvReferenceNumber"
+                        style="@style/Large"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_extra_small"
+                        android:gravity="center"
+                        android:textSize="@dimen/text_size_h5"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        tools:text="00313249457" />
+
+
+                    <TextView
+                        android:id="@+id/tvAgentLocationCaption"
+                        style="@style/MicroGrey"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:gravity="center"
+                        android:text="@string/screen_crash_transfer_success_display_text_agent_location"
                         android:textSize="@dimen/text_size_c3" />
 
                     <TextView
-                        android:id="@+id/tvBankAddress"
-                        style="@style/MicroGrey"
+                        android:id="@+id/tvAgentLocation"
+                        style="@style/Micro"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:gravity="center"
-                        android:text="340 5TH AVE SW, CALGARY, AB, T2P0L3"
+                        android:paddingLeft="@dimen/margin_medium"
+                        android:paddingRight="@dimen/margin_medium"
+                        android:text="Exchange house 1, Exchange house 2, Exhange house 3"
                         android:textSize="@dimen/text_size_c3" />
-
 
                     <TextView
                         android:id="@+id/tvBankPhoneNumber"
-                        style="@style/MicroGrey"
-                        android:layout_width="match_parent"
+                        style="@style/Small"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center|center_horizontal"
                         android:layout_marginTop="@dimen/_2sdp"
+                        android:drawableEnd="@drawable/ic_share"
+                        android:drawablePadding="@dimen/margin_extra_small"
+                        android:drawableTint="@color/colorPrimary"
                         android:gravity="center"
-                        android:text="(403) 292-1100"
+                        android:paddingTop="@dimen/margin_small"
+                        android:text="@string/screen_crash_transfer_success_display_text_share_code"
+                        android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/text_size_c3" />
-
-
                 </LinearLayout>
-
-                <TextView
-                    style="@style/Small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium_large"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_beneficiary_account_details_display_text_iban}"
-                    app:textColor="@{viewModel.state.accountIban.empty ? true : false}"
-                    tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
-
-
-
             </LinearLayout>
 
             <co.yap.widgets.CoreButton
