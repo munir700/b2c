@@ -58,7 +58,8 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
                 R.id.confirmButton ->
                     if (!isFromAddBeneficiary) {
-                        //may be show a dialogue to confirm edit beneficairy call and go back???
+                        ConfirmAddBeneficiary(activity!!)       //may be show a dialogue to confirm edit beneficairy call and go back???
+
                     } else {
                         ConfirmAddBeneficiary(activity!!)
 
@@ -99,7 +100,8 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
                     R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
                 ),
                 DialogInterface.OnClickListener { dialog, which ->
-                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)// start funds transfer screen
+//                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)// start funds transfer screen
+                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_transferSuccessFragment)// start funds transfer screen
 
                 })
 

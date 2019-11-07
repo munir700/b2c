@@ -18,7 +18,7 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnAddBank(id: Int) {
-
+        clickEvent.setValue(id)
     }
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()

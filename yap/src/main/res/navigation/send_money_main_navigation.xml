@@ -104,6 +104,12 @@
         android:label="Add beneficiary"
         tools:layout="@layout/fragment_beneficiary_account_detail">
 
+        <action
+            android:id="@+id/action_beneficiaryAccountDetailsFragment_to_beneficiaryOverviewFragment"
+            app:destination="@id/beneficiaryAccountDetailsFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
