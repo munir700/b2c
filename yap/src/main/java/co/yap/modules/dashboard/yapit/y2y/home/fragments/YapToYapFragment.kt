@@ -19,9 +19,12 @@ import co.yap.modules.dashboard.yapit.y2y.main.fragments.Y2YBaseFragment
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
+import co.yap.yapcore.helpers.hideKeyboard
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
+
+
 
 class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickListener {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -132,9 +135,14 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
                     return true
                 }
             })
+            getBindingView().layoutSearchView.svContacts.onFocusChangeListener =
+                object : View.OnFocusChangeListener {
+                    override fun onFocusChange(view: View?, hasFoucs: Boolean) {
+                        if (!hasFoucs) view.hideKeyboard()
+                    }
+                }
         }
     }
-
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.layoutSearchView -> {
@@ -153,6 +161,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             }
         }
     }
+
 
     private fun getTabTitle(position: Int): String? {
         return when (position) {
@@ -177,4 +186,5 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
     private fun getBindingView(): FragmentYapToYapBinding {
         return (viewDataBinding as FragmentYapToYapBinding)
     }
+
 }

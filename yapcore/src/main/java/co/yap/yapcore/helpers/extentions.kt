@@ -1,5 +1,8 @@
 package co.yap.yapcore.helpers
 
+import android.content.Context
+import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -71,5 +74,14 @@ class RecyclerViewSwipeToRefresh(private val refreshLayout: SwipeRefreshLayout) 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
         refreshLayout.isEnabled = !(recyclerView?.canScrollVertically(DIRECTION_UP) ?: return)
+    }
+
+}
+
+fun View?.hideKeyboard() {
+    this?.let { v ->
+        val imm =
+            this.context.getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
+        imm?.hideSoftInputFromWindow(v.windowToken, 0)
     }
 }

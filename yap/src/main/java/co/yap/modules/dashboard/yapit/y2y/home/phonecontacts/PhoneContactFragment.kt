@@ -181,6 +181,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgStoreShopping -> {
+
             }
         }
     }
