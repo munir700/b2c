@@ -22,8 +22,11 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
     IAddBeneficiary.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_add_domestic_beneficiary
-//    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary
+    /*
+     Need to take the decision that if is from cash flow then use the fragment_add_domestic_beneficiary or other wise use fragment_add_beneficiary
+       */
+//    override fun getLayoutId(): Int = R.layout.fragment_add_domestic_beneficiary
+    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary
 
     override val viewModel: IAddBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)

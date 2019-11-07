@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/send_money_main_navigation"
-    app:startDestination="@id/beneficiaryOverviewFragment">
+    app:startDestination="@id/addBeneficiaryFragment">
     <!--    app:startDestination="@id/beneficiaryOverviewFragment">-->
     <!--    app:startDestination="@id/sendMoneyHomeFragment">-->
 
@@ -107,6 +107,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/transferSuccessFragment"
+        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.TransferSuccessFragment"
+        tools:layout="@layout/fragment_transfer_success">
+
+    </fragment>
+
+    <fragment
         android:id="@+id/beneficiaryOverviewFragment"
         android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.BeneficiaryOverviewFragment"
         android:label="Add beneficiary"
@@ -118,6 +125,14 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_beneficiaryOverviewFragment_to_transferSuccessFragment"
+            app:destination="@id/transferSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
 

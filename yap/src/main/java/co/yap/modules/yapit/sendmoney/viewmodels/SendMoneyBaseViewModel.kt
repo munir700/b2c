@@ -26,8 +26,7 @@ abstract class SendMoneyBaseViewModel<S : IBase.State>(application: Application)
     }
 
     fun toggleAddButtonVisibility(visibility: Boolean) {
-        val VISIBLE: Int = 0x00000000
-        val GONE: Int = 0x00000008
+
         if (visibility) {
             parentViewModel?.state?.enableAddCard = true
 

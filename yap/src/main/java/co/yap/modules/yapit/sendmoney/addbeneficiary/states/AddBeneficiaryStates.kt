@@ -34,7 +34,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var transferType: String = ""
+    override var transferType: String = "Bank Transfer"
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferType)

@@ -7,9 +7,11 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.StringUtils" />
+
         <variable
             name="viewModel"
-            type="co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel" />
+            type="co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel" />
     </data>
 
     <ScrollView
@@ -66,7 +68,7 @@
                             android:contentDescription="@string/app_name"
                             android:gravity="center"
                             android:maxLength="2"
-                            android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.fullName)}"
+                            android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.name)}"
                             android:textColor="@color/colorSecondaryGreen"
                             android:textSize="@dimen/_24sdp" />
 
@@ -75,9 +77,8 @@
                             android:layout_width="@dimen/_65sdp"
                             android:layout_height="@dimen/_65sdp"
                             android:contentDescription="@string/app_name"
-                            android:onClick="@{(v) -> viewModel.handlePressOnPhoto(v.id)}"
-                            android:visibility="@{viewModel.state.nameInitialsVisibility}"
-                            app:src="@{viewModel.state.profilePictureUrl}" />
+                            android:visibility="invisible"
+                            app:src="@{viewModel.state.picture}" />
 
                         <!--
                            toggle visibility on the basis of transfer type
@@ -90,7 +91,6 @@
                             android:layout_alignParentTop="true"
                             android:layout_marginLeft="-11dp"
                             android:layout_marginTop="-10dp"
-                            android:onClick="@{(v) -> viewModel.handlePressOnAddNewPhoto(v.id)}"
                             android:visibility="visible">
 
                             <FrameLayout
@@ -123,6 +123,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
+                    android:text="@{viewModel.state.name}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -136,6 +137,7 @@
                     android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_c3"
+                    app:text="@{Strings.screen_crash_transfer_success_display_text_transfer}"
                     tools:text="@string/screen_crash_transfer_success_display_text_transfer" />
 
 
@@ -146,6 +148,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:gravity="center"
+                    android:text="@{viewModel.state.currency + viewModel.state.amount}"
                     android:textSize="@dimen/text_size_h5"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -173,14 +176,12 @@
                 </FrameLayout>
 
                 <LinearLayout
-                    android:id="@+id/llBankDetail"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:background="@drawable/card_border_selector"
                     android:clickable="true"
-                    android:onClick="@{(v) -> viewModel.handlePressOnAddBank(v.id)}"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/margin_medium"
                     android:paddingBottom="@dimen/margin_medium">
@@ -203,6 +204,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_extra_small"
                         android:gravity="center"
+                        android:text="@{viewModel.state.referenceNumber}"
                         android:textSize="@dimen/text_size_h5"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
@@ -228,8 +230,9 @@
                         android:gravity="center"
                         android:paddingLeft="@dimen/margin_medium"
                         android:paddingRight="@dimen/margin_medium"
-                        android:text="Exchange house 1, Exchange house 2, Exhange house 3"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.pickUpAgentLocationAddress}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="Exchange house 1, Exchange house 2, Exhange house 3" />
 
                     <TextView
                         android:id="@+id/tvBankPhoneNumber"
@@ -258,8 +261,9 @@
                 android:layout_marginTop="@dimen/_30sdp"
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{(v) -> viewModel.handlePressOnAddBank(v.id)}"
-                app:enableCoreButton="@{viewModel.state.valid}"
+                android:enabled="true"
+                app:btn_enable="true"
+                android:onClick="@{(v) -> viewModel.handlePressOnGoBackToDashboard(v.id)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.screen_crash_transfer_success_button_text_back}"
                 tools:ignore="MissingConstraints"
