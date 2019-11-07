@@ -21,7 +21,12 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import co.yap.networking.customers.requestdtos.Contact
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.math.RoundingMode
 import java.text.DecimalFormat
@@ -419,6 +424,7 @@ object Utils {
         context.startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
+
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
@@ -455,5 +461,27 @@ object Utils {
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.CEILING
         return df.format(value).toDouble()
+    }
+
+     fun getBody(context: Context, contact: Contact): String {
+        return Translator.getString(
+            context,
+            Strings.common_display_text_y2y_share,
+            contact.title!!,
+            MyUserManager.user!!.currentCustomer.firstName,
+            Constants.URL_SHARE_APP_STORE,
+            Constants.URL_SHARE_PLAY_STORE
+        )
+    }
+
+     fun getGeneralInvitationBody(context: Context): String {
+        return Translator.getString(
+            context,
+            Strings.common_display_text_y2y_general_share,
+            MyUserManager.user!!.currentCustomer.firstName,
+            Constants.URL_SHARE_APP_STORE,
+            Constants.URL_SHARE_PLAY_STORE
+        )
+
     }
 }
