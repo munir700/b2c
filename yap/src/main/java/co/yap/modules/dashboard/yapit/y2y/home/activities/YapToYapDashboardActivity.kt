@@ -62,7 +62,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     }
 
     private fun getBody(): String {
-        return ""
+        return Utils.getGeneralInvitationBody(this)
     }
 
     override fun onBackPressed() {
