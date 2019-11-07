@@ -20,7 +20,6 @@ import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.managers.MyUserManager
 
 
 class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
@@ -112,7 +111,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                 }
                 R.id.tvInvite -> {
                     sendInvite((data as Contact))
-//                    Utils.shareText(requireContext(), getBody())
                 }
                 R.id.lyContact -> {
                     if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
@@ -154,7 +152,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
             "https://api.whatsapp.com/send?phone=${Utils.getFormattedPhoneNumber(
                 requireContext(),
                 "${contact.countryCode}${contact.mobileNo!!}"
-            )}&text=${getBody()}"
+            )}&text=${Utils.getBody(requireContext(), contact)}"
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
@@ -163,26 +161,22 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     fun inviteViaEmail(contact: Contact) {
         val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", contact.email, null))
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-        intent.putExtra(Intent.EXTRA_TEXT, getBody())
+        intent.putExtra(Intent.EXTRA_TEXT, Utils.getBody(requireContext(), contact))
         startActivity(Intent.createChooser(intent, "Send mail..."))
     }
 
     fun inviteViaSms(contact: Contact) {
-        val uri = Uri.parse("smsto:${contact.mobileNo}")
+        val uri = Uri.parse(
+            "smsto:${Utils.getFormattedPhoneNumber(
+                requireContext(),
+                "${contact.countryCode}${contact.mobileNo!!}"
+            )}"
+        )
         val it = Intent(Intent.ACTION_SENDTO, uri)
-        it.putExtra("sms_body", getBody())
+        it.putExtra("sms_body", Utils.getBody(requireContext(), contact))
         startActivity(it)
     }
 
-    private fun getBody(): String {
-        val appShareUrlIOS = "itms-apps://itunes.apple.com/app/id1024941703"
-        val appShareUrlAndroid = "https://play.google.com/store/apps/details?id=co.yap"
-        return getString(Strings.common_display_text_y2y_share).format(
-            MyUserManager.user!!.currentCustomer.getFullName(),
-            appShareUrlIOS,
-            appShareUrlAndroid
-        )
-    }
 
     private val observer = Observer<Int> {
         when (it) {
