@@ -12,11 +12,11 @@
 <!--        app:popUpTo="@+id/main_nav_graph"-->
 <!--        app:popUpToInclusive="true" />-->
     <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
-    <action
+<!--    <action
         android:id="@+id/action_goto_liteDashboardActivity"
         app:destination="@id/liteDashboardActivity"
         app:popUpTo="@+id/main_nav_graph"
-        app:popUpToInclusive="true" />
+        app:popUpToInclusive="true" />-->
 
     <action
         android:id="@+id/action_goto_yapDashboardActivity"
