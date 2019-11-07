@@ -984,5 +984,19 @@ object Strings {
     const val screen_beneficiary_overview_button_confirm: String =
         "screen_beneficiary_overview_button_confirm"
 
+    //     Beneficiary cash transfer success screen
+    const val screen_crash_transfer_success_display_text_title: String =
+        "screen_crash_transfer_success_display_text_title"
+    const val screen_crash_transfer_success_display_text_transfer: String =
+        "screen_crash_transfer_success_display_text_transfer"
+    const val screen_crash_transfer_success_display_text_reference_number: String =
+        "screen_crash_transfer_success_display_text_reference_number"
+    const val screen_crash_transfer_success_display_text_agent_location: String =
+        "screen_crash_transfer_success_display_text_agent_location"
+    const val screen_crash_transfer_success_display_text_share_code: String =
+        "screen_crash_transfer_success_display_text_share_code"
+    const val screen_crash_transfer_success_button_text_back: String =
+        "screen_crash_transfer_success_button_text_back"
+
 
 }
