@@ -54,6 +54,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center|center_vertical"
+                        android:background="@color/white"
                         android:gravity="center|center_vertical">
 
                         <TextView
@@ -78,25 +79,23 @@
                             android:visibility="@{viewModel.state.nameInitialsVisibility}"
                             app:src="@{viewModel.state.profilePictureUrl}" />
 
+                        <!--
+                           toggle visibility on the basis of transfer type
+                             -->
+
                         <RelativeLayout
                             android:id="@+id/rlAddNewProfilePic"
-                            android:layout_width="@dimen/_36sdp"
-                            android:visibility="gone"
-                            android:layout_height="@dimen/_36sdp"
-                            android:layout_alignTop="@+id/tvAccountHolderNameInitials"
-                            android:layout_alignEnd="@+id/tvAccountHolderNameInitials"
-                            android:layout_alignBottom="@+id/tvAccountHolderNameInitials"
-                            android:layout_marginTop="35dp"
-                            android:layout_marginEnd="-25dp"
-                            android:layout_marginBottom="-1dp"
-                            android:background="@drawable/bg_round_red"
-                            android:backgroundTint="@color/white"
-                            android:gravity="right|bottom"
-                            android:onClick="@{(v) -> viewModel.handlePressOnAddNewPhoto(v.id)}">
+                            android:layout_width="47dp"
+                            android:layout_height="49dp"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginLeft="-11dp"
+                            android:layout_marginTop="-10dp"
+                            android:onClick="@{(v) -> viewModel.handlePressOnAddNewPhoto(v.id)}"
+                            android:visibility="visible">
 
                             <FrameLayout
-                                android:layout_width="@dimen/_36sdp"
-                                android:layout_height="@dimen/_36sdp"
+                                android:layout_width="@dimen/_29sdp"
+                                android:layout_height="@dimen/_29sdp"
                                 android:layout_gravity="center"
                                 android:layout_margin="@dimen/_2sdp"
                                 android:background="@drawable/bg_round_red"
@@ -106,7 +105,11 @@
                                     android:id="@+id/ivAddProfilePic"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:src="@drawable/ic_add" />
+                                    android:layout_marginStart="@dimen/_2sdp"
+                                    android:layout_marginTop="@dimen/_2sdp"
+                                    android:layout_marginEnd="@dimen/_2sdp"
+                                    android:layout_marginBottom="@dimen/_2sdp"
+                                    android:background="@drawable/bitmap" />
 
                             </FrameLayout>
                         </RelativeLayout>
