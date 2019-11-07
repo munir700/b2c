@@ -320,11 +320,23 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
 
             override fun onPermissionDenied() {
-                showToast("Can't proceed without permissions")
+                startActivity(
+                    YapToYapDashboardActivity.getIntent(
+                        this@YapDashboardActivity,
+                        false,
+                        null
+                    )
+                )
             }
 
             override fun onPermissionDeniedBySystem() {
-                permissionHelper!!.openAppDetailsActivity()
+                startActivity(
+                    YapToYapDashboardActivity.getIntent(
+                        this@YapDashboardActivity,
+                        false,
+                        null
+                    )
+                )
             }
         })
     }

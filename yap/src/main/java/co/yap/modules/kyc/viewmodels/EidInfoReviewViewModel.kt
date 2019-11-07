@@ -2,9 +2,8 @@ package co.yap.modules.kyc.viewmodels
 
 import android.app.Application
 import android.text.TextUtils
+import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
-import co.yap.modules.kyc.fragments.CardScanResponse
-import co.yap.modules.kyc.fragments.UploadIdCardRetroService
 import co.yap.modules.onboarding.interfaces.IEidInfoReview
 import co.yap.modules.onboarding.states.EidInfoReviewState
 import co.yap.networking.customers.CustomersRepository
@@ -20,17 +19,9 @@ import com.digitify.identityscanner.docscanner.models.Identity
 import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import okhttp3.MediaType
 import okhttp3.MultipartBody
-import okhttp3.OkHttpClient
 import okhttp3.RequestBody
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 class EidInfoReviewViewModel(application: Application) :
     KYCChildViewModel<IEidInfoReview.State>(application),
@@ -158,8 +149,10 @@ class EidInfoReviewViewModel(application: Application) :
 
                 when (response) {
                     is RetroApiResponse.Success -> {
-                        if (DocumentsDashboardActivity.isFromMoreSection) clickEvent.setValue(EVENT_FINISH)
-                        else clickEvent.setValue(EVENT_NEXT)
+                        if (DocumentsDashboardActivity.isFromMoreSection) {
+                            clickEvent.setValue(EVENT_FINISH)
+                            MoreActivity.showExpiredIcon = false
+                        } else clickEvent.setValue(EVENT_NEXT)
                     }
                     is RetroApiResponse.Error -> {
                         state.toast = response.error.message

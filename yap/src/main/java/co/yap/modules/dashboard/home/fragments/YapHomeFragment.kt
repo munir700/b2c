@@ -35,6 +35,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.fixSwipeToRefresh
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
@@ -75,21 +76,25 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
         // swipeToRefresh = view?.findViewById(R.id.refreshLayout) as SwipeRefreshLayout
-        getBindings().lyInclude.refreshLayout.setOnRefreshListener(this)
+        getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
             true
         )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
+
+        getBindings().lyInclude.rvTransaction.apply {
+            fixSwipeToRefresh(getBindings().refreshLayout)
+        }
     }
+
 
     override fun onRefresh() {
         viewModel.isRefreshing.value = true
         homeTransactionsRequest.number = 0
         viewModel.requestAccountTransactions()
-        getBindings().lyInclude.refreshLayout.isRefreshing = false
-
+        getBindings().refreshLayout.isRefreshing = false
     }
 
     private val adaptorlistener = object : OnItemClickListener {
