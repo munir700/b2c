@@ -78,7 +78,8 @@ class FloatingActionMenu
      * Reference to a listener that listens open/close actions
      */
     private var stateChangeListener: MenuStateChangeListener?,
-    val alphaOverlay: View?
+    val alphaOverlay: View?,
+    val txtYapIt:View?
 
 ) {
     /**
@@ -352,7 +353,7 @@ class FloatingActionMenu
                 View.ALPHA,
                 *alphaArray
             )
-            alphaAnimation.duration = 400
+            alphaAnimation.duration = if (isOpen) 1700 else 400
             alphaAnimation.repeatCount = 0
         }
 
@@ -372,6 +373,10 @@ class FloatingActionMenu
                 mainActionView.isClickable = true
                 mainActionView.setOnClickListener(ActionViewClickListener())
                 alphaOverlay?.setOnTouchListener(ActionOnTouchListener())
+                if(alphaOverlay?.visibility == View.VISIBLE && !isOpen)
+                {
+                    alphaOverlay.visibility = View.GONE
+                }
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -386,9 +391,11 @@ class FloatingActionMenu
             }
         })
         if (isOpen) {
-            alphaOverlay?.visibility = View.GONE
+            txtYapIt?.visibility = View.VISIBLE
+            //alphaOverlay?.visibility = View.GONE
             close(view, animated)
         } else {
+            txtYapIt?.visibility = View.INVISIBLE
             alphaOverlay?.visibility = View.VISIBLE
             open(animated)
         }
@@ -584,6 +591,7 @@ class FloatingActionMenu
         private var animated: Boolean = false
         private var stateChangeListener: MenuStateChangeListener? = null
         private var alphaOverlay: View? = null
+        private var txtYapIt: View? = null
 
         init {
             // val activity = context as BaseBindingActivity<*>
@@ -618,6 +626,11 @@ class FloatingActionMenu
 
         fun setAlphaOverlay(alphaOverlay: View): Builder {
             this.alphaOverlay = alphaOverlay
+            return this
+        }
+
+        fun setTxtYapIt(txtYapIt: View): Builder {
+            this.txtYapIt = txtYapIt
             return this
         }
 
@@ -735,7 +748,7 @@ class FloatingActionMenu
                 animationHandler,
                 animated,
                 stateChangeListener,
-                alphaOverlay
+                alphaOverlay,txtYapIt
             )
         }
     }
