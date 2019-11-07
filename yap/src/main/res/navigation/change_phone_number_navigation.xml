@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/genericOtpFragment2"
-        android:name="co.yap.modules.generic_otp.GenericOtpFragment"
+        android:name="co.yap.modules.others.generic_otp.GenericOtpFragment"
         android:label="GenericOtpFragment"
         tools:layout="@layout/fragment_phone_verification">
         <argument

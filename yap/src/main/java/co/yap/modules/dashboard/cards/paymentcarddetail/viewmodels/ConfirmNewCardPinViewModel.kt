@@ -4,17 +4,21 @@ import android.app.Application
 import co.yap.modules.setcardpin.viewmodels.ConfirmCardPinViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.cards.requestdtos.ChangeCardPinRequest
+import co.yap.networking.cards.requestdtos.ForgotCardPin
+import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.widgets.CoreDialerPad
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 
 open class ConfirmNewCardPinViewModel(application: Application) :
     ConfirmCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override var errorEvent: SingleClickEvent = SingleClickEvent()
     private val cardsRepository: CardsRepository = CardsRepository
-    //    var dialerPad: CoreDialerPad = CoreDialerPad(context)
+    private val messagesRepository: MessagesRepository = MessagesRepository
     override fun onCreate() {
         super.onCreate()
         state.titleSetPin = getString(Strings.screen_confirm_card_pin_display_text_heading)
@@ -24,13 +28,18 @@ open class ConfirmNewCardPinViewModel(application: Application) :
     override fun handlePressOnNextButton(id: Int) {
         if (validateAggressively()) {
             if (state.newPin == state.pincode) {
-                changeCardPinRequest(
-                    state.oldPin,
-                    state.newPin,
-                    state.pincode,
-                    state.cardSerialNumber,
-                    id
-                )
+                if (state.flowType != Constants.FORGOT_CARD_PIN_FLOW) {
+                    changeCardPinRequest(
+                        state.oldPin,
+                        state.newPin,
+                        state.pincode,
+                        state.cardSerialNumber,
+                        id
+                    )
+                } else {
+                    createOtp(id)
+                }
+
 
             } else {
                 errorEvent.call()
@@ -61,6 +70,40 @@ open class ConfirmNewCardPinViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error ->
                     state.dialerError = response.error.message
+            }
+            state.loading = false
+        }
+    }
+
+    override fun forgotCardPinRequest(cardSerialNumber: String, newPin: String) {
+        launch {
+            state.loading = true
+            when (val response = cardsRepository.forgotCardPin(
+                cardSerialNumber,
+                ForgotCardPin(newPin)
+            )) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.FORGOT_CARD_PIN_NAVIGATION)
+                }
+                is RetroApiResponse.Error ->
+                    state.dialerError = response.error.message
+            }
+            state.loading = false
+        }
+    }
+
+    private fun createOtp(id: Int) {
+        launch {
+            state.loading = true
+            when (val response =
+                messagesRepository.createOtpGeneric(CreateOtpGenericRequest(Constants.FORGOT_CARD_PIN_ACTION))) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(id)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
             }
             state.loading = false
         }

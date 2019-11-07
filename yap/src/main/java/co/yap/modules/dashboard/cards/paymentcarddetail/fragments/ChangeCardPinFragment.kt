@@ -16,7 +16,11 @@ open class ChangeCardPinFragment : SetCardPinFragment() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnAction -> {
-                    val action = ChangeCardPinFragmentDirections.actionChangeCardPinFragmentToSetNewCardPinFragment(viewModel.state.pincode)
+                    val action =
+                        ChangeCardPinFragmentDirections.actionChangeCardPinFragmentToSetNewCardPinFragment(
+                            "",
+                            viewModel.state.pincode
+                        )
                     findNavController().navigate(action)
                 }
             }
