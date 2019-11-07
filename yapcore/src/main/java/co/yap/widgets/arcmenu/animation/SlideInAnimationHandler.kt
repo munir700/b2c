@@ -99,7 +99,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                 pvhY,
                 pvhA
             )
-            animation.duration = (DURATION + 125).toLong()
+            animation.duration = (DURATION+125 ).toLong()
             animation.interpolator = AccelerateInterpolator()
             animation.addListener(
                 SubActionItemAnimationListener(
@@ -108,6 +108,13 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                 )
             )
 
+            when (i) {
+                1 -> animation.startDelay = (menu!!.subActionItems.size * 100).toLong()
+                2 -> animation.startDelay = 100.toLong()
+                else -> animation.startDelay =
+                    ((menu!!.subActionItems.size - 1) * 100).toLong()
+                //animation.setStartDelay((menu.getSubActionItems().size() - i) * LAG_BETWEEN_ITEMS);
+            }
             if (i == 0) {
                 lastAnimation = animation
             }
