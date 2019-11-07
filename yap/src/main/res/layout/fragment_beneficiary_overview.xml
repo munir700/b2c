@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="co.yap.translation.Strings" />
 
         <variable
@@ -305,6 +306,10 @@
                 <!--                    android:text="@={viewModel.state.phoneNumber}"-->
                 <!--                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />-->
 
+
+                <!--
+                   Decision is yet to be taken about this phoen field whether to phone picker or not
+                   -->
 
                 <LinearLayout
                     android:id="@+id/viewPhoneNumber"
