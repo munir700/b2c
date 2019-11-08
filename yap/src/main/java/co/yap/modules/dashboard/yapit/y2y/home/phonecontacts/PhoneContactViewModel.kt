@@ -18,6 +18,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

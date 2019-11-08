@@ -92,5 +92,11 @@ object StringUtils {
 
     }
 
+    fun getFirstname(fullName: String): String {
+        return if (fullName.isNotBlank()) {
+            fullName.split(' ')[0]
+        } else ""
 
+    }
 }
+

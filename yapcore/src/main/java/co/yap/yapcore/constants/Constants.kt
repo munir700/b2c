@@ -16,6 +16,8 @@ object Constants {
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
 
+    //Transaction Category Constant
+
 
     //More Option Constants
     const val MORE_NOTIFICATION: Int = 1
