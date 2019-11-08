@@ -61,7 +61,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             itemTransactionListBinding.tvTransactionName?.text = transaction.title
 
             if (transaction.productCode == Constants.Y_TO_Y_TRANSFER) {
-                itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_y_to_y))
+                itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_yap_to_yap))
             } else {
                 if (transaction.productCode == Constants.SUPP_WITHDRAW || transaction.txnType == Constants.SUPP_CARD_TOP_UP) {
                     if (transaction.txnType == Constants.MANUAL_DEBIT) {
