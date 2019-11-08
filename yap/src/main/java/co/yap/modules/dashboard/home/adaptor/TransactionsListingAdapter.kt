@@ -42,8 +42,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                         R.color.colorSecondaryGreen
                     )
                 )
-                itemTransactionListBinding.tvTransactionAmount?.text =
-                    "+" + Utils.getFormattedCurrency(transaction.amount.toString())
+                itemTransactionListBinding.tvTransactionAmount?.text = "+ " + Utils.getFormattedCurrency(transaction.amount.toString())
             } else if (transaction.txnType!!.toLowerCase() == "debit") {
                 itemTransactionListBinding.tvTransactionAmount?.setTextColor(
                     ContextCompat.getColor(
@@ -52,7 +51,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     )
                 )
                 itemTransactionListBinding.tvTransactionAmount?.text =
-                    "-" + Utils.getFormattedCurrency(transaction.amount.toString())
+                    "- " + Utils.getFormattedCurrency(transaction.amount.toString())
             }
 
 

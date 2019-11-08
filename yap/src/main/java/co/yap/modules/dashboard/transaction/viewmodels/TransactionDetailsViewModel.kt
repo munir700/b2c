@@ -91,7 +91,6 @@ class TransactionDetailsViewModel(application: Application) :
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-
                 }
 
                 is RetroApiResponse.Error -> {

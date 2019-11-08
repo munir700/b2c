@@ -12,6 +12,7 @@ import co.yap.modules.dashboard.home.helpers.transaction.ItemHeaderTransactionsV
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class TransactionsHeaderAdapter(
@@ -59,8 +60,8 @@ class TransactionsHeaderAdapter(
 
         fun onBind(homeTransaction: HomeTransactionListData, adaptorClick: OnItemClickListener) {
 
-            itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date
-            itemTransactionListHeaderBinding.tvTotalAmount.text = homeTransaction.totalAmount
+            //itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date
+            //itemTransactionListHeaderBinding.tvTotalAmount.text = homeTransaction.totalAmount
 
             itemTransactionListHeaderBinding.rvExpandedTransactionsListing.layoutManager =
                 LinearLayoutManager(
@@ -84,6 +85,26 @@ class TransactionsHeaderAdapter(
                     adaptorClick.onItemClick(view, data, pos)
                 }
             })
+
+            var total = 0.0
+            homeTransaction.content.map {
+                if (it.txnType == "DEBIT") total -= it.amount else total += it.amount
+            }
+
+            var value: String
+            when {
+                total.toString().startsWith("-") -> {
+                    value = Utils.getFormattedCurrency((total * -1).toString())
+                    value = "- $value"
+                }
+                total.toString().startsWith("+") -> {
+                    value = Utils.getFormattedCurrency(total.toString())
+                    value = "+ $value"
+                }
+                else -> value = Utils.getFormattedCurrency(total.toString())
+            }
+
+            homeTransaction.totalAmount = value
 
             itemTransactionListHeaderBinding.viewModel =
                 ItemHeaderTransactionsViewModel(homeTransaction)

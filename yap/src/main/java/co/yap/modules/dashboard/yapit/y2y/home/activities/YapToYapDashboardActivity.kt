@@ -75,9 +75,9 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
 
     override fun dispatchTouchEvent(event: MotionEvent?): Boolean {
         if (event?.action == MotionEvent.ACTION_DOWN) {
-            val view = currentFocus
-            if (view != null) {
-                hideKeyboard()
+            currentFocus?.let {
+                if (it.id != R.id.svContacts)
+                    hideKeyboard()
             }
         }
 
