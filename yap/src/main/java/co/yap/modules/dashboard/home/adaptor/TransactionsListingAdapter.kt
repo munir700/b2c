@@ -9,7 +9,6 @@ import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingRecyclerAdapter
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
 
@@ -42,7 +41,8 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                         R.color.colorSecondaryGreen
                     )
                 )
-                itemTransactionListBinding.tvTransactionAmount?.text = "+ " + Utils.getFormattedCurrency(transaction.amount.toString())
+                itemTransactionListBinding.tvTransactionAmount?.text =
+                    "+ " + Utils.getFormattedCurrency(transaction.amount.toString())
             } else if (transaction.txnType!!.toLowerCase() == "debit") {
                 itemTransactionListBinding.tvTransactionAmount?.setTextColor(
                     ContextCompat.getColor(
@@ -55,36 +55,10 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
             }
 
 
-
             transaction.title = transaction.title ?: "Unknown"
             itemTransactionListBinding.tvTransactionName?.text = transaction.title
-
-            if (transaction.productCode == Constants.Y_TO_Y_TRANSFER) {
-                itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_yap_to_yap))
-            } else {
-                if (transaction.productCode == Constants.SUPP_WITHDRAW || transaction.txnType == Constants.SUPP_CARD_TOP_UP) {
-                    if (transaction.txnType == Constants.MANUAL_DEBIT) {
-                        itemTransactionListBinding.ivTransaction.setImageDrawable(
-                            context.getDrawable(
-                                R.drawable.ic_minus
-                            )
-                        )
-                    } else if (transaction.txnType == Constants.MANUAL_CREDIT) {
-                        itemTransactionListBinding.ivTransaction.setImageDrawable(
-                            context.getDrawable(
-                                R.drawable.ic_plus
-                            )
-                        )
-                    }
-                } else if (transaction.txnType == Constants.MANUAL_DEBIT) {
-                    itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_outgoing))
-                } else if (transaction.txnType == Constants.MANUAL_CREDIT) {
-                    itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_incoming))
-
-                }
-            }
-//            itemTransactionListBinding.tvNameInitials?.text =
-//                transaction.title?.let { shortName(it) }
+            itemTransactionListBinding.tvNameInitials?.text =
+                transaction.title?.let { Utils.shortName(it) }
 
 //            itemTransactionListBinding.tvTransactionName?.text = transaction?.senderName
             // itemTransactionListBinding.tvNameInitials?.text = transaction?.senderName?.let { shortName(it) }
