@@ -47,6 +47,11 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         setupRecycleView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        initComponents()
+    }
+
     private fun initComponents() {
         getBinding().tvName.text =
             MyUserManager.user?.currentCustomer?.getFullName()

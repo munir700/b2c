@@ -121,7 +121,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         with(getViewBinding().viewPager) {
             clipToPadding = false
             clipChildren = false
-            offscreenPageLimit = 2
+            offscreenPageLimit = 3
         }
         getViewBinding().viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {

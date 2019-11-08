@@ -106,8 +106,8 @@ class ProfileSettingsViewModel(application: Application) :
 
         requestProfileDocumentsInformation()
         state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-        if (MyUserManager.user!!.currentCustomer.getPicture().isNotEmpty()) {
-            state.profilePictureUrl = MyUserManager.user!!.currentCustomer.getPicture()
+        if (MyUserManager.user?.currentCustomer?.getPicture() != null) {
+            state.profilePictureUrl = MyUserManager.user?.currentCustomer?.getPicture()!!
         } else {
             state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
             state.nameInitialsVisibility = GONE

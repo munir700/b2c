@@ -97,15 +97,13 @@ class TransactionsHeaderAdapter(
                     value = Utils.getFormattedCurrency((total * -1).toString())
                     value = "- $value"
                 }
-                total.toString().startsWith("+") -> {
+                else -> {
                     value = Utils.getFormattedCurrency(total.toString())
                     value = "+ $value"
                 }
-                else -> value = Utils.getFormattedCurrency(total.toString())
             }
 
             homeTransaction.totalAmount = value
-
             itemTransactionListHeaderBinding.viewModel =
                 ItemHeaderTransactionsViewModel(homeTransaction)
             itemTransactionListHeaderBinding.executePendingBindings()
