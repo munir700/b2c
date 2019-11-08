@@ -17,6 +17,11 @@ object Constants {
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
 
     //Transaction Category Constant
+    const val Y_TO_Y_TRANSFER = "P003"
+    const val SUPP_CARD_TOP_UP = "P004"
+    const val SUPP_WITHDRAW = "P006"
+    const val MANUAL_DEBIT = "DEBIT"
+    const val MANUAL_CREDIT = "CREDIT"
 
 
     //More Option Constants

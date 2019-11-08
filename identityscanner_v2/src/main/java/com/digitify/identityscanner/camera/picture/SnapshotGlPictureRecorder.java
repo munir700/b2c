@@ -211,7 +211,7 @@ public class SnapshotGlPictureRecorder extends PictureRecorder {
 
         // 3. Apply rotation and flip
         Matrix.translateM(mTransform, 0, 0.5F, 0.5F, 0); // Go back to 0,0
-        Matrix.rotateM(mTransform, 0, -mResult.rotation, 0, 0, 1); // Rotate (not sure why we need the minus)
+        Matrix.rotateM(mTransform, 0, -mResult.rotation, 0, 0, 1); // Rotate (not sure why we need the ic_minus)
         mResult.rotation = 0;
         if (mResult.facing == Facing.FRONT) { // 5. Flip horizontally for front camera
             Matrix.scaleM(mTransform, 0, -1, 1, 1);
