@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel" />
+            type="co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewModel" />
 
     </data>
 

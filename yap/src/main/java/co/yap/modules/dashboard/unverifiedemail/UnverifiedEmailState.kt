@@ -1,4 +1,4 @@
-package co.yap.modules.others.unverifiedemail
+package co.yap.modules.dashboard.unverifiedemail
 
 import androidx.databinding.Bindable
 import co.yap.BR

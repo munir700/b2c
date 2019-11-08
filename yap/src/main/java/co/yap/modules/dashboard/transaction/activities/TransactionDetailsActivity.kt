@@ -9,7 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel
-import co.yap.modules.transaction_note.activities.TransactionNoteActivity
+import co.yap.modules.others.note.activities.TransactionNoteActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity

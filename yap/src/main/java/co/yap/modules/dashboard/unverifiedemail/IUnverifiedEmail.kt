@@ -1,4 +1,4 @@
-package co.yap.modules.others.unverifiedemail
+package co.yap.modules.dashboard.unverifiedemail
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleLiveEvent
