@@ -69,7 +69,7 @@ class Customer(
     }
 
     fun getPicture(): String? {
-        return if (profilePictureName.isNullOrEmpty()) null else profilePictureName!!
+        return profilePictureName
     }
 
     fun setPicture(picture: String?) {
