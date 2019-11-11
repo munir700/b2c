@@ -539,5 +539,10 @@
 
     <!-- Topup Card Detail Screen -->
     <string name="screen_topup_card_detail_display_text_title">Card Detail</string>
+    <string name="screen_topup_card_detail_display_text_button_remove_card">Remove card</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_nickname">Card nickname</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_info">Card</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_type">Type</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_expiry">Expiry date</string>
 
 </resources>

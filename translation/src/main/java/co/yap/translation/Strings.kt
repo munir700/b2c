@@ -853,5 +853,14 @@ object Strings {
 
     const val screen_topup_card_detail_display_text_title: String =
         "screen_topup_card_detail_display_text_title"
-
+    const val screen_topup_card_detail_display_text_button_remove_card: String =
+        "screen_topup_card_detail_display_text_button_remove_card"
+    const val screen_topup_card_detail_display_text_hint_card_nickname: String =
+        "screen_topup_card_detail_display_text_hint_card_nickname"
+    const val screen_topup_card_detail_display_text_hint_card_info: String =
+        "screen_topup_card_detail_display_text_hint_card_info"
+    const val screen_topup_card_detail_display_text_hint_card_type: String =
+        "screen_topup_card_detail_display_text_hint_card_type"
+    const val screen_topup_card_detail_display_text_hint_card_expiry: String =
+        "screen_topup_card_detail_display_text_hint_card_expiry"
 }

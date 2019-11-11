@@ -49,6 +49,7 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
+
     private lateinit var snackbar: Snackbar
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet

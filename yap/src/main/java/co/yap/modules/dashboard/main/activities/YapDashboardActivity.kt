@@ -29,8 +29,9 @@ import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
-import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.modules.dashboard.yapit.topup.main.carddetail.TopupCardDetailActivity
+import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -103,7 +104,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
                         1 -> checkPermission()
-//                        2->checkPermission()
+                        2 -> {
+                            startActivity(TopupCardDetailActivity.getIntent(this@YapDashboardActivity))
+                        }
 //                        3->checkPermission()
 
                     }
