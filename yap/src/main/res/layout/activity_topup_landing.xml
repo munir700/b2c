@@ -16,7 +16,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_16sdp"
+        android:paddingRight="@dimen/_16sdp">
 
         <include
             android:id="@+id/toolbar"
@@ -26,315 +28,110 @@
             app:layout_constraintTop_toTopOf="parent"
             app:viewModel="@{viewModel}" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <TextView
+            android:id="@+id/mTitle"
+            style="@style/Large"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_32sdp"
-            android:background="@color/light_grey_background"
-            android:orientation="vertical"
-            android:padding="@dimen/margin_normal_large"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgProfile">
-
-
-            <LinearLayout
-                android:id="@+id/linearLayout5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/tvName"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:lines="1"
-                    android:text="Name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
-
-                <TextView
-                    android:id="@+id/tvNameValue"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:lines="1"
-                    android:text="@{viewModel.state.name}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                    tools:text="Logan Pearson" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout3"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout6"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
-
-                <TextView
-                    android:id="@+id/tvSwift"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:lines="1"
-                    android:text="SWIFT/BIC"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
-
-                <TextView
-                    android:id="@+id/tvSwiftValue"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:lines="1"
-                    android:text="@{viewModel.state.swift}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                    tools:text="QWERTY123" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout6"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout7"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
-
-                <TextView
-                    android:id="@+id/tvIban"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:lines="1"
-                    android:text="IBAN"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
-
-                <TextView
-                    android:id="@+id/tvIbanValue"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:lines="1"
-                    android:text="@{viewModel.state.iban}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                    tools:text="AE123456789123456789" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toTopOf="@+id/linearLayout8"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
-
-                <TextView
-                    android:id="@+id/tvAccount"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:lines="1"
-                    android:text="Account"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
-
-                <TextView
-                    android:id="@+id/tvAccountValue"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:lines="1"
-                    android:text="@{viewModel.state.account}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                    tools:text="1234567890" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="horizontal"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout7">
-
-                <TextView
-                    android:id="@+id/tvBank"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:lines="1"
-                    android:text="Bank"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
-
-                <TextView
-                    android:id="@+id/tvBankValue"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:lines="1"
-                    android:text="@{viewModel.state.bank}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                    tools:text="RAKBANK" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/linearLayout9"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:orientation="horizontal"
-                android:paddingBottom="@dimen/margin_medium"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearLayout8">
-
-                <TextView
-                    android:id="@+id/tvAddress"
-                    style="@style/ASmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="start"
-                    android:lines="1"
-                    android:text="Address"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
-
-                <TextView
-                    android:id="@+id/tvAddressValue"
-                    style="@style/Small"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:lines="1"
-                    android:text="@{viewModel.state.addresse}"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/imgProfile"
-                    tools:text="Sheikh Zayed Road Branch" />
-
-            </LinearLayout>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <co.yap.widgets.CoreCircularImageView
-            android:id="@+id/imgProfile"
-            android:layout_width="@dimen/_64sdp"
-            android:layout_height="@dimen/_64sdp"
-            android:layout_marginTop="@dimen/margin_extra_large"
-            android:background="@drawable/bg_round_with_space_white"
-            android:contentDescription="@string/empty_string"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:visibility="@{viewModel.state.image.empty ? View.INVISIBLE:View.VISIBLE}"
+            android:layout_marginTop="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/screen_topup_type_selection_display_text_heading"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:src="@{viewModel.state.image}"
-            tools:visibility="visible" />
+            tools:text="@string/screen_topup_type_selection_display_text_heading" />
+
 
         <LinearLayout
-            android:id="@+id/lyNameInitials"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_round_with_space_white"
-            android:visibility="@{viewModel.state.image.empty ? View.VISIBLE:View.GONE}"
-            app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgProfile">
-
-            <TextView
-                android:id="@+id/tvNameInitials"
-                style="@style/ALarge"
-                android:layout_width="@dimen/_64sdp"
-                android:layout_height="@dimen/_64sdp"
-                android:background="@drawable/bg_round_purple"
-                android:drawableTint="@color/colorPrimary"
-                android:gravity="center"
-                android:text="@{viewModel.state.initials}"
-                android:textColor="@color/colorPrimary"
-                tools:text="NM" />
-        </LinearLayout>
-
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnConfirm"
-            style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginTop="@dimen/margin_normal"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:text="Share"
-            app:btn_drawable="@drawable/ic_share"
-            app:btn_drawable_padding_left="10"
-            app:btn_drawable_padding_top="4"
-            app:btn_drawable_position="right"
-            app:enableCoreButton="@{true}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_goneMarginTop="@dimen/margin_extra_large" />
+            android:layout_marginTop="@dimen/_39sdp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.513"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mTitle">
+
+            <LinearLayout
+                android:id="@+id/llBankTransferType"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:background="@drawable/card_border_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.handlePressOnTypeBankTransfer(v.id)}"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_medium">
+
+                <FrameLayout
+                    android:layout_width="@dimen/_42sdp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/bg_round_purple">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_bank" />
+
+                </FrameLayout>
+
+
+                <TextView
+                    android:id="@+id/tvBankTransferTitle"
+                    style="@style/Micro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/screen_topup_type_selection_button_bank_transfer"
+                    android:textSize="@dimen/text_size_c3"
+                    app:text="@{Strings.screen_topup_type_selection_button_bank_transfer}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llCardsTransferType"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:background="@drawable/card_border_selector"
+                android:clickable="true"
+                android:onClick="@{(v) -> viewModel.handlePressOnTypeCashPickUp(v.id)}"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_medium">
+
+                <FrameLayout
+                    android:layout_width="@dimen/_42sdp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/bg_round_purple">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_bank" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvCardsTitle"
+                    style="@style/Micro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/screen_topup_type_selection_button_card"
+                    android:textSize="@dimen/text_size_c3"
+                    app:text="@{Strings.screen_topup_type_selection_button_card}" />
+
+            </LinearLayout>
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
