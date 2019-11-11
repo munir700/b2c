@@ -1,7 +1,7 @@
-package co.yap.modules.transaction_note.states
+package co.yap.modules.others.note.states
 
 import androidx.databinding.ObservableField
-import co.yap.modules.transaction_note.interfaces.ITransactionNote
+import co.yap.modules.others.note.interfaces.ITransactionNote
 import co.yap.yapcore.BaseState
 
 class TransactionNoteState : BaseState(), ITransactionNote.State {

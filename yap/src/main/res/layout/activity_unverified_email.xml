@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.others.unverifiedemail.UnverifiedEmailViewModel"/>
+            type="co.yap.modules.dashboard.unverifiedemail.UnverifiedEmailViewModel"/>
     </data>
 
     <LinearLayout

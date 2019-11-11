@@ -1,4 +1,4 @@
-package co.yap.modules.transaction_note.interfaces
+package co.yap.modules.others.note.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
