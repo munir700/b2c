@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.transaction_note.viewmodels.TransactionNoteViewModel" />
+            type="co.yap.modules.others.note.viewmodels.TransactionNoteViewModel" />
 
     </data>
 

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel" />
+
+        <import type="android.view.View" />
+        <import type="co.yap.translation.Strings" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/_16sdp"
+        android:paddingRight="@dimen/_16sdp">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_bank_detail_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:viewModel="@{viewModel}" />
+
+        <TextView
+            android:id="@+id/mTitle"
+            style="@style/Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_large"
+            android:gravity="center"
+            android:text="@string/screen_topup_type_selection_display_text_heading"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:text="@string/screen_topup_type_selection_display_text_heading" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_39sdp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.513"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/mTitle">
+
+            <LinearLayout
+                android:id="@+id/llBankTransferType"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:layout_marginRight="@dimen/margin_medium"
+                android:background="@drawable/card_border_selector"
+                android:clickable="true"
+                android:gravity="center"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_medium">
+
+                <FrameLayout
+                    android:layout_width="@dimen/_42sdp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/bg_round_purple">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_bank" />
+
+                </FrameLayout>
+
+
+                <TextView
+                    android:id="@+id/tvBankTransferTitle"
+                    style="@style/Micro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/screen_topup_type_selection_button_bank_transfer"
+                    android:textSize="@dimen/text_size_c3"
+                    app:text="@{Strings.screen_topup_type_selection_button_bank_transfer}" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llCardsTransferType"
+                android:layout_width="@dimen/_120sdp"
+                android:layout_height="@dimen/_120sdp"
+                android:background="@drawable/card_border_selector"
+                android:clickable="true"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                android:orientation="vertical"
+                android:paddingTop="@dimen/margin_medium">
+
+                <FrameLayout
+                    android:layout_width="@dimen/_42sdp"
+                    android:layout_height="@dimen/_42sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/bg_round_purple">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_bank" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvCardsTitle"
+                    style="@style/Micro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:gravity="center"
+                    android:text="@string/screen_topup_type_selection_button_card"
+                    android:textSize="@dimen/text_size_c3"
+                    app:text="@{Strings.screen_topup_type_selection_button_card}" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
