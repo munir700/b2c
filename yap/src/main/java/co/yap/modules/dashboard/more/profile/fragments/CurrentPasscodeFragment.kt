@@ -51,6 +51,10 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
             findNavController().navigate(action)
         })
 
+        viewModel.errorEvent.observe(this, Observer {
+            dialer.startAnimationDigits()
+        })
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

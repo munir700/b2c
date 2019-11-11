@@ -24,7 +24,7 @@ object Constants {
     const val MORE_LOCATE_ATM: Int = 2
     const val MORE_INVITE_FRIEND: Int = 3
     const val MORE_HELP_SUPPORT: Int = 4
-
+    const val EVENT_CREATE_CARD_PIN: Int = 13
     //Add Note flow constants
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"

@@ -32,7 +32,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     val EVENT_CARD_ADDED: Int get() = 12
-    val EVENT_CREATE_CARD_PIN: Int get() = 13
     var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
@@ -237,7 +236,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 }
             }
 
-            EVENT_CREATE_CARD_PIN -> {
+            Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
@@ -276,7 +275,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 requireContext(),
                 Constants.MODE_STATUS_SCREEN,
                 getCard(pos)
-            ), EVENT_CREATE_CARD_PIN
+            ), Constants.EVENT_CREATE_CARD_PIN
         )
     }
 
@@ -285,7 +284,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             SetCardPinWelcomeActivity.newIntent(
                 requireContext(),
                 cardSerialNumber
-            ), EVENT_CREATE_CARD_PIN
+            ), Constants.EVENT_CREATE_CARD_PIN
         )
     }
 

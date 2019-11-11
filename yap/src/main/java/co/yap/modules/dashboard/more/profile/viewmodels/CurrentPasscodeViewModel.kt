@@ -15,6 +15,7 @@ import java.util.regex.Pattern
 
 class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var errorEvent:SingleClickEvent=SingleClickEvent()
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     private val messagesRepository: MessagesRepository = MessagesRepository
     private val adminRepository: AdminRepository = AdminRepository
@@ -55,7 +56,8 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
                     forgotPasscodeclickEvent.postValue(id)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    //state.toast = response.error.message
+
                     state.loading = false
                 }
             }
@@ -72,7 +74,8 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
                     clickEvent.setValue(id)
                 }
                 is RetroApiResponse.Error -> {
-                    state.dialerError = response.error.message
+                    errorEvent.call()
+//                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }

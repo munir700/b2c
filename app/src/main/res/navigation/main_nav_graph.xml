@@ -204,4 +204,10 @@
         android:label="transactionDetailsActivity"
         tools:layout="@layout/activity_transaction_details" />
 
+    <!--<activity
+        android:id="@+id/topUpCardAcitivty"
+        android:name="co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivity"
+        android:label="transactionDetailsActivity"
+        tools:layout="@layout/activity_transaction_details" />-->
+
 </navigation>
