@@ -538,5 +538,9 @@
     <string name="screen_topup_type_selection_button_bank_transfer">Bank transfer</string>
     <string name="screen_topup_type_selection_button_card">Card</string>
 
+    <!-- Topup Card Detail Screen -->
+    <string name="screen_topup_card_detail_display_text_title">Card Detail</string>
+
+
 
 </resources>

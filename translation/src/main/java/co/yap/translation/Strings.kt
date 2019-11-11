@@ -849,5 +849,9 @@ object Strings {
     const val screen_topup_type_selection_button_card: String =
         "screen_topup_type_selection_button_card"
 
+    //Topup Card Detail Screen
+
+    const val screen_topup_card_detail_display_text_title: String =
+        "screen_topup_card_detail_display_text_title"
 
 }
