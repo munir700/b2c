@@ -531,7 +531,6 @@
     <!--    Forgot card pin screen-->
     <string name="screen_forgot_pin_display_text_heading">Verify your PIN change</string>
 
-
     <!-- Topup Type Selection Screen -->
     <string name="screen_topup_type_selection_display_text_title">Top up</string>
     <string name="screen_topup_type_selection_display_text_heading">How do you want to top up?</string>
@@ -540,7 +539,5 @@
 
     <!-- Topup Card Detail Screen -->
     <string name="screen_topup_card_detail_display_text_title">Card Detail</string>
-
-
 
 </resources>
