@@ -77,6 +77,7 @@ open class CurrentPasscodeFragment : ChangeCardPinFragment() {
         viewModel.forgotPasscodeclickEvent.removeObservers(this)
         super.onDestroy()
     }
+
     private fun getBindings(): FragmentSetCardPinBinding {
         return viewDataBinding as FragmentSetCardPinBinding
     }

@@ -10,7 +10,6 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.Utils.shortName
 
 
 class TransactionsListingAdapter(private val list: MutableList<Content>) :
@@ -43,7 +42,7 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     )
                 )
                 itemTransactionListBinding.tvTransactionAmount?.text =
-                    "+" + Utils.getFormattedCurrency(transaction.amount.toString())
+                    "+ " + Utils.getFormattedCurrency(transaction.amount.toString())
             } else if (transaction.txnType!!.toLowerCase() == "debit") {
                 itemTransactionListBinding.tvTransactionAmount?.setTextColor(
                     ContextCompat.getColor(
@@ -52,14 +51,14 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                     )
                 )
                 itemTransactionListBinding.tvTransactionAmount?.text =
-                    "-" + Utils.getFormattedCurrency(transaction.amount.toString())
+                    "- " + Utils.getFormattedCurrency(transaction.amount.toString())
             }
 
 
             transaction.title = transaction.title ?: "Unknown"
             itemTransactionListBinding.tvTransactionName?.text = transaction.title
             itemTransactionListBinding.tvNameInitials?.text =
-                transaction.title?.let { shortName(it) }
+                transaction.title?.let { Utils.shortName(it) }
 
 //            itemTransactionListBinding.tvTransactionName?.text = transaction?.senderName
             // itemTransactionListBinding.tvNameInitials?.text = transaction?.senderName?.let { shortName(it) }

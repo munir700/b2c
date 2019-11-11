@@ -6,6 +6,6 @@ import co.yap.yapcore.BaseState
 
 class MoreState : BaseState(), IMoreHome.State {
 
-    override var image: ObservableField<String> = ObservableField()
-    override var initials: ObservableField<String> = ObservableField()
+    override var image: ObservableField<String> = ObservableField("")
+    override var initials: ObservableField<String> = ObservableField("")
 }
