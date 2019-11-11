@@ -971,8 +971,7 @@ object Strings {
         "screen_beneficiary_account_details_display_text_field_code"
 
 
-    //Beneficiary overview screen
-
+    //  Beneficiary overview screen
     const val screen_beneficiary_overview_display_text_title: String =
         "screen_beneficiary_overview_display_text_title"
     const val screen_beneficiary_overview_display_text_account_number_iban: String =
@@ -998,5 +997,20 @@ object Strings {
     const val screen_crash_transfer_success_button_text_back: String =
         "screen_crash_transfer_success_button_text_back"
 
+    //    International Funds Transfer
+    const val screen_international_funds_transfer_display_text_title: String =
+        "screen_international_funds_transfer_display_text_title"
+    const val screen_international_funds_transfer_display_text_yap_rate: String =
+        "screen_international_funds_transfer_display_text_yap_rate"
+    const val screen_international_funds_transfer_display_text_reson: String =
+        "screen_international_funds_transfer_display_text_reson"
+    const val screen_international_funds_transfer_dropdown_text_reason_hint: String =
+        "screen_international_funds_transfer_dropdown_text_reason_hint"
+    const val screen_international_funds_transfer_input_text_note_hint: String =
+        "screen_international_funds_transfer_input_text_note_hint"
+    const val screen_international_funds_transfer_display_text_fee: String =
+        "screen_international_funds_transfer_display_text_fee"
+    const val screen_international_funds_transfer_display_text_note: String =
+        "screen_international_funds_transfer_display_text_note"
 
 }
