@@ -501,23 +501,23 @@
     <string name="common_display_text_y2y_share">Hi %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%3$s\n\nDownload on Play Store:\n%4$s"</string>
     <string name="common_display_text_y2y_general_share">Hi! \n\n%1$s would like to would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%2$s\n\nDownload on Play Store:\n%3$s"</string>
 
-<!--    Y2Y funds Transfer screen-->
+    <!--    Y2Y funds Transfer screen-->
     <string name="screen_y2y_funds_transfer_display_text_title">Send a Y2Y transfer to</string>
     <string name="screen_y2y_funds_transfer_display_text_note_placeholder">Type a note here</string>
     <string name="screen_y2y_funds_transfer_display_text_error_exceeding_amount">Entered amount exceeds the available balance</string>
     <string name="screen_y2y_funds_transfer_display_text_balance">Your available balance is</string>
     <string name="screen_yap_to_yap_transfer_display_text_button">Confirm</string>
 
-<!--    Y2Y funds Transfer success screen-->
+    <!--    Y2Y funds Transfer success screen-->
     <string name="screen_y2y_funds_transfer_success_display_text_title">Transfer successful</string>
     <string name="screen_y2y_funds_transfer_success_display_text_transfer">You have transferred</string>
     <string name="screen_y2y_funds_transfer_success_button_back">Back to dashboard</string>
-    
-<!--    Y2Y Recent Transfer-->
+
+    <!--    Y2Y Recent Transfer-->
     <string name="screen_y2y_display_text_recent_transfer">Recent transfers</string>
     <string name="screen_y2y_display_text_send_money_to">Who do you want to send money to?</string>
 
-<!--    Transaction details screen-->
+    <!--    Transaction details screen-->
     <string name="screen_transaction_details_display_text_spent">Spent</string>
     <string name="screen_transaction_details_display_text_received">Received</string>
     <string name="screen_transaction_details_display_text_fee">Fee</string>
@@ -528,8 +528,15 @@
     <string name="screen_add_note_display_text_type_something">Type something…</string>
     <string name="screen_add_note_display_text_save">Save</string>
 
-<!--    Forgot card pin screen-->
+    <!--    Forgot card pin screen-->
     <string name="screen_forgot_pin_display_text_heading">Verify your PIN change</string>
+
+
+    <!-- Topup Type Selection Screen -->
+    <string name="screen_topup_type_selection_display_text_title">Top up</string>
+    <string name="screen_topup_type_selection_display_text_heading">How do you want to top up?</string>
+    <string name="screen_topup_type_selection_button_bank_transfer">Bank transfer</string>
+    <string name="screen_topup_type_selection_button_card">Card</string>
 
 
 </resources>

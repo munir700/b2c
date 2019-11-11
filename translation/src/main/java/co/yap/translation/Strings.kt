@@ -838,4 +838,16 @@ object Strings {
     // Forgot card pin screen
     const val screen_forgot_pin_display_text_heading: String =
         "screen_forgot_pin_display_text_heading"
+
+// Topup Type Selection Screen
+    const val screen_topup_type_selection_display_text_title: String =
+        "screen_topup_type_selection_display_text_title"
+    const val screen_topup_type_selection_display_text_heading: String =
+        "screen_topup_type_selection_display_text_heading"
+    const val screen_topup_type_selection_button_bank_transfer: String =
+        "screen_topup_type_selection_button_bank_transfer"
+    const val screen_topup_type_selection_button_card: String =
+        "screen_topup_type_selection_button_card"
+
+
 }
