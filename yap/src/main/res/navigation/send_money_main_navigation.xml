@@ -121,7 +121,7 @@
 
  <fragment
         android:id="@+id/internationalFundsTransfer"
-        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.InternationalFundsTransfer"
+        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
         tools:layout="@layout/fragment_international_funds_transfer">
 
     </fragment>

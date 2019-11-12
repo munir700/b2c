@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryOverviewViewModel" />
+            type="co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel" />
     </data>
 
     <ScrollView
