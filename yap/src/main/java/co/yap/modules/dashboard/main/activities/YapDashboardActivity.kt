@@ -31,6 +31,7 @@ import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.modules.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -93,7 +94,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 R.layout.component_yap_menu_sub_button,
                 this, 3
             )
-            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+            .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay).setTxtYapIt(getViewBinding().txtYapIt)
             .setStateChangeListener(object :
                 FloatingActionMenu.MenuStateChangeListener {
                 override fun onMenuOpened(menu: FloatingActionMenu) {
@@ -103,7 +104,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
                         1 -> checkPermission()
-//                        2->checkPermission()
+                        2->{
+                            startActivity(
+                                SendMoneyHomeActivity.newIntent(
+                                    this@YapDashboardActivity
+                                )
+                            )
+                        }
 //                        3->checkPermission()
 
                     }
@@ -121,7 +128,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         with(getViewBinding().viewPager) {
             clipToPadding = false
             clipChildren = false
-            offscreenPageLimit = 2
+            offscreenPageLimit = 3
         }
         getViewBinding().viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -320,11 +327,23 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
 
             override fun onPermissionDenied() {
-                showToast("Can't proceed without permissions")
+                startActivity(
+                    YapToYapDashboardActivity.getIntent(
+                        this@YapDashboardActivity,
+                        false,
+                        null
+                    )
+                )
             }
 
             override fun onPermissionDeniedBySystem() {
-                permissionHelper!!.openAppDetailsActivity()
+                startActivity(
+                    YapToYapDashboardActivity.getIntent(
+                        this@YapDashboardActivity,
+                        false,
+                        null
+                    )
+                )
             }
         })
     }

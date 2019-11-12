@@ -8,4 +8,5 @@ internal interface CoroutineViewModel {
     val viewModelScope: CoroutineScope
     fun cancelAllJobs()
     fun launch(block: suspend () -> Unit)
+    fun launchBG(block: suspend () -> Unit) :Any
 }

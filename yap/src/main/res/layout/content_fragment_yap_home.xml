@@ -19,107 +19,108 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <!--     Notification Center       -->
-            <com.yarolegovich.discretescrollview.DiscreteScrollView
-                android:id="@+id/rvNotificationList"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:dsv_orientation="horizontal" />
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
 
-
-            <!--     Content Graph Center       -->
-            <include
-                android:id="@+id/vGraph"
-                layout="@layout/view_graph"
-                android:visibility="gone" />
-
-            <RelativeLayout
-                android:id="@+id/rlTransactionHeader"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
-                android:layout_marginTop="@dimen/margin_medium_large"
-                android:layout_marginEnd="@dimen/margin_medium_large"
-                android:layout_marginBottom="@dimen/margin_small">
-
-                <TextView
-                    android:id="@+id/tvTransactionTitle"
-                    style="@style/ASmall"
-                    android:layout_width="wrap_content"
+                <!--     Notification Center       -->
+                <com.yarolegovich.discretescrollview.DiscreteScrollView
+                    android:id="@+id/rvNotificationList"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Transactions" />
+                    app:dsv_orientation="horizontal" />
+
+
+                <!--     Content Graph Center       -->
+                <include
+                    android:id="@+id/vGraph"
+                    layout="@layout/view_graph"
+                    android:visibility="gone" />
 
                 <RelativeLayout
-                    android:id="@+id/rlFilter"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/rlTransactionHeader"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                    android:layout_alignParentEnd="true">
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:layout_marginTop="@dimen/margin_medium_large"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
+                    android:layout_marginBottom="@dimen/margin_small">
 
                     <TextView
-                        android:id="@+id/tvFilterCount"
-                        style="@style/ASmall"
-                        android:layout_width="@dimen/_22sdp"
-                        android:layout_height="@dimen/_22sdp"
-                        android:background="@drawable/bg_round_purple"
-                        android:gravity="center"
-                        android:text="@{viewModel.state.filterCount.toString()}"
-                        android:textColor="@color/colorPrimary"
-                        android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"
-                        tools:text="6" />
-
-                    <ImageView
-                        android:id="@+id/ivFilters"
-                        android:layout_toEndOf="@+id/tvFilterCount"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginEnd="2dp"
-                        android:src="@drawable/ic_filter" />
-
-                    <TextView
-                        android:id="@+id/tvFilters"
+                        android:id="@+id/tvTransactionTitle"
                         style="@style/ASmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:layout_toEndOf="@+id/ivFilters"
-                        android:text="Filter"
-                        android:textColor="@color/colorPrimary" />
+                        android:text="Transactions" />
+
+                    <RelativeLayout
+                        android:id="@+id/rlFilter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
+
+                        <TextView
+                            android:id="@+id/tvFilterCount"
+                            style="@style/ASmall"
+                            android:layout_width="@dimen/_22sdp"
+                            android:layout_height="@dimen/_22sdp"
+                            android:layout_marginEnd="5dp"
+                            android:background="@drawable/bg_round_purple"
+                            android:gravity="center"
+                            android:text="@{viewModel.state.filterCount.toString()}"
+                            android:textColor="@color/colorPrimary"
+                            android:visibility="@{viewModel.state.filterCount > 0 ? View.VISIBLE:View.GONE}"
+                            tools:text="6" />
+
+                        <ImageView
+                            android:id="@+id/ivFilters"
+                            android:layout_toEndOf="@+id/tvFilterCount"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="2dp"
+                            android:src="@drawable/ic_filter" />
+
+                        <TextView
+                            android:id="@+id/tvFilters"
+                            style="@style/ASmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_2sdp"
+                            android:layout_toEndOf="@+id/ivFilters"
+                            android:text="Filter"
+                            android:textColor="@color/colorPrimary" />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
-            </RelativeLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider"
+                    android:paddingTop="@dimen/_12sdp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider"
-                android:paddingTop="@dimen/_12sdp" />
+                <!--     Content List-->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvTransaction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    tools:listitem="@layout/item_transaction_list" />
 
-            <!--     Content List-->
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvTransaction"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                tools:listitem="@layout/item_transaction_list" />
+                <ImageView
+                    android:id="@+id/ivNoTransaction"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/margin_extra_large"
+                    android:src="@drawable/ic_no_transaction"
+                    android:visibility="gone" />
 
-            <ImageView
-                android:id="@+id/ivNoTransaction"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="@dimen/margin_extra_large"
-                android:src="@drawable/ic_no_transaction"
-                android:visibility="gone" />
-
-        </LinearLayout>
+            </LinearLayout>
 
         <co.yap.widgets.tooltipview.TooltipView
             android:id="@+id/tooltip"

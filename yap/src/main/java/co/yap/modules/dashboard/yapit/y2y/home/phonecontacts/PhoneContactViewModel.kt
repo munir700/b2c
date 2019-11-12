@@ -1,11 +1,14 @@
 package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 
+import android.Manifest
 import android.app.Application
 import android.content.ContentUris
 import android.content.Context
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.ContactsContract
 import android.util.Log
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
@@ -15,10 +18,10 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 
 class PhoneContactViewModel(application: Application) :
     Y2YBaseViewModel<IPhoneContact.State>(application),
@@ -29,8 +32,6 @@ class PhoneContactViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     private var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var phoneContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
-    private val backgroundCoroutine: CoroutineScope = CoroutineScope(viewModelJob + Dispatchers.IO)
-    private lateinit var localContacts: MutableList<Contact>
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -44,19 +45,20 @@ class PhoneContactViewModel(application: Application) :
         return phoneContactLiveData.value?.isEmpty() ?: true
     }
 
-    private fun getLocalContacts(): MutableList<Contact> = runBlocking {
-        return@runBlocking fetchContacts(context)
-    }
+    private suspend fun getLocalContacts() =
+        withContext(Dispatchers.IO) {
+            fetchContacts(context)
+        }
 
     override fun getY2YBeneficiaries() {
 
         pagingState.value = PagingState.LOADING
-        localContacts = getLocalContacts()
-        if (localContacts.isEmpty()) {
-            phoneContactLiveData.value = mutableListOf()
-            pagingState.value = PagingState.DONE
-        } else {
-            launch {
+        launch {
+            val localContacts = getLocalContacts()
+            if (localContacts.isEmpty()) {
+                phoneContactLiveData.value = mutableListOf()
+                pagingState.value = PagingState.DONE
+            } else {
                 when (val response = repository.getY2YBeneficiaries(localContacts)) {
                     is RetroApiResponse.Success -> {
                         phoneContactLiveData.value = response.data.data
@@ -141,59 +143,68 @@ class PhoneContactViewModel(application: Application) :
         return emlAdd
     }
 
-    private suspend fun fetchContacts(context: Context): MutableList<Contact> {
-        val defaultCountryCode = Utils.getDefaultCountryCode(context)
+    private fun fetchContacts(context: Context): MutableList<Contact> {
+
         val contacts: MutableList<Contact> = ArrayList()
-        val cursor = context.contentResolver.query(
-            ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
-        )
-        try {
+        if (ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_CONTACTS
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
 
-            if ((cursor?.count ?: 0) > 0) {
-                while (cursor!!.moveToNext()) {
-                    val name =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+            val defaultCountryCode = Utils.getDefaultCountryCode(context)
 
-                    val phoneWihtoutCountryCode =
-                        cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+            val cursor = context.contentResolver.query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+            )
+            try {
 
-                    val phoneNo = Utils.getPhoneWithoutCountryCode(
-                        defaultCountryCode,
-                        phoneWihtoutCountryCode
-                    )
-                    val countryCode =
-                        Utils.getPhoneNumberCountryCodeForAPI(
+                if ((cursor?.count ?: 0) > 0) {
+                    while (cursor!!.moveToNext()) {
+                        val name =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+
+                        val phoneWihtoutCountryCode =
+                            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+
+                        val phoneNo = Utils.getPhoneWithoutCountryCode(
                             defaultCountryCode,
                             phoneWihtoutCountryCode
                         )
-                    val contactId =
-                        cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
-                    val contactId2 =
-                        cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
-                    val email = fetchContactsEmail(contactId)
+                        val countryCode =
+                            Utils.getPhoneNumberCountryCodeForAPI(
+                                defaultCountryCode,
+                                phoneWihtoutCountryCode
+                            )
+                        val contactId =
+                            cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
+                        val contactId2 =
+                            cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
+                        val email = fetchContactsEmail(contactId)
 
-                    var photoContentUri: Uri? = getPhotoUri(contactId2)
-                    if (photoContentUri == null) photoContentUri = Uri.EMPTY
+                        var photoContentUri: Uri? = getPhotoUri(contactId2)
+                        if (photoContentUri == null) photoContentUri = Uri.EMPTY
 
-                    Log.d(
-                        "contact",
-                        "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
-                    )
-                    val contact = Contact(
-                        name,
-                        countryCode,
-                        phoneNo,
-                        email,
-                        photoContentUri?.toString(),
-                        false, null
-                    )
-                    contacts.add(contact)
+                        Log.d(
+                            "contact",
+                            "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
+                        )
+                        val contact = Contact(
+                            name,
+                            countryCode,
+                            phoneNo,
+                            email,
+                            photoContentUri?.toString(),
+                            false, null
+                        )
+                        contacts.add(contact)
+                    }
                 }
+                cursor?.close()
+            } catch (ex: Exception) {
+                ex.printStackTrace()
             }
-            cursor?.close()
-        } catch (ex: Exception) {
-            ex.printStackTrace()
         }
         return contacts
     }

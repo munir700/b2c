@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
@@ -34,6 +35,7 @@ import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.fixSwipeToRefresh
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
@@ -57,6 +59,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_home
+    private lateinit var swipeToRefresh: SwipeRefreshLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,14 +70,13 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun initComponents() {
 //        setUpGraph()
-
         rvTransaction.layoutManager = LinearLayoutManager(context)
         rvTransaction.adapter =
             TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
-
-        //refreshLayout.setOnRefreshListener(this)
+        // swipeToRefresh = view?.findViewById(R.id.refreshLayout) as SwipeRefreshLayout
+        getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.layoutManager = LinearLayoutManager(
             context,
             LinearLayoutManager.HORIZONTAL,
@@ -82,12 +84,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
+        getBindings().lyInclude.rvTransaction.apply {
+            fixSwipeToRefresh(getBindings().refreshLayout)
+        }
     }
 
-    override fun onRefresh() {
-        viewModel.requestAccountTransactions()
-        //refreshLayout.isRefreshing = false
 
+    override fun onRefresh() {
+        viewModel.isRefreshing.value = true
+        homeTransactionsRequest.number = 0
+        viewModel.requestAccountTransactions()
+        getBindings().refreshLayout.isRefreshing = false
     }
 
     private val adaptorlistener = object : OnItemClickListener {
@@ -118,7 +125,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 }
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
-                    if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value!!.isEmpty()) {
+                    if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value!!.isEmpty() && homeTransactionsRequest.totalAppliedFilter == 0) {
                         showErrorSnackBar("No Transactions Found")
                         return@Observer
                     } else {
@@ -145,6 +152,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
+                if (getRecycleViewAdaptor()?.itemCount!! > 0)
+                    getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
                 getRecycleViewAdaptor()?.setList(it)
                 getGraphRecycleViewAdapter()?.setList(it)
             } else {
@@ -165,12 +174,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.addOnScrollListener(object :
             RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy);
+                super.onScrolled(recyclerView, dx, dy)
                 val layoutManager =
                     getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
                 val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
                 if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                    if (!viewModel.isLoadMore.value!!) {
+                    if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
                         viewModel.isLoadMore.value = true
                     }
                 }
@@ -179,8 +188,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.isLoadMore.observe(this, Observer {
             if (it) {
-                viewModel.homeTransactionsRequest.number =
-                    viewModel.homeTransactionsRequest.number + 1
+                homeTransactionsRequest.number =
+                    homeTransactionsRequest.number + 1
                 val item =
                     getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
                         ?.copy()
@@ -188,8 +197,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addListItem(item!!)
                 viewModel.loadMore()
             } else {
-                if (getRecycleViewAdaptor()?.itemCount!! > 0)
-                    getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
+                // if (getRecycleViewAdaptor()?.itemCount!! > 0)
+                //     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
             }
 
         })
@@ -309,6 +318,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             checkUserStatus()
         }
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
+        MyUserManager.updateCardBalance()
     }
 
     override fun onDestroyView() {
@@ -369,7 +379,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == TransactionFiltersActivity.INTENT_FILTER_REQUEST) {
-            getFilterTransactions()
+            if (YAPApplication.hasFilterStateChanged)
+                getFilterTransactions()
         }
     }
 
@@ -386,8 +397,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            //  showToast("olalal")
-//            startActivity(TransactionDetailsActivity.)
             (data as HomeTransactionListData).content.get(0).transactionId
         }
     }

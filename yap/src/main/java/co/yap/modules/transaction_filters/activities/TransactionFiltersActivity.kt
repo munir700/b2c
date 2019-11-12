@@ -15,6 +15,7 @@ import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.Utils
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
 import kotlinx.android.synthetic.main.activity_transaction_filters.*
@@ -46,12 +47,30 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun initViews() {
-        YAPApplication.homeTransactionsRequest.creditSearch?.let {
-            cbInTransFilter.isChecked = it
+        // init view with old states
+        if (YAPApplication.homeTransactionsRequest.txnType == null) {
+            when (YAPApplication.isAllChecked) {
+                true -> {
+                    cbInTransFilter.isChecked = true
+                    cbOutTransFilter.isChecked = true
+                }
+                false -> {
+                    cbInTransFilter.isChecked = false
+                    cbOutTransFilter.isChecked = false
+                }
+            }
         }
-        YAPApplication.homeTransactionsRequest.debitSearch?.let {
-            cbOutTransFilter.isChecked = it
+        YAPApplication.homeTransactionsRequest.txnType?.let {
+            when (it) {
+                "CREDIT" -> cbInTransFilter.isChecked = true
+                "DEBIT" -> cbOutTransFilter.isChecked = true
+            }
         }
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
     }
 
     private fun setObservers() {
@@ -68,13 +87,14 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             transactionFilters.maxAmount.toFloat()
         )
 
-        rsbAmount?.setProgress(
-            transactionFilters.maxAmount.toFloat(),
-            transactionFilters.maxAmount.toFloat()
-        )
-        if (YAPApplication.homeTransactionsRequest.minAmount != null && YAPApplication.homeTransactionsRequest.minAmount != 0.00) {
+        if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters.maxAmount) {
             rsbAmount?.setProgress(
-                YAPApplication.homeTransactionsRequest.minAmount!!.toFloat(),
+                YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat(),
+                YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat()
+            )
+        } else {
+            rsbAmount?.setProgress(
+                transactionFilters.maxAmount.toFloat(),
                 transactionFilters.maxAmount.toFloat()
             )
         }
@@ -104,7 +124,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             }
             R.id.btnApplyFilters -> setFilterValues()
             R.id.IvClose -> {
-                YAPApplication.homeTransactionsRequest.hasFilterStateChanged = false
+                YAPApplication.hasFilterStateChanged = false
                 finish()
             }
         }
@@ -116,16 +136,26 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         }
     }
 
+    //Observer used to check if something went wrong with api then close the activity
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (propertyId == BR.error && viewModel.state.error.isNotBlank()) {
                 finish()
             }
         }
-
     }
 
     private fun resetAllFilters() {
+        if (YAPApplication.isAllChecked || !YAPApplication.isAllChecked) {
+            YAPApplication.hasFilterStateChanged =
+                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
+                    viewModel.transactionFilters.value?.maxAmount!!
+                )
+        } else {
+            YAPApplication.hasFilterStateChanged =
+                YAPApplication.homeTransactionsRequest.totalAppliedFilter != 0
+        }
+        YAPApplication.isAllChecked = false
         YAPApplication.clearFilters()
         finish()
     }
@@ -134,30 +164,71 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         var count = 0
         if (cbOutTransFilter.isChecked) count++
         if (cbInTransFilter.isChecked) count++
-        if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.minAmount?.toFloat()!!) count++
+        if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) count++
+        YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
+
         YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
             0, YAPApplication.pageSize,
-            rsbAmount.minProgress.toDouble(), rsbAmount.leftSeekBar.progress.toDouble(),
-            cbInTransFilter.isChecked, cbOutTransFilter.isChecked,
-            count,
-            true,
-            hasFiltersStateChanged()
+            Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
+            Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
+            getCurrentTxnType(),
+            null,
+            count
         )
         setResult(INTENT_FILTER_REQUEST)
         finish()
     }
 
     private fun hasFiltersStateChanged(): Boolean {
-        return when {
-            YAPApplication.homeTransactionsRequest.creditSearch!! != cbInTransFilter.isChecked -> true
-            YAPApplication.homeTransactionsRequest.debitSearch!! != cbOutTransFilter.isChecked -> true
-            YAPApplication.homeTransactionsRequest.maxAmount!! != rsbAmount.leftSeekBar.progress.toDouble() -> true
-            else -> false
+        var isStateChanged: Boolean
+
+        // check if old txnType state is null and new txnType state is null then there is a change
+        if (YAPApplication.homeTransactionsRequest.txnType == null && getCurrentTxnType() != null)
+            return true
+
+        // check if old endRange state is null and new selected endRange state is not equal to maxRange then there is a change
+        if (YAPApplication.homeTransactionsRequest.amountEndRange == null && Utils.getTwoDecimalPlaces(
+                rsbAmount.leftSeekBar.progress.toDouble()
+            ) != Utils.getTwoDecimalPlaces(viewModel.transactionFilters.value?.maxAmount!!)
+        ) return true
+
+        // when not null compare old states with new states
+        whenNotNull(YAPApplication.homeTransactionsRequest.txnType) {
+            isStateChanged = it != getCurrentTxnType()
+            if (isStateChanged) return true
         }
+        whenNotNull(YAPApplication.homeTransactionsRequest.amountEndRange) {
+            isStateChanged =
+                it != Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble())
+            if (isStateChanged) return true
+        }
+
+        return false
     }
 
     override fun onBackPressed() {
-        YAPApplication.homeTransactionsRequest.hasFilterStateChanged = false
+        YAPApplication.hasFilterStateChanged = false
         super.onBackPressed()
+    }
+
+    private inline fun <T : Any, R> whenNotNull(input: T?, callback: (T) -> R): R? {
+        return input?.let(callback)
+    }
+
+    private fun getCurrentTxnType(): String? {
+        // case null is used for all transaction
+        return when {
+            cbInTransFilter.isChecked && cbOutTransFilter.isChecked -> {
+                YAPApplication.isAllChecked = true
+                null
+            }
+            !cbInTransFilter.isChecked && !cbOutTransFilter.isChecked -> {
+                YAPApplication.isAllChecked = false
+                null
+            }
+            cbInTransFilter.isChecked -> "CREDIT"
+            cbOutTransFilter.isChecked -> "DEBIT"
+            else -> null
+        }
     }
 }

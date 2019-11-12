@@ -4,7 +4,6 @@ import android.app.Application
 import co.yap.app.login.EncryptionUtils
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ChangeCardPinViewModel
 import co.yap.networking.admin.AdminRepository
-import co.yap.networking.admin.AdminRepository.verifyUsername
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateForgotPasscodeOtpRequest
 import co.yap.networking.models.RetroApiResponse
@@ -15,6 +14,7 @@ import java.util.regex.Pattern
 
 class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewModel(application) {
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    override var errorEvent:SingleClickEvent=SingleClickEvent()
     override val forgotPasscodeclickEvent: SingleClickEvent = SingleClickEvent()
     private val messagesRepository: MessagesRepository = MessagesRepository
     private val adminRepository: AdminRepository = AdminRepository
@@ -30,9 +30,9 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
     }
 
     override fun handlePressOnNextButton(id: Int) {
-        if (validateAggressively()) {
-            validateCurrentPasscode(id)
-        }
+//        if (validateAggressively()) {
+        validateCurrentPasscode(id)
+        // }
     }
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
@@ -55,7 +55,8 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
                     forgotPasscodeclickEvent.postValue(id)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    //state.toast = response.error.message
+
                     state.loading = false
                 }
             }
@@ -72,7 +73,8 @@ class CurrentPasscodeViewModel(application: Application) : ChangeCardPinViewMode
                     clickEvent.setValue(id)
                 }
                 is RetroApiResponse.Error -> {
-                    state.dialerError = response.error.message
+                    errorEvent.call()
+//                    state.dialerError = response.error.message
                     state.loading = false
                 }
             }

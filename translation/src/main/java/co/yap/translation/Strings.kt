@@ -798,6 +798,12 @@ object Strings {
         "screen_y2y_display_button_all_contacts"
     const val screen_y2y_display_text_send_money_to: String =
         "screen_y2y_display_text_send_money_to"
+    const val screen_y2y_display_text_no_contacts: String =
+        "screen_y2y_display_text_no_contacts"
+    const val common_display_text_y2y_share: String =
+        "common_display_text_y2y_share"
+    const val common_display_text_y2y_general_share: String =
+        "common_display_text_y2y_general_share"
 
     //    Y2Y funds Transfer success screen
     const val screen_y2y_funds_transfer_success_display_text_title: String =
@@ -829,7 +835,7 @@ object Strings {
         "screen_add_note_display_text_save"
 
 
-    //     Send Money no contacts Screen
+     //     Send Money no contacts Screen
     const val screen_send_money_no_contacts_display_text_title: String =
         "screen_send_money_no_contacts_display_text_title"
     const val screen_send_money_no_contacts_display_text_sub_heading: String =
@@ -1013,4 +1019,7 @@ object Strings {
     const val screen_international_funds_transfer_display_text_note: String =
         "screen_international_funds_transfer_display_text_note"
 
+    // Forgot card pin screen
+    const val screen_forgot_pin_display_text_heading: String =
+        "screen_forgot_pin_display_text_heading"
 }

@@ -124,7 +124,6 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v)->viewModel.handlePressOnDoneButton()}"
             android:text="@{viewModel.state.buttonTitle}"
-
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintLeft_toLeftOf="parent"

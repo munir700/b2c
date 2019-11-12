@@ -11,15 +11,14 @@ import androidx.annotation.Nullable
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentHelpSupportBinding
 import co.yap.modules.dashboard.main.activities.YapDashboardActivity
-import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.help.adaptor.HelpSupportAdaptor
 import co.yap.modules.dashboard.more.help.interfaces.IHelpSupport
 import co.yap.modules.dashboard.more.help.viewmodels.HelpSupportViewModel
+import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.yapcore.helpers.LivePersonStorage
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.appbar.AppBarLayout
@@ -81,7 +80,7 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
                 openDialer()
             }
             R.id.tbBtnBack -> {
-                findNavController().navigateUp()
+                activity?.finish()
             }
         }
     }
@@ -218,6 +217,9 @@ class HelpSupportFragment : MoreBaseFragment<IHelpSupport.ViewModel>(), IHelpSup
             .progressBarHeight(Utils.convertDpToPx(context!!, 3f))
             .progressBarColorRes(R.color.colorPrimaryDark)
             .backPressToClose(false)
+            .webViewUseWideViewPort(true)
+            .webViewSupportZoom(true)
+            .webViewBuiltInZoomControls(true)
             .setCustomAnimations(
                 R.anim.activity_open_enter,
                 R.anim.activity_open_exit,

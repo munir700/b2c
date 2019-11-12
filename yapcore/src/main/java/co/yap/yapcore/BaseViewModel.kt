@@ -2,17 +2,17 @@ package co.yap.yapcore
 
 import android.app.Application
 import android.content.Context
-import android.view.animation.TranslateAnimation
-import androidx.lifecycle.*
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.OnLifecycleEvent
 import co.yap.translation.Translator
 import co.yap.yapcore.interfaces.CoroutineViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 
-abstract class BaseViewModel<S: IBase.State>(application: Application) : AndroidViewModel(application),
+abstract class BaseViewModel<S : IBase.State>(application: Application) :
+    AndroidViewModel(application),
     IBase.ViewModel<S>, CoroutineViewModel {
 
     override val context: Context
@@ -71,6 +71,11 @@ abstract class BaseViewModel<S: IBase.State>(application: Application) : Android
 
     override fun launch(block: suspend () -> Unit) {
         viewModelScope.launch { block() }
+    }
+
+    override fun launchBG(block: suspend () -> Unit) = viewModelScope.async {
+        block()
+
     }
 
     override fun getString(resourceId: Int): String = Translator.getString(context, resourceId)

@@ -14,12 +14,9 @@ import android.view.*
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.FrameLayout
 import android.widget.TextView
-import android.widget.Toast
 import co.yap.widgets.arcmenu.animation.DefaultAnimationHandler
 import co.yap.widgets.arcmenu.animation.MenuAnimationHandler
-import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.R
-import co.yap.yapcore.interfaces.OnItemClickListener
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.util.*
 
@@ -78,7 +75,8 @@ class FloatingActionMenu
      * Reference to a listener that listens open/close actions
      */
     private var stateChangeListener: MenuStateChangeListener?,
-    val alphaOverlay: View?
+    val alphaOverlay: View?,
+    val txtYapIt: View?
 
 ) {
     /**
@@ -89,7 +87,6 @@ class FloatingActionMenu
      */
     var isOpen: Boolean = false
         private set
-
 
 
     /**
@@ -334,7 +331,7 @@ class FloatingActionMenu
      * @param animated if true, the open/close action is executed by the current [MenuAnimationHandler]
      */
     fun toggle(view: View, animated: Boolean) {
-        val rotationArray = if (isOpen) floatArrayOf(10f,0f) else floatArrayOf(-195f, -180f)
+        val rotationArray = if (isOpen) floatArrayOf(10f, 0f) else floatArrayOf(-195f, -180f)
         val animator1 =
             ObjectAnimator.ofFloat(mainActionView, "rotation", if (isOpen) 0f else -180f)
         animator1.repeatCount = 0
@@ -352,7 +349,7 @@ class FloatingActionMenu
                 View.ALPHA,
                 *alphaArray
             )
-            alphaAnimation.duration = 400
+            alphaAnimation.duration = if (isOpen) 400 else 400
             alphaAnimation.repeatCount = 0
         }
 
@@ -372,6 +369,9 @@ class FloatingActionMenu
                 mainActionView.isClickable = true
                 mainActionView.setOnClickListener(ActionViewClickListener())
                 alphaOverlay?.setOnTouchListener(ActionOnTouchListener())
+                if (alphaOverlay?.visibility == View.VISIBLE && !isOpen) {
+                    alphaOverlay.visibility = View.GONE
+                }
             }
 
             override fun onAnimationCancel(animation: Animator?) {
@@ -386,9 +386,11 @@ class FloatingActionMenu
             }
         })
         if (isOpen) {
-            alphaOverlay?.visibility = View.GONE
+            txtYapIt?.visibility = View.VISIBLE
+            //alphaOverlay?.visibility = View.GONE
             close(view, animated)
         } else {
+            txtYapIt?.visibility = View.INVISIBLE
             alphaOverlay?.visibility = View.VISIBLE
             open(animated)
         }
@@ -584,6 +586,7 @@ class FloatingActionMenu
         private var animated: Boolean = false
         private var stateChangeListener: MenuStateChangeListener? = null
         private var alphaOverlay: View? = null
+        private var txtYapIt: View? = null
 
         init {
             // val activity = context as BaseBindingActivity<*>
@@ -618,6 +621,11 @@ class FloatingActionMenu
 
         fun setAlphaOverlay(alphaOverlay: View): Builder {
             this.alphaOverlay = alphaOverlay
+            return this
+        }
+
+        fun setTxtYapIt(txtYapIt: View): Builder {
+            this.txtYapIt = txtYapIt
             return this
         }
 
@@ -735,7 +743,7 @@ class FloatingActionMenu
                 animationHandler,
                 animated,
                 stateChangeListener,
-                alphaOverlay
+                alphaOverlay, txtYapIt
             )
         }
     }

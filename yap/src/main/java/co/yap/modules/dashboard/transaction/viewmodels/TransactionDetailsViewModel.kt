@@ -9,6 +9,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_INPUT
 import co.yap.yapcore.helpers.DateUtils.FORMAT_LONG_OUTPUT
 import co.yap.yapcore.helpers.DateUtils.datetoString
@@ -58,14 +59,20 @@ class TransactionDetailsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     //success
                     state.transactionTitle = response.data.data?.title
-                    state.spentTitle = response.data.data?.txnType
+                    if (response.data.data?.txnType != Constants.TRANSACTION_TYPE_CREDIT) {
+                        state.spentTitle =
+                            getString(Strings.screen_transaction_details_display_text_spent)
+                    } else {
+                        state.spentTitle =
+                            getString(Strings.screen_transaction_details_display_text_received)
+                    }
                     state.spentAmount =
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.amount.toString())
                     if (response.data.data?.fee != null) state.feeAmount =
                         response.data.data?.currency + " " + response.data.data?.fee else state.feeAmount =
                         response.data.data?.currency + " " + "0.00"
 
-                    if (response.data.data?.transactionNote != null) {
+                    if (response.data.data?.transactionNote != null && response.data.data?.transactionNote != "") {
                         state.addNoteTitle =
                             getString(Strings.screen_transaction_details_display_text_edit_note)
                         state.noteValue = response.data.data?.transactionNote
@@ -84,7 +91,6 @@ class TransactionDetailsViewModel(application: Application) :
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
-
                 }
 
                 is RetroApiResponse.Error -> {

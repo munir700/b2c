@@ -270,6 +270,7 @@ open class AddFundsActivity : BaseBindingActivity<IFundActions.ViewModel>(),
         )
         tvTopUp.text = str
 
+        //todo don't mange balance on client side instead call from server MyUserManager.getAccountBalanceRequest()
         val updatedCardBalance: String =
             (viewModel.state.availableBalance.toDouble() - viewModel.state.amount!!.toDouble()).toString()
 

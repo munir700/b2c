@@ -27,6 +27,13 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        state.enableAddCard.set(
+            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+        )
+    }
+
     override fun getCards() {
 
         launch {

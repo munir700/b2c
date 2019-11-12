@@ -27,11 +27,9 @@ class TransactionsDataSource(
             6,
             0.00,
             20000.00,
-            true,
-            debitSearch = true,
-            totalAppliedFilter = 0,
-            yapYoungTransfer = true,
-            hasFilterStateChanged = false
+            null,
+            null,
+            totalAppliedFilter = 0
         )
 
     override fun loadInitial(

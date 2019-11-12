@@ -21,10 +21,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import co.yap.networking.customers.requestdtos.Contact
+import co.yap.translation.Strings
 import co.yap.translation.Translator
-import co.yap.translation.Translator.getString
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -32,6 +36,7 @@ import java.util.regex.Pattern
 
 object Utils {
     var context: Context? = null
+
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)
@@ -421,6 +426,7 @@ object Utils {
         context.startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
+
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
@@ -453,6 +459,35 @@ object Utils {
         R.color.colorSecondaryOrange
     )
 
+    fun getTwoDecimalPlaces(value: Double): Double {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(value).toDouble()
+    }
+
+    fun getBody(context: Context, contact: Contact): String {
+        return Translator.getString(
+            context,
+            Strings.common_display_text_y2y_share,
+            StringUtils.getFirstname(contact.title!!),
+            MyUserManager.user!!.currentCustomer.firstName,
+            Constants.URL_SHARE_APP_STORE,
+            Constants.URL_SHARE_PLAY_STORE
+        )
+    }
+
+    fun getGeneralInvitationBody(context: Context): String {
+        return Translator.getString(
+            context,
+            Strings.common_display_text_y2y_general_share,
+            MyUserManager.user!!.currentCustomer.firstName,
+            Constants.URL_SHARE_APP_STORE,
+            Constants.URL_SHARE_PLAY_STORE
+        )
+
+    }
+
+
     fun ConfirmAddBeneficiary(context: Context) {
         androidx.appcompat.app.AlertDialog.Builder(context)
             .setTitle(
@@ -476,9 +511,14 @@ object Utils {
                 })
 
             .setNegativeButton(
-                Translator.getString(context, R.string.screen_add_beneficiary_detail_display_button_block_alert_no),
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+                ),
                 null
             )
             .show()
+
+
     }
 }

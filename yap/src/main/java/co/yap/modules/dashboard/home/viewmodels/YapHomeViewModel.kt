@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.main.viewmodels.YapDashboardChildViewModel
 import co.yap.networking.cards.CardsRepository
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
@@ -31,22 +30,18 @@ class YapHomeViewModel(application: Application) :
     override val transactionsLiveData: MutableLiveData<List<HomeTransactionListData>> =
         MutableLiveData()
     override var isLoadMore: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isLast: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var isRefreshing: MutableLiveData<Boolean> = MutableLiveData(false)
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
     override var MAX_CLOSING_BALANCE: Double = 0.0
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
-    override var homeTransactionsRequest: HomeTransactionsRequest =
-        YAPApplication.homeTransactionsRequest
 
     override fun onCreate() {
         super.onCreate()
-//        setUpTransactionsRepo()
-//        requestAccountTransactions()
-//        setUpTransactionsRepo()
         requestAccountTransactions()
     }
 
     override fun filterTransactions() {
-        homeTransactionsRequest = YAPApplication.homeTransactionsRequest
         MAX_CLOSING_BALANCE = 0.0
         closingBalanceArray.clear()
 
@@ -54,7 +49,6 @@ class YapHomeViewModel(application: Application) :
             sortedCombinedTransactionList.clear()
 
         }
-
         requestAccountTransactions()
     }
 
@@ -63,10 +57,16 @@ class YapHomeViewModel(application: Application) :
             if (!isLoadMore.value!!)
                 state.loading = true
             when (val response =
-                transactionsRepository.getAccountTransactions(homeTransactionsRequest)) {
+                transactionsRepository.getAccountTransactions(YAPApplication.homeTransactionsRequest)) {
                 is RetroApiResponse.Success -> {
+                    isLast.value = response.data.data.last
                     val transactionModelData: ArrayList<HomeTransactionListData> =
                         setUpSectionHeader(response)
+
+                    if (isRefreshing.value!!) {
+                        sortedCombinedTransactionList.clear()
+                    }
+                    isRefreshing.value = false
 
                     if (!sortedCombinedTransactionList.equals(transactionModelData)) {
                         sortedCombinedTransactionList.addAll(transactionModelData)
@@ -141,14 +141,15 @@ class YapHomeViewModel(application: Application) :
 //                    sortedCombinedTransactionList.sortBy { it ->  it.date  }
 
                     transactionsLiveData.value = sortedCombinedTransactionList
-                    if (isLoadMore.value!!)
-                        isLoadMore.value = false
+                    //if (isLoadMore.value!!)
+                    isLoadMore.value = false
                     //transactionLogicHelper.transactionList = sortedCombinedTransactionList
-
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    isRefreshing.value = false
+                    isLoadMore.value = false
                 }
             }
         }
