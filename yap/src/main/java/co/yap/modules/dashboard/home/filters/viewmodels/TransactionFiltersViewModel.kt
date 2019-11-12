@@ -1,9 +1,9 @@
-package co.yap.modules.transaction_filters.viewmodels
+package co.yap.modules.dashboard.home.filters.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.transaction_filters.interfaces.ITransactionFilters
-import co.yap.modules.transaction_filters.states.TransactionFiltersState
+import co.yap.modules.dashboard.home.filters.interfaces.ITransactionFilters
+import co.yap.modules.dashboard.home.filters.states.TransactionFiltersState
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository

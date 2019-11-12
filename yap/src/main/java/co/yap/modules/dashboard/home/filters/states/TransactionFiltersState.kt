@@ -1,7 +1,7 @@
-package co.yap.modules.transaction_filters.states
+package co.yap.modules.dashboard.home.filters.states
 
 import androidx.databinding.ObservableField
-import co.yap.modules.transaction_filters.interfaces.ITransactionFilters
+import co.yap.modules.dashboard.home.filters.interfaces.ITransactionFilters
 import co.yap.yapcore.BaseState
 
 class TransactionFiltersState : BaseState(), ITransactionFilters.State {

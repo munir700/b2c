@@ -1,4 +1,4 @@
-package co.yap.modules.transaction_note.activities
+package co.yap.modules.others.note.activities
 
 import android.app.Activity
 import android.content.Context
@@ -7,8 +7,8 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.transaction_note.interfaces.ITransactionNote
-import co.yap.modules.transaction_note.viewmodels.TransactionNoteViewModel
+import co.yap.modules.others.note.interfaces.ITransactionNote
+import co.yap.modules.others.note.viewmodels.TransactionNoteViewModel
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants

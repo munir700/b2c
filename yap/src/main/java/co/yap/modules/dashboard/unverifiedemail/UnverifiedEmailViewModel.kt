@@ -1,4 +1,4 @@
-package co.yap.modules.others.unverifiedemail
+package co.yap.modules.dashboard.unverifiedemail
 
 import android.app.Application
 import co.yap.yapcore.BaseViewModel

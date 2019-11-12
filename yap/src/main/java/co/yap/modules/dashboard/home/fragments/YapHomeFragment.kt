@@ -30,7 +30,7 @@ import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivit
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
-import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
+import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.helpers.CustomSnackbar

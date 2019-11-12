@@ -1,9 +1,9 @@
-package co.yap.modules.transaction_note.viewmodels
+package co.yap.modules.others.note.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.transaction_note.interfaces.ITransactionNote
-import co.yap.modules.transaction_note.states.TransactionNoteState
+import co.yap.modules.others.note.interfaces.ITransactionNote
+import co.yap.modules.others.note.states.TransactionNoteState
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository

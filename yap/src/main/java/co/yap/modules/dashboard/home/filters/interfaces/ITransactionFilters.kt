@@ -1,4 +1,4 @@
-package co.yap.modules.transaction_filters.interfaces
+package co.yap.modules.dashboard.home.filters.interfaces
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
