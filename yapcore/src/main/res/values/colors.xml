@@ -52,6 +52,12 @@
     <color name="kycCard">#247c4dff</color>
     <color name="copyBtn">#a0a682ff</color>
     <color name="seekbarProgress">#287c4dff</color>
+    <color name="card_gradient_bottom_color">#5a2fb1</color>
+    <color name="master_card_gradient_bottom_color">#4bdcd8</color>
+    <color name="master_card_gradient_top_color">#1caaa1</color>
+
+
+
 
 
 </resources>
