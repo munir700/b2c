@@ -96,6 +96,6 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_Y2Y_RECENT_BENEFICIARIES)
     suspend fun getRecentY2YBeneficiaries(): Response<RecentBeneficiariesResponse>
 
-    @POST(CustomersRepository.URL_GET_COUNTRIES)
+    @GET(CustomersRepository.URL_GET_COUNTRIES)
     suspend fun getAllCountries(): Response<CountriesResponseDTO>
 }

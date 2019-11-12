@@ -104,14 +104,14 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
                         1 -> checkPermission()
-                        2->{
+//                        2->
+                        3->{
                             startActivity(
                                 SendMoneyHomeActivity.newIntent(
                                     this@YapDashboardActivity
                                 )
                             )
                         }
-//                        3->checkPermission()
 
                     }
                 }

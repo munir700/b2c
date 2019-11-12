@@ -1,10 +1,12 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
+import android.util.Log
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.yapit.sendmoney.addbeneficiary.states.SelectCountryState
 import co.yap.modules.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.country.CountriesResponseDTO
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -24,6 +26,14 @@ class SelectCountryViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+//    "id" : 28,
+//    "isoCountryCode2Digit" : "PK",
+//    "isoCountryCode3Digit" : "PKR",
+//    "name" : "PAKISTAN",
+//    "isoNum" : "100",
+//    "active" : false,
+//    "signUpAllowed" : false
+
 
     override fun onResume() {
         super.onResume()
@@ -38,7 +48,8 @@ class SelectCountryViewModel(application: Application) :
         launch {
             when (val response = repository.getAllCountries()) {
                 is RetroApiResponse.Success -> {
-
+                    var countriesResponseDTO: CountriesResponseDTO = response.data
+                    Log.i("countriesResponseDTO", countriesResponseDTO.data.size.toString())
 //                    repository.value = response.data.data
 //                    here ll get some list of the countries
 //                    now that list of countries need to be populated in spinner listing
