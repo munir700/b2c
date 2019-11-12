@@ -8,12 +8,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import co.yap.R
-import co.yap.databinding.FragmentY2yFundsTransferBinding
-import co.yap.modules.dashboard.yapit.y2y.transfer.fragments.Y2YTransferFragmentArgs
-import co.yap.modules.dashboard.yapit.y2y.transfer.fragments.Y2YTransferFragmentDirections
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -24,12 +19,14 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
+import kotlinx.android.synthetic.main.layout_y_to_y_transfer_initial_image.view.*
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
-    val args: Y2YTransferFragmentArgs by navArgs()
+
+//    val args: Y2YTransferFragmentArgs by navArgs()
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_y2y_funds_transfer
+    override fun getLayoutId(): Int = R.layout.fragment_cash_transfer
 
     override val viewModel: CashTransferViewModel
         get() = ViewModelProviders.of(this).get(CashTransferViewModel::class.java)
@@ -48,14 +45,15 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
-            val action =
-                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-                    viewModel.state.fullName,
-                    "AED",
-                    viewModel.state.amount, args.position
-                )
-            findNavController().navigate(action)
+//            val action =
+//                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
+//                    viewModel.state.fullName,
+//                    "AED",
+//                    viewModel.state.amount, args.position
+//                )
+//            findNavController().navigate(action)
         })
+
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
         })
@@ -65,28 +63,25 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     private fun setUpData() {
 
-        viewModel.state.fullName = args.beneficiaryName
-        viewModel.receiverUUID = args.receiverUUID
-        viewModel.state.imageUrl = args.imagePath
+//        viewModel.state.fullName = args.beneficiaryName
+//        viewModel.receiverUUID = args.receiverUUID
+//        viewModel.state.imageUrl = args.imagePath
+//        getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
+//            getBinding().lyUserImage.tvNameInitials.context,
+//            args.position
+//        )
 
-
-        getBinding().lyUserImage.tvNameInitials.background = Utils.getContactBackground(
-            getBinding().lyUserImage.tvNameInitials.context,
-            args.position
-        )
-
-
-        getBinding().lyUserImage.tvNameInitials.setTextColor(
+        lyUserImage.tvNameInitials.setTextColor(
             Utils.getContactColors(
-                getBinding().lyUserImage.tvNameInitials.context, args.position
+                lyUserImage.tvNameInitials.context, 1
             )
         )
-
 
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
                 viewModel.state.availableBalance
             )
+
         etAmount.filters =
             arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
         etAmount.addTextChangedListener(object : TextWatcher {
@@ -120,9 +115,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     }
 
-    override fun getBinding(): FragmentY2yFundsTransferBinding {
-        return viewDataBinding as FragmentY2yFundsTransferBinding
-    }
 
     override fun onBackPressed(): Boolean {
         viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE

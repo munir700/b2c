@@ -17,7 +17,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override val repository: CustomersRepository = CustomersRepository
 
-    override val state: InternationalFundsTransferState = InternationalFundsTransferState()
+    override val state: InternationalFundsTransferState = InternationalFundsTransferState(application)
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 

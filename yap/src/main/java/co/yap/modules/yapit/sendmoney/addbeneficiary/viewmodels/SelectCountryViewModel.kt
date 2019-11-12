@@ -6,6 +6,7 @@ import co.yap.modules.yapit.sendmoney.addbeneficiary.states.SelectCountryState
 import co.yap.modules.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
@@ -28,5 +29,26 @@ class SelectCountryViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         toggleAddButtonVisibility(false)
+        getAllCountries()
     }
+
+
+    fun getAllCountries() {
+
+        launch {
+            when (val response = repository.getAllCountries()) {
+                is RetroApiResponse.Success -> {
+
+//                    repository.value = response.data.data
+//                    here ll get some list of the countries
+//                    now that list of countries need to be populated in spinner listing
+
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+
+        }
+    }
+
+
 }

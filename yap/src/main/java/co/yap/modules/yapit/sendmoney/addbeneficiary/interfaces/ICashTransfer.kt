@@ -1,14 +1,12 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
-import androidx.databinding.ViewDataBinding
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface ICashTransfer {
     interface View : IBase.View<ViewModel> {
         fun setObservers()
-        fun getBinding(): ViewDataBinding
     }
 
     interface ViewModel : IBase.ViewModel<State> {
