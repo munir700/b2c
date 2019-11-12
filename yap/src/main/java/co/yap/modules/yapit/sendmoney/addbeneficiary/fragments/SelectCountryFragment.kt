@@ -2,6 +2,7 @@ package co.yap.modules.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Spinner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -10,6 +11,10 @@ import co.yap.R
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import sun.jvm.hotspot.utilities.IntArray
+import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
+
+
 
 class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     ISelectCountry.View {
@@ -58,5 +63,24 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         return super.onBackPressed()
     }
 
+fun renderSpinner(){
 
+
+    val myArraySpinner = ArrayList<String>()
+
+    myArraySpinner.add("red")
+    myArraySpinner.add("green")
+    myArraySpinner.add("blue")
+
+    varSpinnerData = myArraySpinner
+
+    val mySpinner = Spinner(varRoot)
+
+    varSpinner = mySpinner
+
+    val spinnerArrayAdapter =
+        ArrayAdapter<String>(varRoot, android.R.layout.simple_spinner_item, myArraySpinner)
+    spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item) // The drop down vieww
+    mySpinner.setAdapter(spinnerArrayAdapter)
+}
 }

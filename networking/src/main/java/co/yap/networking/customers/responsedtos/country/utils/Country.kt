@@ -1,4 +1,4 @@
-package co.yap.modules.yapit.sendmoney.utils
+package co.yap.networking.customers.responsedtos.country.utils
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -82,7 +82,10 @@ class Country : Parcelable, Serializable {
     fun getCurrency(): Currency? {
         if (currency == null) {
             // First Check if we can get the main currency from list of supported currencies.
-            val localCurrency = CurrencyUtils.getCurrencyByCountryCode(code!!)
+            val localCurrency =
+                CurrencyUtils.getCurrencyByCountryCode(
+                    code!!
+                )
             for (c in supportedCurrencies!!) {
                 if (c.equals(localCurrency)) {
                     currency = localCurrency
@@ -92,7 +95,10 @@ class Country : Parcelable, Serializable {
             if (currency == null) {
                 val c = supportedCurrencies!![0]
                 // find currency from utils with flag and symbol etc
-                currency = CurrencyUtils.getCurrencyByCode(c.code!!)
+                currency =
+                    CurrencyUtils.getCurrencyByCode(
+                        c.code!!
+                    )
             }
         }
         return currency
@@ -108,7 +114,10 @@ class Country : Parcelable, Serializable {
     }
 
     fun getFlagDrawableResId(): Int {
-        if (flagDrawableResId <= 0) flagDrawableResId = CurrencyUtils.getFlagDrawable(this!!.code!!)
+        if (flagDrawableResId <= 0) flagDrawableResId =
+            CurrencyUtils.getFlagDrawable(
+                this!!.code!!
+            )
         return flagDrawableResId
     }
 
@@ -143,12 +152,14 @@ class Country : Parcelable, Serializable {
         this.code = `in`.readString()
         this.name = `in`.readString()
         this.supportedCurrencies = `in`.createTypedArrayList<Currency>(
-            Currency.CREATOR)
+            Currency
+        )
         this.flagDrawableResId = `in`.readInt()
         this.currency = `in`.readParcelable<Parcelable>(Currency::class.java!!.getClassLoader()) as Currency?
     }
 
-    companion object CREATOR : Parcelable.Creator<Country> {
+    companion object CREATOR :
+        Parcelable.Creator<Country> {
         override fun createFromParcel(parcel: Parcel): Country {
             return Country(parcel)
         }

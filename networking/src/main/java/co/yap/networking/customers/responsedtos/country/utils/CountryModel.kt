@@ -1,4 +1,4 @@
-package co.yap.modules.yapit.sendmoney.utils
+package co.yap.networking.customers.responsedtos.country.utils
 
 data class CountryModel(
     var `data`: List<Data>,

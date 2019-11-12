@@ -1,4 +1,4 @@
-package co.yap.modules.yapit.sendmoney.utils
+package co.yap.networking.customers.responsedtos.country.utils
 
 import android.os.Parcel
 import android.os.Parcelable
@@ -39,7 +39,10 @@ class Currency : Parcelable {
     }
 
     fun updateFromCountryCode(countryCode: String) {
-        val c = CurrencyUtils.getCurrencyByCountryCode(countryCode)
+        val c =
+            CurrencyUtils.getCurrencyByCountryCode(
+                countryCode
+            )
         if (c != null) {
             code = c!!.code
             name = c!!.name
