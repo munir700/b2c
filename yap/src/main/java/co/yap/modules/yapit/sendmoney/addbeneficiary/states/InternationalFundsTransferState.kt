@@ -1,12 +1,28 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.states
 
+import android.app.Application
 import android.view.View
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
+import co.yap.translation.Strings.screen_international_funds_transfer_display_text_fee
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 
-class InternationalFundsTransferState : BaseState(), IInternationalFundsTransfer.State {
+class InternationalFundsTransferState(val application: Application) : BaseState(),
+    IInternationalFundsTransfer.State {
+
+    @get:Bindable
+    override var transferFee: String = "155"
+        set(value) {
+//            field = value
+            field = Translator.getString(
+                application.applicationContext,
+                screen_international_funds_transfer_display_text_fee
+            ) + value
+            notifyPropertyChanged(BR.transferFee)
+
+        }
 
     @get:Bindable
     override var nameInitialsVisibility: Int = View.VISIBLE

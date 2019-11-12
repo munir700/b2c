@@ -14,6 +14,7 @@ interface IInternationalFundsTransfer {
         var beneficiaryCountry: String
         var senderAmount: String
         var beneficiaryAmount: String
+        var transferFee: String
         var valid: Boolean
 
     }

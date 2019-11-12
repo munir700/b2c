@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="co.yap.yapcore.helpers.StringUtils" />
+
         <import type="co.yap.translation.Strings" />
 
         <variable
@@ -97,6 +99,7 @@
                     </RelativeLayout>
                 </RelativeLayout>
             </RelativeLayout>
+
             <!--because we are not sure which design to go with ,from zeplin or fsd -->
 
             <!--            <co.yap.widgets.CoreCircularImageView-->
@@ -313,8 +316,9 @@
                 android:layout_marginTop="@dimen/small"
                 android:layout_marginRight="@dimen/margin_extra_small"
                 android:gravity="center"
-                android:text="@string/screen_international_funds_transfer_display_text_fee"
-                android:textSize="@dimen/text_size_c3" />
+                android:text="@{viewModel.state.transferFee}"
+                android:textSize="@dimen/text_size_c3"
+                tools:text="@string/screen_international_funds_transfer_display_text_fee" />
 
             <TextView
                 style="@style/SmallGrey"
@@ -323,8 +327,8 @@
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginRight="@dimen/margin_extra_small"
                 android:gravity="center"
-                android:text="@string/screen_international_funds_transfer_display_text_note"
-                android:textSize="@dimen/text_size_c3" />
+                android:textSize="@dimen/text_size_c3"
+                tools:text="@string/screen_international_funds_transfer_display_text_note" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/next_button"
@@ -336,7 +340,7 @@
                 android:layout_marginRight="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:text="@string/common_button_next"
-                app:btn_enable="@{viewModel.state.valid}"
+                app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="44dp" />
