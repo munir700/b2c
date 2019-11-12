@@ -28,6 +28,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
@@ -411,7 +412,6 @@ object UIBinder {
         } else {
             view.settingUIForNormal()
         }
-
     }
 
     @JvmStatic
@@ -594,4 +594,27 @@ object UIBinder {
             .into(view)
 
     }
+
+    @JvmStatic
+    @BindingAdapter("cardNickname")
+    fun setCardNickname(view: CorePaymentCard, cardNickname: String?) {
+        if (cardNickname != null) {
+            view.setCardNickname(cardNickname)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardNumber")
+    fun setCardNumber(view: CorePaymentCard, cardNumber: String?) {
+        if (cardNumber != null)
+            view.setCardNumber(cardNumber)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardExpiry")
+    fun setCardExpiry(view: CorePaymentCard, cardExpiry: String?) {
+        if (cardExpiry != null)
+            view.setCardExpiry(cardExpiry)
+    }
+
 }

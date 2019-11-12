@@ -314,5 +314,13 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="CorePaymentCard">
+        <attr name="bank_nickname" format="string" />
+        <attr name="card_number" format="string" />
+        <attr name="card_expiry" format="string" />
+        <attr name="card_type" format="reference" />
+        <attr name="card_background" format="reference" />
+
+    </declare-styleable>
 
 </resources>

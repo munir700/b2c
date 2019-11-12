@@ -23,21 +23,18 @@
             layout="@layout/layout_topup_card_detail_toolbar"
             app:viewModel="@{viewModel}" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cvDetail"
-            android:layout_width="222dp"
-            android:layout_height="139dp"
-            android:layout_marginTop="@dimen/margin_extra_large"
-            android:backgroundTint="@color/colorPrimary"
+        <co.yap.widgets.CorePaymentCard
+            android:id="@+id/paymentCard"
+            app:cardNickname="@{viewModel.state.cardNickname}"
+            app:cardNumber="@{viewModel.state.cardNo}"
+            app:card_type="@drawable/ic_visa_card"
+            app:cardExpiry="@{viewModel.state.cardExpiry}"
+            app:card_background="@drawable/bg_gradient_master_card"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/toolbarCardDetail">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/screen_topup_card_detail_display_text_title" />
-        </androidx.cardview.widget.CardView>
+            app:layout_constraintTop_toBottomOf="@id/toolbarCardDetail" />
 
         <TextView
             android:id="@+id/tvSecureYap"
@@ -49,7 +46,7 @@
             android:drawablePadding="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/cvDetail"
+            app:layout_constraintTop_toBottomOf="@id/paymentCard"
             app:text="@{Strings.screen_payment_card_detail_text_secure}"
             tools:text="@string/screen_payment_card_detail_text_secure" />
 
