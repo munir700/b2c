@@ -6,6 +6,9 @@ import co.yap.yapcore.SingleClickEvent
 interface IInternationalFundsTransfer {
 
     interface State : IBase.State {
+        var beneficiaryName: String
+        var beneficiaryPicture: String
+        var nameInitialsVisibility: Int
         var senderCurrency: String
         var beneficiaryCurrency: String
         var beneficiaryCountry: String

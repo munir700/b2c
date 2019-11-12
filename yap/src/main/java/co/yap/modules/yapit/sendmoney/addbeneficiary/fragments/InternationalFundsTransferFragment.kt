@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 class InternationalFundsTransferFragment : SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
 
-    var isFromAddBeneficiary: Boolean = false
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_international_funds_transfer

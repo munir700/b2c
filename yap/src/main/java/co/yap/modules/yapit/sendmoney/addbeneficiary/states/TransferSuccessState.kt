@@ -58,7 +58,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var picture: String = "picture"
+    override var picture: String = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
         set(value) {
             field = value
             notifyPropertyChanged(BR.picture)
