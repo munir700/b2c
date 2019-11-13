@@ -15,6 +15,7 @@ import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.countryutils.country.Country
+import co.yap.modules.kyc.fragments.AddressSelectionFragmentDirections
 import kotlinx.android.synthetic.main.fragment_select_country.*
 
 
@@ -39,12 +40,19 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
-//              R.id.nextButton ->
-
                 R.id.nextButton ->
                     findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
             }
+        })
+
+        viewModel.populateSpinnerData.observe(this, Observer {
+//              setUpSpinner()
+
+
+//            getCountryAdapter()
+            countriesSpinner.setAdapter(getCountryAdapter())
+
+//            }
         })
     }
 
@@ -70,42 +78,25 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         return super.onBackPressed()
     }
 
-//    fun renderSpinner() {
+    fun renderSpinner() {
 //
-////        countriesSpinner.setAdapter(getCountryAdapter())
-////
-////        getCountryAdapter().onItemClickListener({ view, pos ->
-////            countriesSpinner.setSelection(pos.toInt())
-////            viewModel.onCountrySelected(pos)
-////        })
-////
-//////        getCountryAdapter().onItemClickListener()
-////        // subscribe for updates
-////        viewModel.getState().getCountriesLoadObservable()
-////            .observe(this, { b -> getCountryAdapter().notifyDataSetChanged() })
-////
-////        mViewDataBinding.btnNext.setOnClickListener({ v -> viewModel.handlePressOnNextButton() })
-////        view.findViewById(R.id.spinnerOverlay)
-////            .setOnClickListener({ v -> countriesSpinner.performClick() })
+
+//        getCountryAdapter().onItemClickListener({ view, pos ->
+//            countriesSpinner.setSelection(pos.toInt())
+//            viewModel.onCountrySelected(pos)
+//        })
+
+//        getCountryAdapter().onItemClickListener()
+        // subscribe for updates
+//        viewModel.getState().getCountriesLoadObservable()
+//            .observe(this, { b -> getCountryAdapter().notifyDataSetChanged() })
+
+//        mViewDataBinding.btnNext.setOnClickListener({ v -> viewModel.handlePressOnNextButton() })
+//        view.findViewById(R.id.spinnerOverlay)
+//            .setOnClickListener({ v -> countriesSpinner.performClick() })
 //
 //
-//        val myArraySpinner = ArrayList<String>()
-//
-//        myArraySpinner.add("red")
-//        myArraySpinner.add("green")
-//        myArraySpinner.add("blue")
-//
-//        varSpinnerData = myArraySpinner
-//
-//        val mySpinner = Spinner(varRoot)
-//
-//        varSpinner = mySpinner
-//
-//        val spinnerArrayAdapter =
-//            ArrayAdapter<String>(varRoot, android.R.layout.simple_spinner_item, myArraySpinner)
-//        spinnerArrayAdapter.setDropDownViewResource(R.layout.item_country) // The drop down vieww
-//        mySpinner.setAdapter(spinnerArrayAdapter)
-//    }
+    }
 
     fun getCountryAdapter(): CountryAdapter {
         if (countryAdapter == null)
@@ -124,17 +115,15 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 
 
      override fun setUpSpinner() {
-//        countriesSpinner = findViewById(R.id.SpinnerCountryActivity_country_spinner) as Spinner
-//        countries = ArrayList<Country>()
-//        createLists()
-        countryArrayAdapter = ArrayAdapter<Country>(
-            activity!!.applicationContext,
-            R.layout.item_country,
-            viewModel.countries
-        )
-        countryArrayAdapter!!.setDropDownViewResource(R.layout.item_country)
-        countriesSpinner.setAdapter(countryArrayAdapter)
-        countriesSpinner.setOnItemSelectedListener(country_listener)
+
+//        countryArrayAdapter = ArrayAdapter<Country>(
+//            activity!!.applicationContext,
+//            R.layout.item_country,
+//            viewModel.countries
+//        )
+//        countryArrayAdapter!!.setDropDownViewResource(R.layout.item_country)
+//        countriesSpinner.setAdapter(countryArrayAdapter)
+//        countriesSpinner.setOnItemSelectedListener(country_listener)
 
 
     }
@@ -155,7 +144,8 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 
         }
     }
-//
+
+
 //    private fun createLists() {
 //        val country0 = Country(0, "Choose a Country")
 //        val country1 = Country(1, "Country1")

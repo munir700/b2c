@@ -3,6 +3,7 @@ package co.yap.modules.yapit.sendmoney.adapters
 import android.content.Context
 import androidx.databinding.ViewDataBinding
 import co.yap.countryutils.country.Country
+import co.yap.databinding.ItemCountryBinding
 import co.yap.modules.yapit.sendmoney.adapters.CountryAdapter.ViewHolder
 import co.yap.yapcore.BaseBindingArrayAdapter
 import co.yap.yapcore.BaseBindingHolder
@@ -15,19 +16,22 @@ public class CountryAdapter(context: Context, resource: Int, objects: List<Count
         return ViewHolder(binding)
     }
 
-//    class HeaderViewHolder(private val itemTransactionListHeaderBinding: ItemTransactionListHeaderBinding) :
-//        RecyclerView.ViewHolder(itemTransactionListHeaderBinding.root) {
-//
-//        fun onBind(homeTransaction: HomeTransactionListData, adaptorClick: OnItemClickListener) {
-//
-//            //itemTransactionListHeaderBinding.tvTransactionDate.text = homeTransaction.date}
-//        }
-//    }
 
     inner class ViewHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
 
-        private fun onBind(obj: Any) {
-
+        private fun onBind(binding: ItemCountryBinding) {
+//            binding.data = binding.data
+//            binding.executePendingBindings()
         }
     }
+
+//    inner class ViewHolder(binding: ItemCountryBinding) : BaseBindingHolder(binding) {
+//
+//        private fun onBind(binding: ItemCountryBinding) {
+//            binding.data = binding.data
+//            binding.executePendingBindings()
+//
+//
+//        }
+//    }
 }

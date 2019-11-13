@@ -1,6 +1,7 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.CountriesResponseDTO
 import co.yap.countryutils.country.Country
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
@@ -16,6 +17,8 @@ import co.yap.yapcore.SingleClickEvent
 class SelectCountryViewModel(application: Application) :
     SendMoneyBaseViewModel<ISelectCountry.State>(application), ISelectCountry.ViewModel,
     IRepositoryHolder<CustomersRepository> {
+
+    override var populateSpinnerData: MutableLiveData<List<Country>> = MutableLiveData()
 
     override var countries: List<Country>? = null
 
@@ -42,22 +45,28 @@ class SelectCountryViewModel(application: Application) :
     fun getAllCountries() {
 
         launch {
+            state.loading = true
             when (val response = repository.getAllCountries()) {
                 is RetroApiResponse.Success -> {
                     var countryModel: CountryModel = response.data
 
                     countries = countryModel.data as List<Country>
+                    populateSpinnerData.setValue(countries)
+
                     //trigger UI list for spinner
 
 //                    repository.value = response.data.data
 //                    here ll get some list of the countries
 //                    now that list of countries need to be populated in spinner listing
-
+                    state.loading = false
                 }
 
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
 
+                }
+            }
         }
     }
 }
