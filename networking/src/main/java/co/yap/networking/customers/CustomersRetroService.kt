@@ -99,8 +99,6 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_TOPUP_BENEFICIARIES)
     suspend fun getTopUpBeneficiaries(): Response<TopUpBeneficiariesResponse>
 
-
-
     @DELETE(CustomersRepository.URL_DELETE_BENEFICIARIE)
     suspend fun deleteBeneficiary(@Path("cardId") cardId: String): Response<ApiResponse>
 
