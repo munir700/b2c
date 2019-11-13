@@ -49,91 +49,97 @@
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.513"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/mTitle">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llBankTransferType"
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="@dimen/_120sdp"
-                android:layout_marginRight="@dimen/margin_medium"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/card_border_selector"
-                android:clickable="true"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:background="@drawable/cornor_edges_gery"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/margin_medium">
+                android:padding="@dimen/margin_medium">
 
-                <FrameLayout
-                    android:layout_width="@dimen/_42sdp"
-                    android:layout_height="@dimen/_42sdp"
+                <ImageView
+                    android:id="@+id/imgIconBank"
+                    android:layout_width="@dimen/_43sdp"
+                    android:layout_height="@dimen/_43sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:background="@drawable/bg_round_purple">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_bank" />
-
-                </FrameLayout>
-
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_round_purple"
+                    android:contentDescription="@string/empty_string"
+                    android:padding="@dimen/margin_extra_small"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_icon_bank_transfer" />
 
                 <TextView
                     android:id="@+id/tvBankTransferTitle"
                     style="@style/Micro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
                     android:text="@string/screen_topup_type_selection_button_bank_transfer"
-                    android:textSize="@dimen/text_size_c3"
-                    app:text="@{Strings.screen_topup_type_selection_button_bank_transfer}" />
+                    app:layout_constraintTop_toBottomOf="@+id/imgIconBank"
+                    app:text="@{Strings.screen_topup_type_selection_button_bank_transfer}"
+                    tools:text="@string/screen_topup_type_selection_button_bank_transfer" />
 
-            </LinearLayout>
 
-            <LinearLayout
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llCardsTransferType"
-                android:layout_width="@dimen/_120sdp"
-                android:layout_height="@dimen/_120sdp"
-                android:layout_marginBottom="@dimen/_10sdp"
-                android:background="@drawable/card_border_selector"
-                android:clickable="true"
-                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_weight="1"
+                android:background="@drawable/cornor_edges_gery"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                android:orientation="vertical"
-                android:paddingTop="@dimen/margin_medium">
+                android:padding="@dimen/margin_medium">
 
-                <FrameLayout
-                    android:layout_width="@dimen/_42sdp"
-                    android:layout_height="@dimen/_42sdp"
+                <ImageView
+                    android:id="@+id/imgIconCard"
+                    android:layout_width="@dimen/_43sdp"
+                    android:layout_height="@dimen/_43sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
                     android:layout_gravity="center"
-                    android:layout_margin="@dimen/_2sdp"
-                    android:background="@drawable/bg_round_purple">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:src="@drawable/ic_bank" />
-
-                </FrameLayout>
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_round_purple"
+                    android:contentDescription="@string/empty_string"
+                    android:padding="@dimen/margin_extra_small"
+                    android:tint="@color/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:srcCompat="@drawable/ic_icon_card_transfer" />
 
                 <TextView
                     android:id="@+id/tvCardsTitle"
                     style="@style/Micro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
                     android:text="@string/screen_topup_type_selection_button_card"
-                    android:textSize="@dimen/text_size_c3"
-                    app:text="@{Strings.screen_topup_type_selection_button_card}" />
+                    app:layout_constraintTop_toBottomOf="@+id/imgIconCard"
+                    app:text="@{Strings.screen_topup_type_selection_button_card}"
+                    tools:text="@string/screen_topup_type_selection_button_card" />
 
-            </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
