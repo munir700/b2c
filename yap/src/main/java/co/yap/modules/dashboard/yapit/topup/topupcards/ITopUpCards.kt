@@ -16,12 +16,16 @@ interface ITopUpCards {
         var leftButtonVisibility: Int
         val valid :ObservableField<Boolean>
         val enableAddCard :ObservableBoolean
+        var noOfCard: ObservableField<String>
+        var alias: ObservableField<String>
+        var message: ObservableField<String>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnBackButton(id: Int)
         fun handlePressOnView(id: Int)
         fun getPaymentCards()
+        fun updateCardCount(id: Int)
         val clickEvent: SingleClickEvent
         val topUpCards: MutableLiveData<List<TopUpCard>>
     }

@@ -2,10 +2,12 @@ package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.managers.MyUserManager
@@ -58,6 +60,18 @@ class TopUpCardsViewModel(application: Application) :
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
+        }
+    }
+
+    override fun updateCardCount(size: Int) {
+        val message = Translator.getString(
+            context,
+            R.string.screen_cards_display_text_cards_count
+        ).replace("%d", size.toString())
+        when (size) {
+            0 -> state.message.set("Add a card to top up")
+            1 -> state.noOfCard.set(message.substring(0, message.length - 1))
+            else -> state.noOfCard.set(message)
         }
     }
 

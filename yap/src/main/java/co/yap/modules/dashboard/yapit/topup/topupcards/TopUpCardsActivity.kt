@@ -3,12 +3,15 @@ package co.yap.modules.dashboard.yapit.topup.topupcards
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
@@ -40,16 +43,13 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         getBinding().rvTopUpCards.setSlideOnFling(false)
         getBinding().rvTopUpCards.setOverScrollEnabled(true)
         getBinding().rvTopUpCards.adapter = mAdapter
-        //getBinding().rvTopUpCards.addOnItemChangedListener(this)
-        //getBinding().rvTopUpCards.addScrollStateChangeListener(this)
+        getBinding().rvTopUpCards.addOnItemChangedListener { viewHolder, adapterPosition ->
+            updateSelection(viewHolder, adapterPosition)
+        }
+        mAdapter.allowFullItemClickListener = true
+        mAdapter.setItemListener(listener)
         getBinding().rvTopUpCards.smoothScrollToPosition(0)
         getBinding().rvTopUpCards.setItemTransitionTimeMillis(100)
-//        getBinding().rvTopUpCards.setItemTransformer(
-//            ScaleTransformer.Builder()
-//                .setMinScale(0.6f)
-//                .build()
-//        )
-
         getBinding().rvTopUpCards.setItemTransformer(
             ScaleTransformer.Builder()
                 .setMaxScale(1.05f)
@@ -60,14 +60,23 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         )
     }
 
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            showToast("List item $pos clicked")
+            // on card item click
+        }
+    }
+
+    private fun updateSelection(viewHolder: RecyclerView.ViewHolder?, adapterPosition: Int) {
+        val item = mAdapter.getDataForPosition(adapterPosition)
+        viewModel.state.alias.set(item.alias)
+    }
+
     private fun addObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.topUpCards.observe(this, Observer {
-            if (it.isNullOrEmpty()) {
-
-            } else {
-                mAdapter.setList(it.toMutableList())
-            }
+            mAdapter.setList(it.toMutableList())
+            viewModel.updateCardCount(it.size)
         })
     }
 

@@ -65,31 +65,6 @@ class TopUpCardsAdapter(
 //            params.height = dimensions[1]
 //            itemYapCardBinding.imgCard.layoutParams = params
 //
-//            var cardName: String
-//
-//            if (Constants.CARD_TYPE_DEBIT == paymentCard?.cardType) {
-//                cardName = Constants.TEXT_PRIMARY_CARD
-//            } else {
-//                if (null != paymentCard?.nameUpdated) {
-//                    if (paymentCard.nameUpdated!!) {
-//                        cardName = paymentCard.cardName
-//                    } else {
-//                        if (paymentCard.physical) {
-//                            cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-//                        } else {
-//                            cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
-//                        }
-//                    }
-//                } else {
-//                    if (paymentCard?.physical!!) {
-//                        cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-//                    } else {
-//                        cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
-//                    }
-//
-//                }
-//
-//            }
             binding.viewModel =
                 TopUpItemViewModel(paymentCard, position, onItemClickListener)
             binding.executePendingBindings()
