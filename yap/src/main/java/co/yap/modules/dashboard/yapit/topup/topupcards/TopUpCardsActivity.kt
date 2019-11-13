@@ -76,8 +76,9 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
             R.id.llBankTransferType -> {
 
             }
-            R.id.llCardsTransferType -> {
-
+            R.id.btnSelect -> {
+                val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
+                // open detail from here.
             }
         }
     }
