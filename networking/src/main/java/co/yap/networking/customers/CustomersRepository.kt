@@ -2,7 +2,6 @@ package co.yap.networking.customers
 
 import co.yap.networking.BaseRepository
 import co.yap.networking.CookiesManager
-import co.yap.networking.MALFORMED_JSON_EXCEPTION_CODE
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
@@ -36,6 +35,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CHANGE_UNVERIFIED_EMAIL = "customers/api/change-unverified-email"
     const val URL_Y2Y_BENEFICIARIES = "customers/api/y2y-beneficiaries"
     const val URL_Y2Y_RECENT_BENEFICIARIES = "customers/api/recent-beneficiaries/y2y"
+    const val URL_DELETE_BENEFICIARIE = "customers/api/mastercard/beneficiaries/{cardId}"
 
     const val URL_DETECT = "digi-ocr/detect/"
 
@@ -138,4 +138,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
         executeSafely(call = { api.getY2YBeneficiaries(contacts) })
 
     override suspend fun getRecentY2YBeneficiaries() = executeSafely(call = { api.getRecentY2YBeneficiaries() })
+
+    override suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.deleteBeneficiary(cardId) })
 }

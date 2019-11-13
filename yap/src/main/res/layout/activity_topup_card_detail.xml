@@ -25,10 +25,10 @@
 
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/paymentCard"
-            app:cardNickname="@{viewModel.state.cardNickname}"
-            app:cardNumber="@{viewModel.state.cardNo}"
+            app:cardExpiry="@{viewModel.state.cardInfo.cardExpiry}"
+            app:cardNickname="@{viewModel.state.cardInfo.cardNickname}"
             app:card_type="@drawable/ic_visa_card"
-            app:cardExpiry="@{viewModel.state.cardExpiry}"
+            app:cardNumber="@{viewModel.state.cardInfo.cardNo}"
             app:card_background="@drawable/bg_gradient_master_card"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,7 +75,7 @@
                 style="@style/ALarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.cardNickname}"
+                android:text="@{viewModel.state.cardInfo.cardNickname}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tvHintNick"
                 tools:text="Citi Bank Card" />
@@ -107,7 +107,7 @@
                 style="@style/ALarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.cardNo}"
+                android:text="@{viewModel.state.cardInfo.cardNo}"
                 app:layout_constraintStart_toStartOf="@id/tvHintCard"
                 app:layout_constraintTop_toBottomOf="@id/tvHintCard"
                 tools:text="Citi Bank *8765" />
@@ -145,7 +145,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-                    android:text="@{viewModel.state.cardType}"
+                    android:text="@{viewModel.state.cardInfo.cardType}"
                     app:layout_constraintStart_toStartOf="@id/tvHintType"
                     app:layout_constraintTop_toBottomOf="@id/tvHintType"
                     tools:text="Visa" />
@@ -184,7 +184,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
-                    android:text="@{viewModel.state.cardExpiry}"
+                    android:text="@{viewModel.state.cardInfo.cardExpiry}"
                     app:layout_constraintStart_toEndOf="@+id/barrier"
                     app:layout_constraintTop_toBottomOf="@id/tvHintType"
                     tools:text="12/2021" />
