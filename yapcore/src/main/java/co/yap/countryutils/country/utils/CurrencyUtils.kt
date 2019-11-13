@@ -1,8 +1,9 @@
-package co.yap.networking.customers.responsedtos.country.utils
+package co.yap.countryutils.country.utils
 
 import android.content.Context
 import android.text.TextUtils
-import co.yap.R
+import co.yap.countryutils.country.Country
+import co.yap.yapcore.R
 import co.yap.yapcore.helpers.Utils
 import java.util.*
 

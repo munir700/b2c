@@ -1,6 +1,5 @@
-package co.yap.networking.customers.responsedtos.country
+package co.yap.countryutils.country
 
-import co.yap.networking.customers.responsedtos.country.utils.Country
 import co.yap.networking.models.ApiResponse
 
 data class CountriesResponseDTO(

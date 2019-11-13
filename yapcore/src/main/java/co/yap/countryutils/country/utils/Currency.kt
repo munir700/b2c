@@ -1,4 +1,4 @@
-package co.yap.networking.customers.responsedtos.country.utils
+package co.yap.countryutils.country.utils
 
 import android.os.Parcel
 import android.os.Parcelable

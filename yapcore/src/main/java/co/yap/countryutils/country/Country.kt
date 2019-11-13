@@ -1,7 +1,9 @@
-package co.yap.networking.customers.responsedtos.country.utils
+package co.yap.countryutils.country
 
 import android.os.Parcel
 import android.os.Parcelable
+import co.yap.countryutils.country.utils.Currency
+import co.yap.countryutils.country.utils.CurrencyUtils
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 

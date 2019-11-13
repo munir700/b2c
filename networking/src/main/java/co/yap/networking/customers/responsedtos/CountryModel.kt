@@ -1,9 +1,11 @@
-package co.yap.networking.customers.responsedtos.country.utils
+package co.yap.networking.customers.responsedtos
+
+import co.yap.networking.models.ApiResponse
 
 data class CountryModel(
     var `data`: List<Data>,
     var errors: Any?
-) {
+): ApiResponse() {
     data class Data(
         var active: Boolean,
         var id: Int,

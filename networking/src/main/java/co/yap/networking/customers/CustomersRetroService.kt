@@ -7,7 +7,6 @@ import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
-import co.yap.networking.customers.responsedtos.country.CountriesResponseDTO
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
@@ -97,5 +96,6 @@ interface CustomersRetroService {
     suspend fun getRecentY2YBeneficiaries(): Response<RecentBeneficiariesResponse>
 
     @GET(CustomersRepository.URL_GET_COUNTRIES)
-    suspend fun getAllCountries(): Response<CountriesResponseDTO>
+    suspend fun getAllCountries(): Response<CountryModel>
+//    suspend fun getAllCountries(): Response<CountriesResponseDTO>
 }
