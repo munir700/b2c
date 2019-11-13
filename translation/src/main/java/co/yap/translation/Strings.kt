@@ -860,5 +860,17 @@ object Strings {
     const val screen_topup_funds_display_button_text: String =
         "screen_topup_funds_display_button_text"
 
+    //Topup success screen
+    const val screen_topup_success_display_text_title: String =
+        "screen_topup_success_display_text_title"
+    const val screen_topup_success_display_text_card_title: String =
+        "screen_topup_success_display_text_card_title"
+    const val screen_topup_success_display_text_success_transaction_message: String =
+        "screen_topup_success_display_text_success_transaction_message"
+    const val screen_topup_success_display_text_account_balance_title: String =
+        "screen_topup_success_display_text_account_balance_title"
+    const val screen_topup_success_display_text_dashboard_action_button_title: String =
+        "screen_topup_success_display_text_dashboard_action_button_title"
+
 
 }

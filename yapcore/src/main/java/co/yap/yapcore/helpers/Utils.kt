@@ -12,6 +12,7 @@ import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -355,6 +356,27 @@ object Utils {
         }
     }
 
+    fun getSppnableStringForAmount(
+        context: Context,
+        staticString: String,
+        currencyType: String,
+        amount: String
+    ): SpannableStringBuilder {
+
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+        val separated = staticString.split(currencyType)
+        val str = SpannableStringBuilder(staticString)
+
+        str.setSpan(
+            fcs,
+            separated[0].length,
+            separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        return str
+
+    }
+
     @SuppressLint("DefaultLocale")
     fun getCountryCodeFromTelephony(context: Context): String {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -463,7 +485,7 @@ object Utils {
         return df.format(value).toDouble()
     }
 
-     fun getBody(context: Context, contact: Contact): String {
+    fun getBody(context: Context, contact: Contact): String {
         return Translator.getString(
             context,
             Strings.common_display_text_y2y_share,
@@ -474,7 +496,7 @@ object Utils {
         )
     }
 
-     fun getGeneralInvitationBody(context: Context): String {
+    fun getGeneralInvitationBody(context: Context): String {
         return Translator.getString(
             context,
             Strings.common_display_text_y2y_general_share,

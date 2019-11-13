@@ -3,8 +3,10 @@ package co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels
 import android.app.Application
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.interfaces.ITopUpCardSuccess
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.states.TopUpCardSuccessState
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.Utils
 
 
 class TopUpCardSuccessViewModel(application: Application) :
@@ -15,7 +17,20 @@ class TopUpCardSuccessViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        state.buttonTitle="Go to dashboard"
+        state.toolBarTitle = getString(Strings.screen_topup_success_display_text_title)
+        state.buttonTitle =
+            getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
+        state.topUpSuccess =
+            getString(Strings.screen_topup_success_display_text_success_transaction_message)
+        state.currencyType = "AED"
+        state.amount = "500"
+
+        state.topUpSuccess =
+            getString(Strings.screen_topup_success_display_text_success_transaction_message).format(
+                state.currencyType,
+                Utils.getFormattedCurrency(state.amount)
+            )
+
     }
 
 
