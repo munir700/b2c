@@ -537,6 +537,14 @@
     <string name="screen_topup_type_selection_button_bank_transfer">Bank transfer</string>
     <string name="screen_topup_type_selection_button_card">Card</string>
 
+    <!-- Topup Card Detail Screen -->
+    <string name="screen_topup_card_detail_display_text_title">Card Detail</string>
+    <string name="screen_topup_card_detail_display_text_button_remove_card">Remove card</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_nickname">Card nickname</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_info">Card</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_type">Type</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_expiry">Expiry date</string>
+
     <!--    TopUpFundsScreen-->
     <string name="screen_topup_funds_tool_bar_header">Top up using card</string>
     <string name="screen_topup_funds_enter_amount_header">Enter the top up amount</string>

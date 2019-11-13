@@ -15,8 +15,7 @@ class BankDetailActivity : BaseBindingActivity<IBankDetail.ViewModel>(), IBankDe
 
     companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context, BankDetailActivity::class.java)
-            return intent
+            return Intent(context, BankDetailActivity::class.java)
         }
     }
 

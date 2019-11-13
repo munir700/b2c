@@ -1,9 +1,11 @@
-package co.yap.modules.dashboard.yapit.topup.main
+package co.yap.modules.dashboard.yapit.topup.topupcards
 
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
-interface ITopUpLanding {
+interface ITopUpCards {
 
     interface State : IBase.State {
         var tootlBarTitle: String
@@ -15,7 +17,9 @@ interface ITopUpLanding {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnBackButton(id: Int)
         fun handlePressOnView(id: Int)
+        fun getPaymentCards()
         val clickEvent: SingleClickEvent
+        val topUpCards: MutableLiveData<List<Card>>
     }
 
     interface View : IBase.View<ViewModel>

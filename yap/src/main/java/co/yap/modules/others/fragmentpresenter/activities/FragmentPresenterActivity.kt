@@ -98,6 +98,7 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
                         returnIntent.putExtra(Constants.isPinCreated, true)
                         setResult(Activity.RESULT_OK, returnIntent)
                     }
+                    finish()
                 }
             }
         }

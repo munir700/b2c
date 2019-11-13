@@ -849,7 +849,20 @@ object Strings {
     const val screen_topup_type_selection_button_card: String =
         "screen_topup_type_selection_button_card"
 
+    //Topup Card Detail Screen
 
+    const val screen_topup_card_detail_display_text_title: String =
+        "screen_topup_card_detail_display_text_title"
+    const val screen_topup_card_detail_display_text_button_remove_card: String =
+        "screen_topup_card_detail_display_text_button_remove_card"
+    const val screen_topup_card_detail_display_text_hint_card_nickname: String =
+        "screen_topup_card_detail_display_text_hint_card_nickname"
+    const val screen_topup_card_detail_display_text_hint_card_info: String =
+        "screen_topup_card_detail_display_text_hint_card_info"
+    const val screen_topup_card_detail_display_text_hint_card_type: String =
+        "screen_topup_card_detail_display_text_hint_card_type"
+    const val screen_topup_card_detail_display_text_hint_card_expiry: String =
+        "screen_topup_card_detail_display_text_hint_card_expiry"
     //TopUpFundsScreen
     const val screen_topup_funds_tool_bar_header: String =
         "screen_topup_funds_tool_bar_header"
