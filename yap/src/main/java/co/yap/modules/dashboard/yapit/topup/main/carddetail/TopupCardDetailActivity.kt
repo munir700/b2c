@@ -4,10 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.models.CardInfo
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 
@@ -15,7 +16,7 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
 
     companion object {
         const val key = "card"
-        fun getIntent(context: Context, card: CardInfo): Intent {
+        fun getIntent(context: Context, card: TopUpCard): Intent {
             val intent = Intent(context, TopupCardDetailActivity::class.java)
             intent.putExtra(key, card)
             return intent
@@ -30,8 +31,12 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        val card: CardInfo = intent.getParcelableExtra(key)
-        viewModel.state.cardInfo.set(card)
+        if (intent.hasExtra(key)) {
+            val card: Parcelable = intent.getParcelableExtra(key)
+            if (card is TopUpCard) {
+                viewModel.state.cardInfo.set(card)
+            }
+        }
     }
 
 
@@ -59,7 +64,11 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.IvClose -> finish()
-            R.id.tvRemoveCard -> viewModel.onRemoveCard(viewModel.state.cardInfo.get()!!.cardId)
+            R.id.tvRemoveCard -> {
+                viewModel.state.cardInfo.get()?.id?.let { it ->
+                    viewModel.onRemoveCard(it)
+                }
+            }
         }
     }
 }

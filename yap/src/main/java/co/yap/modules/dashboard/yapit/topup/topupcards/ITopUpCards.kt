@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,7 +19,7 @@ interface ITopUpCards {
         fun handlePressOnView(id: Int)
         fun getPaymentCards()
         val clickEvent: SingleClickEvent
-        val topUpCards: MutableLiveData<List<Card>>
+        val topUpCards: MutableLiveData<List<TopUpCard>>
     }
 
     interface View : IBase.View<ViewModel>

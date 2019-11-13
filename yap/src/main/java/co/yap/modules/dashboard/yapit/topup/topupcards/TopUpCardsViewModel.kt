@@ -2,8 +2,8 @@ package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -16,7 +16,7 @@ class TopUpCardsViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITopUpCards.State = TopUpCardsState()
     override val repository: CustomersRepository = CustomersRepository
-    override val topUpCards: MutableLiveData<List<Card>> = MutableLiveData()
+    override val topUpCards: MutableLiveData<List<TopUpCard>> = MutableLiveData()
 
     override fun handlePressOnBackButton(id: Int) {
         clickEvent.setValue(id)
@@ -37,7 +37,7 @@ class TopUpCardsViewModel(application: Application) :
             when (val response = repository.getTopUpBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        //topUpCards.value = response.data.data.toMutableList()
+                        topUpCards.value = response.data.data
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message

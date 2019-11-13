@@ -2,7 +2,7 @@ package co.yap.modules.dashboard.yapit.topup.main.carddetail
 
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.models.CardInfo
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -18,7 +18,7 @@ interface ITopUpCardDetail {
 
     interface State : IBase.State {
         val title: ObservableField<String>
-        val cardInfo:ObservableField<CardInfo>
+        val cardInfo:ObservableField<TopUpCard>
         val isCardDeleted: MutableLiveData<Boolean>
     }
 }

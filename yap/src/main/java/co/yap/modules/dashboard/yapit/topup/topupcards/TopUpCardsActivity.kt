@@ -52,7 +52,11 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     private fun addObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.topUpCards.observe(this, Observer {
+            if (it.isNullOrEmpty()) {
 
+            } else {
+                mAdapter.setList(it.toMutableList())
+            }
         })
     }
 
