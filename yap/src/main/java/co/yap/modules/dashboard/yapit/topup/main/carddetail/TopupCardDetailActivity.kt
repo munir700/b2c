@@ -49,9 +49,9 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
     }
 
     private fun setData() {
-        val returnIntent = Intent()
-        returnIntent.putExtra("card", viewModel.state.cardInfo.get())
-        returnIntent.putExtra("isCardDeleted", true)
+        val intent = Intent()
+        intent.putExtra("card", viewModel.state.cardInfo.get())
+        intent.putExtra("isCardDeleted", true)
         setResult(Activity.RESULT_OK, returnIntent)
     }
     private val clickEventObserver = Observer<Int> {
