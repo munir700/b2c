@@ -8,6 +8,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardsViewModel(application: Application) :
     BaseViewModel<ITopUpCards.State>(application),
@@ -18,6 +19,24 @@ class TopUpCardsViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val topUpCards: MutableLiveData<List<TopUpCard>> = MutableLiveData()
 
+    init {
+        state.enableAddCard.set(
+            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+        )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        state.enableAddCard.set(
+            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+        )
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        getPaymentCards()
+    }
+
     override fun handlePressOnBackButton(id: Int) {
         clickEvent.setValue(id)
     }
@@ -26,23 +45,30 @@ class TopUpCardsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-        getPaymentCards()
-    }
-
     override fun getPaymentCards() {
         launch {
             state.loading = true
             when (val response = repository.getTopUpBeneficiaries()) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty()) {
-                        topUpCards.value = response.data.data
-                    }
+                    if (state.enableAddCard.get())
+                        response.data.data.add(getAddCard())
+                    topUpCards.value = response.data.data
                 }
+
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
         }
+    }
+
+    private fun getAddCard(): TopUpCard {
+        return TopUpCard(
+            "",
+            "",
+            "",
+            "",
+            "addCard",
+            ""
+        )
     }
 }

@@ -9,7 +9,9 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
 import co.yap.yapcore.BaseBindingActivity
+import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+
 
 class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
 
@@ -42,9 +44,18 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         //getBinding().rvTopUpCards.addScrollStateChangeListener(this)
         getBinding().rvTopUpCards.smoothScrollToPosition(0)
         getBinding().rvTopUpCards.setItemTransitionTimeMillis(100)
+//        getBinding().rvTopUpCards.setItemTransformer(
+//            ScaleTransformer.Builder()
+//                .setMinScale(0.6f)
+//                .build()
+//        )
+
         getBinding().rvTopUpCards.setItemTransformer(
             ScaleTransformer.Builder()
+                .setMaxScale(1.05f)
                 .setMinScale(0.8f)
+                .setPivotX(Pivot.X.CENTER) // CENTER is a default one
+                //.setPivotY(Pivot.Y.BOTTOM) // CENTER is a default one
                 .build()
         )
     }

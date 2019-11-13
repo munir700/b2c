@@ -1,11 +1,15 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import co.yap.BR
-import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.yapcore.BaseState
 
 class TopUpCardsState : BaseState(), ITopUpCards.State {
+
+    override val valid: ObservableField<Boolean> = ObservableField(true)
+    override val enableAddCard: ObservableBoolean = ObservableBoolean(false)
 
     @get:Bindable
     override var tootlBarTitle: String = ""

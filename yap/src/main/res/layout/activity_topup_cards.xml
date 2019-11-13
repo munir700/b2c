@@ -15,28 +15,49 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_topup_cards_toolbar"
+            app:viewModel="@{viewModel}" />
 
         <TextView
-            android:id="@+id/tvContactListDescription"
-            style="@style/SmallGrey"
+            android:id="@+id/txtCardsCount"
+            style="@style/Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_18sdp"
-            android:layout_marginTop="@dimen/margin_normal_large"
+            android:layout_marginTop="@dimen/margin_extra_large"
             android:layout_marginBottom="@dimen/margin_medium"
-            android:text="Invite contacts from your address book"
+            android:text="You have 5 cards"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+        <TextView
+            android:id="@+id/txtCardsSlogan"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_18sdp"
+            android:layout_marginTop="@dimen/small"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="Choose which card you want to top up with"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCardsCount" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clMain"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvContactListDescription">
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xl"
+            android:layout_marginBottom="@dimen/margin_xl"
+            app:layout_constraintTop_toBottomOf="@+id/txtCardsSlogan">
 
             <ProgressBar
                 android:id="@+id/progress_bar"
@@ -58,7 +79,7 @@
                 android:layout_marginTop="@dimen/margin_xl"
                 android:layout_marginBottom="@dimen/margin_large"
                 android:gravity="center"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -68,17 +89,65 @@
             <!--     Notification Center       -->
             <com.yarolegovich.discretescrollview.DiscreteScrollView
                 android:id="@+id/rvTopUpCards"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:dsv_orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:itemCount="5"
-                tools:listitem="@layout/item_contacts"
-                tools:visibility="gone" />
+                tools:listitem="@layout/item_topup_cards"
+                tools:visibility="visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/btnSelect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clMain"
+            app:layout_constraintVertical_bias="0.59000003">
+
+            <TextView
+                android:id="@+id/txtCardName"
+                style="@style/SmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="@dimen/margin_extra_small"
+                android:text="Citi Bank Card"
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="visible" />
+
+            <TextView
+                android:id="@+id/txtSecure"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/ic_secured"
+                android:gravity="center"
+                android:text="Secured by YAP"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnSelect"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+            android:text="Select"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_goneMarginTop="@dimen/margin_extra_large" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

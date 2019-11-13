@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards
 
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.IBase
@@ -12,6 +14,8 @@ interface ITopUpCards {
         var tootlBarVisibility: Int
         var rightButtonVisibility: Int
         var leftButtonVisibility: Int
+        val valid :ObservableField<Boolean>
+        val enableAddCard :ObservableBoolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {
