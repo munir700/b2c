@@ -29,6 +29,7 @@ import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.models.CardInfo
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.topup.main.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
@@ -105,7 +106,20 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     when (subActionButtonId) {
                         1 -> checkPermission()
                         2 -> {
-                            startActivity(TopupCardDetailActivity.getIntent(this@YapDashboardActivity))
+                            val card = CardInfo(
+                                "7",
+                                "#112233",
+                                "Citi Bank Card",
+                                "1234 5678 8765 7897",
+                                "12/2021",
+                                "VISA"
+                            )
+                            startActivity(
+                                TopupCardDetailActivity.getIntent(
+                                    this@YapDashboardActivity,
+                                    card
+                                )
+                            )
                         }
 //                        3->checkPermission()
 
@@ -117,7 +131,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun setupPager() {
-
         adapter = YapDashboardAdaptor(supportFragmentManager)
         getViewBinding().viewPager.adapter = adapter
 
