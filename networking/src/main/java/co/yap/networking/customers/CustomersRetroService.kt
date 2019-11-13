@@ -7,6 +7,7 @@ import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
 import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
@@ -96,7 +97,7 @@ interface CustomersRetroService {
     suspend fun getRecentY2YBeneficiaries(): Response<RecentBeneficiariesResponse>
 
     @GET(CustomersRepository.URL_TOPUP_BENEFICIARIES)
-    suspend fun getTopUpBeneficiaries(): Response<RecentBeneficiariesResponse>
+    suspend fun getTopUpBeneficiaries(): Response<TopUpBeneficiariesResponse>
 
 
 }
