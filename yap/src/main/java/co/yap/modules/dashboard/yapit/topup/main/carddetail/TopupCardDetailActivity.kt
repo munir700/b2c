@@ -21,6 +21,7 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
             return intent
         }
     }
+
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_topup_card_detail
     override val viewModel: ITopUpCardDetail.ViewModel
@@ -52,8 +53,9 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
         val intent = Intent()
         intent.putExtra("card", viewModel.state.cardInfo.get())
         intent.putExtra("isCardDeleted", true)
-        setResult(Activity.RESULT_OK, returnIntent)
+        setResult(Activity.RESULT_OK, intent)
     }
+
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.IvClose -> finish()

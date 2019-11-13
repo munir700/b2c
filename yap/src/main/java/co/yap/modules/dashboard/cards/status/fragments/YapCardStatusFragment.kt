@@ -172,6 +172,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         val returnIntent = Intent()
                         returnIntent.putExtra(Constants.isPinCreated, true)
                         activity?.setResult(Activity.RESULT_OK, returnIntent)
+                        activity?.finish()
                     }
                 }
             }

@@ -1,21 +1,15 @@
 package co.yap.modules.dashboard.yapit.topup.main
 
 import android.app.Application
-import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
-import co.yap.modules.dashboard.yapit.y2y.main.states.Y2YState
-import co.yap.networking.customers.requestdtos.Contact
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class TopUpLandingViewModel(application: Application) : BaseViewModel<IY2Y.State>(application),
-    IY2Y.ViewModel {
+class TopUpLandingViewModel(application: Application) :
+    BaseViewModel<ITopUpLanding.State>(application),
+    ITopUpLanding.ViewModel {
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override val yapContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
-    override var isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
-    override val searchQuery: MutableLiveData<String> = MutableLiveData("")
-    override val state: Y2YState = Y2YState()
+    override val state: ITopUpLanding.State = TopUpLandingState()
 
     override fun handlePressOnBackButton(id: Int) {
         clickEvent.setValue(id)

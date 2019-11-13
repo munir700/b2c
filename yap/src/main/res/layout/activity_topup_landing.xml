@@ -7,9 +7,10 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.more.bankdetails.viewmodel.BankDetailViewModel" />
+            type="co.yap.modules.dashboard.yapit.topup.main.TopUpLandingViewModel" />
 
         <import type="android.view.View" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -17,13 +18,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/_16sdp"
-        android:paddingRight="@dimen/_16sdp">
+        android:orientation="vertical">
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/layout_bank_detail_toolbar"
+            layout="@layout/layout_topup_landing_toolbar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -59,6 +58,7 @@
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_120sdp"
                 android:layout_marginRight="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/card_border_selector"
                 android:clickable="true"
                 android:gravity="center"
@@ -99,8 +99,10 @@
                 android:id="@+id/llCardsTransferType"
                 android:layout_width="@dimen/_120sdp"
                 android:layout_height="@dimen/_120sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
                 android:background="@drawable/card_border_selector"
                 android:clickable="true"
+                android:gravity="center"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                 android:orientation="vertical"
                 android:paddingTop="@dimen/margin_medium">

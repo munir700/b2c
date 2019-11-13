@@ -36,6 +36,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_Y2Y_BENEFICIARIES = "customers/api/y2y-beneficiaries"
     const val URL_Y2Y_RECENT_BENEFICIARIES = "customers/api/recent-beneficiaries/y2y"
     const val URL_DELETE_BENEFICIARIE = "customers/api/mastercard/beneficiaries/{cardId}"
+    const val URL_TOPUP_BENEFICIARIES = "customers/api/mastercard/beneficiaries"
 
     const val URL_DETECT = "digi-ocr/detect/"
 
@@ -132,12 +133,17 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.changeUnverifiedEmail(newEmail) })
 
-    override suspend fun detectCardData(file: MultipartBody.Part) = executeSafely(call = { api.uploadIdCard(file) })
+    override suspend fun detectCardData(file: MultipartBody.Part) =
+        executeSafely(call = { api.uploadIdCard(file) })
 
     override suspend fun getY2YBeneficiaries(contacts: List<Contact>) =
         executeSafely(call = { api.getY2YBeneficiaries(contacts) })
 
-    override suspend fun getRecentY2YBeneficiaries() = executeSafely(call = { api.getRecentY2YBeneficiaries() })
+    override suspend fun getRecentY2YBeneficiaries() =
+        executeSafely(call = { api.getRecentY2YBeneficiaries() })
+
+    override suspend fun getTopUpBeneficiaries() =
+        executeSafely(call = { api.getTopUpBeneficiaries() })
 
     override suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.deleteBeneficiary(cardId) })

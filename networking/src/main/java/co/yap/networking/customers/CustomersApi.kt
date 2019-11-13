@@ -33,5 +33,6 @@ interface CustomersApi {
     suspend fun detectCardData(file: MultipartBody.Part): RetroApiResponse<ApiResponse>
     suspend fun getY2YBeneficiaries(contacts: List<Contact>): RetroApiResponse<Y2YBeneficiariesResponse>
     suspend fun getRecentY2YBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
+    suspend fun getTopUpBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
     suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse>
 }

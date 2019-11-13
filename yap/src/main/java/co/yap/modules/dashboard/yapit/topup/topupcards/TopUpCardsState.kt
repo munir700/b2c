@@ -1,11 +1,11 @@
-package co.yap.modules.dashboard.yapit.topup.main
+package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.dashboard.yapit.y2y.main.interfaces.IY2Y
 import co.yap.yapcore.BaseState
 
-class TopUpLandingState : BaseState(), ITopUpLanding.State {
+class TopUpCardsState : BaseState(), ITopUpCards.State {
 
     @get:Bindable
     override var tootlBarTitle: String = ""
