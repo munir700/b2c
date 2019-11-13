@@ -261,7 +261,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
             actionMenu?.toggle(ivYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
-        else super.onBackPressed()
+        else if (getViewBinding().viewPager.currentItem != 0) {
+            bottomNav.selectedItemId = R.id.yapHome
+        } else super.onBackPressed()
     }
 
     private fun addListeners() {
