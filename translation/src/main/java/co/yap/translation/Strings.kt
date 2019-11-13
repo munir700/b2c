@@ -850,4 +850,15 @@ object Strings {
         "screen_topup_type_selection_button_card"
 
 
+    //TopUpFundsScreen
+    const val screen_topup_funds_tool_bar_header: String =
+        "screen_topup_funds_tool_bar_header"
+    const val screen_topup_funds_enter_amount_header: String =
+        "screen_topup_funds_enter_amount_header"
+    const val screen_topup_funds_display_text_available_balance: String =
+        "screen_topup_funds_display_text_available_balance"
+    const val screen_topup_funds_display_button_text: String =
+        "screen_topup_funds_display_button_text"
+
+
 }

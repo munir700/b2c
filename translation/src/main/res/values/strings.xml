@@ -537,4 +537,12 @@
     <string name="screen_topup_type_selection_button_bank_transfer">Bank transfer</string>
     <string name="screen_topup_type_selection_button_card">Card</string>
 
+<!--    TopUpFundsScreen-->
+    <string name="screen_topup_funds_tool_bar_header">Top up using card</string>
+    <string name="screen_topup_funds_enter_amount_header">Enter the top up amount</string>
+    <string name="screen_topup_funds_display_text_available_balance">Your available balance is </string>
+    <string name="screen_topup_funds_display_button_text">Next</string>
+
+
+
 </resources>

@@ -24,7 +24,7 @@
         <activity
             android:name=".modules.dashboard.main.activities.YapDashboardActivity"
             android:screenOrientation="portrait">
-<!--            <nav-graph android:value="@navigation/yap_navigation" />-->
+            <!--            <nav-graph android:value="@navigation/yap_navigation" />-->
         </activity>
 
         <meta-data
@@ -140,11 +140,15 @@
         <activity
             android:name="co.yap.modules.others.note.activities.TransactionNoteActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
 
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
 
 
     </application>
