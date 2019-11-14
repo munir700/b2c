@@ -33,6 +33,7 @@ import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.loadImage
@@ -54,18 +55,11 @@ object UIBinder {
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {
         card?.expiry?.let {
-//            when (CardStatus.valueOf(it)) {
-//                CardStatus.ACTIVE -> {
-//                    view.visibility = View.GONE
-//                }
-//                CardStatus.BLOCKED -> {
-//                    view.visibility = View.VISIBLE
-//                }
-//                CardStatus.INACTIVE -> {
-//                    view.visibility = View.VISIBLE
-//
-//                }
-//            }
+            if (DateUtils.isDatePassed(it, SimpleDateFormat("MMyy"))) {
+                view.visibility = View.VISIBLE
+            } else {
+                view.visibility = View.GONE
+            }
         }
     }
 

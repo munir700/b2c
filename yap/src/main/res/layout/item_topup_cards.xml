@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -16,12 +15,13 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/paymentCard"
-            android:layout_width="@dimen/_150sdp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:cardExpiry="@{viewModel.cardInfo.expiry}"
@@ -35,16 +35,14 @@
 
         <ImageView
             android:id="@+id/imgStatus"
-            tools:src="@drawable/ic_status_expired"
-            android:layout_width="@dimen/_48sdp"
-            android:layout_height="@dimen/_48sdp"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
             android:layout_margin="@dimen/_5sdp"
             android:contentDescription="@string/empty_string"
-            android:visibility="visible"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
+            android:src="@drawable/ic_status_expired"
             app:cardStatus="@{viewModel.cardInfo}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.90"
-            app:layout_constraintStart_toStartOf="@+id/imgCard"
             app:layout_constraintTop_toTopOf="parent" />
 
 

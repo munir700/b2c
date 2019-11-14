@@ -20,7 +20,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
-
 class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     companion object {
         fun newIntent(context: Context): Intent {
@@ -66,17 +65,19 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            // on card item click
-            showToast("List item $pos clicked")
-            if (data is TopUpCard)
-                openCardDetail(data)
+            viewModel.clickEvent.setValue(view.id)
         }
     }
 
 
     private fun updateSelection(viewHolder: RecyclerView.ViewHolder?, adapterPosition: Int) {
         val item = mAdapter.getDataForPosition(adapterPosition)
-        viewModel.state.alias.set(item.alias)
+        if (item.alias == "addCard") {
+            viewModel.state.alias.set("")
+        } else {
+            viewModel.state.alias.set(item.alias)
+        }
+
     }
 
     private fun addObservers() {
@@ -101,6 +102,17 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
                 // open detail from here.
             }
+
+            R.id.paymentCard -> {
+                val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
+                openCardDetail(item)
+            }
+
+            R.id.imgStatus -> {
+                val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
+                showToast("status clicked")
+            }
+
         }
     }
 
