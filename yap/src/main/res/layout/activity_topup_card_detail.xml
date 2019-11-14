@@ -10,6 +10,7 @@
             type="co.yap.modules.dashboard.yapit.topup.main.carddetail.TopUpCardDetailViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -42,8 +43,8 @@
             app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
             app:cardNickname="@{viewModel.state.cardInfo.alias}"
             app:cardNumber="@{viewModel.state.cardInfo.number}"
-            app:card_background="@drawable/bg_gradient_master_card"
-            app:card_type="@drawable/ic_visa_card"
+            app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
+            app:cardType="@{viewModel.state.cardInfo.logo}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbarCardDetail" />

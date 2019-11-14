@@ -45,7 +45,12 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
         try {
             clMainContainer.setBackgroundColor(Color.parseColor(bgCardColor))
         } catch (ex: IllegalArgumentException) {
-
+            clMainContainer.setBackgroundColor(
+                ContextCompat.getColor(
+                    context,
+                    R.color.colorPrimaryDark
+                )
+            )
         }
     }
 
@@ -60,15 +65,21 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
             "MASTERCARD" -> ivCardType.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
-                    R.drawable.ic_action_up
+                    R.drawable.ic_logo_master
                 )
             )
             "AMEX" -> ivCardType.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
-                    R.drawable.ic_add_funds
+                    R.drawable.ic_american_express_logo
                 )
             )
+            else -> {
+                ContextCompat.getDrawable(
+                    context,
+                    R.drawable.ic_visa_card
+                )
+            }
 
         }
     }

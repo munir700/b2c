@@ -18,12 +18,13 @@
 
         <ImageView
             android:id="@+id/ivChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_15sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_marginStart="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
             android:contentDescription="TODO"
-            android:src="@drawable/ic_back"
+            android:background="@color/greyDark"
+            android:src="@drawable/ic_card_chip"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
