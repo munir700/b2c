@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.yapit.topup.main.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.topupcards.TopUpCardsActivity
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
@@ -40,21 +41,7 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.llBankTransferType -> {
-                val card = TopUpCard(
-                    "7",
-                    "#112233",
-                    "Citi Bank Card",
-                    "1234 5678 8765 7897",
-                    "12/2021",
-                    "VISA"
-                )
-                startActivity(
-                    TopupCardDetailActivity.getIntent(
-                        this@TopUpLandingActivity,
-                        card
-                    )
-                )
-                //startActivity(BankDetailActivity.newIntent(this))
+                startActivity(BankDetailActivity.newIntent(this))
             }
             R.id.llCardsTransferType -> {
                 startActivity(TopUpCardsActivity.newIntent(this))

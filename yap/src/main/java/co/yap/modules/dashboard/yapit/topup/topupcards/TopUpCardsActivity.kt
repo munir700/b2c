@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
+import co.yap.modules.dashboard.yapit.topup.main.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.modules.others.helper.Constants
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -64,10 +66,13 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            showToast("List item $pos clicked")
             // on card item click
+            showToast("List item $pos clicked")
+            if (data is TopUpCard)
+                openCardDetail(data)
         }
     }
+
 
     private fun updateSelection(viewHolder: RecyclerView.ViewHolder?, adapterPosition: Int) {
         val item = mAdapter.getDataForPosition(adapterPosition)
@@ -99,6 +104,24 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         }
     }
 
+
+    private fun openCardDetail(card: TopUpCard) {
+        startActivityForResult(
+            TopupCardDetailActivity.getIntent(
+                this@TopUpCardsActivity,
+                TopUpCard(
+                    card.id,
+                    card.logo,
+                    card.expiry,
+                    card.number,
+                    card.alias,
+                    card.color
+                )
+            ),
+            Constants.EVENT_DELETE_TOPUP_CARD
+        )
+    }
+
     fun getBinding(): ActivityTopupCardsBinding {
         return viewDataBinding as ActivityTopupCardsBinding
     }
@@ -108,6 +131,11 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         if (requestCode == Constants.EVENT_ADD_TOPUP_CARD && resultCode == Activity.RESULT_OK) {
             if (true == data?.getBooleanExtra("isCardAdded", false))
                 viewModel.getPaymentCards()
+        } else if (requestCode == Constants.EVENT_DELETE_TOPUP_CARD && resultCode == Activity.RESULT_OK) {
+            if (true == data?.getBooleanExtra("isCardDeleted", false)) {
+                showToast("Card Removed Successfully")
+                viewModel.getPaymentCards()
+            }
         }
     }
 }
