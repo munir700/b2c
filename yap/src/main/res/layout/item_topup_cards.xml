@@ -15,18 +15,14 @@
 
     </data>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <co.yap.widgets.CorePaymentCard
-            android:id="@+id/imgCard"
-            android:layout_width="wrap_content"
+            android:id="@+id/paymentCard"
+            android:layout_width="@dimen/_150sdp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_24sdp"
-            android:background="@drawable/white_round_card_background"
-            android:contentDescription="@string/empty_string"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:cardExpiry="@{viewModel.cardInfo.expiry}"
             app:cardNickname="@{viewModel.cardInfo.alias}"
@@ -35,22 +31,22 @@
             app:card_type="@drawable/ic_visa_card"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/card_spare" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imgStatus"
+            tools:src="@drawable/ic_status_expired"
             android:layout_width="@dimen/_48sdp"
             android:layout_height="@dimen/_48sdp"
             android:layout_margin="@dimen/_5sdp"
             android:contentDescription="@string/empty_string"
+            android:visibility="visible"
             app:cardStatus="@{viewModel.cardInfo}"
             app:layout_constraintEnd_toEndOf="parent"
-            android:visibility="visible"
             app:layout_constraintHorizontal_bias="0.90"
             app:layout_constraintStart_toStartOf="@+id/imgCard"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_status_expired" />
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

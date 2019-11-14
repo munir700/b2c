@@ -1,6 +1,5 @@
 package co.yap.modules.others.helper
 
-import co.yap.yapcore.helpers.Utils
 
 object Constants {
 
@@ -31,6 +30,9 @@ object Constants {
     const val EVENT_ADD_PHOTO: Int = 6
     const val EVENT_CHOOSE_PHOTO: Int = 7
 
+
+    const val EVENT_ADD_TOPUP_CARD: Int = 100
+    const val EVENT_DELETE_TOPUP_CARD: Int = 101
 
 
 }

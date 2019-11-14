@@ -2,13 +2,13 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/_222sdp"
-    android:layout_height="@dimen/_139sdp"
-    android:layout_gravity="center"
-    android:layout_margin="5dp"
-    android:orientation="vertical"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="3dp">
+    android:id="@+id/clRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/margin_extra_small"
+    android:background="@color/white"
+    android:elevation="@dimen/_5sdp"
+    app:cardCornerRadius="@dimen/_5sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clMainContainer"
@@ -20,21 +20,27 @@
             android:id="@+id/ivChip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_14sdp"
-            android:layout_marginTop="@dimen/_19sdp"
+            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginTop="@dimen/margin_medium"
             android:contentDescription="TODO"
-            android:src="@drawable/ic_secured_by_yap"
+            android:src="@drawable/ic_back"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvBankName"
             style="@style/Micro"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
+            android:autoSizeMaxTextSize="@dimen/margin_medium"
+            android:autoSizeMinTextSize="@dimen/margin_small"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:lines="1"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/ivChip"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivChip"
             app:layout_constraintTop_toTopOf="@id/ivChip"
             tools:text="Citi Bank Card" />
@@ -42,38 +48,58 @@
         <TextView
             android:id="@+id/tvCardNumber"
             style="@style/ARegular"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_large"
+            android:layout_marginTop="@dimen/margin_large"
+            android:layout_marginEnd="@dimen/margin_large"
+            android:layout_marginBottom="@dimen/margin_normal"
+            android:autoSizeMaxTextSize="@dimen/margin_medium"
+            android:autoSizeMinTextSize="@dimen/margin_small"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:lines="1"
             android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ivChip"
-            app:layout_constraintVertical_bias="0.3"
+            app:layout_constraintBottom_toTopOf="@+id/ivCardType"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvBankName"
+            app:layout_constraintVertical_bias="0.8"
             tools:text="1234 6789 7890 8765" />
 
         <ImageView
             android:id="@+id/ivCardType"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/margin_small"
             android:contentDescription="@string/lp_today"
+            android:gravity="start|bottom"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="@id/ivChip"
+            app:layout_constraintStart_toStartOf="parent"
             tools:src="@drawable/ic_visa_card" />
 
         <TextView
             android:id="@+id/tvCardExpiry"
             style="@style/ARegular"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_xl"
             android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/margin_small"
+            android:autoSizeMaxTextSize="@dimen/margin_medium"
+            android:autoSizeMinTextSize="@dimen/margin_small"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center|right"
+            android:lines="1"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/ivCardType"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/ivCardType"
+            app:layout_constraintStart_toEndOf="@+id/ivCardType"
             tools:text="12/2021" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>
