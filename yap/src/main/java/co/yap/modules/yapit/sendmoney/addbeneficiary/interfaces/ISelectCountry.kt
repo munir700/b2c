@@ -14,7 +14,7 @@ interface ISelectCountry {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         fun handlePressOnSeclectCountry(id: Int)
-        var countries: List<Country>?
+        var countries: ArrayList<Country>?
         val populateSpinnerData: MutableLiveData<List<Country>>
 
     }

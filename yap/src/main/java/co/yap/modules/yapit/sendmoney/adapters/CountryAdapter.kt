@@ -2,6 +2,7 @@ package co.yap.modules.yapit.sendmoney.adapters
 
 import android.content.Context
 import androidx.databinding.ViewDataBinding
+import co.yap.BR
 import co.yap.countryutils.country.Country
 import co.yap.databinding.ItemCountryBinding
 import co.yap.modules.yapit.sendmoney.adapters.CountryAdapter.ViewHolder
@@ -18,9 +19,12 @@ public class CountryAdapter(context: Context, resource: Int, objects: List<Count
 
 
     inner class ViewHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
+        override fun getBindingVariable(): Int = BR.dataCountry
 
-        private fun onBind(binding: ItemCountryBinding) {
-//            binding.data = binding.data
+        //        private fun onBind(binding: ViewDataBinding) {
+        private fun onBind(binding: Object) {
+//        private fun onBind(binding: ViewDataBinding) {
+//            binding.dataList = binding.dataList
 //            binding.executePendingBindings()
         }
     }
@@ -28,10 +32,11 @@ public class CountryAdapter(context: Context, resource: Int, objects: List<Count
 //    inner class ViewHolder(binding: ItemCountryBinding) : BaseBindingHolder(binding) {
 //
 //        private fun onBind(binding: ItemCountryBinding) {
-//            binding.data = binding.data
+//            binding.dataList = binding.dataList
 //            binding.executePendingBindings()
 //
 //
 //        }
 //    }
+
 }

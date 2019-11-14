@@ -29,11 +29,11 @@ interface CustomersRetroService {
     @GET(CustomersRepository.URL_ACCOUNT_INFO)
     suspend fun getAccountInfo(): Response<AccountInfoResponse>
 
-    // Post demographic data
+    // Post demographic dataList
     @PUT(CustomersRepository.URL_POST_DEMOGRAPHIC_DATA)
     suspend fun postDemographicData(@Body demographicDataRequest: DemographicDataRequest): Response<ApiResponse>
 
-    // Validate demographic data
+    // Validate demographic dataList
     @GET(CustomersRepository.URL_VALIDATE_DEMOGRAPHIC_DATA)
     suspend fun validateDemographicData(@Path("device_id") deviceId: String): Response<ValidateDeviceResponse>
 

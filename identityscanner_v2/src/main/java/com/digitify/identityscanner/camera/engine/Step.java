@@ -25,7 +25,7 @@ import androidx.annotation.VisibleForTesting;
  * and, more importantly, to perform START and STOP operations in such a way that they do not
  * overlap. For example, if we're stopping, we're wait for stop to finish before starting again.
  *
- * This is an important condition for simplifying the engine code.
+ * This is an important condition for simplifying the engine isoCountryCode2Digit.
  * Since Camera1, the only requirement was basically to use a single thread.
  * Since Camera2, which has an asynchronous API, further care must be used.
  *

@@ -2,7 +2,6 @@ package co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.countryutils.country.CountriesResponseDTO
 import co.yap.countryutils.country.Country
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.yapit.sendmoney.addbeneficiary.states.SelectCountryState
@@ -20,7 +19,7 @@ class SelectCountryViewModel(application: Application) :
 
     override var populateSpinnerData: MutableLiveData<List<Country>> = MutableLiveData()
 
-    override var countries: List<Country>? = null
+    override var countries: ArrayList<Country>? = ArrayList()
 
     override val repository: CustomersRepository = CustomersRepository
 
@@ -31,8 +30,6 @@ class SelectCountryViewModel(application: Application) :
     override fun handlePressOnSeclectCountry(id: Int) {
         clickEvent.setValue(id)
     }
-
-    var countriesResponseDTO: CountriesResponseDTO? = null
 
     override fun onResume() {
         super.onResume()
@@ -50,14 +47,20 @@ class SelectCountryViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     var countryModel: CountryModel = response.data
 
-                    countries = countryModel.data as List<Country>
+                    for (data in countryModel.data) {
+                        var country: Country = Country()
+
+                        country!!.id = data.id
+                        country!!.setName(data.name)
+                        country!!.isoCountryCode2Digit = data.isoCountryCode2Digit
+                        country!!.isoCountryCode3Digit = data.isoCountryCode3Digit
+
+                        countries!!.add(country)
+                    }
+
+
                     populateSpinnerData.setValue(countries)
 
-                    //trigger UI list for spinner
-
-//                    repository.value = response.data.data
-//                    here ll get some list of the countries
-//                    now that list of countries need to be populated in spinner listing
                     state.loading = false
                 }
 

@@ -255,7 +255,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         notificationsList.add(
             Notification(
                 "Set your card PIN",
-                "Now create a unique 4-digit PIN code to be able to use your debit card for purchases and withdrawals",
+                "Now create a unique 4-digit PIN isoCountryCode2Digit to be able to use your debit card for purchases and withdrawals",
                 "",
                 Constants.NOTIFICATION_ACTION_SET_PIN,
                 "",

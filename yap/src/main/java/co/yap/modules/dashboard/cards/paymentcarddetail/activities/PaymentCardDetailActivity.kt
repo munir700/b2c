@@ -424,11 +424,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            if (data is Content) {
+//            if (dataList is Content) {
 //                startActivity(
 //                    TransactionDetailsActivity.newIntent(
 //                        applicationContext,
-//                        (data as HomeTransactionListData).content[0].transactionId
+//                        (dataList as HomeTransactionListData).content[0].transactionId
 //                    )
 //                )
 //            }

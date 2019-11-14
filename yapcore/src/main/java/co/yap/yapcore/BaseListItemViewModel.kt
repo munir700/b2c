@@ -16,7 +16,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
  */
 
 /**
- * ViewModel is a class that is responsible for preparing and managing the data for
+ * ViewModel is a class that is responsible for preparing and managing the dataList for
  * an {@link android.app.Activity Activity} or a {@link android.support.v4.app.Fragment Fragment}.
  * It also handles the communication of the Activity / Fragment with the rest of the application
  * (e.g. calling the business logic classes).
@@ -34,7 +34,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
  * ViewModel. ViewModels usually expose this information via {@link LiveData} or Android Data
  * Binding. You can also use any observability construct from you favorite framework.
  * <p>
- * ViewModel's only responsibility is to manage the data for the UI. It <b>should never</b> access
+ * ViewModel's only responsibility is to manage the dataList for the UI. It <b>should never</b> access
  * your view hierarchy or hold a reference back to the Activity or the Fragment.
  * <p>
  * Typical usage from an Activity standpoint would be:
@@ -48,7 +48,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
  *         final UserModel viewModel = ViewModelProviders.of(this).get(UserModel.class);
  *         viewModel.userLiveData.observer(this, new Observer<User>() {
  *            {@literal @}Override
- *             public void onChanged(@Nullable User data) {
+ *             public void onChanged(@Nullable User dataList) {
  *                 // update ui.
  *             }
  *         });
@@ -152,7 +152,7 @@ abstract class BaseListItemViewModel<ITEM : Any> : ViewModel(), Observable, OnIt
     /**
      * called after fragment / activity is created with input bundle arguments
      *
-     * @param bundle argument data
+     * @param bundle argument dataList
      */
     @CallSuper
     open fun onCreate(bundle: Bundle?, navigation: NavController) {
@@ -169,7 +169,7 @@ abstract class BaseListItemViewModel<ITEM : Any> : ViewModel(), Observable, OnIt
 
     /**
      * Called when UI create for first time only, since activity / fragment might be rotated,
-     * we don't need to re-init data, because view model will survive, data aren't destroyed
+     * we don't need to re-init dataList, because view model will survive, dataList aren't destroyed
      *
      * @param bundle
      */

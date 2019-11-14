@@ -595,7 +595,7 @@ object CurrencyUtils {
 //        }
 
     fun getCurrencyByISO(currencyIsoCode: String): Currency? {
-        // Because the data we have is sorted by ISO codes and not by names, we must check all
+        // Because the dataList we have is sorted by ISO codes and not by names, we must check all
         // currencies one by one
 
         for (c in CURRENCIES) {
@@ -607,7 +607,7 @@ object CurrencyUtils {
     }
 
     fun getCurrencyByName(currencyName: String): Currency? {
-        // Because the data we have is sorted by ISO codes and not by names, we must check all
+        // Because the dataList we have is sorted by ISO codes and not by names, we must check all
         // currencies one by one
 
         for (c in CURRENCIES) {
@@ -628,7 +628,7 @@ object CurrencyUtils {
     }
 
     fun getCurrencyByCountryCode(countryCode: String): Currency? {
-        // Because the data we have is sorted by ISO codes and not by names, we must check all
+        // Because the dataList we have is sorted by ISO codes and not by names, we must check all
         // currencies one by one
 
         val locale = Locale("", countryCode)
@@ -674,7 +674,7 @@ object CurrencyUtils {
             val countryName = loc.displayCountry
             val c = Country()
             c.setName(countryName)
-            c.code = countryCode.toString()
+            c.isoCountryCode2Digit = countryCode.toString()
             if (countryName.length > 0 && !countries.contains(c)) {
                 countries.add(c)
                 val flagResName = "flag_" + countryCode.toLowerCase()
@@ -694,7 +694,7 @@ object CurrencyUtils {
         if (!TextUtils.isEmpty(resName)) {
             var name = resName
             if (resName.length == 2 || resName.length == 3) {
-                // it is probably a country iso code
+                // it is probably a country iso isoCountryCode2Digit
                 name = "flag_" + resName.toLowerCase()
             }
             return Utils.context!!.resources.getIdentifier(

@@ -10,13 +10,10 @@ import java.io.Serializable
 
 class Country : Parcelable, Serializable {
     @SerializedName("id")
-    var id: String? = null
-    /**
-     * 3 digit iso code
-     * @return
-     */
+    var id: Int? = null
+
     @SerializedName("isoCountryCode3Digit")
-    var code2: String? = null
+    var isoCountryCode3Digit: String? = null
 
       @SerializedName("cashPickUp")
     private var cashPickUpAllowed: Boolean = false
@@ -24,21 +21,15 @@ class Country : Parcelable, Serializable {
       @SerializedName("rmtCountry")
     private var rmt: Boolean = false
 
-    /**
-     * 2 digit iso code
-     * @return
-     */
-
     @SerializedName("isoCountryCode2Digit")
-    var code: String? = null
+    var isoCountryCode2Digit: String? = null
 
     private var name: String? = null
     @SerializedName("currencyList")
     var supportedCurrencies: List<Currency>? = null
 
     private var flagDrawableResId = -1
-    // The main currency. it should be last in the supported currency list
-    private var currency: Currency? = null
+     private var currency: Currency? = null
 
     val isFlagAvailable: Boolean
         get() = getFlagDrawableResId() > 0
@@ -86,7 +77,7 @@ class Country : Parcelable, Serializable {
             // First Check if we can get the main currency from list of supported currencies.
             val localCurrency =
                 CurrencyUtils.getCurrencyByCountryCode(
-                    code!!
+                    isoCountryCode2Digit!!
                 )
             for (c in supportedCurrencies!!) {
                 if (c.equals(localCurrency)) {
@@ -118,7 +109,7 @@ class Country : Parcelable, Serializable {
     fun getFlagDrawableResId(): Int {
         if (flagDrawableResId <= 0) flagDrawableResId =
             CurrencyUtils.getFlagDrawable(
-                this!!.code!!
+                this!!.isoCountryCode2Digit!!
             )
         return flagDrawableResId
     }
@@ -133,11 +124,11 @@ class Country : Parcelable, Serializable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(this.id)
-        dest.writeString(this.code2)
+        dest.writeInt(this.id!!)
+        dest.writeString(this.isoCountryCode3Digit)
         dest.writeByte(if (this.cashPickUpAllowed) 1.toByte() else 0.toByte())
         dest.writeByte(if (this.rmt) 1.toByte() else 0.toByte())
-        dest.writeString(this.code)
+        dest.writeString(this.isoCountryCode2Digit)
         dest.writeString(this.name)
         dest.writeTypedList(this.supportedCurrencies)
         dest.writeInt(this.flagDrawableResId)
@@ -147,11 +138,11 @@ class Country : Parcelable, Serializable {
     constructor() {}
 
     protected constructor(`in`: Parcel) {
-        this.id = `in`.readString()
-        this.code2 = `in`.readString()
+        this.id = `in`.readInt()
+        this.isoCountryCode3Digit = `in`.readString()
         this.cashPickUpAllowed = `in`.readByte().toInt() != 0
         this.rmt = `in`.readByte().toInt() != 0
-        this.code = `in`.readString()
+        this.isoCountryCode2Digit = `in`.readString()
         this.name = `in`.readString()
         this.supportedCurrencies = `in`.createTypedArrayList<Currency>(
             Currency

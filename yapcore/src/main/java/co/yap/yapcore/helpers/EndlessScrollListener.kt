@@ -21,14 +21,14 @@ abstract class EndlessScrollListener : RecyclerView.OnScrollListener {
 
         if (!loading && (layoutManager.itemCount - lastVisiblePosition) <= (visibleThreshold)) {
             // If it isn't currently loading, we check to see if we have breached
-            // the visibleThreshold and need to reload more data.
-            // If we do need to reload some more data, we execute onLoadMore to fetch the data.
+            // the visibleThreshold and need to reload more dataList.
+            // If we do need to reload some more dataList, we execute onLoadMore to fetch the dataList.
             currentPage++
             loading = onLoadMore(currentPage)
         }
     }
 
-    // Defines the process for actually loading more data based on page
-    // Returns true if more data is being loaded; returns false if there is no more data to load.
+    // Defines the process for actually loading more dataList based on page
+    // Returns true if more dataList is being loaded; returns false if there is no more dataList to load.
     abstract fun onLoadMore(page: Int): Boolean
 }

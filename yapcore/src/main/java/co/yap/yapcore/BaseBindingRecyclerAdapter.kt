@@ -113,7 +113,7 @@ abstract class BaseBindingRecyclerAdapter<T : Any, VH : RecyclerView.ViewHolder>
     abstract inner class ViewHolder(private val binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(obj: T) {
-//            binding.setVariable(BR.data, obj)
+//            binding.setVariable(BR.dataList, obj)
 //            binding.executePendingBindings()
         }
     }

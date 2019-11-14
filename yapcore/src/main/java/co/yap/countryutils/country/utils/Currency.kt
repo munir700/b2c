@@ -19,7 +19,7 @@ class Currency : Parcelable {
     /**
      * loads currency of the country
      *
-     * @param countryCode 2 letter code of country
+     * @param countryCode 2 letter isoCountryCode2Digit of country
      */
     constructor(countryCode: String) {
         updateFromCountryCode(countryCode)

@@ -84,21 +84,21 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             executeSafely(call = {
                 api.uploadDocuments(
                     files,
-                    RequestBody.create(MediaType.parse("multipart/form-data"), documentType),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), firstName),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), lastName),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), nationality),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), documentType),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), firstName),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), lastName),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), nationality),
                     RequestBody.create(
-                        MediaType.parse("multipart/form-data"),
+                        MediaType.parse("multipart/form-dataList"),
                         dateFormatter.format(dateExpiry)
                     ),
                     RequestBody.create(
-                        MediaType.parse("multipart/form-data"),
+                        MediaType.parse("multipart/form-dataList"),
                         dateFormatter.format(dob)
                     ),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), fullName),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), gender),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), identityNo)
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), fullName),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), gender),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), identityNo)
                 )
             })
         }

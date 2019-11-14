@@ -4,7 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:ignore="MissingDefaultResource">
 
-    <!--<data>-->
+    <!--<dataList>-->
 
         <!--<variable-->
             <!--name="mobileViewModel"-->
@@ -12,7 +12,7 @@
 
         <!--<import txnType="co.yap.translation.Strings"/>-->
 
-    <!--</data>-->
+    <!--</dataList>-->
 
     <LinearLayout
         android:orientation="vertical"

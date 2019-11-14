@@ -535,9 +535,9 @@ public class CameraView extends FrameLayout implements LifecycleObserver {
     /**
      * Maps a {@link Gesture} to a certain gesture action.
      * For example, you can assign zoom control to the pinch gesture by just calling:
-     * <code>
+     * <isoCountryCode2Digit>
      * cameraView.mapGesture(Gesture.PINCH, GestureAction.ZOOM);
-     * </code>
+     * </isoCountryCode2Digit>
      * <p>
      * Not all actions can be assigned to a certain gesture. For example, zoom control can't be
      * assigned to the Gesture.TAP gesture. Look at {@link Gesture} to know more.

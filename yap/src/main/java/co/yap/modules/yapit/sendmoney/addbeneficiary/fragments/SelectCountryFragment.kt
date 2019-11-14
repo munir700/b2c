@@ -5,18 +5,21 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.SpinnerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.yapit.sendmoney.adapters.CountryAdapter
-import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
-import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
+ import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.countryutils.country.Country
-import co.yap.modules.kyc.fragments.AddressSelectionFragmentDirections
+ import co.yap.modules.yapit.sendmoney.adapters.CustomCountrySpinner
 import kotlinx.android.synthetic.main.fragment_select_country.*
+ import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
+
+
 
 
 class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
@@ -49,7 +52,18 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 //              setUpSpinner()
 
 
-//            getCountryAdapter()
+//            countriesSpinner.adapter = ArrayAdapter(
+//                activity,
+//                R.layout.support_simple_spinner_dropdown_item,
+//               it
+//            ) as SpinnerAdapter
+
+//            var customCountrySpinner = CustomCountrySpinner(
+//                activity!!.applicationContext,
+//                R.layout.item_country,
+//                it as ArrayList
+//            )
+//            countriesSpinner.adapter= customCountrySpinner
             countriesSpinner.setAdapter(getCountryAdapter())
 
 //            }
