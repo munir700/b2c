@@ -82,8 +82,8 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
-            R.id.llBankTransferType -> {
-
+            R.id.tbBtnAddCard -> {
+                showToast("toastesd plus")
             }
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
