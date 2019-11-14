@@ -37,6 +37,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_Y2Y_RECENT_BENEFICIARIES = "customers/api/recent-beneficiaries/y2y"
     const val URL_DELETE_BENEFICIARIE = "customers/api/mastercard/beneficiaries/{cardId}"
     const val URL_TOPUP_BENEFICIARIES = "customers/api/mastercard/beneficiaries"
+    const val URL_CREATE_BENEFICIARIY = "customers/api/mastercard/beneficiaries"
 
     const val URL_DETECT = "digi-ocr/detect/"
 
@@ -147,4 +148,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     override suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.deleteBeneficiary(cardId) })
+
+    override suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.createBeneficiary(createBeneficiaryRequest) })
 }

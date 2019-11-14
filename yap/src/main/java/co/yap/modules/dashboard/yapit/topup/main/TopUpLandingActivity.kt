@@ -12,6 +12,9 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 
+
+
+
 class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
 
     companion object {
@@ -19,6 +22,7 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
             return Intent(context, TopUpLandingActivity::class.java)
         }
     }
+
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_topup_landing
@@ -29,6 +33,7 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel.clickEvent.observe(this, clickEventObserver)
     }
 
