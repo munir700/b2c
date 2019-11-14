@@ -25,8 +25,8 @@ interface ITopUpCards {
         fun handlePressOnBackButton(id: Int)
         fun handlePressOnView(id: Int)
         fun getPaymentCards()
+        fun updateCardCount()
         fun addTopUpCard(sessionId: String, alias: String, color: String)
-        fun updateCardCount(id: Int)
         val clickEvent: SingleClickEvent
         val topUpCards: MutableLiveData<List<TopUpCard>>
     }

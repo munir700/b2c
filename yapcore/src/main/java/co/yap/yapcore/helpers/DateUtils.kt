@@ -68,17 +68,17 @@ object DateUtils {
     fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
         SimpleDateFormat(format, Locale.US).format(toDate(day, month, year))
 
-    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT):String {
+    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
 
         try {
             return SimpleDateFormat(format, Locale.US).format(date)
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             return " ";
         }
 
     }
+
     fun datetoString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
         var result = ""
         val formatter = SimpleDateFormat(format, Locale.getDefault())
@@ -93,7 +93,8 @@ object DateUtils {
 
         return result
     }
-    fun stringToDate(dateStr: String, format: String , timeZone: TimeZone = GMT): Date? {
+
+    fun stringToDate(dateStr: String, format: String, timeZone: TimeZone = GMT): Date? {
         var d: Date? = null
         val formatter = SimpleDateFormat(format, Locale.getDefault())
         formatter.timeZone = timeZone
@@ -115,6 +116,22 @@ object DateUtils {
         val pattern = "MM/yyyy"
         val simpleDateFormat = SimpleDateFormat(pattern)
         return simpleDateFormat.format(convertedDate)
+    }
+
+    fun convertTopUpDate(creationDate: String, parser: SimpleDateFormat): String? {
+        val parser = SimpleDateFormat("MMyy")
+        parser.timeZone = TimeZone.getTimeZone("UTC")
+        val convertedDate = parser.parse(creationDate)
+        val pattern = "MM/yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        return simpleDateFormat.format(convertedDate)
+    }
+
+
+    fun isDatePassed(creationDate: String, parser: SimpleDateFormat): Boolean {
+        parser.timeZone = TimeZone.getTimeZone("UTC")
+        val convertedDate = parser.parse(creationDate)
+        return isDatePassed(convertedDate)
     }
 
 }

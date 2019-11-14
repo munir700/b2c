@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import android.content.Context
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -60,10 +61,10 @@ class TopUpCardsAdapter(
             onItemClickListener: OnItemClickListener?
         ) {
 
-            val params = binding.paymentCard.layoutParams as RecyclerView.LayoutParams
+            val params = binding.parent.layoutParams as RecyclerView.LayoutParams
             params.width = dimensions[0]
             params.height = dimensions[1]
-            binding.paymentCard.layoutParams = params
+            binding.parent.layoutParams = params
 
             binding.viewModel =
                 TopUpItemViewModel(paymentCard, position, onItemClickListener)

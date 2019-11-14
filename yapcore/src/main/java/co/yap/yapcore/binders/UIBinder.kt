@@ -25,6 +25,7 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
@@ -32,6 +33,7 @@ import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.loadImage
@@ -47,6 +49,19 @@ import java.util.*
 
 
 object UIBinder {
+
+    // Top up card status
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(view: ImageView, card: TopUpCard?) {
+        card?.expiry?.let {
+            if (DateUtils.isDatePassed(it, SimpleDateFormat("MMyy"))) {
+                view.visibility = View.VISIBLE
+            } else {
+                view.visibility = View.GONE
+            }
+        }
+    }
 
     @BindingAdapter("bitmap")
     @JvmStatic
