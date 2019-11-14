@@ -42,4 +42,5 @@ object Constants {
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
+    const val DUMMY_CARD: Int = 22
 }

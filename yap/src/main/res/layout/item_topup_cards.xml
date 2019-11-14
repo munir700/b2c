@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.YapContactItemViewModel" />
+            type="co.yap.modules.dashboard.yapit.topup.topupcards.list.TopUpItemViewModel" />
 
         <import type="android.view.View" />
 
@@ -17,94 +16,25 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lyContact"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginEnd="@dimen/_10sdp"
         android:background="@color/colorWhite"
-        android:onClick="@{(v) -> viewModel.onViewClicked(v)}">
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v)}">
 
-        <include
-            android:id="@+id/lyUserImage"
-            layout="@layout/layout_initial_image_user"
-            app:image="@{viewModel.contact.beneficiaryPictureUrl}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:name="@{viewModel.contact.title}" />
-
-        <LinearLayout
-            android:id="@+id/content"
-            android:layout_width="0dp"
+        <co.yap.widgets.CorePaymentCard
+            android:id="@+id/paymentCard"
+            android:layout_width="@dimen/_200sdp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_normal"
-            android:layout_marginEnd="@dimen/margin_small"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/section"
-            app:layout_constraintStart_toEndOf="@+id/lyUserImage"
-            app:layout_constraintTop_toTopOf="@+id/lyUserImage">
-
-            <TextView
-                android:id="@+id/tvName"
-                style="@style/Regular"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:gravity="bottom"
-                android:lineSpacingExtra="0dp"
-                android:lines="1"
-                android:text="@{viewModel.contact.title}"
-                tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
-
-            <TextView
-                android:id="@+id/tvNumber"
-                style="@style/SmallGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:lines="1"
-                android:text="@{Utils.INSTANCE.getFormattedPhoneNumber(context,viewModel.contact.countryCode+viewModel.contact.mobileNo)}"
-                tools:text="+971 12 345 6" />
-            <!--            android:text="@{Utils.INSTANCE.getFormattedPhone(viewModel.contact.countryCode+viewModel.contact.mobileNo)}"-->
-
-        </LinearLayout>
-
-        <FrameLayout
-            android:id="@+id/section"
-            android:layout_width="@dimen/_50sdp"
-            android:layout_height="0dp"
-            android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@+id/content"
+            app:cardExpiry="@{viewModel.cardInfo.expiry}"
+            app:cardNickname="@{viewModel.cardInfo.alias}"
+            app:cardNumber="@{viewModel.cardInfo.number}"
+            app:card_background="@drawable/bg_gradient_master_card"
+            app:card_type="@drawable/ic_visa_card"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/content">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/tvInvite"
-                style="@style/Regular"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
-                android:text="Invite"
-                android:textColor="@color/colorPrimary"
-                android:visibility="@{viewModel.contact.yapUser ? View.GONE : View.VISIBLE }"
-                tools:text="Invite" />
-
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/userPackageType"
-                android:layout_width="@dimen/_24sdp"
-                android:layout_height="@dimen/_24sdp"
-                android:layout_gravity="center"
-                android:contentDescription="@string/empty_string"
-                android:gravity="center"
-                android:onClick="@{(v) -> viewModel.onViewClicked(v)}"
-                android:src="@drawable/ic_package_standered"
-                android:visibility="@{viewModel.contact.yapUser ? View.VISIBLE : View.GONE }"
-                tools:visibility="visible" />
-
-        </FrameLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
