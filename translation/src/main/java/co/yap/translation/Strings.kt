@@ -863,13 +863,18 @@ object Strings {
         "screen_topup_card_detail_display_text_hint_card_type"
     const val screen_topup_card_detail_display_text_hint_card_expiry: String =
         "screen_topup_card_detail_display_text_hint_card_expiry"
+
     //TopUpFundsScreen
-    const val screen_topup_funds_tool_bar_header: String =
-        "screen_topup_funds_tool_bar_header"
-    const val screen_topup_funds_enter_amount_header: String =
-        "screen_topup_funds_enter_amount_header"
-    const val screen_topup_funds_display_text_available_balance: String =
-        "screen_topup_funds_display_text_available_balance"
+    const val screen_topup_transfer_display_text_screen_title: String =
+        "screen_topup_transfer_display_text_screen_title"
+    const val screen_topup_transfer_display_text_amount_title: String =
+        "screen_topup_transfer_display_text_amount_title"
+    const val screen_topup_transfer_display_text_available_balance: String =
+        "screen_topup_transfer_display_text_available_balance"
+    const val screen_topup_transfer_display_text_transaction_fee: String =
+        "screen_topup_transfer_display_text_transaction_fee"
+    const val screen_topup_transfer_display_text_transaction_no_fee: String =
+        "screen_topup_transfer_display_text_transaction_no_fee"
     const val screen_topup_funds_display_button_text: String =
         "screen_topup_funds_display_button_text"
 

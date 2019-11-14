@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces
 
 import android.graphics.drawable.Drawable
+import android.text.SpannableStringBuilder
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -52,6 +53,9 @@ interface IFundActions {
         var amountBackground: Drawable?
         var errorDescription: String
         var denominationAmount: String
+
+        var transactionFee: String
+        var transactionFeeSpannableString: String?
 
         //success screen variables
         var topUpSuccess: String

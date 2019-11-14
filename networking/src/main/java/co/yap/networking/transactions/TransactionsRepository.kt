@@ -9,6 +9,7 @@ import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
+
     const val URL_ADD_FUNDS = "/transactions/api/top-up"
     const val URL_REMOVE_FUNDS = "/transactions/api/withdraw"
     const val URL_FUND_TRANSFER_LIMITS = "/transactions/api/product/{product-code}/limits"
@@ -25,6 +26,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/account-transactions/{number}/{size}/"
     const val URL_GET_CARD_TRANSACTIONS =
         "/transactions/api/cards-transactions/{number}/{size}/"
+    const val URL_GET_FEE = "/transactions/api/fee"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -79,5 +81,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
                 cardTransactionRequest.serialNumber
             )
         })
+
+
+    override suspend fun getTransactionFee(TransactionType: String): RetroApiResponse<TransactionFeeResponseDTO> =
+        executeSafely(call = { api.getTransactionFee(TransactionType) })
 
 }

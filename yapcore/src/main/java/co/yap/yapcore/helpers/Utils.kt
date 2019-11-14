@@ -376,6 +376,25 @@ object Utils {
         return str
 
     }
+    fun getSpannableString(
+        context: Context,
+        staticString: String?,
+        startDestination: String?
+    ): SpannableStringBuilder {
+
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+        val separated = staticString?.split(startDestination!!)
+        val str = SpannableStringBuilder(staticString)
+
+        str.setSpan(
+            fcs,
+            separated?.get(0)!!.length,
+            separated[0].length + startDestination!!.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+        return str
+
+    }
 
     @SuppressLint("DefaultLocale")
     fun getCountryCodeFromTelephony(context: Context): String {

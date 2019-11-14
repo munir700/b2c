@@ -71,4 +71,8 @@ interface TransactionsRetroService {
         @Query("cardSerialNumber") cardSerialNumber: String
     ): Response<HomeTransactionsResponse>
 
+    // Get transaction fee
+    @GET(TransactionsRepository.URL_GET_FEE)
+    suspend fun getTransactionFee(@Query("type") type: String): Response<TransactionFeeResponseDTO>
+
 }
