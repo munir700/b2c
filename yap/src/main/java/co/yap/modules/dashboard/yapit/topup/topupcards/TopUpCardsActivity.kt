@@ -76,7 +76,7 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.topUpCards.observe(this, Observer {
             mAdapter.setList(it.toMutableList())
-            viewModel.updateCardCount(it.size)
+            viewModel.updateCardCount()
         })
     }
 

@@ -63,15 +63,18 @@ class TopUpCardsViewModel(application: Application) :
         }
     }
 
-    override fun updateCardCount(size: Int) {
-        val message = Translator.getString(
-            context,
-            R.string.screen_cards_display_text_cards_count
-        ).replace("%d", size.toString())
-        when (size) {
-            0 -> state.message.set("Add a card to top up")
-            1 -> state.noOfCard.set(message.substring(0, message.length - 1))
-            else -> state.noOfCard.set(message)
+    override fun updateCardCount() {
+        topUpCards.value?.size?.let {
+            val size = it - if (state.enableAddCard.get()) 1 else 0
+            val message = Translator.getString(
+                context,
+                R.string.screen_cards_display_text_cards_count
+            ).replace("%d", size.toString())
+            when (size) {
+                0 -> state.message.set("Add a card to top up")
+                1 -> state.noOfCard.set(message.substring(0, message.length - 1))
+                else -> state.noOfCard.set(message)
+            }
         }
     }
 

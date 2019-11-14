@@ -25,6 +25,7 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
@@ -47,6 +48,26 @@ import java.util.*
 
 
 object UIBinder {
+
+    // Top up card status
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(view: ImageView, card: TopUpCard?) {
+        card?.expiry?.let {
+//            when (CardStatus.valueOf(it)) {
+//                CardStatus.ACTIVE -> {
+//                    view.visibility = View.GONE
+//                }
+//                CardStatus.BLOCKED -> {
+//                    view.visibility = View.VISIBLE
+//                }
+//                CardStatus.INACTIVE -> {
+//                    view.visibility = View.VISIBLE
+//
+//                }
+//            }
+        }
+    }
 
     @BindingAdapter("bitmap")
     @JvmStatic
