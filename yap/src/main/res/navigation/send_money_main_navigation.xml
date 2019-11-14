@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/send_money_main_navigation"
     app:startDestination="@id/selectCountryFragment">
+
     <!--    app:startDestination="@id/cashTransferFragment">-->
     <!--    app:startDestination="@id/internationalFundsTransfer">-->
     <!--    app:startDestination="@id/beneficiaryOverviewFragment">-->
     <!--    app:startDestination="@id/sendMoneyHomeFragment">-->
-
     <!--    app:startDestination="@id/beneficiaryAccountDetailsFragment">-->
     <!--    app:startDestination="@id/addBankDetailsFragment">-->
     <!--    app:startDestination="@id/addBeneficiaryFragment">-->
@@ -68,14 +68,36 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_transferTypeFragment_to_addBeneficiaryFragment"
+            app:destination="@id/addBeneficiaryFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_transferTypeFragment_to_addBeneficiaryForDomesticTransferFragment"
+            app:destination="@id/addBeneficiaryForDomesticTransferFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+
+        <action
+            android:id="@+id/action_transferTypeFragment_to_addBeneficiaryForCashFlowFragment"
+            app:destination="@id/addBeneficiaryForCashFlowFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+
     </fragment>
 
 
     <fragment
         android:id="@+id/addBeneficiaryFragment"
-        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.AddBeneficiaryFragment"
+        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.AddBeneficiaryInternationlTransferFragment"
         android:label="Add beneficiary"
-        tools:layout="@layout/fragment_add_beneficiary">
+        tools:layout="@layout/fragment_add_beneficiary_international_bank_transfer">
 
         <action
             android:id="@+id/action_addBeneficiaryFragment_to_addBankDetailsFragment"
@@ -92,6 +114,37 @@
         <!--            app:popUpToInclusive="true" />-->
 
     </fragment>
+
+    <fragment
+        android:id="@+id/addBeneficiaryForCashFlowFragment"
+        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.AddBeneficiaryForCashFlowFragment"
+        android:label="Add beneficiary"
+        tools:layout="@layout/fragment_add_beneficiary_cash_flow">
+
+        <!--        <action-->
+        <!--            android:id="@+id/action_addBeneficiaryFragment_to_transferTypeFragment"-->
+        <!--            app:destination="@id/transferTypeFragment"-->
+        <!--            app:enterAnim="@anim/slide_in_right"-->
+        <!--            app:exitAnim="@anim/slide_out_left"-->
+        <!--            app:popUpToInclusive="true" />-->
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/addBeneficiaryForDomesticTransferFragment"
+        android:name="co.yap.modules.yapit.sendmoney.addbeneficiary.fragments.AddBeneficiaryForDomesticTransferFragment"
+        android:label="Add beneficiary"
+        tools:layout="@layout/fragment_add_beneficiary_domestic_transfer">
+
+        <!--        <action-->
+        <!--            android:id="@+id/action_addBeneficiaryFragment_to_transferTypeFragment"-->
+        <!--            app:destination="@id/transferTypeFragment"-->
+        <!--            app:enterAnim="@anim/slide_in_right"-->
+        <!--            app:exitAnim="@anim/slide_out_left"-->
+        <!--            app:popUpToInclusive="true" />-->
+
+    </fragment>
+
 
     <fragment
         android:id="@+id/addBankDetailsFragment"

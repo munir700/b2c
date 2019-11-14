@@ -14,22 +14,18 @@ import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryVi
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
 
-
-//this wil be the common screen in all three case only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
-
-
-class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
-    IAddBeneficiary.View {
+class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
+IAddBeneficiary.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     /*
-     Need to take the decision that if is from cash flow then use the fragment_add_domestic_beneficiary or other wise use fragment_add_beneficiary
+     Need to take the decision that if is from cash flow then use the fragment_add_beneficiary_domestic_transfer or other wise use fragment_add_beneficiary
        */
-//    override fun getLayoutId(): Int = R.layout.fragment_add_domestic_beneficiary
-    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary
+//    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_domestic_transfer
+    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_cash_flow
 
     override val viewModel: IAddBeneficiary.ViewModel
-        get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
+    get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,9 +37,6 @@ class AddBeneficiaryFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton ->
-                    ConfirmAddBeneficiary(this.activity!!)
-
-                R.id.confirmDomesticButton ->
                     ConfirmAddBeneficiary(this.activity!!)
             }
         })

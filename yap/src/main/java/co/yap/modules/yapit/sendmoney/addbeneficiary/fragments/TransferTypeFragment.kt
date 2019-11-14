@@ -31,18 +31,15 @@ class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
             when (it) {
 
                 R.id.llBankTransferType -> {
-                    findNavController().navigate(R.id.action_transferTypeFragment_to_selectCountryFragment)
-
+                    findNavController().navigate(R.id.action_transferTypeFragment_to_addBeneficiaryFragment)
                 }
 
                 R.id.llCashPickUpTransferType -> {
-                    findNavController().navigate(R.id.action_transferTypeFragment_to_selectCountryFragment)
-
+                    findNavController().navigate(R.id.action_transferTypeFragment_to_addBeneficiaryForCashFlowFragment)
+//                    findNavController().navigate(R.id.action_transferTypeFragment_to_selectCountryFragment)
                 }
             }
         })
-
-
     }
 
     override fun onPause() {
