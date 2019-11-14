@@ -49,7 +49,7 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
                         viewModel.addTopUpCard(
                             sessionId.toString(),
                             alias.toString(),
-                            "#$cardColor"
+                            cardColor.toString()
                         )
                         return true
                     }

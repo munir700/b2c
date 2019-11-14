@@ -20,7 +20,6 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
-
 class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     companion object {
         fun newIntent(context: Context): Intent {

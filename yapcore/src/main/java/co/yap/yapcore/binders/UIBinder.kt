@@ -617,4 +617,18 @@ object UIBinder {
             view.setCardExpiry(cardExpiry)
     }
 
+    @JvmStatic
+    @BindingAdapter("cardBackgroundColor")
+    fun setCardBackground(view: CorePaymentCard, cardBackgroundColor: String?) {
+        if (cardBackgroundColor != null)
+            view.setCardBackground(cardBackgroundColor)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardType")
+    fun setCardLogoByType(view: CorePaymentCard, cardType: String?) {
+        if (cardType != null)
+            view.setCardLogoByType(cardType)
+    }
+
 }

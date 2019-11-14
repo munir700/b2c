@@ -15,7 +15,7 @@
         android:id="@+id/clMainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/bg_gradient_payment_card">
+        android:background="@color/colorPrimaryDark">
 
         <ImageView
             android:id="@+id/ivChip"

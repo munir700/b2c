@@ -7,13 +7,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
 import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
-import co.yap.modules.dashboard.yapit.topup.main.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.topupcards.TopUpCardsActivity
-import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
-
-
 
 
 class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {

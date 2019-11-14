@@ -482,6 +482,13 @@ object Utils {
             Constants.URL_SHARE_APP_STORE,
             Constants.URL_SHARE_PLAY_STORE
         )
+    }
+
+    fun getFormattedCardNumber(cardNumber: String): String {
+        if (cardNumber.length == 4)
+            return "XXXX XXXX XXXX $cardNumber"
+        else
+            return "XXXX XXXX XXXX XXXX"
 
     }
 }

@@ -320,7 +320,6 @@
         <attr name="card_expiry" format="string" />
         <attr name="card_type" format="reference" />
         <attr name="card_background" format="reference" />
-
     </declare-styleable>
 
 </resources>

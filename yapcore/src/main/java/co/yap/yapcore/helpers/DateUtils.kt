@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.annotation.SuppressLint
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
@@ -106,5 +107,14 @@ object DateUtils {
         return d
     }
 
+    @SuppressLint("SimpleDateFormat")
+    fun convertTopUpDate(creationDate: String): String? {
+        val parser = SimpleDateFormat("MMyy")
+        parser.timeZone = TimeZone.getTimeZone("UTC")
+        val convertedDate = parser.parse(creationDate)
+        val pattern = "MM/yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        return simpleDateFormat.format(convertedDate)
+    }
 
 }

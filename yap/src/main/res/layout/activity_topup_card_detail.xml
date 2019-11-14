@@ -23,15 +23,27 @@
             layout="@layout/layout_topup_card_detail_toolbar"
             app:viewModel="@{viewModel}" />
 
+        <!--        <co.yap.widgets.CorePaymentCard-->
+        <!--            android:id="@+id/paymentCard"-->
+        <!--            app:cardExpiry="@{viewModel.state.cardInfo.expiry}"-->
+        <!--            app:cardNickname="@{viewModel.state.cardInfo.alias}"-->
+        <!--            app:card_type="@drawable/ic_visa_card"-->
+        <!--            app:cardNumber="@{viewModel.state.cardInfo.number}"-->
+        <!--            app:card_background="@drawable/bg_gradient_master_card"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toBottomOf="@id/toolbarCardDetail" />-->
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/paymentCard"
+            android:layout_width="@dimen/_220sdp"
+            android:layout_height="wrap_content"
             app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
             app:cardNickname="@{viewModel.state.cardInfo.alias}"
-            app:card_type="@drawable/ic_visa_card"
             app:cardNumber="@{viewModel.state.cardInfo.number}"
             app:card_background="@drawable/bg_gradient_master_card"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            app:card_type="@drawable/ic_visa_card"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/toolbarCardDetail" />
