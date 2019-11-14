@@ -43,4 +43,7 @@ object Constants {
     const val MODE_HELP_SUPPORT: Int = 2
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
     const val DUMMY_CARD: Int = 22
+
+    //Add Card Payment gateway URL
+    const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
 }

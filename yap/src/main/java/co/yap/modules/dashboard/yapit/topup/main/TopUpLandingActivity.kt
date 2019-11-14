@@ -6,11 +6,15 @@ import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.yapit.topup.main.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.topupcards.TopUpCardsActivity
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
+
+
+
 
 class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
 
@@ -19,6 +23,7 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
             return Intent(context, TopUpLandingActivity::class.java)
         }
     }
+
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_topup_landing
@@ -29,27 +34,14 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         viewModel.clickEvent.observe(this, clickEventObserver)
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.llBankTransferType -> {
-                val card = TopUpCard(
-                    "7",
-                    "#112233",
-                    "Citi Bank Card",
-                    "1234 5678 8765 7897",
-                    "12/2021",
-                    "VISA"
-                )
-                startActivity(
-                    TopupCardDetailActivity.getIntent(
-                        this@TopUpLandingActivity,
-                        card
-                    )
-                )
-                //startActivity(BankDetailActivity.newIntent(this))
+                startActivity(BankDetailActivity.newIntent(this))
             }
             R.id.llCardsTransferType -> {
                 startActivity(TopUpCardsActivity.newIntent(this))

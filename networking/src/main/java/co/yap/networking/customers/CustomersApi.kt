@@ -36,4 +36,5 @@ interface CustomersApi {
     suspend fun getRecentY2YBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
     suspend fun getTopUpBeneficiaries(): RetroApiResponse<TopUpBeneficiariesResponse>
     suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse>
+    suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<ApiResponse>
 }

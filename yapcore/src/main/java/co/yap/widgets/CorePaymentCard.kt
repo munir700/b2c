@@ -33,6 +33,9 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
         }
     }
 
+    override fun onLayout(changed: Boolean, l: Int, t: Int, r: Int, b: Int) {
+        super.onLayout(changed, l, t, r, b)
+    }
     fun setCardNickname(cardName: String) {
         tvBankName.text = cardName
     }
