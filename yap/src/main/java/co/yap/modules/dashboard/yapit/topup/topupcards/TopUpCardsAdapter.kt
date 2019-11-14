@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import android.content.Context
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -22,7 +23,7 @@ class TopUpCardsAdapter(
 
     private val empty = 1
     private val actual = 2
-    private var dimensions: IntArray = Utils.getCardDimensions(context, 50, 45)
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 65, 25)
 
     override fun getLayoutIdForViewType(viewType: Int): Int =
         if (viewType == actual) R.layout.item_topup_cards else R.layout.item_topup_card_empty
@@ -60,11 +61,11 @@ class TopUpCardsAdapter(
             onItemClickListener: OnItemClickListener?
         ) {
 
-//            val params = itemYapCardBinding.imgCard.layoutParams as ConstraintLayout.LayoutParams
-//            params.width = dimensions[0]
-//            params.height = dimensions[1]
-//            itemYapCardBinding.imgCard.layoutParams = params
-//
+            val params = binding.paymentCard.layoutParams as RecyclerView.LayoutParams
+            params.width = dimensions[0]
+            params.height = dimensions[1]
+            binding.paymentCard.layoutParams = params
+
             binding.viewModel =
                 TopUpItemViewModel(paymentCard, position, onItemClickListener)
             binding.executePendingBindings()
@@ -81,10 +82,11 @@ class TopUpCardsAdapter(
             onItemClickListener: OnItemClickListener?
         ) {
 
-//            val params = itemTopupCardsBinding.content.layoutParams as FrameLayout.LayoutParams
-//            params.width = dimensions[0]
-//            params.height = dimensions[1]
-//            itemTopupCardsBinding.imgCard.layoutParams = params
+            val params =
+                itemTopUpCardEmptyBinding.lycard.layoutParams as RecyclerView.LayoutParams
+            params.width = dimensions[0]
+            params.height = dimensions[1]
+            itemTopUpCardEmptyBinding.lycard.layoutParams = params
 
             itemTopUpCardEmptyBinding.viewModel =
                 TopUpEmptyItemViewModel(topUpCard, position, onItemClickListener)

@@ -32,26 +32,26 @@
             android:layout_marginTop="@dimen/margin_extra_large"
             android:layout_marginBottom="@dimen/margin_medium"
             android:text="@{viewModel.state.noOfCard}"
-            tools:text="You have 5 cards"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:text="You have 5 cards" />
 
         <TextView
             android:id="@+id/txtCardsSlogan"
             style="@style/MicroGrey"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.state.message}"
             android:layout_marginStart="@dimen/_18sdp"
             android:layout_marginTop="@dimen/small"
             android:layout_marginBottom="@dimen/margin_medium"
-            tools:text="Choose which card you want to top up with"
+            android:text="@{viewModel.state.message}"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtCardsCount" />
+            app:layout_constraintTop_toBottomOf="@+id/txtCardsCount"
+            tools:text="Choose which card you want to top up with" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clMain"
@@ -105,7 +105,7 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
@@ -118,21 +118,23 @@
             <TextView
                 android:id="@+id/txtCardName"
                 style="@style/SmallGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/margin_extra_small"
+                android:layout_weight="1"
                 android:gravity="center"
                 android:paddingBottom="@dimen/margin_extra_small"
-                android:layout_marginStart="@dimen/margin_extra_small"
                 android:text="@{viewModel.state.alias}"
-                tools:text="Citi Bank Card"
                 android:textColor="@color/colorPrimaryDark"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:text="Citi Bank Claksjdlasjdlkasjdlkasjdard" />
 
             <TextView
                 android:id="@+id/txtSecure"
                 style="@style/MicroGrey"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:drawableStart="@drawable/ic_secured"
                 android:gravity="center"
                 android:text="Secured by YAP"

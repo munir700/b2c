@@ -5,21 +5,19 @@ import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.LinearLayout
 import co.yap.yapcore.R
 import kotlinx.android.synthetic.main.core_payment_card.view.*
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class CorePaymentCard @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0,
-    defStyleRes: Int = 0
-) : LinearLayout(context, attrs, defStyle, defStyleRes) {
+class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) :
+    LinearLayout(context, attrs) {
+
+    var view: View = LayoutInflater.from(context)
+        .inflate(R.layout.core_payment_card, this, true)
 
     init {
-        LayoutInflater.from(context)
-            .inflate(R.layout.core_payment_card, this, true)
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CorePaymentCard, 0, 0)
 //            mCardNickname =
@@ -32,7 +30,6 @@ class CorePaymentCard @JvmOverloads constructor(
 //            tvCardNumber.text = cardNumber
 //            tvCardExpiry.text = cardExpiry
             typedArray.recycle()
-
         }
     }
 

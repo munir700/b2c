@@ -14,27 +14,18 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lyContact"
-        android:layout_width="wrap_content"
+    <co.yap.widgets.CorePaymentCard
+        android:id="@+id/paymentCard"
+        android:layout_width="@dimen/_150sdp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:background="@color/colorWhite"
-        android:onClick="@{(v) -> viewModel.handlePressOnView(v)}">
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
+        app:cardExpiry="@{viewModel.cardInfo.expiry}"
+        app:cardNickname="@{viewModel.cardInfo.alias}"
+        app:cardNumber="@{viewModel.cardInfo.number}"
+        app:card_background="@drawable/bg_gradient_master_card"
+        app:card_type="@drawable/ic_visa_card"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <co.yap.widgets.CorePaymentCard
-            android:id="@+id/paymentCard"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="wrap_content"
-            app:cardExpiry="@{viewModel.cardInfo.expiry}"
-            app:cardNickname="@{viewModel.cardInfo.alias}"
-            app:cardNumber="@{viewModel.cardInfo.number}"
-            app:card_background="@drawable/bg_gradient_master_card"
-            app:card_type="@drawable/ic_visa_card"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

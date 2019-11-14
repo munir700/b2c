@@ -12,12 +12,12 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/clYapScreenContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:focusableInTouchMode="true"
-        android:id="@+id/clYapScreenContainer"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:focusableInTouchMode="true">
 
         <include
             android:id="@+id/layoutRecent"
@@ -34,15 +34,15 @@
             android:id="@+id/layoutSearchView"
             layout="@layout/layout_contact_search"
             android:layout_width="0dp"
-            android:layout_marginStart="@dimen/_26sdp"
             android:layout_height="@dimen/_30sdp"
+            android:layout_marginStart="@dimen/_26sdp"
+            android:layout_marginTop="@dimen/margin_medium"
             android:layout_marginEnd="@dimen/_16sdp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/margin_medium"
             app:layout_constraintEnd_toStartOf="@id/tvCancel"
             app:layout_constraintStart_toStartOf="parent"
-            app:viewModel="@{viewModel}"
-            app:layout_constraintTop_toBottomOf="@+id/layoutRecent" />
+            app:layout_constraintTop_toBottomOf="@+id/layoutRecent"
+            app:viewModel="@{viewModel}" />
 
         <TextView
             android:id="@+id/tvCancel"
