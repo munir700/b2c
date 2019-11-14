@@ -314,5 +314,14 @@
         </attr>
     </declare-styleable>
 
+    <!--SwipeLayout-->
+
+     <declare-styleable name="SwipeLayout">
+        <attr name="menuSide" format="enum">
+            <enum name="Left" value="1" />
+            <enum name="Right" value="0" />
+        </attr>
+        <attr name="dynamicMenuWidth" format="boolean" />
+    </declare-styleable>
 
 </resources>
