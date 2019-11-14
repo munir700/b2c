@@ -5,7 +5,9 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.Fund
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
@@ -14,36 +16,29 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
         state.enterAmountHeading = getString(Strings.screen_topup_transfer_display_text_amount_title)
         state.currencyType = getString(Strings.common_text_currency_type)
-        //getFundTransferLimits(Constants.REMOVE_FUNDS_PRODUCT_CODE)
-        //getFundTransferDenominations(Constants.REMOVE_FUNDS_PRODUCT_CODE)
+        getFundTransferLimits(co.yap.modules.others.helper.Constants.ADD_FUNDS_PRODUCT_CODE)
+        getFundTransferDenominations(co.yap.modules.others.helper.Constants.ADD_FUNDS_PRODUCT_CODE)
         getTransactionFee()
-        state.maxLimit = 20000.00
-        state.minLimit = 0.01
-        state.availableBalance = "500"
         state.availableBalanceGuide =
             getString(Strings.screen_topup_transfer_display_text_available_balance)
                 .format(
                     state.currencyType,
-                    Utils.getFormattedCurrency(state.availableBalance)
+                    Utils.getFormattedCurrency(MyUserManager.cardBalance.value?.availableBalance.toString())
                 )
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)
-        state.denominationFirstAmount = "+100"
-        state.denominationSecondAmount = "+500"
-        state.denominationThirdAmount = "+1000"
-        state.transactionFee="0.0"
-        if (state.transactionFee.toDouble()==0.0){
-            state.transactionFee = "No Fee"
-        }
-
     }
 
-    fun getTransactionFee(){
+    private fun getTransactionFee(){
         launch {
             state.loading = true
-            when (val response = transactionsRepository.getTransactionFee(""
+            when (val response = transactionsRepository.getTransactionFee(Constants.TOP_UP
             )) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.call()
+                    state.transactionFee=response.data.data
+                    if (state.transactionFee.toDouble()==0.0){
+                        state.transactionFee = getString(Strings.screen_topup_transfer_display_text_transaction_no_fee)
+                    }
+                    clickEvent.postValue(Constants.CARD_FEE)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
+import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -63,6 +64,7 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             showToast("List item $pos clicked")
+            // startActivity(Intent(this, TopUpCardActivity::class.java))
             // on card item click
         }
     }
@@ -87,6 +89,7 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
             }
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
+                startActivity(TopUpCardActivity.newIntent(this, item))
                 // open detail from here.
             }
         }

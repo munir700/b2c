@@ -26,8 +26,8 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
     var clickEvent = Observer<Int> {
 
         when (it) {
-            R.id.btnAction -> findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
-
+            R.id.btnAction ->
+                findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
         }
     }
 

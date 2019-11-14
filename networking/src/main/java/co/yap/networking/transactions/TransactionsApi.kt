@@ -20,4 +20,5 @@ interface TransactionsApi {
     suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getTransactionFee(TransactionType: String): RetroApiResponse<TransactionFeeResponseDTO>
+    suspend fun createTransactionSession(): RetroApiResponse<TransactionFeeResponseDTO>
 }

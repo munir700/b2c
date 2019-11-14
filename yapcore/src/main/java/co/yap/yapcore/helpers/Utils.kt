@@ -361,19 +361,23 @@ object Utils {
         staticString: String,
         currencyType: String,
         amount: String
-    ): SpannableStringBuilder {
+    ): SpannableStringBuilder? {
+        return try {
+            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            val separated = staticString.split(currencyType)
+            val str = SpannableStringBuilder(staticString)
 
-        val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
-        val separated = staticString.split(currencyType)
-        val str = SpannableStringBuilder(staticString)
+            str.setSpan(
+                fcs,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str
+        }catch (e:Exception){
+            return null
+        }
 
-        str.setSpan(
-            fcs,
-            separated[0].length,
-            separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
-            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
-        )
-        return str
 
     }
     fun getSpannableString(

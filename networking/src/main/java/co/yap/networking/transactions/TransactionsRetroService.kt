@@ -1,10 +1,7 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
-import co.yap.networking.transactions.requestdtos.AddEditNoteRequest
-import co.yap.networking.transactions.requestdtos.AddFundsRequest
-import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
-import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
+import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import retrofit2.Response
@@ -74,5 +71,9 @@ interface TransactionsRetroService {
     // Get transaction fee
     @GET(TransactionsRepository.URL_GET_FEE)
     suspend fun getTransactionFee(@Query("type") type: String): Response<TransactionFeeResponseDTO>
+
+    // Get transaction fee
+    @GET(TransactionsRepository.URL_CHECKOUT_SESSION)
+    suspend fun createTransactionSession(@Body createSessionRequest: CreateSessionRequest): Response<TransactionFeeResponseDTO>
 
 }

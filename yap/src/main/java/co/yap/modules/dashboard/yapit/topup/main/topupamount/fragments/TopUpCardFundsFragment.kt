@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments
 
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -9,11 +10,15 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopUpCardFundsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels.TopUpCardFundsViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.CustomSnackbar
+import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     IFundActions.View {
@@ -66,12 +71,14 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             showErrorSnackBar()
         })
 
+
     }
 
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnAction -> findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             R.id.ivCross -> activity?.finish()
+            Constants.CARD_FEE -> setUpFeeData()
         }
     }
 
@@ -84,41 +91,22 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     }
 
     private fun setupData() {
-        viewModel.state.cardName = "Citi Bank Card"
-        viewModel.state.cardNumber = "123456789012"
-        viewModel.state.availableBalance = Utils.getFormattedCurrency("500")
+        getBindings().etAmount.filters =
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+        if (context is TopUpCardActivity) {
+            viewModel.state.cardNumber = (context as TopUpCardActivity).cardInfo?.number.toString()
+            viewModel.state.cardName = (context as TopUpCardActivity).cardInfo?.alias.toString()
+        }
+       // viewModel.state.cardName = "Citi Bank Card"
+      //  viewModel.state.cardNumber = "123456789012"
+        viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance.toString()
 
         getBindings().tvAvailableBalanceGuide.text = Utils.getSppnableStringForAmount(
             requireContext(),
             viewModel.state.availableBalanceGuide,
             viewModel.state.currencyType,
-            viewModel.state.availableBalance
+            Utils.getFormattedCurrencyWithoutComma(viewModel.state.availableBalance)
         )
-
-
-        if (viewModel.state.transactionFee == "No Fee") {
-            viewModel.state.transactionFeeSpannableString =
-                getString(Strings.screen_topup_transfer_display_text_transaction_fee)
-                    .format(viewModel.state.transactionFee)
-            getBindings().tvFeeDescription.text = Utils.getSpannableString(
-                requireContext(),
-                viewModel.state.transactionFeeSpannableString,
-                viewModel.state.transactionFee
-            )
-        } else if (viewModel.state.transactionFee.toDouble() > 0) {
-            viewModel.state.transactionFeeSpannableString =
-                getString(Strings.screen_topup_transfer_display_text_transaction_fee)
-                    .format(
-                        viewModel.state.currencyType+" " + Utils.getFormattedCurrency(viewModel.state.transactionFee)
-                    )
-            getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
-                requireContext(),
-                viewModel.state.transactionFeeSpannableString!!,
-                viewModel.state.currencyType,
-                viewModel.state.transactionFee
-            )
-        }
-
 
         /* val card: Card = intent.getParcelableExtra(CARD)
           viewModel.state.cardNumber = card.maskedCardNo
@@ -138,6 +126,31 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
              " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
                  viewModel.state.availableBalance
              )*/
+    }
+
+    private fun setUpFeeData() {
+        if (viewModel.state.transactionFee == getString(Strings.screen_topup_transfer_display_text_transaction_no_fee)) {
+            viewModel.state.transactionFeeSpannableString =
+                getString(Strings.screen_topup_transfer_display_text_transaction_fee)
+                    .format(viewModel.state.transactionFee)
+            getBindings().tvFeeDescription.text = Utils.getSpannableString(
+                requireContext(),
+                viewModel.state.transactionFeeSpannableString,
+                viewModel.state.transactionFee
+            )
+        } else if (viewModel.state.transactionFee.toDouble() > 0) {
+            viewModel.state.transactionFeeSpannableString =
+                getString(Strings.screen_topup_transfer_display_text_transaction_fee)
+                    .format(
+                        viewModel.state.currencyType + " " + Utils.getFormattedCurrency(viewModel.state.transactionFee)
+                    )
+            getBindings().tvFeeDescription.text = Utils.getSppnableStringForAmount(
+                requireContext(),
+                viewModel.state.transactionFeeSpannableString!!,
+                viewModel.state.currencyType,
+                viewModel.state.transactionFee
+            )
+        }
     }
 
     private fun getBindings(): FragmentTopUpCardFundsBinding {
