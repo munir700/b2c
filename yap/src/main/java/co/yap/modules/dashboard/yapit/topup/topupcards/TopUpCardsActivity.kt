@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -11,6 +12,8 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.AddTopUpCardActivity
+import co.yap.modules.others.helper.Constants
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -18,7 +21,6 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 
 
 class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
-
     companion object {
         fun newIntent(context: Context): Intent {
             return Intent(context, TopUpCardsActivity::class.java)
@@ -84,8 +86,13 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
-            R.id.llBankTransferType -> {
-
+            R.id.tbBtnAddCard -> {
+                startActivityForResult(
+                    Intent(
+                        this,
+                        AddTopUpCardActivity::class.java
+                    ), Constants.EVENT_ADD_TOPUP_CARD
+                )
             }
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
@@ -99,4 +106,11 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         return viewDataBinding as ActivityTopupCardsBinding
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.EVENT_ADD_TOPUP_CARD && resultCode == Activity.RESULT_OK) {
+            if (true == data?.getBooleanExtra("isCardAdded", false))
+                viewModel.getPaymentCards()
+        }
+    }
 }
