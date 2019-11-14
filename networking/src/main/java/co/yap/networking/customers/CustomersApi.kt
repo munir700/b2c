@@ -33,6 +33,10 @@ interface CustomersApi {
     suspend fun detectCardData(file: MultipartBody.Part): RetroApiResponse<ApiResponse>
     suspend fun getY2YBeneficiaries(contacts: List<Contact>): RetroApiResponse<Y2YBeneficiariesResponse>
     suspend fun getRecentY2YBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
+
+/*  send money */
+
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
-//    suspend fun getAllCountries(): RetroApiResponse<CountriesResponseDTO>
- }
+    suspend fun addBeneficiary(): RetroApiResponse<ApiResponse>
+
+}
