@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface ISelectCountry {
 
@@ -14,12 +13,11 @@ interface ISelectCountry {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         fun handlePressOnSeclectCountry(id: Int)
+        fun onTransparentViewClick(id: Int)
         var countries: ArrayList<Country>?
         val populateSpinnerData: MutableLiveData<List<Country>>
 
     }
 
-    interface View : IBase.View<ViewModel> {
-        fun setUpSpinner()
-    }
+    interface View : IBase.View<ViewModel>
 }

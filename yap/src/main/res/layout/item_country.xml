@@ -17,7 +17,8 @@
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:padding="@dimen/_5sdp">
+        android:padding="@dimen/_5sdp"
+        >
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/flag_img"

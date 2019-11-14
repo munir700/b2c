@@ -27,6 +27,10 @@ class SelectCountryViewModel(application: Application) :
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
+    override fun onTransparentViewClick(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun handlePressOnSeclectCountry(id: Int) {
         clickEvent.setValue(id)
     }
