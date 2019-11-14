@@ -61,7 +61,8 @@
                     android:layout_height="@dimen/_42sdp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/_2sdp"
-                    android:background="@drawable/bg_round_purple">
+                    android:background="@drawable/bg_round_purple_enabled"
+                    >
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -88,9 +89,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
-                    android:text="@string/screen_add_beneficiary_display_text_transfer_type_cash_pickup_description"
+                    android:paddingLeft="@dimen/margin_extra_small"
+                    android:paddingRight="@dimen/margin_extra_small"
+                    android:text="@string/screen_add_beneficiary_display_text_transfer_type_bank_description"
                     android:textSize="@dimen/text_size_c3"
-                    app:text="@{Strings.screen_add_beneficiary_display_text_transfer_type_cash_pickup_description}" />
+                    app:text="@{Strings.screen_add_beneficiary_display_text_transfer_type_bank_description}" />
 
 
             </LinearLayout>
@@ -110,7 +113,7 @@
                     android:layout_height="@dimen/_42sdp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/_2sdp"
-                    android:background="@drawable/bg_round_purple">
+                    android:background="@drawable/bg_round_purple_enabled">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -137,6 +140,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
+                    android:paddingLeft="@dimen/margin_small"
+                    android:paddingRight="@dimen/margin_small"
                     android:text="@string/screen_add_beneficiary_display_text_transfer_type_cash_pickup_description"
                     android:textSize="@dimen/text_size_c3"
                     app:text="@{Strings.screen_add_beneficiary_display_text_transfer_type_cash_pickup_description}" />

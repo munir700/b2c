@@ -42,6 +42,13 @@
         tools:layout="@layout/fragment_select_country">
 
         <action
+            android:id="@+id/action_selectCountryFragment_to_transferTypeFragment"
+            app:destination="@id/transferTypeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
+
+        <action
             android:id="@+id/action_selectCountryFragment_to_addBeneficiaryFragment"
             app:destination="@id/addBeneficiaryFragment"
             app:enterAnim="@anim/slide_in_right"

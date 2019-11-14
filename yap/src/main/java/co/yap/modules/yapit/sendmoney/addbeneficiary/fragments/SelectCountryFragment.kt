@@ -50,19 +50,20 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-                R.id.nextButton ->
-                    findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
+                R.id.nextButton -> {
+//                    findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
+                    findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
+                }
 
                 R.id.viewTriggerSpinnerClick -> {
                     countriesSpinner.performClick()
-
                 }
             }
         })
-
     }
 
     fun getCountryAdapter(): CountryAdapter {
+
         if (countryAdapter == null)
             countryAdapter =
                 context?.let {
@@ -73,6 +74,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                         )
                     }
                 }
+
         return this!!.countryAdapter!!
     }
 

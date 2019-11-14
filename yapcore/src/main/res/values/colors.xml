@@ -53,5 +53,7 @@
     <color name="copyBtn">#a0a682ff</color>
     <color name="seekbarProgress">#287c4dff</color>
 
+    <color name="disabledPurple">#297c4dff</color>
+
 
 </resources>
