@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="co.yap.modules.dashboard.yapit.topup.topupcards.activities.AddTopUpCardActivity"
+    tools:context=".modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.AddTopUpCardActivity"
     tools:showIn="@layout/activity_add_top_up_card">
     <WebView
         android:id="@+id/wb"

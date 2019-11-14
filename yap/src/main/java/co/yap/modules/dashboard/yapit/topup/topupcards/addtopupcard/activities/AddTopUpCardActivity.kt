@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.topup.topupcards.activities
+package co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities
 
 import android.annotation.SuppressLint
 import android.app.Activity
@@ -11,8 +11,8 @@ import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.yapit.topup.topupcards.interfaces.IAddTopUpCard
-import co.yap.modules.dashboard.yapit.topup.topupcards.viewmodels.AddTopUpCardViewModel
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.interfaces.IAddTopUpCard
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.viewmodels.AddTopUpCardViewModel
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.activity_add_top_up_card.*

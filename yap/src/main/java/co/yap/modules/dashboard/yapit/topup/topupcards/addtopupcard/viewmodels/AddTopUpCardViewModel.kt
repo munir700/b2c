@@ -1,9 +1,9 @@
-package co.yap.modules.dashboard.yapit.topup.topupcards.viewmodels
+package co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.topup.topupcards.interfaces.IAddTopUpCard
-import co.yap.modules.dashboard.yapit.topup.topupcards.states.AddTopUpCardState
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.interfaces.IAddTopUpCard
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.states.AddTopUpCardState
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.Session
 import co.yap.networking.customers.requestdtos.CreateBeneficiaryRequest

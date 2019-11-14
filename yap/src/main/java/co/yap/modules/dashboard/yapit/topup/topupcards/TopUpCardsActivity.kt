@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
-import co.yap.modules.dashboard.yapit.topup.topupcards.activities.AddTopUpCardActivity
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.modules.others.helper.Constants
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.interfaces.OnItemClickListener

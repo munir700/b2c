@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.yapit.topup.topupcards.interfaces
+package co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.interfaces
 
 import androidx.lifecycle.MutableLiveData
 import co.yap.yapcore.IBase
