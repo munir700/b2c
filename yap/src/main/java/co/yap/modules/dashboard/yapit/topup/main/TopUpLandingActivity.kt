@@ -2,9 +2,7 @@ package co.yap.modules.dashboard.yapit.topup.main
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -13,9 +11,6 @@ import co.yap.modules.dashboard.yapit.topup.topupcards.TopUpCardsActivity
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.Utils
-import com.google.android.material.appbar.AppBarLayout
-import com.thefinestartist.finestwebview.FinestWebView
 
 
 
@@ -39,10 +34,6 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val intent = intent
-        if (Intent.ACTION_VIEW == intent.action) {
-            onNewIntent(intent)
-        }
         viewModel.clickEvent.observe(this, clickEventObserver)
     }
 

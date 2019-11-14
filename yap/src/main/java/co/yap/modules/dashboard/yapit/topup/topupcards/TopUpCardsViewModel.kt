@@ -4,6 +4,8 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.models.Session
+import co.yap.networking.customers.requestdtos.CreateBeneficiaryRequest
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -84,5 +86,24 @@ class TopUpCardsViewModel(application: Application) :
             "addCard",
             ""
         )
+    }
+
+    override fun addTopUpCard(sessionId: String, alias: String, color: String) {
+        launch {
+            state.loading = true
+            when (val response = repository.createBeneficiary(
+                CreateBeneficiaryRequest(
+                    alias, color,
+                    Session(sessionId)
+                )
+            )) {
+                is RetroApiResponse.Success -> {
+
+                }
+
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
+        }
     }
 }
