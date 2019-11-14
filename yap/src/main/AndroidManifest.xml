@@ -142,7 +142,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.dashboard.yapit.topup.main.TopUpLandingActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="load"
+                    android:scheme="yap-app" />
+<!--               yap-app://load?sessionID=SESSION0002571148502K5256417G27color=#00b9aealias=somthing-->
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name=".modules.dashboard.yapit.topup.topupcards.TopUpCardsActivity"
