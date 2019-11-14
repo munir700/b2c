@@ -15,10 +15,10 @@ class Country : Parcelable, Serializable {
     @SerializedName("isoCountryCode3Digit")
     var isoCountryCode3Digit: String? = null
 
-      @SerializedName("cashPickUp")
+    @SerializedName("cashPickUp")
     private var cashPickUpAllowed: Boolean = false
 
-      @SerializedName("rmtCountry")
+    @SerializedName("rmtCountry")
     private var rmt: Boolean = false
 
     @SerializedName("isoCountryCode2Digit")
@@ -29,7 +29,7 @@ class Country : Parcelable, Serializable {
     var supportedCurrencies: List<Currency>? = null
 
     private var flagDrawableResId = -1
-     private var currency: Currency? = null
+    private var currency: Currency? = null
 
     val isFlagAvailable: Boolean
         get() = getFlagDrawableResId() > 0

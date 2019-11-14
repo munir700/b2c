@@ -6,6 +6,8 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MediaType
@@ -176,7 +178,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getAllCountries() =
         executeSafely(call = { api.getAllCountries() })
 
-    override suspend fun addBeneficiary(): RetroApiResponse<ApiResponse> =  executeSafely(call = { api.addBeneficiary() })
+    override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =  executeSafely(call = { api.addBeneficiary(beneficiary) })
 
 
 }

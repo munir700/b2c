@@ -5,7 +5,9 @@ import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.yapit.sendmoney.addbeneficiary.states.AddBeneficiaryStates
 import co.yap.modules.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -36,5 +38,24 @@ class AddBeneficiaryViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         toggleAddButtonVisibility(false)
+    }
+
+    fun requestAddBeneficiary() {
+        var beneficiary: Beneficiary = Beneficiary()
+
+        launch {
+            state.loading = true
+            when (val response = repository.addBeneficiary(beneficiary)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+
+                }
+            }
+        }
     }
 }

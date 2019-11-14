@@ -8,6 +8,9 @@ import co.yap.networking.customers.requestdtos.SignUpRequest
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -100,5 +103,6 @@ interface CustomersRetroService {
     suspend fun getAllCountries(): Response<CountryModel>
 
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
-    suspend fun addBeneficiary(): Response<CountryModel>
+    suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
+
 }

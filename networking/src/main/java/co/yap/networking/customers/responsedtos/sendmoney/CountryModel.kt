@@ -1,4 +1,4 @@
-package co.yap.networking.customers.responsedtos
+package co.yap.networking.customers.responsedtos.sendmoney
 
 import co.yap.networking.models.ApiResponse
 

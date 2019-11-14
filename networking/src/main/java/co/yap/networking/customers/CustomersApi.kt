@@ -3,6 +3,9 @@ package co.yap.networking.customers
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
@@ -37,6 +40,6 @@ interface CustomersApi {
 /*  send money */
 
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
-    suspend fun addBeneficiary(): RetroApiResponse<ApiResponse>
+    suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO>
 
 }
