@@ -8,7 +8,6 @@
     android:layout_margin="@dimen/margin_extra_small"
     android:background="@color/white"
     android:elevation="@dimen/_5sdp"
-    android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
     app:cardCornerRadius="@dimen/_5sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
