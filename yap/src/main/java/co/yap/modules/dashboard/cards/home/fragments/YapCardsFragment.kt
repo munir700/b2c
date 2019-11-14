@@ -65,8 +65,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun setupList() {
-        /* if (viewModel.state.enableAddCard.get())
-             MyUserManager.cards.value?.add(getAddCard())*/
         adapter.setList(MyUserManager.cards.value!!)
         updateCardCount()
     }
