@@ -2,12 +2,16 @@ package co.yap.modules.dashboard.yapit.topup.main.carddetail
 
 import android.app.Application
 import co.yap.R
+import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
 class TopUpCardDetailViewModel(application: Application) :
     BaseViewModel<ITopUpCardDetail.State>(application),
-    ITopUpCardDetail.ViewModel {
+    ITopUpCardDetail.ViewModel, IRepositoryHolder<CustomersRepository> {
+    override val repository: CustomersRepository = CustomersRepository
     override val state: ITopUpCardDetail.State = TopUpCardDetailState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     init {
@@ -23,9 +27,18 @@ class TopUpCardDetailViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun onRemoveCard() {
-        // call the api to remove the card
+    override fun onRemoveCard(cardId: String) {
+        launch {
+            state.loading = true
+            when (val response = repository.deleteBeneficiary(cardId)) {
+                is RetroApiResponse.Success -> state.isCardDeleted.value = true
+                is RetroApiResponse.Error -> {
+                    state.isCardDeleted.value = false
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
     }
-
 
 }

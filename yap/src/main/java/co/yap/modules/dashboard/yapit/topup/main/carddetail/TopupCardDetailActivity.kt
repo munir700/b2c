@@ -1,22 +1,28 @@
 package co.yap.modules.dashboard.yapit.topup.main.carddetail
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.PersistableBundle
+import android.os.Parcelable
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
 
 class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>() {
 
     companion object {
-        fun getIntent(context: Context): Intent {
-            return Intent(context, TopupCardDetailActivity::class.java)
+        const val key = "card"
+        fun getIntent(context: Context, card: TopUpCard): Intent {
+            val intent = Intent(context, TopupCardDetailActivity::class.java)
+            intent.putExtra(key, card)
+            return intent
         }
     }
+
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_topup_card_detail
     override val viewModel: ITopUpCardDetail.ViewModel
@@ -25,25 +31,44 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setObservers()
-        setupView()
+        if (intent.hasExtra(key)) {
+            val card: Parcelable = intent.getParcelableExtra(key)
+            if (card is TopUpCard) {
+                viewModel.state.cardInfo.set(card)
+            }
+        }
     }
 
-    private fun setupView() {
-        //TODO: set these values from Selected Card
-        viewModel.state.cardNickname.set("Citi Bank Card")
-        viewModel.state.cardNo.set("Citi Bank *8765")
-        viewModel.state.cardType.set("Visa")
-        viewModel.state.cardExpiry.set("12/2021")
-    }
 
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
+        viewModel.state.isCardDeleted.observe(this, Observer {
+            when (it) {
+                true -> onCardDeleted()
+            }
+        })
+    }
+
+    private fun onCardDeleted() {
+        setData()
+        finish()
+    }
+
+    private fun setData() {
+        val intent = Intent()
+        intent.putExtra("card", viewModel.state.cardInfo.get())
+        intent.putExtra("isCardDeleted", true)
+        setResult(Activity.RESULT_OK, intent)
     }
 
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.IvClose -> finish()
-            R.id.tvRemoveCard -> viewModel.onRemoveCard()
+            R.id.tvRemoveCard -> {
+                viewModel.state.cardInfo.get()?.id?.let { it ->
+                    viewModel.onRemoveCard(it)
+                }
+            }
         }
     }
 }

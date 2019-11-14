@@ -16,12 +16,6 @@ class CorePaymentCard @JvmOverloads constructor(
     defStyle: Int = 0,
     defStyleRes: Int = 0
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
-    private var mCardNickname = ""
-//    var cardNickname: String
-//        get() = mCardNickname
-//        set(cardNickname) {
-//            mCardNickname = cardNickname
-//        }
 
     init {
         LayoutInflater.from(context)

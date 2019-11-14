@@ -3,11 +3,13 @@ package co.yap.modules.dashboard.more.profile.fragments
 import android.Manifest
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.NonNull
 import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -20,7 +22,11 @@ import co.yap.modules.dashboard.more.main.fragments.MoreBaseFragment
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.viewmodels.ProfileSettingsViewModel
 import co.yap.modules.others.helper.Constants
+import co.yap.networking.cards.CardsRepository
+import co.yap.networking.cards.responsedtos.Address
+import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.cards.responsedtos.CardBalance
+import co.yap.networking.customers.responsedtos.AccountInfo
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.SharedPreferenceManager
@@ -201,7 +207,9 @@ class ProfileSettingsFragment : MoreBaseFragment<IProfile.ViewModel>(), IProfile
 
     private fun doLogout() {
         AuthUtils.navigateToHardLogin(requireContext())
+        MyUserManager.user = null
         MyUserManager.cardBalance.value = CardBalance()
+        MyUserManager.cards = MutableLiveData()
         MyUserManager.cards.value?.clear()
         MyUserManager.userAddress = null
         MoreActivity.showExpiredIcon = false
