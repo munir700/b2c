@@ -5,21 +5,17 @@ import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.SpinnerAdapter
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.yapit.sendmoney.adapters.CountryAdapter
- import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
-import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.countryutils.country.Country
- import co.yap.modules.yapit.sendmoney.adapters.CustomCountrySpinner
+import co.yap.modules.yapit.sendmoney.adapters.CountryAdapter
+import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
+import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
+import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import kotlinx.android.synthetic.main.fragment_select_country.*
- import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
-
-
 
 
 class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
@@ -49,7 +45,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         })
 
         viewModel.populateSpinnerData.observe(this, Observer {
-//              setUpSpinner()
+            //              setUpSpinner()
 
 
 //            countriesSpinner.adapter = ArrayAdapter(
@@ -115,11 +111,14 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     fun getCountryAdapter(): CountryAdapter {
         if (countryAdapter == null)
             countryAdapter =
-                context?.let { viewModel.countries?.let { it1 ->
-                    CountryAdapter(it, R.layout.item_country,
-                        it1
-                    )
-                } }
+                context?.let {
+                    viewModel.countries?.let { it1 ->
+                        CountryAdapter(
+                            it, R.layout.item_country,
+                            it1
+                        )
+                    }
+                }
         return this!!.countryAdapter!!
     }
 
@@ -127,8 +126,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 //    private var countries: ArrayList<Country>? = null
 
 
-
-     override fun setUpSpinner() {
+    override fun setUpSpinner() {
 
 //        countryArrayAdapter = ArrayAdapter<Country>(
 //            activity!!.applicationContext,

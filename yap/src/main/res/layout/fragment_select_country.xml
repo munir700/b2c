@@ -69,11 +69,11 @@
                     android:layout_centerVertical="true"
                     android:paddingBottom="@dimen/small" />
 
-                <View
-                    android:id="@+id/spinnerOverlay"
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true" />
+<!--                <View-->
+<!--                    android:id="@+id/spinnerOverlay"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="20dp"-->
+<!--                    android:layout_centerVertical="true" />-->
             </RelativeLayout>
 
         </LinearLayout>
