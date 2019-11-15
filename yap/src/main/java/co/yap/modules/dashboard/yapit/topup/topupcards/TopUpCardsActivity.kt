@@ -50,7 +50,6 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         getBinding().rvTopUpCards.addOnItemChangedListener { viewHolder, adapterPosition ->
             updateSelection(viewHolder, adapterPosition)
         }
-        mAdapter.allowFullItemClickListener = true
         mAdapter.setItemListener(listener)
         getBinding().rvTopUpCards.smoothScrollToPosition(0)
         getBinding().rvTopUpCards.setItemTransitionTimeMillis(100)
@@ -73,8 +72,10 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     private fun updateSelection(viewHolder: RecyclerView.ViewHolder?, adapterPosition: Int) {
         val item = mAdapter.getDataForPosition(adapterPosition)
         if (item.alias == "addCard") {
+            viewModel.state.valid.set(false)
             viewModel.state.alias.set("")
         } else {
+            viewModel.state.valid.set(true)
             viewModel.state.alias.set(item.alias)
         }
     }
@@ -90,32 +91,33 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tbBtnAddCard -> {
-                startActivityForResult(
-                    Intent(
-                        this,
-                        AddTopUpCardActivity::class.java
-                    ), Constants.EVENT_ADD_TOPUP_CARD
-                )
+                addCardProcess()
             }
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                startActivity(TopUpCardActivity.newIntent(this, item))
-                // open detail from here.
+                if (item.alias != "addCard")
+                    startActivity(
+                        TopUpCardActivity.newIntent(
+                            this,
+                            item
+                        )
+                    )
             }
-
             R.id.paymentCard -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                openCardDetail(item)
+                startActivity(TopUpCardActivity.newIntent(this, item))
             }
 
             R.id.imgStatus -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                showToast("status clicked")
+                openCardDetail(item)
             }
             R.id.tbBtnBack -> {
                 onBackPressed()
             }
-
+            R.id.lycard -> {
+                addCardProcess()
+            }
         }
     }
 
@@ -134,6 +136,15 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
                 )
             ),
             Constants.EVENT_DELETE_TOPUP_CARD
+        )
+    }
+
+    private fun addCardProcess() {
+        startActivityForResult(
+            Intent(
+                this,
+                AddTopUpCardActivity::class.java
+            ), Constants.EVENT_ADD_TOPUP_CARD
         )
     }
 
