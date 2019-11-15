@@ -149,6 +149,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.deleteBeneficiary(cardId) })
 
-    override suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse> =
         executeSafely(call = { api.createBeneficiary(createBeneficiaryRequest) })
 }

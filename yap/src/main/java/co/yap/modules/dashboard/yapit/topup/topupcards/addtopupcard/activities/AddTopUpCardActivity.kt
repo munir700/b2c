@@ -9,9 +9,11 @@ import android.webkit.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.AddTopUpCardDialog
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.interfaces.IAddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.viewmodels.AddTopUpCardViewModel
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.activity_add_top_up_card.*
@@ -108,10 +110,9 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
 
 
     fun setObservers() {
-        viewModel.isCardAdded.observe(this, Observer {
-            when (it) {
-                true -> showAddCardDialog()
-            }
+        viewModel.isCardAdded?.observe(this, Observer {
+            if (it != null)
+                showAddCardDialog(it)
         })
     }
 
@@ -121,12 +122,14 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
         setResult(Activity.RESULT_OK, intent)
     }
 
-    private fun showAddCardDialog() {
+    private fun showAddCardDialog(card: TopUpCard) {
         AddTopUpCardDialog.newInstance(object : AddTopUpCardDialog.OnProceedListener {
             override fun onProceed(id: Int) {
                 when (id) {
                     R.id.btnTopUpNow -> {
-                        // startActivity(TopUpCardActivity.newIntent(this@AddTopUpCardActivity, item))
+                        startActivity(TopUpCardActivity.newIntent(this@AddTopUpCardActivity, card))
+                        setData(true)
+                        finish()
                     }
                     R.id.btnLater -> {
                         setData(true)
