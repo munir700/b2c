@@ -42,6 +42,9 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
             R.id.llCardsTransferType -> {
                 startActivity(TopUpCardsActivity.newIntent(this))
             }
+            R.id.tbBtnBack -> {
+                onBackPressed()
+            }
         }
     }
 

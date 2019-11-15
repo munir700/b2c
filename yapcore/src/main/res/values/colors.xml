@@ -29,6 +29,7 @@
     <color name="divider">#1b979797</color>
     <color name="dialogBtnColor">#673ab7</color>
     <color name="dialogTitleColor">#de000000</color>
+    <color name="disabledPurple">#297c4dff</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>
     <color name="colorSecondaryOrange">#f57f17</color>

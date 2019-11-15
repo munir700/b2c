@@ -98,9 +98,12 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             )) {
                 is RetroApiResponse.Success -> {
                     //openFaqsPage(response.data.data.`3DSecure`.authenticationRedirect.simple.htmlBodyContent)
+                    state.toast = response.data.data.`3DSecureId`
                     htmlLiveData.value =
                         response.data.data.`3DSecure`.authenticationRedirect.simple.htmlBodyContent
-                    clickEvent.postValue(100)
+
+                   // state.toast = response.data.data.secure3dId
+                    //clickEvent.postValue(100)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
