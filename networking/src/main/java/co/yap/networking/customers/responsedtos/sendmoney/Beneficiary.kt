@@ -3,7 +3,7 @@ package co.yap.networking.customers.responsedtos.sendmoney
 import java.io.Serializable
 
 
-class Beneficiary : Serializable {
+open class Beneficiary : Serializable {
 
     var id: Int = 0
     var beneficiaryId: String? = null

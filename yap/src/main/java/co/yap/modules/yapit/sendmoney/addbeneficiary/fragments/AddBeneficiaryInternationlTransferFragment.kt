@@ -17,7 +17,6 @@ import co.yap.translation.Translator
 
 //this wil be the common screen in all three case only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
 
-
 class AddBeneficiaryInternationlTransferFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
 
@@ -98,6 +97,7 @@ class AddBeneficiaryInternationlTransferFragment : SendMoneyBaseFragment<IAddBen
             )
             .show()
     }
+
 //    fun ConfirmAddBeneficiary() {
 //        AlertDialog.Builder(this!!.activity!!)
 //            .setTitle(getString(R.string.screen_add_beneficiary_detail_display_text_alert_title))

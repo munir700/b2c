@@ -1,6 +1,8 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
+import co.yap.modules.yapit.sendmoney.addbeneficiary.models.AddBeneficiaryData
+import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryRequestDTO
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -33,6 +35,9 @@ interface IAddBeneficiary {
 
         fun handlePressOnAddNow(id:Int)
         fun handlePressOnAddDomestic(id:Int)
+
+        fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
+
     }
 
     interface View : IBase.View<ViewModel>

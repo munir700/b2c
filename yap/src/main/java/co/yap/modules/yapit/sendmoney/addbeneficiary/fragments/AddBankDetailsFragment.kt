@@ -34,7 +34,6 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
             when (it) {
                 R.id.confirmButton ->
                     findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
-
             }
         })
     }

@@ -24,13 +24,13 @@
             android:id="@+id/layoutNoContacts"
             layout="@layout/layout_no_contacts"
             app:viewModel="@{viewModel}"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
 
         <include
             android:id="@+id/layoutBeneficiaries"
-            layout="@layout/layout_beneficiaries"
-            app:viewModel="@{viewModel}" />
+            layout="@layout/layout_beneficiaries"/>
+<!--            app:viewModel="@{viewModel}" />   -->
 
     </LinearLayout>
 </layout>
