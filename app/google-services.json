@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "1041395736162",
+    "firebase_url": "https://yap-mobile.firebaseio.com",
+    "project_id": "yap-mobile",
+    "storage_bucket": "yap-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041395736162:android:64797645ae4dff248bbb3b",
+        "android_client_info": {
+          "package_name": "co.yap.dev"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041395736162-rjtvioaev5qe7uik5makbl3i66tr8tjp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "co.yap.dev",
+            "certificate_hash": "fb0909c0a33a6dcd91f41dde74fb6b82d237d90c"
+          }
+        },
+        {
+          "client_id": "1041395736162-hlm96ns8e7uncdbksl5e3g2vkmm0fmka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB695EvEc3n4uRCoXspwU7WfSXlkHXcHJs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1041395736162-hlm96ns8e7uncdbksl5e3g2vkmm0fmka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "1041395736162-hruvq97qig71i4oau693vsbts7ih4ki2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "co.yap.ios.stg"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
