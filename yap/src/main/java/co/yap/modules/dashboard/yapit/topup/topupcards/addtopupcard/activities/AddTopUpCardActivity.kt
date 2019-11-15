@@ -5,13 +5,15 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.webkit.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.AddTopUpCardDialog
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.interfaces.IAddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.viewmodels.AddTopUpCardViewModel
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseActivity
 import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.activity_add_top_up_card.*
@@ -58,13 +60,12 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
                 request: WebResourceRequest?
             ): Boolean {
                 request?.let {
-                    println("request is ${request.url.toString()}")
                     if (request.url.toString().startsWith("yap-app://")) {
                         onNewIntent(intent)
                         sessionId = request.url.getQueryParameter("sessionID")
                         cardColor = request.url.getQueryParameter("color")
                         alias = request.url.getQueryParameter("alias")
-                        view?.visibility = View.GONE
+                       // view?.visibility = View.GONE
                         viewModel.addTopUpCard(
                             sessionId.toString(),
                             alias.toString(),
@@ -113,14 +114,34 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
             onBackPressed()
         }
         viewModel.isCardAdded.observe(this, Observer {
-            setData(it)
-            finish()
+            if (it != null)
+                showAddCardDialog(it)
         })
+
     }
 
     private fun setData(isCardAdded: Boolean) {
         val intent = Intent()
         intent.putExtra("isCardAdded", isCardAdded)
         setResult(Activity.RESULT_OK, intent)
+    }
+
+    private fun showAddCardDialog(card: TopUpCard) {
+        AddTopUpCardDialog.newInstance(object : AddTopUpCardDialog.OnProceedListener {
+            override fun onProceed(id: Int) {
+                when (id) {
+                    R.id.btnTopUpNow -> {
+                        startActivity(TopUpCardActivity.newIntent(this@AddTopUpCardActivity, card))
+                        setData(true)
+                        finish()
+                    }
+                    R.id.btnLater -> {
+                        setData(true)
+                        finish()
+                    }
+                }
+            }
+
+        }, this).show()
     }
 }

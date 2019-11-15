@@ -27,6 +27,8 @@
     <color name="disabled">#4D7C4DFF</color>
     <color name="disabledLight">#235e35b1</color>
     <color name="divider">#1b979797</color>
+    <color name="dialogBtnColor">#673ab7</color>
+    <color name="dialogTitleColor">#de000000</color>
     <color name="disabledPurple">#297c4dff</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>

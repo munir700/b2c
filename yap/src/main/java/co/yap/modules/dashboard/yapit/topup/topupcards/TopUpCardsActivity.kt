@@ -228,4 +228,5 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
             }
         }
     }
+
 }

@@ -100,5 +100,5 @@ interface CustomersRetroService {
     suspend fun deleteBeneficiary(@Path("cardId") cardId: String): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_CREATE_BENEFICIARIY)
-    suspend fun createBeneficiary(@Body createBeneficiaryRequest: CreateBeneficiaryRequest): Response<ApiResponse>
+    suspend fun createBeneficiary(@Body createBeneficiaryRequest: CreateBeneficiaryRequest): Response<CreateBeneficiaryResponse>
 }
