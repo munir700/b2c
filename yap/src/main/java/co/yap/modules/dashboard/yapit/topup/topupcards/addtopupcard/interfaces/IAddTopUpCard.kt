@@ -10,5 +10,7 @@ interface IAddTopUpCard {
         val isCardAdded: MutableLiveData<Boolean>
     }
 
-    interface State : IBase.State
+    interface State : IBase.State {
+        var url: String
+    }
 }
