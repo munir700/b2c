@@ -6,10 +6,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TopUpCard(
-    val id: String?,
-    val logo: String?,
-    val expiry: String?,
-    val number: String?,
-    val alias: String?,
-    val color: String?
+    val id: String? = "",
+    val logo: String? = "",
+    val expiry: String? = "",
+    val number: String? = "",
+    val alias: String? = "",
+    val color: String? = ""
 ) : ApiResponse(), Parcelable

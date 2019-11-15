@@ -12,6 +12,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
 import co.yap.modules.dashboard.yapit.topup.main.carddetail.TopupCardDetailActivity
+import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
@@ -69,7 +70,6 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         }
     }
 
-
     private fun updateSelection(viewHolder: RecyclerView.ViewHolder?, adapterPosition: Int) {
         val item = mAdapter.getDataForPosition(adapterPosition)
         if (item.alias == "addCard") {
@@ -99,6 +99,7 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
             }
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
+                startActivity(TopUpCardActivity.newIntent(this, item))
                 // open detail from here.
             }
 
