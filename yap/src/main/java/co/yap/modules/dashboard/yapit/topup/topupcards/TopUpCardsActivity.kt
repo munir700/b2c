@@ -1,10 +1,14 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
@@ -13,7 +17,7 @@ import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
 import co.yap.modules.dashboard.yapit.topup.main.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
-import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.AddTopUpCardActivity
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.AddTopUpCardDialog
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseBindingActivity
@@ -90,12 +94,19 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.tbBtnAddCard -> {
-                startActivityForResult(
-                    Intent(
-                        this,
-                        AddTopUpCardActivity::class.java
-                    ), Constants.EVENT_ADD_TOPUP_CARD
-                )
+//                startActivityForResult(
+//                    Intent(
+//                        this,
+//                        AddTopUpCardActivity::class.java
+//                    ), Constants.EVENT_ADD_TOPUP_CARD
+//                )
+//                AddTopUpCardDialog.newInstance(object : AddTopUpCardDialog.OnProceedListener{
+//                    override fun onProceed(view: View) {
+//                    }
+//
+//                },this).show()
+                showPopupDialog()
+//                AddTopUpCardDialog(this).show()
             }
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
@@ -149,5 +160,14 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
                 viewModel.getPaymentCards()
             }
         }
+    }
+
+    private fun showPopupDialog() {
+        val dialog = Dialog(this)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setCancelable(true)
+        dialog.setContentView(R.layout.dialog_add_topup_card)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.show()
     }
 }
