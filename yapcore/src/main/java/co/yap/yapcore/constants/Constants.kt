@@ -21,6 +21,7 @@ object Constants {
     const val TYPE: String = "type"
     const val TYPE_ADD_CARD: String = "TYPE_ADD_CARD"
     const val TYPE_TOP_UP_TRANSACTION: String = "TYPE_TOP_UP_TRANSACTION"
+    const val START_POOLING: String = "START_POOLING"
 
 
 

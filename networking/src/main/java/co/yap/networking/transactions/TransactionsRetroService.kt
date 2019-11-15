@@ -81,4 +81,7 @@ interface TransactionsRetroService {
     @PUT(TransactionsRepository.URL_CHECK_3Ds_ENROLLMENT_SESSION)
     suspend fun check3DEnrollmentSession(@Body check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): Response<Check3DEnrollmentSessionResponse>
 
+    // Secure id pooling
+    @GET(TransactionsRepository.URL_SECURE_ID_POOLING)
+    suspend fun secureIdPooling(@Query("3DSecureId") secureId: String): Response<StringDataResponseDTO>
 }

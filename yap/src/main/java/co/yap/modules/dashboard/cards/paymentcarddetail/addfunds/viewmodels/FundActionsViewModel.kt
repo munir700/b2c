@@ -16,6 +16,7 @@ import co.yap.yapcore.helpers.Utils
 
 open class FundActionsViewModel(application: Application) :
     BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
+
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val state: FundActionsState = FundActionsState(application)
@@ -27,6 +28,8 @@ open class FundActionsViewModel(application: Application) :
     override var error: String = ""
     override var cardSerialNumber: String = ""
     override fun initateVM(topupCard: TopUpCard) {
+    }
+    override fun startPooling(showLoader: Boolean) {
     }
 
     override fun denominationFirstAmountClick() {
