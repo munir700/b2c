@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.A
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
@@ -50,10 +51,54 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         getBinding().rvTopUpCards.addOnItemChangedListener { viewHolder, adapterPosition ->
             updateSelection(viewHolder, adapterPosition)
         }
-        mAdapter.allowFullItemClickListener = true
         mAdapter.setItemListener(listener)
         getBinding().rvTopUpCards.smoothScrollToPosition(0)
-        getBinding().rvTopUpCards.setItemTransitionTimeMillis(100)
+        getBinding().rvTopUpCards.setItemTransitionTimeMillis(150)
+//        getBinding().rvTopUpCards.addScrollStateChangeListener(object :
+//            DiscreteScrollView.ScrollStateChangeListener<TopUpCardsAdapter.TopUpCardViewHolder> {
+//            override fun onScroll(
+//                scrollPosition: Float,
+//                currentPosition: Int,
+//                newPosition: Int,
+//                currentHolder: TopUpCardsAdapter.TopUpCardViewHolder?,
+//                newCurrent: TopUpCardsAdapter.TopUpCardViewHolder?
+//            ) {
+//                if (newCurrent is TopUpCardsAdapter.TopUpCardViewHolder) {
+//
+//                    Log.i(
+//                        "discreta: ",
+//                        "scrollPosition $scrollPosition ,currentPosition $currentPosition ,newPosition $newPosition"
+//                    )
+//
+//                    if (currentPosition > 0) {
+//                        val previous = getBinding().rvTopUpCards.getViewHolder(currentPosition - 1)
+//                        if (previous is TopUpCardsAdapter.TopUpCardViewHolder) {
+//                            if (abs(scrollPosition) < 0.5) {
+//                                newCurrent.binding.parent?.alpha = abs(0.5f)
+//                                previous.binding.parent?.alpha = abs(0.5f)
+//                            } else {
+//                                newCurrent.binding.parent?.alpha = abs(scrollPosition)
+//                                previous.binding.parent?.alpha = abs(scrollPosition)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//
+//            override fun onScrollEnd(
+//                currentItemHolder: TopUpCardsAdapter.TopUpCardViewHolder,
+//                position: Int
+//            ) {
+//
+//            }
+//
+//            override fun onScrollStart(
+//                currentItemHolder: TopUpCardsAdapter.TopUpCardViewHolder,
+//                position: Int
+//            ) {
+//
+//            }
+//        })
         getBinding().rvTopUpCards.setItemTransformer(
             ScaleTransformer.Builder()
                 .setMaxScale(1.05f)
@@ -66,6 +111,13 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            viewModel.clickEvent.setPayload(
+                SingleClickEvent.AdaptorPayLoadHolder(
+                    view,
+                    data,
+                    pos
+                )
+            )
             viewModel.clickEvent.setValue(view.id)
         }
     }
@@ -73,8 +125,10 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     private fun updateSelection(viewHolder: RecyclerView.ViewHolder?, adapterPosition: Int) {
         val item = mAdapter.getDataForPosition(adapterPosition)
         if (item.alias == "addCard") {
+            viewModel.state.valid.set(false)
             viewModel.state.alias.set("")
         } else {
+            viewModel.state.valid.set(true)
             viewModel.state.alias.set(item.alias)
         }
     }
@@ -88,36 +142,45 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     }
 
     private val clickEventObserver = Observer<Int> {
+        if (viewModel.clickEvent.getPayload() != null) {
+            val pos = viewModel.clickEvent.getPayload()?.position
+            val view = viewModel.clickEvent.getPayload()?.view
+            viewModel.clickEvent.setPayload(null)
+
+            if (pos != getBinding().rvTopUpCards.currentItem) {
+                pos?.let { it -> getBinding().rvTopUpCards.smoothScrollToPosition(it) }
+                return@Observer
+            }
+        }
         when (it) {
             R.id.tbBtnAddCard -> {
-                startActivityForResult(
-
-                    AddTopUpCardActivity.newIntent(
-                        this,
-                        co.yap.yapcore.constants.Constants.URL_ADD_TOPUP_CARD,
-                        co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
-                    ), Constants.EVENT_ADD_TOPUP_CARD
-                )
+                addCardProcess()
             }
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                startActivity(TopUpCardActivity.newIntent(this, item))
-                // open detail from here.
+                if (item.alias != "addCard")
+                    startActivity(
+                        TopUpCardActivity.newIntent(
+                            this,
+                            item
+                        )
+                    )
             }
-
             R.id.paymentCard -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                openCardDetail(item)
+                startActivity(TopUpCardActivity.newIntent(this, item))
             }
 
             R.id.imgStatus -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                showToast("status clicked")
+                openCardDetail(item)
             }
             R.id.tbBtnBack -> {
                 onBackPressed()
             }
-
+            R.id.lycard -> {
+                addCardProcess()
+            }
         }
     }
 
@@ -136,6 +199,16 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
                 )
             ),
             Constants.EVENT_DELETE_TOPUP_CARD
+        )
+    }
+
+    private fun addCardProcess() {
+        startActivityForResult(
+            AddTopUpCardActivity.newIntent(
+                this,
+                co.yap.yapcore.constants.Constants.URL_ADD_TOPUP_CARD,
+                co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
+            ), Constants.EVENT_ADD_TOPUP_CARD
         )
     }
 

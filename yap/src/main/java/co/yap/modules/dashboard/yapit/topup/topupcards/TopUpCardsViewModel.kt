@@ -55,7 +55,7 @@ class TopUpCardsViewModel(application: Application) :
             when (val response = repository.getTopUpBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     if (state.enableAddCard.get())
-                        response.data.data.add(getAddCard())
+                        response.data.data.add(TopUpCard(alias = "addCard"))
                     topUpCards.value = response.data.data
                 }
 
@@ -81,17 +81,6 @@ class TopUpCardsViewModel(application: Application) :
                 else -> state.noOfCard.set(message)
             }
         }
-    }
-
-    private fun getAddCard(): TopUpCard {
-        return TopUpCard(
-            "",
-            "",
-            "",
-            "",
-            "addCard",
-            ""
-        )
     }
 
     override fun addTopUpCard(sessionId: String, alias: String, color: String) {
