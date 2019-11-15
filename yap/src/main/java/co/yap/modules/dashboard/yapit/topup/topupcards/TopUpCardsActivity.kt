@@ -92,9 +92,11 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         when (it) {
             R.id.tbBtnAddCard -> {
                 startActivityForResult(
-                    Intent(
+
+                    AddTopUpCardActivity.newIntent(
                         this,
-                        AddTopUpCardActivity::class.java
+                        co.yap.yapcore.constants.Constants.URL_ADD_TOPUP_CARD,
+                        co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
                     ), Constants.EVENT_ADD_TOPUP_CARD
                 )
             }

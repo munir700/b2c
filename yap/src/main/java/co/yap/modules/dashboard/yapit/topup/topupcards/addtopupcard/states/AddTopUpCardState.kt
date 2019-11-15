@@ -1,6 +1,16 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.states
 
+import androidx.databinding.Bindable
+import co.yap.BR
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.interfaces.IAddTopUpCard
 import co.yap.yapcore.BaseState
 
-class AddTopUpCardState :BaseState(), IAddTopUpCard.State
+class AddTopUpCardState : BaseState(), IAddTopUpCard.State {
+
+    @get:Bindable
+    override var url: String=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.url)
+        }
+}

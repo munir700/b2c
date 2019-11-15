@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.View
@@ -11,6 +12,7 @@ import co.yap.databinding.FragmentTopUpCardFundsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels.TopUpCardFundsViewModel
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
@@ -74,6 +76,16 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             showErrorSnackBar()
         })
 
+        viewModel.htmlLiveData.observe(this, Observer {
+            startActivityForResult(
+
+                AddTopUpCardActivity.newIntent(
+                    requireContext(),
+                    viewModel.htmlLiveData.value.toString(),
+                    Constants.TYPE_TOP_UP_TRANSACTION
+                ), Constants.EVENT_TOP_UP_CARD_TRANSACTION
+            )
+        })
 
     }
 
@@ -84,7 +96,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 viewModel.createTransactionSession()
                 //findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             }
-            100 -> showToast("i am success")
+           // 100 -> showToast("i am success")
             R.id.ivCross -> activity?.finish()
             Constants.CARD_FEE -> setUpFeeData()
         }

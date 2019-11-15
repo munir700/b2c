@@ -17,6 +17,12 @@ object Constants {
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
     const val TOP_UP: String = "TOP_UP"
     const val CARD: String = "CARD"
+    const val KEY: String = "Key"
+    const val TYPE: String = "type"
+    const val TYPE_ADD_CARD: String = "TYPE_ADD_CARD"
+    const val TYPE_TOP_UP_TRANSACTION: String = "TYPE_TOP_UP_TRANSACTION"
+
+
 
     //Transaction Category Constant
     const val Y_TO_Y_TRANSFER = "P003"
@@ -40,13 +46,20 @@ object Constants {
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"
     const val URL_SHARE_PLAY_STORE = "https://play.google.com/store/apps/details?id=co.yap"
-
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
     const val DUMMY_CARD: Int = 22
     const val CARD_FEE: Int = 23
 
+
     //Add Card Payment gateway URL
     const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
+
+    //HTML Key
+    const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
+
+    //Other events
+    const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
+
 }
