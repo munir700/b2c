@@ -64,7 +64,7 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
                         sessionId = request.url.getQueryParameter("sessionID")
                         cardColor = request.url.getQueryParameter("color")
                         alias = request.url.getQueryParameter("alias")
-                        view?.visibility = View.GONE
+                       // view?.visibility = View.GONE
                         viewModel.addTopUpCard(
                             sessionId.toString(),
                             alias.toString(),
@@ -111,7 +111,7 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
     fun setObservers() {
         viewModel.isCardAdded.observe(this, Observer {
             setData(it)
-            finish()
+           // finish()
         })
     }
 
