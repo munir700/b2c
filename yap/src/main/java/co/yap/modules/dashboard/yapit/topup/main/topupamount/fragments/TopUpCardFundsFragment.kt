@@ -5,7 +5,6 @@ import android.text.InputFilter
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopUpCardFundsBinding
@@ -60,6 +59,10 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (activity is TopUpCardActivity)
+            (activity as TopUpCardActivity).cardInfo?.let {
+                viewModel.initateVM(it)
+            }
         setupData()
     }
 
@@ -76,7 +79,12 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
 
     var clickEvent = Observer<Int> {
         when (it) {
-            R.id.btnAction -> findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
+            R.id.btnAction -> {
+                //call api here
+                viewModel.createTransactionSession()
+                //findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
+            }
+            //100 -> showToast("i am success")
             R.id.ivCross -> activity?.finish()
             Constants.CARD_FEE -> setUpFeeData()
         }
@@ -97,9 +105,9 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             viewModel.state.cardNumber = (context as TopUpCardActivity).cardInfo?.number.toString()
             viewModel.state.cardName = (context as TopUpCardActivity).cardInfo?.alias.toString()
         }
-       // viewModel.state.cardName = "Citi Bank Card"
-      //  viewModel.state.cardNumber = "123456789012"
-        viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance.toString()
+
+        viewModel.state.availableBalance =
+            MyUserManager.cardBalance.value?.availableBalance.toString()
 
         getBindings().tvAvailableBalanceGuide.text = Utils.getSppnableStringForAmount(
             requireContext(),
@@ -107,25 +115,6 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             viewModel.state.currencyType,
             Utils.getFormattedCurrencyWithoutComma(viewModel.state.availableBalance)
         )
-
-        /* val card: Card = intent.getParcelableExtra(CARD)
-          viewModel.state.cardNumber = card.maskedCardNo
-          viewModel.cardSerialNumber = card.cardSerialNumber
-          if (Constants.CARD_TYPE_PREPAID == card?.cardType) {
-              if(card?.physical!!){
-                  viewModel.state.cardName = Constants.TEXT_SPARE_CARD_PHYSICAL
-              }else{
-                  viewModel.state.cardName = Constants.TEXT_SPARE_CARD_VIRTUAL
-              }
-          }
-           viewModel.state.availableBalance = card.availableBalance
-          */
-
-//        viewModel.state.availableBalance =  MyUserManager.cardBalance.value?.availableBalance.toString()
-        /* viewModel.state.availableBalanceText =
-             " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
-                 viewModel.state.availableBalance
-             )*/
     }
 
     private fun setUpFeeData() {

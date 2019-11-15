@@ -6,6 +6,8 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
+import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 
 object TransactionsRepository : BaseRepository(), TransactionsApi {
@@ -27,7 +29,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_CARD_TRANSACTIONS =
         "/transactions/api/cards-transactions/{number}/{size}/"
     const val URL_GET_FEE = "/transactions/api/fee"
-    const val URL_CHECKOUT_SESSION = "/transactions/api/mastercard/create-checkout-session"
+    const val URL_CREATE_TRANSACTION_SESSION = "/transactions/api/mastercard/create-checkout-session"
+    const val URL_CHECK_3Ds_ENROLLMENT_SESSION = "/transactions/api/mastercard/check-3ds-enrollment"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -87,4 +90,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getTransactionFee(TransactionType: String): RetroApiResponse<TransactionFeeResponseDTO> =
         executeSafely(call = { api.getTransactionFee(TransactionType) })
 
+    override suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO> =
+        executeSafely(call = { api.createTransactionSession(createSessionRequest) })
+
+    override suspend fun check3DEnrollmentSession(check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): RetroApiResponse<Check3DEnrollmentSessionResponse> =
+        executeSafely(call = { api.check3DEnrollmentSession(check3DEnrollmentSessionRequest) })
 }

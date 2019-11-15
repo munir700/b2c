@@ -16,6 +16,8 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
 
     var cardInfo: TopUpCard? = null
+    var orderId: String? = null
+    var sessionId: String? = null
 
     companion object {
         fun newIntent(context: Context, card: TopUpCard): Intent {
