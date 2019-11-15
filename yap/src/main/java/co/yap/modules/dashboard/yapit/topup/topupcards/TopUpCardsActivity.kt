@@ -69,7 +69,6 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         }
     }
 
-
     private fun updateSelection(viewHolder: RecyclerView.ViewHolder?, adapterPosition: Int) {
         val item = mAdapter.getDataForPosition(adapterPosition)
         if (item.alias == "addCard") {
@@ -111,6 +110,9 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
             R.id.imgStatus -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
                 showToast("status clicked")
+            }
+            R.id.tbBtnBack -> {
+                onBackPressed()
             }
 
         }

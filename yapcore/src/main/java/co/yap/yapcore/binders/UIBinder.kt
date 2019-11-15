@@ -56,9 +56,11 @@ object UIBinder {
     fun setCardStatus(view: ImageView, card: TopUpCard?) {
         card?.expiry?.let {
             if (DateUtils.isDatePassed(it, SimpleDateFormat("MMyy"))) {
+                view.setImageResource(R.drawable.ic_status_expired)
                 view.visibility = View.VISIBLE
             } else {
-                view.visibility = View.GONE
+                view.setImageResource(R.drawable.ic_status_ontheway)
+                view.visibility = View.VISIBLE
             }
         }
     }

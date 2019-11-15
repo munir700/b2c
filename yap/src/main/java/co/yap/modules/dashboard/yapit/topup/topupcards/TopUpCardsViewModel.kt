@@ -73,7 +73,10 @@ class TopUpCardsViewModel(application: Application) :
                 R.string.screen_cards_display_text_cards_count
             ).replace("%d", size.toString())
             when (size) {
-                0 -> state.message.set("Add a card to top up")
+                0 -> {
+                    state.noOfCard.set("No cards added yet")
+                    state.message.set("Add a card to top up")
+                }
                 1 -> state.noOfCard.set(message.substring(0, message.length - 1))
                 else -> state.noOfCard.set(message)
             }
