@@ -145,7 +145,7 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         if (viewModel.clickEvent.getPayload() != null) {
             val pos = viewModel.clickEvent.getPayload()?.position
             val view = viewModel.clickEvent.getPayload()?.view
-            viewModel.clickEvent.setPayload(null)
+            viewModel.clickEvent.setPayload2(null)
 
             if (pos != getBinding().rvTopUpCards.currentItem) {
                 pos?.let { it -> getBinding().rvTopUpCards.smoothScrollToPosition(it) }
