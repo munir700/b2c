@@ -130,7 +130,7 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
         AddTopUpCardDialog.newInstance(object : AddTopUpCardDialog.OnProceedListener {
             override fun onProceed(id: Int) {
                 when (id) {
-                    R.id.btnTopUpNow -> {
+                    R.id.done -> {
                         startActivity(TopUpCardActivity.newIntent(this@AddTopUpCardActivity, card))
                         setData(true)
                         finish()

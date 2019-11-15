@@ -17,7 +17,7 @@ class AddTopUpCardDialog(context: Context) : Dialog(context) {
             onProceedListener?.onProceed(it.id)
             dismiss()
         }
-        btnTopUpNow.setOnClickListener {
+        done.setOnClickListener {
             onProceedListener?.onProceed(it.id)
             dismiss()
         }
