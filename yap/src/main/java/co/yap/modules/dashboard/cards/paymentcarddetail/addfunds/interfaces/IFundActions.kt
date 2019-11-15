@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces
 
 import android.graphics.drawable.Drawable
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -20,6 +21,7 @@ interface IFundActions {
         fun denominationThirdAmount()
         fun addFunds()
         fun removeFunds()
+        fun initateVM(topupCard: TopUpCard)
         fun getFundTransferLimits(productCode: String)
         fun getFundTransferDenominations(productCode: String)
         val clickEvent: SingleClickEvent
@@ -27,7 +29,7 @@ interface IFundActions {
         val firstDenominationClickEvent: SingleClickEvent
         val secondDenominationClickEvent: SingleClickEvent
         val thirdDenominationClickEvent: SingleClickEvent
-
+        fun createTransactionSession()
         var error: String
         var cardSerialNumber: String
     }
@@ -52,6 +54,9 @@ interface IFundActions {
         var amountBackground: Drawable?
         var errorDescription: String
         var denominationAmount: String
+
+        var transactionFee: String
+        var transactionFeeSpannableString: String?
 
         //success screen variables
         var topUpSuccess: String

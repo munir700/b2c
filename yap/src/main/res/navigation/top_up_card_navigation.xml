@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/top_up_card_navigation"
+    app:startDestination="@id/topUpCardFundsFragment">
+
+    <fragment
+        android:id="@+id/topUpCardFundsFragment"
+        android:name="co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments.TopUpCardFundsFragment"
+        android:label="TopUpCardFundsFragment"
+        tools:layout="@layout/fragment_top_up_card_funds">
+        <action
+            android:id="@+id/action_topUpCardFundsFragment_to_verifyCardCvvFragment"
+            app:destination="@id/verifyCardCvvFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/verifyCardCvvFragment"
+        android:name="co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments.VerifyCardCvvFragment"
+        android:label="VerifyCardCvvFragment"
+        tools:layout="@layout/fragment_verify_card_cvv" >
+        <action
+            android:id="@+id/action_verifyCardCvvFragment_to_topUpCardSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:destination="@id/topUpCardSuccessFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/topUpCardSuccessFragment"
+        android:name="co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments.TopUpCardSuccessFragment"
+        android:label="TopUpCardSuccessFragment"
+        tools:layout="@layout/fragment_top_up_card_success"/>
+</navigation>

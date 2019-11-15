@@ -148,6 +148,11 @@
         <activity
             android:name=".modules.dashboard.yapit.topup.topupcards.TopUpCardsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+
 
         <activity
             android:name=".modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity"
