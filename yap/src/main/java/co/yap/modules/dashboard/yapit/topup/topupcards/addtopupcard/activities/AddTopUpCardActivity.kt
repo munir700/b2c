@@ -113,7 +113,7 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
         tbBtnBack.setOnClickListener {
             onBackPressed()
         }
-        viewModel.isCardAdded.observe(this, Observer {
+        viewModel.isCardAdded?.observe(this, Observer {
             if (it != null)
                 showAddCardDialog(it)
         })
