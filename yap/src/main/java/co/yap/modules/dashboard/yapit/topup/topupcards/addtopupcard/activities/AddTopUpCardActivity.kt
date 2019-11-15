@@ -40,6 +40,7 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
                 request: WebResourceRequest?
             ): Boolean {
                 request?.let {
+                  println("request is ${request.url.toString()}")
                     if (request.url.toString().startsWith("yap-app://")) {
                         onNewIntent(intent)
                         sessionId = request.url.getQueryParameter("sessionID")

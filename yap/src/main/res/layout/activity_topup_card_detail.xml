@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.DateUtils" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -120,7 +122,7 @@
                 style="@style/ALarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{viewModel.state.cardInfo.number}"
+                android:text="@{`*`+viewModel.state.cardInfo.number}"
                 app:layout_constraintStart_toStartOf="@id/tvHintCard"
                 app:layout_constraintTop_toBottomOf="@id/tvHintCard"
                 tools:text="Citi Bank *8765" />
@@ -196,8 +198,7 @@
                     style="@style/ALarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
-                    android:text="@{viewModel.state.cardInfo.expiry}"
+                    app:text="@{DateUtils.INSTANCE.convertTopUpDate(viewModel.state.cardInfo.expiry)}"
                     app:layout_constraintStart_toEndOf="@+id/barrier"
                     app:layout_constraintTop_toBottomOf="@id/tvHintType"
                     tools:text="12/2021" />

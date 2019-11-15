@@ -77,7 +77,6 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         } else {
             viewModel.state.alias.set(item.alias)
         }
-
     }
 
     private fun addObservers() {
