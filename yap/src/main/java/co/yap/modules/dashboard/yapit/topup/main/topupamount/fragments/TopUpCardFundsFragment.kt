@@ -84,7 +84,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 viewModel.createTransactionSession()
                 //findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             }
-            //100 -> showToast("i am success")
+            100 -> showToast("i am success")
             R.id.ivCross -> activity?.finish()
             Constants.CARD_FEE -> setUpFeeData()
         }

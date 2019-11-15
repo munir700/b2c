@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
 import co.yap.modules.others.helper.Constants
@@ -15,7 +16,7 @@ import co.yap.yapcore.helpers.Utils
 
 open class FundActionsViewModel(application: Application) :
     BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
-
+    override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val state: FundActionsState = FundActionsState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()

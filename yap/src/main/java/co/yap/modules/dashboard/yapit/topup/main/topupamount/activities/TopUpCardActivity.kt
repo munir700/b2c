@@ -37,7 +37,6 @@ class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
         if (intent.hasExtra(Constants.CARD)) {
             val card: Parcelable = intent.getParcelableExtra(Constants.CARD)
             if (card is TopUpCard) {
-                //viewModel.state.cardInfo.set(card)
                 cardInfo = card
             }
         }

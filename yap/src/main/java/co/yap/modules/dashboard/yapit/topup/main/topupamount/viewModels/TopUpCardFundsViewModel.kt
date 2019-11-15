@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels
 
 import android.app.Application
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.networking.customers.models.Session
@@ -20,6 +21,7 @@ import com.thefinestartist.finestwebview.FinestWebView
 
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
+    override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
     private lateinit var topupCrad: TopUpCard
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
@@ -95,7 +97,9 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    openFaqsPage(response.data.data.`3DSecure`.authenticationRedirect.simple.htmlBodyContent)
+                    //openFaqsPage(response.data.data.`3DSecure`.authenticationRedirect.simple.htmlBodyContent)
+                    htmlLiveData.value =
+                        response.data.data.`3DSecure`.authenticationRedirect.simple.htmlBodyContent
                     clickEvent.postValue(100)
                 }
                 is RetroApiResponse.Error -> {

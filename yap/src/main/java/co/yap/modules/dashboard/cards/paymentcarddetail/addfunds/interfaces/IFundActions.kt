@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces
 
 import android.graphics.drawable.Drawable
+import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -29,6 +30,7 @@ interface IFundActions {
         val firstDenominationClickEvent: SingleClickEvent
         val secondDenominationClickEvent: SingleClickEvent
         val thirdDenominationClickEvent: SingleClickEvent
+        val htmlLiveData: MutableLiveData<String>
         fun createTransactionSession()
         var error: String
         var cardSerialNumber: String
