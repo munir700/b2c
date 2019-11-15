@@ -109,13 +109,18 @@ object DateUtils {
     }
 
     @SuppressLint("SimpleDateFormat")
-    fun convertTopUpDate(creationDate: String): String? {
-        val parser = SimpleDateFormat("MMyy")
-        parser.timeZone = TimeZone.getTimeZone("UTC")
-        val convertedDate = parser.parse(creationDate)
-        val pattern = "MM/yyyy"
-        val simpleDateFormat = SimpleDateFormat(pattern)
-        return simpleDateFormat.format(convertedDate)
+    fun convertTopUpDate(creationDate: String?): String? {
+        try {
+            val parser = SimpleDateFormat("MMyy")
+            parser.timeZone = TimeZone.getTimeZone("UTC")
+            val convertedDate = parser.parse(creationDate)
+            val pattern = "MM/yyyy"
+            val simpleDateFormat = SimpleDateFormat(pattern)
+            return simpleDateFormat.format(convertedDate)
+        } catch (ex: Exception) {
+            return ""
+        }
+
     }
 
     fun convertTopUpDate(creationDate: String, parser: SimpleDateFormat): String? {

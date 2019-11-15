@@ -1,9 +1,11 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
 import co.yap.modules.others.helper.Constants
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
@@ -14,7 +16,7 @@ import co.yap.yapcore.helpers.Utils
 
 open class FundActionsViewModel(application: Application) :
     BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
-
+    override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val state: FundActionsState = FundActionsState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -24,7 +26,8 @@ open class FundActionsViewModel(application: Application) :
     override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
-
+    override fun initateVM(topupCard: TopUpCard) {
+    }
 
     override fun denominationFirstAmountClick() {
 //        state.amount = ""
@@ -178,6 +181,8 @@ open class FundActionsViewModel(application: Application) :
     override fun crossButtonClickEvent(id: Int) {
         clickEvent.postValue(id)
     }
+    override fun createTransactionSession() {
 
+    }
 
 }

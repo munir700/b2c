@@ -15,6 +15,8 @@ object Constants {
     const val TRANSACTION_TYPE_CREDIT: String = "CREDIT"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
+    const val TOP_UP: String = "TOP_UP"
+    const val CARD: String = "CARD"
 
     //Transaction Category Constant
     const val Y_TO_Y_TRANSFER = "P003"
@@ -43,6 +45,7 @@ object Constants {
     const val MODE_HELP_SUPPORT: Int = 2
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
     const val DUMMY_CARD: Int = 22
+    const val CARD_FEE: Int = 23
 
     //Add Card Payment gateway URL
     const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"

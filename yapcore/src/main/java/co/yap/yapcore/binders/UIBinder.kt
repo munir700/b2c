@@ -630,7 +630,7 @@ object UIBinder {
     @JvmStatic
     @BindingAdapter("cardExpiry")
     fun setCardExpiry(view: CorePaymentCard, cardExpiry: String?) {
-        if (cardExpiry != null)
+        if (!cardExpiry.isNullOrEmpty())
             view.setCardExpiry(cardExpiry)
     }
 

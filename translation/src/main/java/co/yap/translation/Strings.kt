@@ -863,4 +863,32 @@ object Strings {
         "screen_topup_card_detail_display_text_hint_card_type"
     const val screen_topup_card_detail_display_text_hint_card_expiry: String =
         "screen_topup_card_detail_display_text_hint_card_expiry"
+
+    //TopUpFundsScreen
+    const val screen_topup_transfer_display_text_screen_title: String =
+        "screen_topup_transfer_display_text_screen_title"
+    const val screen_topup_transfer_display_text_amount_title: String =
+        "screen_topup_transfer_display_text_amount_title"
+    const val screen_topup_transfer_display_text_available_balance: String =
+        "screen_topup_transfer_display_text_available_balance"
+    const val screen_topup_transfer_display_text_transaction_fee: String =
+        "screen_topup_transfer_display_text_transaction_fee"
+    const val screen_topup_transfer_display_text_transaction_no_fee: String =
+        "screen_topup_transfer_display_text_transaction_no_fee"
+    const val screen_topup_funds_display_button_text: String =
+        "screen_topup_funds_display_button_text"
+
+    //Topup success screen
+    const val screen_topup_success_display_text_title: String =
+        "screen_topup_success_display_text_title"
+    const val screen_topup_success_display_text_card_title: String =
+        "screen_topup_success_display_text_card_title"
+    const val screen_topup_success_display_text_success_transaction_message: String =
+        "screen_topup_success_display_text_success_transaction_message"
+    const val screen_topup_success_display_text_account_balance_title: String =
+        "screen_topup_success_display_text_account_balance_title"
+    const val screen_topup_success_display_text_dashboard_action_button_title: String =
+        "screen_topup_success_display_text_dashboard_action_button_title"
+
+
 }
