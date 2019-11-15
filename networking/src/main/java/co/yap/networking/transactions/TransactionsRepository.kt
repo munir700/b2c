@@ -29,8 +29,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_CARD_TRANSACTIONS =
         "/transactions/api/cards-transactions/{number}/{size}/"
     const val URL_GET_FEE = "/transactions/api/fee"
-    const val URL_CREATE_TRANSACTION_SESSION = "/transactions/api/mastercard/create-checkout-session"
+    const val URL_CREATE_TRANSACTION_SESSION =
+        "/transactions/api/mastercard/create-checkout-session"
     const val URL_CHECK_3Ds_ENROLLMENT_SESSION = "/transactions/api/mastercard/check-3ds-enrollment"
+    const val URL_SECURE_ID_POOLING =
+        "/transactions/api/mastercard/retrieve-acs-results/3DSecureId/{3DSecureId}"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -95,4 +98,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun check3DEnrollmentSession(check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): RetroApiResponse<Check3DEnrollmentSessionResponse> =
         executeSafely(call = { api.check3DEnrollmentSession(check3DEnrollmentSessionRequest) })
+
+    override suspend fun secureIdPooling(
+        `3DSecureId`: String
+    ): RetroApiResponse<StringDataResponseDTO> =
+        executeSafely(call = { api.secureIdPooling(`3DSecureId`) })
 }

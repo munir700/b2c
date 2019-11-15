@@ -34,6 +34,8 @@ interface IFundActions {
         fun createTransactionSession()
         var error: String
         var cardSerialNumber: String
+        // For top up transaction pooling api
+        fun startPooling(showLoader: Boolean)
     }
 
     interface State : IBase.State {
