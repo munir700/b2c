@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.networking.customers.models.Session
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.Check3DEnrollmentSessionRequest
@@ -19,8 +20,10 @@ import kotlinx.coroutines.delay
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
+    override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
     private lateinit var topupCrad: TopUpCard
-    var secureId: String? = null
+    private var secureId: String? = null
+    private var orderId: String? = null
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
         state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
@@ -68,6 +71,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 CreateSessionRequest(Order(state.currencyType, state.amount.toString()))
             )) {
                 is RetroApiResponse.Success -> {
+                    orderId = response.data.data.order.id
                     check3DEnrollmentSessionRequest(
                         response.data.data.session.id,
                         response.data.data.order.id
@@ -115,7 +119,10 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 state.loading = true
             when (val response = transactionsRepository.secureIdPooling(secureId.toString())) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.postValue(100)
+                    topUpTransactionModelLiveData?.value = TopUpTransactionModel(orderId, state.currencyType, state.amount, topupCrad.id?.toInt(), secureId)
+
+
+                    //clickEvent.postValue(100)
                     state.loading = false
                     //temporary
                     /*when {
