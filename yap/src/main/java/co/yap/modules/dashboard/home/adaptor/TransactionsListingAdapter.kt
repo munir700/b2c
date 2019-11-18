@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.annotation.SuppressLint
 import android.content.Context
 import androidx.core.content.ContextCompat
 import androidx.databinding.ViewDataBinding
@@ -9,6 +10,8 @@ import co.yap.databinding.ItemTransactionListBinding
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 
 
@@ -56,7 +59,6 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
 
 
             transaction.title = transaction.title ?: "Unknown"
-            itemTransactionListBinding.tvTransactionName?.text = transaction.title
             itemTransactionListBinding.tvNameInitials?.text =
                 transaction.title?.let { Utils.shortName(it) }
 
@@ -69,9 +71,24 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 transaction.category!!.toLowerCase().capitalize()
             )
             itemTransactionListBinding.tvCurrency?.text = transaction.currency
-
+            setDataAgainstProductCode(transaction.productCode, transaction)
             //itemTransactionListBinding.viewModel = YapStoreDetailItemViewModel(store)
             //itemTransactionListBinding.executePendingBindings()
+        }
+
+        @SuppressLint("SetTextI18n")
+        private fun setDataAgainstProductCode(productCode: String, transaction: Content) {
+            when (productCode) {
+                Constants.Y_TO_Y_TRANSFER -> {
+                    itemTransactionListBinding.tvTransactionName?.text =
+                        "${StringUtils.getFirstname(transaction.senderName)} to ${StringUtils.getFirstname(
+                            transaction.receiverName.toString()
+                        )}"
+                }
+                else -> {
+                    itemTransactionListBinding.tvTransactionName?.text = transaction.title
+                }
+            }
         }
 
         private fun splitTimeString(timeString: String): String {
