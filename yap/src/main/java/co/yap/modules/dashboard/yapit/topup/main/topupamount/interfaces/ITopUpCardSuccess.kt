@@ -18,9 +18,11 @@ interface ITopUpCardSuccess {
     interface State : IBase.State {
         var toolBarTitle: String
         var cardInfo: ObservableField<TopUpCard>
+        var formattedCardNo: ObservableField<String>
         var buttonTitle: String
         var topUpSuccess: String
         var currencyType: String
         var amount: String
+        var availableBalanceSpanable: ObservableField<String>
     }
 }

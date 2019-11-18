@@ -43,4 +43,6 @@ class TopUpCardSuccessState : BaseState(), ITopUpCardSuccess.State {
         }
 
     override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
+    override var formattedCardNo: ObservableField<String> = ObservableField()
+    override var availableBalanceSpanable: ObservableField<String> = ObservableField()
 }

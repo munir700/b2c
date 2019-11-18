@@ -530,10 +530,10 @@ object Utils {
     }
 
     fun getFormattedCardNumber(cardNumber: String): String {
-        if (cardNumber.length == 4)
-            return "XXXX XXXX XXXX $cardNumber"
+        return if (cardNumber.length == 4)
+            "XXXX XXXX XXXX $cardNumber"
         else
-            return "XXXX XXXX XXXX XXXX"
+            "XXXX XXXX XXXX XXXX"
 
     }
 }

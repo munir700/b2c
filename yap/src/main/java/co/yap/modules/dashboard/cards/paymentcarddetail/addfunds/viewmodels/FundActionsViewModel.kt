@@ -163,6 +163,8 @@ open class FundActionsViewModel(application: Application) :
                         fundsType = "+"
                     } else if (productCode == Constants.REMOVE_FUNDS_PRODUCT_CODE) {
                         fundsType = "-"
+                    }else{
+                        fundsType = "+"
                     }
                     state.denominationFirstAmount = fundsType + response.data.data[0].amount
                     state.denominationSecondAmount = fundsType + response.data.data[1].amount

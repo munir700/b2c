@@ -67,13 +67,18 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
     }
 
     var clickEvent = Observer<Int> {
-
+        val action =
+            VerifyCardCvvFragmentDirections.actionVerifyCardCvvFragmentToTopUpCardSuccessFragment(
+                args.amount,
+                args.currencyType
+            )
         when (it) {
             R.id.btnAction ->
                 if (context is TopUpCardActivity) {
                     viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)
                 }
-            Constants.TOP_UP_TRANSACTION_SUCCESS -> findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
+
+            Constants.TOP_UP_TRANSACTION_SUCCESS -> findNavController().navigate(action)
             // findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
         }
     }
