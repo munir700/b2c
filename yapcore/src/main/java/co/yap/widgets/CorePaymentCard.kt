@@ -65,11 +65,17 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
                 tvCardNumber.textSize = 7f
                 tvCardExpiry.textSize = 5f
 
-                val ivChipHeight = context.applicationContext.resources.getDimension(R.dimen._12sdp)
-                val ivChipWidth = context.applicationContext.resources.getDimension(R.dimen._12sdp)
+                val ivChipHeight = context.applicationContext.resources.getDimension(R.dimen._8sdp)
+                val ivChipWidth = context.applicationContext.resources.getDimension(R.dimen._8sdp)
 
                 setUpImageDimensions(
                     ivCardType,
+                    ivChipHeight.roundToInt(),
+                    ivChipWidth.roundToInt()
+                )
+
+                setUpImageDimensions(
+                    ivChip,
                     ivChipHeight.roundToInt(),
                     ivChipWidth.roundToInt()
                 )
