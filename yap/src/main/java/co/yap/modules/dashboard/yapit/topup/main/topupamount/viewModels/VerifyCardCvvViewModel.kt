@@ -22,16 +22,19 @@ class VerifyCardCvvViewModel(application: Application) :
         clickEvent.postValue(id)
     }
 
-    override fun topUpTransactionRequest(topUpTransactionModel: TopUpTransactionModel?) {
+    override fun topUpTransactionRequest(model: TopUpTransactionModel?) {
 
         launch {
             state.loading = true
             when (val response = transactionsRepository.cardTopUpTransactionRequest(
+                model?.orderId.toString(),
                 TopUpTransactionRequest(
+                    model?.secureId,
+                    model?.cardId,
                     Order(
-                        topUpTransactionModel?.currency,
-                        topUpTransactionModel?.amount
-                    ), topUpTransactionModel?.cardId, state.cardCvv, topUpTransactionModel?.secureId
+                        model?.currency,
+                        model?.amount?.toDouble().toString()
+                    ), state.cardCvv
                 )
             )) {
                 is RetroApiResponse.Success -> {

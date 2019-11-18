@@ -87,6 +87,6 @@ interface TransactionsRetroService {
     suspend fun secureIdPooling(@Path("secureId") secureId: String): Response<StringDataResponseDTO>
 
     // Card top up transaction request
-    @GET(TransactionsRepository.URL_TOP_UP_TRANSACTION)
-    suspend fun cardTopUpTransactionRequest(@Body topUpTransactionRequest: TopUpTransactionRequest): Response<ApiResponse>
+    @PUT(TransactionsRepository.URL_TOP_UP_TRANSACTION)
+    suspend fun cardTopUpTransactionRequest(@Path("order-id") orderId :String,@Body topUpTransactionRequest: TopUpTransactionRequest): Response<ApiResponse>
 }

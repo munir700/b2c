@@ -105,7 +105,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<StringDataResponseDTO> =
         executeSafely(call = { api.secureIdPooling(secureId) })
 
-    override suspend fun cardTopUpTransactionRequest(topUpTransactionRequest: TopUpTransactionRequest): RetroApiResponse<ApiResponse>
-            = executeSafely(call = { api.cardTopUpTransactionRequest(topUpTransactionRequest) })
+    override suspend fun cardTopUpTransactionRequest(
+        orderId: String,
+        topUpTransactionRequest: TopUpTransactionRequest
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.cardTopUpTransactionRequest(orderId, topUpTransactionRequest) })
 
 }

@@ -32,7 +32,6 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
         super.onViewCreated(view, savedInstanceState)
         if (context is TopUpCardActivity)
             if ((context as TopUpCardActivity).cardInfo?.logo.equals("Visa", true)) {
-                showToast("visa")
             } else if ((context as TopUpCardActivity).cardInfo?.logo.equals("MASTERCARD", true)) {
                 getBindings().cvvView.visibility = View.VISIBLE
                 getBindings().cvvAmericanView.visibility = View.GONE
