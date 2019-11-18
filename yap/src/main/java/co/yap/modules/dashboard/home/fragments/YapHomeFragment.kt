@@ -18,6 +18,7 @@ import co.yap.databinding.FragmentYapHomeBinding
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
+import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.modules.dashboard.home.helpers.AppBarStateChangeListener
 import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
@@ -30,9 +31,9 @@ import co.yap.modules.dashboard.transaction.activities.TransactionDetailsActivit
 import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.onboarding.constants.Constants
 import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
-import co.yap.modules.dashboard.home.filters.activities.TransactionFiltersActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.fixSwipeToRefresh
@@ -226,7 +227,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 mAdapter.notifyDataSetChanged()
             }
             co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED -> {
-                showTransactionsAndGraph()
+                //showTransactionsAndGraph
                 notificationsList.clear()
                 mAdapter = NotificationAdapter(
                     notificationsList,
@@ -235,6 +236,17 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 )
                 mAdapter.notifyDataSetChanged()
             }
+        }
+
+        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+            showTransactionsAndGraph()
+            notificationsList.clear()
+            mAdapter = NotificationAdapter(
+                notificationsList,
+                requireContext(),
+                this
+            )
+            mAdapter.notifyDataSetChanged()
         }
     }
 

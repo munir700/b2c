@@ -25,8 +25,6 @@ object Constants {
     const val TOP_UP_VIA_EXTERNAL_CARD: String = "TOP_UP_VIA_CARD"
 
 
-
-
     //Transaction Category Constant
     const val Y_TO_Y_TRANSFER = "P003"
     const val SUPP_CARD_TOP_UP = "P004"
@@ -78,5 +76,4 @@ object Constants {
     const val DISCOVER = "DISCOVER"
 
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
-
 }

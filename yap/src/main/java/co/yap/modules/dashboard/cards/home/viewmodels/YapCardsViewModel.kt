@@ -21,21 +21,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
     override val state: YapCardsState = YapCardsState()
     override val repository: CardsRepository = CardsRepository
 
-    init {
-        state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
-        )
-    }
-
-    override fun onResume() {
-        super.onResume()
-        state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
-        )
-    }
-
     override fun getCards() {
-
         launch {
             state.loading = true
             when (val response = repository.getDebitCards("")) {
@@ -73,7 +59,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
         return Card(
             newPin = "",
             cardType = "DEBIT",
-            uuid = "542 d2ef0 -9903 - 4 a19 -a691 - 12331357f f15",
+            uuid = "54",
             physical = false,
             active = false,
             cardName = Constants.addCard,
@@ -84,7 +70,7 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
             blocked = false,
             delivered = false,
             cardSerialNumber = "1000000000612",
-            maskedCardNo = "5381 23 * * * * * * 5744",
+            maskedCardNo = "5384",
             atmAllowed = true,
             onlineBankingAllowed = true,
             retailPaymentAllowed = true,
