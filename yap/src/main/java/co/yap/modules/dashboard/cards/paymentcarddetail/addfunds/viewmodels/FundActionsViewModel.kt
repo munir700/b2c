@@ -6,6 +6,7 @@ import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFun
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states.FundActionsState
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
@@ -16,6 +17,7 @@ import co.yap.yapcore.helpers.Utils
 
 open class FundActionsViewModel(application: Application) :
     BaseViewModel<IFundActions.State>(application), IFundActions.ViewModel {
+
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val state: FundActionsState = FundActionsState(application)
@@ -26,7 +28,12 @@ open class FundActionsViewModel(application: Application) :
     override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
+    override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
+
     override fun initateVM(topupCard: TopUpCard) {
+    }
+
+    override fun startPooling(showLoader: Boolean) {
     }
 
     override fun denominationFirstAmountClick() {
@@ -69,6 +76,7 @@ open class FundActionsViewModel(application: Application) :
         }
         secondDenominationClickEvent.call()
     }
+
     override fun denominationThirdAmount() {
 //        state.amount = ""
         if (state.denominationThirdAmount.contains("+")) {
@@ -132,7 +140,6 @@ open class FundActionsViewModel(application: Application) :
 
     override fun getFundTransferLimits(productCode: String) {
         launch {
-            //            state.loading = true
             when (val response = transactionsRepository.getFundTransferLimits(productCode)) {
                 is RetroApiResponse.Success -> {
                     state.maxLimit = response.data.data.maxLimit.toDouble()
@@ -142,7 +149,6 @@ open class FundActionsViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
-//            state.loading = false
         }
     }
 
@@ -181,6 +187,7 @@ open class FundActionsViewModel(application: Application) :
     override fun crossButtonClickEvent(id: Int) {
         clickEvent.postValue(id)
     }
+
     override fun createTransactionSession() {
 
     }

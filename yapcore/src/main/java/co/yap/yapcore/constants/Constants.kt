@@ -21,6 +21,7 @@ object Constants {
     const val TYPE: String = "type"
     const val TYPE_ADD_CARD: String = "TYPE_ADD_CARD"
     const val TYPE_TOP_UP_TRANSACTION: String = "TYPE_TOP_UP_TRANSACTION"
+    const val START_POOLING: String = "START_POOLING"
 
 
 
@@ -61,5 +62,13 @@ object Constants {
 
     //Other events
     const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
+
+    //Core Payment Card Types
+    const val VISA = "VISA"
+    const val MASTER = "MASTERCARD"
+    const val JCB = "JCB"
+    const val DINNERS = "DINERS_CLUB"
+    const val AMEX = "AMEX"
+    const val DISCOVER = "DISCOVER"
 
 }

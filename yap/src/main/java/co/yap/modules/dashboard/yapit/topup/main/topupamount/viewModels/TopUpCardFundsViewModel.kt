@@ -1,12 +1,11 @@
 package co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels
 
 import android.app.Application
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.MutableLiveData
-import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.viewmodels.FundActionsViewModel
 import co.yap.networking.customers.models.Session
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.Check3DEnrollmentSessionRequest
@@ -16,13 +15,15 @@ import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
-import com.google.android.material.appbar.AppBarLayout
-import com.thefinestartist.finestwebview.FinestWebView
+import kotlinx.coroutines.delay
 
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
+    override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
     private lateinit var topupCrad: TopUpCard
+    private var secureId: String? = null
+    private var orderId: String? = null
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
         state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
@@ -70,6 +71,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 CreateSessionRequest(Order(state.currencyType, state.amount.toString()))
             )) {
                 is RetroApiResponse.Success -> {
+                    orderId = response.data.data.order.id
                     check3DEnrollmentSessionRequest(
                         response.data.data.session.id,
                         response.data.data.order.id
@@ -97,12 +99,10 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    //openFaqsPage(response.data.data.`3DSecure`.authenticationRedirect.simple.htmlBodyContent)
-                    state.toast = response.data.data.`3DSecureId`
+                    secureId = response.data.data.`3DSecureId`
                     htmlLiveData.value =
                         response.data.data.`3DSecure`.authenticationRedirect.simple.htmlBodyContent
-
-                   // state.toast = response.data.data.secure3dId
+                    // state.toast = response.data.data.secure3dId
                     //clickEvent.postValue(100)
                 }
                 is RetroApiResponse.Error -> {
@@ -113,30 +113,41 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         }
     }
 
-    private fun openFaqsPage(url: String) {
-        FinestWebView.Builder(context)
-            .updateTitleFromHtml(true)
-            .toolbarScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS)
-            .gradientDivider(false)
-            .dividerHeight(2)
-            .titleColor(ContextCompat.getColor(context!!, R.color.colorPrimaryDark))
-            .toolbarColorRes(R.color.colorWhite)
-            .dividerColorRes(R.color.colorPrimaryDark)
-            .iconDefaultColorRes(R.color.colorPrimary)
-            .iconDisabledColorRes(R.color.light_grey)
-            .iconPressedColorRes(R.color.colorPrimaryDark)
-            .progressBarHeight(Utils.convertDpToPx(context!!, 3f))
-            .progressBarColorRes(R.color.colorPrimaryDark)
-            .backPressToClose(false)
-            .webViewUseWideViewPort(true)
-            .webViewSupportZoom(true)
-            .webViewBuiltInZoomControls(true)
-            .setCustomAnimations(
-                R.anim.activity_open_enter,
-                R.anim.activity_open_exit,
-                R.anim.activity_close_enter,
-                R.anim.activity_close_exit
-            )
-            .load(url)
+    override fun startPooling(showLoader: Boolean) {
+        launch {
+            if (showLoader)
+                state.loading = true
+            when (val response = transactionsRepository.secureIdPooling(secureId.toString())) {
+                is RetroApiResponse.Success -> {
+                    topUpTransactionModelLiveData?.value = TopUpTransactionModel(orderId, state.currencyType, state.amount, topupCrad.id?.toInt(), secureId)
+
+
+                    //clickEvent.postValue(100)
+                    state.loading = false
+                    //temporary
+                    /*when {
+                        response.data.data == null -> {
+                            delay(3000)
+                            startPooling(false)
+                        }
+                        response.data.data == "N" -> {
+                            state.toast = "unable to verify"
+                            state.loading = false
+                        }
+                        response.data.data == "Y" -> {
+                            clickEvent.postValue(100)
+                            state.loading = false
+                        }
+                    }*/
+                    // state.toast = response.data.data.secure3dId
+                    //clickEvent.postValue(100)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
     }
+
 }

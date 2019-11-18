@@ -65,7 +65,7 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
                         sessionId = request.url.getQueryParameter("sessionID")
                         cardColor = request.url.getQueryParameter("color")
                         alias = request.url.getQueryParameter("alias")
-                       // view?.visibility = View.GONE
+                        // view?.visibility = View.GONE
                         viewModel.addTopUpCard(
                             sessionId.toString(),
                             alias.toString(),
@@ -87,8 +87,9 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
         wb.webChromeClient = object : WebChromeClient() {
             override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
                 consoleMessage?.message()?.let {
-                    if (it.contains("yap.co")) {
-
+                    if (it.contains("yap.co") || it.contains("transactions")) {
+                        setDataForTopUpTransaction(true)
+                        finish()
                     }
                     // setData()
                     //finish()
@@ -143,5 +144,11 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
             }
 
         }, this).show()
+    }
+
+    private fun setDataForTopUpTransaction(isStartPooling: Boolean = false) {
+        val intent = Intent()
+        intent.putExtra(Constants.START_POOLING, isStartPooling)
+        setResult(Activity.RESULT_OK, intent)
     }
 }

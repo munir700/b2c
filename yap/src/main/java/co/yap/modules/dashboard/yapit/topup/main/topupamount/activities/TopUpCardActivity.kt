@@ -4,8 +4,10 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultActivity
@@ -16,6 +18,7 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
 
     var cardInfo: TopUpCard? = null
+    var topUpTransactionModel: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
     var orderId: String? = null
     var sessionId: String? = null
 
