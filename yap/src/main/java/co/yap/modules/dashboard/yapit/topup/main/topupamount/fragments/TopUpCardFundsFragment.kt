@@ -89,6 +89,14 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             )
         })
 
+        viewModel.topUpTransactionModelLiveData?.observe(this, Observer {
+            if (context is TopUpCardActivity) {
+                (context as TopUpCardActivity).topUpTransactionModel =
+                    viewModel.topUpTransactionModelLiveData
+                findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
+            }
+        })
+
     }
 
     var clickEvent = Observer<Int> {
@@ -98,7 +106,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 viewModel.createTransactionSession()
                 //findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             }
-            100 -> findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
+            // 100 -> findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             R.id.ivCross -> activity?.finish()
             Constants.CARD_FEE -> setUpFeeData()
         }

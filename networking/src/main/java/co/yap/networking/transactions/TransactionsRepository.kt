@@ -32,6 +32,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_CREATE_TRANSACTION_SESSION =
         "/transactions/api/mastercard/create-checkout-session"
     const val URL_CHECK_3Ds_ENROLLMENT_SESSION = "/transactions/api/mastercard/check-3ds-enrollment"
+    const val URL_TOP_UP_TRANSACTION = "/transactions/api/mastercard/order-id/{order-id}"
     const val URL_SECURE_ID_POOLING =
         "/transactions/api/mastercard/retrieve-acs-results/3DSecureId/{3DSecureId}"
 
@@ -100,7 +101,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.check3DEnrollmentSession(check3DEnrollmentSessionRequest) })
 
     override suspend fun secureIdPooling(
-        `3DSecureId`: String
+        secureId: String
     ): RetroApiResponse<StringDataResponseDTO> =
-        executeSafely(call = { api.secureIdPooling(`3DSecureId`) })
+        executeSafely(call = { api.secureIdPooling(secureId) })
+
+    override suspend fun cardTopUpTransactionRequest(topUpTransactionRequest: TopUpTransactionRequest): RetroApiResponse<ApiResponse>
+            = executeSafely(call = { api.cardTopUpTransactionRequest(topUpTransactionRequest) })
+
 }

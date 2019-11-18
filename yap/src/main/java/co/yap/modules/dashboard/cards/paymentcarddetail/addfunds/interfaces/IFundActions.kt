@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces
 import android.graphics.drawable.Drawable
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -31,11 +32,13 @@ interface IFundActions {
         val secondDenominationClickEvent: SingleClickEvent
         val thirdDenominationClickEvent: SingleClickEvent
         val htmlLiveData: MutableLiveData<String>
+        val topUpTransactionModelLiveData:MutableLiveData<TopUpTransactionModel>?
         fun createTransactionSession()
         var error: String
         var cardSerialNumber: String
         // For top up transaction pooling api
         fun startPooling(showLoader: Boolean)
+
     }
 
     interface State : IBase.State {
