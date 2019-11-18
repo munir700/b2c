@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCar
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.interfaces.IVerifyCardCvv
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels.VerifyCardCvvViewModel
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 
 class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), IVerifyCardCvv.View {
     override fun getBindingVariable(): Int = BR.viewModel
@@ -32,7 +33,6 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
         super.onViewCreated(view, savedInstanceState)
         if (context is TopUpCardActivity)
             if ((context as TopUpCardActivity).cardInfo?.logo.equals("Visa", true)) {
-                showToast("visa")
             } else if ((context as TopUpCardActivity).cardInfo?.logo.equals("MASTERCARD", true)) {
                 getBindings().cvvView.visibility = View.VISIBLE
                 getBindings().cvvAmericanView.visibility = View.GONE
@@ -47,11 +47,11 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
 
         when (it) {
             R.id.btnAction ->
-                if(context is TopUpCardActivity){
-                viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)
-
+                if (context is TopUpCardActivity) {
+                    viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)
                 }
-               // findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
+            Constants.TOP_UP_TRANSACTION_SUCCESS -> findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
+            // findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
         }
     }
 

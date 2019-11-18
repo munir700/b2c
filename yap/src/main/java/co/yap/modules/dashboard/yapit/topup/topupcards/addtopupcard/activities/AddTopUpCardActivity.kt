@@ -90,9 +90,9 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
                     if (it.contains("yap.co") || it.contains("transactions")) {
                         setDataForTopUpTransaction(true)
                         finish()
+                    }else{
+
                     }
-                    // setData()
-                    //finish()
 
                 }
                 return super.onConsoleMessage(consoleMessage)
