@@ -38,6 +38,7 @@ import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.dimen
 import co.yap.yapcore.managers.MyUserManager
@@ -75,7 +76,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             override fun onClick(v: View?) {
 
 
-                if (MyUserManager.user?.partnerBankStatus == "CARD_ACTIVATED") {
+                if (MyUserManager.user?.partnerBankStatus != USER_STATUS_CARD_ACTIVATED) {
                     showToast("Account activation pending")
                 } else {
                     setupYapButton()
