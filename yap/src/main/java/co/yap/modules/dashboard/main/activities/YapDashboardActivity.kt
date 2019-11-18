@@ -69,21 +69,22 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
+        setupYapButton()
 
-        getViewBinding().ivYapIt.setOnClickListener(object :
-            View.OnClickListener {
-
-            override fun onClick(v: View?) {
-
-
-                if (MyUserManager.user?.partnerBankStatus != USER_STATUS_CARD_ACTIVATED) {
-                    showToast("Account activation pending")
-                } else {
-                    setupYapButton()
-                }
-
-            }
-        })
+//        getViewBinding().ivYapIt.setOnClickListener(object :
+//            View.OnClickListener {
+//
+//            override fun onClick(v: View?) {
+//
+//
+//                if (MyUserManager.user?.partnerBankStatus != USER_STATUS_CARD_ACTIVATED) {
+//                    showToast("Account activation pending")
+//                } else {
+//
+//                }
+//
+//            }
+//        })
 
     }
 
@@ -120,8 +121,27 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
-                        1 -> checkPermission()
-                        2 -> openTopUpScreen()
+                        1 -> {
+
+
+                            if (MyUserManager.user?.partnerBankStatus != USER_STATUS_CARD_ACTIVATED) {
+                                showToast("Account activation pending")
+                            } else {
+                                checkPermission()
+                            }
+
+//                            checkPermission()
+                        }
+                        2 -> {
+
+
+                            if (MyUserManager.user?.partnerBankStatus != USER_STATUS_CARD_ACTIVATED) {
+                                showToast("Account activation pending")
+                            } else {
+                                openTopUpScreen()
+                            }
+
+                        }
 //                      3->checkPermission()
 
                     }
