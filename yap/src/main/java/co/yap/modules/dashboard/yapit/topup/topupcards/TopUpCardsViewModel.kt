@@ -10,8 +10,6 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardsViewModel(application: Application) :
     BaseViewModel<ITopUpCards.State>(application),
@@ -24,17 +22,9 @@ class TopUpCardsViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val topUpCards: MutableLiveData<List<TopUpCard>> = MutableLiveData()
 
-    init {
-        state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
-        )
-    }
 
     override fun onResume() {
         super.onResume()
-        state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
-        )
         getCardsLimit()
 
     }
@@ -54,19 +44,14 @@ class TopUpCardsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    fun getCardsLimit() {
+    private fun getCardsLimit() {
         launch {
-//            state.loading = true
             when (val response = repository.getCardsLimit()) {
                 is RetroApiResponse.Success -> {
-                    if (state.enableAddCard.get())
-
-                        remainingCardsLimit = response.data.data.remaining
+                    remainingCardsLimit = response.data.data.remaining
                 }
-
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
-//            state.loading = false
         }
     }
 

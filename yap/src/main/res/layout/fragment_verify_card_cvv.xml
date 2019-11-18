@@ -6,6 +6,8 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels.VerifyCardCvvViewModel" />
+
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <ScrollView
@@ -35,18 +37,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal_large"
-                android:text="Top up confirmation"
+                android:text="@string/screen_topup_card_cvv_display_text_title"
+                app:text="@{Strings.screen_topup_card_cvv_display_text_title}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
 
-            <ImageView
+            <co.yap.widgets.CorePaymentCard
                 android:id="@+id/ivCard"
                 android:layout_width="@dimen/_150sdp"
                 android:layout_height="@dimen/_90sdp"
                 android:layout_marginTop="@dimen/margin_extra_large"
-                android:background="@color/colorPrimary"
+                app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
+                app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
+                app:cardNickname="@{viewModel.state.cardInfo.alias}"
+                app:cardNumber="@{viewModel.state.cardInfo.number}"
+                app:cardType="@{viewModel.state.cardInfo.logo}"
+                app:card_size_type="small"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvToolBarHeader" />
@@ -57,9 +65,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="Citi Bank Card"
+                android:text="@{viewModel.state.cardInfo.alias}"
                 app:layout_constraintLeft_toLeftOf="@+id/ivCard"
                 app:layout_constraintRight_toRightOf="@+id/ivCard"
+                tools:text="CITI BANK"
                 app:layout_constraintTop_toBottomOf="@+id/ivCard" />
 
             <TextView
@@ -67,7 +76,7 @@
                 style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="123456789012"
+                android:text="@{viewModel.state.formattedCardNo}"
                 app:layout_constraintLeft_toLeftOf="@+id/ivCard"
                 app:layout_constraintRight_toRightOf="@+id/ivCard"
                 app:layout_constraintTop_toBottomOf="@+id/tvCardName" />
@@ -81,7 +90,7 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:layout_marginEnd="@dimen/margin_large"
                 android:gravity="center"
-                android:text="Enter the CVV to top up your acccount with AED XXX"
+                tools:text="Enter the CVV to top up your acccount with AED XXX"
                 android:textAlignment="center"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"

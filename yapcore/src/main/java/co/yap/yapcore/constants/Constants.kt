@@ -22,7 +22,7 @@ object Constants {
     const val TYPE_ADD_CARD: String = "TYPE_ADD_CARD"
     const val TYPE_TOP_UP_TRANSACTION: String = "TYPE_TOP_UP_TRANSACTION"
     const val START_POOLING: String = "START_POOLING"
-
+    const val TOP_UP_VIA_EXTERNAL_CARD: String = "TOP_UP_VIA_CARD"
 
 
     //Transaction Category Constant
@@ -76,5 +76,4 @@ object Constants {
     const val DISCOVER = "DISCOVER"
 
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
-
 }

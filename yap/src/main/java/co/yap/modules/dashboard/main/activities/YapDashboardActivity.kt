@@ -69,15 +69,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         viewModel.getAccountBalanceRequest()
         addObservers()
         addListeners()
-
-        getViewBinding().ivYapIt.setOnClickListener {
-            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                showToast("Account activation pending")
-            } else {
-                setupYapButton()
-            }
-        }
-
+        setupYapButton()
     }
 
     private fun setupYapButton() {
@@ -113,10 +105,20 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
-                        1 -> checkPermission()
-                        2 -> openTopUpScreen()
-//                      3->checkPermission()
-
+                        1 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                showToast("Account activation pending")
+                            } else {
+                                checkPermission()
+                            }
+                        }
+                        2 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                showToast("Account activation pending")
+                            } else {
+                                openTopUpScreen()
+                            }
+                        }
                     }
                 }
 

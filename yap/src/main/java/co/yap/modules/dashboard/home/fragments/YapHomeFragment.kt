@@ -227,7 +227,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 mAdapter.notifyDataSetChanged()
             }
             co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED -> {
-                //showTransactionsAndGraph()
+                //showTransactionsAndGraph
                 notificationsList.clear()
                 mAdapter = NotificationAdapter(
                     notificationsList,

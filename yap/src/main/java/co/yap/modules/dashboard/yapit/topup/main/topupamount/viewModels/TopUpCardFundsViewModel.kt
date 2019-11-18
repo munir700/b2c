@@ -26,6 +26,8 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
     private var orderId: String? = null
     override fun initateVM(item: TopUpCard) {
         topupCrad = item
+        state.cardInfo.set(item)
+
         state.toolBarHeader = getString(Strings.screen_topup_transfer_display_text_screen_title)
         state.enterAmountHeading =
             getString(Strings.screen_topup_transfer_display_text_amount_title)
@@ -42,11 +44,12 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)
     }
 
+
     private fun getTransactionFee() {
         launch {
             state.loading = true
             when (val response = transactionsRepository.getTransactionFee(
-                Constants.TOP_UP_VIA_CARD
+                Constants.TOP_UP_VIA_EXTERNAL_CARD
             )) {
                 is RetroApiResponse.Success -> {
                     state.transactionFee = response.data.data

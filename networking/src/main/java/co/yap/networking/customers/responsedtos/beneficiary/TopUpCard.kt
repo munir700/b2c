@@ -9,7 +9,7 @@ data class TopUpCard(
     val id: String? = "",
     val logo: String? = "",
     val expiry: String? = "",
-    val number: String? = "",
+    var number: String? = "",
     val alias: String? = "",
     val color: String? = ""
 ) : ApiResponse(), Parcelable

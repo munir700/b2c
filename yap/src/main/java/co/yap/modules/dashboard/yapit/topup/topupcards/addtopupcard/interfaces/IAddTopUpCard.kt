@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.IBase
@@ -13,5 +14,6 @@ interface IAddTopUpCard {
 
     interface State : IBase.State {
         var url: String
+        var toolbarVisibility: ObservableField<Boolean>
     }
 }

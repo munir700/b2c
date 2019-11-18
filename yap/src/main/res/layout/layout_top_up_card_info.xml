@@ -14,6 +14,10 @@
             name="cardExpiry"
             type="String" />
 
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels.TopUpCardFundsViewModel" />
+
         <import type="android.view.View" />
 
         <import type="co.yap.translation.Strings" />
@@ -32,14 +36,15 @@
             android:id="@+id/ivCustomCard"
             android:layout_width="@dimen/_120sdp"
             android:layout_height="@dimen/_70sdp"
-            app:cardExpiry="@{cardExpiry}"
-            app:cardNickname="@{cardName}"
-            app:cardNumber="@{cardNumber}"
-            app:card_background="@drawable/bg_gradient_master_card"
+            app:cardBackgroundColor="@{viewModel.state.cardInfo.color}"
+            app:cardExpiry="@{viewModel.state.cardInfo.expiry}"
+            app:cardNickname="@{viewModel.state.cardInfo.alias}"
+            app:cardNumber="@{viewModel.state.cardInfo.number}"
+            app:cardType="@{viewModel.state.cardInfo.logo}"
+            app:card_size_type="small"
             app:card_type="@drawable/ic_visa_card"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:card_size_type="small"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -57,11 +62,10 @@
                 style="@style/Micro"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{cardName}"
+                android:text="@{viewModel.state.cardInfo.alias}"
                 android:textSize="@dimen/_11sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tvCardNumber"
@@ -69,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_extra_small"
-                android:text="@{cardNumber}"
+                android:text="@{`*`+viewModel.state.cardInfo.number}"
                 app:layout_constraintStart_toStartOf="@+id/tvCardName"
                 app:layout_constraintTop_toBottomOf="@+id/tvCardName"
                 tools:text="4040 3318 **** 3456" />
