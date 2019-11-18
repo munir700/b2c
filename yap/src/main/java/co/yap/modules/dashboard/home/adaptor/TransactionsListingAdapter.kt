@@ -71,6 +71,30 @@ class TransactionsListingAdapter(private val list: MutableList<Content>) :
                 transaction.category!!.toLowerCase().capitalize()
             )
             itemTransactionListBinding.tvCurrency?.text = transaction.currency
+            if (transaction.productCode == Constants.Y_TO_Y_TRANSFER) {
+                itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_yap_to_yap))
+            } else {
+                if (transaction.productCode == Constants.SUPP_WITHDRAW || transaction.txnType == Constants.SUPP_CARD_TOP_UP) {
+                    if (transaction.txnType == Constants.MANUAL_DEBIT) {
+                        itemTransactionListBinding.ivTransaction.setImageDrawable(
+                            context.getDrawable(
+                                R.drawable.ic_minus
+                            )
+                        )
+                    } else if (transaction.txnType == Constants.MANUAL_CREDIT) {
+                        itemTransactionListBinding.ivTransaction.setImageDrawable(
+                            context.getDrawable(
+                                R.drawable.ic_plus
+                            )
+                        )
+                    }
+                } else if (transaction.txnType == Constants.MANUAL_DEBIT) {
+                    itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_outgoing))
+                } else if (transaction.txnType == Constants.MANUAL_CREDIT) {
+                    itemTransactionListBinding.ivTransaction.setImageDrawable(context.getDrawable(R.drawable.ic_incoming))
+                }
+            }
+
             setDataAgainstProductCode(transaction.productCode, transaction)
             //itemTransactionListBinding.viewModel = YapStoreDetailItemViewModel(store)
             //itemTransactionListBinding.executePendingBindings()
