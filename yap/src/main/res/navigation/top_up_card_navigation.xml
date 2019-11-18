@@ -39,5 +39,14 @@
         android:id="@+id/topUpCardSuccessFragment"
         android:name="co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments.TopUpCardSuccessFragment"
         android:label="TopUpCardSuccessFragment"
-        tools:layout="@layout/fragment_top_up_card_success"/>
+        tools:layout="@layout/fragment_top_up_card_success">
+        <argument
+            android:name="amount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="currencyType"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
 </navigation>

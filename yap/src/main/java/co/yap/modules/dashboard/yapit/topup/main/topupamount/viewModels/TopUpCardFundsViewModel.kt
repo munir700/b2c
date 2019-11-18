@@ -32,8 +32,8 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         state.enterAmountHeading =
             getString(Strings.screen_topup_transfer_display_text_amount_title)
         state.currencyType = getString(Strings.common_text_currency_type)
-        getFundTransferLimits(co.yap.modules.others.helper.Constants.ADD_FUNDS_PRODUCT_CODE)
-        getFundTransferDenominations(co.yap.modules.others.helper.Constants.ADD_FUNDS_PRODUCT_CODE)
+        getFundTransferLimits(Constants.TOP_UP_VIA_CARD)
+        getFundTransferDenominations(Constants.TOP_UP_VIA_CARD)
         getTransactionFee()
         state.availableBalanceGuide =
             getString(Strings.screen_topup_transfer_display_text_available_balance)
@@ -49,7 +49,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.getTransactionFee(
-                Constants.TOP_UP
+                Constants.TOP_UP_VIA_CARD
             )) {
                 is RetroApiResponse.Success -> {
                     state.transactionFee = response.data.data
