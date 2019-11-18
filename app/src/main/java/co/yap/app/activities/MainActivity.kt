@@ -23,6 +23,7 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
         setContentView(R.layout.activity_main)
+       
     }
 
     override fun onBackPressed() {
