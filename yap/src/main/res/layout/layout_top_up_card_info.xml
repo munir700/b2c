@@ -38,7 +38,8 @@
             app:card_background="@drawable/bg_gradient_master_card"
             app:card_type="@drawable/ic_visa_card"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:card_size_type="small"/>
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -60,7 +61,7 @@
                 android:textSize="@dimen/_11sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="@string/screen_topup_success_display_text_card_title" />
+                />
 
             <TextView
                 android:id="@+id/tvCardNumber"
