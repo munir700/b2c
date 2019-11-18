@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces
 
 import android.graphics.drawable.Drawable
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
@@ -43,6 +44,7 @@ interface IFundActions {
 
     interface State : IBase.State {
         var toolBarHeader: String
+        var cardInfo: ObservableField<TopUpCard>
         var cardName: String
         var cardNumber: String
         var enterAmountHeading: String

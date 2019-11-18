@@ -553,6 +553,9 @@
     <string name="screen_topup_transfer_display_text_transaction_no_fee">No Fee</string>
     <string name="screen_topup_funds_display_button_text">Next</string>
 
+    <!-- TopUp Verify CVV Screen -->
+    <string name="screen_topup_card_cvv_display_text_title">Top up confirmation</string>
+    <string name="screen_topup_card_cvv_display_text_cvv">Enter the CVV to top up your acccount with %1s %2s</string>
 
     <!--    Topup success screen-->
     <string name="screen_topup_success_display_text_title">Top up successful</string>

@@ -27,7 +27,7 @@
         android:background="@color/white"
         android:gravity="center_vertical"
         android:padding="@dimen/_8sdp"
-        android:visibility="@{viewModel.state.toolbarVisibility?View.VISIBLE:View.GONE}"
+        android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE : View.GONE}"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">

@@ -1,20 +1,24 @@
 package co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments
 
-import `in`.aabhasjindal.otptextview.OtpTextView
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentVerifyCardCvvBinding
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.interfaces.IVerifyCardCvv
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels.VerifyCardCvvViewModel
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
 
 class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), IVerifyCardCvv.View {
+    val args: VerifyCardCvvFragmentArgs by navArgs()
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_card_cvv
@@ -30,17 +34,35 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (context is TopUpCardActivity)
-            if ((context as TopUpCardActivity).cardInfo?.logo.equals("Visa", true)) {
-                showToast("visa")
-            } else if ((context as TopUpCardActivity).cardInfo?.logo.equals("MASTERCARD", true)) {
-                getBindings().cvvView.visibility = View.VISIBLE
-                getBindings().cvvAmericanView.visibility = View.GONE
-            } else {
-                getBindings().cvvView.visibility = View.GONE
-                getBindings().cvvAmericanView.visibility = View.VISIBLE
+        viewModel.state.cvvSpanableString.set(
+            getString(Strings.screen_topup_card_cvv_display_text_cvv).format(
+                args.currencyType,
+                args.amount
+            )
+        )
+        getBindings().tvTopUpDescription.text = Utils.getSppnableStringForAmount(
+            requireContext(),
+            viewModel.state.cvvSpanableString.get().toString(),
+            args.currencyType,
+            Utils.getFormattedCurrencyWithoutComma(args.amount)
+        )
+
+        if (context is TopUpCardActivity) {
+            val cardInfo: TopUpCard? = (context as TopUpCardActivity).cardInfo
+            viewModel.state.cardInfo.set(cardInfo)
+            viewModel.state.formattedCardNo.set(Utils.getFormattedCardNumber(cardInfo?.number.toString()))
+            when (cardInfo?.logo) {
+                Constants.VISA,
+                Constants.MASTER -> {
+                    getBindings().cvvView.visibility = View.VISIBLE
+                    getBindings().cvvAmericanView.visibility = View.GONE
+                }
+                Constants.AMEX -> {
+                    getBindings().cvvView.visibility = View.GONE
+                    getBindings().cvvAmericanView.visibility = View.VISIBLE
+                }
             }
-        showToast((context as TopUpCardActivity).topUpTransactionModel?.value?.cardId.toString())
+        }
     }
 
     var clickEvent = Observer<Int> {

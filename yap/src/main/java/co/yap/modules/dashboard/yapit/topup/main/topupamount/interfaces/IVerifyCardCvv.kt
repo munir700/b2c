@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.topup.main.topupamount.interfaces
 
+import androidx.databinding.ObservableField
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpTransactionModel
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -14,5 +16,8 @@ class IVerifyCardCvv {
 
     interface State : IBase.State{
         var cardCvv:String
+        var cvvSpanableString:ObservableField<String>
+        var cardInfo:ObservableField<TopUpCard>
+        var formattedCardNo:ObservableField<String>
     }
 }

@@ -15,5 +15,5 @@ class AddTopUpCardState : BaseState(), IAddTopUpCard.State {
             notifyPropertyChanged(BR.url)
         }
 
-    override var toolbarVisibility: ObservableField<Boolean> = ObservableField(false)
+    override var toolbarVisibility: ObservableField<Boolean> = ObservableField()
 }

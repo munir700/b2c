@@ -31,6 +31,7 @@ open class FundActionsViewModel(application: Application) :
     override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
 
     override fun initateVM(topupCard: TopUpCard) {
+
     }
 
     override fun startPooling(showLoader: Boolean) {

@@ -901,6 +901,10 @@ object Strings {
         "screen_add_topup_card_succes_button_top_up_now"
     const val screen_add_topup_card_succes_button_later: String =
         "screen_add_topup_card_succes_button_later"
+    const val screen_topup_card_cvv_display_text_title: String =
+        "screen_topup_card_cvv_display_text_title"
+    const val screen_topup_card_cvv_display_text_cvv: String =
+        "screen_topup_card_cvv_display_text_cvv"
 
 
 }

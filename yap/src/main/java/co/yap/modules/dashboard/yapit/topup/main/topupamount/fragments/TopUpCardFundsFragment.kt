@@ -25,6 +25,7 @@ import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     IFundActions.View {
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_top_up_card_funds
@@ -93,7 +94,14 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             if (context is TopUpCardActivity) {
                 (context as TopUpCardActivity).topUpTransactionModel =
                     viewModel.topUpTransactionModelLiveData
-                findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
+                val action =
+                    TopUpCardFundsFragmentDirections.actionTopUpCardFundsFragmentToVerifyCardCvvFragment(
+                        viewModel.state.amount.toString(),
+                        viewModel.state.currencyType
+                    )
+                findNavController().navigate(
+                    action
+                )
             }
         })
 

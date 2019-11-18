@@ -14,11 +14,15 @@ import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.AddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.interfaces.IAddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.viewmodels.AddTopUpCardViewModel
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
-import co.yap.yapcore.BaseActivity
+import co.yap.yapcore.BR
+import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.activity_add_top_up_card.*
 
-class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpCard.View {
+class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAddTopUpCard.View {
+    override fun getBindingVariable(): Int = BR.viewModel
+
+    override fun getLayoutId(): Int = R.layout.activity_add_top_up_card
     var alias: String? = null
     var cardColor: String? = null
     var sessionId: String? = null
@@ -39,13 +43,14 @@ class AddTopUpCardActivity : BaseActivity<IAddTopUpCard.ViewModel>(), IAddTopUpC
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_top_up_card)
         if (intent.hasExtra(Constants.KEY) && intent.hasExtra(Constants.TYPE)) {
             viewModel.state.url = intent.getStringExtra(Constants.KEY)
             type = intent.getStringExtra(Constants.TYPE)
             if (type == Constants.TYPE_ADD_CARD) {
+                viewModel.state.toolbarVisibility.set(true)
                 setupWebViewForAddCard()
             } else if (type == Constants.TYPE_TOP_UP_TRANSACTION) {
+                viewModel.state.toolbarVisibility.set(false)
                 setupWebViewForTopUpCardTransaction()
             }
         }
