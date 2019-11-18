@@ -199,6 +199,7 @@
                     style="@style/ALarge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="@{viewModel.state.cardFormattedExpiry}"
                     app:layout_constraintStart_toEndOf="@+id/barrier"
                     app:layout_constraintTop_toBottomOf="@id/tvHintType"
                     tools:text="12/2021" />

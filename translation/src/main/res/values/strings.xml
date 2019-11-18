@@ -561,5 +561,11 @@
     <string name="screen_topup_success_display_text_account_balance_title">Your new account balance is</string>
     <string name="screen_topup_success_display_text_dashboard_action_button_title">Back to dashboard</string>
 
+    <!--Screen add top up card -->
+    <string name="screen_add_topup_card_display_text_title">Enter your card details</string>
+    <string name="screen_add_topup_card_display_text_succes_title">Your card has been added successfully</string>
+    <string name="screen_add_topup_card_display_text_succes_details">Top up now with this card?</string>
+    <string name="screen_add_topup_card_succes_button_top_up_now">Yes, top up now"</string>
+    <string name="screen_add_topup_card_succes_button_later">No, do it later</string>
 
 </resources>

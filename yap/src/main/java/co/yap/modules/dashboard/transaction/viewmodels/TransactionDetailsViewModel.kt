@@ -6,6 +6,7 @@ import co.yap.modules.dashboard.transaction.interfaces.ITransactionDetails
 import co.yap.modules.dashboard.transaction.states.TransactionDetailsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.TransactionDetails
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -58,6 +59,7 @@ class TransactionDetailsViewModel(application: Application) :
             when (val response = transactionRepository.getTransactionDetails(transactionId)) {
                 is RetroApiResponse.Success -> {
                     //success
+                    setSenderOrReceiver(response.data.data)
                     state.transactionTitle = response.data.data?.title
                     if (response.data.data?.txnType != Constants.TRANSACTION_TYPE_CREDIT) {
                         state.spentTitle =
@@ -102,5 +104,17 @@ class TransactionDetailsViewModel(application: Application) :
             state.loading = false
         }
 
+    }
+
+    private fun setSenderOrReceiver(data: TransactionDetails?) {
+        data?.let {
+            when (data.productCode) {
+                Constants.Y_TO_Y_TRANSFER -> {
+                    state.isYtoYTransfer.set(true)
+                    state.transactionSender = data.senderName
+                    state.transactionReceiver = data.receiverName
+                }
+            }
+        }
     }
 }

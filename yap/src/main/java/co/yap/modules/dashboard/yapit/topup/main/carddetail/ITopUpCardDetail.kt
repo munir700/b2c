@@ -18,6 +18,7 @@ interface ITopUpCardDetail {
 
     interface State : IBase.State {
         val title: ObservableField<String>
+        val cardFormattedExpiry: ObservableField<String>
         val cardInfo:ObservableField<TopUpCard>
         val isCardDeleted: MutableLiveData<Boolean>
     }
