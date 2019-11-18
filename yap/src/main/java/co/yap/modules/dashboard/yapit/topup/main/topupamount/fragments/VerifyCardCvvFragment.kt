@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
 import co.yap.R
@@ -69,11 +70,11 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
 
         when (it) {
             R.id.btnAction ->
-                if(context is TopUpCardActivity){
-                viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)
-
+                if (context is TopUpCardActivity) {
+                    viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)
                 }
-               // findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
+            Constants.TOP_UP_TRANSACTION_SUCCESS -> findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
+            // findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
         }
     }
 

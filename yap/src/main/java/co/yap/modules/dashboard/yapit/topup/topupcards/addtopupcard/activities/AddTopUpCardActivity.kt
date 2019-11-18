@@ -95,9 +95,9 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
                     if (it.contains("yap.co") || it.contains("transactions")) {
                         setDataForTopUpTransaction(true)
                         finish()
+                    }else{
+
                     }
-                    // setData()
-                    //finish()
 
                 }
                 return super.onConsoleMessage(consoleMessage)

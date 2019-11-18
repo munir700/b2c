@@ -122,13 +122,10 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 state.loading = true
             when (val response = transactionsRepository.secureIdPooling(secureId.toString())) {
                 is RetroApiResponse.Success -> {
-                    topUpTransactionModelLiveData?.value = TopUpTransactionModel(orderId, state.currencyType, state.amount, topupCrad.id?.toInt(), secureId)
-
-
+                   // topUpTransactionModelLiveData?.value = TopUpTransactionModel(orderId, state.currencyType, state.amount, topupCrad.id?.toInt(), secureId)
                     //clickEvent.postValue(100)
-                    state.loading = false
                     //temporary
-                    /*when {
+                    when {
                         response.data.data == null -> {
                             delay(3000)
                             startPooling(false)
@@ -138,10 +135,10 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                             state.loading = false
                         }
                         response.data.data == "Y" -> {
-                            clickEvent.postValue(100)
+                            topUpTransactionModelLiveData?.value = TopUpTransactionModel(orderId, state.currencyType, state.amount, topupCrad.id?.toInt(), secureId)
                             state.loading = false
                         }
-                    }*/
+                    }
                     // state.toast = response.data.data.secure3dId
                     //clickEvent.postValue(100)
                 }

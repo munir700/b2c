@@ -28,6 +28,7 @@ interface ITopUpCards {
         fun updateCardCount()
         val clickEvent: SingleClickEvent
         val topUpCards: MutableLiveData<List<TopUpCard>>
+        var remainingCardsLimit : Int
     }
 
     interface View : IBase.View<ViewModel>

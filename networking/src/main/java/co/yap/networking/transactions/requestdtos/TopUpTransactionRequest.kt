@@ -1,8 +1,8 @@
 package co.yap.networking.transactions.requestdtos
 
 data class TopUpTransactionRequest(
-    val order: Order,
+    val `3DSecureId`: String?,
     val beneficiaryId: Int?,
-    val securityCode: String?,
-    val `3DSecureId`: String?
+    val order: Order,
+    val securityCode: String?
 )

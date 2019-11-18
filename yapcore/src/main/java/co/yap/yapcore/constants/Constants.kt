@@ -52,6 +52,7 @@ object Constants {
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
     const val DUMMY_CARD: Int = 22
     const val CARD_FEE: Int = 23
+    const val TOP_UP_TRANSACTION_SUCCESS: Int = 6
 
 
     //Add Card Payment gateway URL
@@ -70,5 +71,7 @@ object Constants {
     const val DINNERS = "DINERS_CLUB"
     const val AMEX = "AMEX"
     const val DISCOVER = "DISCOVER"
+
+    const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
 
 }
