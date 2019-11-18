@@ -79,7 +79,6 @@ class TransactionDetailsActivity : BaseBindingActivity<ITransactionDetails.ViewM
                         ), Constants.INTENT_ADD_NOTE_REQUEST
                     )
                 }
-
         }
     }
 
