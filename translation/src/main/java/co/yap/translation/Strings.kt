@@ -890,5 +890,17 @@ object Strings {
     const val screen_topup_success_display_text_dashboard_action_button_title: String =
         "screen_topup_success_display_text_dashboard_action_button_title"
 
+    //Screen add top up card
+    const val screen_add_topup_card_display_text_title: String =
+        "screen_add_topup_card_display_text_title"
+    const val screen_add_topup_card_display_text_succes_title: String =
+        "screen_add_topup_card_display_text_succes_title"
+    const val screen_add_topup_card_display_text_succes_details: String =
+        "screen_add_topup_card_display_text_succes_details"
+    const val screen_add_topup_card_succes_button_top_up_now: String =
+        "screen_add_topup_card_succes_button_top_up_now"
+    const val screen_add_topup_card_succes_button_later: String =
+        "screen_add_topup_card_succes_button_later"
+
 
 }

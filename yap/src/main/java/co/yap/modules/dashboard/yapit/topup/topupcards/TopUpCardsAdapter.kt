@@ -1,7 +1,6 @@
 package co.yap.modules.dashboard.yapit.topup.topupcards
 
 import android.content.Context
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
@@ -60,7 +59,7 @@ class TopUpCardsAdapter(
             dimensions: IntArray,
             onItemClickListener: OnItemClickListener?
         ) {
-
+            binding.parent.alpha = 0.3f
             val params = binding.parent.layoutParams as RecyclerView.LayoutParams
             params.width = dimensions[0]
             params.height = dimensions[1]

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,8 +20,10 @@ import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.interfaces.OnItemClickListener
+import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import kotlin.math.abs
 
 class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
     companion object {
@@ -50,55 +53,75 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         getBinding().rvTopUpCards.adapter = mAdapter
         getBinding().rvTopUpCards.addOnItemChangedListener { viewHolder, adapterPosition ->
             updateSelection(viewHolder, adapterPosition)
+            if (viewHolder is TopUpCardsAdapter.TopUpCardViewHolder)
+                viewHolder.binding.parent?.alpha = 1f
         }
         mAdapter.setItemListener(listener)
         getBinding().rvTopUpCards.smoothScrollToPosition(0)
         getBinding().rvTopUpCards.setItemTransitionTimeMillis(150)
-//        getBinding().rvTopUpCards.addScrollStateChangeListener(object :
-//            DiscreteScrollView.ScrollStateChangeListener<TopUpCardsAdapter.TopUpCardViewHolder> {
-//            override fun onScroll(
-//                scrollPosition: Float,
-//                currentPosition: Int,
-//                newPosition: Int,
-//                currentHolder: TopUpCardsAdapter.TopUpCardViewHolder?,
-//                newCurrent: TopUpCardsAdapter.TopUpCardViewHolder?
-//            ) {
-//                if (newCurrent is TopUpCardsAdapter.TopUpCardViewHolder) {
-//
-//                    Log.i(
-//                        "discreta: ",
-//                        "scrollPosition $scrollPosition ,currentPosition $currentPosition ,newPosition $newPosition"
-//                    )
-//
-//                    if (currentPosition > 0) {
-//                        val previous = getBinding().rvTopUpCards.getViewHolder(currentPosition - 1)
-//                        if (previous is TopUpCardsAdapter.TopUpCardViewHolder) {
-//                            if (abs(scrollPosition) < 0.5) {
-//                                newCurrent.binding.parent?.alpha = abs(0.5f)
-//                                previous.binding.parent?.alpha = abs(0.5f)
-//                            } else {
-//                                newCurrent.binding.parent?.alpha = abs(scrollPosition)
-//                                previous.binding.parent?.alpha = abs(scrollPosition)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//            override fun onScrollEnd(
-//                currentItemHolder: TopUpCardsAdapter.TopUpCardViewHolder,
-//                position: Int
-//            ) {
-//
-//            }
-//
-//            override fun onScrollStart(
-//                currentItemHolder: TopUpCardsAdapter.TopUpCardViewHolder,
-//                position: Int
-//            ) {
-//
-//            }
-//        })
+        getBinding().rvTopUpCards.addScrollStateChangeListener(object :
+            DiscreteScrollView.ScrollStateChangeListener<RecyclerView.ViewHolder> {
+            override fun onScroll(
+                scrollPosition: Float,
+                currentPosition: Int,
+                newPosition: Int,
+                currentHolder: RecyclerView.ViewHolder?,
+                newCurrent: RecyclerView.ViewHolder?
+            ) {
+                if (newCurrent is TopUpCardsAdapter.TopUpCardViewHolder) {
+
+                    Log.i(
+                        "discreta: ",
+                        "scrollPosition $scrollPosition ,currentPosition $currentPosition ,newPosition $newPosition"
+                    )
+
+                    val crItem = getBinding().rvTopUpCards.currentItem
+                    var p: RecyclerView.ViewHolder? = null
+                    var n: RecyclerView.ViewHolder? = null
+
+                    if (crItem >= 1) {
+                        p =
+                            getBinding().rvTopUpCards.getViewHolder(crItem - 1)
+                        n =
+                            getBinding().rvTopUpCards.getViewHolder(crItem + 1)
+                    } else {
+                        n =
+                            getBinding().rvTopUpCards.getViewHolder(crItem + 1)
+                    }
+
+                    val alphaFactor = if (abs(scrollPosition) < .3f) .3f else abs(scrollPosition)
+                    val das = 1 - alphaFactor
+                    Log.i(
+                        "discreted: ",
+                        "crItem $crItem alphaRatio $alphaFactor 1 - alphaFactor $das"
+                    )
+                    if (p is TopUpCardsAdapter.TopUpCardViewHolder)
+                        p.binding?.parent?.alpha = alphaFactor
+
+                    if (n is TopUpCardsAdapter.TopUpCardViewHolder)
+                        n.binding?.parent?.alpha = alphaFactor
+
+                    if (currentHolder is TopUpCardsAdapter.TopUpCardViewHolder)
+                        currentHolder?.binding?.parent?.alpha =
+                            if (1 - abs(scrollPosition) < .3f) .3f else 1 - abs(scrollPosition)
+
+                }
+            }
+
+            override fun onScrollEnd(
+                currentItemHolder: RecyclerView.ViewHolder,
+                position: Int
+            ) {
+
+            }
+
+            override fun onScrollStart(
+                currentItemHolder: RecyclerView.ViewHolder,
+                position: Int
+            ) {
+
+            }
+        })
         getBinding().rvTopUpCards.setItemTransformer(
             ScaleTransformer.Builder()
                 .setMaxScale(1.05f)
@@ -145,7 +168,7 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         if (viewModel.clickEvent.getPayload() != null) {
             val pos = viewModel.clickEvent.getPayload()?.position
             val view = viewModel.clickEvent.getPayload()?.view
-            viewModel.clickEvent.setPayload(null)
+            viewModel.clickEvent.setPayload2(null)
 
             if (pos != getBinding().rvTopUpCards.currentItem) {
                 pos?.let { it -> getBinding().rvTopUpCards.smoothScrollToPosition(it) }
@@ -228,4 +251,5 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
             }
         }
     }
+
 }

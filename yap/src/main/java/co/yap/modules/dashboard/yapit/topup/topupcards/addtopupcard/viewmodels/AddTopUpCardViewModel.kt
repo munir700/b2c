@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.states.AddTo
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.models.Session
 import co.yap.networking.customers.requestdtos.CreateBeneficiaryRequest
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.BaseViewModel
@@ -16,7 +17,7 @@ class AddTopUpCardViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
     override val state: AddTopUpCardState = AddTopUpCardState()
     override val repository: CustomersRepository = CustomersRepository
-    override val isCardAdded: MutableLiveData<Boolean> = MutableLiveData()
+    override val isCardAdded: MutableLiveData<TopUpCard> = MutableLiveData()
 
     override fun addTopUpCard(sessionId: String, alias: String, color: String) {
         launch {
@@ -28,15 +29,15 @@ class AddTopUpCardViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    isCardAdded.value = true
+                    isCardAdded.value = response.data.data
                 }
 
                 is RetroApiResponse.Error -> {
-                    isCardAdded.value = false
+                    isCardAdded.value = null
                     state.toast = response.error.message
                 }
             }
-            //state.loading = false
+            state.loading = false
         }
     }
 }
