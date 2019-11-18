@@ -13,6 +13,7 @@ import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -384,8 +385,8 @@ object Utils {
         context: Context,
         staticString: String?,
         startDestination: String?
-    ): SpannableStringBuilder {
-
+    ): SpannableStringBuilder? {
+        return try {
         val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
         val separated = staticString?.split(startDestination!!)
         val str = SpannableStringBuilder(staticString)
@@ -396,7 +397,44 @@ object Utils {
             separated[0].length + startDestination!!.length,
             Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
         )
-        return str
+            str
+        }catch (e:Exception){
+            e.printStackTrace()
+            return null
+        }
+
+    }
+
+    fun getSpannableStringForLargerBalance(
+        context: Context,
+        staticString: String,
+        currencyType: String,
+        amount: String
+    ): SpannableStringBuilder? {
+        return try {
+            var textSize=context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
+            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            val fcsLarge = AbsoluteSizeSpan(textSize)
+            val separated = staticString.split(currencyType)
+            val str = SpannableStringBuilder(staticString)
+
+            str.setSpan(
+                fcs,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str.setSpan(
+                fcsLarge,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str
+        }catch (e:Exception){
+            return null
+        }
+
 
     }
 
