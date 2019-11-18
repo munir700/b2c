@@ -10,6 +10,7 @@ import co.yap.networking.transactions.requestdtos.Order
 import co.yap.networking.transactions.requestdtos.TopUpTransactionRequest
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 
 
 class VerifyCardCvvViewModel(application: Application) :
@@ -39,10 +40,11 @@ class VerifyCardCvvViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     // state.toast = response.data.data.secure3dId
-                    //clickEvent.postValue(100)
+                    clickEvent.postValue(Constants.TOP_UP_TRANSACTION_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    clickEvent.postValue(Constants.TOP_UP_TRANSACTION_SUCCESS)
                 }
             }
             state.loading = false
