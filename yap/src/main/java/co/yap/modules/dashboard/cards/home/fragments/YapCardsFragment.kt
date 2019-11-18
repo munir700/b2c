@@ -239,11 +239,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
                     if (isPinCreated!!) {
-                        MyUserManager.user?.notificationStatuses =
-                            Constants.USER_STATUS_CARD_ACTIVATED
-                        viewModel.state.enableAddCard.set(
-                            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
-                        )
                         adapter.removeAllItems()
                         viewModel.getCards()
                     }
