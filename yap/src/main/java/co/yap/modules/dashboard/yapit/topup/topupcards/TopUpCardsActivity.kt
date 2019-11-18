@@ -177,7 +177,13 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
         }
         when (it) {
             R.id.tbBtnAddCard -> {
-                addCardProcess()
+
+                if (viewModel.remainingCardsLimit > 0) {
+                    addCardProcess()
+                } else {
+                    showToast("Limit Reached")
+                }
+
             }
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
@@ -202,7 +208,12 @@ class TopUpCardsActivity : BaseBindingActivity<ITopUpCards.ViewModel>() {
                 onBackPressed()
             }
             R.id.lycard -> {
-                addCardProcess()
+                if (viewModel.remainingCardsLimit > 0) {
+                    addCardProcess()
+                } else {
+                    showToast("Limit Reached")
+                }
+
             }
         }
     }
