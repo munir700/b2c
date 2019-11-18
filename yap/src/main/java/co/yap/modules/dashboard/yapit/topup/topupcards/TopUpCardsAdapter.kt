@@ -22,7 +22,7 @@ class TopUpCardsAdapter(
 
     private val empty = 1
     private val actual = 2
-    private var dimensions: IntArray = Utils.getCardDimensions(context, 65, 25)
+    private var dimensions: IntArray = Utils.getCardDimensions(context, 65, 30)
 
     override fun getLayoutIdForViewType(viewType: Int): Int =
         if (viewType == actual) R.layout.item_topup_cards else R.layout.item_topup_card_empty
