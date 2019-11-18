@@ -107,16 +107,17 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     when (subActionButtonId) {
                         1 -> {
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                                showToast("Account activation pending")
-                            } else {
                                 checkPermission()
+                            } else {
+                                showToast("Account activation pending")
                             }
                         }
                         2 -> {
                             if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                                showToast("Account activation pending")
-                            } else {
                                 openTopUpScreen()
+                            } else {
+                                showToast("Account activation pending")
+
                             }
                         }
                     }
@@ -298,9 +299,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
                 R.id.yapCards -> {
                     if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        showToast("Account activation pending")
-                    } else {
                         getViewBinding().viewPager.setCurrentItem(2, false)
+                    } else {
+                        showToast("Account activation pending")
                     }
                 }
                 R.id.yapMore -> {
@@ -318,9 +319,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 }
                 R.id.yapCards -> {
                     if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
-                        showToast("Account activation pending")
-                    } else {
                         getViewBinding().viewPager.setCurrentItem(2, false)
+                    } else {
+                        showToast("Account activation pending")
                     }
                 }
             }
