@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.core_payment_card.view.*
@@ -56,37 +57,37 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
 
     fun setCardLogoByType(cardType: String) {
         when (cardType) {
-            "VISA" -> ivCardType.setImageDrawable(
+            Constants.VISA -> ivCardType.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_visa_card
                 )
             )
-            "MASTERCARD" -> ivCardType.setImageDrawable(
+            Constants.MASTER -> ivCardType.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_master_card_logo
                 )
             )
-            "AMEX" -> ivCardType.setImageDrawable(
+            Constants.AMEX -> ivCardType.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_amex_bank
                 )
             )
-            "JCB" -> ivCardType.setImageDrawable(
+            Constants.JCB -> ivCardType.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_jcb_bank
                 )
             )
-            "DINERS_CLUB" -> ivCardType.setImageDrawable(
+            Constants.DINNERS -> ivCardType.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_dinersclub_bank
                 )
             )
-            "DISCOVER" -> ivCardType.setImageDrawable(
+            Constants.DISCOVER -> ivCardType.setImageDrawable(
                 ContextCompat.getDrawable(
                     context,
                     R.drawable.ic_discover_bank
