@@ -23,14 +23,14 @@ class YapCardsViewModel(application: Application) : BaseViewModel<IYapCards.Stat
 
     init {
         state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
         )
     }
 
     override fun onResume() {
         super.onResume()
         state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
         )
     }
 

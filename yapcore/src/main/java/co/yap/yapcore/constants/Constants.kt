@@ -71,4 +71,6 @@ object Constants {
     const val AMEX = "AMEX"
     const val DISCOVER = "DISCOVER"
 
+    const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
+
 }

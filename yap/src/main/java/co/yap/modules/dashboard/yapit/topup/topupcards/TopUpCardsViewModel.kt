@@ -10,6 +10,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardsViewModel(application: Application) :
@@ -25,14 +26,14 @@ class TopUpCardsViewModel(application: Application) :
 
     init {
         state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
         )
     }
 
     override fun onResume() {
         super.onResume()
         state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
+            MyUserManager.user?.notificationStatuses.equals(Constants.USER_STATUS_CARD_ACTIVATED)
         )
         getCardsLimit()
 

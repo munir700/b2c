@@ -225,7 +225,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 )
                 mAdapter.notifyDataSetChanged()
             }
-            Constants.USER_STATUS_CARD_ACTIVATED -> {
+            co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED -> {
                 showTransactionsAndGraph()
                 notificationsList.clear()
                 mAdapter = NotificationAdapter(
@@ -314,7 +314,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onResume() {
         super.onResume()
-        if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
+        if (co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
             checkUserStatus()
         }
         viewModel.state.filterCount.set(homeTransactionsRequest.totalAppliedFilter)
