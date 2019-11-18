@@ -18,10 +18,13 @@
 
         <ImageView
             android:id="@+id/ivChip"
-            android:layout_width="@dimen/_16sdp"
-            android:layout_height="@dimen/_16sdp"
+            android:layout_width="@dimen/_18sdp"
+            android:layout_height="@dimen/_15sdp"
             android:layout_marginTop="@dimen/margin_small"
             android:background="@drawable/sim_gradient"
+            android:paddingStart="@dimen/_2sdp"
+            android:paddingEnd="@dimen/_2sdp"
+            android:scaleType="centerInside"
             android:src="@drawable/ic_card_chip"
             app:layout_constraintStart_toStartOf="@+id/ivCardType"
             app:layout_constraintTop_toTopOf="parent" />
