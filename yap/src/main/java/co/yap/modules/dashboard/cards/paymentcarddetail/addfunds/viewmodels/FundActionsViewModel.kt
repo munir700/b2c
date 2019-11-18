@@ -11,6 +11,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.AddFundsRequest
 import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
+import co.yap.networking.transactions.responsedtos.FundTransferDenominations
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
@@ -28,7 +29,8 @@ open class FundActionsViewModel(application: Application) :
     override val thirdDenominationClickEvent: SingleClickEvent = SingleClickEvent()
     override var error: String = ""
     override var cardSerialNumber: String = ""
-    override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
+    override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
+        MutableLiveData()
 
     override fun initateVM(topupCard: TopUpCard) {
 
@@ -163,12 +165,17 @@ open class FundActionsViewModel(application: Application) :
                         fundsType = "+"
                     } else if (productCode == Constants.REMOVE_FUNDS_PRODUCT_CODE) {
                         fundsType = "-"
-                    }else{
+                    } else {
                         fundsType = "+"
                     }
-                    state.denominationFirstAmount = fundsType + response.data.data[0].amount
-                    state.denominationSecondAmount = fundsType + response.data.data[1].amount
-                    state.denominationThirdAmount = fundsType + response.data.data[2].amount
+
+                    val sortedData =
+                        response.data.data.sortedWith(Comparator { s1: FundTransferDenominations, s2: FundTransferDenominations -> s1.amount.toInt() - s2.amount.toInt() })
+                    if (sortedData.size in 1..3) {
+                        state.denominationFirstAmount = fundsType + sortedData[0].amount
+                        state.denominationSecondAmount = fundsType + sortedData[1].amount
+                        state.denominationThirdAmount = fundsType + sortedData[2].amount
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
