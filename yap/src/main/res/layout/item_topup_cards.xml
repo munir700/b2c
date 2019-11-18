@@ -30,10 +30,11 @@
             app:cardNickname="@{viewModel.cardInfo.alias}"
             app:cardNumber="@{viewModel.cardInfo.number}"
             app:cardType="@{viewModel.cardInfo.logo}"
+            app:card_size_type="large"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:card_size_type="large"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/imgStatus"
@@ -41,6 +42,7 @@
             android:layout_height="@dimen/_40sdp"
             android:layout_margin="@dimen/_5sdp"
             android:contentDescription="@string/empty_string"
+            android:padding="@dimen/_8sdp"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             android:src="@drawable/ic_status_expired"
             app:cardStatus="@{viewModel.cardInfo}"
