@@ -309,8 +309,8 @@
         <attr name="mbtv_border_color" format="color" />
         <attr name="mbtv_border_alpha" format="float" />
         <attr name="mbtv_type" format="enum">
-            <enum name="shadow_gradual" value="1"/>
-            <enum name="shadow_alpha" value="2"/>
+            <enum name="shadow_gradual" value="1" />
+            <enum name="shadow_alpha" value="2" />
         </attr>
     </declare-styleable>
 
@@ -320,6 +320,21 @@
         <attr name="card_expiry" format="string" />
         <attr name="card_type" format="reference" />
         <attr name="card_background" format="reference" />
+//
+        <attr name="card_chip_image_size" format="reference" />
+        <attr name="card_bank_name_size" format="reference" />
+        <attr name="card_type_image_size" format="reference" />
+        <attr name="card_number_text_size" format="reference" />
+        <attr name="card_Expiry" format="reference" />
+//
+
+        <attr name="card_size_type" format="enum">
+            <enum name="small" value="0" />
+            <enum name="medium" value="1" />
+            <enum name="large" value="2" />
+        </attr>
+
+
     </declare-styleable>
 
 </resources>

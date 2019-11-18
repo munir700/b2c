@@ -38,6 +38,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_DELETE_BENEFICIARIE = "customers/api/mastercard/beneficiaries/{cardId}"
     const val URL_TOPUP_BENEFICIARIES = "customers/api/mastercard/beneficiaries"
     const val URL_CREATE_BENEFICIARIY = "customers/api/mastercard/beneficiaries"
+    const val URL_CARDS_LIMITS = "customers/api/mastercard/beneficiaries/limits"
 
     const val URL_DETECT = "digi-ocr/detect/"
 
@@ -149,6 +150,10 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.deleteBeneficiary(cardId) })
 
-    override suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse> =
         executeSafely(call = { api.createBeneficiary(createBeneficiaryRequest) })
+
+    override suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse> = executeSafely(call = { api.getCardsLimit() })
+
+
 }

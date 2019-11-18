@@ -10,7 +10,7 @@ import co.yap.yapcore.BaseState
 class TopUpCardsState : BaseState(), ITopUpCards.State {
 
     override val valid: ObservableField<Boolean> = ObservableField(true)
-    override val enableAddCard: ObservableBoolean = ObservableBoolean(false)
+    override val enableAddCard: ObservableBoolean = ObservableBoolean(true)
     override var noOfCard: ObservableField<String> = ObservableField("")
     override var alias: ObservableField<String> = ObservableField("")
     override var message: ObservableField<String> =

@@ -24,4 +24,9 @@ interface TransactionsApi {
     suspend fun getTransactionFee(TransactionType: String): RetroApiResponse<TransactionFeeResponseDTO>
     suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO>
     suspend fun check3DEnrollmentSession(check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): RetroApiResponse<Check3DEnrollmentSessionResponse>
+    suspend fun secureIdPooling(secureId: String = ""): RetroApiResponse<StringDataResponseDTO>
+    suspend fun cardTopUpTransactionRequest(
+        orderId: String,
+        topUpTransactionRequest: TopUpTransactionRequest
+    ): RetroApiResponse<ApiResponse>
 }

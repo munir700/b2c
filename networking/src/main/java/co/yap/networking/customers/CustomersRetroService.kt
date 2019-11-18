@@ -86,7 +86,6 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_DETECT)
     suspend fun uploadIdCard(@Part file: MultipartBody.Part): Response<KycResponse>
 
-
     @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
     suspend fun getY2YBeneficiaries(@Body contacts: List<Contact>): Response<Y2YBeneficiariesResponse>
 
@@ -100,5 +99,8 @@ interface CustomersRetroService {
     suspend fun deleteBeneficiary(@Path("cardId") cardId: String): Response<ApiResponse>
 
     @POST(CustomersRepository.URL_CREATE_BENEFICIARIY)
-    suspend fun createBeneficiary(@Body createBeneficiaryRequest: CreateBeneficiaryRequest): Response<ApiResponse>
+    suspend fun createBeneficiary(@Body createBeneficiaryRequest: CreateBeneficiaryRequest): Response<CreateBeneficiaryResponse>
+
+    @GET(CustomersRepository.URL_CARDS_LIMITS)
+    suspend fun getCardsLimit(): Response<CardsLimitResponse>
 }

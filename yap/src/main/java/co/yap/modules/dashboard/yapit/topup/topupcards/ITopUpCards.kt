@@ -26,9 +26,9 @@ interface ITopUpCards {
         fun handlePressOnView(id: Int)
         fun getPaymentCards()
         fun updateCardCount()
-        fun addTopUpCard(sessionId: String, alias: String, color: String)
         val clickEvent: SingleClickEvent
         val topUpCards: MutableLiveData<List<TopUpCard>>
+        var remainingCardsLimit : Int
     }
 
     interface View : IBase.View<ViewModel>

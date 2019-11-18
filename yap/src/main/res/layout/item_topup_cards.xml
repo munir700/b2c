@@ -17,21 +17,23 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/parent"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:alpha="0.5">
 
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/paymentCard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
+            app:cardBackgroundColor="@{viewModel.cardInfo.color}"
             app:cardExpiry="@{viewModel.cardInfo.expiry}"
             app:cardNickname="@{viewModel.cardInfo.alias}"
             app:cardNumber="@{viewModel.cardInfo.number}"
-            app:cardBackgroundColor="@{viewModel.cardInfo.color}"
             app:cardType="@{viewModel.cardInfo.logo}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:card_size_type="large"/>
 
         <ImageView
             android:id="@+id/imgStatus"

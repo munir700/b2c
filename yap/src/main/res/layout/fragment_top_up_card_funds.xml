@@ -64,19 +64,18 @@
                     android:rotation="180"
                     app:layout_constraintTop_toTopOf="parent" />
 
+
                 <include
                     android:id="@+id/cardInfoLayout"
                     layout="@layout/layout_top_up_card_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium_large"
-                    app:cardExpiry="@{viewModel.state.cardNumber}"
-                    app:cardName="@{viewModel.state.cardName}"
-                    app:cardNumber="@{viewModel.state.cardNumber}"
+                    android:layout_marginTop="16dp"
+                    app:viewModel="@{viewModel}"
+                    app:layout_constraintHorizontal_bias="0.494"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
-
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clBottom"

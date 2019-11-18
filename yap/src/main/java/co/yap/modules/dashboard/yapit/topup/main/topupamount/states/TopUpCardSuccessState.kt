@@ -1,8 +1,10 @@
 package co.yap.modules.dashboard.yapit.topup.main.topupamount.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.interfaces.ITopUpCardSuccess
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseState
 
 class TopUpCardSuccessState : BaseState(), ITopUpCardSuccess.State {
@@ -39,4 +41,8 @@ class TopUpCardSuccessState : BaseState(), ITopUpCardSuccess.State {
             field=value
             notifyPropertyChanged(BR.amount)
         }
+
+    override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
+    override var formattedCardNo: ObservableField<String> = ObservableField()
+    override var availableBalanceSpanable: ObservableField<String> = ObservableField()
 }

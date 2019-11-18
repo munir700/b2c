@@ -66,6 +66,10 @@ class SingleClickEvent : MutableLiveData<Int>() {
         }
     }
 
+    fun setPayload2(payload: AdaptorPayLoadHolder?) {
+        this.payload = payload
+    }
+
     fun getPayload(): AdaptorPayLoadHolder? {
         return payload
     }

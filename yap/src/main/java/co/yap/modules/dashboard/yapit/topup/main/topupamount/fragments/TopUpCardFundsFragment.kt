@@ -1,16 +1,20 @@
 package co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentTopUpCardFundsBinding
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels.TopUpCardFundsViewModel
+import co.yap.modules.dashboard.yapit.topup.topupcards.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.constants.Constants
@@ -21,6 +25,7 @@ import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     IFundActions.View {
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_top_up_card_funds
@@ -74,6 +79,31 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             showErrorSnackBar()
         })
 
+        viewModel.htmlLiveData.observe(this, Observer {
+            startActivityForResult(
+
+                AddTopUpCardActivity.newIntent(
+                    requireContext(),
+                    viewModel.htmlLiveData.value.toString(),
+                    Constants.TYPE_TOP_UP_TRANSACTION
+                ), Constants.EVENT_TOP_UP_CARD_TRANSACTION
+            )
+        })
+
+        viewModel.topUpTransactionModelLiveData?.observe(this, Observer {
+            if (context is TopUpCardActivity) {
+                (context as TopUpCardActivity).topUpTransactionModel =
+                    viewModel.topUpTransactionModelLiveData
+                val action =
+                    TopUpCardFundsFragmentDirections.actionTopUpCardFundsFragmentToVerifyCardCvvFragment(
+                        viewModel.state.amount.toString(),
+                        viewModel.state.currencyType
+                    )
+                findNavController().navigate(
+                    action
+                )
+            }
+        })
 
     }
 
@@ -84,7 +114,7 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
                 viewModel.createTransactionSession()
                 //findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             }
-            100 -> showToast("i am success")
+            // 100 -> findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             R.id.ivCross -> activity?.finish()
             Constants.CARD_FEE -> setUpFeeData()
         }
@@ -141,6 +171,21 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
             )
         }
     }
+
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == Constants.EVENT_TOP_UP_CARD_TRANSACTION && resultCode == Activity.RESULT_OK) {
+            if (true == data?.let {
+                    it.getBooleanExtra(Constants.START_POOLING, false)
+                }) {
+                //call api for pooling
+                viewModel.startPooling(true)
+            }
+
+        }
+    }
+
 
     private fun getBindings(): FragmentTopUpCardFundsBinding {
         return viewDataBinding as FragmentTopUpCardFundsBinding

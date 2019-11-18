@@ -5,8 +5,10 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
@@ -22,6 +24,8 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.cardNumber)
         }
+
+    override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
 
     @get:Bindable
     override var toolBarHeader: String = ""

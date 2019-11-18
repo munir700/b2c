@@ -22,8 +22,6 @@ class TopUpCardSuccessViewModel(application: Application) :
             getString(Strings.screen_topup_success_display_text_dashboard_action_button_title)
         state.topUpSuccess =
             getString(Strings.screen_topup_success_display_text_success_transaction_message)
-        state.currencyType = "AED"
-        state.amount = "500"
 
         state.topUpSuccess =
             getString(Strings.screen_topup_success_display_text_success_transaction_message).format(

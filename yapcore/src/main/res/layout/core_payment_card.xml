@@ -14,15 +14,17 @@
         android:id="@+id/clMainContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorPrimaryDark">
+        android:background="@color/colorPrimaryDark"
+        >
+
+
 
         <ImageView
             android:id="@+id/ivChip"
             android:layout_width="@dimen/_15sdp"
             android:layout_height="@dimen/_15sdp"
-            android:layout_marginStart="@dimen/margin_medium"
+            android:layout_marginLeft="@dimen/margin_medium"
             android:layout_marginTop="@dimen/margin_medium"
-            android:contentDescription="TODO"
             android:background="@color/greyDark"
             android:src="@drawable/ic_card_chip"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,17 +36,14 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
-            android:autoSizeMaxTextSize="@dimen/margin_medium"
-            android:autoSizeMinTextSize="@dimen/margin_small"
-            android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
             android:lines="1"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@id/ivChip"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivChip"
             app:layout_constraintTop_toTopOf="@id/ivChip"
-            tools:text="Citi Bank Card" />
+            tools:text="Citi Bank Card"
+           />
 
         <TextView
             android:id="@+id/tvCardNumber"
@@ -55,10 +54,6 @@
             android:layout_marginTop="@dimen/margin_large"
             android:layout_marginEnd="@dimen/margin_large"
             android:layout_marginBottom="@dimen/margin_normal"
-            android:autoSizeMaxTextSize="@dimen/margin_medium"
-            android:autoSizeMinTextSize="@dimen/margin_small"
-            android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
             android:gravity="center"
             android:lines="1"
             android:textColor="@color/white"
@@ -66,8 +61,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tvBankName"
-            app:layout_constraintVertical_bias="0.8"
-            tools:text="1234 6789 7890 8765" />
+            app:layout_constraintVertical_bias="0.78"
+            tools:text="1234 6789 7890 8765"
+            android:paddingTop="@dimen/margin_large"/>
 
         <ImageView
             android:id="@+id/ivCardType"
@@ -84,22 +80,20 @@
         <TextView
             android:id="@+id/tvCardExpiry"
             style="@style/ARegular"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_xl"
             android:layout_marginEnd="@dimen/_8sdp"
             android:layout_marginBottom="@dimen/margin_small"
-            android:autoSizeMaxTextSize="@dimen/margin_medium"
-            android:autoSizeMinTextSize="@dimen/margin_small"
-            android:autoSizeStepGranularity="1sp"
-            android:autoSizeTextType="uniform"
+            android:layout_marginTop="@dimen/margin_extra_small"
             android:gravity="center|right"
             android:lines="1"
             android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/ivCardType"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias=".85"
             app:layout_constraintStart_toEndOf="@+id/ivCardType"
-            tools:text="12/2021" />
+             tools:text="12/2021" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

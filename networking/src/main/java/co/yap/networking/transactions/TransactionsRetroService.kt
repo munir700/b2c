@@ -77,8 +77,16 @@ interface TransactionsRetroService {
     // Create transaction session
     @POST(TransactionsRepository.URL_CREATE_TRANSACTION_SESSION)
     suspend fun createTransactionSession(@Body createSessionRequest: CreateSessionRequest): Response<CreateTransactionSessionResponseDTO>
-   // Check 3ds enrollment session
+
+    // Check 3ds enrollment session
     @PUT(TransactionsRepository.URL_CHECK_3Ds_ENROLLMENT_SESSION)
     suspend fun check3DEnrollmentSession(@Body check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): Response<Check3DEnrollmentSessionResponse>
 
+    // Secure id pooling
+    @GET(TransactionsRepository.URL_SECURE_ID_POOLING)
+    suspend fun secureIdPooling(@Path("secureId") secureId: String): Response<StringDataResponseDTO>
+
+    // Card top up transaction request
+    @PUT(TransactionsRepository.URL_TOP_UP_TRANSACTION)
+    suspend fun cardTopUpTransactionRequest(@Path("order-id") orderId :String,@Body topUpTransactionRequest: TopUpTransactionRequest): Response<ApiResponse>
 }

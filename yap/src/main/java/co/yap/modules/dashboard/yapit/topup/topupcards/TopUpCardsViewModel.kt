@@ -4,41 +4,36 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.models.Session
-import co.yap.networking.customers.requestdtos.CreateBeneficiaryRequest
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.managers.MyUserManager
 
 class TopUpCardsViewModel(application: Application) :
     BaseViewModel<ITopUpCards.State>(application),
     ITopUpCards.ViewModel, IRepositoryHolder<CustomersRepository> {
+
+    override var remainingCardsLimit: Int = 0
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: ITopUpCards.State = TopUpCardsState()
     override val repository: CustomersRepository = CustomersRepository
     override val topUpCards: MutableLiveData<List<TopUpCard>> = MutableLiveData()
 
-    init {
-        state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
-        )
-    }
 
     override fun onResume() {
         super.onResume()
-        state.enableAddCard.set(
-            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
-        )
+        getCardsLimit()
+
     }
 
     override fun onCreate() {
         super.onCreate()
         getPaymentCards()
+
+
     }
 
     override fun handlePressOnBackButton(id: Int) {
@@ -49,13 +44,24 @@ class TopUpCardsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    private fun getCardsLimit() {
+        launch {
+            when (val response = repository.getCardsLimit()) {
+                is RetroApiResponse.Success -> {
+                    remainingCardsLimit = response.data.data.remaining
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+        }
+    }
+
     override fun getPaymentCards() {
         launch {
             state.loading = true
             when (val response = repository.getTopUpBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     if (state.enableAddCard.get())
-                        response.data.data.add(getAddCard())
+                        response.data.data.add(TopUpCard(alias = "addCard"))
                     topUpCards.value = response.data.data
                 }
 
@@ -83,33 +89,4 @@ class TopUpCardsViewModel(application: Application) :
         }
     }
 
-    private fun getAddCard(): TopUpCard {
-        return TopUpCard(
-            "",
-            "",
-            "",
-            "",
-            "addCard",
-            ""
-        )
-    }
-
-    override fun addTopUpCard(sessionId: String, alias: String, color: String) {
-        launch {
-            state.loading = true
-            when (val response = repository.createBeneficiary(
-                CreateBeneficiaryRequest(
-                    alias, color,
-                    Session(sessionId)
-                )
-            )) {
-                is RetroApiResponse.Success -> {
-
-                }
-
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
-        }
-    }
 }

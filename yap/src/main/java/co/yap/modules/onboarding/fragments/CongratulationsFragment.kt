@@ -175,6 +175,10 @@ class CongratulationsFragment : OnboardingChildFragment<ICongratulations.ViewMod
         }
     }
 
-    override fun onBackPressed(): Boolean =
-        run { (activity as? OnboardingActivity)?.finish().let { true } }
+//    override fun onBackPressed(): Boolean =
+//        run { (activity as? OnboardingActivity)?.finish().let { true } }
+
+    override fun onBackPressed(): Boolean {
+        return true
+    }
 }
