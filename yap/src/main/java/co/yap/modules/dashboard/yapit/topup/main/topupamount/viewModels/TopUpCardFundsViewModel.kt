@@ -20,7 +20,8 @@ import kotlinx.coroutines.delay
 class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(application) {
     private val transactionsRepository: TransactionsRepository = TransactionsRepository
     override val htmlLiveData: MutableLiveData<String> = MutableLiveData()
-    override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
+    override val topUpTransactionModelLiveData: MutableLiveData<TopUpTransactionModel>? =
+        MutableLiveData()
     private lateinit var topupCrad: TopUpCard
     private var secureId: String? = null
     private var orderId: String? = null
@@ -49,7 +50,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.getTransactionFee(
-                Constants.TOP_UP_VIA_EXTERNAL_CARD
+                Constants.TOP_UP_VIA_CARD
             )) {
                 is RetroApiResponse.Success -> {
                     state.transactionFee = response.data.data
@@ -60,7 +61,8 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                     clickEvent.postValue(Constants.CARD_FEE)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
                 }
             }
             state.loading = false
@@ -81,10 +83,12 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                     )
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    //state.toast = response.error.message
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
                 }
             }
-            state.loading = false
+          //  state.loading = false
         }
     }
 
@@ -93,7 +97,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         orderId: String
     ) {
         launch {
-            state.loading = true
+           // state.loading = true
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
                     topupCrad.id?.toInt()!!,
@@ -109,7 +113,9 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                     //clickEvent.postValue(100)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
+//                    state.toast = response.error.message
                 }
             }
             state.loading = false
@@ -122,7 +128,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                 state.loading = true
             when (val response = transactionsRepository.secureIdPooling(secureId.toString())) {
                 is RetroApiResponse.Success -> {
-                   // topUpTransactionModelLiveData?.value = TopUpTransactionModel(orderId, state.currencyType, state.amount, topupCrad.id?.toInt(), secureId)
+                    // topUpTransactionModelLiveData?.value = TopUpTransactionModel(orderId, state.currencyType, state.amount, topupCrad.id?.toInt(), secureId)
                     //clickEvent.postValue(100)
                     //temporary
                     when {
@@ -135,7 +141,13 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                             state.loading = false
                         }
                         response.data.data == "Y" -> {
-                            topUpTransactionModelLiveData?.value = TopUpTransactionModel(orderId, state.currencyType, state.amount, topupCrad.id?.toInt(), secureId)
+                            topUpTransactionModelLiveData?.value = TopUpTransactionModel(
+                                orderId,
+                                state.currencyType,
+                                state.amount,
+                                topupCrad.id?.toInt(),
+                                secureId
+                            )
                             state.loading = false
                         }
                     }
@@ -143,7 +155,9 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                     //clickEvent.postValue(100)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
+                  //  state.toast = response.error.message
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
                 }
             }
             state.loading = false

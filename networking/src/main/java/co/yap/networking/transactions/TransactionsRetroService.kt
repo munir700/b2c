@@ -72,7 +72,7 @@ interface TransactionsRetroService {
 
     // Get transaction fee
     @GET(TransactionsRepository.URL_GET_FEE)
-    suspend fun getTransactionFee(@Query("type") type: String): Response<TransactionFeeResponseDTO>
+    suspend fun getTransactionFee(@Query("productCode") type: String): Response<TransactionFeeResponseDTO>
 
     // Create transaction session
     @POST(TransactionsRepository.URL_CREATE_TRANSACTION_SESSION)

@@ -21,7 +21,7 @@ interface TransactionsApi {
     suspend fun getTransactionDetails(transactionId: String): RetroApiResponse<TransactionDetailsResponse>
     suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse>
     suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse>
-    suspend fun getTransactionFee(TransactionType: String): RetroApiResponse<TransactionFeeResponseDTO>
+    suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO>
     suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO>
     suspend fun check3DEnrollmentSession(check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): RetroApiResponse<Check3DEnrollmentSessionResponse>
     suspend fun secureIdPooling(secureId: String = ""): RetroApiResponse<StringDataResponseDTO>
