@@ -327,7 +327,7 @@
                 </LinearLayout>
 
                 <co.yap.widgets.CoreButton
-                    android:id="@+id/confirmDomesticButton"
+                    android:id="@+id/confirmButton"
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

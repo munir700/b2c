@@ -56,6 +56,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             field = value
             notifyPropertyChanged(BR.nickName)
             validate()
+            validateDomesticUser()
         }
 
     @get:Bindable
@@ -78,7 +79,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var phoneNumber: String = ""
+    override var phoneNumber: String = "+923336000000"
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
@@ -103,7 +104,6 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
                 mobileNoLength = 11
 
             }
-
         }
 
     @get:Bindable
@@ -135,7 +135,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         set(value) {
             field = value
             notifyPropertyChanged(BR.iban)
-            validateDomesticUser()
+//            validateDomesticUser()
         }
 
     @get:Bindable
@@ -143,11 +143,105 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         set(value) {
             field = value
             notifyPropertyChanged(BR.confirmIban)
-            validateDomesticUser()
+//            validateDomesticUser()
+        }
+
+    //
+
+    @get:Bindable
+    override var id: Int = 11
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.id)
+        }
+
+    @get:Bindable
+    override var beneficiaryId: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryId)
+        }
+
+    @get:Bindable
+    override var accountUuid: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.accountUuid)
+        }
+
+    @get:Bindable
+    override var beneficiaryType: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryType)
+        }
+
+    @get:Bindable
+    override var title: String?  = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.title)
+        }
+
+    @get:Bindable
+    override var accountNo: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.accountNo)
+        }
+
+    @get:Bindable
+    override var lastUsedDate: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.lastUsedDate)
+        }
+
+    @get:Bindable
+    override var swiftCode: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.swiftCode)
+        }
+
+    @get:Bindable
+    override var bankName: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.bankName)
+        }
+
+    @get:Bindable
+    override var branchName: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.branchName)
+        }
+
+    @get:Bindable
+    override var branchAddress: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.branchAddress)
+        }
+
+    @get:Bindable
+    override var identifierCode1: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.identifierCode1)
+        }
+
+    @get:Bindable
+    override var identifierCode2: String? = " "
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.identifierCode2)
         }
 
     fun validateDomesticUser() {
-        if (!lastName.isNullOrEmpty() && !iban.isNullOrEmpty() && !lastName.isNullOrEmpty() && !confirmIban.isNullOrEmpty()) {
+
+        if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && !nickName.isNullOrEmpty()/* && !confirmIban.isNullOrEmpty()*/) {
             validateDomesticButton = true
             notifyPropertyChanged(BR.validateDomesticButton)
         }

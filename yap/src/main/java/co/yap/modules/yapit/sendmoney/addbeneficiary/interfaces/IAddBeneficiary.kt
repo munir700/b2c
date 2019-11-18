@@ -3,6 +3,7 @@ package co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces
 import android.graphics.drawable.Drawable
 import co.yap.modules.yapit.sendmoney.addbeneficiary.models.AddBeneficiaryData
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryRequestDTO
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -26,6 +27,20 @@ interface IAddBeneficiary {
         var valid: Boolean
         var validateDomesticButton: Boolean
 
+        var id: Int
+        var beneficiaryId: String?
+        var accountUuid: String?
+        var beneficiaryType: String?
+        var title: String?
+        var accountNo: String?
+        var lastUsedDate: String?
+        var swiftCode: String?
+        var bankName: String?
+        var branchName: String?
+        var branchAddress: String?
+        var identifierCode1: String?
+        var identifierCode2: String?
+
 
     }
 
@@ -33,10 +48,13 @@ interface IAddBeneficiary {
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         var clickEvent: SingleClickEvent
 
-        fun handlePressOnAddNow(id:Int)
-        fun handlePressOnAddDomestic(id:Int)
+        var addBeneficiaryData: AddBeneficiaryData
 
-        fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
+        fun handlePressOnAddNow(id: Int)
+        fun handlePressOnAddDomestic(id: Int)
+
+//      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
+        fun generateCashPayoutBeneficiaryRequestDTO(beneficiary: Beneficiary)
 
     }
 
