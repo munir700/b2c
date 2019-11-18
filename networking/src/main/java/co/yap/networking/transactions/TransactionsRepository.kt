@@ -91,8 +91,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         })
 
 
-    override suspend fun getTransactionFee(TransactionType: String): RetroApiResponse<TransactionFeeResponseDTO> =
-        executeSafely(call = { api.getTransactionFee(TransactionType) })
+    override suspend fun getTransactionFee(productCode: String): RetroApiResponse<TransactionFeeResponseDTO> =
+        executeSafely(call = { api.getTransactionFee(productCode) })
 
     override suspend fun createTransactionSession(createSessionRequest: CreateSessionRequest): RetroApiResponse<CreateTransactionSessionResponseDTO> =
         executeSafely(call = { api.createTransactionSession(createSessionRequest) })

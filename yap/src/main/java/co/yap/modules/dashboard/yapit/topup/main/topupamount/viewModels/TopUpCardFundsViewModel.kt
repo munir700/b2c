@@ -49,7 +49,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         launch {
             state.loading = true
             when (val response = transactionsRepository.getTransactionFee(
-                Constants.TOP_UP_VIA_EXTERNAL_CARD
+                Constants.TOP_UP_VIA_CARD
             )) {
                 is RetroApiResponse.Success -> {
                     state.transactionFee = response.data.data
