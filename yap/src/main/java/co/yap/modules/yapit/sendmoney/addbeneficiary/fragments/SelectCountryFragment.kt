@@ -1,9 +1,7 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.AdapterView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -13,7 +11,8 @@ import co.yap.modules.yapit.sendmoney.adapters.CountryAdapter
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
- import kotlinx.android.synthetic.main.fragment_select_country.*
+import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.android.synthetic.main.fragment_select_country.*
 
 
 class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
@@ -37,41 +36,16 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         viewModel.populateSpinnerData.observe(this, Observer {
             countriesSpinner.setAdapter(getCountryAdapter())
 
-//            getCountryAdapter().onItemClickListener
-            getCountryAdapter().onItemClickListener!!.onItemClick( view, it[1] ,1)
+            getCountryAdapter().setItemListener(listener)
 
-
-
-
-
-//            getCountryAdapter().onItemClickListener(object : getCountryAdapter().OnItemClickListener {
-
-//            })
-//            getCountryAdapter().setOnItemClickListener { view, pos ->
-//                spinner.setSelection(pos.toInt())
-//                getViewModel().onCountrySelected(pos)
-//            }
-
-            // subscribe for updates
-//            getViewModel().getState().getCountriesLoadObservable()
-//                .observe(this, { b -> getCountryAdapter().notifyDataSetChanged() })
-
-            countriesSpinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
-
-                override fun onItemSelected(
-                    arg0: AdapterView<*>, arg1: View,
-                    arg2: Int, arg3: Long
-                ) {
-                     val msupplier = countriesSpinner.getSelectedItem().toString()
-
-                    Log.i("Selected item : ", msupplier)
-                }
-
-                override fun onNothingSelected(arg0: AdapterView<*>) {
-
-                }
-            })
         })
+    }
+
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            countriesSpinner.setSelection(pos.toInt())
+            viewModel.onCountrySelected(pos)
+        }
     }
 
     override fun onPause() {
@@ -87,7 +61,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
             when (it) {
 
                 R.id.nextButton -> {
-//                    findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
+//                 findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
                     findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
                 }
 

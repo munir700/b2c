@@ -197,7 +197,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 getRecycleViewAdaptor()?.addListItem(item!!)
                 viewModel.loadMore()
             } else {
-                // if (getRecycleViewAdaptor()?.itemCount!! > 0)
+                //     if (getRecycleViewAdaptor()?.itemCount!! > 0)
                 //     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
             }
 

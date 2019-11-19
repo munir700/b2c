@@ -17,15 +17,15 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
     private val objects: List<T>
 ) :
     ArrayAdapter<T>(context, resourceId, objects) {
-//
+
 //    var onItemClickListener: OnItemClickListener? = null
 //        get() {
 //            if (field == null) field =
 //                OnItemClickListener.invoke()
 //            return field
 //        }
-
     var onItemClickListener: OnItemClickListener? = null
+
 
     private val layoutInflater: LayoutInflater
 
@@ -100,5 +100,9 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
                 )
             }
         }
+    }
+
+    fun setItemListener(onItemClickListener: OnItemClickListener) {
+        this.onItemClickListener = onItemClickListener
     }
 }
