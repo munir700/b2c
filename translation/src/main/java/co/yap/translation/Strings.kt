@@ -776,6 +776,21 @@ object Strings {
     const val screen_email_verification_display_text_heading: String =
         "screen_email_verification_display_text_heading"
 
+    //    Transaction Filters Screen
+    const val screen_transaction_filter_display_text_title: String =
+        "screen_transaction_filter_display_text_title"
+    const val screen_transaction_filter_button_apply_filter: String =
+        "screen_transaction_filter_button_apply_filter"
+    const val screen_transaction_filter_button_clear_filter: String =
+        "screen_transaction_filter_button_clear_filter"
+    const val screen_transaction_filter_display_text_incoming_transactions: String =
+        "screen_transaction_filter_display_text_incoming_transactions"
+    const val screen_transaction_filter_display_text_outgoing_transactions: String =
+        "screen_transaction_filter_display_text_outgoing_transactions"
+    const val screen_transaction_filter_display_text_balance: String =
+        "screen_transaction_filter_display_text_balance"
+
+
 
     //    Y2Y funds Transfer screen
     const val screen_y2y_funds_transfer_display_text_title: String =
