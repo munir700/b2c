@@ -9,8 +9,10 @@ import co.yap.yapcore.BaseState
 
 class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.State {
 
+    var validateConfirmIban: Boolean = false
+
     @get:Bindable
-     override var flagDrawableResId: Int = -1
+    override var flagDrawableResId: Int = -1
         set(value) {
             field = value
             notifyPropertyChanged(BR.flagDrawableResId)
@@ -56,6 +58,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             field = value
             notifyPropertyChanged(BR.nickName)
             validate()
+            validateCashFlowUser()
             validateDomesticUser()
         }
 
@@ -65,6 +68,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             field = value
             notifyPropertyChanged(BR.firstName)
             validate()
+            validateCashFlowUser()
             validateDomesticUser()
         }
 
@@ -74,6 +78,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             field = value
             notifyPropertyChanged(BR.lastName)
             validate()
+            validateCashFlowUser()
             validateDomesticUser()
         }
 
@@ -130,12 +135,20 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             notifyPropertyChanged(BR.validateDomesticButton)
         }
 
+
+    @get:Bindable
+    override var validateCashflowButton: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.validateCashflowButton)
+        }
+
     @get:Bindable
     override var iban: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.iban)
-//            validateDomesticUser()
+            validateIban()
         }
 
     @get:Bindable
@@ -143,7 +156,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         set(value) {
             field = value
             notifyPropertyChanged(BR.confirmIban)
-//            validateDomesticUser()
+            validateIban()
         }
 
     //
@@ -177,7 +190,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         }
 
     @get:Bindable
-    override var title: String?  = " "
+    override var title: String? = " "
         set(value) {
             field = value
             notifyPropertyChanged(BR.title)
@@ -239,9 +252,26 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             notifyPropertyChanged(BR.identifierCode2)
         }
 
-    fun validateDomesticUser() {
+    fun validateIban() {
+        if (!iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban.equals(
+                confirmIban,
+                false
+            )
+        ) {
+            validateConfirmIban = true
+            validateDomesticUser()
+        }
+    }
 
-        if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && !nickName.isNullOrEmpty()/* && !confirmIban.isNullOrEmpty()*/) {
+    fun validateCashFlowUser() {
+        if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && !nickName.isNullOrEmpty()) {
+            validateCashflowButton = true
+            notifyPropertyChanged(BR.validateCashflowButton)
+        }
+    }
+
+    fun validateDomesticUser() {
+        if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && validateConfirmIban) {
             validateDomesticButton = true
             notifyPropertyChanged(BR.validateDomesticButton)
         }

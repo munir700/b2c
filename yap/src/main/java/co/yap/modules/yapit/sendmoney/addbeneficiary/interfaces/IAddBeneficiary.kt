@@ -25,6 +25,7 @@ interface IAddBeneficiary {
         var drawbleRight: Drawable?
         var mobileNoLength: Int
         var valid: Boolean
+        var validateCashflowButton: Boolean
         var validateDomesticButton: Boolean
 
         var id: Int

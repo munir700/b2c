@@ -173,7 +173,7 @@
                     android:importantForAutofill="no"
                     android:maxLength="50"
                     android:singleLine="true"
-                    android:text="@={viewModel.state.lastName}" />
+                    android:text="@={viewModel.state.iban}" />
 
 
                 <TextView
@@ -201,10 +201,10 @@
                     android:importantForAutofill="no"
                     android:maxLength="50"
                     android:singleLine="true"
-                    android:text="@={viewModel.state.lastName}" />
+                    android:text="@={viewModel.state.confirmIban}" />
 
                 <co.yap.widgets.CoreButton
-                    android:id="@+id/confirmDomesticButton"
+                    android:id="@+id/confirmButton"
                     style="@style/FragmentsBtnStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

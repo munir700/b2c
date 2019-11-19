@@ -336,7 +336,7 @@
                     android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
-                    app:enableCoreButton="@{viewModel.state.validateDomesticButton}"
+                    app:enableCoreButton="@{viewModel.state.validateCashflowButton}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{Strings.common_button_next}"
                     tools:ignore="MissingConstraints"
