@@ -45,5 +45,9 @@ class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
         }
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+    }
+
 
 }
