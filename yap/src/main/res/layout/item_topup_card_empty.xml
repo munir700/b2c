@@ -8,7 +8,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.topup.topupcards.list.TopUpEmptyItemViewModel" />
+            type="co.yap.modules.dashboard.yapit.topup.cardslisting.list.TopUpEmptyItemViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>

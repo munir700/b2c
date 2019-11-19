@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/topUpCardFundsFragment"
-        android:name="co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments.TopUpCardFundsFragment"
+        android:name="co.yap.modules.dashboard.yapit.topup.topupamount.fragments.TopUpCardFundsFragment"
         android:label="TopUpCardFundsFragment"
         tools:layout="@layout/fragment_top_up_card_funds">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/verifyCardCvvFragment"
-        android:name="co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments.VerifyCardCvvFragment"
+        android:name="co.yap.modules.dashboard.yapit.topup.topupamount.fragments.VerifyCardCvvFragment"
         android:label="VerifyCardCvvFragment"
         tools:layout="@layout/fragment_verify_card_cvv" >
         <argument
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/topUpCardSuccessFragment"
-        android:name="co.yap.modules.dashboard.yapit.topup.main.topupamount.fragments.TopUpCardSuccessFragment"
+        android:name="co.yap.modules.dashboard.yapit.topup.topupamount.fragments.TopUpCardSuccessFragment"
         android:label="TopUpCardSuccessFragment"
         tools:layout="@layout/fragment_top_up_card_success">
         <argument

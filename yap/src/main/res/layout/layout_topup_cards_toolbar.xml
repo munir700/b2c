@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.topup.topupcards.TopUpCardsViewModel" />
+            type="co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesViewModel" />
     </data>
 
     <RelativeLayout

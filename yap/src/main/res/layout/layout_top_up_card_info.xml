@@ -16,7 +16,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.topup.main.topupamount.viewModels.TopUpCardFundsViewModel" />
+            type="co.yap.modules.dashboard.yapit.topup.topupamount.viewModels.TopUpCardFundsViewModel" />
 
         <import type="android.view.View" />
 

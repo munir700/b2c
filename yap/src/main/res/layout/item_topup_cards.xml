@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.topup.topupcards.list.TopUpItemViewModel" />
+            type="co.yap.modules.dashboard.yapit.topup.cardslisting.list.TopUpItemViewModel" />
 
         <import type="android.view.View" />
 
@@ -23,7 +23,7 @@
         <co.yap.widgets.CorePaymentCard
             android:id="@+id/paymentCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v)}"
             app:cardBackgroundColor="@{viewModel.cardInfo.color}"
             app:cardExpiry="@{viewModel.cardInfo.expiry}"
