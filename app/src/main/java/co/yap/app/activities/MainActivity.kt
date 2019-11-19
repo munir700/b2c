@@ -1,6 +1,5 @@
 package co.yap.app.activities
 
-import android.graphics.PostProcessor
 import android.os.Bundle
 import co.yap.app.R
 import co.yap.app.YAPApplication
@@ -14,8 +13,6 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 
 open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
 
-
-    var data = "aslkdjsalkjd"
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
             this@MainActivity,
@@ -26,9 +23,6 @@ open class MainActivity : DefaultActivity(), IFragmentHolder, INavigator {
         super.onCreate(savedInstanceState)
         YAPApplication.AUTO_RESTART_APP = false
         setContentView(R.layout.activity_main)
-
-        data as PostProcessor
-
     }
 
     override fun onBackPressed() {

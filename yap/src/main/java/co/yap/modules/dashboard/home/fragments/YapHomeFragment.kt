@@ -42,7 +42,6 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
-import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
 
 
@@ -92,10 +91,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
     override fun onRefresh() {
-        viewModel.isRefreshing.value = true
-        homeTransactionsRequest.number = 0
-        viewModel.requestAccountTransactions()
-        getBindings().refreshLayout.isRefreshing = false
+        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+            viewModel.isRefreshing.value = true
+            homeTransactionsRequest.number = 0
+            viewModel.requestAccountTransactions()
+            getBindings().refreshLayout.isRefreshing = false
+        }else{
+            getBindings().refreshLayout.isRefreshing = false
+        }
     }
 
     private val adaptorlistener = object : OnItemClickListener {
@@ -127,13 +130,15 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 R.id.ivMenu -> parentView?.toggleDrawer()
                 R.id.rlFilter -> {
                     if (null != viewModel.transactionsLiveData.value && viewModel.transactionsLiveData.value!!.isEmpty() && homeTransactionsRequest.totalAppliedFilter == 0) {
-                        showErrorSnackBar("No Transactions Found")
+                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
+                            showErrorSnackBar("No Transactions Found")
                         return@Observer
                     } else {
-                        startActivityForResult(
-                            TransactionFiltersActivity.newIntent(requireContext()),
-                            TransactionFiltersActivity.INTENT_FILTER_REQUEST
-                        )
+                        if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus)
+                            startActivityForResult(
+                                TransactionFiltersActivity.newIntent(requireContext()),
+                                TransactionFiltersActivity.INTENT_FILTER_REQUEST
+                            )
                     }
                 }
             }
@@ -247,6 +252,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 this
             )
             mAdapter.notifyDataSetChanged()
+        } else {
+            ivNoTransaction.visibility = View.VISIBLE
+            rvTransaction.visibility = View.GONE
         }
     }
 
@@ -335,7 +343,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     override fun onDestroyView() {
         super.onDestroyView()
-        appbar.removeOnOffsetChangedListener(appbarListener)
+        getBindings().appbar.removeOnOffsetChangedListener(appbarListener)
     }
 
     private fun setAvailableBalance(balance: String) {
@@ -349,7 +357,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     balanceAfterDot[0].length + balanceAfterDot[1].length + 1,
                     0
                 )
-                tvAvailableBalance.text = ss1
+                getBindings().tvAvailableBalance.text = ss1
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -384,7 +392,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     }
 
     private fun listenForToolbarExpansion() {
-        appbar.addOnOffsetChangedListener(appbarListener)
+        getBindings().appbar.addOnOffsetChangedListener(appbarListener)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -454,7 +462,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     private fun showErrorSnackBar(error: String) {
         CustomSnackbar.showErrorCustomSnackbar(
             context = requireContext(),
-            layout = clSnackbar,
+            layout = getBindings().clSnackbar,
             message = error
         )
     }
