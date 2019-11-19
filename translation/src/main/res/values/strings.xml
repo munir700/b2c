@@ -471,13 +471,10 @@
     <string name="screen_unverified_success_display_text_heading">Success!</string>;
     <string name="screen_unverified_success_display_text_sub_heading">Your email address has been changed to\n</string>
     <string name="screen_unverified_success_display_text_description">Please log in to your email address to \n validate your email and continue with \n access to YAP!</string>
-    <string name="screen_unverified_display_button_mail">Open Mail App</string>;
-    <string name="screen_unverified_display_button_later">Maybe later</string>;
-    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>;
+    <string name="screen_unverified_display_button_mail">Open Mail App</string>
+    <string name="screen_unverified_display_button_later">Maybe later</string>
+    <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
 
-    <!--     Transactions Filters Screen-->
-    <string name="screen_transaction_filters_display_button_apply_filters">Apply filters</string>;
-    <string name="screen_transaction_filters_display_button_clear_filters">Clear filters</string>;
 
     <!--    Yap to Yap Home Screen-->
     <string name="screen_yap_to_yap_display_text_no_yap_contact_msg">None of your friends have YAP yet.  Invite them now and earn AED XX for every friend that stars using YAP!</string>
@@ -488,6 +485,19 @@
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to \n</string>
     Choose your location below. We will also call you to verify this address
 
+
+    <!-- Transaction Filters Screen -->
+
+    <string name="screen_transaction_filter_display_text_title">Filters</string>
+    <string name="screen_transaction_filter_button_apply_filter">Apply filters</string>
+    <string name="screen_transaction_filter_button_clear_filter">Clear filters</string>
+    <string name="screen_transaction_filter_display_text_incoming_transactions">Incoming transactions</string>
+    <string name="screen_transaction_filter_display_text_outgoing_transactions">Outgoing transactions</string>
+    <string name="screen_transaction_filter_display_text_balance">AED balance</string>
+
+    <!-- Transaction Note Screen -->
+    <string name="screen_add_note_display_text_type_something">Type something…</string>
+    <string name="screen_add_note_display_text_save">Save</string>
 
     <!--Y2Y Contacts-->
     <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>

@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.others.note.viewmodels.TransactionNoteViewModel" />
+        <import type="co.yap.translation.Strings"/>
 
     </data>
 
@@ -40,7 +41,8 @@
             android:backgroundTint="@color/transparent"
             android:focusable="true"
             android:gravity="top"
-            android:hint="Type Something..."
+            android:hint="@string/screen_add_note_display_text_type_something"
+            app:hint="@{Strings.screen_add_note_display_text_type_something}"
             android:inputType="textMultiLine"
             android:maxLength="150"
             android:text="@={viewModel.state.noteValue}"
@@ -48,7 +50,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/vLine"
-            tools:text="aslkdjjlsdjflkdsjfl sdjflksdjflkdsjfkljdslfjlksdaf lasjdfkldsjafkljjlkasdfjsdlkfjsdlkfjlsdkfjsldkfjklas" />
+            tools:text="@string/screen_add_note_display_text_type_something" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
