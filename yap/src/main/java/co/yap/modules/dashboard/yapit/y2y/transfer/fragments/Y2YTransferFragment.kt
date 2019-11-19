@@ -51,6 +51,10 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     override fun setObservers() {
 
         viewModel.clickEvent.observe(this, Observer {
+            // Send Broadcast for updating transactions list in `Home Fragment`
+            val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
             val action =
                 Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
                     viewModel.state.fullName,
@@ -60,8 +64,6 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
             findNavController().navigate(action)
         })
         viewModel.errorEvent.observe(this, Observer {
-            val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
-            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
             showErrorSnackBar()
         })
 

@@ -481,14 +481,16 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun unregisterTransactionBroadcast() {
         LocalBroadcastManager.getInstance(requireContext())
-            .registerReceiver(broadCastReceiver, IntentFilter(BROADCAST_UPDATE_TRANSACTION))
+            .unregisterReceiver(broadCastReceiver)
     }
 
     private val broadCastReceiver = object : BroadcastReceiver() {
         override fun onReceive(contxt: Context?, intent: Intent?) {
-
             when (intent?.action) {
-                BROADCAST_UPDATE_TRANSACTION -> showToast("Update Transaction List")
+                BROADCAST_UPDATE_TRANSACTION -> {
+                    onRefresh()
+                    showToast("Update Transaction List")
+                }
             }
         }
     }

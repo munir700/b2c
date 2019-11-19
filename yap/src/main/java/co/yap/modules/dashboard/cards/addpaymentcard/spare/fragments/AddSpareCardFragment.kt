@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
@@ -24,6 +25,7 @@ import co.yap.networking.cards.responsedtos.Address
 import co.yap.networking.cards.responsedtos.CardBalance
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_add_spare_card.*
 
@@ -50,12 +52,12 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.state.avaialableCardBalance = viewModel.availableBalance.toString()
+        viewModel.state.avaialableCardBalance = viewModel.availableBalance
         getUpArguments()
 
         val navController: NavController = findNavController()
 
-        if (viewModel.cardType.equals(getString(R.string.screen_spare_card_landing_display_text_virtual_card))) {
+        if (viewModel.cardType == getString(R.string.screen_spare_card_landing_display_text_virtual_card)) {
             layoutPhysicalCardConfirmPurchase.visibility = View.GONE
             layoutVirtualCardConfirmPurchase.visibility = View.VISIBLE
 
@@ -64,7 +66,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             layoutVirtualCardConfirmPurchase.visibility = View.GONE
             layoutPhysicalCardConfirmPurchase.visibility = View.VISIBLE
             AddSparePhysicalCardViewHelper(
-                this!!.activity!!,
+                this.activity!!,
                 navController,
                 view,
                 viewModel
@@ -75,6 +77,10 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
             when (it) {
 
                 viewModel.ADD_PHYSICAL_SPARE_CLICK_EVENT -> {
+                    // Send Broadcast for updating transactions list in `Home Fragment`
+                    val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+                    LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
                     val availableBalance =
                         MyUserManager.cardBalance.value?.availableBalance?.toDouble()
                     val physicalCardFee =
@@ -93,6 +99,9 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                 }
 
                 viewModel.ADD_VIRTUAL_SPARE_CLICK_EVENT -> {
+                    // Send Broadcast for updating transactions list in `Home Fragment`
+                    val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+                    LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
 
                     val availableBalance =
                         MyUserManager.cardBalance.value?.availableBalance?.toDouble()
@@ -108,7 +117,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     }
                     cardAdded = true
                     AddSpareVirtualCardViewHelper(
-                        this!!.activity!!,
+                        this.activity!!,
                         navController,
                         view,
                         viewModel

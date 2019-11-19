@@ -1,9 +1,11 @@
 package co.yap.modules.dashboard.yapit.topup.topupamount.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.BR
@@ -74,14 +76,17 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
                 args.currencyType
             )
         when (it) {
-
             R.id.ivCross -> findNavController().navigateUp()
             R.id.btnAction ->
                 if (context is TopUpCardActivity) {
                     viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)
                 }
 
-            Constants.TOP_UP_TRANSACTION_SUCCESS -> findNavController().navigate(action)
+            Constants.TOP_UP_TRANSACTION_SUCCESS -> {
+                // Send Broadcast for updating transactions list in `Home Fragment`
+                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+                findNavController().navigate(action)
             // findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
         }
     }
