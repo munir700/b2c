@@ -101,31 +101,7 @@ IAddBeneficiary.View {
             .show()
     }
 
-
-
-//    https://dev.yap.co/customers/api/beneficiaries/bank-transfer/ ->
-//   {"beneficiaryType":"CASHPAYOUT","firstName":"Zain","country":"PK","mobileNo":"+923434043339","title":"Zain","currency":"AED","lastName":"Ul Abe Din"}
-
     fun onConfirmClick(){
-
-//        var id: Int = 0
-//        var beneficiaryId: String? = null
-//        var accountUuid: String? = null
-//        var beneficiaryType: String? = null
-//        var mobileNo: String? = null
-//        var title: String? = null
-//        var accountNo: String? = null
-//        var lastUsedDate: String? = null
-//        var currency: String? = null
-//        var firstName: String? = null
-//        var lastName: String? = null
-//        var swiftCode: String? = null
-//        var country: String? = null
-//        var bankName: String? = null
-//        var branchName: String? = null
-//        var branchAddress: String? = null
-//        var identifierCode1: String? = null
-//        var identifierCode2: String? = null
 
         val beneficiary: Beneficiary = Beneficiary()
 

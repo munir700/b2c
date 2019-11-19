@@ -64,8 +64,6 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     override fun generateCashPayoutBeneficiaryRequestDTO(beneficiary: Beneficiary) {
-//        var beneficiary: Beneficiary = Beneficiary()
-
         launch {
             state.loading = true
             when (val response = repository.addBeneficiary(beneficiary)) {
@@ -82,18 +80,4 @@ class AddBeneficiaryViewModel(application: Application) :
             }
         }
     }
-
-//    override fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO {
-//        val request = AddBeneficiaryRequestDTO()
-//        request.title(beneficiaryData.beneficiaryAccount().getNickName())
-//        request.beneficiaryType("CASHPAYOUT")
-//        request.currency(beneficiaryData.getCountry().getCurrency().getCode())
-//        request.country(beneficiaryData.getCountry().getCode())
-//        request.firstName(beneficiaryData.getBeneficiaryAccount().getFirstName())
-//        request.lastName(beneficiaryData.getBeneficiaryAccount().getLastName())
-//        request.mobileNo(beneficiaryData.getBeneficiaryAccount().getMobileNumber())
-//
-//        return request
-//    }
-
 }

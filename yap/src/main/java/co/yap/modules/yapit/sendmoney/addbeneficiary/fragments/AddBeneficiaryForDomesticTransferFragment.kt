@@ -6,24 +6,24 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 
-class AddBeneficiaryForDomesticTransferFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
+class AddBeneficiaryForDomesticTransferFragment :
+    SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
     /*
      Need to take the decision that if is from cash flow then use the fragment_add_beneficiary_domestic_transfer or other wise use fragment_add_beneficiary
-       */
+     */
 
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_domestic_transfer
-
     override val viewModel: IAddBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
 
@@ -34,12 +34,7 @@ class AddBeneficiaryForDomesticTransferFragment : SendMoneyBaseFragment<IAddBene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.confirmDomesticButton ->
-                    ConfirmAddBeneficiary(this.activity!!)
-            }
-        })
+
     }
 
     override fun onPause() {
@@ -51,7 +46,13 @@ class AddBeneficiaryForDomesticTransferFragment : SendMoneyBaseFragment<IAddBene
     override fun onResume() {
         super.onResume()
 
+        viewModel.clickEvent.observe(this, Observer {
+            when (it) {
+                R.id.confirmButton ->
+                    ConfirmAddBeneficiary(this.activity!!)
 
+            }
+        })
     }
 
     override fun onBackPressed(): Boolean {
@@ -79,7 +80,9 @@ class AddBeneficiaryForDomesticTransferFragment : SendMoneyBaseFragment<IAddBene
                     R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
                 ),
                 DialogInterface.OnClickListener { dialog, which ->
-                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
+                    onConfirmClick()
+                    // launch followiun only in success event
+//                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
                 })
 
             .setNegativeButton(
@@ -91,20 +94,21 @@ class AddBeneficiaryForDomesticTransferFragment : SendMoneyBaseFragment<IAddBene
             )
             .show()
     }
-//    fun ConfirmAddBeneficiary() {
-//        AlertDialog.Builder(this!!.activity!!)
-//            .setTitle(getString(R.string.screen_add_beneficiary_detail_display_text_alert_title))
-//            .setMessage(getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_description))
-//            .setPositiveButton(getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_yes),
-//                DialogInterface.OnClickListener { dialog, which ->
-//                    //                    doLogout()
-//                })
-//
-//            .setNegativeButton(
-//                getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_no),
-//                null
-//            )
-//            .show()
-//    }
+
+    fun onConfirmClick() {
+
+        val beneficiary: Beneficiary = Beneficiary()
+
+        beneficiary.beneficiaryType = "DOMESTIC"
+        beneficiary.title = viewModel.state.nickName
+        beneficiary.firstName = viewModel.state.firstName
+        beneficiary.lastName = viewModel.state.lastName
+        beneficiary.currency = viewModel.state.currency
+        beneficiary.country = "AE"
+        beneficiary.accountNo = viewModel.state.accountNo
+//      beneficiary.country = viewModel.state.country
+
+        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
+    }
 
 }
