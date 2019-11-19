@@ -8,6 +8,7 @@ import co.yap.yapcore.SingleClickEvent
 interface ISelectCountry {
 
     interface State : IBase.State {
+        var selectedCountry: Country?
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -16,6 +17,7 @@ interface ISelectCountry {
         fun onTransparentViewClick(id: Int)
         var countries: ArrayList<Country>?
         val populateSpinnerData: MutableLiveData<List<Country>>
+        fun onCountrySelected(pos: Int)
 
     }
 

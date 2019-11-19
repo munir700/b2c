@@ -76,4 +76,14 @@ class SelectCountryViewModel(application: Application) :
             }
         }
     }
+
+
+    override fun onCountrySelected(pos: Int) {
+        if (pos == 0) {
+            state.selectedCountry = null
+        } else {
+            val country: Country = countries!!.get(pos)
+            state.selectedCountry = country
+        }
+    }
 }

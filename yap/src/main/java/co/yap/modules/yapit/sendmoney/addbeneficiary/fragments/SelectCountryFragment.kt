@@ -13,9 +13,7 @@ import co.yap.modules.yapit.sendmoney.adapters.CountryAdapter
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import kotlinx.android.synthetic.main.fragment_select_country.*
-
-
+ import kotlinx.android.synthetic.main.fragment_select_country.*
 
 
 class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
@@ -39,9 +37,16 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         viewModel.populateSpinnerData.observe(this, Observer {
             countriesSpinner.setAdapter(getCountryAdapter())
 
-                //
-            getCountryAdapter().onItemClickListener
+//            getCountryAdapter().onItemClickListener
+            getCountryAdapter().onItemClickListener!!.onItemClick( view, it[1] ,1)
 
+
+
+
+
+//            getCountryAdapter().onItemClickListener(object : getCountryAdapter().OnItemClickListener {
+
+//            })
 //            getCountryAdapter().setOnItemClickListener { view, pos ->
 //                spinner.setSelection(pos.toInt())
 //                getViewModel().onCountrySelected(pos)
