@@ -786,16 +786,10 @@ object Strings {
     const val screen_transaction_filter_display_text_incoming_transactions: String =
         "screen_transaction_filter_display_text_incoming_transactions"
     const val screen_transaction_filter_display_text_outgoing_transactions: String =
-        "screen_transaction_filter_display_text_outgoing_transaction"
+        "screen_transaction_filter_display_text_outgoing_transactions"
     const val screen_transaction_filter_display_text_balance: String =
         "screen_transaction_filter_display_text_balance"
 
-    // Transaction Note Screen
-
-    const val screen_add_note_display_text_type_something: String =
-        "screen_add_note_display_text_type_something"
-    const val screen_add_note_display_text_save: String =
-        "screen_add_note_display_text_save"
 
 
     //    Y2Y funds Transfer screen

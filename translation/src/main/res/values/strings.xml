@@ -495,10 +495,6 @@
     <string name="screen_transaction_filter_display_text_outgoing_transactions">Outgoing transactions</string>
     <string name="screen_transaction_filter_display_text_balance">AED balance</string>
 
-    <!-- Transaction Note Screen -->
-    <string name="screen_add_note_display_text_type_something">Type something…</string>
-    <string name="screen_add_note_display_text_save">Save</string>
-
     <!--Y2Y Contacts-->
     <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
     <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
