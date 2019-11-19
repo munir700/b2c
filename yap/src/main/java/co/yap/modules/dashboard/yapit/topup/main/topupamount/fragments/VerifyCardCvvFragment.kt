@@ -35,10 +35,11 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel.state.cvvSpanableString.set(
             getString(Strings.screen_topup_card_cvv_display_text_cvv).format(
                 args.currencyType,
-                args.amount
+                Utils.getFormattedCurrency(args.amount)
             )
         )
         getBindings().tvTopUpDescription.text = Utils.getSppnableStringForAmount(
@@ -73,6 +74,8 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
                 args.currencyType
             )
         when (it) {
+
+            R.id.ivCross -> findNavController().navigateUp()
             R.id.btnAction ->
                 if (context is TopUpCardActivity) {
                     viewModel.topUpTransactionRequest((context as TopUpCardActivity).topUpTransactionModel?.value)

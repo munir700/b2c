@@ -46,14 +46,21 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
             viewModel.state.availableBalanceSpanable.set(
                 getString(Strings.screen_topup_success_display_text_account_balance_title).format(
                     args.currencyType,
-                    it.availableBalance?.toDouble()
+                 Utils.getFormattedCurrency(it.availableBalance)
                 )
             )
-            getBindings().tvNewSpareCardBalance.text = Utils.getSppnableStringForAmount(
+          /*  getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
+                requireContext(),
+                viewModel.state.availableBalanceSpanable.get().toString(),
+                "${args.currencyType} ${Utils.getFormattedCurrency(it.availableBalance)}"
+
+            )*/
+
+            getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
                 requireContext(),
                 viewModel.state.availableBalanceSpanable.get().toString(),
                 args.currencyType,
-                Utils.getFormattedCurrency(it.availableBalance?.toDouble().toString())
+                Utils.getFormattedCurrencyWithoutComma(it.availableBalance)
             )
         })
     }
@@ -73,15 +80,19 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
         viewModel.state.topUpSuccess =
             getString(Strings.screen_topup_success_display_text_success_transaction_message).format(
                 viewModel.state.currencyType,
-                Utils.getFormattedCurrency(viewModel.state.amount)
+                viewModel.state.amount
             )
 
         getBindings().tvTopUp.text = Utils.getSppnableStringForAmount(
             requireContext(),
             viewModel.state.topUpSuccess,
             viewModel.state.currencyType,
-            viewModel.state.amount
+            Utils.getFormattedCurrencyWithoutComma(viewModel.state.amount)
         )
+    }
+
+    override fun onBackPressed(): Boolean {
+        return true
     }
 
     private fun getBindings(): FragmentTopUpCardSuccessBinding {
