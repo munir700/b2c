@@ -6,8 +6,8 @@ buildscript {
     ext.navigationVersion = "2.1.0-alpha05"
 
     repositories {
-        maven { url 'https://maven.fabric.io/public' }
         google()
+        maven { url 'https://maven.fabric.io/public' }
         jcenter()
 
 
