@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.y2y.home.viewmodel.YapToYapViewModel" />
+            type="co.yap.modules.yapit.sendmoney.home.viewmodels.SendMoneyNoContactsViewModel" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -33,7 +33,7 @@
 
         <include
             android:id="@+id/layoutSearchView"
-            layout="@layout/layout_contact_search"
+            layout="@layout/layout_beneficiairy_search"
             android:layout_width="0dp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginTop="@dimen/margin_medium"
@@ -42,7 +42,7 @@
             app:layout_constraintEnd_toStartOf="@id/tvCancel"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/layoutRecent"
-            app:viewModel="@{viewModel}" />
+        />
 
         <TextView
             android:id="@+id/tvCancel"

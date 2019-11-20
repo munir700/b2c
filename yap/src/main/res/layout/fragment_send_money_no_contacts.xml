@@ -24,7 +24,7 @@
             android:id="@+id/layoutNoContacts"
             layout="@layout/layout_no_contacts"
             app:viewModel="@{viewModel}"
-            android:visibility="visible"/>
+            android:visibility="gone"/>
 
 
         <include
