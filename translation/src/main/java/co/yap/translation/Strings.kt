@@ -921,5 +921,10 @@ object Strings {
     const val screen_topup_card_cvv_display_text_cvv: String =
         "screen_topup_card_cvv_display_text_cvv"
 
+    // Screen Card Analytics
+    const val screen_card_analytics_display_tab_title_category: String =
+        "screen_card_analytics_display_tab_title_category"
+    const val screen_card_analytics_display_tab_title_merchant: String =
+        "screen_card_analytics_display_tab_title_merchant"
 
 }

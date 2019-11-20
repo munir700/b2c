@@ -15,5 +15,4 @@ class CardAnalyticsViewModel(application: Application) :
         setToolBarTitle("Analytics")
     }
 
-
 }
