@@ -190,14 +190,14 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         }
 
     @get:Bindable
-    override var title: String? = " "
+    override var title: String? = "title"
         set(value) {
             field = value
             notifyPropertyChanged(BR.title)
         }
 
     @get:Bindable
-    override var accountNo: String? = " "
+    override var accountNo: String? = "AE070333000000000120082"
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountNo)

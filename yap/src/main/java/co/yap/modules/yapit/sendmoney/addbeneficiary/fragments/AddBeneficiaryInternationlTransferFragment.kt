@@ -42,8 +42,8 @@ class AddBeneficiaryInternationlTransferFragment : SendMoneyBaseFragment<IAddBen
                 R.id.confirmButton ->
                     ConfirmAddBeneficiary(this.activity!!)
 
-                R.id.confirmDomesticButton ->
-                    ConfirmAddBeneficiary(this.activity!!)
+//                R.id.confirmDomesticButton ->
+//                    ConfirmAddBeneficiary(this.activity!!)
             }
         })
     }

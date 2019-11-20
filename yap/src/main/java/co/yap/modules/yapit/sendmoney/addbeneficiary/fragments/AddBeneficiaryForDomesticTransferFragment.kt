@@ -96,17 +96,14 @@ class AddBeneficiaryForDomesticTransferFragment :
     }
 
     fun onConfirmClick() {
-
         val beneficiary: Beneficiary = Beneficiary()
-
         beneficiary.beneficiaryType = "DOMESTIC"
-        beneficiary.title = viewModel.state.nickName
         beneficiary.firstName = viewModel.state.firstName
+        beneficiary.title = viewModel.state.title
         beneficiary.lastName = viewModel.state.lastName
         beneficiary.currency = viewModel.state.currency
         beneficiary.country = "AE"
         beneficiary.accountNo = viewModel.state.accountNo
-//      beneficiary.country = viewModel.state.country
 
         viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
     }

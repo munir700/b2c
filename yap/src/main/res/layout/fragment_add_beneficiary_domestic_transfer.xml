@@ -197,7 +197,7 @@
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greyLight"
                     android:hint="xxxxxxxxx"
-                    android:imeOptions="actionNext"
+                    android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:maxLength="50"
                     android:singleLine="true"
