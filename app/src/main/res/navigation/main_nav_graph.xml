@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/splashFragment">
+    app:startDestination="@id/cardAnalyticsActivity">
 
     <!--    <include app:graph="@navigation/unverified_change_email_navigation" />-->
 <!--    <action-->
@@ -209,5 +209,10 @@
         android:name="co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity"
         android:label="transactionDetailsActivity"
         tools:layout="@layout/activity_transaction_details" />
+    <activity
+        android:id="@+id/cardAnalyticsActivity"
+        android:name="co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity"
+        tools:layout="@layout/activity_cards_analytics"
+        android:label="CardAnalyticsActivity" />
 
 </navigation>

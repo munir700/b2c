@@ -142,7 +142,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".modules.dashboard.yapit.topup.landing.TopUpLandingActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity"
@@ -162,6 +162,10 @@
             android:screenOrientation="portrait" />
         <activity
             android:name="co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity"
             android:screenOrientation="portrait" />
 
     </application>
