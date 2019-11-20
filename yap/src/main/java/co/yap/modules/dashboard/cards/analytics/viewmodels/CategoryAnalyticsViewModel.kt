@@ -9,4 +9,6 @@ class CategoryAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICategoryAnalytics.State>(application = application),
     ICategoryAnalytics.ViewModel {
     override val state: CategoryAnalyticsState = CategoryAnalyticsState()
+
+
 }
