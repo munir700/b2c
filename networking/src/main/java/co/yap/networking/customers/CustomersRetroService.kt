@@ -11,6 +11,7 @@ import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsRespon
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
+import co.yap.networking.customers.responsedtos.sendmoney.GetAllBeneficiaryResponse
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -99,6 +100,12 @@ interface CustomersRetroService {
     suspend fun getRecentY2YBeneficiaries(): Response<RecentBeneficiariesResponse>
 
     /*  send money */
+    @GET(CustomersRepository.URL_GET_RECENT_BENEFICIARIES)
+    suspend fun getRecentBeneficiaries(): Response<GetAllBeneficiaryResponse>
+
+    @GET(CustomersRepository.URL_GET_ALL_BENEFICIARIES)
+    suspend fun getAllBeneficiaries(): Response<GetAllBeneficiaryResponse>
+
     @GET(CustomersRepository.URL_GET_COUNTRIES)
     suspend fun getAllCountries(): Response<CountryModel>
 

@@ -5,7 +5,9 @@ import co.yap.modules.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.yapit.sendmoney.home.states.SendMoneyHome
 import co.yap.modules.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -28,6 +30,13 @@ class SendMoneyNoContactsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
+    }
+
+    override var allBeneficiariesList: List<Beneficiary> = arrayListOf()
+    override var recentBeneficiariesList: List<Beneficiary> = arrayListOf()
+
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
 
@@ -35,5 +44,44 @@ class SendMoneyNoContactsViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_send_money_display_text_title))
         toggleAddButtonVisibility(true)
+        requestAllBeneficiaries()
+    }
+
+    fun requestAllBeneficiaries() {
+        launch {
+            state.loading = true
+            when (val response = repository.getAllBeneficiaries()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.toast = response.data.toString()
+                    allBeneficiariesList= response.data.data
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+
+                }
+            }
+        }
+    }
+
+    fun requestrecentBeneficiaries() {
+        launch {
+            state.loading = true
+            when (val response = repository.getRecentBeneficiaries()) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.toast = response.data.toString()
+                    recentBeneficiariesList= response.data.data
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+
+                }
+            }
+        }
     }
 }

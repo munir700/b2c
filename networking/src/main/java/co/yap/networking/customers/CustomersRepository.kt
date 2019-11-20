@@ -43,11 +43,11 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     // Bank transfer information as per old project integration................................................
 
-
     const val URL_GET_ALL_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer"
     const val URL_GET_RECENT_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer/recent"
     const val URL_GET_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/{beneficiary-id}"
-    const val URL_DELETE_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/bank-transfer/{beneficiary-id}"
+    const val URL_DELETE_BENEFICIARY_BY_ID =
+        "/customers/api/beneficiaries/bank-transfer/{beneficiary-id}"
     const val URL_EDIT_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/bank-transfer"
     const val URL_GET_COUNTRIES = "/customers/api/countries"
     const val URL_ADD_BENEFICIARY = "/customers/api/beneficiaries/bank-transfer"
@@ -175,10 +175,14 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     /*  send money */
 
-    override suspend fun getAllCountries() =
-        executeSafely(call = { api.getAllCountries() })
+    override suspend fun getRecentBeneficiaries() = executeSafely(call = { api.getRecentBeneficiaries() })
 
-    override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =  executeSafely(call = { api.addBeneficiary(beneficiary) })
+    override suspend fun getAllBeneficiaries() = executeSafely(call = { api.getAllBeneficiaries() })
+
+    override suspend fun getAllCountries() = executeSafely(call = { api.getAllCountries() })
+
+    override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
+        executeSafely(call = { api.addBeneficiary(beneficiary) })
 
 
 }
