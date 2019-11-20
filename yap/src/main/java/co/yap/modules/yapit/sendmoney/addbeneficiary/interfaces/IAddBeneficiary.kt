@@ -1,6 +1,7 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.yapit.sendmoney.addbeneficiary.models.AddBeneficiaryData
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryRequestDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -41,8 +42,6 @@ interface IAddBeneficiary {
         var branchAddress: String?
         var identifierCode1: String?
         var identifierCode2: String?
-
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -56,6 +55,7 @@ interface IAddBeneficiary {
 
 //      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
         fun generateCashPayoutBeneficiaryRequestDTO(beneficiary: Beneficiary)
+//      var onSuccess: MutableLiveData<Int>
 
     }
 

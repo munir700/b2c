@@ -12,6 +12,7 @@ import co.yap.R
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 
 
@@ -85,7 +86,10 @@ class AddBeneficiaryInternationlTransferFragment : SendMoneyBaseFragment<IAddBen
                     R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
                 ),
                 DialogInterface.OnClickListener { dialog, which ->
-                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
+//                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
+                    onConfirmClick()
+
+
                 })
 
             .setNegativeButton(
@@ -96,6 +100,26 @@ class AddBeneficiaryInternationlTransferFragment : SendMoneyBaseFragment<IAddBen
                 null
             )
             .show()
+    }
+
+
+
+    fun onConfirmClick(){
+
+// for sure it's fields needs to be update, as they are taken form cashpayout
+
+        val beneficiary: Beneficiary = Beneficiary()
+
+        beneficiary.beneficiaryType = "CASHPAYOUT"
+        beneficiary.title = viewModel.state.nickName
+        beneficiary.firstName =viewModel.state.firstName
+        beneficiary.lastName =viewModel.state.lastName
+        beneficiary.currency =viewModel.state.currency
+        beneficiary.country = "UAE"
+//      beneficiary.country = viewModel.state.country
+        beneficiary.mobileNo =viewModel.state.phoneNumber
+
+        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
     }
 
 //    fun ConfirmAddBeneficiary() {

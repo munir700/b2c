@@ -23,11 +23,11 @@ class SendMoneyNoContactsFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewMod
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
          viewModel.clickEvent.observe(this, Observer {
             when (it) {
