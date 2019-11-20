@@ -87,12 +87,13 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
                 LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
                 findNavController().navigate(action)
-            // findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
+                // findNavController().navigate(R.id.action_verifyCardCvvFragment_to_topUpCardSuccessFragment)
+            }
         }
+
     }
 
     fun getBindings(): FragmentVerifyCardCvvBinding {
         return viewDataBinding as FragmentVerifyCardCvvBinding
     }
-
 }
