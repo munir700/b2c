@@ -66,7 +66,7 @@ class SendMoneyNoContactsViewModel(application: Application) :
         }
     }
 
-    fun requestrecentBeneficiaries() {
+    fun requestRecentBeneficiaries() {
         launch {
             state.loading = true
             when (val response = repository.getRecentBeneficiaries()) {

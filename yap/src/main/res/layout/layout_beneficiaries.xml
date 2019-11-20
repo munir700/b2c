@@ -22,14 +22,24 @@
 
         <include
             android:id="@+id/layoutRecent"
-            layout="@layout/layout_recent_transfers"
+            layout="@layout/layout_recent_beneficiaries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            app:adapter="@{viewModel.adapter}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <!--<include-->
+        <!--            android:id="@+id/layoutRecent"-->
+        <!--            layout="@layout/layout_recent_beneficiaries"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:visibility="gone"-->
+        <!--            app:adapter="@{viewModel.adapter}"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <include
             android:id="@+id/layoutSearchView"
@@ -41,8 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tvCancel"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutRecent"
-        />
+            app:layout_constraintTop_toBottomOf="@+id/layoutRecent" />
 
         <TextView
             android:id="@+id/tvCancel"
