@@ -71,7 +71,7 @@ class TopUpBeneficiariesAdapter(
         }
     }
 
-    class TopUpEmptyItemViewHolder(private val itemTopUpCardEmptyBinding: ItemTopupCardEmptyBinding) :
+    class TopUpEmptyItemViewHolder(val itemTopUpCardEmptyBinding: ItemTopupCardEmptyBinding) :
         RecyclerView.ViewHolder(itemTopUpCardEmptyBinding.root) {
 
         fun onBind(

@@ -55,6 +55,16 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             updateSelection(viewHolder, adapterPosition)
             if (viewHolder is TopUpBeneficiariesAdapter.TopUpCardViewHolder)
                 viewHolder.binding.parent?.alpha = 1f
+            else {
+                if (viewHolder is TopUpBeneficiariesAdapter.TopUpEmptyItemViewHolder) { // in case of no result
+                    val prams = viewHolder.itemTopUpCardEmptyBinding.lycard.layoutParams
+                    if (prams is RecyclerView.LayoutParams) {
+                        prams.setMargins(30, 30, 30, 30)
+                        viewHolder.itemTopUpCardEmptyBinding.lycard?.layoutParams = prams
+                    }
+
+                }
+            }
         }
         mAdapter.setItemListener(listener)
         getBinding().rvTopUpCards.smoothScrollToPosition(0)
@@ -206,7 +216,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                 if (viewModel.remainingCardsLimit > 0) {
                     addCardProcess()
                 } else {
-                    showToast("Limit Reached")
+                    showToast("You can only add 10 cards.")
                 }
 
             }
@@ -236,7 +246,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                 if (viewModel.remainingCardsLimit > 0) {
                     addCardProcess()
                 } else {
-                    showToast("Limit Reached")
+                    showToast("You can only add 10 cards.")
                 }
 
             }
