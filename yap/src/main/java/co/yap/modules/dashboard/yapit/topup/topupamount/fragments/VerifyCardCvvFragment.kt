@@ -93,7 +93,7 @@ class VerifyCardCvvFragment : BaseBindingFragment<IVerifyCardCvv.ViewModel>(), I
 
     }
 
-    fun getBindings(): FragmentVerifyCardCvvBinding {
+   private fun getBindings(): FragmentVerifyCardCvvBinding {
         return viewDataBinding as FragmentVerifyCardCvvBinding
     }
 }
