@@ -7,7 +7,7 @@ import co.yap.modules.dashboard.cards.analytics.interfaces.ICategoryAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CategoryAnalyticsViewModel
 
-class CategoryAnalyticsfragment : CardAnalyticsBaseFragment<ICategoryAnalytics.ViewModel>(),
+class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.ViewModel>(),
     ICategoryAnalytics.View {
     override fun getBindingVariable(): Int = BR.viewModel
 
