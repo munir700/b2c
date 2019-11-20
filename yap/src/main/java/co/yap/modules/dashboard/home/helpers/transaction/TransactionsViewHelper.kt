@@ -63,20 +63,20 @@ class TransactionsViewHelper(
                                 ) {
                                     when (newState) {
                                         SCROLL_STATE_IDLE -> {
-                                            isCellHighlighted = true
-                                            isCellHighlightedFromTransaction = true
+//                                            isCellHighlighted = true
+//                                            isCellHighlightedFromTransaction = true
 
-                                            recyclerView.removeOnScrollListener(this)
-                                            transactionsView.rvTransactionsBarChart.getChildAt(
-                                                position
-                                            )?.performClick()
-                                            addTooltip(
-                                                transactionsView.rvTransactionsBarChart.getChildAt(
-                                                    position
-                                                )?.findViewById(R.id.parent),
-                                                viewModel.transactionsLiveData.value?.get(position)!!
-                                            )
-                                            previouslySelected = position
+//                                            recyclerView.removeOnScrollListener(this)
+//                                            transactionsView.rvTransactionsBarChart.getChildAt(
+//                                                position
+//                                            )?.performClick()
+//                                            addTooltip(
+//                                                transactionsView.rvTransactionsBarChart.getChildAt(
+//                                                    position
+//                                                )?.findViewById(R.id.parent),
+//                                                viewModel.transactionsLiveData.value?.get(position)!!
+//                                            )
+//                                            previouslySelected = position
                                         }
 
                                     }
@@ -87,12 +87,12 @@ class TransactionsViewHelper(
                         transactionsView.rvTransaction.addOnScrollListener(onScrollListener)
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
 
-                        isCellHighlighted = false
-                        isCellHighlightedFromTransaction = false
+//                        isCellHighlighted = false
+//                        isCellHighlightedFromTransaction = false
 
-                        transactionsView.rvTransactionsBarChart.getChildAt(
-                            previouslySelected
-                        )?.performClick()
+//                        transactionsView.rvTransactionsBarChart.getChildAt(
+//                            previouslySelected
+//                        )?.performClick()
 
                         horizontalScrollPosition = position
                     }
@@ -161,7 +161,7 @@ class TransactionsViewHelper(
         }
     }
 
-    private fun addTooltip(view: View?, data: HomeTransactionListData) {
+    fun addTooltip(view: View?, data: HomeTransactionListData) {
         view?.let {
             val text =
                 data.date + " AED " + Utils.getFormattedCurrency(data.closingBalance.toString())
@@ -200,21 +200,25 @@ class TransactionsViewHelper(
 
                 if (toolbarCollapsed) toolbarHeight =
                     Utils.getNavigationBarHeight(context as Activity).toFloat()
+//                y = viewPosition[1].toFloat() - this.height
+               // (view as ChartViewV2).width/2
+                //this.height -(view as ChartViewV2).barHeight
+                Log.d("------------","--------------------------")
+                Log.d("viewPosition Y >>",viewPosition[1].toString())
+                Log.d("bar View height>>",view.height.toString())
+                Log.d("tooltip height Y >>",this.height.toString())
+                Log.d("convertDpToPx >>",Utils.convertDpToPx(context, 20f).toString())
+                Log.d("------------","--------------------------")
 
-                y =
-                    viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(
-                        context,
-                        20f
-                    )
-
-                Log.i("tooltip", "x$x  y $y")
-
-
+                y =  view.bottom.toFloat()-view.height-140
+               // y = viewPosition[1].toFloat() - this.height - toolbarHeight - view.height - Utils.convertDpToPx(context, 20f)
             }
 
         }
 
     }
+
+
 
     private fun autoScrollGraphBarsOnTransactionsListScroll() {
 

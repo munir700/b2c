@@ -124,7 +124,7 @@
 
         <co.yap.widgets.tooltipview.TooltipView
             android:id="@+id/tooltip"
-            android:layout_width="@dimen/_100sdp"
+            android:layout_width="@dimen/_120sdp"
             android:layout_height="wrap_content"
             android:background="@color/divider"
             android:elevation="5dp"
@@ -134,7 +134,7 @@
             android:paddingEnd="@dimen/_4sdp"
             android:paddingBottom="@dimen/_8sdp"
             android:text="Tooltip"
-            android:visibility="visible"
+            android:visibility="gone"
             app:arrowAlignment="custom"
             app:arrowHeight="@dimen/_8sdp"
             app:arrowLocation="bottom"

@@ -26,6 +26,8 @@ class RecyclerTouchListener(
                     }
                     return true
                 }
+
+
             })
 
         recyclerView.addOnItemTouchListener(this)

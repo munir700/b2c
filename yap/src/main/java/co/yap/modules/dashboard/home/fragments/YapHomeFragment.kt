@@ -33,6 +33,7 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
+import co.yap.widgets.SpacesItemDecoration
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -81,6 +82,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             true
         )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
+//        rvTransactionsBarChart?.addItemDecoration(
+//            SpacesItemDecoration(2, 2, 0, 0, true)
+//        )
     }
 
     override fun onRefresh() {
@@ -240,6 +244,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 it,
                 viewModel
             )
+            getGraphRecycleViewAdapter()?.helper = transactionViewHelper
         }
     }
 
