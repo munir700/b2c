@@ -37,7 +37,22 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun setObservers() {
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
-            showToast("Position $it")
+            when (getBindingView().tabLayout.selectedTabPosition) {
+                CATEGORY_ANALYTICS -> {
+                    showToast(
+                        "Position $it and data is ${viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
+                            it
+                        )?.transactionType}"
+                    )
+                }
+                MERCHANT_ANALYTICS -> {
+                    showToast(
+                        "Position $it and data is ${viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
+                            it
+                        )?.transactionType}"
+                    )
+                }
+            }
         })
     }
 
