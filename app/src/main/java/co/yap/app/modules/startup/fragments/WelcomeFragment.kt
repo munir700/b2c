@@ -42,7 +42,7 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
         view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
         viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
 
-
+var tocuchEnable: Boolean= true
         welcome_pager!!.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(
                 v: View?,
@@ -50,15 +50,25 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
             ): Boolean {
                 when (event!!.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
+                        if (welcome_pager.currentItem<2){
+                            welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
+                            return true
+
+                        }
 
                     }
+
+                    MotionEvent.EDGE_LEFT -> {
+                        return true
+                    }
                 }
-                return true
+                return false
             }
         })
     }
 
+
+    
     override fun onDestroyView() {
         viewModel.onGetStartedPressEvent.removeObservers(this)
         super.onDestroyView()
