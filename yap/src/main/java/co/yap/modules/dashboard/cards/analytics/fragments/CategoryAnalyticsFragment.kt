@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -12,6 +13,7 @@ import co.yap.modules.dashboard.cards.analytics.interfaces.ICategoryAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CategoryAnalyticsViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
+
 
 class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.ViewModel>(),
     ICategoryAnalytics.View {
@@ -43,8 +45,19 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            val adapter = getBinding().recycler.adapter as CategoryAnalyticsAdaptor
+            if (adapter.checkedPosition != pos) {
+                view.isSelected = true
+                view.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.itemBackground
+                    )
+                )
+                adapter.notifyItemChanged(adapter.checkedPosition)
+                adapter.checkedPosition = pos
+            }
             viewModel.parentViewModel.selectedItemPosition.value = pos
-
             //showToast("clicked item ${(data as AnalyticsItem).transactionType}")
         }
     }

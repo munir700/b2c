@@ -11,6 +11,8 @@ import co.yap.yapcore.BaseBindingRecyclerAdapter
 class MerchantAnalyticsAdaptor(private val list: MutableList<AnalyticsItem>) :
     BaseBindingRecyclerAdapter<AnalyticsItem, RecyclerView.ViewHolder>(list) {
 
+    var checkedPosition: Int = -1
+
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
         return MerchantAnalyticsItemViewHolder(binding as ItemAnalyticsBinding)
     }
@@ -21,7 +23,7 @@ class MerchantAnalyticsAdaptor(private val list: MutableList<AnalyticsItem>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is MerchantAnalyticsItemViewHolder) {
-            holder.onBind(list[position], position, onItemClickListener)
+            holder.onBind(this,list[position], position, onItemClickListener)
         }
     }
 }
