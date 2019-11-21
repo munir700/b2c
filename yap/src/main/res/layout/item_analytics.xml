@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/_10sdp"
         android:paddingStart="@dimen/_10sdp"
-        android:background="@color/greyLight"
+android:foreground="?selectableItemBackground"
         android:onClick="@{(v) -> viewModel.onViewClicked(v)}">
 
         <co.yap.widgets.CoreCircularImageView

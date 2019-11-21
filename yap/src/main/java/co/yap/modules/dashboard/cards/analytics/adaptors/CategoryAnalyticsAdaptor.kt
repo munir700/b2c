@@ -8,8 +8,10 @@ import co.yap.modules.dashboard.cards.analytics.adaptors.viewholders.CategoryAna
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class CategoryAnalyticsAdaptor (private val list: MutableList<AnalyticsItem>) :
+class CategoryAnalyticsAdaptor(private val list: MutableList<AnalyticsItem>) :
     BaseBindingRecyclerAdapter<AnalyticsItem, RecyclerView.ViewHolder>(list) {
+
+    var checkedPosition: Int = -1
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_analytics
 
     override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
@@ -19,7 +21,7 @@ class CategoryAnalyticsAdaptor (private val list: MutableList<AnalyticsItem>) :
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder is CategoryAnalyticsItemViewHolder) {
-            holder.onBind(list[position], position, onItemClickListener)
+            holder.onBind(this,list[position], position, onItemClickListener)
         }
     }
 
