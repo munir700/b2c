@@ -74,8 +74,8 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
     private fun setUpData() {
         if (context is TopUpCardActivity) {
             val cardInfo: TopUpCard? = (context as TopUpCardActivity).cardInfo
-            viewModel.state.formattedCardNo.set(Utils.getFormattedCardNumber(viewModel.state.cardInfo.get()?.number.toString()))
             viewModel.state.cardInfo.set(cardInfo)
+            viewModel.state.formattedCardNo.set(Utils.getFormattedCardNumber(viewModel.state.cardInfo.get()?.number.toString()))
         }
         viewModel.state.topUpSuccess =
             getString(Strings.screen_topup_success_display_text_success_transaction_message).format(

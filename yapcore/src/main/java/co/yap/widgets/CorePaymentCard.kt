@@ -5,6 +5,7 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.util.AttributeSet
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -108,9 +109,18 @@ class CorePaymentCard @JvmOverloads constructor(context: Context, attrs: Attribu
 //large              21/21           12SP            16sp                11/                         12sp
 
 
-                tvBankName.setTextSize(12f)
-                tvCardNumber.setTextSize(16f)
-                tvCardExpiry.setTextSize(12f)
+                tvBankName.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    context.applicationContext.resources.getDimension(R.dimen._10sdp)
+                )
+                tvCardNumber.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    context.applicationContext.resources.getDimension(R.dimen._13sdp)
+                )
+                tvCardExpiry.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    context.applicationContext.resources.getDimension(R.dimen._10sdp)
+                )
 
                 val ivChipHeight = context.applicationContext.resources.getDimension(R.dimen._21sdp)
                 val ivChipWidth =
