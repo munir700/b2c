@@ -10,7 +10,6 @@ import co.yap.databinding.FragmentCategoryAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.CategoryAnalyticsAdaptor
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICategoryAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
-import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CategoryAnalyticsViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -23,19 +22,15 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     override val viewModel: ICategoryAnalytics.ViewModel
         get() = ViewModelProviders.of(this).get(CategoryAnalyticsViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setObservers()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
         initAdaptor()
     }
 
 
     private fun setObservers() {
-        viewModel.parentViewModelA?.categoryAnalyticsItemLiveData?.observe(this, Observer {
+        viewModel.parentViewModel.categoryAnalyticsItemLiveData.observe(this, Observer {
             (getBinding().recycler.adapter as CategoryAnalyticsAdaptor).setList(it)
         })
     }
@@ -48,7 +43,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            viewModel.parentViewModelA?.selectedItemPosition?.value = pos
+            viewModel.parentViewModel.selectedItemPosition.value = pos
 
             //showToast("clicked item ${(data as AnalyticsItem).transactionType}")
         }

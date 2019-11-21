@@ -7,7 +7,7 @@ import co.yap.yapcore.IBase
 interface ICategoryAnalytics {
     interface View : IBase.View<ViewModel>
     interface ViewModel : IBase.ViewModel<State> {
-        var parentViewModelA: ICardAnalyticsMain.ViewModel?
+        var parentViewModel: ICardAnalyticsMain.ViewModel
     }
 
     interface State : IBase.State

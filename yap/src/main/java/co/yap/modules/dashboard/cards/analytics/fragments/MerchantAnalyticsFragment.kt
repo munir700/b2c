@@ -7,11 +7,9 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMerchantAnalyticsBinding
-import co.yap.modules.dashboard.cards.analytics.adaptors.CategoryAnalyticsAdaptor
 import co.yap.modules.dashboard.cards.analytics.adaptors.MerchantAnalyticsAdaptor
 import co.yap.modules.dashboard.cards.analytics.interfaces.IMerchantAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
-import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.viewmodels.MerchantAnalyticsViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -30,8 +28,8 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
         setObservers()
     }
 
-    private fun setObservers() {
-        viewModel.parentViewModelA?.merchantAnalyticsItemLiveData?.observe(this, Observer {
+    override fun setObservers() {
+        viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
             (getBinding().recycler.adapter as MerchantAnalyticsAdaptor).setList(it)
         })
     }
@@ -43,7 +41,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            showToast("clicked item ${(data as AnalyticsItem).transactionType}")
+            viewModel.parentViewModel.selectedItemPosition.value = pos
         }
     }
 
