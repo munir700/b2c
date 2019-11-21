@@ -23,11 +23,16 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     override val viewModel: ICategoryAnalytics.ViewModel
         get() = ViewModelProviders.of(this).get(CategoryAnalyticsViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setObservers()
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdaptor()
-        setObservers()
     }
+
 
     private fun setObservers() {
         viewModel.parentViewModelA?.categoryAnalyticsItemLiveData?.observe(this, Observer {
@@ -43,7 +48,9 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            showToast("clicked item ${(data as AnalyticsItem).transactionType}")
+            viewModel.parentViewModelA?.selectedItemPosition?.value = pos
+
+            //showToast("clicked item ${(data as AnalyticsItem).transactionType}")
         }
     }
 

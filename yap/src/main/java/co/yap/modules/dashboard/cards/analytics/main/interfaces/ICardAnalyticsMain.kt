@@ -14,6 +14,7 @@ interface ICardAnalyticsMain {
         fun handlePressOnView(id: Int)
         val categoryAnalyticsItemLiveData: MutableLiveData<ArrayList<AnalyticsItem>>
         val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<AnalyticsItem>>
+        val selectedItemPosition: MutableLiveData<Int>
     }
 
     interface State : IBase.State {

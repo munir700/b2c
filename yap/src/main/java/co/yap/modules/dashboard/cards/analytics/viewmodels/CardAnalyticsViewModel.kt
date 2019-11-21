@@ -1,7 +1,9 @@
 package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
+import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
@@ -10,10 +12,21 @@ class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
     ICardAnalytics.ViewModel {
     override val state: CardAnalyticsState = CardAnalyticsState()
+    override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
+    override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
+
+
+    override fun onCreate() {
+        super.onCreate()
+        parentVM?.let {
+            parentViewModel = it
+        }
+    }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle("Analytics")
+
     }
 
     override fun fetchCardAnalytics() {
@@ -25,8 +38,8 @@ class CardAnalyticsViewModel(application: Application) :
         for (i in 0..4)
             list2.add(AnalyticsItem("Amazon", "3 transactions", "AED 1450", "52%"))
 
-        parentViewModel?.categoryAnalyticsItemLiveData?.value = list
-        parentViewModel?.merchantAnalyticsItemLiveData?.value = list2
+        parentVM?.categoryAnalyticsItemLiveData?.value = list
+        parentVM?.merchantAnalyticsItemLiveData?.value = list2
 
     }
 }

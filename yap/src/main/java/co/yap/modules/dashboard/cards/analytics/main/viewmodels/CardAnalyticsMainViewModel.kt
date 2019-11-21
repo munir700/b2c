@@ -18,6 +18,7 @@ class CardAnalyticsMainViewModel(application: Application) :
         MutableLiveData()
     override val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<AnalyticsItem>> =
         MutableLiveData()
+    override val selectedItemPosition: MutableLiveData<Int> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)

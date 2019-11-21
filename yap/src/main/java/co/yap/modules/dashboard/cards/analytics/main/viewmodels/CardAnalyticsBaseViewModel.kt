@@ -8,14 +8,14 @@ import co.yap.yapcore.IBase
 abstract class CardAnalyticsBaseViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
 
-    var parentViewModel: ICardAnalyticsMain.ViewModel? = null
+    var parentVM: ICardAnalyticsMain.ViewModel? = null
 
     fun setToolBarTitle(title: String) {
-        parentViewModel?.state?.toolBarTitle?.set(title)
+        parentVM?.state?.toolBarTitle?.set(title)
     }
 
     fun setToolBarVisibility(visibility: Boolean) {
-        parentViewModel?.state?.toolBarVisibility?.set(visibility)
+        parentVM?.state?.toolBarVisibility?.set(visibility)
     }
 
 }

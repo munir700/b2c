@@ -15,9 +15,9 @@
         android:id="@+id/lyAnalyticsItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginEnd="@dimen/_10sdp"
-        android:background="@color/colorWhite"
+        android:paddingEnd="@dimen/_10sdp"
+        android:paddingStart="@dimen/_10sdp"
+        android:background="@color/greyLight"
         android:onClick="@{(v) -> viewModel.onViewClicked(v)}">
 
         <co.yap.widgets.CoreCircularImageView
