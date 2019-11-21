@@ -33,7 +33,6 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-import co.yap.widgets.SpacesItemDecoration
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -43,6 +42,9 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -151,7 +153,35 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
                 getRecycleViewAdaptor()?.setList(it)
-                getGraphRecycleViewAdapter()?.setList(it)
+
+                val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
+                val oldData = getGraphRecycleViewAdapter()?.getDataList()
+
+                for (parentItem in it) {
+
+                    var positionToReplace = 0
+                    var positionToAdd = 0
+                    var shouldReplace = false
+
+                    for (i in 0 until oldData?.size!!) {
+                        if (parentItem.date == oldData[i].date) {
+                            if (parentItem.content.size != oldData[i].content.size) {
+                                positionToReplace = i
+                                shouldReplace = true
+                                break
+                            }
+                        }else{
+
+                        }
+                    }
+
+                    if (shouldReplace)
+                        listToAppend.add(it[positionToReplace])
+                    else
+                        listToAppend.add(parentItem)
+                }
+
+                getGraphRecycleViewAdapter()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
                     ivNoTransaction.visibility = View.VISIBLE
@@ -198,6 +228,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
         })
+    }
+
+    private fun convertDate(creationDate: String): String? {
+        val parser = SimpleDateFormat("yyyy-MM-dd")
+        parser.setTimeZone(TimeZone.getTimeZone("UTC"))
+        val convertedDate = parser.parse(creationDate)
+
+        val pattern = "MMMM dd, yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val date = simpleDateFormat.format(convertedDate)
+
+        return date
     }
 
     private fun checkUserStatus() {

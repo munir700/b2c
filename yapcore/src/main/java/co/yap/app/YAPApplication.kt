@@ -6,7 +6,7 @@ import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 open class YAPApplication : Application() {
     companion object {
         var AUTO_RESTART_APP = true
-        const val pageSize = 100
+        const val pageSize = 20
         var hasFilterStateChanged = false
         var homeTransactionsRequest: HomeTransactionsRequest = HomeTransactionsRequest(
             0,
