@@ -14,6 +14,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/lyAnalyticsItem"
         android:layout_width="match_parent"
+        android:padding="@dimen/_10sdp"
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/_10sdp"
         android:paddingStart="@dimen/_10sdp"
@@ -27,7 +28,8 @@ android:foreground="?selectableItemBackground"
             android:contentDescription="@string/empty_string"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/colorPrimaryDark"/>
+            android:src="@drawable/ic_shopping" />
+
 
         <LinearLayout
             android:id="@+id/content"
@@ -88,6 +90,14 @@ android:foreground="?selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="@+id/content"
             app:layout_constraintEnd_toEndOf="@+id/tvAmount"
             tools:text="42%" />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="3px"
+            app:layout_constraintStart_toStartOf="@+id/content"
+            app:layout_constraintEnd_toEndOf="@id/tvAmount"
+            app:layout_constraintTop_toBottomOf="@id/tvSpendingPercentage"
+            android:layout_marginTop="@dimen/margin_extra_small"
+            android:background="@color/divider"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

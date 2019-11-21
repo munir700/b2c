@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,9 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityTopupCardsBinding
+import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.carddetail.TopupCardDetailActivity
 import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
-import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseBindingActivity
@@ -23,6 +22,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.Pivot
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
+import timber.log.Timber
 import kotlin.math.abs
 
 class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewModel>() {
@@ -55,6 +55,16 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             updateSelection(viewHolder, adapterPosition)
             if (viewHolder is TopUpBeneficiariesAdapter.TopUpCardViewHolder)
                 viewHolder.binding.parent?.alpha = 1f
+            else {
+                if (viewHolder is TopUpBeneficiariesAdapter.TopUpEmptyItemViewHolder) { // in case of no result
+                    val prams = viewHolder.itemTopUpCardEmptyBinding.lycard.layoutParams
+                    if (prams is RecyclerView.LayoutParams) {
+                        prams.setMargins(30, 30, 30, 30)
+                        viewHolder.itemTopUpCardEmptyBinding.lycard?.layoutParams = prams
+                    }
+
+                }
+            }
         }
         mAdapter.setItemListener(listener)
         getBinding().rvTopUpCards.smoothScrollToPosition(0)
@@ -70,12 +80,12 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             ) {
                 if (newCurrent is TopUpBeneficiariesAdapter.TopUpCardViewHolder) {
 
-                    Log.i(
-                        "discreta: ",
-                        "scrollPosition $scrollPosition ,currentPosition $currentPosition ,newPosition $newPosition"
-                    )
-
                     val crItem = getBinding().rvTopUpCards.currentItem
+                    var totalItems = 0
+                    getBinding().rvTopUpCards.layoutManager?.itemCount?.let {
+                        totalItems = it
+                    }
+
                     var p: RecyclerView.ViewHolder? = null
                     var n: RecyclerView.ViewHolder? = null
 
@@ -89,22 +99,21 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                             getBinding().rvTopUpCards.getViewHolder(crItem + 1)
                     }
 
-                    val alphaFactor = if (abs(scrollPosition) < .3f) .3f else abs(scrollPosition)
-                    val das = 1 - alphaFactor
-                    Log.i(
-                        "discreted: ",
-                        "crItem $crItem alphaRatio $alphaFactor 1 - alphaFactor $das"
-                    )
+                    val alphaFactor = if (abs(scrollPosition) < .5f) .5f else abs(scrollPosition)
+
                     if (p is TopUpBeneficiariesAdapter.TopUpCardViewHolder)
-                        p.binding?.parent?.alpha = alphaFactor
+                        p.binding.parent.alpha = alphaFactor
 
                     if (n is TopUpBeneficiariesAdapter.TopUpCardViewHolder)
-                        n.binding?.parent?.alpha = alphaFactor
+                        n.binding.parent.alpha = alphaFactor
 
-                    if (currentHolder is TopUpBeneficiariesAdapter.TopUpCardViewHolder)
-                        currentHolder?.binding?.parent?.alpha =
-                            if (1 - abs(scrollPosition) < .3f) .3f else 1 - abs(scrollPosition)
+                    if (currentHolder is TopUpBeneficiariesAdapter.TopUpCardViewHolder) {
 
+                        val currentAlpha =
+                            if (1 - abs(scrollPosition) < .5f) .5f else 1 - abs(scrollPosition)
+                        Timber.d("topupcards: sc $scrollPosition alphaRatio $alphaFactor currentAlpha $currentAlpha")
+                        currentHolder.binding.parent.alpha = currentAlpha
+                    }
                 }
             }
 
@@ -112,7 +121,33 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                 currentItemHolder: RecyclerView.ViewHolder,
                 position: Int
             ) {
+                if (currentItemHolder is TopUpBeneficiariesAdapter.TopUpCardViewHolder) {
 
+                    val crItem = getBinding().rvTopUpCards.currentItem
+                    var totalItems = 0
+                    getBinding().rvTopUpCards.layoutManager?.itemCount?.let {
+                        totalItems = it
+                    }
+
+                    var pp: RecyclerView.ViewHolder? = null
+                    var nn: RecyclerView.ViewHolder? = null
+
+                    if (crItem >= 1) {
+                        pp =
+                            getBinding().rvTopUpCards.getViewHolder(crItem - 2)
+                        nn =
+                            getBinding().rvTopUpCards.getViewHolder(crItem + 3)
+                    } else {
+                        nn =
+                            getBinding().rvTopUpCards.getViewHolder(crItem + 2)
+                    }
+
+                    if (pp is TopUpBeneficiariesAdapter.TopUpCardViewHolder)
+                        pp.binding.parent.alpha = 0.5f
+
+                    if (nn is TopUpBeneficiariesAdapter.TopUpCardViewHolder)
+                        nn.binding.parent.alpha = 0.5f
+                }
             }
 
             override fun onScrollStart(
@@ -181,7 +216,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                 if (viewModel.remainingCardsLimit > 0) {
                     addCardProcess()
                 } else {
-                    showToast("Limit Reached")
+                    showToast("You can only add 10 cards.")
                 }
 
             }
@@ -211,7 +246,7 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                 if (viewModel.remainingCardsLimit > 0) {
                     addCardProcess()
                 } else {
-                    showToast("Limit Reached")
+                    showToast("You can only add 10 cards.")
                 }
 
             }

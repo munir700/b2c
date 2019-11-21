@@ -550,6 +550,8 @@
     <string name="screen_topup_card_detail_display_text_hint_card_info">Card</string>
     <string name="screen_topup_card_detail_display_text_hint_card_type">Type</string>
     <string name="screen_topup_card_detail_display_text_hint_card_expiry">Expiry date</string>
+    <string name="screen_topup_card_details_display_text_remove_card_confirmation">This card will be removed from your top-up methods</string>
+    <string name="screen_topup_card_details_display_text_remove_card_confirmation_remove">Remove</string>
 
     <!--    TopUpFundsScreen-->
     <string name="screen_topup_transfer_display_text_screen_title">Top up using card</string>
