@@ -583,6 +583,7 @@
     <!-- Screen Card Analytics -->
     <string name="screen_card_analytics_display_tab_title_category">Category</string>
     <string name="screen_card_analytics_display_tab_title_merchant">Merchant</string>
+    <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s %2s</string>
 
 
 </resources>
