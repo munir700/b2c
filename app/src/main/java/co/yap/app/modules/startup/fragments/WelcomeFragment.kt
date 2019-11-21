@@ -1,17 +1,21 @@
 package co.yap.app.modules.startup.fragments
 
 import android.os.Bundle
+import android.view.MotionEvent
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
-import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.app.R
+import co.yap.app.modules.startup.adapters.WelcomePagerAdapter
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.viewmodels.WelcomeViewModel
 import co.yap.yapcore.BaseBindingFragment
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+import kotlinx.android.synthetic.main.fragment_onboarding_welcome.*
+
 
 class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View {
 
@@ -26,15 +30,33 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
         super.onActivityCreated(savedInstanceState)
 
         viewModel.accountType = getAccountType()
-        val pager = view?.findViewById<ViewPager>(R.id.welcome_pager)
-        pager?.adapter = co.yap.app.modules.startup.adapters.WelcomePagerAdapter(
+        var welcomePagerAdapter: WelcomePagerAdapter
+
+        welcomePagerAdapter = WelcomePagerAdapter(
             context = requireContext(),
             contents = viewModel.getPages(),
             layout = R.layout.content_onboarding_welcome
         )
+        welcome_pager?.adapter = welcomePagerAdapter
 
-        view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(pager)
+        view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
         viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
+
+
+        welcome_pager!!.setOnTouchListener(object : View.OnTouchListener {
+            override fun onTouch(
+                v: View?,
+                event: MotionEvent?
+            ): Boolean {
+                when (event!!.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
+
+                    }
+                }
+                return true
+            }
+        })
     }
 
     override fun onDestroyView() {
@@ -49,8 +71,4 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
     private fun getAccountType(): AccountType =
         arguments?.getSerializable(getString(R.string.arg_account_type)) as AccountType
 
-//    override fun onBackPressed(): Boolean {
-//        findNavController().popBackStack()
-//        return true
-//    }
 }
