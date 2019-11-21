@@ -13,7 +13,7 @@ abstract class CardAnalyticsBaseFragment<V : IBase.ViewModel<*>> :
         super.onCreate(savedInstanceState)
 
         if (viewModel is CardAnalyticsBaseViewModel<*>) {
-            (viewModel as CardAnalyticsBaseViewModel<*>).parentViewModel =
+            (viewModel as CardAnalyticsBaseViewModel<*>).parentVM =
                 ViewModelProviders.of(activity!!).get(CardAnalyticsMainViewModel::class.java)
         }
     }

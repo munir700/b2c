@@ -14,7 +14,7 @@ class MerchantAnalyticsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModelA = parentViewModel
+        parentViewModelA = parentVM
     }
 
 }
