@@ -152,36 +152,27 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (viewModel.isLoadMore.value!!) {
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
-                getRecycleViewAdaptor()?.setList(it)
 
                 val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
                 val oldData = getGraphRecycleViewAdapter()?.getDataList()
-
                 for (parentItem in it) {
 
-                    var positionToReplace = 0
-                    var positionToAdd = 0
-                    var shouldReplace = false
-
+                    var shouldAppend = false
                     for (i in 0 until oldData?.size!!) {
                         if (parentItem.date == oldData[i].date) {
                             if (parentItem.content.size != oldData[i].content.size) {
-                                positionToReplace = i
-                                shouldReplace = true
+                                shouldAppend = false
                                 break
                             }
-                        }else{
-
+                            shouldAppend = true
+                            break
                         }
                     }
-
-                    if (shouldReplace)
-                        listToAppend.add(it[positionToReplace])
-                    else
+                    if (!shouldAppend)
                         listToAppend.add(parentItem)
                 }
-
                 getGraphRecycleViewAdapter()?.addList(listToAppend)
+                getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
                     ivNoTransaction.visibility = View.VISIBLE
@@ -197,22 +188,24 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getRecycleViewAdaptor()?.setItemListener(listener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
         //getBindings().lyInclude.rvTransaction.addOnScrollListener(endlessScrollListener)
-        getBindings().lyInclude.rvTransaction.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val layoutManager =
-                    getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
-                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                    if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
-                        viewModel.isLoadMore.value = true
+        getBindings().lyInclude.rvTransaction.addOnScrollListener(
+            object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager =
+                        getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
+                    val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
+                            viewModel.isLoadMore.value = true
+                        }
                     }
                 }
-            }
-        })
+            })
 
-        viewModel.isLoadMore.observe(this, Observer {
+        viewModel.isLoadMore.observe(this, Observer
+        {
             if (it) {
                 YAPApplication.homeTransactionsRequest.number =
                     YAPApplication.homeTransactionsRequest.number + 1
