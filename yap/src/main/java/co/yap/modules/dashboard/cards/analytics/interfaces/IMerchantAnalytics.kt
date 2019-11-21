@@ -4,9 +4,11 @@ import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMa
 import co.yap.yapcore.IBase
 
 interface IMerchantAnalytics {
-    interface View : IBase.View<ViewModel>
+    interface View : IBase.View<ViewModel> {
+        fun setObservers()
+    }
     interface ViewModel : IBase.ViewModel<State>{
-        var parentViewModelA: ICardAnalyticsMain.ViewModel?
+        var parentViewModel: ICardAnalyticsMain.ViewModel
     }
     interface State : IBase.State
 }

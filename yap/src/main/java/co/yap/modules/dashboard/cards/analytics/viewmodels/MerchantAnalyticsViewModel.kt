@@ -9,12 +9,15 @@ import co.yap.modules.dashboard.cards.analytics.states.MerchantAnalyticsState
 class MerchantAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<IMerchantAnalytics.State>(application = application),
     IMerchantAnalytics.ViewModel {
-    override var parentViewModelA: ICardAnalyticsMain.ViewModel? = null
+
+    override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
     override val state: MerchantAnalyticsState = MerchantAnalyticsState()
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModelA = parentViewModel
+        parentVM?.let {
+            parentViewModel = it
+        }
     }
 
 }
