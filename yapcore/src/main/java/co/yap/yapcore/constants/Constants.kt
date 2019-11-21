@@ -68,12 +68,13 @@ object Constants {
     const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
 
     //Core Payment Card Types
-    const val VISA = "VISA"
-    const val MASTER = "MASTERCARD"
+    const val VISA = "Visa"
+    const val MASTER = "Mastercard"
     const val JCB = "JCB"
-    const val DINNERS = "DINERS_CLUB"
-    const val AMEX = "AMEX"
-    const val DISCOVER = "DISCOVER"
+    const val DINNERS = "Diners Club"
+    const val AMEX = "American Express"
+    const val DISCOVER = "Discover"
+    const val UATP = "UATP"
 
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
 }
