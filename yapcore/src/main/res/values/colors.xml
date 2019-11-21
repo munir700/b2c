@@ -46,6 +46,7 @@
 
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
+    <color name="itemBackground">#fafafa</color>
 
 
     <color name="colorLightGreyGradient">#eff2f9</color>

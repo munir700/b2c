@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -41,6 +42,19 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            val adapter=getBinding().recycler.adapter as MerchantAnalyticsAdaptor
+
+            if (adapter.checkedPosition != pos) {
+                view.isSelected = true
+                view.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.itemBackground
+                    )
+                )
+                adapter.notifyItemChanged(adapter.checkedPosition)
+                adapter.checkedPosition = pos
+            }
             viewModel.parentViewModel.selectedItemPosition.value = pos
         }
     }
