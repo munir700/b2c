@@ -4,7 +4,7 @@ import android.view.View
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AdapterViewModel(
+class BeneficiaryItemViewModel(
     val beneficiary: Beneficiary?,
     val position: Int,
     private val onItemClickListener: OnItemClickListener?

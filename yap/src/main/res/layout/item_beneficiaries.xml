@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.YapContactItemViewModel" />
+            type="co.yap.modules.yapit.sendmoney.home.adapters.BeneficiaryItemViewModel" />
 
         <import type="android.view.View" />
 
@@ -93,10 +93,10 @@
                 <include
                     android:id="@+id/lyUserImage"
                     layout="@layout/layout_initial_image_user"
-                    app:image="@{viewModel.contact.beneficiaryPictureUrl}"
+                    app:image="@{viewModel.beneficiary.beneficiaryPictureUrl}"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:name="@{viewModel.contact.title}" />
+                    app:name="@{viewModel.beneficiary.title}" />
 
                 <LinearLayout
                     android:id="@+id/content"
@@ -121,7 +121,7 @@
                         android:gravity="bottom"
                         android:lineSpacingExtra="0dp"
                         android:lines="1"
-                        android:text="@{viewModel.contact.title}"
+                        android:text="@{viewModel.beneficiary.title}"
                         tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
                 </LinearLayout>

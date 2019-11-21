@@ -4,14 +4,13 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemBeneficiariesBinding
-import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.YapContactItemViewModel
-import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-
-class AllBeneficiriesAdapter(private val list: MutableList<Contact>) :
-    BaseBindingRecyclerAdapter<Contact, RecyclerView.ViewHolder>(list) {
+ 
+class AllBeneficiriesAdapter(private val list: MutableList<Beneficiary>) :
+    BaseBindingRecyclerAdapter<Beneficiary, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_beneficiaries
 
@@ -31,7 +30,7 @@ class AllBeneficiriesAdapter(private val list: MutableList<Contact>) :
         RecyclerView.ViewHolder(itemContactsBinding.root) {
 
         fun onBind(
-            contact: Contact?,
+            contact: Beneficiary?,
             position: Int,
             onItemClickListener: OnItemClickListener?
         ) {
@@ -48,7 +47,7 @@ class AllBeneficiriesAdapter(private val list: MutableList<Contact>) :
                 )
             )
             itemContactsBinding.viewModel =
-                YapContactItemViewModel(contact, position, onItemClickListener)
+                BeneficiaryItemViewModel(contact, position, onItemClickListener)
             itemContactsBinding.executePendingBindings()
         }
     }

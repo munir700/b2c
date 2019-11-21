@@ -6,7 +6,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.yapit.sendmoney.home.viewmodels.SendMoneyNoContactsViewModel" />
+            type="co.yap.modules.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
 
         <import type="co.yap.translation.Strings" />
 

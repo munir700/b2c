@@ -1,9 +1,12 @@
 package co.yap.modules.yapit.sendmoney.home.interfaces
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.helpers.PagingState
 
 interface ISendMoneyHome {
     interface State : IBase.State {
@@ -18,6 +21,11 @@ interface ISendMoneyHome {
 
         var allBeneficiariesList: List<Beneficiary>
         var recentBeneficiariesList: List<Beneficiary>
+        fun getState(): LiveData<PagingState>
+        var pagingState: MutableLiveData<PagingState>
+        val yapBeneficiaryLiveData: MutableLiveData<List<Beneficiary>>
+
+        fun requestAllBeneficiaries()
     }
 
     interface View : IBase.View<ViewModel>
