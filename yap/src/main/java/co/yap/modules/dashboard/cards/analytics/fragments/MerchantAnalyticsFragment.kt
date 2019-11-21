@@ -2,11 +2,13 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentMerchantAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.CategoryAnalyticsAdaptor
+import co.yap.modules.dashboard.cards.analytics.adaptors.MerchantAnalyticsAdaptor
 import co.yap.modules.dashboard.cards.analytics.interfaces.IMerchantAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
@@ -25,25 +27,23 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAdaptor()
-        setData()
+        setObservers()
     }
 
-    private fun setData() {
-        val list = ArrayList<AnalyticsItem>()
-        for (i in 0..4)
-            list.add(AnalyticsItem("Shopping", "4 transactions", "AED 600", "42%"))
-
-        (getBinding().recycler.adapter as CategoryAnalyticsAdaptor).setList(list)
+    private fun setObservers() {
+        viewModel.parentViewModelA?.merchantAnalyticsItemLiveData?.observe(this, Observer {
+            (getBinding().recycler.adapter as MerchantAnalyticsAdaptor).setList(it)
+        })
     }
 
     private fun initAdaptor() {
-        getBinding().recycler.adapter = CategoryAnalyticsAdaptor(mutableListOf())
-        (getBinding().recycler.adapter as CategoryAnalyticsAdaptor).setItemListener(listener)
+        getBinding().recycler.adapter = MerchantAnalyticsAdaptor(mutableListOf())
+        (getBinding().recycler.adapter as MerchantAnalyticsAdaptor).setItemListener(listener)
     }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-
+            showToast("clicked item ${(data as AnalyticsItem).transactionType}")
         }
     }
 

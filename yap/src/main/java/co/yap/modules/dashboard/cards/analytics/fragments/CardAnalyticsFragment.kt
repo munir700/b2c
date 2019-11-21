@@ -28,6 +28,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         super.onViewCreated(view, savedInstanceState)
         setupAdaptor()
         setupTabs()
+        viewModel.fetchCardAnalytics()
     }
 
     private fun setupAdaptor() {

@@ -4,6 +4,8 @@ import co.yap.yapcore.IBase
 
 interface ICardAnalytics {
     interface View : IBase.View<ViewModel>
-    interface ViewModel : IBase.ViewModel<State>
+    interface ViewModel : IBase.ViewModel<State>{
+        fun fetchCardAnalytics()
+    }
     interface State : IBase.State
 }

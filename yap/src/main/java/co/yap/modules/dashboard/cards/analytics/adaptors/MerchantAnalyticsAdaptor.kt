@@ -4,7 +4,6 @@ import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemAnalyticsBinding
-import co.yap.modules.dashboard.cards.analytics.adaptors.viewholders.CategoryAnalyticsItemViewHolder
 import co.yap.modules.dashboard.cards.analytics.adaptors.viewholders.MerchantAnalyticsItemViewHolder
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.yapcore.BaseBindingRecyclerAdapter
@@ -21,7 +20,7 @@ class MerchantAnalyticsAdaptor(private val list: MutableList<AnalyticsItem>) :
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        if (holder is CategoryAnalyticsItemViewHolder) {
+        if (holder is MerchantAnalyticsItemViewHolder) {
             holder.onBind(list[position], position, onItemClickListener)
         }
     }

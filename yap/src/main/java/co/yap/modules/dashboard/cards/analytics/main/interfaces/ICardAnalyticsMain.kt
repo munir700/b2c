@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.cards.analytics.main.interfaces
 
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -10,6 +12,8 @@ interface ICardAnalyticsMain {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
+        val categoryAnalyticsItemLiveData: MutableLiveData<ArrayList<AnalyticsItem>>
+        val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<AnalyticsItem>>
     }
 
     interface State : IBase.State {
@@ -18,6 +22,5 @@ interface ICardAnalyticsMain {
         var leftButtonVisibility: ObservableField<Boolean>
 
     }
-
 
 }
