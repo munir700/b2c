@@ -329,7 +329,7 @@
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="Share"
-            app:btn_drawable="@drawable/ic_share"
+            app:btn_drawable="@drawable/ic_share_white"
             app:btn_drawable_padding_left="10"
             app:btn_drawable_padding_top="4"
             app:btn_drawable_position="right"
