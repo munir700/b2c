@@ -101,7 +101,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
             getBindings().refreshLayout.isRefreshing = false
-        }else{
+        } else {
             getBindings().refreshLayout.isRefreshing = false
         }
     }
@@ -489,7 +489,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             when (intent?.action) {
                 BROADCAST_UPDATE_TRANSACTION -> {
                     onRefresh()
-                    showToast("Update Transaction List")
                 }
             }
         }
