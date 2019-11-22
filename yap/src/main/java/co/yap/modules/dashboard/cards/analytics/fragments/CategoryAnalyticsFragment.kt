@@ -33,20 +33,19 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     private fun setObservers() {
         viewModel.parentViewModel.categoryAnalyticsItemLiveData.observe(this, Observer {
-            (getBinding().recycler.adapter as CategoryAnalyticsAdaptor).setList(it)
+            getAdaptor().setList(it)
         })
     }
 
 
     private fun initAdaptor() {
         getBinding().recycler.adapter = CategoryAnalyticsAdaptor(mutableListOf())
-        (getBinding().recycler.adapter as CategoryAnalyticsAdaptor).setItemListener(listener)
+        getAdaptor().setItemListener(listener)
     }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            val adapter = getBinding().recycler.adapter as CategoryAnalyticsAdaptor
-            if (adapter.checkedPosition != pos) {
+            if (getAdaptor().checkedPosition != pos) {
                 view.isSelected = true
                 view.setBackgroundColor(
                     ContextCompat.getColor(
@@ -54,12 +53,16 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
                         R.color.itemBackground
                     )
                 )
-                adapter.notifyItemChanged(adapter.checkedPosition)
-                adapter.checkedPosition = pos
+                getAdaptor().notifyItemChanged(getAdaptor().checkedPosition)
+                getAdaptor().checkedPosition = pos
             }
             viewModel.parentViewModel.selectedItemPosition.value = pos
             //showToast("clicked item ${(data as AnalyticsItem).transactionType}")
         }
+    }
+
+    private fun getAdaptor(): CategoryAnalyticsAdaptor {
+        return getBinding().recycler.adapter as CategoryAnalyticsAdaptor
     }
 
     private fun getBinding(): FragmentCategoryAnalyticsBinding {
