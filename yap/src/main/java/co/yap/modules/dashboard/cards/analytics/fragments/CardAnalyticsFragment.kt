@@ -36,6 +36,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
 
     override fun setObservers() {
+        viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
@@ -54,6 +55,17 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
         })
+    }
+
+    private val clickEventObserver = Observer<Int> {
+        when (it) {
+            R.id.ivPrevious -> {
+                showToast("Previous")
+            }
+            R.id.ivNext -> {
+                showToast("Next")
+            }
+        }
     }
 
     private fun setupAdaptor() {

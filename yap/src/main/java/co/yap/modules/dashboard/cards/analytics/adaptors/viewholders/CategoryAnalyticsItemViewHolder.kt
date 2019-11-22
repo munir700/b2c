@@ -30,19 +30,16 @@ class CategoryAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnal
             }
         }
 
-
-        /*if (checkedPosition == position) {
-            itemAnalyticsBinding.lyAnalyticsItem.setBackgroundColor(
-                ContextCompat.getColor(
-                    itemAnalyticsBinding.root.context,
-                    R.color.greyLight
-                )
-            )
-        }*/
-
-
+        when (position) {
+            0 -> itemAnalyticsBinding.tvName.setTextColor(getColorFromId(R.color.colorSecondaryMagenta))
+            else -> itemAnalyticsBinding.tvName.setTextColor(getColorFromId(R.color.colorMidnightExpress))
+        }
         itemAnalyticsBinding.viewModel =
             AnalyticsItemViewModel(analyticsItem, position, onItemClickListener)
         itemAnalyticsBinding.executePendingBindings()
+    }
+
+    private fun getColorFromId(id: Int): Int {
+        return ContextCompat.getColor(itemView.context, id)
     }
 }

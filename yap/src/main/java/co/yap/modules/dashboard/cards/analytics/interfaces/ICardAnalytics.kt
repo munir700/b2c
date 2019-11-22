@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface ICardAnalytics {
     interface View : IBase.View<ViewModel> {
@@ -11,9 +12,11 @@ interface ICardAnalytics {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        fun fetchCardAnalytics()
+        val clickEvent: SingleClickEvent
         var selectedModel: MutableLiveData<AnalyticsItem>
         var parentViewModel: ICardAnalyticsMain.ViewModel
+        fun fetchCardAnalytics()
+        fun handlePressOnView(id: Int)
 
     }
 
