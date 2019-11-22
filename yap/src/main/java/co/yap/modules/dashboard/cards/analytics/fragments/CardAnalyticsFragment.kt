@@ -47,7 +47,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     }
 
-
     private fun setPieView() {
         chart = getBindingView().chart1
         chart!!.setUsePercentValues(false)
@@ -153,7 +152,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         val s =
             SpannableString("MPAndroidChart\ndeveloped by Philipp Jahoda")
         val d =
-            ContextCompat.getDrawable(context!!.applicationContext, R.drawable.arrow)
+            ContextCompat.getDrawable(context!!.applicationContext, R.drawable.ic_shopping)
         d!!.setBounds(0, 0, d.intrinsicWidth, d.intrinsicHeight)
         val span =
             ImageSpan(d, ImageSpan.ALIGN_BASELINE)
