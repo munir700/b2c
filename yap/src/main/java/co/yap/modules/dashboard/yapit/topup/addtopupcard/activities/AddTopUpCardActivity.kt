@@ -9,10 +9,10 @@ import android.webkit.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.AddTopUpCardDialog
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.interfaces.IAddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.viewmodels.AddTopUpCardViewModel
+import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
@@ -95,10 +95,9 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
                     if (it.contains("yap.co") || it.contains("transactions")) {
                         setDataForTopUpTransaction(true)
                         finish()
-                    }else{
+                    } else {
 
                     }
-
                 }
                 return super.onConsoleMessage(consoleMessage)
             }

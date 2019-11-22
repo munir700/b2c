@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.y2y.transfer.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -8,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import co.yap.R
@@ -17,11 +19,13 @@ import co.yap.modules.dashboard.yapit.y2y.transfer.interfaces.IY2YFundsTransfer
 import co.yap.modules.dashboard.yapit.y2y.transfer.viewmodels.Y2YFundsTransferViewModel
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
+
 
 class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2YFundsTransfer.View {
     val args: Y2YTransferFragmentArgs by navArgs()
@@ -45,7 +49,12 @@ class Y2YTransferFragment : Y2YBaseFragment<IY2YFundsTransfer.ViewModel>(), IY2Y
     }
 
     override fun setObservers() {
+
         viewModel.clickEvent.observe(this, Observer {
+            // Send Broadcast for updating transactions list in `Home Fragment`
+            val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+            LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
+
             val action =
                 Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
                     viewModel.state.fullName,

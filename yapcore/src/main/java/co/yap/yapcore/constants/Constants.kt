@@ -77,4 +77,6 @@ object Constants {
     const val UATP = "UATP"
 
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
+
+    const val BROADCAST_UPDATE_TRANSACTION :String = "BROADCAST_UPDATE_TRANSACTION"
 }
