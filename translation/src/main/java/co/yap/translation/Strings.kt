@@ -930,5 +930,9 @@ object Strings {
         "screen_card_analytics_display_tab_title_category"
     const val screen_card_analytics_display_tab_title_merchant: String =
         "screen_card_analytics_display_tab_title_merchant"
+    const val screen_card_analytics_display_month_average_text: String =
+        "screen_card_analytics_display_month_average_text"
+    const val screen_card_analytics_tool_bar_title: String =
+        "screen_card_analytics_tool_bar_title"
 
 }
