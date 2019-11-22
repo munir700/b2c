@@ -63,6 +63,13 @@
     <color name="master_card_gradient_top_color">#1caaa1</color>
 
 
+    <array name="analyticsColors">
+        <item>@color/colorSecondaryMagenta</item>
+        <item>@color/colorSecondaryBlue</item>
+        <item>@color/colorSecondaryOrange</item>
+        <item>@color/colorSecondaryGreen</item>
+        <item>@color/colorPrimaryDark</item>
+    </array>
 
 
 

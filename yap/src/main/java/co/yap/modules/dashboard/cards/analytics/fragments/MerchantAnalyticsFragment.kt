@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.cards.analytics.interfaces.IMerchantAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.MerchantAnalyticsViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.android.synthetic.main.item_analytics.view.*
 
 class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.ViewModel>(),
     IMerchantAnalytics.View {
@@ -42,6 +43,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            val colors = resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
             if (getAdaptor().checkedPosition != pos) {
                 view.isSelected = true
                 view.setBackgroundColor(
@@ -50,6 +52,7 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
                         R.color.itemBackground
                     )
                 )
+                view.tvName.setTextColor(colors[pos % colors.size])
                 getAdaptor().notifyItemChanged(getAdaptor().checkedPosition)
                 getAdaptor().checkedPosition = pos
             }
