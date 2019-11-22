@@ -7,7 +7,9 @@ import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMa
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
+import co.yap.networking.cards.responsedtos.TxnAnalytic
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.AnalyticsCategoryType
 
 class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
@@ -34,13 +36,25 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardAnalytics() {
-        val list = ArrayList<AnalyticsItem>()
-        val list2 = ArrayList<AnalyticsItem>()
-        for (i in 0..4)
-            list.add(AnalyticsItem("Shopping", 12, "5687.16", 0.5145))
+        val list = ArrayList<TxnAnalytic>()
+        val list2 = ArrayList<TxnAnalytic>()
 
-        for (i in 0..4)
-            list2.add(AnalyticsItem("Amazon", 4, "5687.16", 0.51234))
+        list2.add(TxnAnalytic("https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png","Amazon","887.12",0.07663441603317209,24))
+        list2.add(TxnAnalytic("https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png","Uber","887.12",0.07663441603317209,24))
+        list2.add(TxnAnalytic("https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg","Emirates","887.12",0.07663441603317209,24))
+        list2.add(TxnAnalytic("https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg","CANDY","887.12",0.07663441603317209,24))
+        list2.add(TxnAnalytic("https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg","Others","887.12",0.07663441603317209,24))
+
+        list.add(TxnAnalytic(null,"Food and drink","887.12",0.07663441603317209,10))
+        list.add(TxnAnalytic(null,"Travel","887.12",0.07663441603317209,20))
+        list.add(TxnAnalytic(null,"Shopping","887.12",0.07663441603317209,12))
+        list.add(TxnAnalytic(null,"Health and beauty","887.12",0.07663441603317209,4))
+        list.add(TxnAnalytic(null,"Others","887.12",0.07663441603317209,2))
+
+//            list.add(AnalyticsItem("Shopping", 12, "5687.16", 0.5145))
+//
+//        for (i in 0..4)
+//            list2.add(AnalyticsItem("Amazon", 4, "5687.16", 0.51234))
 
         parentVM?.categoryAnalyticsItemLiveData?.value = list
         parentVM?.merchantAnalyticsItemLiveData?.value = list2
