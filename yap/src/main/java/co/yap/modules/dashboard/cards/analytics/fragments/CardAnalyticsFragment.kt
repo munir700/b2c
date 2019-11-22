@@ -121,11 +121,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             )
         }
         /*TODO: Pie Chart Set Slice Space*/
-        val dataSet = PieDataSet(entries, "Election Results")
+        val dataSet = PieDataSet(entries, "")
         dataSet.setDrawIcons(false)
         dataSet.sliceSpace = 0f
-        dataSet.setIconsOffset(MPPointF(0f, 40f))
-        dataSet.setSelectionShift(20f)
+        dataSet.iconsOffset = MPPointF(0f, 40f)
+        dataSet.selectionShift = 20f
         dataSet.setDrawValues(false)
         // add a lot of colors
         val colors = ArrayList<Int>()
