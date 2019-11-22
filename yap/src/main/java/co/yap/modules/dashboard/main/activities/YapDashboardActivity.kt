@@ -29,14 +29,16 @@ import co.yap.databinding.ActivityYapDashboardBinding
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
+import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
-import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
 import co.yap.widgets.arcmenu.animation.SlideInAnimationHandler
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.enums.PartnerBankStatus
 import co.yap.yapcore.helpers.PermissionHelper
 import co.yap.yapcore.helpers.dimen
 import co.yap.yapcore.managers.MyUserManager
@@ -71,7 +73,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
     }
 
     private fun setupYapButton() {
-         actionMenu = FloatingActionMenu.Builder(this)
+        actionMenu = FloatingActionMenu.Builder(this)
             .setStartAngle(0)
             .setEndAngle(-180).setRadius(dimen(R.dimen._69sdp))
             .setAnimationHandler(SlideInAnimationHandler())
@@ -94,6 +96,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 this, 3
             )
             .attachTo(getViewBinding().ivYapIt).setAlphaOverlay(getViewBinding().flAlphaOverlay)
+            .setTxtYapIt(getViewBinding().txtYapIt)
             .setStateChangeListener(object :
                 FloatingActionMenu.MenuStateChangeListener {
                 override fun onMenuOpened(menu: FloatingActionMenu) {
@@ -102,10 +105,21 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
                 override fun onMenuClosed(menu: FloatingActionMenu, subActionButtonId: Int) {
                     when (subActionButtonId) {
-                        1 -> checkPermission()
-//                        2->checkPermission()
-//                        3->checkPermission()
+                        1 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                checkPermission()
+                            } else {
+                                showToast("Account activation pending")
+                            }
+                        }
+                        2 -> {
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                openTopUpScreen()
+                            } else {
+                                showToast("Account activation pending")
 
+                            }
+                        }
                     }
                 }
 
@@ -113,15 +127,18 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             .build()
     }
 
-    private fun setupPager() {
+    private fun openTopUpScreen() {
+        startActivity(TopUpLandingActivity.getIntent(this@YapDashboardActivity))
+    }
 
+    private fun setupPager() {
         adapter = YapDashboardAdaptor(supportFragmentManager)
         getViewBinding().viewPager.adapter = adapter
 
         with(getViewBinding().viewPager) {
             clipToPadding = false
             clipChildren = false
-            offscreenPageLimit = 2
+            offscreenPageLimit = 3
         }
         getViewBinding().viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
@@ -255,7 +272,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         if (actionMenu?.isOpen!! && !actionMenu?.isAnimating()!!) {
             actionMenu?.toggle(ivYapIt, true)
         } else if (drawerLayout.isDrawerOpen(GravityCompat.END)) closeDrawer()
-        else super.onBackPressed()
+        else if (getViewBinding().viewPager.currentItem != 0) {
+            bottomNav.selectedItemId = R.id.yapHome
+        } else super.onBackPressed()
     }
 
     private fun addListeners() {
@@ -279,7 +298,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     //getViewBinding().ivYapIt
                 }
                 R.id.yapCards -> {
-                    getViewBinding().viewPager.setCurrentItem(2, false)
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                        getViewBinding().viewPager.setCurrentItem(2, false)
+                    } else {
+                        showToast("Account activation pending")
+                    }
                 }
                 R.id.yapMore -> {
                     getViewBinding().viewPager.setCurrentItem(3, false)
@@ -293,6 +316,13 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it.itemId) {
                 R.id.yapIt -> {
                     checkPermission()
+                }
+                R.id.yapCards -> {
+                    if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                        getViewBinding().viewPager.setCurrentItem(2, false)
+                    } else {
+                        showToast("Account activation pending")
+                    }
                 }
             }
         }
@@ -320,11 +350,23 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             }
 
             override fun onPermissionDenied() {
-                showToast("Can't proceed without permissions")
+                startActivity(
+                    YapToYapDashboardActivity.getIntent(
+                        this@YapDashboardActivity,
+                        false,
+                        null
+                    )
+                )
             }
 
             override fun onPermissionDeniedBySystem() {
-                permissionHelper!!.openAppDetailsActivity()
+                startActivity(
+                    YapToYapDashboardActivity.getIntent(
+                        this@YapDashboardActivity,
+                        false,
+                        null
+                    )
+                )
             }
         })
     }

@@ -1,5 +1,6 @@
 package co.yap.modules.others.fragmentpresenter.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -82,6 +83,25 @@ class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewMod
 
     fun getViewBinding(): ActivityFragmentPresenterBinding {
         return (viewDataBinding as ActivityFragmentPresenterBinding)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            Constants.EVENT_CREATE_CARD_PIN -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    val isPinCreated: Boolean? =
+                        data?.getBooleanExtra(Constants.isPinCreated, false)
+                    if (isPinCreated!!) {
+                        val returnIntent = Intent()
+                        returnIntent.putExtra(Constants.isPinCreated, true)
+                        setResult(Activity.RESULT_OK, returnIntent)
+                    }
+                    finish()
+                }
+            }
+        }
     }
 
     override fun onBackPressed() {

@@ -111,7 +111,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
                 btnSetCardPin.visibility = View.GONE
                 btnCompleteVerification.visibility = View.GONE
             }
-            Constants.USER_STATUS_CARD_ACTIVATED -> {
+            co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED -> {
                 btnSetCardPin.visibility = View.GONE
                 btnCompleteVerification.visibility = View.GONE
             }
@@ -144,7 +144,7 @@ class LiteDashboardFragment : YapDashboardChildFragment<ILiteDashboard.ViewModel
     override fun onResume() {
         super.onResume()
 
-        if (Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
+        if (co.yap.yapcore.constants.Constants.USER_STATUS_CARD_ACTIVATED == MyUserManager.user?.notificationStatuses) {
             btnSetCardPin.visibility = View.GONE
             btnCompleteVerification.visibility = View.GONE
         }

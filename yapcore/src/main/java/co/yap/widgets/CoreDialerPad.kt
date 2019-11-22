@@ -29,6 +29,7 @@ class CoreDialerPad @JvmOverloads constructor(
     var editText: EditText
     var list: ArrayList<Int> = ArrayList()
     var dialerType = 0
+    var dialerMaxLength = 6
     val animShake = AnimationUtils.loadAnimation(context, R.anim.shake)
     var onButtonClickListener: View.OnClickListener? = null
 
@@ -105,7 +106,7 @@ class CoreDialerPad @JvmOverloads constructor(
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.CoreDialerPad, 0, 0)
             dialerType = typedArray.getInt(R.styleable.CoreDialerPad_dialer_pass_code, 0)
-            val dialerMaxLength = typedArray.getInt(R.styleable.CoreDialerPad_dialer_max_length, 6)
+            dialerMaxLength = typedArray.getInt(R.styleable.CoreDialerPad_dialer_max_length, 6)
             etPassCodeText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(dialerMaxLength))
 
             if (dialerType == 1) performPassCode()
@@ -123,17 +124,22 @@ class CoreDialerPad @JvmOverloads constructor(
             btnFingerPrint.setOnClickListener(onClickListener)
 
             buttonRemove.setOnClickListener {
-                    removePasscodeFromList()
-                    val length = etPassCodeText.length()
-                    if (length > 0) etPassCodeText.text.delete(length - 1, length)
+                removePasscodeFromList()
+                val length = etPassCodeText.length()
+                if (length > 0) etPassCodeText.text.delete(length - 1, length)
             }
         }
-
     }
 
     fun getText(): String {
         return etPassCodeText.text.toString()
     }
+
+    fun updateDialerLength(length: Int) {
+        dialerMaxLength = length
+        etPassCodeText.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(dialerMaxLength))
+    }
+
 
     fun startAnimation() {
         llPasscode.startAnimation(animShake)
@@ -162,10 +168,16 @@ class CoreDialerPad @JvmOverloads constructor(
     }
 
     fun performPassCode() {
-        etPassCodeText.textSize = resources.getDimension(R.dimen.text_size_h1) //R.dimen.margin_xxl.toFloat()
+        etPassCodeText.textSize =
+            resources.getDimension(R.dimen.text_size_h1) //R.dimen.margin_xxl.toFloat()
         etPassCodeText.visibility = View.GONE
         llPasscode.visibility = View.VISIBLE
-        btnFingerPrint.setImageDrawable(resources.getDrawable(R.drawable.ic_fingerprint_purple, null))
+        btnFingerPrint.setImageDrawable(
+            resources.getDrawable(
+                R.drawable.ic_fingerprint_purple,
+                null
+            )
+        )
     }
 
     private fun addListSizeForPasscode() {

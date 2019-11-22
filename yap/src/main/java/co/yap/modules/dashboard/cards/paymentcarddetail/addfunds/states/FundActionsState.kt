@@ -3,9 +3,12 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
@@ -14,7 +17,6 @@ import co.yap.yapcore.helpers.Utils
 import okhttp3.internal.Util
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
-
     var context: Context = application.applicationContext
     @get:Bindable
     override var cardNumber: String = ""
@@ -22,6 +24,8 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.cardNumber)
         }
+
+    override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
 
     @get:Bindable
     override var toolBarHeader: String = ""
@@ -172,6 +176,20 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         set(value) {
             field = value
             notifyPropertyChanged(BR.spareCardUpdatedBalance)
+        }
+
+    @get:Bindable
+    override var transactionFee: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionFee)
+        }
+
+    @get:Bindable
+    override var transactionFeeSpannableString: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionFeeSpannableString)
         }
 
     fun checkValidity(type: String): String {

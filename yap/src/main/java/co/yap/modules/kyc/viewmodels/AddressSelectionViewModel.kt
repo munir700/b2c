@@ -41,13 +41,14 @@ import com.google.android.libraries.places.api.net.FetchPhotoRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse
 import com.google.android.libraries.places.api.net.PlacesClient
-import java.lang.IndexOutOfBoundsException
 import java.util.*
 
 class AddressSelectionViewModel(application: Application) :
     BaseViewModel<IAddressSelection.State>(application),
     IAddressSelection.ViewModel, IRepositoryHolder<CardsRepository> {
 
+    var city: String = ""
+    var country: String = ""
     private val TAG = "AddressSelectionFragment"
     private lateinit var mMap: GoogleMap
     private var DEFAULT_ZOOM = 15
@@ -126,12 +127,23 @@ class AddressSelectionViewModel(application: Application) :
     }
 
     private fun requestOrderCard(id: Int) {
+//        mDefaultLocation =
+//            LatLng(
+//                mLastKnownLocation.getLatitude(),
+//                mLastKnownLocation.getLongitude()
+//            )
+//
+//
+//        setAddress(mDefaultLocation.latitude, mDefaultLocation.longitude)
+
+        setAddress(mDefaultLocation.latitude, mDefaultLocation.longitude)
         var orderCardRequest: OrderCardRequest = OrderCardRequest(
             state.landmarkField,
             "",
             state.addressField,
             mDefaultLocation.latitude,
-            mDefaultLocation.longitude
+            mDefaultLocation.longitude,
+            city, country
         )
         launch {
             state.loading = true
@@ -161,6 +173,14 @@ class AddressSelectionViewModel(application: Application) :
 
     override fun requestUpdateAddress(updateAddressRequest: UpdateAddressRequest) {
         state.error = ""
+//        mDefaultLocation =
+//            LatLng(
+//                mLastKnownLocation.getLatitude(),
+//                mLastKnownLocation.getLongitude()
+//            )
+//
+//
+//        setAddress(mDefaultLocation.latitude, mDefaultLocation.longitude)
 
         launch {
             state.loading = true
@@ -222,7 +242,8 @@ class AddressSelectionViewModel(application: Application) :
                     list = geocoder.getFromLocation(p0!!.latitude, p0!!.longitude, 1)
                     try {
                         var selectedAddress: Address = list.get(0)
-                        placeName = selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
+                        placeName =
+                            selectedAddress.getAddressLine(0).split(",").toTypedArray().get(0)
 //                    state.placeSubTitle= " "
                         placeSubTitle = selectedAddress.getAddressLine(0)
 
@@ -237,7 +258,7 @@ class AddressSelectionViewModel(application: Application) :
                         )
                         state.placeSubTitle = placeSubTitle
 
-                    }catch (e:IndexOutOfBoundsException){
+                    } catch (e: IndexOutOfBoundsException) {
                         e.printStackTrace()
 //                        locationMarker!!.isVisible = false
                         toggleMarkerVisibility()
@@ -283,15 +304,15 @@ class AddressSelectionViewModel(application: Application) :
         }
 //        if (state.isFromPersonalDetailView ) {
 //
-            locationSelectionStart = true
+        locationSelectionStart = true
 //        }
 //        if (state.isFromPersonalDetailView && locationSelectionStart){
 
-            state.landmarkField = this.placeName
-            state.addressField = this.placeSubTitle
+        state.landmarkField = this.placeName
+        state.addressField = this.placeSubTitle
 //        }
         state.headingTitle = this.placeName
- //        state.landmarkField = this.placeName
+        //        state.landmarkField = this.placeName
         toggleMarkerVisibility()
         state.placePhoto = this.placePhoto
         state.subHeadingTitle =
@@ -456,7 +477,7 @@ class AddressSelectionViewModel(application: Application) :
                                 placeSubTitle = markerSnippet.toString()
                             }
 
-                            if (state.isFromPersonalDetailView && !locationSelectionStart){
+                            if (state.isFromPersonalDetailView && !locationSelectionStart) {
 
                             }
 
@@ -569,4 +590,12 @@ class AddressSelectionViewModel(application: Application) :
         getDefaultLocationMap(mapDetailViewActivity)
     }
 
+
+    fun setAddress(latitude: Double, longitude: Double) {
+        var geocoder: Geocoder = Geocoder(getApplication())
+        list = geocoder.getFromLocation(latitude, longitude, 1)
+
+        city = list.get(0).locality
+        country = list.get(0).countryName
+    }
 }

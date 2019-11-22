@@ -8,6 +8,8 @@ class BackPressImpl(private val parentFragment: Fragment?) : OnBackPressedListen
     override fun onBackPressed(): Boolean =
         run {
             if (parentFragment == null) return false
-            (parentFragment.childFragmentManager.fragments[0] as? OnBackPressedListener)?.onBackPressed()!!
+            if (parentFragment.childFragmentManager.fragments.isNotEmpty())
+                (parentFragment.childFragmentManager.fragments[0] as? OnBackPressedListener)?.onBackPressed()!!
+            else false
         }
 }

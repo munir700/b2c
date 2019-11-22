@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.transaction.interfaces
 
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -16,6 +18,9 @@ interface ITransactionDetails {
 
     interface State : IBase.State {
         var toolBarTitle: String?
+        var isYtoYTransfer: ObservableField<Boolean>
+        var transactionSender: String?
+        var transactionReceiver: String?
         var transactionTitle: String?
         var spentTitle: String?
         var spentAmount: String

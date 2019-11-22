@@ -3,19 +3,23 @@ package co.yap.modules.dashboard.more.profile.viewmodels
 import android.app.Application
 import android.content.Context
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.provider.MediaStore
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.main.activities.MoreActivity.Companion.isDocumentRequired
+import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
 import co.yap.modules.dashboard.more.profile.intefaces.IProfile
 import co.yap.modules.dashboard.more.profile.states.ProfileStates
-import co.yap.modules.dashboard.more.main.viewmodels.MoreBaseViewModel
+import co.yap.networking.authentication.AuthRepository
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.managers.MyUserManager
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -30,10 +34,13 @@ class ProfileSettingsViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override var PROFILE_PICTURE_UPLOADED: Int = 100
+    override var EVENT_LOGOUT_SUCCESS: Int = 101
     override var showExpiredBadge: Boolean = false
     override lateinit var data: GetMoreDocumentsResponse
+    override val authRepository: AuthRepository = AuthRepository
     override val repository: CustomersRepository = CustomersRepository
     lateinit var multiPartImageFile: MultipartBody.Part
+    private val sharedPreferenceManager = SharedPreferenceManager(application)
 
     override val state: ProfileStates =
         ProfileStates()
@@ -91,7 +98,7 @@ class ProfileSettingsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-       // setToolBarTitle(getString(Strings.screen_profile_settings_display_text_title))
+        // setToolBarTitle(getString(Strings.screen_profile_settings_display_text_title))
     }
 
     override fun onCreate() {
@@ -99,8 +106,8 @@ class ProfileSettingsViewModel(application: Application) :
 
         requestProfileDocumentsInformation()
         state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-        if (MyUserManager.user!!.currentCustomer.getPicture().isNotEmpty()) {
-            state.profilePictureUrl = MyUserManager.user!!.currentCustomer.getPicture()
+        if (MyUserManager.user?.currentCustomer?.getPicture() != null) {
+            state.profilePictureUrl = MyUserManager.user?.currentCustomer?.getPicture()!!
         } else {
             state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
             state.nameInitialsVisibility = GONE
@@ -130,6 +137,25 @@ class ProfileSettingsViewModel(application: Application) :
         return path
     }
 
+    override fun logout() {
+        val deviceId: String? =
+            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_APP_UUID)
+        launch {
+            state.loading = true
+            when (val response = authRepository.logout(deviceId.toString())) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.setValue(EVENT_LOGOUT_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+            // Set a little delay in case of no in
+            // TODO: Fix this delay issue. It should not be written with a delay
+            //Handler(Looper.getMainLooper()).postDelayed({ state.loading = false }, 500)
+
+        }
+    }
 
     override fun requestUploadProfilePicture() {
 
@@ -161,7 +187,7 @@ class ProfileSettingsViewModel(application: Application) :
     }
 
     override fun requestProfileDocumentsInformation() {
- 
+
         launch {
             when (val response = repository.getMoreDocumentsByType("EMIRATES_ID")) {
 
@@ -177,8 +203,8 @@ class ProfileSettingsViewModel(application: Application) :
                     state.errorBadgeVisibility = VISIBLE
                     MoreActivity.showExpiredIcon = true
                     showExpiredBadge = true
-                     if (response.error.message.equals("HomeTransactionListData not found")){
-                         isDocumentRequired = true
+                    if (response.error.message.equals("HomeTransactionListData not found")) {
+                        isDocumentRequired = true
                     }
                 }
             }

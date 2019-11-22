@@ -2,6 +2,7 @@ package co.yap.widgets.arcmenu.animation
 
 import android.animation.Animator
 import android.graphics.Point
+import android.view.View
 import android.widget.FrameLayout
 import co.yap.widgets.arcmenu.FloatingActionMenu
 
@@ -93,6 +94,9 @@ abstract class MenuAnimationHandler {
         override fun onAnimationEnd(animation: Animator?) {
             setAnimating(false)
             menu!!.mainActionView.isClickable = true
+//            if (menu!!.isOpen) {
+//                menu!!.alphaOverlay?.visibility = View.GONE
+//            }
         }
 
         override fun onAnimationCancel(animation: Animator?) {

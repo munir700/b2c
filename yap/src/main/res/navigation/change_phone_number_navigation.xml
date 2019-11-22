@@ -8,21 +8,21 @@
         android:id="@+id/changePhoneNumberFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.ChangePhoneNumberFragment"
         android:label="ChangePhoneNumberFragment"
-        tools:layout="@layout/fragment_change_phone_number" >
+        tools:layout="@layout/fragment_change_phone_number">
         <action
             android:id="@+id/action_changePhoneNumberFragment_to_genericOtpFragment"
             app:destination="@id/genericOtpFragment2"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_changePhoneNumberFragment_to_successFragment"
             app:destination="@id/successFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/genericOtpFragment2"
-        android:name="co.yap.modules.generic_otp.GenericOtpFragment"
+        android:name="co.yap.modules.others.otp.GenericOtpFragment"
         android:label="GenericOtpFragment"
         tools:layout="@layout/fragment_phone_verification">
         <argument
@@ -50,13 +50,11 @@
         <argument
             android:name="staticString"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="destinationValue"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="successType"
             android:defaultValue=" "

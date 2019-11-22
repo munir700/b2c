@@ -43,7 +43,8 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
             menu!!.subActionItems[i].view.layoutParams = params
 
             //            PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, menu.getSubActionItems().get(i).x/* - center.x + menu.getSubActionItems().get(i).width / 2*/);
-            val pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f,-(DIST_Y.toFloat()+20f),-DIST_Y.toFloat())
+           // val pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f,-(DIST_Y.toFloat()+20f),-DIST_Y.toFloat())
+            val pvhY = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, 0f,-DIST_Y.toFloat())
             //            PropertyValuesHolder pvhsX = PropertyValuesHolder.ofFloat(View.SCALE_X, 1);
             //            PropertyValuesHolder pvhsY = PropertyValuesHolder.ofFloat(View.SCALE_Y, 1);
             val pvhA = PropertyValuesHolder.ofFloat(View.ALPHA, 0f, 1f)
@@ -53,7 +54,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                 pvhY,
                 pvhA
             )
-            animation.duration = DURATION.toLong()
+            animation.duration = 300
             animation.interpolator = DecelerateInterpolator()
             animation.addListener(
                 SubActionItemAnimationListener(
@@ -98,7 +99,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                 pvhY,
                 pvhA
             )
-            animation.duration = (DURATION + 125).toLong()
+            animation.duration = (DURATION+125 ).toLong()
             animation.interpolator = AccelerateInterpolator()
             animation.addListener(
                 SubActionItemAnimationListener(
@@ -107,6 +108,13 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                 )
             )
 
+            when (i) {
+                1 -> animation.startDelay = (menu!!.subActionItems.size * 100).toLong()
+                2 -> animation.startDelay = 100.toLong()
+                else -> animation.startDelay =
+                    ((menu!!.subActionItems.size - 1) * 100).toLong()
+                //animation.setStartDelay((menu.getSubActionItems().size() - i) * LAG_BETWEEN_ITEMS);
+            }
             if (i == 0) {
                 lastAnimation = animation
             }

@@ -11,131 +11,131 @@
 
     </data>
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/main_content"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:fitsSystemWindows="true">
+        android:orientation="vertical"
+
+        app:srcCompat="@color/colorPrimary">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/clSnackbar"
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:rotation="180"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:fillViewport="true">
 
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
+                android:id="@+id/clSnackbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:rotation="180"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvAvailableBalance"
-            style="@style/ALarge"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="66dp"
-            android:elevation="10dp"
-            android:gravity="center"
-            android:text="@={viewModel.state.availableBalance}"
-            android:textAlignment="center"
-            android:textSize="@dimen/text_size_h7"
-            app:behavior_animation="@anim/scale_yap_dashboard_home_title"
-            app:behavior_dependTarget="-60dp"
-            app:behavior_dependType="y"
-            app:behavior_dependsOn="@+id/appbar"
-            app:layout_behavior="@string/animation_view_behavior"
-            tools:text="50,174.78" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:alpha="1"
-            android:orientation="vertical"
-            app:behavior_dependTarget="-60dp"
-            app:behavior_dependType="y"
-            app:behavior_dependsOn="@+id/appbar"
-            app:behavior_targetAlpha="0"
-            app:layout_behavior="@string/simple_view_behavior">
 
             <TextView
-                style="@style/ASmall"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_18sdp"
-                android:layout_gravity="center"
-                android:background="@drawable/tag_background"
-                android:gravity="center"
-                android:text="AED"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/transparent"
-            android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.AppBarOverlay"
-            app:elevation="0dp">
-
-            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/tvAvailableBalance"
+                style="@style/ALarge"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/collapsing_toolbar_height"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="66dp"
+                android:elevation="10dp"
+                android:gravity="center"
+                android:text="@={viewModel.state.availableBalance}"
+                android:textAlignment="center"
+                android:textSize="@dimen/text_size_h7"
+                app:behavior_animation="@anim/scale_yap_dashboard_home_title"
+                app:behavior_dependTarget="-60dp"
+                app:behavior_dependType="y"
+                app:behavior_dependsOn="@+id/appbar"
+                app:layout_behavior="@string/animation_view_behavior"
+                tools:text="50,174.78" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:alpha="1"
+                android:orientation="vertical"
+                app:behavior_dependTarget="-60dp"
+                app:behavior_dependType="y"
+                app:behavior_dependsOn="@+id/appbar"
+                app:behavior_targetAlpha="0"
+                app:layout_behavior="@string/simple_view_behavior">
+
+                <TextView
+                    style="@style/ASmall"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_18sdp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/tag_background"
+                    android:gravity="center"
+                    android:text="AED"
+                    android:textColor="@color/colorPrimary"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
                 android:fitsSystemWindows="true"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:titleEnabled="false">
+                android:theme="@style/AppTheme.AppBarOverlay"
+                app:elevation="0dp">
 
-                <androidx.appcompat.widget.Toolbar
+                <com.google.android.material.appbar.CollapsingToolbarLayout
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    app:layout_collapseMode="pin">
+                    android:layout_height="@dimen/collapsing_toolbar_height"
+                    android:fitsSystemWindows="true"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:titleEnabled="false">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <androidx.appcompat.widget.Toolbar
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="?attr/actionBarSize"
+                        app:layout_collapseMode="pin">
 
-                        <ImageView
-                            android:id="@+id/ivSearch"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginEnd="@dimen/margin_small"
-                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_search" />
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content">
 
-                        <ImageView
-                            android:id="@+id/ivMenu"
-                            android:layout_width="26dp"
-                            android:layout_height="26dp"
-                            android:layout_marginStart="@dimen/margin_small"
-                            android:layout_marginEnd="@dimen/margin_small"
-                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                            app:layout_constraintBottom_toBottomOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_hamburger" />
+                            <ImageView
+                                android:id="@+id/ivSearch"
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:layout_marginStart="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_search" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-                </androidx.appcompat.widget.Toolbar>
+                            <ImageView
+                                android:id="@+id/ivMenu"
+                                android:layout_width="26dp"
+                                android:layout_height="26dp"
+                                android:layout_marginStart="@dimen/margin_small"
+                                android:layout_marginEnd="@dimen/margin_small"
+                                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent"
+                                app:srcCompat="@drawable/ic_hamburger" />
 
-            </com.google.android.material.appbar.CollapsingToolbarLayout>
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+                    </androidx.appcompat.widget.Toolbar>
 
-        </com.google.android.material.appbar.AppBarLayout>
+                </com.google.android.material.appbar.CollapsingToolbarLayout>
 
-<!--        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout-->
-<!--            android:id="@+id/refreshLayout"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:orientation="vertical"-->
-<!--            app:layout_behavior="@string/scroll_behavior"-->
-<!--            app:srcCompat="@color/colorPrimary">-->
+            </com.google.android.material.appbar.AppBarLayout>
 
             <include
                 android:id="@+id/lyInclude"
@@ -143,9 +143,7 @@
                 android:visibility="visible"
                 app:viewModel="@{viewModel}" />
 
-<!--        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </layout>

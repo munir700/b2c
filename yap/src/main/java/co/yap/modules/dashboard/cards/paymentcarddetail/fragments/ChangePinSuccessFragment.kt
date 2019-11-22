@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.interfaces.IChangeCardPinSuccess
 import co.yap.modules.dashboard.cards.paymentcarddetail.viewmodels.ChangeCardPinSuccessViewModel
 import co.yap.yapcore.BaseBindingFragment
@@ -17,6 +18,14 @@ class ChangePinSuccessFragment : BaseBindingFragment<IChangeCardPinSuccess.ViewM
 
     override val viewModel: IChangeCardPinSuccess.ViewModel
         get() = ViewModelProviders.of(this).get(ChangeCardPinSuccessViewModel::class.java)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if(activity is ForgotCardPinActivity){
+            (activity as ForgotCardPinActivity).viewModel.state.toolBarVisibility=false
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

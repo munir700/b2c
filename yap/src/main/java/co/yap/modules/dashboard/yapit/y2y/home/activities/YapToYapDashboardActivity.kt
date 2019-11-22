@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import android.view.MotionEvent
+import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -17,6 +19,7 @@ import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import kotlinx.android.synthetic.main.activity_yap_to_yap_dashboard.*
 
 class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INavigator,
     IFragmentHolder {
@@ -48,6 +51,10 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
         super.onCreate(savedInstanceState)
         viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
         viewModel.clickEvent.observe(this, clickEventObserver)
+        main.setOnTouchListener { _, _ ->
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(currentFocus!!.windowToken, 0)
+        }
     }
 
     private val clickEventObserver = Observer<Int> {
@@ -62,7 +69,7 @@ class YapToYapDashboardActivity : BaseBindingActivity<IY2Y.ViewModel>(), INaviga
     }
 
     private fun getBody(): String {
-        return ""
+        return Utils.getGeneralInvitationBody(this)
     }
 
     override fun onBackPressed() {

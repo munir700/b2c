@@ -29,6 +29,7 @@ object CardsRepository : BaseRepository(), CardsApi {
     const val URL_REMOVE_CARD = "/cards/api/cards/close"
     const val URL_UPDATE_CARD_NAME = "/cards/api/cards/card-name"
     const val URL_CHANGE_CARD_PIN = "/cards/api/cards/change-pin"
+    const val URL_FORGOT_CARD_PIN = "/cards/api/cards/forgot-pin/{card-serial-number}"
 
     const val URL_REPORT_LOST_OR_STOLEN_CARD = "/cards/api/card-hot-list"
 
@@ -122,7 +123,13 @@ object CardsRepository : BaseRepository(), CardsApi {
 
 
     override suspend fun editAddressRequest(
-        address : UpdateAddressRequest
+        address: UpdateAddressRequest
     ): RetroApiResponse<ApiResponse> =
         AuthRepository.executeSafely(call = { API.editAddressRequest(address) })
+
+    override suspend fun forgotCardPin(
+        cardSerialNumber: String,
+        forgotCardPin: ForgotCardPin
+    ): RetroApiResponse<ApiResponse> =
+        AuthRepository.executeSafely(call = { API.forgotCardPin(cardSerialNumber, forgotCardPin) })
 }

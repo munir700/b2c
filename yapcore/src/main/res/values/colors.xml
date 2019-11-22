@@ -27,6 +27,9 @@
     <color name="disabled">#4D7C4DFF</color>
     <color name="disabledLight">#235e35b1</color>
     <color name="divider">#1b979797</color>
+    <color name="dialogBtnColor">#673ab7</color>
+    <color name="dialogTitleColor">#de000000</color>
+    <color name="disabledPurple">#297c4dff</color>
 
     <color name="colorSecondaryGreen">#00b9ae</color>
     <color name="colorSecondaryOrange">#f57f17</color>
@@ -52,6 +55,12 @@
     <color name="kycCard">#247c4dff</color>
     <color name="copyBtn">#a0a682ff</color>
     <color name="seekbarProgress">#287c4dff</color>
+    <color name="card_gradient_bottom_color">#5a2fb1</color>
+    <color name="master_card_gradient_bottom_color">#4bdcd8</color>
+    <color name="master_card_gradient_top_color">#1caaa1</color>
+
+
+
 
 
 </resources>

@@ -1,5 +1,9 @@
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+
+
 android {
     defaultConfig {
         applicationId "co.yap"
@@ -9,7 +13,7 @@ android {
     productFlavors {
 
         live {
-            versionCode 1
+            versionCode 4
             resValue "string", "app_name", "YAP"
             buildConfigField("String", "BASE_URL", "\"https://demo.yap.co\"")
         }
@@ -22,15 +26,15 @@ android {
         }
 
         qa {
-            versionCode 16
+            versionCode 24
             applicationIdSuffix ".qa"
             buildConfigField("String", "BASE_URL", "\"https://qa.yap.co\"")
             resValue "string", "app_name", "YAP QA"
         }
 
-        stage {
+        stg {
             versionCode 1
-            applicationIdSuffix ".stage"
+            applicationIdSuffix ".stg"
             buildConfigField("String", "BASE_URL", "\"https://stg.yap.co\"")
             resValue "string", "app_name", "YAP Stage"
         }

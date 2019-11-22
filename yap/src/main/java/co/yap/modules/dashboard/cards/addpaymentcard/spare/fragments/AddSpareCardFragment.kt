@@ -82,6 +82,7 @@ class AddSpareCardFragment : AddPaymentChildFragment<IAddSpareCard.ViewModel>(),
                     val updatedCardBalance =
                         (availableBalance?.minus(physicalCardFee))
 
+                    //todo dont mange balacne on client side
                     MyUserManager.cardBalance.value = CardBalance(availableBalance = updatedCardBalance.toString())
 
                     if (!viewModel.isFromBlockCardScreen) {

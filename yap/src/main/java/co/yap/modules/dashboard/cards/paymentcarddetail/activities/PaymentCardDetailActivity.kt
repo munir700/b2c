@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.activities.AddFundsActivity
+import co.yap.modules.dashboard.cards.paymentcarddetail.forgotcardpin.activities.ForgotCardPinActivity
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.CardClickListener
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.PrimaryCardBottomSheet
 import co.yap.modules.dashboard.cards.paymentcarddetail.fragments.SpareCardBottomSheet
@@ -47,6 +48,7 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
+
 
     private lateinit var snackbar: Snackbar
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
@@ -300,6 +302,16 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
                     showToast("Please unfreeze card to use this feature")
                 }
             }
+
+            Constants.EVENT_FORGOT_CARD_PIN -> {
+                startActivity(
+                    ForgotCardPinActivity.newIntent(
+                        this,
+                        viewModel.card.value!!.cardSerialNumber
+                    )
+                )
+            }
+
             Constants.EVENT_VIEW_STATEMENTS -> {
                 startActivity(CardStatementsActivity.newIntent(this, viewModel.card.value!!))
             }
@@ -413,10 +425,14 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            if (data is Content) {
-                startActivity(TransactionDetailsActivity.newIntent(applicationContext,
-                    (data as HomeTransactionListData).content[0].transactionId))
-            }
+//            if (data is Content) {
+//                startActivity(
+//                    TransactionDetailsActivity.newIntent(
+//                        applicationContext,
+//                        (data as HomeTransactionListData).content[0].transactionId
+//                    )
+//                )
+//            }
         }
     }
 

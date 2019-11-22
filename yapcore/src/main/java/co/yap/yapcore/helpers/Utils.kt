@@ -6,13 +6,14 @@ import android.app.AlertDialog
 import android.content.*
 import android.content.Intent.ACTION_VIEW
 import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import android.icu.util.TimeZone
 import android.net.Uri
 import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -22,8 +23,14 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import androidx.annotation.ColorRes
 import androidx.core.content.ContextCompat
+import co.yap.networking.customers.requestdtos.Contact
+import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.R
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
+import java.math.RoundingMode
 import java.text.DecimalFormat
 import java.util.*
 import java.util.regex.Pattern
@@ -350,6 +357,87 @@ object Utils {
         }
     }
 
+    fun getSppnableStringForAmount(
+        context: Context,
+        staticString: String,
+        currencyType: String,
+        amount: String
+    ): SpannableStringBuilder? {
+        return try {
+            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            val separated = staticString.split(currencyType)
+            val str = SpannableStringBuilder(staticString)
+
+            str.setSpan(
+                fcs,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str
+        }catch (e:Exception){
+            return null
+        }
+
+
+    }
+    fun getSpannableString(
+        context: Context,
+        staticString: String?,
+        startDestination: String?
+    ): SpannableStringBuilder? {
+        return try {
+        val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+        val separated = staticString?.split(startDestination!!)
+        val str = SpannableStringBuilder(staticString)
+
+        str.setSpan(
+            fcs,
+            separated?.get(0)!!.length,
+            separated[0].length + startDestination!!.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+            str
+        }catch (e:Exception){
+            e.printStackTrace()
+            return null
+        }
+
+    }
+
+    fun getSpannableStringForLargerBalance(
+        context: Context,
+        staticString: String,
+        currencyType: String,
+        amount: String
+    ): SpannableStringBuilder? {
+        return try {
+            var textSize=context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
+            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            val fcsLarge = AbsoluteSizeSpan(textSize)
+            val separated = staticString.split(currencyType)
+            val str = SpannableStringBuilder(staticString)
+
+            str.setSpan(
+                fcs,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str.setSpan(
+                fcsLarge,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str
+        }catch (e:Exception){
+            return null
+        }
+
+
+    }
+
     @SuppressLint("DefaultLocale")
     fun getCountryCodeFromTelephony(context: Context): String {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -419,6 +507,7 @@ object Utils {
         context.startActivity(Intent.createChooser(sharingIntent, "Share"))
     }
 
+
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
@@ -450,4 +539,39 @@ object Utils {
         R.color.colorSecondaryGreen,
         R.color.colorSecondaryOrange
     )
+
+    fun getTwoDecimalPlaces(value: Double): Double {
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(value).toDouble()
+    }
+
+    fun getBody(context: Context, contact: Contact): String {
+        return Translator.getString(
+            context,
+            Strings.common_display_text_y2y_share,
+            StringUtils.getFirstname(contact.title!!),
+            MyUserManager.user!!.currentCustomer.firstName,
+            Constants.URL_SHARE_APP_STORE,
+            Constants.URL_SHARE_PLAY_STORE
+        )
+    }
+
+    fun getGeneralInvitationBody(context: Context): String {
+        return Translator.getString(
+            context,
+            Strings.common_display_text_y2y_general_share,
+            MyUserManager.user!!.currentCustomer.firstName,
+            Constants.URL_SHARE_APP_STORE,
+            Constants.URL_SHARE_PLAY_STORE
+        )
+    }
+
+    fun getFormattedCardNumber(cardNumber: String): String {
+        return if (cardNumber.length == 4)
+            "XXXX XXXX XXXX $cardNumber"
+        else
+            "XXXX XXXX XXXX XXXX"
+
+    }
 }
