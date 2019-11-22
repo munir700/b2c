@@ -512,11 +512,6 @@ object Utils {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
 
-    fun getAnalyticsColors(context: Context, position: Int): Int {
-        val colors = context.resources.getIntArray(R.array.analyticsColors)
-        return ContextCompat.getColor(context, colors[position % colors.size])
-    }
-
     fun getContactBackground(context: Context, position: Int) =
         ContextCompat.getDrawable(context, backgrounds[position % backgrounds.size])
 

@@ -103,24 +103,25 @@
                     </LinearLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/headerContent"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/lyCurrencyType">
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivPrevious"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                            android:padding="@dimen/_10sdp"
-                            android:src="@drawable/ic_back_arrow_left_gery"
-                            app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
-                            app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
-                            app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
-                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivPrevious"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/ic_back_arrow_left_gery"
+                app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
+                app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
+                app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
+                app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
 
 
                         <TextView
@@ -147,20 +148,25 @@
                             app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
                             tools:text="AED 1,457.10" />
 
-                        <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/ivNext"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                            android:padding="@dimen/_10sdp"
-                            android:src="@drawable/ic_chevron_right"
-                            app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
-                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/ivNext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                android:padding="@dimen/_10sdp"
+                android:src="@drawable/ic_chevron_right"
+                app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
+                app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
-
+        <co.yap.widgets.pieview.PieChart
+            android:id="@+id/chart1"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_180sdp"
+            app:layout_constraintTop_toBottomOf="@+id/headerContent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>

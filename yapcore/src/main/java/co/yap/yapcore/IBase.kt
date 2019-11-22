@@ -2,11 +2,9 @@ package co.yap.yapcore
 
 import android.content.Context
 import co.yap.yapcore.helpers.NetworkConnectionManager
-import java.util.*
-
 
 interface IBase {
-    interface View<V: ViewModel<*>> : NetworkConnectionManager.OnNetworkStateChangeListener {
+    interface View<V : ViewModel<*>> : NetworkConnectionManager.OnNetworkStateChangeListener {
         val viewModel: V
         fun showLoader(isVisible: Boolean)
         fun showToast(msg: String)
@@ -31,6 +29,7 @@ interface IBase {
         fun reset()
         // fun getString(key: String): String
         fun destroy()
+
         fun init()
         fun resume()
         fun pause()
