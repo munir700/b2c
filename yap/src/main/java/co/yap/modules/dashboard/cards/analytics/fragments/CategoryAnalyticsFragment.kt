@@ -38,7 +38,6 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
         })
     }
 
-
     private fun initAdaptor() {
         getBinding().recycler.adapter = CategoryAnalyticsAdaptor(mutableListOf())
         getAdaptor().setItemListener(listener)
