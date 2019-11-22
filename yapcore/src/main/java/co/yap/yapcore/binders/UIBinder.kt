@@ -25,12 +25,15 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.TxnAnalytic
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.CoreDialerPad
 import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.AnalyticsCategoryType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.DateUtils
@@ -50,7 +53,56 @@ import java.util.*
 
 object UIBinder {
 
-    // Top up card status
+    @BindingAdapter("categoryItem", "position")
+    @JvmStatic
+    fun setCategoryItem(
+        circularImage: CoreCircularImageView,
+        txnAnalytic: TxnAnalytic?, position: Int
+    ) {
+        txnAnalytic?.let {
+
+            when (txnAnalytic.title) {
+                AnalyticsCategoryType.TRAVEL.name -> {
+                    circularImage.setImageResource(R.drawable.ic_no_transaction)
+                }
+                AnalyticsCategoryType.foodAndDrinks.name -> {
+                    circularImage.setImageResource(R.drawable.ic_add_card)
+                }
+                AnalyticsCategoryType.shopping.name -> {
+                    circularImage.setImageResource(R.drawable.ic_top_up)
+                }
+                AnalyticsCategoryType.other.name -> {
+                    circularImage.setImageResource(R.drawable.ic_top_up)
+                }
+                AnalyticsCategoryType.shopping.name -> {
+                    circularImage.setImageResource(R.drawable.ic_top_up)
+                }
+                else -> {
+                    circularImage.setImageResource(R.drawable.ic_send_money)
+                }
+            }
+            updateColorScheme(circularImage, position)
+        }
+    }
+
+    private fun updateColorScheme(circularImage: CoreCircularImageView, position: Int) {
+        when (position) {
+            0 -> {
+                circularImage.drawable.setTint(R.color.red)
+            }
+            1 -> {
+                circularImage.drawable.setTint(R.color.lp_blue)
+            }
+            2 -> {
+                circularImage.drawable.setTint(R.color.lp_green)
+            }
+            2 -> {
+                circularImage.drawable.setTint(R.color.colorPrimary)
+            }
+
+        }
+    }
+
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {
