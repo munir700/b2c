@@ -102,62 +102,62 @@
                             tools:text="AED" />
                     </LinearLayout>
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lyCurrencyType">
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lyCurrencyType">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivPrevious"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_back_arrow_left_gery"
-                app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
-                app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
-                app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
-                app:layout_constraintStart_toStartOf="parent"
-                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                android:padding="@dimen/_10sdp"
-                app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
-                app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivPrevious"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                            android:padding="@dimen/_10sdp"
+                            android:src="@drawable/ic_back_arrow_left_gery"
+                            app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
+                            app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
+                            app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
+                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
 
 
-            <TextView
-                android:id="@+id/tvTransactionMonth"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:text="Jun 1 - Jun 30"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:text="Jun 1 - Jun 30" />
+                        <TextView
+                            android:id="@+id/tvTransactionMonth"
+                            style="@style/AMicroGrey"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="28dp"
+                            android:text="Jun 1 - Jun 30"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.498"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Jun 1 - Jun 30" />
 
-            <TextView
-                android:id="@+id/tvTotalSpent"
-                style="@style/ALarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AED 1,457.10"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
-                tools:text="AED 1,457.10" />
+                        <TextView
+                            android:id="@+id/tvTotalSpent"
+                            style="@style/ALarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AED 1,457.10"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
+                            tools:text="AED 1,457.10" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_chevron_right"
-                app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                android:padding="@dimen/_10sdp"
-                app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
-                app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivNext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                            android:padding="@dimen/_10sdp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
+                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
