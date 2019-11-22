@@ -34,7 +34,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.fetchCardAnalytics()
     }
 
-
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {

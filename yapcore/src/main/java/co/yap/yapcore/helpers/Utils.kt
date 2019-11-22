@@ -512,9 +512,13 @@ object Utils {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
 
+    fun getAnalyticsColors(context: Context, position: Int): Int {
+        val colors = context.resources.getIntArray(R.array.analyticsColors)
+        return ContextCompat.getColor(context, colors[position % colors.size])
+    }
+
     fun getContactBackground(context: Context, position: Int) =
         ContextCompat.getDrawable(context, backgrounds[position % backgrounds.size])
-
 
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
@@ -539,6 +543,7 @@ object Utils {
         R.color.colorSecondaryGreen,
         R.color.colorSecondaryOrange
     )
+
 
     fun getTwoDecimalPlaces(value: Double): Double {
         val df = DecimalFormat("#.##")
