@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.cards.analytics.interfaces.ICategoryAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CategoryAnalyticsViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.android.synthetic.main.item_analytics.view.*
 
 
 class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.ViewModel>(),
@@ -37,7 +38,6 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
         })
     }
 
-
     private fun initAdaptor() {
         getBinding().recycler.adapter = CategoryAnalyticsAdaptor(mutableListOf())
         getAdaptor().setItemListener(listener)
@@ -45,6 +45,7 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            val colors = resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
             if (getAdaptor().checkedPosition != pos) {
                 view.isSelected = true
                 view.setBackgroundColor(
@@ -53,11 +54,12 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
                         R.color.itemBackground
                     )
                 )
+                view.tvName.setTextColor(colors[pos % colors.size])
+
                 getAdaptor().notifyItemChanged(getAdaptor().checkedPosition)
                 getAdaptor().checkedPosition = pos
             }
             viewModel.parentViewModel.selectedItemPosition.value = pos
-            //showToast("clicked item ${(data as AnalyticsItem).transactionType}")
         }
     }
 

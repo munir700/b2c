@@ -195,14 +195,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     showToast(
                         "Position $it and data is ${viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
                             it
-                        )?.transactionType}"
+                        )?.title}"
                     )
                 }
                 MERCHANT_ANALYTICS -> {
                     showToast(
                         "Position $it and data is ${viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
                             it
-                        )?.transactionType}"
+                        )?.title}"
                     )
                 }
             }

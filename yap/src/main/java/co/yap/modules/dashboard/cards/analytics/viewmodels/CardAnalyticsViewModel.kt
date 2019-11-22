@@ -37,10 +37,10 @@ class CardAnalyticsViewModel(application: Application) :
         val list = ArrayList<AnalyticsItem>()
         val list2 = ArrayList<AnalyticsItem>()
         for (i in 0..4)
-            list.add(AnalyticsItem("Shopping", "4 transactions", "AED 600", "42%"))
+            list.add(AnalyticsItem("Shopping", 12, "5687.16", 0.5145))
 
         for (i in 0..4)
-            list2.add(AnalyticsItem("Amazon", "3 transactions", "AED 1450", "52%"))
+            list2.add(AnalyticsItem("Amazon", 4, "5687.16", 0.51234))
 
         parentVM?.categoryAnalyticsItemLiveData?.value = list
         parentVM?.merchantAnalyticsItemLiveData?.value = list2

@@ -7,6 +7,7 @@ import co.yap.databinding.ItemAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.MerchantAnalyticsAdaptor
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel
+import co.yap.yapcore.helpers.getColors
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class MerchantAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnalyticsBinding) :
@@ -28,6 +29,11 @@ class MerchantAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnal
                         if (adapter?.checkedPosition == position) R.color.greyLight else R.color.white
                     )
                 )
+                itemAnalyticsBinding.tvName.setTextColor(
+                    if (adapter?.checkedPosition == position) context.getColors(R.color.colorMidnightExpress)
+                    else context.getColors(R.color.colorMidnightExpress)
+                )
+                isSelected = adapter?.checkedPosition == position
                 isSelected = adapter?.checkedPosition == position
             }
         }

@@ -36,6 +36,7 @@
         </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/headerContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,20 +96,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <co.yap.widgets.pieview.PieChart
-
             android:id="@+id/chart1"
-            android:layout_width="@dimen/_200sdp"
-            android:layout_height="@dimen/_200sdp"
-            tools:ignore="MissingConstraints" />
-
-        <LinearLayout
-            android:id="@+id/vGraph"
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_200sdp"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="@dimen/_180sdp"
+            android:layout_height="@dimen/_180sdp"
+            app:layout_constraintTop_toBottomOf="@+id/headerContent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabLayout"
@@ -117,7 +110,7 @@
             android:layout_marginTop="@dimen/margin_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/vGraph"
+            app:layout_constraintTop_toBottomOf="@+id/chart1"
             app:tabGravity="fill"
             app:tabIndicatorHeight="@dimen/_2sdp"
             app:tabMaxWidth="0dp"

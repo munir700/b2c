@@ -9,6 +9,7 @@
             name="viewModel"
             type="co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -58,7 +59,7 @@
                 android:gravity="bottom"
                 android:lineSpacingExtra="0dp"
                 android:lines="1"
-                android:text="@{viewModel.analyticsItem.transactionType}"
+                android:text="@{viewModel.analyticsItem.title}"
                 tools:text="Shopping" />
 
             <TextView
@@ -69,7 +70,7 @@
                 android:layout_weight="1"
                 android:ellipsize="end"
                 android:lines="1"
-                android:text="@{viewModel.analyticsItem.transactionCount}"
+                android:text="@{viewModel.analyticsItem.txnCount+` transactions`}"
                 tools:text="5 transactions" />
 
         </LinearLayout>
@@ -80,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="@{viewModel.analyticsItem.spentAmount}"
+            android:text="@{`AED ` +Utils.INSTANCE.getFormattedCurrency(viewModel.analyticsItem.totalSpending)}"
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/content"
@@ -90,7 +91,7 @@
             android:id="@+id/tvSpendingPercentage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewModel.analyticsItem.spentPercentage}"
+            android:text="@{Utils.INSTANCE.getTwoDecimalPlaces(viewModel.analyticsItem.totalSpendingInPercentage)+`%`}"
             app:layout_constraintBottom_toBottomOf="@+id/content"
             app:layout_constraintEnd_toEndOf="@+id/tvAmount"
             tools:text="42%" />
