@@ -1,6 +1,7 @@
 package co.yap.app.modules.startup.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import androidx.lifecycle.Observer
@@ -42,7 +43,8 @@ class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View
         view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
         viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
 
-var tocuchEnable: Boolean= true
+        var tocuchEnable: Boolean = true
+
         welcome_pager!!.setOnTouchListener(object : View.OnTouchListener {
             override fun onTouch(
                 v: View?,
@@ -50,25 +52,42 @@ var tocuchEnable: Boolean= true
             ): Boolean {
                 when (event!!.action) {
                     MotionEvent.ACTION_DOWN -> {
-                        if (welcome_pager.currentItem<2){
-                            welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
+
+                        Log.i("eventxyz", "2 == " + event!!.getX().toString())
+
+                        if (event!!.getX() < 490) {
+                            //tapped on left of center
+                            if (welcome_pager.currentItem > 0) {
+                                welcome_pager.setCurrentItem(welcome_pager.currentItem - 1)
+                            }
                             return true
-
                         }
+                        if (event!!.getX() > 490) {
+                            //tapped on right of center
+                            if (welcome_pager.currentItem < 2) {
+                                welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
+                                return true
 
+                            }
+                        }
                     }
-
-                    MotionEvent.EDGE_LEFT -> {
-                        return true
-                    }
+//
+//                    MotionEvent.ACTION_DOWN -> {
+//                        if (welcome_pager.currentItem<2){
+//                            welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
+//                            return true
+//
+//                        }
+//}
                 }
-                return false
+
+                return false  // setting up false is necessary to consider swipe
+
             }
         })
     }
 
 
-    
     override fun onDestroyView() {
         viewModel.onGetStartedPressEvent.removeObservers(this)
         super.onDestroyView()
