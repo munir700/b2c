@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMa
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
+import co.yap.yapcore.SingleClickEvent
 
 class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
@@ -14,8 +15,7 @@ class CardAnalyticsViewModel(application: Application) :
     override val state: CardAnalyticsState = CardAnalyticsState()
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
-
-
+    override val clickEvent: SingleClickEvent = SingleClickEvent()
     override fun onCreate() {
         super.onCreate()
         parentVM?.let {
@@ -27,6 +27,10 @@ class CardAnalyticsViewModel(application: Application) :
         super.onResume()
         setToolBarTitle("Analytics")
 
+    }
+
+    override fun handlePressOnView(id: Int) {
+        clickEvent.setValue(id)
     }
 
     override fun fetchCardAnalytics() {

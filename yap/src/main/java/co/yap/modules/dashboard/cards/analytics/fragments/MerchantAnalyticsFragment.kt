@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -30,19 +31,34 @@ class MerchantAnalyticsFragment : CardAnalyticsBaseFragment<IMerchantAnalytics.V
 
     override fun setObservers() {
         viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
-            (getBinding().recycler.adapter as MerchantAnalyticsAdaptor).setList(it)
+            getAdaptor().setList(it)
         })
     }
 
     private fun initAdaptor() {
         getBinding().recycler.adapter = MerchantAnalyticsAdaptor(mutableListOf())
-        (getBinding().recycler.adapter as MerchantAnalyticsAdaptor).setItemListener(listener)
+        getAdaptor().setItemListener(listener)
     }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (getAdaptor().checkedPosition != pos) {
+                view.isSelected = true
+                view.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.itemBackground
+                    )
+                )
+                getAdaptor().notifyItemChanged(getAdaptor().checkedPosition)
+                getAdaptor().checkedPosition = pos
+            }
             viewModel.parentViewModel.selectedItemPosition.value = pos
         }
+    }
+
+    private fun getAdaptor(): MerchantAnalyticsAdaptor {
+        return getBinding().recycler.adapter as MerchantAnalyticsAdaptor
     }
 
     private fun getBinding(): FragmentMerchantAnalyticsBinding {

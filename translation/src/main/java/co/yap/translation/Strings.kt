@@ -878,6 +878,10 @@ object Strings {
         "screen_topup_card_detail_display_text_hint_card_type"
     const val screen_topup_card_detail_display_text_hint_card_expiry: String =
         "screen_topup_card_detail_display_text_hint_card_expiry"
+    const val screen_topup_card_details_display_text_remove_card_confirmation: String =
+        "screen_topup_card_details_display_text_remove_card_confirmation"
+    const val screen_topup_card_details_display_text_remove_card_confirmation_remove: String =
+        "screen_topup_card_details_display_text_remove_card_confirmation_remove"
 
     //TopUpFundsScreen
     const val screen_topup_transfer_display_text_screen_title: String =

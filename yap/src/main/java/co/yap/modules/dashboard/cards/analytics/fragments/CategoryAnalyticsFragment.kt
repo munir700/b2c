@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.analytics.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -12,6 +13,7 @@ import co.yap.modules.dashboard.cards.analytics.interfaces.ICategoryAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CategoryAnalyticsViewModel
 import co.yap.yapcore.interfaces.OnItemClickListener
+
 
 class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.ViewModel>(),
     ICategoryAnalytics.View {
@@ -31,22 +33,36 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
 
     private fun setObservers() {
         viewModel.parentViewModel.categoryAnalyticsItemLiveData.observe(this, Observer {
-            (getBinding().recycler.adapter as CategoryAnalyticsAdaptor).setList(it)
+            getAdaptor().setList(it)
         })
     }
 
 
     private fun initAdaptor() {
         getBinding().recycler.adapter = CategoryAnalyticsAdaptor(mutableListOf())
-        (getBinding().recycler.adapter as CategoryAnalyticsAdaptor).setItemListener(listener)
+        getAdaptor().setItemListener(listener)
     }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (getAdaptor().checkedPosition != pos) {
+                view.isSelected = true
+                view.setBackgroundColor(
+                    ContextCompat.getColor(
+                        requireContext(),
+                        R.color.itemBackground
+                    )
+                )
+                getAdaptor().notifyItemChanged(getAdaptor().checkedPosition)
+                getAdaptor().checkedPosition = pos
+            }
             viewModel.parentViewModel.selectedItemPosition.value = pos
-
             //showToast("clicked item ${(data as AnalyticsItem).transactionType}")
         }
+    }
+
+    private fun getAdaptor(): CategoryAnalyticsAdaptor {
+        return getBinding().recycler.adapter as CategoryAnalyticsAdaptor
     }
 
     private fun getBinding(): FragmentCategoryAnalyticsBinding {

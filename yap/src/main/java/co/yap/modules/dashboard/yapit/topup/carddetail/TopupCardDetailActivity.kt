@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Parcelable
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
@@ -68,9 +69,24 @@ class TopupCardDetailActivity : BaseBindingActivity<ITopUpCardDetail.ViewModel>(
             R.id.IvClose -> finish()
             R.id.tvRemoveCard -> {
                 viewModel.state.cardInfo.get()?.id?.let { it ->
-                    viewModel.onRemoveCard(it)
+                    removeCardAlert(it)
                 }
             }
         }
+    }
+
+    private fun removeCardAlert(id: String) {
+        AlertDialog.Builder(this)
+            .setMessage(getString(R.string.screen_topup_card_details_display_text_remove_card_confirmation))
+            .setPositiveButton(
+                getString(R.string.screen_topup_card_details_display_text_remove_card_confirmation_remove)
+            ) { _, _ ->
+                viewModel.onRemoveCard(id)
+            }
+            .setNegativeButton(
+                getString(R.string.screen_profile_settings_logout_display_text_alert_cancel),
+                null
+            )
+            .show()
     }
 }

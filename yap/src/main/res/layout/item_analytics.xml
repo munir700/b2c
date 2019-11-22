@@ -17,8 +17,13 @@
         android:layout_height="wrap_content"
         android:paddingEnd="@dimen/_10sdp"
         android:paddingStart="@dimen/_10sdp"
-        android:background="@color/greyLight"
         android:onClick="@{(v) -> viewModel.onViewClicked(v)}">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            >
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/lyUserImage"
@@ -27,7 +32,8 @@
             android:contentDescription="@string/empty_string"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/colorPrimaryDark"/>
+            android:src="@drawable/ic_shopping" />
+
 
         <LinearLayout
             android:id="@+id/content"
@@ -37,7 +43,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/lyUserImage"
             app:layout_constraintEnd_toStartOf="@+id/tvAmount"
             app:layout_constraintStart_toEndOf="@+id/lyUserImage"
             app:layout_constraintTop_toTopOf="@+id/lyUserImage">
@@ -88,6 +94,14 @@
             app:layout_constraintBottom_toBottomOf="@+id/content"
             app:layout_constraintEnd_toEndOf="@+id/tvAmount"
             tools:text="42%" />
-
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="@+id/content"
+            app:layout_constraintEnd_toEndOf="@id/tvAmount"
+            app:layout_constraintTop_toBottomOf="@+id/lyUserImage"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:background="@color/divider"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
