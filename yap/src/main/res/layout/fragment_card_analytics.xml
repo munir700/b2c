@@ -10,125 +10,159 @@
             type="co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <LinearLayout
-            android:id="@+id/lyCurrencyType"
-            android:layout_width="@dimen/_60sdp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_small"
-            android:background="@drawable/tab_background_selected"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/_2sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                style="@style/Micro"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="AED"
-                android:textColor="@color/colorPrimary"
-                tools:text="AED" />
-        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/headerContent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/lyCurrencyType">
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivPrevious"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_back_arrow_left_gery"
-                app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
-                app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
-                app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
-                app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
-
-
-            <TextView
-                android:id="@+id/tvTransactionMonth"
-                style="@style/AMicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="28dp"
-                android:text="Jun 1 - Jun 30"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
+            <co.yap.widgets.pieview.PieChart
+                android:id="@+id/chart1"
+                android:layout_width="@dimen/_180sdp"
+                android:layout_height="@dimen/_180sdp"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="Jun 1 - Jun 30" />
-
-            <TextView
-                android:id="@+id/tvTotalSpent"
-                style="@style/ALarge"
-                android:layout_width="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="AED 1,457.10"
+                android:layout_marginTop="@dimen/margin_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
-                tools:text="AED 1,457.10" />
+                app:layout_constraintTop_toBottomOf="@+id/chart1"
+                app:tabGravity="fill"
+                app:tabIndicatorHeight="@dimen/_2sdp"
+                app:tabMaxWidth="0dp"
+                app:tabMode="fixed"
+                app:tabPaddingEnd="16dp"
+                app:tabRippleColor="@null"
+                app:tabTextAppearance="@style/TabTextCardAnalytics" />
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/ivNext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
-                android:padding="@dimen/_10sdp"
-                android:src="@drawable/ic_chevron_right"
-                app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/viewPager"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
-                app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <co.yap.widgets.pieview.PieChart
-            android:id="@+id/chart1"
-            android:layout_width="@dimen/_180sdp"
-            android:layout_height="@dimen/_180sdp"
-            app:layout_constraintTop_toBottomOf="@+id/headerContent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_normal"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chart1"
-            app:tabGravity="fill"
-            app:tabIndicatorHeight="@dimen/_2sdp"
-            app:tabMaxWidth="0dp"
-            app:tabMode="fixed"
-            app:tabPaddingEnd="16dp"
-            app:tabRippleColor="@null"
-            app:tabTextAppearance="@style/TabTextCardAnalytics" />
+            android:background="@color/white"
+            android:fitsSystemWindows="true"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="0dp">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:elevation="0dp"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
+
+                    <LinearLayout
+                        android:id="@+id/lyCurrencyType"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_small"
+                        android:gravity="center"
+                        android:padding="@dimen/_2sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            style="@style/Micro"
+                            android:layout_width="@dimen/_60sdp"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/tab_background_selected"
+                            android:gravity="center"
+                            android:text="AED"
+                            android:textColor="@color/colorPrimary"
+                            tools:text="AED" />
+                    </LinearLayout>
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/headerContent"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/lyCurrencyType">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivPrevious"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                            android:padding="@dimen/_10sdp"
+                            android:src="@drawable/ic_back_arrow_left_gery"
+                            app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
+                            app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
+                            app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
+                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+
+
+                        <TextView
+                            android:id="@+id/tvTransactionMonth"
+                            style="@style/AMicroGrey"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="28dp"
+                            android:text="Jun 1 - Jun 30"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_bias="0.498"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:text="Jun 1 - Jun 30" />
+
+                        <TextView
+                            android:id="@+id/tvTotalSpent"
+                            style="@style/ALarge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="AED 1,457.10"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
+                            tools:text="AED 1,457.10" />
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/ivNext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+                            android:padding="@dimen/_10sdp"
+                            android:src="@drawable/ic_chevron_right"
+                            app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
+                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
+
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </layout>
