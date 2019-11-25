@@ -5,8 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.MerchantAnalyticsAdaptor
-import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel
+import co.yap.networking.cards.responsedtos.TxnAnalytic
 import co.yap.yapcore.helpers.getColors
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -15,7 +15,7 @@ class MerchantAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnal
 
     fun onBind(
         adapter: MerchantAnalyticsAdaptor?,
-        analyticsItem: AnalyticsItem?,
+        analyticsItem: TxnAnalytic?,
         position: Int,
         onItemClickListener: OnItemClickListener?
     ) {

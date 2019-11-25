@@ -6,10 +6,11 @@ import co.yap.R
 import co.yap.databinding.ItemAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.viewholders.CategoryAnalyticsItemViewHolder
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
+import co.yap.networking.cards.responsedtos.TxnAnalytic
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
-class CategoryAnalyticsAdaptor(private val list: MutableList<AnalyticsItem>) :
-    BaseBindingRecyclerAdapter<AnalyticsItem, RecyclerView.ViewHolder>(list) {
+class CategoryAnalyticsAdaptor(private val list: MutableList<TxnAnalytic>) :
+    BaseBindingRecyclerAdapter<TxnAnalytic, RecyclerView.ViewHolder>(list) {
 
     var checkedPosition: Int = -1
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_analytics

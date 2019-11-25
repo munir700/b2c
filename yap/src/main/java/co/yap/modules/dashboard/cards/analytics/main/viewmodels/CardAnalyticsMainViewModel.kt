@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.states.CardAnalyticsMainState
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
+import co.yap.networking.cards.responsedtos.TxnAnalytic
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,9 +15,9 @@ class CardAnalyticsMainViewModel(application: Application) :
     override val state: CardAnalyticsMainState =
         CardAnalyticsMainState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    override val categoryAnalyticsItemLiveData: MutableLiveData<ArrayList<AnalyticsItem>> =
+    override val categoryAnalyticsItemLiveData: MutableLiveData<ArrayList<TxnAnalytic>> =
         MutableLiveData()
-    override val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<AnalyticsItem>> =
+    override val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<TxnAnalytic>> =
         MutableLiveData()
     override val selectedItemPosition: MutableLiveData<Int> = MutableLiveData()
 

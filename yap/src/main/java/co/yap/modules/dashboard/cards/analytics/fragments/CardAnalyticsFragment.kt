@@ -158,11 +158,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 //                    )
 
 
-                    val value = it
-                    val highlight = Highlight(1.0f, 1.0f, 1)
-                    //pieChart.highlightValue(highlight); //doesn't call onValueSelected()
-                    //pieChart.highlightValue(highlight); //doesn't call onValueSelected()
-                    chart!!.highlightValue(highlight, true) //call onValueSelected()
+//                    val value = it
+//                    val highlight = Highlight(1.0f, 1.0f, 1)
+//                    //pieChart.highlightValue(highlight); //doesn't call onValueSelected()
+//                    //pieChart.highlightValue(highlight); //doesn't call onValueSelected()
+//                    chart!!.highlightValue(highlight, true) //call onValueSelected()
 
 
                 }
