@@ -30,15 +30,12 @@ class RecyclerTouchListener(
                     }
                     return true
                 }
-
-
             })
 
         recyclerView.addOnItemTouchListener(this)
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-        // gestureDetector.onTouchEvent(e)
         when (e.action) {
             MotionEvent.ACTION_DOWN -> {
                 mLastMotionX = e.x.toInt()

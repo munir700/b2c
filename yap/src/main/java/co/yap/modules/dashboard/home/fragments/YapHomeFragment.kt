@@ -83,11 +83,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
         getBindings().refreshLayout.setOnRefreshListener(this)
-//        rvTransactionsBarChart.layoutManager = LinearLayoutManager(
-//            context,
-//            LinearLayoutManager.HORIZONTAL,
-//            true
-//        )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
         getBindings().lyInclude.rvTransaction.apply {
@@ -192,6 +187,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 } else {
                     getRecycleViewAdaptor()?.setList(it)
                     getGraphRecycleViewAdapter()?.setList(it)
+                    transactionViewHelper?.setTooltipOnZero()
                 }
             }
         })
@@ -454,24 +450,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         } else {
             null
         }
-    }
-
-    fun setUpGraph() {
-//        if (!viewModel.transactionLogicHelper.transactionList.isNullOrEmpty()) {
-//            rvTransactionsBarChart.adapter =
-//                GraphBarsAdapter(
-//                    viewModel.transactionLogicHelper.transactionList,
-//                    /*activity!!.applicationContext,*/
-//                    viewModel.MAX_CLOSING_BALANCE
-//                )
-
-//            rvTransactionsBarChart.layoutManager = LinearLayoutManager(
-//                context,
-//                LinearLayoutManager.HORIZONTAL,
-//                true
-//            )
-
-//        }
     }
 
 
