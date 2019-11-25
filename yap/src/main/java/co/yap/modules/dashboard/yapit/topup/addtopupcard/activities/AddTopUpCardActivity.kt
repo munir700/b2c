@@ -94,7 +94,7 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
             }
         }
         wb.settings.javaScriptEnabled = true
-        wb.clearCache(true)
+//        wb.clearCache(true)
         wb.settings.setSupportZoom(true)
         wb.loadUrl(viewModel.state.url)
     }
@@ -121,8 +121,12 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
                     }
                 }
             }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+            }
         }
-        wb.clearCache(true)
+//        wb.clearCache(true)
         wb.settings.javaScriptEnabled = true
         wb.settings.setSupportZoom(true)
         //        wb.loadUrl(viewModel.state.url)
