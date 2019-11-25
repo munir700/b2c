@@ -29,14 +29,23 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"/>
+            <TextView
+                android:id="@+id/tvMonthlyAverage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:text="Monthly average is AED 1,600.47"
+                style="@style/MicroGrey"
+                app:layout_constraintTop_toBottomOf="@+id/chart1"
+                />
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/chart1"
+                app:layout_constraintTop_toBottomOf="@+id/tvMonthlyAverage"
                 app:tabGravity="fill"
                 app:tabIndicatorHeight="@dimen/_2sdp"
                 app:tabMaxWidth="0dp"
@@ -91,11 +100,12 @@
 
                         <TextView
                             style="@style/Micro"
-                            android:layout_width="@dimen/_60sdp"
+                            android:layout_width="@dimen/_45sdp"
                             android:layout_height="wrap_content"
                             android:background="@drawable/tab_background_selected"
                             android:gravity="center"
-                            android:text="AED"
+                            android:padding="@dimen/_1sdp"
+                            android:text="@{viewModel.state.currencyType}"
                             android:textColor="@color/colorPrimary"
                             tools:text="AED" />
                     </LinearLayout>

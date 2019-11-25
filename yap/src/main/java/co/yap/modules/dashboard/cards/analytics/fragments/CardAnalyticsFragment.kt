@@ -25,6 +25,7 @@ import co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsViewMode
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
+import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
@@ -43,6 +44,12 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         setupAdaptor()
         setupTabs()
         setPieView()
+        getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
+            requireContext(),
+            viewModel.state.monthlyAverageString,
+            "AED",
+            "5600.00"
+        )
         viewModel.fetchCardAnalytics()
 
     }
@@ -115,7 +122,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 PieEntry(
                     (Math.random() * range + range / 5).toFloat(),
                     parties[i % parties.size],
-                    resources.getDrawable(R.drawable.arrow)
+                    resources.getDrawable(R.drawable.arrow,null)
                 )
             )
         }
