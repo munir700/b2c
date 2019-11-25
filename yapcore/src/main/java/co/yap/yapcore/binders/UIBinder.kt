@@ -25,12 +25,15 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.cards.responsedtos.TxnAnalytic
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.CoreDialerPad
 import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
+import co.yap.yapcore.enums.AnalyticsCategoryType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.DateUtils
@@ -50,7 +53,62 @@ import java.util.*
 
 object UIBinder {
 
-    // Top up card status
+    @BindingAdapter("categoryItem", "position")
+    @JvmStatic
+    fun setCategoryItem(
+        circularImage: CoreCircularImageView,
+        txnAnalytic: TxnAnalytic?, position: Int
+    ) {
+        txnAnalytic?.let {
+            if (!it.logoUrl.isNullOrEmpty()) {
+                circularImage.loadImage(it.logoUrl!!)
+            } else {
+
+                when (txnAnalytic.title) {
+                    AnalyticsCategoryType.TRAVEL.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    AnalyticsCategoryType.foodAndDrinks.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    AnalyticsCategoryType.shopping.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    AnalyticsCategoryType.other.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    AnalyticsCategoryType.healthAndBeauty.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    else -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                }
+                updateColorScheme(circularImage, position)
+            }
+        }
+    }
+
+    private fun updateColorScheme(circularImage: CoreCircularImageView, position: Int) {
+        when (position) {
+            0 -> {
+                circularImage.drawable.setTint(R.color.colorSecondaryMagenta)
+            }
+            1 -> {
+                circularImage.drawable.setTint(R.color.colorSecondaryBlue)
+            }
+            2 -> {
+                circularImage.drawable.setTint(R.color.colorSecondaryOrange)
+            }
+            3 -> {
+                circularImage.drawable.setTint(R.color.colorSecondaryGreen)
+            }
+            4 -> {
+                circularImage.drawable.setTint(R.color.disabledPurple)
+            }
+        }
+    }
+
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {

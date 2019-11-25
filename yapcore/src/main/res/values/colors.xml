@@ -68,7 +68,7 @@
         <item>@color/colorSecondaryBlue</item>
         <item>@color/colorSecondaryOrange</item>
         <item>@color/colorSecondaryGreen</item>
-        <item>@color/colorPrimaryDark</item>
+        <item>@color/disabledPurple</item>
     </array>
 
 

@@ -191,18 +191,18 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
-                    showToast(
-                        "Position $it and data is ${viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
-                            it
-                        )?.title}"
-                    )
+//                    showToast(
+//                        "Position $it and data is ${viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
+//                            it
+//                        )?.title}"
+//                    )
                 }
                 MERCHANT_ANALYTICS -> {
-                    showToast(
-                        "Position $it and data is ${viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
-                            it
-                        )?.title}"
-                    )
+//                    showToast(
+//                        "Position $it and data is ${viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
+//                            it
+//                        )?.title}"
+//                    )
                 }
             }
         })
