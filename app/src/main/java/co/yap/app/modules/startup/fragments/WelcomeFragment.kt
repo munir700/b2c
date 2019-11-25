@@ -153,7 +153,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
                 }
 
-                return false  // setting up false is necessary to consider swipe
+                return true  // setting up false is necessary to consider swipe
 
             }
         })
