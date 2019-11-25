@@ -33,7 +33,6 @@ import co.yap.modules.setcardpin.activities.SetCardPinWelcomeActivity
 import co.yap.modules.transaction_filters.activities.TransactionFiltersActivity
 import co.yap.networking.transactions.responsedtos.transaction.Content
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
-import co.yap.widgets.SpacesItemDecoration
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -43,6 +42,9 @@ import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -150,8 +152,27 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (viewModel.isLoadMore.value!!) {
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
-                getRecycleViewAdaptor()?.setList(it)
-                getGraphRecycleViewAdapter()?.setList(it)
+
+                val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
+                val oldData = getGraphRecycleViewAdapter()?.getDataList()
+                for (parentItem in it) {
+
+                    var shouldAppend = false
+                    for (i in 0 until oldData?.size!!) {
+                        if (parentItem.date == oldData[i].date) {
+                            if (parentItem.content.size != oldData[i].content.size) {
+                                shouldAppend = false
+                                break
+                            }
+                            shouldAppend = true
+                            break
+                        }
+                    }
+                    if (!shouldAppend)
+                        listToAppend.add(parentItem)
+                }
+                getGraphRecycleViewAdapter()?.addList(listToAppend)
+                getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
                     ivNoTransaction.visibility = View.VISIBLE
@@ -167,22 +188,24 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getRecycleViewAdaptor()?.setItemListener(listener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
         //getBindings().lyInclude.rvTransaction.addOnScrollListener(endlessScrollListener)
-        getBindings().lyInclude.rvTransaction.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val layoutManager =
-                    getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
-                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                    if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
-                        viewModel.isLoadMore.value = true
+        getBindings().lyInclude.rvTransaction.addOnScrollListener(
+            object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager =
+                        getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
+                    val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
+                            viewModel.isLoadMore.value = true
+                        }
                     }
                 }
-            }
-        })
+            })
 
-        viewModel.isLoadMore.observe(this, Observer {
+        viewModel.isLoadMore.observe(this, Observer
+        {
             if (it) {
                 YAPApplication.homeTransactionsRequest.number =
                     YAPApplication.homeTransactionsRequest.number + 1
@@ -198,6 +221,18 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
 
         })
+    }
+
+    private fun convertDate(creationDate: String): String? {
+        val parser = SimpleDateFormat("yyyy-MM-dd")
+        parser.setTimeZone(TimeZone.getTimeZone("UTC"))
+        val convertedDate = parser.parse(creationDate)
+
+        val pattern = "MMMM dd, yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        val date = simpleDateFormat.format(convertedDate)
+
+        return date
     }
 
     private fun checkUserStatus() {
