@@ -18,7 +18,7 @@ class HorizontalNonScrollRecyclerView(
         val typedArray =
             context.obtainStyledAttributes(attrs, R.styleable.HorizontalNonScrollRecyclerView)
         canScroll =
-            typedArray.getBoolean(R.styleable.HorizontalNonScrollRecyclerView_canScroll, canScroll)
+            typedArray.getBoolean(R.styleable.HorizontalNonScrollRecyclerView_canScroll, false)
         scrollEnable =
             typedArray.getBoolean(
                 R.styleable.HorizontalNonScrollRecyclerView_scroll_enable,

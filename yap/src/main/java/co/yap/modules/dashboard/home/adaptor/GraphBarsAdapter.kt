@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.home.adaptor
 
+import android.util.Log
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -28,12 +29,6 @@ class GraphBarsAdapter(
         return GraphViewHolder(binding as ItemBarChartV2Binding, viewModel)
     }
 
-    companion object {
-        var previouslySelected: Int = 0
-        var isCellHighlighted: Boolean = false
-        var isCellHighlightedFromTransaction: Boolean = false
-    }
-
     override fun onBindViewHolder(holder: GraphViewHolder, position: Int) {
         val transactionModel: HomeTransactionListData = listItems[position]
         holder.transactionBar.onFocusChangeListener = this
@@ -44,10 +39,6 @@ class GraphBarsAdapter(
             holder.transactionBar.isSelected = false
 
         } else {
-//            if(checkedPosition == 0)
-//            {
-//                helper?.addTooltip(holder.itemView.findViewById(R.id.transactionBar), transactionModel)
-//            }
             holder.transactionBar.isSelected = checkedPosition == holder.adapterPosition
         }
 
@@ -70,8 +61,6 @@ class GraphBarsAdapter(
         //   viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
         //}
     }
-
-
     override fun getItemCount(): Int {
         helper?.totalItemCount = listItems.size
         return listItems.size
