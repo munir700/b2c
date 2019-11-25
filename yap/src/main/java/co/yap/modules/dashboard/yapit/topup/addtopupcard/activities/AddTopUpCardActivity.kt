@@ -86,6 +86,7 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
                             )
                         } else {
                             showToast(errors.toString())
+                            recreate()
                         }
                         return true
                     }
