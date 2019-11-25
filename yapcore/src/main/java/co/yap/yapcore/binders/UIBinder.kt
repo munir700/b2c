@@ -60,46 +60,52 @@ object UIBinder {
         txnAnalytic: TxnAnalytic?, position: Int
     ) {
         txnAnalytic?.let {
+            if (!it.logoUrl.isNullOrEmpty()) {
+                circularImage.loadImage(it.logoUrl!!)
+            } else {
 
-            when (txnAnalytic.title) {
-                AnalyticsCategoryType.TRAVEL.name -> {
-                    circularImage.setImageResource(R.drawable.ic_no_transaction)
+                when (txnAnalytic.title) {
+                    AnalyticsCategoryType.TRAVEL.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    AnalyticsCategoryType.foodAndDrinks.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    AnalyticsCategoryType.shopping.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    AnalyticsCategoryType.other.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    AnalyticsCategoryType.healthAndBeauty.title -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
+                    else -> {
+                        circularImage.setImageResource(R.drawable.ic_send_money)
+                    }
                 }
-                AnalyticsCategoryType.foodAndDrinks.name -> {
-                    circularImage.setImageResource(R.drawable.ic_add_card)
-                }
-                AnalyticsCategoryType.shopping.name -> {
-                    circularImage.setImageResource(R.drawable.ic_top_up)
-                }
-                AnalyticsCategoryType.other.name -> {
-                    circularImage.setImageResource(R.drawable.ic_top_up)
-                }
-                AnalyticsCategoryType.shopping.name -> {
-                    circularImage.setImageResource(R.drawable.ic_top_up)
-                }
-                else -> {
-                    circularImage.setImageResource(R.drawable.ic_send_money)
-                }
+                updateColorScheme(circularImage, position)
             }
-            updateColorScheme(circularImage, position)
         }
     }
 
     private fun updateColorScheme(circularImage: CoreCircularImageView, position: Int) {
         when (position) {
             0 -> {
-                circularImage.drawable.setTint(R.color.red)
+                circularImage.drawable.setTint(R.color.colorSecondaryMagenta)
             }
             1 -> {
-                circularImage.drawable.setTint(R.color.lp_blue)
+                circularImage.drawable.setTint(R.color.colorSecondaryBlue)
             }
             2 -> {
-                circularImage.drawable.setTint(R.color.lp_green)
+                circularImage.drawable.setTint(R.color.colorSecondaryOrange)
             }
-            2 -> {
-                circularImage.drawable.setTint(R.color.colorPrimary)
+            3 -> {
+                circularImage.drawable.setTint(R.color.colorSecondaryGreen)
             }
-
+            4 -> {
+                circularImage.drawable.setTint(R.color.disabledPurple)
+            }
         }
     }
 

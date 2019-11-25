@@ -7,6 +7,7 @@ enum class AnalyticsCategoryType(val title: String) {
     groceries("Groceries"),
     mediaAndEntertainment("Media and entertainment"),
     foodAndDrinks("Food and drink"),
+    healthAndBeauty("Health And beauty"),
     services("Services"),
     transport("Transport"),
     insurance("Insurance"),
