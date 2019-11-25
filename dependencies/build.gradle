@@ -158,7 +158,9 @@ project.ext {
             [configuration: "implementation", dependency: libraries.viewpagerDots],
             [configuration: "implementation", dependency: libraries.creshlytics],
             [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
-            [configuration: "implementation", dependency: libraries.analytics]
+            [configuration: "implementation", dependency: libraries.analytics],
+            [configuration: "implementation", dependency: libraries.androidanimations],
+            [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
