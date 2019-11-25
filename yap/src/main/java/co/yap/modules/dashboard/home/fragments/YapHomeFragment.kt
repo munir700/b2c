@@ -168,7 +168,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                     for (i in 0 until oldData?.size!!) {
                         if (parentItem.date == oldData[i].date) {
                             if (parentItem.content.size != oldData[i].content.size) {
-                                shouldAppend = false
+                                shouldAppend = true
                                 break
                             }
                             shouldAppend = true
