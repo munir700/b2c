@@ -30,7 +30,7 @@ class TransactionsViewHelper(
 ) {
     private var tooltip: TooltipView? = null
     var checkScroll: Boolean = false
-    var totalItemCount:Int = 0
+    var totalItemCount: Int = 0
     //    var horizontalScrollPosition: Int = 0
     private var toolbarCollapsed = false
     var rvTransactionScrollListener: RecyclerView.OnScrollListener? = null
@@ -60,9 +60,11 @@ class TransactionsViewHelper(
                     override fun onLeftSwipe(view: View, position: Int) {
                         val layoutManager =
                             transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
-                        if(position > layoutManager.findLastCompletelyVisibleItemPosition()-10)
-                        {
-                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(layoutManager.findFirstVisibleItemPosition()+2)
+                        if (position > layoutManager.findLastCompletelyVisibleItemPosition() - 10) {
+                            Log.d("Position>>", "$position")
+                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
+                                layoutManager.findLastCompletelyVisibleItemPosition() + 2
+                            )
                         }
 //                        if((totalItemCount-layoutManager.findLastCompletelyVisibleItemPosition())>(position+2))
 //                        {
@@ -115,21 +117,21 @@ class TransactionsViewHelper(
 //                        transactionsView.rvTransaction.removeOnScrollListener(onScrollListener)
 //                        transactionsView.rvTransaction.addOnScrollListener(onScrollListener)
                         // val layoutManager = transactionsView.rvTransactionsBarChart.l as LinearLayoutManager
-                        transactionsView.rvTransactionsBarChart.smoothScrollToPosition(totalItemCount-3)
+                        //  transactionsView.rvTransactionsBarChart.smoothScrollToPosition(totalItemCount-3)
                         val layoutManager =
                             transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
                         //layoutManager.findLastVisibleItemPosition()
-                        Log.d("lstVisible", "" + layoutManager.findLastVisibleItemPosition())
-                        Log.d(
-                            "lstVisibleComp",
-                            "" + layoutManager.findLastCompletelyVisibleItemPosition()
-                        )
-                        Log.d("----------------", "------------------------------")
-                        Log.d("firstVisible", "" + layoutManager.findFirstVisibleItemPosition())
-                        Log.d(
-                            "firstVisibleComp",
-                            "" + layoutManager.findFirstCompletelyVisibleItemPosition()
-                        )
+//                        Log.d("lstVisible", "" + layoutManager.findLastVisibleItemPosition())
+//                        Log.d(
+//                            "lstVisibleComp",
+//                            "" + layoutManager.findLastCompletelyVisibleItemPosition()
+//                        )
+//                        Log.d("----------------", "------------------------------")
+//                        Log.d("firstVisible", "" + layoutManager.findFirstVisibleItemPosition())
+//                        Log.d(
+//                            "firstVisibleComp",
+//                            "" + layoutManager.findFirstCompletelyVisibleItemPosition()
+//                        )
                         removeRvTransactionScroll()
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         setRvTransactionScroll()
@@ -404,11 +406,24 @@ class TransactionsViewHelper(
                     var layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
                     if (!checkScroll) {
+                        val graphLayoutManager =
+                            transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
+                        if (position > graphLayoutManager.findLastVisibleItemPosition() - 3) {
+                            Log.d("Position>> ", "$position")
+                            Log.d(
+                                "findLstVisiItemPos>> ",
+                                "" + graphLayoutManager.findLastVisibleItemPosition()
+                            )
+                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(graphLayoutManager.findLastVisibleItemPosition() + 10)
+
+                        }
                         transactionsView.rvTransactionsBarChart.layoutManager?.findViewByPosition(
                             position
                         )
                             ?.performClick()
                     }
+
+
                 }
             }
 

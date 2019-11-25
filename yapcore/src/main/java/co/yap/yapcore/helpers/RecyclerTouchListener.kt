@@ -59,8 +59,8 @@ class RecyclerTouchListener(
                 RecyclerTouchListener.deltaX = deltaX
                 val deltaY = mLastMotionY - y
 
-                Log.d("OnMoveX>>", "$x")
-                Log.d("deltaX>>", "$deltaX")
+//                Log.d("OnMoveX>>", "$x")
+//                Log.d("deltaX>>", "$deltaX")
                 if (Math.abs(deltaX) > SWIPE_MIN_DISTANCE) {
                     isMoving = true
                     if (x > mLastMotionX) {
