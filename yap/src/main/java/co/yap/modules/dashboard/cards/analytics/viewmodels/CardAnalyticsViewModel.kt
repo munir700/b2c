@@ -9,7 +9,6 @@ import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.cards.responsedtos.TxnAnalytic
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.enums.AnalyticsCategoryType
 
 class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
@@ -50,7 +49,6 @@ class CardAnalyticsViewModel(application: Application) :
         list.add(TxnAnalytic(null,"Shopping","887.12",0.07663441603317209,12))
         list.add(TxnAnalytic(null,"Health and beauty","887.12",0.07663441603317209,4))
         list.add(TxnAnalytic(null,"Others","887.12",0.07663441603317209,2))
-
 //            list.add(AnalyticsItem("Shopping", 12, "5687.16", 0.5145))
 //
 //        for (i in 0..4)
