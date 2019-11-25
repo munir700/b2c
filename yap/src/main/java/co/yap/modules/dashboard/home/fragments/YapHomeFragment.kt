@@ -193,7 +193,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         })
 
 //        getGraphRecycleViewAdapter()?.setItemListener(listener)
-        getRecycleViewAdaptor()?.setItemListener(listener)
+        getRecycleViewAdaptor()?.setItemListener(adaptorlistener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
         //getBindings().lyInclude.rvTransaction.addOnScrollListener(endlessScrollListener)
         getBindings().lyInclude.rvTransaction.addOnScrollListener(
@@ -429,19 +429,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun getFilterTransactions() {
         rvTransaction.adapter =
-            TransactionsHeaderAdapter(mutableListOf(), listener)
-
+            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
 
         rvTransactionsBarChart.adapter =
             GraphBarsAdapter(mutableListOf(), viewModel)
 
         viewModel.filterTransactions()
-    }
-
-    val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-//            (data as HomeTransactionListData).content.get(0).transactionId
-        }
     }
 
     private fun getRecycleViewAdaptor(): TransactionsHeaderAdapter? {
