@@ -15,6 +15,7 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import okhttp3.internal.Util
+import java.lang.Exception
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
     var context: Context = application.applicationContext
@@ -193,43 +194,51 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         }
 
     fun checkValidity(type: String): String {
-        if (amount != "") {
-            if (amount?.toDouble()!! > availableBalance.toDouble()) {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-                if (Constants.TYPE_REMOVE_FUNDS == type) {
-                    errorDescription = Translator.getString(
-                        context,
-                        Strings.screen_remove_funds_display_text_available_balance_error,
-                        currencyType,
-                        Utils.getFormattedCurrency(availableBalance)
-                    )
+        try {
+            if (amount != "") {
+                when {
+                    amount?.toDouble()!! > availableBalance.toDouble() -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                        if (Constants.TYPE_REMOVE_FUNDS == type) {
+                            errorDescription = Translator.getString(
+                                context,
+                                Strings.screen_remove_funds_display_text_available_balance_error,
+                                currencyType,
+                                Utils.getFormattedCurrency(availableBalance)
+                            )
 
-                } else {
-                    errorDescription = Translator.getString(
-                        context,
-                        Strings.screen_add_funds_display_text_available_balance_error,
-                        currencyType,
-                        Utils.getFormattedCurrency(availableBalance)
-                    )
+                        } else {
+                            errorDescription = Translator.getString(
+                                context,
+                                Strings.screen_add_funds_display_text_available_balance_error,
+                                currencyType,
+                                Utils.getFormattedCurrency(availableBalance)
+                            )
+                        }
+                        return errorDescription
+                    }
+                    amount?.toDouble()!! > maxLimit -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+
+                        errorDescription = Translator.getString(
+                            context,
+                            Strings.screen_add_funds_display_text_max_limit_error,
+                            currencyType,
+                            Utils.getFormattedCurrency(maxLimit.toString())
+                        )
+                        return errorDescription
+
+                    }
+                    else -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                    }
                 }
-                return errorDescription
-            } else if (amount?.toDouble()!! > maxLimit) {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-
-                errorDescription = Translator.getString(
-                    context,
-                    Strings.screen_add_funds_display_text_max_limit_error,
-                    currencyType,
-                    Utils.getFormattedCurrency(maxLimit.toString())
-                )
-                return errorDescription
-
-            } else {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
             }
+        }catch (e:Exception){
+           return ""
         }
         return ""
     }
