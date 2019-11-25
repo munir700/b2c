@@ -1,6 +1,7 @@
 package co.yap.yapcore.helpers
 
 import android.content.Context
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -14,6 +15,10 @@ class RecyclerTouchListener(
 ) : RecyclerView.OnItemTouchListener {
 
     private val gestureDetector: GestureDetector
+    private var mLastMotionX: Int = 0
+    private var mLastMotionY: Int = 0
+    private var isMoving = false
+    private val SWIPE_MIN_DISTANCE = 5
 
     init {
         gestureDetector =
@@ -34,7 +39,65 @@ class RecyclerTouchListener(
     }
 
     override fun onInterceptTouchEvent(rv: RecyclerView, e: MotionEvent): Boolean {
-        gestureDetector.onTouchEvent(e)
+        // gestureDetector.onTouchEvent(e)
+        when (e.action) {
+            MotionEvent.ACTION_DOWN -> {
+                mLastMotionX = e.x.toInt()
+                mLastMotionY = e.y.toInt()
+                isMoving = false
+//                val child = recyclerView.findChildViewUnder(e.x, e.y)
+//                if (child != null) {
+//                    clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
+//                }
+
+
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val x = e.x.toInt()
+                val y = e.y.toInt()
+                val deltaX = mLastMotionX - x
+                RecyclerTouchListener.deltaX = deltaX
+                val deltaY = mLastMotionY - y
+
+                Log.d("OnMoveX>>", "$x")
+                Log.d("deltaX>>", "$deltaX")
+                if (Math.abs(deltaX) > SWIPE_MIN_DISTANCE) {
+                    isMoving = true
+                    if (x > mLastMotionX) {
+                        val child = recyclerView.findChildViewUnder(e.x, e.y)
+                        if (child != null) {
+                            clickListener.onRightSwipe(
+                                child,
+                                recyclerView.layoutManager?.getPosition(child)!!
+                            )
+                        }
+                    } else {
+                        val child = recyclerView.findChildViewUnder(e.x, e.y)
+                        if (child != null) {
+                            clickListener.onLeftSwipe(
+                                child,
+                                recyclerView.layoutManager?.getPosition(child)!!
+                            )
+                        }
+                    }
+
+
+                }
+//                Log.d("deltaY>>", "$deltaY")
+
+
+            }
+            MotionEvent.ACTION_UP -> {
+                if(!isMoving) {
+                    val child = recyclerView.findChildViewUnder(e.x, e.y)
+                    if (child != null) {
+                        clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
+                    }
+                }
+
+
+            }
+        }
         return false
     }
 
@@ -48,6 +111,8 @@ class RecyclerTouchListener(
 
     interface ClickListener {
         fun onClick(view: View, position: Int)
+        fun onLeftSwipe(view: View, position: Int)
+        fun onRightSwipe(view: View, position: Int)
 
         //fun onLongClick(view: View?, position: Int)
 
@@ -55,5 +120,9 @@ class RecyclerTouchListener(
 
         //fun scrollOnItemsTouchEvent(view: View?, position: Int)
 
+    }
+
+    companion object {
+        var deltaX: Int = 300
     }
 }

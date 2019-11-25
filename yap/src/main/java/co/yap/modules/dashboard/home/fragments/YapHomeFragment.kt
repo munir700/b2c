@@ -76,11 +76,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
         //refreshLayout.setOnRefreshListener(this)
-        rvTransactionsBarChart.layoutManager = LinearLayoutManager(
-            context,
-            LinearLayoutManager.HORIZONTAL,
-            true
-        )
+//        rvTransactionsBarChart.layoutManager = LinearLayoutManager(
+//            context,
+//            LinearLayoutManager.HORIZONTAL,
+//            true
+//        )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 //        rvTransactionsBarChart?.addItemDecoration(
 //            SpacesItemDecoration(2, 2, 0, 0, true)

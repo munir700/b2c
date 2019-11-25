@@ -14,6 +14,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import co.yap.R
+import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.dip2px
 
 class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
@@ -78,52 +79,9 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
 
     }
 
-    private fun customizeAnimation(context: Context) {
 
-        val fadeInBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        fadeInBarAnimation.duration = 100
 
-        this.startAnimation(fadeInBarAnimation)
 
-        fadeInBarAnimation.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {
-                paint.shader = null
-                paintShader = null
-                paint.color = ContextCompat.getColor(context, R.color.colorPrimary)
-                seletedColor = ContextCompat.getColor(context, R.color.colorPrimary)
-                invalidate()
-                customizePaint(context)
-            }
-
-            override fun onAnimationEnd(animation: Animation) {
-//                fadeOutBarAnimation()
-
-            }
-
-            override fun onAnimationRepeat(animation: Animation) {}
-        })
-    }
-
-    fun fadeInAnim(fadeIn: Animation) {
-        fadeIn.duration = 100
-        fadeIn.setAnimationListener(object : Animation.AnimationListener {
-            override fun onAnimationStart(animation: Animation) {
-
-            }
-
-            override fun onAnimationEnd(animation: Animation) {
-
-                paintShader =null
-                seletedColor = ContextCompat.getColor(context, R.color.colorDarkGreyGradient)
-                invalidate()
-                customizePaint(context)
-                isBarHighLighted = true
-            }
-
-            override fun onAnimationRepeat(animation: Animation) {}
-        })
-
-    }
 
     private fun customizePaint(context: Context) {
         paint.color = seletedColor
@@ -162,20 +120,66 @@ class ChartViewV2(context: Context, attrs: AttributeSet) : View(context, attrs),
         return true
     }
 
-    fun OnBarItemTouchEvent() {
-        if (isBarHighLighted) {
-            fadeOutBarAnimation()
-        }
-        customizeAnimation(context)
-    }
+//    fun OnBarItemTouchEvent() {
+//        if (isBarHighLighted) {
+//            fadeOutBarAnimation()
+//        }
+//        customizeAnimation(context)
+//    }
 
     private fun fadeOutBarAnimation() {
         val fadeOutBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
+        fadeOutBarAnimation.duration =if(needAnimation) 300 else 0
+        fadeOutBarAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+                paintShader = LinearGradient(
+                    0f,
+                    getParentViewHeight().toFloat(),
+                    width.toFloat(),
+                    barHeight,
+                    ContextCompat.getColor(context, R.color.colorDarkGreyGradient),
+                    ContextCompat.getColor(context, R.color.colorLightGreyGradient),
+                    Shader.TileMode.CLAMP
+                )
+                seletedColor = ContextCompat.getColor(context, R.color.colorDarkGreyGradient)
+                invalidate()
+                customizePaint(context)
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
         startAnimation(fadeOutBarAnimation)
-        isBarHighLighted = false
-        fadeInAnim(fadeOutBarAnimation)
     }
 
+    private fun customizeAnimation(context: Context) {
+
+        val fadeInBarAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
+        fadeInBarAnimation.duration =if(needAnimation) 400 else 300
+
+        this.startAnimation(fadeInBarAnimation)
+
+        fadeInBarAnimation.setAnimationListener(object : Animation.AnimationListener {
+            override fun onAnimationStart(animation: Animation) {
+                paint.shader = null
+                paintShader = null
+                paint.color = ContextCompat.getColor(context, R.color.colorPrimary)
+                seletedColor = ContextCompat.getColor(context, R.color.colorPrimary)
+                invalidate()
+                customizePaint(context)
+            }
+
+            override fun onAnimationEnd(animation: Animation) {
+//                fadeOutBarAnimation()
+
+            }
+
+            override fun onAnimationRepeat(animation: Animation) {}
+        })
+    }
 
     fun setBarHeight(height: Double) {
         // layoutParams = LinearLayout.LayoutParams(width, 0, height.toFloat())

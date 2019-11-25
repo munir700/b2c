@@ -315,4 +315,9 @@
     </declare-styleable>
 
 
+    <declare-styleable name="HorizontalNonScrollRecyclerView">
+        <attr name="canScroll" format="boolean" />
+        <attr name="scroll_enable" format="boolean" />
+    </declare-styleable>
+
 </resources>
