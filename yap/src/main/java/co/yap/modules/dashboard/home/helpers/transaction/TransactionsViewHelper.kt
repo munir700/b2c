@@ -61,10 +61,16 @@ class TransactionsViewHelper(
                     override fun onLeftSwipe(view: View, position: Int) {
                         val layoutManager =
                             transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
-                        if (position > layoutManager.findLastCompletelyVisibleItemPosition() - 10) {
-                            Log.d("Position>>", "$position")
-                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
-                                layoutManager.findLastCompletelyVisibleItemPosition() + 2
+//                        if (position > layoutManager.findLastCompletelyVisibleItemPosition() - 10) {
+//                            Log.d("Position>>", "$position")
+//                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(
+//                                layoutManager.findLastCompletelyVisibleItemPosition() + 2
+//                            )
+//                        }
+
+                        if (position >= layoutManager.findLastVisibleItemPosition()) {
+                            transactionsView.rvTransactionsBarChart.scrollToPosition(
+                                layoutManager.findLastCompletelyVisibleItemPosition() + 1
                             )
                         }
 //                        if((totalItemCount-layoutManager.findLastCompletelyVisibleItemPosition())>(position+2))
@@ -78,6 +84,14 @@ class TransactionsViewHelper(
                     }
 
                     override fun onRightSwipe(view: View, position: Int) {
+                        val layoutManager =
+                            transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
+                        if (position <= layoutManager.findFirstVisibleItemPosition()) {
+
+                            transactionsView.rvTransactionsBarChart.scrollToPosition(
+                                layoutManager.findFirstCompletelyVisibleItemPosition() - 1
+                            )
+                        }
                         checkScroll = true
                         view.performClick()
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
@@ -412,34 +426,29 @@ class TransactionsViewHelper(
                             transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
                         // if dy is greater then 0 mean scroll to bottom
                         // if dy is less then 0 means scroll to top
-                        val view = transactionsView.rvTransactionsBarChart.layoutManager?.findViewByPosition(position)
+                        val view =
+                            transactionsView.rvTransactionsBarChart.layoutManager?.findViewByPosition(
+                                position
+                            )
                         view?.performClick()
                         if (dy > 0) {
-                            if (position >= graphLayoutManager.findLastVisibleItemPosition() ) {
-//                                Log.d("Position>> ", "$position")
-//                                Log.d(
-//                                    "findLstVisiItemPos>> ",
-//                                    "" + graphLayoutManager.findLastVisibleItemPosition()
-//                                )
+                            if (position >= graphLayoutManager.findLastVisibleItemPosition()) {
                                 transactionsView.rvTransactionsBarChart.scrollToPosition(
-                                    graphLayoutManager.findLastCompletelyVisibleItemPosition()+1
+                                    graphLayoutManager.findLastCompletelyVisibleItemPosition() + 1
                                 )
-                                //transactionsView.rvTransactionsBarChart.scrollTo()
 
                             }
 //                            Log.d("ViewX>>",""+view?.x)
-                        }
-                        else if(dy<0)
-                        {
+                        } else if (dy < 0) {
                             Log.d("FPosition>> ", "$position")
                             Log.d(
                                 "FirstVisiItemFPosi>> ",
                                 "" + graphLayoutManager.findFirstVisibleItemPosition()
                             )
-                            if (position <= graphLayoutManager.findFirstVisibleItemPosition() ) {
+                            if (position <= graphLayoutManager.findFirstVisibleItemPosition()) {
 
                                 transactionsView.rvTransactionsBarChart.scrollToPosition(
-                                    graphLayoutManager.findFirstCompletelyVisibleItemPosition()-1
+                                    graphLayoutManager.findFirstCompletelyVisibleItemPosition() - 1
                                 )
                                 //transactionsView.rvTransactionsBarChart.scrollTo()
 

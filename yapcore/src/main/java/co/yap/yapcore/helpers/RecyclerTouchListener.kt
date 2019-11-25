@@ -1,7 +1,6 @@
 package co.yap.yapcore.helpers
 
 import android.content.Context
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -18,7 +17,7 @@ class RecyclerTouchListener(
     private var mLastMotionX: Int = 0
     private var mLastMotionY: Int = 0
     private var isMoving = false
-    private val SWIPE_MIN_DISTANCE = 5
+    private val SWIPE_MIN_DISTANCE = 1
 
     init {
         gestureDetector =
@@ -45,22 +44,13 @@ class RecyclerTouchListener(
                 mLastMotionX = e.x.toInt()
                 mLastMotionY = e.y.toInt()
                 isMoving = false
-//                val child = recyclerView.findChildViewUnder(e.x, e.y)
-//                if (child != null) {
-//                    clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
-//                }
-
-
             }
             MotionEvent.ACTION_MOVE -> {
                 val x = e.x.toInt()
                 val y = e.y.toInt()
                 val deltaX = mLastMotionX - x
                 RecyclerTouchListener.deltaX = deltaX
-                val deltaY = mLastMotionY - y
 
-//                Log.d("OnMoveX>>", "$x")
-//                Log.d("deltaX>>", "$deltaX")
                 if (Math.abs(deltaX) > SWIPE_MIN_DISTANCE) {
                     isMoving = true
                     if (x > mLastMotionX) {
@@ -83,12 +73,9 @@ class RecyclerTouchListener(
 
 
                 }
-//                Log.d("deltaY>>", "$deltaY")
-
-
             }
             MotionEvent.ACTION_UP -> {
-                if(!isMoving) {
+                if (!isMoving) {
                     val child = recyclerView.findChildViewUnder(e.x, e.y)
                     if (child != null) {
                         clickListener.onClick(child, recyclerView.getChildAdapterPosition(child))
@@ -113,13 +100,6 @@ class RecyclerTouchListener(
         fun onClick(view: View, position: Int)
         fun onLeftSwipe(view: View, position: Int)
         fun onRightSwipe(view: View, position: Int)
-
-        //fun onLongClick(view: View?, position: Int)
-
-        //fun onItemTouchEvent(view: View?, position: Int)
-
-        //fun scrollOnItemsTouchEvent(view: View?, position: Int)
-
     }
 
     companion object {

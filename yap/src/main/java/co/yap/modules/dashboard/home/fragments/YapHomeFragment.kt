@@ -48,9 +48,6 @@ import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -86,11 +83,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
 
         getBindings().refreshLayout.setOnRefreshListener(this)
-        rvTransactionsBarChart.layoutManager = LinearLayoutManager(
-            context,
-            LinearLayoutManager.HORIZONTAL,
-            true
-        )
+//        rvTransactionsBarChart.layoutManager = LinearLayoutManager(
+//            context,
+//            LinearLayoutManager.HORIZONTAL,
+//            true
+//        )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
         getBindings().lyInclude.rvTransaction.apply {
