@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
         android:id="@+id/lyTransaction"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_medium_large"
         android:layout_marginEnd="@dimen/margin_medium_large"
@@ -17,8 +17,8 @@
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginTop="@dimen/margin_normal"
-            android:src="@color/disabled"
-
+            android:background="@drawable/bg_round_purple_enabled"
+            android:padding="@dimen/margin_small"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,6 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/colorPrimaryDark"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="@+id/ivTransaction"
             app:layout_constraintLeft_toLeftOf="@+id/ivTransaction"
             app:layout_constraintRight_toRightOf="@+id/ivTransaction"
@@ -91,3 +92,4 @@
             app:layout_constraintTop_toBottomOf="@+id/ivTransaction" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
+

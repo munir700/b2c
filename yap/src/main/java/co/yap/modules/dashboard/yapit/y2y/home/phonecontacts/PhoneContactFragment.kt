@@ -18,6 +18,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BR
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
@@ -56,7 +57,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
-                if (state == PagingState.DONE) viewModel.parentViewModel?.yapContactLiveData?.postValue(
+                if (state == PagingState.DONE || state == PagingState.ERROR) viewModel.parentViewModel?.yapContactLiveData?.postValue(
                     mutableListOf()
                 )
             } else {
@@ -82,7 +83,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
             getBinding().txtError.text =
                 if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
                     requireContext(),
-                    Strings.screen_y2y_display_text_no_yap_contacts
+                    Strings.screen_y2y_display_text_no_contacts
                 )
         })
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
@@ -97,11 +98,9 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
             getBinding().txtError.text =
                 if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
                     requireContext(),
-                    Strings.screen_y2y_display_text_no_yap_contacts
+                    Strings.screen_y2y_display_text_no_contacts
                 )
-
         })
-
     }
 
     val listener = object : OnItemClickListener {
@@ -112,7 +111,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                 }
                 R.id.tvInvite -> {
                     sendInvite((data as Contact))
-//                    Utils.shareText(requireContext(), getBody())
                 }
                 R.id.lyContact -> {
                     if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
@@ -143,40 +141,47 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     override fun onClick(viewId: Int, contact: Contact) {
 
         when (viewId) {
-            R.id.tvChooseEmail -> inviteViaEmail(contact.email!!)
-            R.id.tvChooseSMS -> inviteViaSms(contact.mobileNo!!)
-            R.id.tvChooseWhatsapp -> inviteViaWhatsapp(contact.mobileNo!!)
+            R.id.tvChooseEmail -> inviteViaEmail(contact)
+            R.id.tvChooseSMS -> inviteViaSms(contact)
+            R.id.tvChooseWhatsapp -> inviteViaWhatsapp(contact)
         }
     }
 
-    fun inviteViaWhatsapp(number: String) {
-        val url = "https://api.whatsapp.com/send?phone=$number"
+    fun inviteViaWhatsapp(contact: Contact) {
+        val url =
+            "https://api.whatsapp.com/send?phone=${Utils.getFormattedPhoneNumber(
+                requireContext(),
+                "${contact.countryCode}${contact.mobileNo!!}"
+            )}&text=${Utils.getBody(requireContext(), contact)}"
         val i = Intent(Intent.ACTION_VIEW)
         i.data = Uri.parse(url)
         startActivity(i)
     }
 
-    fun inviteViaEmail(email: String) {
-        val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", email, null))
+    fun inviteViaEmail(contact: Contact) {
+        val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", contact.email, null))
         intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
-        intent.putExtra(Intent.EXTRA_TEXT, getBody())
+        intent.putExtra(Intent.EXTRA_TEXT, Utils.getBody(requireContext(), contact))
         startActivity(Intent.createChooser(intent, "Send mail..."))
     }
 
-    fun inviteViaSms(number: String) {
-        val uri = Uri.parse("smsto:$number")
+    fun inviteViaSms(contact: Contact) {
+        val uri = Uri.parse(
+            "smsto:${Utils.getFormattedPhoneNumber(
+                requireContext(),
+                "${contact.countryCode}${contact.mobileNo!!}"
+            )}"
+        )
         val it = Intent(Intent.ACTION_SENDTO, uri)
-        it.putExtra("sms_body", getBody())
+        it.putExtra("sms_body", Utils.getBody(requireContext(), contact))
         startActivity(it)
     }
 
-    private fun getBody(): String {
-        return "App LInk"
-    }
 
     private val observer = Observer<Int> {
         when (it) {
             R.id.imgStoreShopping -> {
+
             }
         }
     }

@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.more.profile.fragments
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -11,9 +12,11 @@ import co.yap.modules.dashboard.more.main.activities.MoreActivity
 import co.yap.modules.dashboard.more.profile.viewmodels.CurrentPasscodeViewModel
 import co.yap.modules.setcardpin.interfaces.ISetCardPin
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.databinding.FragmentSetCardPinBinding
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import kotlinx.android.synthetic.main.activity_create_passcode.*
 
-class CurrentPasscodeFragment : ChangeCardPinFragment() {
+open class CurrentPasscodeFragment : ChangeCardPinFragment() {
     private lateinit var sharedPreferenceManager: SharedPreferenceManager
 
     override val viewModel: ISetCardPin.ViewModel
@@ -48,6 +51,15 @@ class CurrentPasscodeFragment : ChangeCardPinFragment() {
             findNavController().navigate(action)
         })
 
+        viewModel.errorEvent.observe(this, Observer {
+            dialer.startAnimationDigits()
+        })
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        getBindings().dialer.updateDialerLength(6)
     }
 
     override fun setObservers() {
@@ -66,4 +78,7 @@ class CurrentPasscodeFragment : ChangeCardPinFragment() {
         super.onDestroy()
     }
 
+    private fun getBindings(): FragmentSetCardPinBinding {
+        return viewDataBinding as FragmentSetCardPinBinding
+    }
 }

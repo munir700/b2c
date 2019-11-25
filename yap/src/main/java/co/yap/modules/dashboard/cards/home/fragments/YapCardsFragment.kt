@@ -32,7 +32,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
 
     val EVENT_PAYMENT_CARD_DETAIL: Int get() = 11
     val EVENT_CARD_ADDED: Int get() = 12
-    val EVENT_CREATE_CARD_PIN: Int get() = 13
     var selectedCardPosition: Int = 0
     lateinit var adapter: YapCardsAdaptor
 
@@ -66,8 +65,6 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
     }
 
     private fun setupList() {
-        /* if (viewModel.state.enableAddCard.get())
-             MyUserManager.cards.value?.add(getAddCard())*/
         adapter.setList(MyUserManager.cards.value!!)
         updateCardCount()
     }
@@ -237,14 +234,11 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 }
             }
 
-            EVENT_CREATE_CARD_PIN -> {
+            Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
                     if (isPinCreated!!) {
-                        viewModel.state.enableAddCard.set(
-                            MyUserManager.user?.notificationStatuses.equals(co.yap.modules.onboarding.constants.Constants.USER_STATUS_CARD_ACTIVATED)
-                        )
                         adapter.removeAllItems()
                         viewModel.getCards()
                     }
@@ -276,7 +270,7 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
                 requireContext(),
                 Constants.MODE_STATUS_SCREEN,
                 getCard(pos)
-            ), EVENT_CREATE_CARD_PIN
+            ), Constants.EVENT_CREATE_CARD_PIN
         )
     }
 
@@ -285,17 +279,12 @@ class YapCardsFragment : YapDashboardChildFragment<IYapCards.ViewModel>(), IYapC
             SetCardPinWelcomeActivity.newIntent(
                 requireContext(),
                 cardSerialNumber
-            ), EVENT_CREATE_CARD_PIN
+            ), Constants.EVENT_CREATE_CARD_PIN
         )
     }
 
     private fun getCard(pos: Int): Card {
         return adapter.getDataForPosition(pos)
-    }
-
-    override fun onDestroyView() {
-        MyUserManager.cards.value = adapter.getDataList() as ArrayList<Card>
-        super.onDestroyView()
     }
 
     override fun onDestroy() {

@@ -29,6 +29,7 @@ data class Content(
     var txnType: String,
     var updatedBy: String,
     var updatedDate: String,
-    var userType1: String
+    var userType1: String,
+    var title: String?
 
 )

@@ -37,7 +37,6 @@ class Customer(
         return "$countryCode $mobileNo"
     }
 
-
     fun getFormattedPhoneNumber(context: Context): String {
         return try {
             val pnu = PhoneNumberUtil.getInstance()
@@ -69,8 +68,8 @@ class Customer(
         }
     }
 
-    fun getPicture(): String {
-        return if (profilePictureName.isNullOrEmpty()) "" else profilePictureName!!
+    fun getPicture(): String? {
+        return profilePictureName
     }
 
     fun setPicture(picture: String?) {

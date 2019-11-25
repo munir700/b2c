@@ -6,7 +6,12 @@ import co.yap.networking.interfaces.NetworkConstraintsListener
 import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 import java.util.*
+
 
 class AAPApplication : ChatApplication() {
 
@@ -27,6 +32,19 @@ class AAPApplication : ChatApplication() {
                 AuthUtils.navigateToSoftLogin(applicationContext)
             }
         })
+
+        /*
+        * ***********Add Firebase Creshlaytics *************
+        * */
+        val fabric = Fabric.Builder(this)
+            .kits(Crashlytics())
+            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
+            .build()
+        Fabric.with(fabric)
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
     }
 
     private fun setAppUniqueId(context: Context) {

@@ -13,7 +13,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.intefaces.IUnverifiedChangeEmailSuccess
 import co.yap.modules.dashboard.more.profile.viewmodels.UnverifiedChangeEmailSuccessViewModel
-import co.yap.modules.others.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.managers.MyUserManager

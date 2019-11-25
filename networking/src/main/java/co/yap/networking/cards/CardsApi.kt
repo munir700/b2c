@@ -47,4 +47,8 @@ interface CardsApi {
 
     suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse>
     suspend fun editAddressRequest(address: UpdateAddressRequest): RetroApiResponse<ApiResponse>
+    suspend fun forgotCardPin(
+        cardSerialNumber: String,
+        forgotCardPin: ForgotCardPin
+    ): RetroApiResponse<ApiResponse>
 }

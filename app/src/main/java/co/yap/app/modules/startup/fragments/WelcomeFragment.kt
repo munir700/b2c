@@ -1,25 +1,17 @@
 package co.yap.app.modules.startup.fragments
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.app.R
-import co.yap.app.activities.MainActivity
 import co.yap.modules.onboarding.enums.AccountType
 import co.yap.modules.onboarding.interfaces.IWelcome
 import co.yap.modules.onboarding.viewmodels.WelcomeViewModel
 import co.yap.yapcore.BaseBindingFragment
 import com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
-import kotlinx.android.synthetic.main.fragment_onboarding_welcome.*
 
 class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome.View {
 

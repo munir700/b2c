@@ -23,6 +23,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
+import kotlinx.android.synthetic.main.fragment_more_home.*
 
 
 class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreHome.View {
@@ -45,6 +46,11 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
         super.onViewCreated(view, savedInstanceState)
         initComponents()
         setupRecycleView()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        initComponents()
     }
 
     private fun initComponents() {

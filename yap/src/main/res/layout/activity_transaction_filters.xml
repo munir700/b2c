@@ -7,7 +7,8 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel" />
+            type="co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewModel" />
+        <import type="co.yap.translation.Strings"/>
 
     </data>
 
@@ -43,7 +44,8 @@
                 style="@style/Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Incoming transactions"
+                app:text="@{Strings.screen_transaction_filter_display_text_incoming_transactions}"
+                tools:text="@string/screen_transaction_filter_display_text_incoming_transactions"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -62,7 +64,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="Outgoing transations"
+                app:text="@{Strings.screen_transaction_filter_display_text_outgoing_transactions}"
+                tools:text="@string/screen_transaction_filter_display_text_outgoing_transactions"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvInTrans" />
 
@@ -90,7 +93,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="AED Balance"
+                app:text="@{Strings.screen_transaction_filter_display_text_balance}"
+                tools:text="@string/screen_transaction_filter_display_text_balance"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/vLineTrans" />
 
@@ -168,7 +172,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:onClick="@{(v) ->viewModel.handlePressOnView(v.id)}"
-            android:text="@string/screen_transaction_filters_display_button_apply_filters"
+            tools:text="@string/screen_transaction_filter_button_apply_filter"
+            app:text="@{Strings.screen_transaction_filter_button_apply_filter}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/tvClearFilters" />
@@ -179,7 +184,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:text="@string/screen_transaction_filters_display_button_clear_filters"
+            tools:text="@string/screen_transaction_filter_button_clear_filter"
+            app:text="@{Strings.screen_transaction_filter_button_clear_filter}"
             android:textColor="@color/colorPrimary"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="@id/btnApplyFilters"

@@ -25,12 +25,15 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.loadImage
@@ -46,6 +49,21 @@ import java.util.*
 
 
 object UIBinder {
+
+    // Top up card status
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(view: ImageView, card: TopUpCard?) {
+        card?.expiry?.let {
+            if (DateUtils.isDatePassed(it, SimpleDateFormat("MMyy"))) {
+                view.setImageResource(R.drawable.ic_status_expired)
+                view.visibility = View.VISIBLE
+            } else {
+                view.setImageResource(R.drawable.ic_card_status)
+                view.visibility = View.VISIBLE
+            }
+        }
+    }
 
     @BindingAdapter("bitmap")
     @JvmStatic
@@ -411,7 +429,6 @@ object UIBinder {
         } else {
             view.settingUIForNormal()
         }
-
     }
 
     @JvmStatic
@@ -594,4 +611,41 @@ object UIBinder {
             .into(view)
 
     }
+
+    @JvmStatic
+    @BindingAdapter("cardNickname")
+    fun setCardNickname(view: CorePaymentCard, cardNickname: String?) {
+        if (cardNickname != null) {
+            view.setCardNickname(cardNickname)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardNumber")
+    fun setCardNumber(view: CorePaymentCard, cardNumber: String?) {
+        if (cardNumber != null)
+            view.setCardNumber(cardNumber)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardExpiry")
+    fun setCardExpiry(view: CorePaymentCard, cardExpiry: String?) {
+        if (!cardExpiry.isNullOrEmpty())
+            view.setCardExpiry(cardExpiry)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardBackgroundColor")
+    fun setCardBackground(view: CorePaymentCard, cardBackgroundColor: String?) {
+        if (cardBackgroundColor != null)
+            view.setCardBackground(cardBackgroundColor)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardType")
+    fun setCardLogoByType(view: CorePaymentCard, cardType: String?) {
+        if (cardType != null)
+            view.setCardLogoByType(cardType)
+    }
+
 }

@@ -29,6 +29,18 @@
         android:text="Change PIN"/>
 
     <TextView
+        android:id="@+id/tvForgotCardPin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/margin_extra_small"
+        android:paddingBottom="@dimen/margin_extra_small"
+        style="@style/ASmall"
+        android:textColor="@color/black"
+        android:layout_marginStart="@dimen/margin_medium"
+        android:layout_marginTop="@dimen/margin_normal_large"
+        android:text="Forgot PIN"/>
+
+    <TextView
         android:id="@+id/tvViewStatements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -1,11 +1,10 @@
 package co.yap.networking.transactions
 
 import co.yap.networking.models.ApiResponse
-import co.yap.networking.transactions.requestdtos.AddEditNoteRequest
-import co.yap.networking.transactions.requestdtos.AddFundsRequest
-import co.yap.networking.transactions.requestdtos.RemoveFundsRequest
-import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
+import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
+import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
+import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -57,11 +56,10 @@ interface TransactionsRetroService {
     suspend fun getAccountTransactions(
         @Path("number") number: Int,
         @Path("size") size: Int,
-        @Query("minAmount") minAmount: Double?,
-        @Query("maxAmount") maxAmount: Double?,
-        @Query("creditSearch") creditSearch: Boolean?,
-        @Query("debitSearch") debitSearch: Boolean?,
-        @Query("yapYoungTransfer") yapYoungTransfer: Boolean?
+        @Query("amountStartRange") minAmount: Double?,
+        @Query("amountEndRange") maxAmount: Double?,
+        @Query("txnType") txnType: String?,
+        @Query("title") title: String?
     ): Response<HomeTransactionsResponse>
 
     // Get Account Transaction
@@ -72,4 +70,23 @@ interface TransactionsRetroService {
         @Query("cardSerialNumber") cardSerialNumber: String
     ): Response<HomeTransactionsResponse>
 
+    // Get transaction fee
+    @GET(TransactionsRepository.URL_GET_FEE)
+    suspend fun getTransactionFee(@Query("productCode") type: String): Response<TransactionFeeResponseDTO>
+
+    // Create transaction session
+    @POST(TransactionsRepository.URL_CREATE_TRANSACTION_SESSION)
+    suspend fun createTransactionSession(@Body createSessionRequest: CreateSessionRequest): Response<CreateTransactionSessionResponseDTO>
+
+    // Check 3ds enrollment session
+    @PUT(TransactionsRepository.URL_CHECK_3Ds_ENROLLMENT_SESSION)
+    suspend fun check3DEnrollmentSession(@Body check3DEnrollmentSessionRequest: Check3DEnrollmentSessionRequest): Response<Check3DEnrollmentSessionResponse>
+
+    // Secure id pooling
+    @GET(TransactionsRepository.URL_SECURE_ID_POOLING)
+    suspend fun secureIdPooling(@Path("secureId") secureId: String): Response<StringDataResponseDTO>
+
+    // Card top up transaction request
+    @PUT(TransactionsRepository.URL_TOP_UP_TRANSACTION)
+    suspend fun cardTopUpTransactionRequest(@Path("order-id") orderId :String,@Body topUpTransactionRequest: TopUpTransactionRequest): Response<ApiResponse>
 }

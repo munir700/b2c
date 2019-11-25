@@ -33,7 +33,6 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
     }
 
     lateinit var args: Bundle
-    val EVENT_CREATE_CARD_PIN: Int get() = 13
     lateinit var card: Card
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_status
@@ -144,7 +143,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                     SetCardPinWelcomeActivity.newIntent(
                         requireContext(),
                         card.cardSerialNumber
-                    ), EVENT_CREATE_CARD_PIN
+                    ), Constants.EVENT_CREATE_CARD_PIN
                 )
             }
             R.id.tbBtnBack -> {
@@ -165,7 +164,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            EVENT_CREATE_CARD_PIN -> {
+            Constants.EVENT_CREATE_CARD_PIN -> {
                 if (resultCode == Activity.RESULT_OK) {
                     val isPinCreated: Boolean? =
                         data?.getBooleanExtra(Constants.isPinCreated, false)
@@ -173,6 +172,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
                         val returnIntent = Intent()
                         returnIntent.putExtra(Constants.isPinCreated, true)
                         activity?.setResult(Activity.RESULT_OK, returnIntent)
+                        activity?.finish()
                     }
                 }
             }

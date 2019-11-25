@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tool="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
         <variable
             name="viewModel"
-            type="co.yap.modules.transaction_note.viewmodels.TransactionNoteViewModel" />
+            type="co.yap.modules.others.note.viewmodels.TransactionNoteViewModel" />
 
         <import type="co.yap.translation.Strings" />
     </data>
@@ -42,7 +40,8 @@
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:text="Add a note" />
+            app:text="@{Strings.screen_transaction_details_display_text_add_note}"
+            android:text="@string/screen_transaction_details_display_text_add_note" />
 
         <TextView
             android:id="@+id/tvSave"
@@ -54,7 +53,8 @@
             android:layout_marginEnd="@dimen/margin_extra_small"
             android:enabled="@{viewModel.state.noteValue.empty ? false : true}"
             android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
-            android:text="@string/common_button_save"
+            android:text="@string/screen_add_note_display_text_save"
+            app:text="@{Strings.screen_add_note_display_text_save}"
             android:textColor="@drawable/bg_text_view_enable_state" />
     </RelativeLayout>
 

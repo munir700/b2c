@@ -46,7 +46,7 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
                 getBinding().txtError.visibility =
                     if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
                 getBinding().btnInvite.visibility =
-                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
+                    if (state == PagingState.DONE || state == PagingState.ERROR) if (viewModel.parentViewModel?.isSearching?.value!!) View.GONE else View.VISIBLE else View.GONE
                 getBinding().progressBar.visibility =
                     if (state == PagingState.LOADING) View.VISIBLE else View.GONE
 
@@ -66,7 +66,8 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
         viewModel.parentViewModel?.yapContactLiveData?.observe(this, Observer {
             (getBinding().recycler.adapter as YapContactsAdaptor).setList(it)
             getBinding().txtError.visibility = View.GONE
-            getBinding().tvContactListDescription.visibility = if (it.isEmpty()) View.GONE else View.VISIBLE
+            getBinding().tvContactListDescription.visibility =
+                if (it.isEmpty()) View.GONE else View.VISIBLE
 
             viewModel.pagingState.value = PagingState.DONE
             getBinding().tvContactListDescription.text =
@@ -101,9 +102,6 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             when (view.id) {
-                R.id.btnInvite -> {
-                    Utils.shareText(requireContext(), getBody())
-                }
                 R.id.tvInvite -> {
                     Utils.shareText(requireContext(), getBody())
                 }
@@ -127,12 +125,13 @@ class YapContactsFragment : Y2YBaseFragment<IYapContact.ViewModel>() {
     }
 
     private fun getBody(): String {
-        return "App LInk"
+        return "App link"
     }
 
     private val observer = Observer<Int> {
         when (it) {
-            R.id.imgStoreShopping -> {
+            R.id.btnInvite -> {
+                Utils.shareText(requireContext(), getBody())
             }
         }
     }

@@ -776,6 +776,21 @@ object Strings {
     const val screen_email_verification_display_text_heading: String =
         "screen_email_verification_display_text_heading"
 
+    //    Transaction Filters Screen
+    const val screen_transaction_filter_display_text_title: String =
+        "screen_transaction_filter_display_text_title"
+    const val screen_transaction_filter_button_apply_filter: String =
+        "screen_transaction_filter_button_apply_filter"
+    const val screen_transaction_filter_button_clear_filter: String =
+        "screen_transaction_filter_button_clear_filter"
+    const val screen_transaction_filter_display_text_incoming_transactions: String =
+        "screen_transaction_filter_display_text_incoming_transactions"
+    const val screen_transaction_filter_display_text_outgoing_transactions: String =
+        "screen_transaction_filter_display_text_outgoing_transactions"
+    const val screen_transaction_filter_display_text_balance: String =
+        "screen_transaction_filter_display_text_balance"
+
+
 
     //    Y2Y funds Transfer screen
     const val screen_y2y_funds_transfer_display_text_title: String =
@@ -798,6 +813,12 @@ object Strings {
         "screen_y2y_display_button_all_contacts"
     const val screen_y2y_display_text_send_money_to: String =
         "screen_y2y_display_text_send_money_to"
+    const val screen_y2y_display_text_no_contacts: String =
+        "screen_y2y_display_text_no_contacts"
+    const val common_display_text_y2y_share: String =
+        "common_display_text_y2y_share"
+    const val common_display_text_y2y_general_share: String =
+        "common_display_text_y2y_general_share"
 
     //    Y2Y funds Transfer success screen
     const val screen_y2y_funds_transfer_success_display_text_title: String =
@@ -827,4 +848,82 @@ object Strings {
         "screen_add_note_display_text_type_something"
     const val screen_add_note_display_text_save: String =
         "screen_add_note_display_text_save"
+
+
+    // Forgot card pin screen
+    const val screen_forgot_pin_display_text_heading: String =
+        "screen_forgot_pin_display_text_heading"
+
+// Topup Type Selection Screen
+    const val screen_topup_type_selection_display_text_title: String =
+        "screen_topup_type_selection_display_text_title"
+    const val screen_topup_type_selection_display_text_heading: String =
+        "screen_topup_type_selection_display_text_heading"
+    const val screen_topup_type_selection_button_bank_transfer: String =
+        "screen_topup_type_selection_button_bank_transfer"
+    const val screen_topup_type_selection_button_card: String =
+        "screen_topup_type_selection_button_card"
+
+    //Topup Card Detail Screen
+
+    const val screen_topup_card_detail_display_text_title: String =
+        "screen_topup_card_detail_display_text_title"
+    const val screen_topup_card_detail_display_text_button_remove_card: String =
+        "screen_topup_card_detail_display_text_button_remove_card"
+    const val screen_topup_card_detail_display_text_hint_card_nickname: String =
+        "screen_topup_card_detail_display_text_hint_card_nickname"
+    const val screen_topup_card_detail_display_text_hint_card_info: String =
+        "screen_topup_card_detail_display_text_hint_card_info"
+    const val screen_topup_card_detail_display_text_hint_card_type: String =
+        "screen_topup_card_detail_display_text_hint_card_type"
+    const val screen_topup_card_detail_display_text_hint_card_expiry: String =
+        "screen_topup_card_detail_display_text_hint_card_expiry"
+    const val screen_topup_card_details_display_text_remove_card_confirmation: String =
+        "screen_topup_card_details_display_text_remove_card_confirmation"
+    const val screen_topup_card_details_display_text_remove_card_confirmation_remove: String =
+        "screen_topup_card_details_display_text_remove_card_confirmation_remove"
+
+    //TopUpFundsScreen
+    const val screen_topup_transfer_display_text_screen_title: String =
+        "screen_topup_transfer_display_text_screen_title"
+    const val screen_topup_transfer_display_text_amount_title: String =
+        "screen_topup_transfer_display_text_amount_title"
+    const val screen_topup_transfer_display_text_available_balance: String =
+        "screen_topup_transfer_display_text_available_balance"
+    const val screen_topup_transfer_display_text_transaction_fee: String =
+        "screen_topup_transfer_display_text_transaction_fee"
+    const val screen_topup_transfer_display_text_transaction_no_fee: String =
+        "screen_topup_transfer_display_text_transaction_no_fee"
+    const val screen_topup_funds_display_button_text: String =
+        "screen_topup_funds_display_button_text"
+
+    //Topup success screen
+    const val screen_topup_success_display_text_title: String =
+        "screen_topup_success_display_text_title"
+    const val screen_topup_success_display_text_card_title: String =
+        "screen_topup_success_display_text_card_title"
+    const val screen_topup_success_display_text_success_transaction_message: String =
+        "screen_topup_success_display_text_success_transaction_message"
+    const val screen_topup_success_display_text_account_balance_title: String =
+        "screen_topup_success_display_text_account_balance_title"
+    const val screen_topup_success_display_text_dashboard_action_button_title: String =
+        "screen_topup_success_display_text_dashboard_action_button_title"
+
+    //Screen add top up card
+    const val screen_add_topup_card_display_text_title: String =
+        "screen_add_topup_card_display_text_title"
+    const val screen_add_topup_card_display_text_succes_title: String =
+        "screen_add_topup_card_display_text_succes_title"
+    const val screen_add_topup_card_display_text_succes_details: String =
+        "screen_add_topup_card_display_text_succes_details"
+    const val screen_add_topup_card_succes_button_top_up_now: String =
+        "screen_add_topup_card_succes_button_top_up_now"
+    const val screen_add_topup_card_succes_button_later: String =
+        "screen_add_topup_card_succes_button_later"
+    const val screen_topup_card_cvv_display_text_title: String =
+        "screen_topup_card_cvv_display_text_title"
+    const val screen_topup_card_cvv_display_text_cvv: String =
+        "screen_topup_card_cvv_display_text_cvv"
+
+
 }

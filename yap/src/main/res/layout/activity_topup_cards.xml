@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesViewModel" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/white">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_topup_cards_toolbar"
+            app:viewModel="@{viewModel}" />
+
+        <TextView
+            android:id="@+id/txtCardsCount"
+            style="@style/Large"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_extra_large"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@{viewModel.state.noOfCard}"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            tools:text="You have 5 cards" />
+
+        <TextView
+            android:id="@+id/txtCardsSlogan"
+            style="@style/MicroGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/small"
+            android:layout_marginBottom="@dimen/margin_medium"
+            android:text="@{viewModel.state.message}"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtCardsCount"
+            tools:text="Choose which card you want to top up with" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clMain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xl"
+            android:layout_marginBottom="@dimen/margin_xl"
+            app:layout_constraintTop_toBottomOf="@+id/txtCardsSlogan">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Your Desired landing design-->
+            <TextView
+                android:id="@+id/txt_error"
+                style="@style/RegularGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_xl"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:text="@{Strings.screen_y2y_display_text_no_contacts}"
+                tools:text="@string/screen_y2y_display_text_no_contacts" />
+
+            <!--     Notification Center       -->
+            <com.yarolegovich.discretescrollview.DiscreteScrollView
+                android:id="@+id/rvTopUpCards"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:dsv_orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_topup_cards"
+                tools:visibility="visible" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/btnSelect"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/clMain"
+            app:layout_constraintVertical_bias="0.10">
+
+            <TextView
+                android:id="@+id/txtCardName"
+                style="@style/SmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:paddingBottom="@dimen/margin_extra_small"
+                android:text="@{viewModel.state.alias}"
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="visible"
+                tools:text="Citi Bank Claksjdlasjdlkasjdlkasjdard" />
+
+            <TextView
+                android:id="@+id/txtSecure"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:drawableStart="@drawable/ic_secured"
+                android:drawablePadding="@dimen/_minus10sdp"
+                android:gravity="center"
+                android:text="Secured by YAP"
+                android:visibility="visible" />
+        </LinearLayout>
+
+        <co.yap.widgets.CoreButton
+            android:id="@+id/btnSelect"
+            style="@style/FragmentsBtnStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_xxl"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:layout_marginRight="@dimen/margin_xxl"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
+            android:text="Select"
+            android:visibility="@{viewModel.state.valid ? View.VISIBLE:View.GONE}"
+            app:enableCoreButton="@{viewModel.state.valid}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_goneMarginTop="@dimen/margin_extra_large" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

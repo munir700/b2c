@@ -34,7 +34,7 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
         super.onActivityCreated(savedInstanceState)
 
         if (DocumentsDashboardActivity.isFromMoreSection) {
-            tvNoThanks.visibility = GONE
+            //tvNoThanks.visibility = GONE
             eidInfoReviewtoolBarLayout.visibility = VISIBLE
             openCardScanner()
 
@@ -171,7 +171,8 @@ class EidInfoReviewFragment : KYCChildFragment<IEidInfoReview.ViewModel>(), IEid
             hasStartedScanner = false
             activity!!.finish()
         }
-        return false
+        return true
 
     }
+
 }
