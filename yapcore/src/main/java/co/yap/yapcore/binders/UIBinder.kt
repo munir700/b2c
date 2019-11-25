@@ -25,7 +25,7 @@ import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.cards.responsedtos.TxnAnalytic
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton

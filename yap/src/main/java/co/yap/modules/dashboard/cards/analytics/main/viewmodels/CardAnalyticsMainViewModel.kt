@@ -4,8 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.states.CardAnalyticsMainState
-import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
-import co.yap.networking.cards.responsedtos.TxnAnalytic
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 

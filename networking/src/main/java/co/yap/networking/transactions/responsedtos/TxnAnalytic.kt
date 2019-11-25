@@ -1,4 +1,4 @@
-package co.yap.networking.cards.responsedtos
+package co.yap.networking.transactions.responsedtos
 
 data class TxnAnalytic(
     val logoUrl: String?,

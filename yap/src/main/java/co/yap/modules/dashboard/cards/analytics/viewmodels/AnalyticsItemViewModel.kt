@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.view.View
-import co.yap.networking.cards.responsedtos.TxnAnalytic
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AnalyticsItemViewModel(
