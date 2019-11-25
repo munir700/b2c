@@ -3,9 +3,8 @@ package co.yap.app.modules.startup.fragments
 import android.animation.Animator
 import android.os.Bundle
 import android.view.MotionEvent
-import android.view.TextureView
 import android.view.View
-import android.view.View.GONE
+import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
@@ -34,34 +33,13 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
     override val viewModel: IWelcome.ViewModel
         get() = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)
+    lateinit var item: View
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        viewModel.accountType = getAccountType()
-//        welcome_pager.offscreenPageLimit=0
-//
-//        welcomePagerAdapter = WelcomePagerAdapter(
-//            context = requireContext(),
-//            contents = viewModel.getPages(),
-//            layout = R.layout.content_onboarding_welcome
-//        )
-//        welcome_pager?.adapter = welcomePagerAdapter
-//
-//        view?.findViewById<WormDotsIndicator>(R.id.worm_dots_indicator)?.setViewPager(welcome_pager)
-//        viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
-
     }
 
-//    override fun onCreateView(
-//        inflater: LayoutInflater,
-//        container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        return super.onCreateView(inflater, container, savedInstanceState)
-//
-//
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -75,15 +53,25 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         )
 
         viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
+        //
+//
+//        if (welcomePagerAdapter.viewsContainer[position] is View) {
+//            val item = welcomePagerAdapter.viewsContainer[position] as View
+//            val tvTitle = item.findViewById<TextView>(R.id.tvTitle)
+//            val tvDescription = item.findViewById<TextView>(R.id.tvDescription)
+//            val ivPoster = item.findViewById<ImageView>(R.id.ivPoster)
+//            hideAllAnimatingViews(tvTitle,tvDescription,ivPoster)
+//            slideInTitle(
+//                tvTitle,
+//                tvDescription,
+//                ivPoster
+//            )
+//
+//        }
 
         welcome_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-//                hideAllAnimatingViews(welcomePagerAdapter!!)
-//                slideInTitle(
-//                    welcomePagerAdapter!!.tvTitle!!,
-//                    welcomePagerAdapter!!.tvDescription!!,
-//                    welcomePagerAdapter!!.ivPoster!!
-//                )
+
             }
 
             override fun onPageScrolled(
@@ -91,43 +79,60 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                if (position != 1) {
-                    hideAllAnimatingViews(welcomePagerAdapter!!)
-//                    welcome_pager?.adapter.
-//                    welcomePagerAdapter!!.tvTitle!!.visibility = VISIBLE
-//                    welcomePagerAdapter!!.tvDescription!!.visibility = VISIBLE
-//                    welcomePagerAdapter!!.ivPoster!!.visibility = VISIBLE
-//                    slideInTitle(
-//                        welcomePagerAdapter!!.tvTitle!!,
-//                        welcomePagerAdapter!!.tvDescription!!,
-//                        welcomePagerAdapter!!.ivPoster!!
-//                    )
+                if (position == 0) {
+                    hideAllAnimatingViews(
+                        welcomePagerAdapter.tvTitle!!,
+                        welcomePagerAdapter.tvDescription!!,
+                        welcomePagerAdapter.ivPoster!!
+                    )
+                    hideAllAnimatingViews(welcomePagerAdapter)
+
                 }
-//                hideAllAnimatingViews(welcomePagerAdapter!!)
-//                slideInTitle(
-//                    welcomePagerAdapter!!.tvTitle!!,
-//                    welcomePagerAdapter!!.tvDescription!!,
-//                    welcomePagerAdapter!!.ivPoster!!
-//                )
+                if (::item.isInitialized) {
+                    hideAllAnimatingViews(
+                        item.findViewById<TextView>(R.id.tvTitle),
+                        item.findViewById<TextView>(R.id.tvDescription),
+                        item.findViewById<ImageView>(R.id.ivPoster)
+                    )
+
+                }
+
                 if (welcomePagerAdapter.viewsContainer[position] is View) {
-                    val item = welcomePagerAdapter.viewsContainer[position] as View
+                    item = welcomePagerAdapter.viewsContainer[position] as View
                     val tvTitle = item.findViewById<TextView>(R.id.tvTitle)
                     val tvDescription = item.findViewById<TextView>(R.id.tvDescription)
                     val ivPoster = item.findViewById<ImageView>(R.id.ivPoster)
-                    hideAllAnimatingViews(tvTitle,tvDescription,ivPoster)
+                    ivPoster.visibility = INVISIBLE
+                    welcomePagerAdapter.ivPoster!!.visibility = INVISIBLE
+
                     slideInTitle(
                         tvTitle,
                         tvDescription,
                         ivPoster
                     )
-
                 }
 
             }
 
             override fun onPageSelected(position: Int) {
-//                hideAllAnimatingViews(welcomePagerAdapter!!)
-//
+
+                if (position == 0) {
+                    hideAllAnimatingViews(
+                        welcomePagerAdapter.tvTitle!!,
+                        welcomePagerAdapter.tvDescription!!,
+                        welcomePagerAdapter.ivPoster!!
+                    )
+                    hideAllAnimatingViews(welcomePagerAdapter)
+
+                }
+                if (::item.isInitialized) {
+                    hideAllAnimatingViews(
+                        item.findViewById<TextView>(R.id.tvTitle),
+                        item.findViewById<TextView>(R.id.tvDescription),
+                        item.findViewById<ImageView>(R.id.ivPoster)
+                    )
+
+                }
 
 
 //                if (welcomePagerAdapter.viewsContainer[position] is View) {
@@ -192,16 +197,20 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
     }
 
-    private fun hideAllAnimatingViews(tvTitle: TextView, tvDescription: TextView, ivPoster: ImageView) {
-        tvTitle!!.visibility = GONE
-         tvDescription!!.visibility = GONE
-        ivPoster!!.visibility = GONE
+    private fun hideAllAnimatingViews(
+        tvTitle: TextView,
+        tvDescription: TextView,
+        ivPoster: ImageView
+    ) {
+        tvTitle!!.visibility = INVISIBLE
+        tvDescription!!.visibility = INVISIBLE
+        ivPoster!!.visibility = INVISIBLE
     }
 
     private fun hideAllAnimatingViews(welcomePagerAdapter: WelcomePagerAdapter) {
-        welcomePagerAdapter.tvTitle!!.visibility = GONE
-        welcomePagerAdapter.tvDescription!!.visibility = GONE
-        welcomePagerAdapter.ivPoster!!.visibility = GONE
+        welcomePagerAdapter.tvTitle!!.visibility = INVISIBLE
+        welcomePagerAdapter.tvDescription!!.visibility = INVISIBLE
+        welcomePagerAdapter.ivPoster!!.visibility = INVISIBLE
     }
 
 
@@ -220,11 +229,13 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
     fun slideInTitle(viewFirst: View, viewSecond: View, viewThird: View) {
         viewFirst!!.visibility = VISIBLE
+        viewThird!!.visibility = INVISIBLE
 
 
         YoYo.with(Techniques.SlideInRight)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
+                    viewThird!!.visibility = INVISIBLE
                     slideInDsscription(viewSecond, viewThird)
                 }
 
@@ -246,6 +257,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
     fun slideInDsscription(viewSecond: View, viewThird: View) {
         viewSecond!!.visibility = VISIBLE
+        viewThird!!.visibility = INVISIBLE
 
         YoYo.with(Techniques.SlideInRight)
             .withListener(object : Animator.AnimatorListener {
@@ -269,12 +281,38 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
     }
 
+    //
     fun slideInImage(viewThird: View) {
         viewThird!!.visibility = VISIBLE
+
         YoYo.with(Techniques.SlideInRight)
-            .duration(100)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+//                    slideInImage(viewThird)
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+
+                 }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
+            .duration(200)
             .repeat(0)
             .playOn(viewThird)
 
     }
+
+//    fun slideInImage(viewThird: View) {
+//        viewThird!!.visibility = VISIBLE
+//        YoYo.with(Techniques.SlideInRight)
+//            .duration(100)
+//            .repeat(0)
+//            .playOn(viewThird)
+//
+//    }
 }
