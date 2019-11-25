@@ -20,13 +20,13 @@ class AddTopUpCardViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val isCardAdded: MutableLiveData<TopUpCard> = MutableLiveData()
 
-    override fun addTopUpCard(sessionId: String, alias: String, color: String) {
+    override fun addTopUpCard(sessionId: String, alias: String, color: String, number: String) {
         launch {
             state.loading = true
             when (val response = repository.createBeneficiary(
                 CreateBeneficiaryRequest(
                     alias, color,
-                    Session(sessionId)
+                    Session(sessionId,number)
                 )
             )) {
                 is RetroApiResponse.Success -> {
