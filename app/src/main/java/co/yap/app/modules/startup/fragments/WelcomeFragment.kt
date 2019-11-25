@@ -2,9 +2,9 @@ package co.yap.app.modules.startup.fragments
 
 import android.animation.Animator
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
-import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
@@ -33,7 +33,13 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
     override val viewModel: IWelcome.ViewModel
         get() = ViewModelProviders.of(this).get(WelcomeViewModel::class.java)
+
     lateinit var item: View
+    lateinit var olditem: View
+    var selectedPosition: Int = 0
+    var newPosition: Int = 0
+    var incrementValue: Boolean = true
+    var exitEvent: Boolean = false
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -44,7 +50,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.accountType = getAccountType()
-        welcome_pager.offscreenPageLimit = 1
+//        welcome_pager.offscreenPageLimit = 1
 
         val welcomePagerAdapter = WelcomePagerAdapter(
             context = requireContext(),
@@ -53,25 +59,9 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         )
 
         viewModel.onGetStartedPressEvent.observe(this, getStartedButtonObserver)
-        //
-//
-//        if (welcomePagerAdapter.viewsContainer[position] is View) {
-//            val item = welcomePagerAdapter.viewsContainer[position] as View
-//            val tvTitle = item.findViewById<TextView>(R.id.tvTitle)
-//            val tvDescription = item.findViewById<TextView>(R.id.tvDescription)
-//            val ivPoster = item.findViewById<ImageView>(R.id.ivPoster)
-//            hideAllAnimatingViews(tvTitle,tvDescription,ivPoster)
-//            slideInTitle(
-//                tvTitle,
-//                tvDescription,
-//                ivPoster
-//            )
-//
-//        }
 
         welcome_pager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageScrollStateChanged(state: Int) {
-
             }
 
             override fun onPageScrolled(
@@ -80,74 +70,32 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 positionOffsetPixels: Int
             ) {
                 if (position == 0) {
-                    hideAllAnimatingViews(
-                        welcomePagerAdapter.tvTitle!!,
-                        welcomePagerAdapter.tvDescription!!,
-                        welcomePagerAdapter.ivPoster!!
-                    )
-                    hideAllAnimatingViews(welcomePagerAdapter)
-
+                    if (welcomePagerAdapter.viewsContainer[position] is View) {
+                        item = welcomePagerAdapter.viewsContainer[position] as View
+                        slideInTitle(
+                            item.findViewById<TextView>(R.id.tvTitle),
+                            item.findViewById<TextView>(R.id.tvDescription),
+                            item.findViewById<ImageView>(R.id.ivPoster)
+                        )
+                    }
                 }
-                if (::item.isInitialized) {
-                    hideAllAnimatingViews(
-                        item.findViewById<TextView>(R.id.tvTitle),
-                        item.findViewById<TextView>(R.id.tvDescription),
-                        item.findViewById<ImageView>(R.id.ivPoster)
-                    )
-
-                }
-
-                if (welcomePagerAdapter.viewsContainer[position] is View) {
-                    item = welcomePagerAdapter.viewsContainer[position] as View
-                    val tvTitle = item.findViewById<TextView>(R.id.tvTitle)
-                    val tvDescription = item.findViewById<TextView>(R.id.tvDescription)
-                    val ivPoster = item.findViewById<ImageView>(R.id.ivPoster)
-                    ivPoster.visibility = INVISIBLE
-                    welcomePagerAdapter.ivPoster!!.visibility = INVISIBLE
-
-                    slideInTitle(
-                        tvTitle,
-                        tvDescription,
-                        ivPoster
-                    )
-                }
+                selectedPosition = position
 
             }
 
             override fun onPageSelected(position: Int) {
+                if (position != 0) {
+                    if (welcomePagerAdapter.viewsContainer[position] is View) {
+//                    selectedPosition = position
+                        item = welcomePagerAdapter.viewsContainer[position] as View
 
-                if (position == 0) {
-                    hideAllAnimatingViews(
-                        welcomePagerAdapter.tvTitle!!,
-                        welcomePagerAdapter.tvDescription!!,
-                        welcomePagerAdapter.ivPoster!!
-                    )
-                    hideAllAnimatingViews(welcomePagerAdapter)
-
+                        slideInTitle(
+                            item.findViewById<TextView>(R.id.tvTitle),
+                            item.findViewById<TextView>(R.id.tvDescription),
+                            item.findViewById<ImageView>(R.id.ivPoster)
+                        )
+                    }
                 }
-                if (::item.isInitialized) {
-                    hideAllAnimatingViews(
-                        item.findViewById<TextView>(R.id.tvTitle),
-                        item.findViewById<TextView>(R.id.tvDescription),
-                        item.findViewById<ImageView>(R.id.ivPoster)
-                    )
-
-                }
-
-
-//                if (welcomePagerAdapter.viewsContainer[position] is View) {
-//                    val item = welcomePagerAdapter.viewsContainer[position] as View
-//                    val tvTitle = item.findViewById<TextView>(R.id.tvTitle)
-//                    val tvDescription = item.findViewById<TextView>(R.id.tvDescription)
-//                    val ivPoster = item.findViewById<ImageView>(R.id.ivPoster)
-//                    hideAllAnimatingViews(tvTitle,tvDescription,ivPoster)
-//                    slideInTitle(
-//                        tvTitle,
-//                        tvDescription,
-//                        ivPoster
-//                    )
-//
-//                }
 
             }
 
@@ -166,26 +114,41 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                         if (event!!.getX() < 490) {
                             // tapped on left of center
                             if (welcome_pager.currentItem > 0 && welcome_pager.currentItem <= 2) {
-                                //hideAllAnimatingViews(welcomePagerAdapter!!)
-                                welcome_pager.setCurrentItem(welcome_pager.currentItem - 1)
-//                                welcome_pager.performClick()
 
+
+                                if (::item.isInitialized) {
+                                    incrementValue = false
+
+                                    return slideOutTitle(
+                                        item.findViewById<TextView>(R.id.tvTitle),
+                                        item.findViewById<TextView>(R.id.tvDescription),
+                                        item.findViewById<ImageView>(R.id.ivPoster)
+                                    )
+                                }
                                 return true
+
                             }
 
                         }
                         if (event!!.getX() > 490) {
                             //tapped on right of center
                             if (welcome_pager.currentItem < 2) {
-                                //hideAllAnimatingViews(welcomePagerAdapter!!)
-                                welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
 
+                                if (::item.isInitialized) {
+                                    incrementValue = true
+                                    return slideOutTitle(
+                                        item.findViewById<TextView>(R.id.tvTitle),
+                                        item.findViewById<TextView>(R.id.tvDescription),
+                                        item.findViewById<ImageView>(R.id.ivPoster)
+                                    )
 
-//                                welcome_pager.performClick()
+                                }
                                 return true
+
 
                             }
                         }
+                        return true// just to try
                     }
 
                 }
@@ -195,22 +158,6 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
             }
         })
 
-    }
-
-    private fun hideAllAnimatingViews(
-        tvTitle: TextView,
-        tvDescription: TextView,
-        ivPoster: ImageView
-    ) {
-        tvTitle!!.visibility = INVISIBLE
-        tvDescription!!.visibility = INVISIBLE
-        ivPoster!!.visibility = INVISIBLE
-    }
-
-    private fun hideAllAnimatingViews(welcomePagerAdapter: WelcomePagerAdapter) {
-        welcomePagerAdapter.tvTitle!!.visibility = INVISIBLE
-        welcomePagerAdapter.tvDescription!!.visibility = INVISIBLE
-        welcomePagerAdapter.ivPoster!!.visibility = INVISIBLE
     }
 
 
@@ -226,16 +173,23 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
     private fun getAccountType(): AccountType =
         arguments?.getSerializable(getString(R.string.arg_account_type)) as AccountType
 
+//SLIDE iN ANIMATIONS
 
     fun slideInTitle(viewFirst: View, viewSecond: View, viewThird: View) {
         viewFirst!!.visibility = VISIBLE
-        viewThird!!.visibility = INVISIBLE
+//        viewThird!!.visibility = INVISIBLE
+        var techniques: Techniques
+        if (incrementValue) {
+            techniques = Techniques.SlideInRight
+        } else {
+            techniques = Techniques.SlideInLeft
 
+        }
 
-        YoYo.with(Techniques.SlideInRight)
+        YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-                    viewThird!!.visibility = INVISIBLE
+//                    viewThird!!.visibility = INVISIBLE
                     slideInDsscription(viewSecond, viewThird)
                 }
 
@@ -249,43 +203,57 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(300)
+            .duration(500)
             .repeat(0)
             .playOn(viewFirst)
 
     }
 
     fun slideInDsscription(viewSecond: View, viewThird: View) {
-        viewSecond!!.visibility = VISIBLE
-        viewThird!!.visibility = INVISIBLE
+        var techniques: Techniques
+        if (incrementValue) {
+            techniques = Techniques.SlideInRight
+        } else {
+            techniques = Techniques.SlideInLeft
 
-        YoYo.with(Techniques.SlideInRight)
+        }
+
+        viewSecond!!.visibility = VISIBLE
+//        viewThird!!.visibility = INVISIBLE
+
+        YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
 //                    slideInImage(viewThird)
+                    slideInImage(viewThird)
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    slideInImage(viewThird)
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(200)
+            .duration(400)
             .repeat(0)
             .playOn(viewSecond)
 
     }
 
-    //
     fun slideInImage(viewThird: View) {
+        var techniques: Techniques
+        if (incrementValue) {
+            techniques = Techniques.SlideInRight
+        } else {
+            techniques = Techniques.SlideInLeft
+
+        }
         viewThird!!.visibility = VISIBLE
 
-        YoYo.with(Techniques.SlideInRight)
+        YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
 //                    slideInImage(viewThird)
@@ -296,23 +264,123 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
                 override fun onAnimationEnd(animation: Animator?) {
 
-                 }
+                }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(200)
+            .duration(400)
             .repeat(0)
             .playOn(viewThird)
 
     }
+    /// slide out animations
 
-//    fun slideInImage(viewThird: View) {
+
+    fun slideOutTitle(viewFirst: View, viewSecond: View, viewThird: View): Boolean {
+//        viewFirst!!.visibility = VISIBLE
+//        viewThird!!.visibility = INVISIBLE
+
+        var techniques: Techniques
+        if (incrementValue) {
+            techniques = Techniques.SlideOutLeft
+        } else {
+            techniques = Techniques.SlideOutRight
+
+        }
+        YoYo.with(techniques)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+//                    viewThird!!.visibility = INVISIBLE
+                    slideOutDsscription(viewSecond, viewThird)
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+//                    slideInDsscription(viewSecond, viewThird)
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
+            .duration(1500)
+            .repeat(0)
+            .playOn(viewFirst)
+        return true
+    }
+
+    fun slideOutDsscription(viewSecond: View, viewThird: View) {
+//        viewSecond!!.visibility = VISIBLE
+//        viewThird!!.visibility = INVISIBLE
+
+        var techniques: Techniques
+        if (incrementValue) {
+            techniques = Techniques.SlideOutLeft
+        } else {
+            techniques = Techniques.SlideOutRight
+
+        }
+        YoYo.with(techniques)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+//                    slideInImage(viewThird)
+                    slideOutImage(viewThird)
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
+            .duration(1400)
+            .repeat(0)
+            .playOn(viewSecond)
+
+    }
+
+    fun slideOutImage(viewThird: View) {
 //        viewThird!!.visibility = VISIBLE
-//        YoYo.with(Techniques.SlideInRight)
-//            .duration(100)
-//            .repeat(0)
-//            .playOn(viewThird)
-//
-//    }
+
+        var techniques: Techniques
+        if (incrementValue) {
+            techniques = Techniques.SlideOutLeft
+        } else {
+            techniques = Techniques.SlideOutRight
+
+        }
+        YoYo.with(techniques)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+//                    slideInImage(viewThird)
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+                    Log.i("incrementValue", incrementValue.toString())
+                    if (incrementValue) {
+                        welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
+                    } else {
+                        welcome_pager.setCurrentItem(welcome_pager.currentItem - 1)
+                    }
+
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
+            .duration(1400)
+            .repeat(0)
+            .playOn(viewThird)
+
+    } /// slide out RIGHT animations
+
+
 }

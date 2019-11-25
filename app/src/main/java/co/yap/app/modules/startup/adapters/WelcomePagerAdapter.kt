@@ -47,9 +47,9 @@ class WelcomePagerAdapter(
         containerView = viewBinding.root
 
         viewsContainer.put(position, viewBinding.root)
-        tvDescription!!.visibility = INVISIBLE
-        tvTitle!!.visibility = INVISIBLE
-        ivPoster!!.visibility = INVISIBLE
+//        tvDescription!!.visibility = INVISIBLE
+//        tvTitle!!.visibility = INVISIBLE
+//        ivPoster!!.visibility = INVISIBLE
 
         return viewBinding.root
     }
