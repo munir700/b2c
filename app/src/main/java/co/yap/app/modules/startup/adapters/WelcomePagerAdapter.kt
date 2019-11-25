@@ -2,6 +2,8 @@ package co.yap.app.modules.startup.adapters
 
 import android.animation.Animator
 import android.content.Context
+import android.util.Log
+import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -22,9 +24,13 @@ class WelcomePagerAdapter(
     private val contents: ArrayList<WelcomeContent>,
     private val layout: Int
 ) : PagerAdapter() {
+    val viewsContainer: SparseArray<View> = SparseArray()
+
     var tvTitle: TextView? = null
     var tvDescription: TextView? = null
     var ivPoster: ImageView? = null
+    var containerView: View? = null
+    var check: Boolean = true
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val content = contents[position]
@@ -36,22 +42,62 @@ class WelcomePagerAdapter(
             false
         )
         viewBinding.setVariable((content as IBindable).bindingVariable, content)
-        container.addView(viewBinding.root)
+
+        Log.i("positionzzzvv", position.toString())
+
         tvTitle = viewBinding.tvTitle
         tvDescription = viewBinding.tvDescription
         ivPoster = viewBinding.ivPoster
-        slideInTitle()
 
+        tvDescription!!.visibility = GONE
+        tvTitle!!.visibility = GONE
+        ivPoster!!.visibility = GONE
+
+//        viewBinding.root.setOnTouchListener(object : View.OnTouchListener {
+//            override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+//
+//                if (position == 0 ||position == 2) {
+//                    tvDescription!!.visibility = VISIBLE
+//                    tvTitle!!.visibility = VISIBLE
+//                    ivPoster!!.visibility = VISIBLE
+//                }
+//            return false
+//            }
+//        })
+//  viewBinding.root.setOnClickListener(object : View.OnClickListener {
+//            override fun onClick(v: View?) {
+//
+//                if (position == 1) {
+//                    tvDescription!!.visibility = VISIBLE
+//                    tvTitle!!.visibility = VISIBLE
+//                    ivPoster!!.visibility = VISIBLE
+//                }
+//            }
+//        })
+
+        container.addView(viewBinding.root)
+//        tvTitle = viewBinding.tvTitle
+//        tvDescription = viewBinding.tvDescription
+//        ivPoster = viewBinding.ivPoster
+//        slideInTitle()
+
+        containerView = viewBinding.root
+
+        viewsContainer.put(position, viewBinding.root)
         return viewBinding.root
     }
 
     override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
-        slideInTitle()
-        container.removeView(`object` as View)
+//        slideOutTitle()
+        container.performClick()
+        Log.i("positionzzz", position.toString())
+//        container.removeView(`object` as View)
+
+        viewsContainer.remove(position)
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        slideInTitle()
+//        slideInTitle()
         return contents[position].title
     }
 
@@ -60,8 +106,9 @@ class WelcomePagerAdapter(
     override fun getCount(): Int = contents.size
 
 
-    fun slideInTitle() {
-
+    open fun slideInTitle() {
+//        check = false
+        tvDescription!!.visibility = VISIBLE
         YoYo.with(Techniques.SlideInRight)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
@@ -78,11 +125,34 @@ class WelcomePagerAdapter(
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(1500)
+            .duration(400)
             .repeat(0)
-            .playOn(tvDescription)
+            .playOn(tvDescription!!)
 
     }
 
+    open fun slideOutTitle() {
+//        tvDescription!!.visibility = VISIBLE
 
+        YoYo.with(Techniques.SlideOutRight)
+            .withListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(animation: Animator?) {
+
+                }
+
+                override fun onAnimationRepeat(animation: Animator?) {
+                }
+
+                override fun onAnimationEnd(animation: Animator?) {
+//                    FadeInSuccessImage()
+                }
+
+                override fun onAnimationCancel(animation: Animator?) {
+                }
+            })
+            .duration(300)
+            .repeat(0)
+            .playOn(tvDescription!!)
+
+    }
 }
