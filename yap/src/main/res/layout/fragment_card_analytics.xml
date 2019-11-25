@@ -22,13 +22,74 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <co.yap.widgets.pieview.PieChart
-                android:id="@+id/chart1"
-                android:layout_width="@dimen/_180sdp"
-                android:layout_height="@dimen/_180sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+
+            <RelativeLayout
+                android:id="@+id/pieViewConstraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <RelativeLayout
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_centerInParent="true"
+                    android:layout_centerHorizontal="true">
+
+                    <co.yap.widgets.CoreCircularImageView
+                        android:id="@+id/ivPieView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_centerInParent="true"
+                        android:layout_marginStart="@dimen/margin_medium_large"
+                        android:background="@drawable/ic_shopping" />
+
+                    <TextView
+                        android:id="@+id/tvPieViewTitle"
+                        style="@style/Regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/ivPieView"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:layout_marginBottom="-25dp"
+                        android:text="Shopping"
+                        android:textColor="@color/colorSecondaryMagenta"
+                        android:textSize="@dimen/_10sdp" />
+
+                    <TextView
+                        android:id="@+id/tvPieViewPrice"
+                        style="@style/Regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tvPieViewTitle"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:layout_marginBottom="-15dp"
+                        android:text="AED 600.30"
+                        android:textColor="#272262"
+                        android:textSize="@dimen/_10sdp" />
+                    <TextView
+                        android:id="@+id/tvPieViewPercentage"
+                        style="@style/Regular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/tvPieViewPrice"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginEnd="@dimen/_14sdp"
+                        android:layout_marginBottom="-15dp"
+                        android:text="42%"
+                        android:textColor="#9391b1"
+                        android:textSize="@dimen/_10sdp" />
+                </RelativeLayout>
+
+                <co.yap.widgets.pieview.PieChart
+                    android:id="@+id/chart1"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_200sdp"
+                    android:layout_centerHorizontal="true" />
+
+            </RelativeLayout>
             <TextView
                 android:id="@+id/tvMonthlyAverage"
                 android:layout_width="wrap_content"
@@ -37,7 +98,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 tools:text="Monthly average is AED 1,600.47"
                 style="@style/MicroGrey"
-                app:layout_constraintTop_toBottomOf="@+id/chart1"
+                app:layout_constraintTop_toBottomOf="@+id/pieViewConstraintLayout"
                 />
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
