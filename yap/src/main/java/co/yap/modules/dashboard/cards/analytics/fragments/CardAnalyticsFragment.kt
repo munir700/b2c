@@ -9,7 +9,9 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.ImageSpan
 import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -28,7 +30,7 @@ import co.yap.widgets.pieview.*
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
-    ICardAnalytics.View {
+    ICardAnalytics.View, OnChartValueSelectedListener {
 
     private var chart: PieChart? = null
     override fun getBindingVariable(): Int = BR.viewModel
@@ -51,12 +53,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         chart = getBindingView().chart1
         chart!!.setUsePercentValues(false)
         chart!!.description.isEnabled = false
-        chart!!.setExtraOffsets(5f, 10f, 5f, 5f)
         chart!!.dragDecelerationFrictionCoef = 0.95f
         //chart!!.setCenterTextTypeface(tfLight)
-        chart!!.centerText = generateCenterSpannableText()
+        // chart!!.centerText = generateCenterSpannableText()
         chart!!.isDrawHoleEnabled = true
-        chart!!.setHoleColor(Color.WHITE)
+        chart!!.setHoleColor(Color.TRANSPARENT)
         chart!!.setTransparentCircleColor(Color.WHITE)
         chart!!.setTransparentCircleAlpha(200)
         chart!!.holeRadius = 70f
@@ -73,7 +74,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         // chart.setUnit(" €");
 // chart.setDrawUnitsInChart(true);
 // add a selection listener
-        // chart!!.setOnChartValueSelectedListener()
+        chart!!.setOnChartValueSelectedListener(this)
 //        seekBarX.setProgress(4)
 //        seekBarY.setProgress(10)
         chart!!.animateY(1400, Easing.EaseInOutQuad)
@@ -142,9 +143,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextColor(Color.WHITE)
         // data.setValueTypeface(tfLight)
         chart!!.data = data
-        // undo all highlights
-        chart!!.highlightValues(null)
+        chart!!.highlightValue(0f, 0, true)
         chart!!.invalidate()
+
+
     }
 
     /*TODO: Set Icon*/
@@ -259,4 +261,16 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
         "Party Y", "Party Z"
     )
+
+    override fun onNothingSelected() {
+
+        Toast.makeText(context!!.applicationContext, "onNothingSelected", Toast.LENGTH_LONG).show()
+    }
+
+    override fun onValueSelected(e: Entry?, h: Highlight?) {
+        /*TODO:Pie Cart View Click Listener*/
+        val select_index_value = h!!.x.toShort()
+        Log.d("MIRZA", "TEST  $select_index_value")
+
+    }
 }
