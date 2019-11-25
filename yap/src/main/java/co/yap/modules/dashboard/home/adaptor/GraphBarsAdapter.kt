@@ -44,6 +44,10 @@ class GraphBarsAdapter(
             holder.transactionBar.isSelected = false
 
         } else {
+//            if(checkedPosition == 0)
+//            {
+//                helper?.addTooltip(holder.itemView.findViewById(R.id.transactionBar), transactionModel)
+//            }
             holder.transactionBar.isSelected = checkedPosition == holder.adapterPosition
         }
 
@@ -55,6 +59,7 @@ class GraphBarsAdapter(
                 helper?.addTooltip(v.findViewById(R.id.transactionBar), transactionModel)
                 notifyItemChanged(checkedPosition)
                 checkedPosition = holder.adapterPosition
+                helper?.barSelectedPosition = checkedPosition
             }
         }
         holder.itemView.isClickable = false
@@ -65,6 +70,7 @@ class GraphBarsAdapter(
         //   viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
         //}
     }
+
 
     override fun getItemCount(): Int {
         helper?.totalItemCount = listItems.size

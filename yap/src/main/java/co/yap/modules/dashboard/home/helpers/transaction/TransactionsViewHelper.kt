@@ -31,6 +31,7 @@ class TransactionsViewHelper(
     private var tooltip: TooltipView? = null
     var checkScroll: Boolean = false
     var totalItemCount: Int = 0
+    var barSelectedPosition: Int = 0
     //    var horizontalScrollPosition: Int = 0
     private var toolbarCollapsed = false
     var rvTransactionScrollListener: RecyclerView.OnScrollListener? = null
@@ -208,9 +209,8 @@ class TransactionsViewHelper(
             val newView =
                 transactionsView.rvTransactionsBarChart.getChildAt(0)
             if (null != newView) {
-                previouslySelected = 0
                 addTooltip(
-                    newView.findViewById(R.id.parent),
+                    newView.findViewById(R.id.transactionBar),
                     viewModel.transactionsLiveData.value!![0]
                 )
             }
@@ -405,22 +405,53 @@ class TransactionsViewHelper(
                     super.onScrolled(recyclerView, dx, dy)
                     var layoutManager = recyclerView.layoutManager as LinearLayoutManager
                     val position = layoutManager.findFirstVisibleItemPosition()
+                    Log.d("dx >> ", "$dx")
+                    Log.d("dy >> ", "$dy")
                     if (!checkScroll) {
                         val graphLayoutManager =
                             transactionsView.rvTransactionsBarChart.layoutManager as LinearLayoutManager
-                        if (position > graphLayoutManager.findLastVisibleItemPosition() - 3) {
-                            Log.d("Position>> ", "$position")
+                        // if dy is greater then 0 mean scroll to bottom
+                        // if dy is less then 0 means scroll to top
+                        val view = transactionsView.rvTransactionsBarChart.layoutManager?.findViewByPosition(position)
+                        view?.performClick()
+                        if (dy > 0) {
+                            if (position >= graphLayoutManager.findLastVisibleItemPosition() ) {
+//                                Log.d("Position>> ", "$position")
+//                                Log.d(
+//                                    "findLstVisiItemPos>> ",
+//                                    "" + graphLayoutManager.findLastVisibleItemPosition()
+//                                )
+                                transactionsView.rvTransactionsBarChart.scrollToPosition(
+                                    graphLayoutManager.findLastCompletelyVisibleItemPosition()+1
+                                )
+                                //transactionsView.rvTransactionsBarChart.scrollTo()
+
+                            }
+//                            Log.d("ViewX>>",""+view?.x)
+                        }
+                        else if(dy<0)
+                        {
+                            Log.d("FPosition>> ", "$position")
                             Log.d(
-                                "findLstVisiItemPos>> ",
-                                "" + graphLayoutManager.findLastVisibleItemPosition()
+                                "FirstVisiItemFPosi>> ",
+                                "" + graphLayoutManager.findFirstVisibleItemPosition()
                             )
-                            transactionsView.rvTransactionsBarChart.smoothScrollToPosition(graphLayoutManager.findLastVisibleItemPosition() + 10)
+                            if (position <= graphLayoutManager.findFirstVisibleItemPosition() ) {
+
+                                transactionsView.rvTransactionsBarChart.scrollToPosition(
+                                    graphLayoutManager.findFirstCompletelyVisibleItemPosition()-1
+                                )
+                                //transactionsView.rvTransactionsBarChart.scrollTo()
+
+                            }
 
                         }
-                        transactionsView.rvTransactionsBarChart.layoutManager?.findViewByPosition(
-                            position
-                        )
-                            ?.performClick()
+
+
+//                        transactionsView.rvTransactionsBarChart.layoutManager?.findViewByPosition(
+//                            position
+//                        )
+//                            ?.performClick()
                     }
 
 
