@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.INVISIBLE
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -47,9 +46,6 @@ class WelcomePagerAdapter(
         containerView = viewBinding.root
 
         viewsContainer.put(position, viewBinding.root)
-//        tvDescription!!.visibility = INVISIBLE
-//        tvTitle!!.visibility = INVISIBLE
-//        ivPoster!!.visibility = INVISIBLE
 
         return viewBinding.root
     }

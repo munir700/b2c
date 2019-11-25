@@ -2,7 +2,6 @@ package co.yap.app.modules.startup.fragments
 
 import android.animation.Animator
 import android.os.Bundle
-import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.VISIBLE
@@ -50,7 +49,6 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.accountType = getAccountType()
-//        welcome_pager.offscreenPageLimit = 1
 
         val welcomePagerAdapter = WelcomePagerAdapter(
             context = requireContext(),
@@ -69,7 +67,9 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                if (position == 0) {
+//                if (position == 0) {
+                if (!exitEvent) {
+                    exitEvent = true
                     if (welcomePagerAdapter.viewsContainer[position] is View) {
                         item = welcomePagerAdapter.viewsContainer[position] as View
                         slideInTitle(
@@ -84,9 +84,9 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
             }
 
             override fun onPageSelected(position: Int) {
-                if (position != 0) {
+//                if (position != 0) {
+                if (exitEvent) {
                     if (welcomePagerAdapter.viewsContainer[position] is View) {
-//                    selectedPosition = position
                         item = welcomePagerAdapter.viewsContainer[position] as View
 
                         slideInTitle(
@@ -148,7 +148,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
 
                             }
                         }
-                        return true// just to try
+                        return true
                     }
 
                 }
@@ -173,11 +173,10 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
     private fun getAccountType(): AccountType =
         arguments?.getSerializable(getString(R.string.arg_account_type)) as AccountType
 
-//SLIDE iN ANIMATIONS
 
     fun slideInTitle(viewFirst: View, viewSecond: View, viewThird: View) {
         viewFirst!!.visibility = VISIBLE
-//        viewThird!!.visibility = INVISIBLE
+
         var techniques: Techniques
         if (incrementValue) {
             techniques = Techniques.SlideInRight
@@ -189,7 +188,6 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-//                    viewThird!!.visibility = INVISIBLE
                     slideInDsscription(viewSecond, viewThird)
                 }
 
@@ -197,7 +195,6 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-//                    slideInDsscription(viewSecond, viewThird)
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
@@ -219,12 +216,10 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         }
 
         viewSecond!!.visibility = VISIBLE
-//        viewThird!!.visibility = INVISIBLE
 
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-//                    slideInImage(viewThird)
                     slideInImage(viewThird)
                 }
 
@@ -256,7 +251,6 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-//                    slideInImage(viewThird)
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {
@@ -274,12 +268,9 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
             .playOn(viewThird)
 
     }
-    /// slide out animations
 
 
     fun slideOutTitle(viewFirst: View, viewSecond: View, viewThird: View): Boolean {
-//        viewFirst!!.visibility = VISIBLE
-//        viewThird!!.visibility = INVISIBLE
 
         var techniques: Techniques
         if (incrementValue) {
@@ -291,7 +282,6 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-//                    viewThird!!.visibility = INVISIBLE
                     slideOutDsscription(viewSecond, viewThird)
                 }
 
@@ -299,21 +289,18 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-//                    slideInDsscription(viewSecond, viewThird)
                 }
 
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(1500)
+            .duration(500)
             .repeat(0)
             .playOn(viewFirst)
         return true
     }
 
     fun slideOutDsscription(viewSecond: View, viewThird: View) {
-//        viewSecond!!.visibility = VISIBLE
-//        viewThird!!.visibility = INVISIBLE
 
         var techniques: Techniques
         if (incrementValue) {
@@ -325,7 +312,6 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-//                    slideInImage(viewThird)
                     slideOutImage(viewThird)
                 }
 
@@ -338,14 +324,13 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(1400)
+            .duration(400)
             .repeat(0)
             .playOn(viewSecond)
 
     }
 
     fun slideOutImage(viewThird: View) {
-//        viewThird!!.visibility = VISIBLE
 
         var techniques: Techniques
         if (incrementValue) {
@@ -357,14 +342,12 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
         YoYo.with(techniques)
             .withListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator?) {
-//                    slideInImage(viewThird)
                 }
 
                 override fun onAnimationRepeat(animation: Animator?) {
                 }
 
                 override fun onAnimationEnd(animation: Animator?) {
-                    Log.i("incrementValue", incrementValue.toString())
                     if (incrementValue) {
                         welcome_pager.setCurrentItem(welcome_pager.currentItem + 1)
                     } else {
@@ -376,11 +359,9 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(1400)
+            .duration(400)
             .repeat(0)
             .playOn(viewThird)
 
-    } /// slide out RIGHT animations
-
-
+    }
 }
