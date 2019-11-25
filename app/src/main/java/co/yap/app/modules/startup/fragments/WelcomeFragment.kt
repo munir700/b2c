@@ -200,7 +200,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(500)
+            .duration(400)
             .repeat(0)
             .playOn(viewFirst)
 
@@ -232,7 +232,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(400)
+            .duration(200)
             .repeat(0)
             .playOn(viewSecond)
 
@@ -263,7 +263,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(400)
+            .duration(200)
             .repeat(0)
             .playOn(viewThird)
 
@@ -294,7 +294,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(500)
+            .duration(400)
             .repeat(0)
             .playOn(viewFirst)
         return true
@@ -324,7 +324,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(400)
+            .duration(200)
             .repeat(0)
             .playOn(viewSecond)
 
@@ -359,7 +359,7 @@ open class WelcomeFragment : BaseBindingFragment<IWelcome.ViewModel>(), IWelcome
                 override fun onAnimationCancel(animation: Animator?) {
                 }
             })
-            .duration(400)
+            .duration(200)
             .repeat(0)
             .playOn(viewThird)
 
