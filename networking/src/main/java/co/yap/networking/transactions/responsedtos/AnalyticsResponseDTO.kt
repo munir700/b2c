@@ -4,7 +4,8 @@ import co.yap.networking.models.ApiResponse
 
 data class AnalyticsResponseDTO(
     val date: String,
-    val totalTxnAmount: Int,
-    val totalTxnCount: Int,
+    val totalTxnAmount: Double,
+    val totalTxnCount: Double,
+    val monthlyAvgAmount: Double,
     val txnAnalytics: List<TxnAnalytic>
 ) : ApiResponse()

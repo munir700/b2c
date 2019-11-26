@@ -26,6 +26,7 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityYapDashboardBinding
+import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
@@ -70,7 +71,11 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
+        /*   getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
+               showToast("ana")
+           }*/
     }
+
 
     private fun setupYapButton() {
         actionMenu = FloatingActionMenu.Builder(this)
@@ -162,6 +167,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it) {
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
+                R.id.lAnalytics -> showToast("m in analytics")
             }
         })
 
@@ -305,7 +311,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     }
                 }
                 R.id.yapMore -> {
-                    getViewBinding().viewPager.setCurrentItem(3, false)
+                    startActivity(Intent(this, CardAnalyticsActivity::class.java))
+                    //getViewBinding().viewPager.setCurrentItem(3, false)
                 }
             }
             true
