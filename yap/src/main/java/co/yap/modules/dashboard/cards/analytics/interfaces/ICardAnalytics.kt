@@ -26,6 +26,6 @@ interface ICardAnalytics {
         var selectedItemSpentValue: String
         var selectedItemPercentage: String
         var selectedItemName: String
-
+        var selectedItemPosition: Int
     }
 }

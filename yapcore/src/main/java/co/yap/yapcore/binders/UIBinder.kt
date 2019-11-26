@@ -23,10 +23,11 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
-import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
 import co.yap.widgets.CoreCircularImageView
@@ -104,7 +105,54 @@ object UIBinder {
                 circularImage.drawable.setTint(R.color.colorSecondaryGreen)
             }
             4 -> {
-                circularImage.drawable.setTint(R.color.disabledPurple)
+                circularImage.drawable.setTint(R.color.colorPrimary)
+            }
+        }
+    }
+
+    @BindingAdapter("tvColor")
+    @JvmStatic
+    fun updateTextColor(view: TextView, position: Int) {
+        when (position) {
+            0 -> {
+                view.setTextColor(
+                    ContextCompat.getColor(
+                        view.context,
+                        R.color.colorSecondaryMagenta
+                    )
+                )
+            }
+            1 -> {
+                view.setTextColor(
+                    ContextCompat.getColor(
+                        view.context,
+                        R.color.colorSecondaryBlue
+                    )
+                )
+            }
+            2 -> {
+                view.setTextColor(
+                    ContextCompat.getColor(
+                        view.context,
+                        R.color.colorSecondaryOrange
+                    )
+                )
+            }
+            3 -> {
+                view.setTextColor(
+                    ContextCompat.getColor(
+                        view.context,
+                        R.color.colorSecondaryGreen
+                    )
+                )
+            }
+            4 -> {
+                view.setTextColor(
+                    ContextCompat.getColor(
+                        view.context,
+                        R.color.colorPrimary
+                    )
+                )
             }
         }
     }

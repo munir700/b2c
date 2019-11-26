@@ -98,7 +98,6 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
             }
         }
 
-
     private fun getAdaptor(): CategoryAnalyticsAdaptor {
         return getBinding().recycler.adapter as CategoryAnalyticsAdaptor
     }

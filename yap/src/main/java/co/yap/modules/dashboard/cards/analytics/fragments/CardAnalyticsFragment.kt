@@ -120,12 +120,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.let { list ->
                         updatePieChartInnerData(list[it])
                     }
+                    viewModel.state.selectedItemPosition = it
                     showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
                     viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.let { list ->
                         updatePieChartInnerData(list[it])
                     }
+                    viewModel.state.selectedItemPosition = it
                     showPieView(it)
                 }
             }
@@ -168,14 +170,13 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         }
     }
     private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
-        override fun onTabReselected(tab: TabLayout.Tab?) {
-        }
+        override fun onTabReselected(tab: TabLayout.Tab?) {}
 
-        override fun onTabUnselected(tab: TabLayout.Tab?) {
-        }
+        override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let {
+                setSelectedTabData(it.position, 0)
                 when (it.position) {
                     CATEGORY_ANALYTICS -> {
                         setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
@@ -186,7 +187,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 }
             }
         }
-
     }
 
     private fun setupAdaptor() {
@@ -239,7 +239,24 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun onValueSelected(e: Entry?, h: Highlight?) {
 //        /*TODO:Pie Chart View Click Listener*/
         h?.let {
-            viewModel.parentViewModel.selectedItemPositionParent.value = h?.x?.toInt()
+            setSelectedTabData(getBindingView().viewPager.currentItem, it.x.toInt())
+            viewModel.parentViewModel.selectedItemPositionParent.value = it.x.toInt()
         }
+    }
+
+    private fun setSelectedTabData(TabPosition: Int, contentPos: Int) {
+        when (TabPosition) {
+            CATEGORY_ANALYTICS -> {
+                updatePieChartInnerData(
+                    viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(contentPos)
+                )
+            }
+            MERCHANT_ANALYTICS -> {
+                updatePieChartInnerData(
+                    viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(contentPos)
+                )
+            }
+        }
+        viewModel.state.selectedItemPosition = contentPos
     }
 }
