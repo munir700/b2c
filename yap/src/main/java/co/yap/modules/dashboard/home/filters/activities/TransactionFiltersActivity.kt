@@ -162,7 +162,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun setFilterValues() {
-        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked) {
+        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked && rsbAmount.leftSeekBar.progress == viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) {
             YAPApplication.hasFilterStateChanged =
                 Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
                     viewModel.transactionFilters.value?.maxAmount!!
@@ -227,24 +227,29 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun getCurrentTxnType(): String? {
         // case null is used for all transaction
-        return when {
-            cbInTransFilter.isChecked && cbOutTransFilter.isChecked -> {
-                YAPApplication.isAllChecked = true
-                null
+        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked ){
+            return null
+        }else{
+            return when {
+                cbInTransFilter.isChecked && cbOutTransFilter.isChecked -> {
+                    YAPApplication.isAllChecked = true
+                    null
+                }
+                !cbInTransFilter.isChecked && !cbOutTransFilter.isChecked -> {
+                    YAPApplication.isAllChecked = true
+                    null
+                }
+                cbInTransFilter.isChecked -> {
+                    YAPApplication.isAllChecked = false
+                    "CREDIT"
+                }
+                cbOutTransFilter.isChecked -> {
+                    YAPApplication.isAllChecked = false
+                    "DEBIT"
+                }
+                else -> null
             }
-            !cbInTransFilter.isChecked && !cbOutTransFilter.isChecked -> {
-                YAPApplication.isAllChecked = true
-                null
-            }
-            cbInTransFilter.isChecked -> {
-                YAPApplication.isAllChecked = false
-                "CREDIT"
-            }
-            cbOutTransFilter.isChecked -> {
-                YAPApplication.isAllChecked = false
-                "DEBIT"
-            }
-            else -> null
         }
+
     }
 }
