@@ -35,6 +35,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_TOP_UP_TRANSACTION = "/transactions/api/mastercard/order-id/{order-id}"
     const val URL_SECURE_ID_POOLING =
         "/transactions/api/mastercard/retrieve-acs-results/3DSecureId/{secureId}"
+    const val URL_GET_ANALYTICS_BY_MERCHANT_NAME =
+        "/transactions/api/transaction/card/analytics-merchant-name"
+    const val URL_GET_ANALYTICS_BY_CATEGORY_NAME =
+        "/transactions/api/transaction/card/analytics-merchant-category"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -111,4 +115,15 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.cardTopUpTransactionRequest(orderId, topUpTransactionRequest) })
 
+    override suspend fun getAnalyticsByMerchantName(
+        cardSerialNo: String,
+        date: String
+    ): RetroApiResponse<AnalyticsResponseDTO> =
+        executeSafely(call = { api.getAnalyticsByMerchantName(cardSerialNo, date) })
+
+    override suspend fun getAnalyticsByCategoryName(
+        cardSerialNo: String,
+        date: String
+    ): RetroApiResponse<AnalyticsResponseDTO> =
+        executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
 }

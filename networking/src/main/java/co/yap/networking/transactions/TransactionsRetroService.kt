@@ -88,5 +88,13 @@ interface TransactionsRetroService {
 
     // Card top up transaction request
     @PUT(TransactionsRepository.URL_TOP_UP_TRANSACTION)
-    suspend fun cardTopUpTransactionRequest(@Path("order-id") orderId :String,@Body topUpTransactionRequest: TopUpTransactionRequest): Response<ApiResponse>
+    suspend fun cardTopUpTransactionRequest(@Path("order-id") orderId: String, @Body topUpTransactionRequest: TopUpTransactionRequest): Response<ApiResponse>
+
+    @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_MERCHANT_NAME)
+    suspend fun getAnalyticsByMerchantName(@Query("cardSerialNo") cardSerialNo: String, @Query("date") date: String): Response<AnalyticsResponseDTO>
+
+    @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
+    suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String, @Query("date") date: String): Response<AnalyticsResponseDTO>
+
+
 }
