@@ -150,7 +150,7 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
 
     }
 
-    private fun setData(card: TopUpCard) {
+    private fun setData(card: TopUpCard?) {
         val intent = Intent()
         intent.putExtra("card", card)
         intent.putExtra("isCardAdded", true)
@@ -166,7 +166,7 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
                         finish()
                     }
                     R.id.btnLater -> {
-                        setData(card)
+                        setData(null)
                         finish()
                     }
                 }

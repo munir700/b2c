@@ -242,6 +242,34 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
         }
         return ""
     }
+    fun checkValidityForAddTopUpFromExternalCard(): String {
+        try {
+            if (amount != "") {
+                when {
+                    amount?.toDouble()!! > maxLimit -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+
+                        errorDescription = Translator.getString(
+                            context,
+                            Strings.screen_add_funds_display_text_max_limit_error,
+                            currencyType,
+                            Utils.getFormattedCurrency(maxLimit.toString())
+                        )
+                        return errorDescription
+
+                    }
+                    else -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                    }
+                }
+            }
+        }catch (e:Exception){
+           return ""
+        }
+        return ""
+    }
 
     private fun clearError() {
         if (amount != "") {
