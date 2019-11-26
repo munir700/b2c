@@ -14,16 +14,18 @@ import co.yap.modules.dashboard.cards.analytics.adaptors.MERCHANT_ANALYTICS
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.fragments.CardAnalyticsBaseFragment
 import co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsViewModel
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
 import co.yap.yapcore.helpers.Utils
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
     ICardAnalytics.View, OnChartValueSelectedListener {
 
-    private var chart: PieChart? = null
+    lateinit var chart: PieChart
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_analytics
 
@@ -32,100 +34,103 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.fetchCardAnalytics()
         setObservers()
         setupAdaptor()
         setupTabs()
-        setPieView()
+        setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
         getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
             requireContext(),
             viewModel.state.monthlyAverageString,
             "AED",
             "5600.00"
         )
-        viewModel.fetchCardAnalytics()
-
     }
 
     /*
     * In this function set Pie View.
     * */
 
-    private fun setPieView() {
+    private fun setPieView(data: ArrayList<TxnAnalytic>?) {
         chart = getBindingView().chart1
-        chart!!.setUsePercentValues(false)
-        chart!!.description.isEnabled = false
-        chart!!.dragDecelerationFrictionCoef = 0.95f
-        chart!!.isDrawHoleEnabled = true
-        chart!!.setHoleColor(Color.TRANSPARENT)
-        chart!!.setTransparentCircleColor(Color.WHITE)
-        chart!!.setTransparentCircleAlpha(200)
-        chart!!.holeRadius = 70f
-        chart!!.transparentCircleRadius = 70f
-        chart!!.setDrawCenterText(true)
-        chart!!.rotationAngle = 0f
-        chart!!.isRotationEnabled = false
-        chart!!.isHighlightPerTapEnabled = true
-        chart!!.setOnChartValueSelectedListener(this)
-        chart!!.animateY(1400, Easing.EaseInOutQuad)
-        chart!!.legend.isEnabled = false // Hide the legend
-        chart!!.setEntryLabelColor(Color.WHITE)
-        chart!!.setEntryLabelTextSize(0f)
+        if (::chart.isInitialized) {
+            chart.setUsePercentValues(false)
+            chart.description.isEnabled = false
+            chart.dragDecelerationFrictionCoef = 0.95f
+            chart.isDrawHoleEnabled = true
+            chart.setHoleColor(Color.TRANSPARENT)
+            chart.setTransparentCircleColor(Color.WHITE)
+            chart.setTransparentCircleAlpha(200)
+            chart.holeRadius = 70f
+            chart.transparentCircleRadius = 70f
+            chart.setDrawCenterText(true)
+            chart.rotationAngle = 0f
+            chart.isRotationEnabled = false
+            chart.isHighlightPerTapEnabled = true
+            chart.setOnChartValueSelectedListener(this)
+            chart.animateY(1400, Easing.EaseInOutQuad)
+            chart.legend.isEnabled = false // Hide the legend
+            chart.setEntryLabelColor(Color.WHITE)
+            chart.setEntryLabelTextSize(0f)
 
-        setData(5, 2f)
+            setData(data)
+        }
     }
 
     /*
     * In this set Data in Pie View.
     * */
-    
-    private fun setData(count: Int, range: Float) {
-        val entries: ArrayList<PieEntry> = ArrayList<PieEntry>()
-        for (i in 0 until count) {
-            entries.add(
-                PieEntry(
-                    (Math.random() * range + range / 5).toFloat()
-                )
-            )
-        }
-        /*TODO: Pie Chart Set Slice Space*/
-        val dataSet = PieDataSet(entries, "")
-        dataSet.setDrawIcons(false)
-        dataSet.sliceSpace = 0f
-        dataSet.iconsOffset = MPPointF(0f, 40f)
-        dataSet.selectionShift = 20f
-        dataSet.setDrawValues(false)
-        // add a lot of colors
-        val colors = ArrayList<Int>()
-        for (c in ColorTemplate.VORDIPLOM_COLORS) colors.add(c)
-        for (c in ColorTemplate.JOYFUL_COLORS) colors.add(c)
-        for (c in ColorTemplate.COLORFUL_COLORS) colors.add(c)
-        for (c in ColorTemplate.LIBERTY_COLORS) colors.add(c)
-        for (c in ColorTemplate.PASTEL_COLORS) colors.add(c)
-        colors.add(ColorTemplate.getHoloBlue())
-        dataSet.colors = colors
-        val data = PieData(dataSet)
-        data.setValueTextSize(11f)
-        data.setValueTextColor(Color.WHITE)
-        chart!!.data = data
 
-        chart!!.highlightValue(0f, 0, true)
-        chart!!.invalidate()
+    private fun setData(txnAnalytics: List<TxnAnalytic>?) {
+        val entries: ArrayList<PieEntry> = ArrayList()
+        txnAnalytics?.let {
+            for (item in it.iterator()) {
+                entries.add(
+                    PieEntry(item.totalSpendingInPercentage.toFloat())
+                )
+            }
+            val dataSet = PieDataSet(entries, "")
+            dataSet.setDrawIcons(false)
+            dataSet.sliceSpace = 0f
+            dataSet.iconsOffset = MPPointF(0f, 40f)
+            dataSet.selectionShift = 20f
+            dataSet.setDrawValues(false)
+            val colors = ArrayList<Int>()
+
+            colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
+            dataSet.colors = colors
+            val data = PieData(dataSet)
+            data.setValueTextSize(11f)
+            data.setValueTextColor(Color.WHITE)
+            chart.data = data
+
+            chart.highlightValue(0f, 0, true)
+            chart.invalidate()
+        }
+
     }
 
 
     override fun setObservers() {
+        getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
+                    viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.let { list ->
+                        updatePieChartInnerData(list[it])
+                    }
                     showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
+                    viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.let { list ->
+                        updatePieChartInnerData(list[it])
+                    }
                     showPieView(it)
-
                 }
             }
         })
+
     }
 
     /*
@@ -135,19 +140,19 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun showPieView(indexValue: Int) {
         when (indexValue) {
             0 -> {
-                chart!!.highlightValue(0f, 0, true)
+                chart.highlightValue(0f, 0, true)
             }
             1 -> {
-                chart!!.highlightValue(1f, 0, true)
+                chart.highlightValue(1f, 0, true)
             }
             2 -> {
-                chart!!.highlightValue(2f, 0, true)
+                chart.highlightValue(2f, 0, true)
             }
             3 -> {
-                chart!!.highlightValue(3f, 0, true)
+                chart.highlightValue(3f, 0, true)
             }
             4 -> {
-                chart!!.highlightValue(4f, 0, true)
+                chart.highlightValue(4f, 0, true)
             }
         }
     }
@@ -161,6 +166,27 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 showToast("Next")
             }
         }
+    }
+    private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab?) {
+            tab?.let {
+                when (it.position) {
+                    CATEGORY_ANALYTICS -> {
+                        setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
+                    }
+                    MERCHANT_ANALYTICS -> {
+                        setPieView(viewModel.parentViewModel.merchantAnalyticsItemLiveData.value)
+                    }
+                }
+            }
+        }
+
     }
 
     private fun setupAdaptor() {
@@ -192,6 +218,15 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         }
     }
 
+    private fun updatePieChartInnerData(item: TxnAnalytic?) {
+        item?.let {
+            viewModel.state.selectedItemName = it.title
+            viewModel.state.selectedItemPercentage = "${it.totalSpendingInPercentage}%"
+            viewModel.state.selectedItemSpentValue =
+                "${viewModel.state.currencyType} ${it.totalSpending}"
+        }
+    }
+
     private fun getBindingView(): FragmentCardAnalyticsBinding {
         return (viewDataBinding as FragmentCardAnalyticsBinding)
     }
@@ -202,8 +237,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-        /*TODO:Pie Chart View Click Listener*/
-        val select_index_value = h!!.x.toShort()
-
+//        /*TODO:Pie Chart View Click Listener*/
+        h?.let {
+            viewModel.parentViewModel.selectedItemPositionParent.value = h?.x?.toInt()
+        }
     }
 }

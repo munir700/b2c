@@ -45,7 +45,7 @@ class CardAnalyticsViewModel(application: Application) :
                 "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
                 "Amazon",
                 "887.12",
-                0.07663441603317209,
+                20.00,
                 24
             )
         )
@@ -54,7 +54,7 @@ class CardAnalyticsViewModel(application: Application) :
                 "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
                 "Uber",
                 "887.12",
-                0.07663441603317209,
+                40.00,
                 24
             )
         )
@@ -63,7 +63,7 @@ class CardAnalyticsViewModel(application: Application) :
                 "https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg",
                 "Emirates",
                 "887.12",
-                0.07663441603317209,
+                20.00,
                 24
             )
         )
@@ -72,7 +72,7 @@ class CardAnalyticsViewModel(application: Application) :
                 "https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg",
                 "CANDY",
                 "887.12",
-                0.07663441603317209,
+                10.00,
                 24
             )
         )
@@ -81,7 +81,7 @@ class CardAnalyticsViewModel(application: Application) :
                 "https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg",
                 "Others",
                 "887.12",
-                0.07663441603317209,
+                10.00,
                 24
             )
         )
@@ -91,7 +91,7 @@ class CardAnalyticsViewModel(application: Application) :
                 null,
                 "Food and drink",
                 "887.12",
-                0.07663441603317209,
+                50.00,
                 10
             )
         )
@@ -100,7 +100,7 @@ class CardAnalyticsViewModel(application: Application) :
                 null,
                 "Travel",
                 "887.12",
-                0.07663441603317209,
+                10.00,
                 20
             )
         )
@@ -109,7 +109,7 @@ class CardAnalyticsViewModel(application: Application) :
                 null,
                 "Shopping",
                 "887.12",
-                0.07663441603317209,
+                20.00,
                 12
             )
         )
@@ -118,7 +118,7 @@ class CardAnalyticsViewModel(application: Application) :
                 null,
                 "Health and beauty",
                 "887.12",
-                0.07663441603317209,
+                10.00,
                 4
             )
         )
@@ -127,15 +127,10 @@ class CardAnalyticsViewModel(application: Application) :
                 null,
                 "Others",
                 "887.12",
-                0.07663441603317209,
+                10.00,
                 2
             )
         )
-//            list.add(AnalyticsItem("Shopping", 12, "5687.16", 0.5145))
-//
-//        for (i in 0..4)
-//            list2.add(AnalyticsItem("Amazon", 4, "5687.16", 0.51234))
-
         parentVM?.categoryAnalyticsItemLiveData?.value = list
         parentVM?.merchantAnalyticsItemLiveData?.value = list2
 

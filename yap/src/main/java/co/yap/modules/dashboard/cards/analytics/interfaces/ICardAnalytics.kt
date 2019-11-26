@@ -23,5 +23,9 @@ interface ICardAnalytics {
     interface State : IBase.State {
         var monthlyAverageString: String
         var currencyType: String
+        var selectedItemSpentValue: String
+        var selectedItemPercentage: String
+        var selectedItemName: String
+
     }
 }
