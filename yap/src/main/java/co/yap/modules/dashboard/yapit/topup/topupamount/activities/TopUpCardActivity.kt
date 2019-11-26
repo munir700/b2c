@@ -19,8 +19,6 @@ class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
 
     var cardInfo: TopUpCard? = null
     var topUpTransactionModel: MutableLiveData<TopUpTransactionModel>? = MutableLiveData()
-    var orderId: String? = null
-    var sessionId: String? = null
 
     companion object {
         fun newIntent(context: Context, card: TopUpCard): Intent {
@@ -29,7 +27,6 @@ class TopUpCardActivity : DefaultActivity(), INavigator, IFragmentHolder {
             return intent
         }
     }
-
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(this, R.id.card_top_up_nav_host_fragment)

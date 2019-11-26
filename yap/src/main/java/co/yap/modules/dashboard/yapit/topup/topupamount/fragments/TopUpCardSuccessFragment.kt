@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.topup.topupamount.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -14,6 +16,7 @@ import co.yap.modules.dashboard.yapit.topup.topupamount.viewModels.TopUpCardSucc
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
@@ -46,15 +49,15 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
             viewModel.state.availableBalanceSpanable.set(
                 getString(Strings.screen_topup_success_display_text_account_balance_title).format(
                     args.currencyType,
-                 Utils.getFormattedCurrency(it.availableBalance)
+                    Utils.getFormattedCurrency(it.availableBalance)
                 )
             )
-          /*  getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
-                requireContext(),
-                viewModel.state.availableBalanceSpanable.get().toString(),
-                "${args.currencyType} ${Utils.getFormattedCurrency(it.availableBalance)}"
+            /*  getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
+                  requireContext(),
+                  viewModel.state.availableBalanceSpanable.get().toString(),
+                  "${args.currencyType} ${Utils.getFormattedCurrency(it.availableBalance)}"
 
-            )*/
+              )*/
 
             getBindings().tvNewSpareCardBalance.text = Utils.getSpannableStringForLargerBalance(
                 requireContext(),
@@ -67,7 +70,12 @@ class TopUpCardSuccessFragment : BaseBindingFragment<ITopUpCardSuccess.ViewModel
 
     val clickEvent = Observer<Int> {
         when (it) {
-            R.id.btnAction -> activity?.finish()
+            R.id.btnAction -> {
+                val intent = Intent()
+                intent.putExtra(Constants.TOP_UP_VIA_EXTERNAL_CARD, true)
+                activity?.setResult(Activity.RESULT_OK, intent)
+                activity?.finish()
+            }
         }
     }
 

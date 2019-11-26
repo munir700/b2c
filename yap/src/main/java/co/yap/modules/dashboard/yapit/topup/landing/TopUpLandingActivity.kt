@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.topup.landing
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +11,7 @@ import co.yap.modules.dashboard.more.bankdetails.activities.BankDetailActivity
 import co.yap.modules.dashboard.yapit.topup.cardslisting.TopUpBeneficiariesActivity
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.RequestCodes
 
 
 class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
@@ -40,10 +42,28 @@ class TopUpLandingActivity : BaseBindingActivity<ITopUpLanding.ViewModel>() {
                 startActivity(BankDetailActivity.newIntent(this))
             }
             R.id.llCardsTransferType -> {
-                startActivity(TopUpBeneficiariesActivity.newIntent(this))
+                startActivityForResult(
+                    TopUpBeneficiariesActivity.newIntent(this),
+                    RequestCodes.REQUEST_SHOW_BENEFICIARY
+                )
             }
             R.id.tbBtnBack -> {
                 onBackPressed()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.REQUEST_SHOW_BENEFICIARY) {
+                if (RequestCodes.REQUEST_SHOW_BENEFICIARY == data?.getIntExtra(
+                        RequestCodes.REQUEST_SHOW_BENEFICIARY.toString(),
+                        0
+                    )
+                ) {
+                    finish()
+                }
             }
         }
     }

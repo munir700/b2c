@@ -18,6 +18,7 @@ import co.yap.modules.others.helper.Constants
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.yarolegovich.discretescrollview.DiscreteScrollView
 import com.yarolegovich.discretescrollview.transform.Pivot
@@ -62,7 +63,6 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
                         prams.setMargins(30, 30, 30, 30)
                         viewHolder.itemTopUpCardEmptyBinding.lycard?.layoutParams = prams
                     }
-
                 }
             }
         }
@@ -223,16 +223,11 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
             R.id.btnSelect -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
                 if (item.alias != "addCard")
-                    startActivity(
-                        TopUpCardActivity.newIntent(
-                            this,
-                            item
-                        )
-                    )
+                    startTopUpActivity(item)
             }
             R.id.paymentCard -> {
                 val item = mAdapter.getDataForPosition(getBinding().rvTopUpCards.currentItem)
-                startActivity(TopUpCardActivity.newIntent(this, item))
+                startTopUpActivity(item)
             }
 
             R.id.imgStatus -> {
@@ -253,6 +248,12 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
         }
     }
 
+    private fun startTopUpActivity(item: TopUpCard) {
+        startActivityForResult(
+            TopUpCardActivity.newIntent(this, item),
+            RequestCodes.REQUEST_TOP_UP_BENEFICIARY
+        )
+    }
 
     private fun openCardDetail(card: TopUpCard) {
         startActivityForResult(
@@ -288,12 +289,31 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == Constants.EVENT_ADD_TOPUP_CARD && resultCode == Activity.RESULT_OK) {
-            if (true == data?.getBooleanExtra("isCardAdded", false))
+            if (true == data?.getBooleanExtra("isCardAdded", false)) {
                 viewModel.getPaymentCards()
+                val card: TopUpCard? = data.getParcelableExtra<TopUpCard>("card")
+                card?.let {
+                    startTopUpActivity(it)
+                }
+            }
         } else if (requestCode == Constants.EVENT_DELETE_TOPUP_CARD && resultCode == Activity.RESULT_OK) {
             if (true == data?.getBooleanExtra("isCardDeleted", false)) {
                 showToast("Card Removed Successfully")
                 viewModel.getPaymentCards()
+            }
+        } else if (requestCode == RequestCodes.REQUEST_TOP_UP_BENEFICIARY && resultCode == Activity.RESULT_OK) {
+            if (true == data?.getBooleanExtra(
+                    co.yap.yapcore.constants.Constants.TOP_UP_VIA_EXTERNAL_CARD,
+                    false
+                )
+            ) {
+                val intent = Intent()
+                intent.putExtra(
+                    RequestCodes.REQUEST_SHOW_BENEFICIARY.toString(),
+                    RequestCodes.REQUEST_SHOW_BENEFICIARY
+                )
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
         }
     }
