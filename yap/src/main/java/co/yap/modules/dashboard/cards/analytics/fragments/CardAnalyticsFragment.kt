@@ -22,7 +22,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
     ICardAnalytics.View, OnChartValueSelectedListener {
-git 
+
     private var chart: PieChart? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_analytics
@@ -39,6 +39,10 @@ git
         viewModel.fetchCardAnalytics()
 
     }
+
+    /*
+    * In this function set Pie View.
+    * */
 
     private fun setPieView() {
         chart = getBindingView().chart1
@@ -64,6 +68,10 @@ git
         setData(5, 2f)
     }
 
+    /*
+    * In this set Data in Pie View.
+    * */
+    
     private fun setData(count: Int, range: Float) {
         val entries: ArrayList<PieEntry> = ArrayList<PieEntry>()
         for (i in 0 until count) {
@@ -104,49 +112,38 @@ git
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
-
-                    when (it) {
-                        0 -> {
-                            chart!!.highlightValue(0f, 0, true)
-                        }
-                        1 -> {
-                            chart!!.highlightValue(1f, 0, true)
-                        }
-                        2 -> {
-                            chart!!.highlightValue(2f, 0, true)
-                        }
-                        3 -> {
-                            chart!!.highlightValue(3f, 0, true)
-                        }
-                        4 -> {
-                            chart!!.highlightValue(4f, 0, true)
-                        }
-                    }
-
+                    showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
-
-                    when (it) {
-                        0 -> {
-                            chart!!.highlightValue(0f, 0, true)
-                        }
-                        1 -> {
-                            chart!!.highlightValue(1f, 0, true)
-                        }
-                        2 -> {
-                            chart!!.highlightValue(2f, 0, true)
-                        }
-                        3 -> {
-                            chart!!.highlightValue(3f, 0, true)
-                        }
-                        4 -> {
-                            chart!!.highlightValue(4f, 0, true)
-                        }
-                    }
+                    showPieView(it)
 
                 }
             }
         })
+    }
+
+    /*
+    * In this function show PieView.
+    * */
+
+    private fun showPieView(indexValue: Int) {
+        when (indexValue) {
+            0 -> {
+                chart!!.highlightValue(0f, 0, true)
+            }
+            1 -> {
+                chart!!.highlightValue(1f, 0, true)
+            }
+            2 -> {
+                chart!!.highlightValue(2f, 0, true)
+            }
+            3 -> {
+                chart!!.highlightValue(3f, 0, true)
+            }
+            4 -> {
+                chart!!.highlightValue(4f, 0, true)
+            }
+        }
     }
 
     private val clickEventObserver = Observer<Int> {
