@@ -11,7 +11,7 @@ import java.util.List;
  * per color and DataSet. Multiple colors in one DataSet are grouped together.
  * The legend object is NOT available before setting data to the chart.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class Legend extends ComponentBase {
 

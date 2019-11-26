@@ -8,7 +8,7 @@ package co.yap.widgets.pieview;
  * from the DataSet labels. Each PieData object can only represent one
  * PieDataSet (multiple PieDataSets inside a single PieChart are not possible).
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class PieData extends ChartData<IPieDataSet> {
 

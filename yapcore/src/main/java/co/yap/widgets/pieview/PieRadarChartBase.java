@@ -15,7 +15,7 @@ import android.view.MotionEvent;
 /**
  * Baseclass of PieChart and RadarChart.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public abstract class PieRadarChartBase<T extends ChartData<? extends IDataSet<? extends Entry>>>
         extends Chart<T> {

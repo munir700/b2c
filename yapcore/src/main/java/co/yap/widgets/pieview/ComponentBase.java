@@ -8,7 +8,7 @@ import android.graphics.Typeface;
 /**
  * This class encapsulates everything both Axis, Legend and LimitLines have in common.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public abstract class ComponentBase {
 

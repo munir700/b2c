@@ -5,7 +5,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 /**
- * Created by philipp on 12/06/15.
+ * @author Mirza Adil
  */
 public abstract class ChartTouchListener<T extends Chart<?>> extends GestureDetector.SimpleOnGestureListener implements View.OnTouchListener {
 

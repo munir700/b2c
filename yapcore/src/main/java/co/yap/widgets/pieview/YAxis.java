@@ -13,7 +13,7 @@ import android.graphics.Paint;
  * setting data for the
  * chart.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class YAxis extends AxisBase {
 

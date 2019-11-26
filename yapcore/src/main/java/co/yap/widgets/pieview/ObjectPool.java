@@ -13,7 +13,7 @@ import java.util.List;
  *   Benefit - The pool can grow as needed, if it is empty
  *   Cost - However, refilling the pool when it is empty might incur a time cost with sufficiently large capacity.  Set the replenishPercentage to a lower number if this is a concern.
  *
- * Created by Tony Patino on 6/20/16.
+ * @author Mirza Adil
  */
 public class ObjectPool<T extends ObjectPool.Poolable> {
 

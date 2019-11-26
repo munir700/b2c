@@ -6,7 +6,7 @@ import java.text.DecimalFormat;
  * Default formatter used for formatting values inside the chart. Uses a DecimalFormat with
  * pre-calculated number of digits (depending on max and min value).
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class DefaultValueFormatter extends ValueFormatter
 {

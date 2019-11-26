@@ -4,7 +4,7 @@ package co.yap.widgets.pieview;
 /**
  * Default formatter that calculates the position of the filled line.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class DefaultFillFormatter implements IFillFormatter
 {

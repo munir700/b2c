@@ -10,7 +10,7 @@ import android.graphics.Paint.Style;
 /**
  * Baseclass of all axis renderers.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public abstract class AxisRenderer extends Renderer {
 

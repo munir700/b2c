@@ -12,7 +12,7 @@ import java.util.List;
  * Transformer class that contains all matrices and is responsible for
  * transforming values into pixels on the screen and backwards.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class Transformer {
 

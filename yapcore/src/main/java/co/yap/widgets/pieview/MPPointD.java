@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Point encapsulating two double values.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class MPPointD extends ObjectPool.Poolable {
 

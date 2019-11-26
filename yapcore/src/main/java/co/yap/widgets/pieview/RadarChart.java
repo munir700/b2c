@@ -12,7 +12,7 @@ import android.util.AttributeSet;
  * Implementation of the RadarChart, a "spidernet"-like chart. It works best
  * when displaying 5-10 entries per DataSet.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class RadarChart extends PieRadarChartBase<RadarData> {
 

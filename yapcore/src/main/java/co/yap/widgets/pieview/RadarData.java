@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Data container for the RadarChart.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class RadarData extends ChartData<IRadarDataSet> {
 

@@ -1,7 +1,7 @@
 package co.yap.widgets.pieview;
 
 /**
- * Created by philipp on 21/10/15.
+ * @author Mirza Adil
  */
 public interface IBubbleDataSet extends IBarLineScatterCandleBubbleDataSet<BubbleEntry> {
 

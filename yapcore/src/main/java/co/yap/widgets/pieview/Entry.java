@@ -11,7 +11,7 @@ import android.os.Parcelable;
  * Class representing one entry in the chart. Might contain multiple values.
  * Might only contain a single value depending on the used constructor.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class Entry extends BaseEntry implements Parcelable {
 

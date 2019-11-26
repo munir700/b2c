@@ -10,7 +10,7 @@ import android.graphics.Paint.Style;
 /**
  * Superclass of all render classes for the different data types (line, bar, ...).
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public abstract class DataRenderer extends Renderer {
 

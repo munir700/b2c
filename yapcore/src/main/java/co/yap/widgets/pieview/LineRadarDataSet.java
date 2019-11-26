@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Base dataset for line and radar DataSets.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public abstract class LineRadarDataSet<T extends Entry> extends LineScatterCandleRadarDataSet<T> implements ILineRadarDataSet<T> {
 

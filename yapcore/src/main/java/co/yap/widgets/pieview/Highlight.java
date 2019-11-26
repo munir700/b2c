@@ -4,7 +4,7 @@ package co.yap.widgets.pieview;
 /**
  * Contains information needed to determine the highlighted value.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class Highlight {
 

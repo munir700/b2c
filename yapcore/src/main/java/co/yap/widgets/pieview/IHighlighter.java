@@ -1,7 +1,7 @@
 package co.yap.widgets.pieview;
 
 /**
- * Created by philipp on 10/06/16.
+ * @author Mirza Adil
  */
 public interface IHighlighter
 {

@@ -12,7 +12,7 @@ import java.util.List;
  * ColorTemplate.VORDIPLOM_COLORS) and convenience methods for loading colors
  * from resources.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class ColorTemplate {
 

@@ -7,7 +7,7 @@ import android.graphics.Typeface;
 import java.util.List;
 
 /**
- * Created by Philipp Jahoda on 21/10/15.
+ * @author Mirza Adil
  */
 public interface IDataSet<T extends Entry> {
 

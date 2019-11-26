@@ -4,7 +4,7 @@ import android.graphics.Paint;
 
 
 /**
- * Created by Philipp Jahoda on 17/09/16.
+ * @author Mirza Adil
  */
 public class Description extends ComponentBase {
 

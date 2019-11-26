@@ -3,7 +3,7 @@ package co.yap.widgets.pieview;
 import android.annotation.SuppressLint;
 
 /**
- * Created by philipp on 13/06/16.
+ * @author Mirza Adil
  */
 @SuppressLint("ParcelCreator")
 public class RadarEntry extends Entry {

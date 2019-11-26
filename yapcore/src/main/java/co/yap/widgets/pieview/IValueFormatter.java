@@ -3,7 +3,7 @@ package co.yap.widgets.pieview;
 /**
  * Interface to format all values before they are drawn as labels.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  * @deprecated Extend {@link ValueFormatter} instead
  */
 @Deprecated

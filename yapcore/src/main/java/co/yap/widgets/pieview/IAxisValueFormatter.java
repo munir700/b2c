@@ -1,7 +1,7 @@
 package co.yap.widgets.pieview;
 
 /**
- * Created by Philipp Jahoda on 20/09/15.
+ * @author Mirza Adil
  * Custom formatter interface that allows formatting of
  * axis labels before they are being drawn.
  *

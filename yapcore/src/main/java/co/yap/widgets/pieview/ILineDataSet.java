@@ -3,7 +3,7 @@ package co.yap.widgets.pieview;
 import android.graphics.DashPathEffect;
 
 /**
- * Created by Philpp Jahoda on 21/10/15.
+ * @author Mirza Adil
  */
 public interface ILineDataSet extends ILineRadarDataSet<Entry> {
 

@@ -4,7 +4,7 @@ import java.lang.reflect.UndeclaredThrowableException;
 import java.util.List;
 
 /**
- * Created by philipp on 12/06/16.
+ * @author Mirza Adil.
  */
 public class RadarHighlighter extends PieRadarHighlighter<RadarChart> {
 

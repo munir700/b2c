@@ -27,7 +27,7 @@ import java.util.List;
  * done, if the Utils are used before that, Utils.init(...) needs to be called
  * manually.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public abstract class UtilsPieView {
 
