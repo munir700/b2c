@@ -146,7 +146,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun resetAllFilters() {
-        if (YAPApplication.isAllChecked || !YAPApplication.isAllChecked) {
+        if (YAPApplication.isAllChecked) {
             YAPApplication.hasFilterStateChanged =
                 Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
                     viewModel.transactionFilters.value?.maxAmount!!
@@ -155,27 +155,37 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             YAPApplication.hasFilterStateChanged =
                 YAPApplication.homeTransactionsRequest.totalAppliedFilter != 0
         }
+
         YAPApplication.isAllChecked = false
         YAPApplication.clearFilters()
         finish()
     }
 
     private fun setFilterValues() {
-        var count = 0
-        if (cbOutTransFilter.isChecked) count++
-        if (cbInTransFilter.isChecked) count++
-        if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) count++
-        YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
+        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked) {
+            YAPApplication.hasFilterStateChanged =
+                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()) != Utils.getTwoDecimalPlaces(
+                    viewModel.transactionFilters.value?.maxAmount!!
+                )
+            YAPApplication.isAllChecked = false
+            YAPApplication.clearFilters()
+        } else {
+            var count = 0
+            if (cbOutTransFilter.isChecked) count++
+            if (cbInTransFilter.isChecked) count++
+            if (rsbAmount.leftSeekBar.progress != viewModel.transactionFilters.value?.maxAmount?.toFloat()!!) count++
+            YAPApplication.hasFilterStateChanged = hasFiltersStateChanged()
 
-        YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
-            0, YAPApplication.pageSize,
-            Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
-            Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
-            getCurrentTxnType(),
-            null,
-            count
-        )
-        setResult(INTENT_FILTER_REQUEST)
+            YAPApplication.homeTransactionsRequest = HomeTransactionsRequest(
+                0, YAPApplication.pageSize,
+                Utils.getTwoDecimalPlaces(rsbAmount.minProgress.toDouble()),
+                Utils.getTwoDecimalPlaces(rsbAmount.leftSeekBar.progress.toDouble()),
+                getCurrentTxnType(),
+                null,
+                count
+            )
+            setResult(INTENT_FILTER_REQUEST)
+        }
         finish()
     }
 
@@ -223,11 +233,17 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
                 null
             }
             !cbInTransFilter.isChecked && !cbOutTransFilter.isChecked -> {
-                YAPApplication.isAllChecked = false
+                YAPApplication.isAllChecked = true
                 null
             }
-            cbInTransFilter.isChecked -> "CREDIT"
-            cbOutTransFilter.isChecked -> "DEBIT"
+            cbInTransFilter.isChecked -> {
+                YAPApplication.isAllChecked = false
+                "CREDIT"
+            }
+            cbOutTransFilter.isChecked -> {
+                YAPApplication.isAllChecked = false
+                "DEBIT"
+            }
             else -> null
         }
     }
