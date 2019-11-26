@@ -13,17 +13,40 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
+import co.yap.modules.kyc.enums.DocScanStatus
+import co.yap.modules.kyc.fragments.CardScanResponse
+import co.yap.modules.kyc.fragments.UploadIdCardRetroService
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.Y2YBeneficiariesResponse
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
+import com.digitify.identityscanner.core.arch.Gender
+import com.digitify.identityscanner.docscanner.models.Identity
+import com.digitify.identityscanner.docscanner.models.IdentityScannerResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.isActive
+import okhttp3.MediaType
+import okhttp3.MultipartBody
+import okhttp3.OkHttpClient
+import okhttp3.RequestBody
+import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
+import retrofit2.http.POST
 import timber.log.Timber
+import java.io.File
+import java.util.concurrent.TimeUnit
 
 class PhoneContactViewModel(application: Application) :
     Y2YBaseViewModel<IPhoneContact.State>(application),
@@ -34,6 +57,62 @@ class PhoneContactViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     private var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var phoneContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
+
+//    // TODO Remove this method
+//    fun uploadDocument(result: IdentityScannerResult) {
+//        val logger = HttpLoggingInterceptor()
+//        logger.level = HttpLoggingInterceptor.Level.BODY
+//        val client = OkHttpClient.Builder()
+//            .connectTimeout(100, TimeUnit.SECONDS)
+//            .writeTimeout(100, TimeUnit.SECONDS)
+//            .readTimeout(100, TimeUnit.SECONDS)
+//            .addInterceptor(logger).build()
+//        val retro: Retrofit = Retrofit.Builder()
+//            .baseUrl("http://172.21.200.181:8000/")
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .client(client).build()
+//        val service = retro.create(UploadIdCardRetroService::class.java)
+//        val file = File(result.document.files[1].croppedFile)
+//        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+//        val part =
+//            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+//        state.loading = true
+//        service.uploadIdCard(file = part).enqueue(object : Callback<CardScanResponse> {
+//            override fun onFailure(call: Call<CardScanResponse>, t: Throwable) {
+//                state.loading = false
+//            }
+//
+//            override fun onResponse(
+//                call: Call<CardScanResponse>,
+//                response: Response<CardScanResponse>?
+//            ) {
+//                state.loading = false
+//                if (response?.body()?.success!!) {
+//                    var identity = Identity()
+//                    identity.nationality = response.body()?.nationality
+//                    identity.gender =
+//                        if (response.body()?.sex.equals("M")) Gender.Male else Gender.Female
+//                    identity.sirName = response.body()?.surname
+//                    identity.givenName = response.body()?.names
+//                    identity.citizenNumber = response.body()?.number
+//                    identity.expirationDate =
+//                        DateUtils.stringToDate(response.body()?.expiration_date!!, "yyMMdd")
+//                    identity.dateOfBirth =
+//                        DateUtils.stringToDate(response.body()?.date_of_birth!!, "yyMMdd")
+//
+//                    result.identity = identity
+//                    parentViewModel?.identity = result
+//                    state.eidScanStatus = DocScanStatus.SCAN_COMPLETED
+//                } else {
+//                    state.toast = getString(
+//                        Strings.idenetity_scanner_sdk_screen_review_info_display_text_error_not_readable
+//                    )
+//                }
+//
+//            }
+//        })
+//
+//    }
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -60,6 +139,7 @@ class PhoneContactViewModel(application: Application) :
 
         pagingState.value = PagingState.LOADING
         launch {
+            loadData()
             val localContacts = getLocalContacts()
             if (localContacts.isEmpty()) {
                 phoneContactLiveData.value = mutableListOf()
@@ -115,8 +195,13 @@ class PhoneContactViewModel(application: Application) :
 
             val defaultCountryCode = Utils.getDefaultCountryCode(context)
 
+//            val cursor = context.contentResolver.query(
+//                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, SELECTION, null,
+//                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+//            )
+
             val cursor = context.contentResolver.query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, SELECTION, null,
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
             )
             try {
