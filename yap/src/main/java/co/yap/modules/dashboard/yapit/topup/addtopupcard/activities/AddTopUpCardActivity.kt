@@ -4,15 +4,18 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
-import android.webkit.*
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
-import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.AddTopUpCardDialog
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.interfaces.IAddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.viewmodels.AddTopUpCardViewModel
+import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
@@ -23,9 +26,11 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_add_top_up_card
+    var errors: String? = null
     var alias: String? = null
     var cardColor: String? = null
     var sessionId: String? = null
+    var cardNumber: String? = null
     var type: String? = null
 
     companion object {
@@ -67,15 +72,22 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
                 request?.let {
                     if (request.url.toString().startsWith("yap-app://")) {
                         onNewIntent(intent)
-                        sessionId = request.url.getQueryParameter("sessionID")
-                        cardColor = request.url.getQueryParameter("color")
-                        alias = request.url.getQueryParameter("alias")
-                        // view?.visibility = View.GONE
-                        viewModel.addTopUpCard(
-                            sessionId.toString(),
-                            alias.toString(),
-                            cardColor.toString()
-                        )
+                        errors = request.url.getQueryParameter("errors")
+                        if (errors == null) {
+                            sessionId = request.url.getQueryParameter("sessionID")
+                            cardColor = request.url.getQueryParameter("color")
+                            alias = request.url.getQueryParameter("alias")
+                            cardNumber = request.url.getQueryParameter("number")
+                            viewModel.addTopUpCard(
+                                sessionId.toString(),
+                                alias.toString(),
+                                cardColor.toString(),
+                                cardNumber.toString()
+                            )
+                        } else {
+                            showToast(errors.toString())
+                            recreate()
+                        }
                         return true
                     }
                 }
@@ -83,26 +95,39 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
             }
         }
         wb.settings.javaScriptEnabled = true
+//        wb.clearCache(true)
         wb.settings.setSupportZoom(true)
         wb.loadUrl(viewModel.state.url)
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebViewForTopUpCardTransaction() {
-        wb.webChromeClient = object : WebChromeClient() {
-            override fun onConsoleMessage(consoleMessage: ConsoleMessage?): Boolean {
-                consoleMessage?.message()?.let {
+        wb.webViewClient = object : WebViewClient() {
+            override fun shouldOverrideUrlLoading(
+                view: WebView?,
+                request: WebResourceRequest?
+            ): Boolean {
+                println("URL is ==: ${request?.url}")
+                return super.shouldOverrideUrlLoading(view, request)
+            }
+
+            override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+                println("URL is page started ==: $url")
+                url?.let {
                     if (it.contains("yap.co") || it.contains("transactions")) {
                         setDataForTopUpTransaction(true)
                         finish()
-                    }else{
-
+                    } else {
+                        super.onPageStarted(view, url, favicon)
                     }
-
                 }
-                return super.onConsoleMessage(consoleMessage)
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
             }
         }
+//        wb.clearCache(true)
         wb.settings.javaScriptEnabled = true
         wb.settings.setSupportZoom(true)
         //        wb.loadUrl(viewModel.state.url)

@@ -93,13 +93,18 @@ object Utils {
     }
 
     fun getFormattedCurrency(num: String?): String {
-        return if ("" != num && null != num) {
-            val m = java.lang.Double.parseDouble(num)
-            val formatter = DecimalFormat("###,###,##0.00")
-            formatter.format(m)
-        } else {
+        return try {
+            if ("" != num && null != num) {
+                val m = java.lang.Double.parseDouble(num)
+                val formatter = DecimalFormat("###,###,##0.00")
+                formatter.format(m)
+            } else {
+                ""
+            }
+        } catch (e: Exception) {
             ""
         }
+
     }
 
     fun getFormattedCurrencyWithoutDecimal(num: String?): String {
@@ -113,11 +118,15 @@ object Utils {
     }
 
     fun getFormattedCurrencyWithoutComma(num: String?): String {
-        return if ("" != num && null != num) {
-            val m = java.lang.Double.parseDouble(num)
-            val formatter = DecimalFormat("########0.00")
-            formatter.format(m)
-        } else {
+        return try {
+            if ("" != num && null != num) {
+                val m = java.lang.Double.parseDouble(num)
+                val formatter = DecimalFormat("########0.00")
+                formatter.format(m)
+            } else {
+                ""
+            }
+        } catch (ex: Exception) {
             ""
         }
     }
