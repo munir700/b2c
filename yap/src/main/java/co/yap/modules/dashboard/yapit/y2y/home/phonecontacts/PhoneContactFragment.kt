@@ -1,11 +1,13 @@
 package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.loader.content.Loader
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentPhoneContactsBinding
@@ -39,8 +41,9 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         initComponents()
         setObservers()
         viewModel.getY2YBeneficiaries()
+        // Initializes the loader
+        loaderManager.initLoader(0, null, this)
     }
-
 
     private fun initComponents() {
         adaptor = YapContactsAdaptor(mutableListOf())
@@ -68,6 +71,14 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
                 viewModel.parentViewModel?.yapContactLiveData?.postValue(viewModel.phoneContactLiveData.value?.filter { it.yapUser!! })
             }
         })
+    }
+
+    override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun onLoaderReset(loader: Loader<Cursor>) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     private fun setObservers() {
@@ -132,10 +143,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     }
 
     private fun sendInvite(contact: Contact) {
-        //TODO: Add check if whatsapp exist or not if not then hide whatsapp text
-        inviteFriendBottomSheet = InvitePhoneContactBottomSheet(this, contact)
-        inviteFriendBottomSheet.show(this.fragmentManager!!, "")
-
+        this.fragmentManager?.let {
+            inviteFriendBottomSheet = InvitePhoneContactBottomSheet(this, contact)
+            inviteFriendBottomSheet.show(it, "")
+        }
     }
 
     override fun onClick(viewId: Int, contact: Contact) {
