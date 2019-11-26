@@ -5,7 +5,7 @@ package co.yap.widgets.pieview;
 /**
  * Abstract baseclass of all Renderers.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public abstract class Renderer {
 

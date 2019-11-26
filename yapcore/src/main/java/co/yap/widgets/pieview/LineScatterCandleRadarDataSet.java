@@ -6,7 +6,7 @@ import android.graphics.DashPathEffect;
 import java.util.List;
 
 /**
- * Created by Philipp Jahoda on 11/07/15.
+ * @author Mirza Adil
  */
 public abstract class LineScatterCandleRadarDataSet<T extends Entry> extends BarLineScatterCandleBubbleDataSet<T> implements ILineScatterCandleRadarDataSet<T> {
 

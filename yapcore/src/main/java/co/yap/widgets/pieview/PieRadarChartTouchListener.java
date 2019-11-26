@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Touchlistener for the PieChart.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class PieRadarChartTouchListener extends ChartTouchListener<PieRadarChartBase<?>> {
 

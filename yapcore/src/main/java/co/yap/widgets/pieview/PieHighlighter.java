@@ -1,7 +1,7 @@
 package co.yap.widgets.pieview;
 
 /**
- * Created by philipp on 12/06/16.
+ * @author Mirza Adil
  */
 public class PieHighlighter extends PieRadarHighlighter<PieChart> {
 

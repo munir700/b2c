@@ -3,7 +3,7 @@ package co.yap.widgets.pieview;
 import android.graphics.drawable.Drawable;
 
 /**
- * Created by Philipp Jahoda on 21/10/15.
+ * @author Mirza Adil
  */
 public interface ILineRadarDataSet<T extends Entry> extends ILineScatterCandleRadarDataSet<T> {
 

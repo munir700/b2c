@@ -12,7 +12,7 @@ public class RadarChartRenderer extends LineRadarRenderer {
     protected RadarChart mChart;
 
     /**
-     * paint for drawing the web
+     *@author Mirza Adil
      */
     protected Paint mWebPaint;
     protected Paint mHighlightCirclePaint;

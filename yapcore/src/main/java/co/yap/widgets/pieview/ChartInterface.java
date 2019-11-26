@@ -7,7 +7,7 @@ import android.graphics.RectF;
  * Interface that provides everything there is to know about the dimensions,
  * bounds, and range of the chart.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public interface ChartInterface {
 

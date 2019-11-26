@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Subclass of Entry that holds all values for one entry in a CandleStickChart.
  * 
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 @SuppressLint("ParcelCreator")
 public class CandleEntry extends Entry {

@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 /**
  * Entry class for the BarChart. (especially stacked bars)
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 @SuppressLint("ParcelCreator")
 public class BarEntry extends Entry {

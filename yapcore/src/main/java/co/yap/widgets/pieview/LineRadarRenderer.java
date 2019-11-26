@@ -7,7 +7,7 @@ import android.graphics.drawable.Drawable;
 
 
 /**
- * Created by Philipp Jahoda on 25/01/16.
+ * @author Mirza Adil
  */
 public abstract class LineRadarRenderer extends LineScatterCandleRadarRenderer {
 

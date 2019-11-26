@@ -3,7 +3,7 @@ package co.yap.widgets.pieview;
 import java.text.DecimalFormat;
 
 /**
- * Created by philipp on 02/06/16.
+ * @author Mirza Adil
  */
 public class DefaultAxisValueFormatter extends ValueFormatter
 {

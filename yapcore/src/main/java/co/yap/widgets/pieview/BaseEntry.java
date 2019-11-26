@@ -3,7 +3,7 @@ package co.yap.widgets.pieview;
 import android.graphics.drawable.Drawable;
 
 /**
- * Created by Philipp Jahoda on 02/06/16.
+ * @author Mirza Adil
  */
 public abstract class BaseEntry {
 

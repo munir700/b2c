@@ -11,7 +11,7 @@ import android.graphics.Paint;
  * ScatterCharts. It allows the displaying of an additional line in the chart
  * that marks a certain maximum / limit on the specified axis (x- or y-axis).
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public class LimitLine extends ComponentBase {
 

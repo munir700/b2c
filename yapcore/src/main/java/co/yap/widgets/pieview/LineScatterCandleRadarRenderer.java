@@ -4,7 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 
 /**
- * Created by Philipp Jahoda on 11/07/15.
+ * @author Mirza Adil
  */
 public abstract class LineScatterCandleRadarRenderer extends BarLineScatterCandleBubbleRenderer {
 

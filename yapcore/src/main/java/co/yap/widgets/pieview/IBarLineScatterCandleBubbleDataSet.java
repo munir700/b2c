@@ -8,7 +8,7 @@ public interface IBarLineScatterCandleBubbleDataSet<T extends Entry> extends IDa
     /**
      * Returns the color that is used for drawing the highlight indicators.
      *
-     * @return
+     * @author Mirza Adil
      */
     int getHighLightColor();
 }

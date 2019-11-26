@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Philipp Jahoda on 21/07/15.
+ * @author Mirza Adil
  */
 public class ChartHighlighter<T extends BarLineScatterCandleBubbleDataProvider> implements IHighlighter {
 

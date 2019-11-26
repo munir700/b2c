@@ -5,7 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 /**
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 @SuppressLint("ParcelCreator")
 public class PieEntry extends Entry {

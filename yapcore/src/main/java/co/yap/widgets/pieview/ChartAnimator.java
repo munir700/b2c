@@ -9,8 +9,7 @@ import androidx.annotation.RequiresApi;
 /**
  * Object responsible for all animations in the Chart. Animations require API level 11.
  *
- * @author Philipp Jahoda
- * @author Mick Ashton
+ * @author Mirza Adil
  */
 public class ChartAnimator {
 

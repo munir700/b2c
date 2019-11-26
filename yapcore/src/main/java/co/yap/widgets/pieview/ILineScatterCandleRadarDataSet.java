@@ -3,7 +3,7 @@ package co.yap.widgets.pieview;
 import android.graphics.DashPathEffect;
 
 /**
- * Created by Philipp Jahoda on 21/10/15.
+ * @author Mirza Adil
  */
 public interface ILineScatterCandleRadarDataSet<T extends Entry> extends IBarLineScatterCandleBubbleDataSet<T> {
 

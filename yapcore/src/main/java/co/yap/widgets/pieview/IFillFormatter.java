@@ -5,7 +5,7 @@ package co.yap.widgets.pieview;
  * Interface for providing a custom logic to where the filling line of a LineDataSet
  * should end. This of course only works if setFillEnabled(...) is set to true.
  * 
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public interface IFillFormatter
 {

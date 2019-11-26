@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by philipp on 12/06/16.
+ * @author Mirza Adil
  */
 public abstract class PieRadarHighlighter<T extends PieRadarChartBase> implements IHighlighter
 {

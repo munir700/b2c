@@ -1,16 +1,8 @@
 package co.yap.modules.dashboard.cards.analytics.fragments
 
 import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Bundle
-import android.text.Spannable
-import android.text.SpannableString
-import android.text.style.ForegroundColorSpan
-import android.text.style.ImageSpan
-import android.text.style.RelativeSizeSpan
-import android.text.style.StyleSpan
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -54,6 +46,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     }
 
+    /*
+    * In this function set Pie View.
+    * */
+
     private fun setPieView() {
         chart = getBindingView().chart1
         chart!!.setUsePercentValues(false)
@@ -78,6 +74,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         setData(5, 2f)
     }
 
+    /*
+    * In this set Data in Pie View.
+    * */
+    
     private fun setData(count: Int, range: Float) {
         val entries: ArrayList<PieEntry> = ArrayList<PieEntry>()
         for (i in 0 until count) {
@@ -107,80 +107,49 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart!!.data = data
+
         chart!!.highlightValue(0f, 0, true)
         chart!!.invalidate()
-
-
     }
 
-    /*TODO: Set Icon*/
-    private fun generateCenterSpannableText(): SpannableString? {
-        val s =
-            SpannableString("MPAndroidChart\ndeveloped by Philipp Jahoda")
-        val d =
-            ContextCompat.getDrawable(context!!.applicationContext, R.drawable.ic_shopping)
-        d!!.setBounds(0, 0, d.intrinsicWidth, d.intrinsicHeight)
-        val span =
-            ImageSpan(d, ImageSpan.ALIGN_BASELINE)
-        s.setSpan(span, 0, 3, Spannable.SPAN_INCLUSIVE_EXCLUSIVE)
-        s.setSpan(RelativeSizeSpan(1.7f), 0, 14, 0)
-        s.setSpan(
-            StyleSpan(Typeface.NORMAL),
-            14,
-            s.length - 15,
-            0
-        )
-        s.setSpan(
-            ForegroundColorSpan(Color.GRAY),
-            14,
-            s.length - 15,
-            0
-        )
-        s.setSpan(RelativeSizeSpan(.8f), 14, s.length - 15, 0)
-        s.setSpan(
-            StyleSpan(Typeface.ITALIC),
-            s.length - 14,
-            s.length,
-            0
-        )
-        s.setSpan(
-            ForegroundColorSpan(ColorTemplate.getHoloBlue()),
-            s.length - 14,
-            s.length,
-            0
-        )
-        return s
-    }
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
-//                    showToast(
-//                        "Position $it and data is ${viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
-//                            it
-//                        )?.title}"
-//                    )
-
-
-//                    val value = it
-//                    val highlight = Highlight(1.0f, 1.0f, 1)
-//                    //pieChart.highlightValue(highlight); //doesn't call onValueSelected()
-//                    //pieChart.highlightValue(highlight); //doesn't call onValueSelected()
-//                    chart!!.highlightValue(highlight, true) //call onValueSelected()
-
-
+                    showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
-                    showToast(
-                        "Position $it and data is ${viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
-                            it
-                        )?.title}"
-                    )
+                    showPieView(it)
+
                 }
             }
         })
+    }
+
+    /*
+    * In this function show PieView.
+    * */
+
+    private fun showPieView(indexValue: Int) {
+        when (indexValue) {
+            0 -> {
+                chart!!.highlightValue(0f, 0, true)
+            }
+            1 -> {
+                chart!!.highlightValue(1f, 0, true)
+            }
+            2 -> {
+                chart!!.highlightValue(2f, 0, true)
+            }
+            3 -> {
+                chart!!.highlightValue(3f, 0, true)
+            }
+            4 -> {
+                chart!!.highlightValue(4f, 0, true)
+            }
+        }
     }
 
     private val clickEventObserver = Observer<Int> {

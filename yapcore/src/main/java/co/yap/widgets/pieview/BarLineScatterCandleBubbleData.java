@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Baseclass for all Line, Bar, Scatter, Candle and Bubble data.
  * 
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public abstract class BarLineScatterCandleBubbleData<T extends IBarLineScatterCandleBubbleDataSet<? extends Entry>>
         extends ChartData<T> {

@@ -4,7 +4,7 @@ package co.yap.widgets.pieview;
  * Listener for callbacks when selecting values inside the chart by
  * touch-gesture.
  *
- * @author Philipp Jahoda
+ * @author Mirza Adil
  */
 public interface OnChartValueSelectedListener {
 

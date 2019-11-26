@@ -1,7 +1,7 @@
 package co.yap.widgets.pieview;
 
 /**
- * Created by Philipp Jahoda on 03/11/15.
+ * @author Mirza Adil
  */
 public interface IPieDataSet extends IDataSet<PieEntry> {
 

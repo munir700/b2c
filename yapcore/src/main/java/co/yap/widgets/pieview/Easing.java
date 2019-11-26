@@ -7,8 +7,7 @@ import androidx.annotation.RequiresApi;
 /**
  * Easing options.
  *
- * @author Daniel Cohen Gindi
- * @author Mick Ashton
+ * @author Mirza Adil
  */
 @SuppressWarnings("WeakerAccess")
 @RequiresApi(11)
