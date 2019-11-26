@@ -28,7 +28,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override var pagingState: MutableLiveData<PagingState> = MutableLiveData()
 
-    override val yapBeneficiaryLiveData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
+    override val yapContactLiveData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
 
     override fun handlePressOnBackButton() {
     }
@@ -50,7 +50,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_send_money_display_text_title))
         toggleAddButtonVisibility(true)
-//      requestAllBeneficiaries()
+        requestAllBeneficiaries()
     }
 
 
@@ -58,7 +58,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         return pagingState
     }
 
-    override fun requestAllBeneficiaries() {
+    fun requestAllBeneficiaries() {
         launch {
             state.loading = true
             when (val response = repository.getAllBeneficiaries()) {

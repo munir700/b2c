@@ -23,9 +23,8 @@ interface ISendMoneyHome {
         var recentBeneficiariesList: List<Beneficiary>
         fun getState(): LiveData<PagingState>
         var pagingState: MutableLiveData<PagingState>
-        val yapBeneficiaryLiveData: MutableLiveData<List<Beneficiary>>
+        val yapContactLiveData: MutableLiveData<List<Beneficiary>>
 
-        fun requestAllBeneficiaries()
     }
 
     interface View : IBase.View<ViewModel>

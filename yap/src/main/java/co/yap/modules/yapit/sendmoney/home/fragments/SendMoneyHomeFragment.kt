@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentSendMoneyHomeBinding
 import co.yap.databinding.FragmentYapContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
@@ -21,11 +22,11 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
-class SendMoneyHomeScreen : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
+class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_send_money_no_contacts
+    override fun getLayoutId(): Int = R.layout.fragment_send_money_home
 
     override val viewModel: ISendMoneyHome.ViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyHomeScreenViewModel::class.java)
@@ -41,7 +42,7 @@ class SendMoneyHomeScreen : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         initState()
         initComponents()
         setObservers()
-        viewModel.requestAllBeneficiaries()
+
     }
 
     override fun onPause() {
@@ -70,27 +71,27 @@ class SendMoneyHomeScreen : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     private fun initComponents() {
 
-        getBinding().recycler.adapter = AllBeneficiriesAdapter(mutableListOf())
-        (getBinding().recycler.adapter as AllBeneficiriesAdapter).setItemListener(listener)
+        getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter = AllBeneficiriesAdapter(mutableListOf())
+        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(listener)
     }
 
     private fun initState() {
 
         viewModel.getState().observe(this, Observer { state ->
-            if ((getBinding().recycler.adapter as AllBeneficiriesAdapter).getDataList().isNullOrEmpty()) {
-                getBinding().recycler.visibility = View.GONE
-                getBinding().txtError.visibility =
-                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
-//                getBinding().btnInvite.visibility =
-//                    if (state == PagingState.DONE || state == PagingState.ERROR) if (viewModel.parentViewModel?.isSearching?.value!!) View.GONE else View.VISIBLE else View.GONE
-                getBinding().progressBar.visibility =
-                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
+            if ((getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).getDataList().isNullOrEmpty()) {
+                getBinding().layoutBeneficiaries.rvAllBeneficiaries.visibility = View.GONE
+//                getBinding().txtError.visibility =
+//                    if (state == PagingState.DONE || state == PagingState.ERROR) View.VISIBLE else View.GONE
+////                getBinding().btnInvite.visibility =
+////                    if (state == PagingState.DONE || state == PagingState.ERROR) if (viewModel.parentViewModel?.isSearching?.value!!) View.GONE else View.VISIBLE else View.GONE
+//                getBinding().progressBar.visibility =
+//                    if (state == PagingState.LOADING) View.VISIBLE else View.GONE
 
             } else {
-                getBinding().txtError.visibility = View.GONE
-                getBinding().btnInvite.visibility = View.GONE
-                getBinding().progressBar.visibility = View.GONE
-                getBinding().recycler.visibility = View.VISIBLE
+//                getBinding().txtError.visibility = View.GONE
+//                getBinding().btnInvite.visibility = View.GONE
+//                getBinding().progressBar.visibility = View.GONE
+                getBinding().layoutBeneficiaries.rvAllBeneficiaries.visibility = View.VISIBLE
             }
         })
         viewModel.pagingState.value = PagingState.LOADING
@@ -99,15 +100,15 @@ class SendMoneyHomeScreen : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     @SuppressLint("SetTextI18n")
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
-        viewModel.yapBeneficiaryLiveData?.observe(this, Observer {
-            (getBinding().recycler.adapter as AllBeneficiriesAdapter).setList(it)
-            getBinding().txtError.visibility = View.GONE
-            getBinding().tvContactListDescription.visibility =
+        viewModel.yapContactLiveData?.observe(this, Observer {
+            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setList(it)
+//            getBinding().txtError.visibility = View.GONE
+//            getBinding().tvContactListDescription.visibility =
                 if (it.isEmpty()) View.GONE else View.VISIBLE
 
             viewModel.pagingState.value = PagingState.DONE
-            getBinding().tvContactListDescription.text =
-                if (it.size == 1) "${it.size} YAP contact" else "${it.size} YAP contacts"
+//            getBinding().tvContactListDescription.text =
+//                if (it.size == 1) "${it.size} YAP contact" else "${it.size} YAP contacts"
 
 //            getBinding().txtError.text =
 //                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
@@ -117,22 +118,24 @@ class SendMoneyHomeScreen : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         })
 
 //        viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
-//            (getBinding().recycler.adapter as AllBeneficiriesAdapter).filter.filter(it)
+//            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).filter.filter(it)
 //        })
 
-        (getBinding().recycler.adapter as AllBeneficiriesAdapter).filterCount.observe(this, Observer {
+        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).filterCount.observe(
+            this,
+            Observer {
 
-            getBinding().tvContactListDescription.visibility =
-                if (it == 0) View.GONE else View.VISIBLE
-            getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
+//                getBinding().tvContactListDescription.visibility =
+//                    if (it == 0) View.GONE else View.VISIBLE
+//                getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
 //            getBinding().txtError.text =
 //                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
 //                    requireContext(),
 //                    Strings.screen_y2y_display_text_no_yap_contacts
 //                )
-            getBinding().tvContactListDescription.text =
-                if (it == 1) "$it YAP contact" else "$it YAP contacts"
-        })
+//                getBinding().tvContactListDescription.text =
+//                    if (it == 1) "$it YAP contact" else "$it YAP contacts"
+            })
     }
 
     val listener = object : OnItemClickListener {
@@ -172,7 +175,7 @@ class SendMoneyHomeScreen : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         }
     }
 
-    private fun getBinding(): FragmentYapContactsBinding {
-        return (viewDataBinding as FragmentYapContactsBinding)
+    private fun getBinding(): FragmentSendMoneyHomeBinding {
+        return (viewDataBinding as FragmentSendMoneyHomeBinding)
     }
 }
