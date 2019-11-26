@@ -22,7 +22,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
     ICardAnalytics.View, OnChartValueSelectedListener {
-
+git 
     private var chart: PieChart? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_card_analytics
