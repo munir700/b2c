@@ -29,8 +29,8 @@
 
         <include
             android:id="@+id/layoutBeneficiaries"
-            layout="@layout/layout_beneficiaries"/>
-<!--            app:viewModel="@{viewModel}" />   -->
+            layout="@layout/layout_beneficiaries"
+            app:viewModel="@{viewModel}" />
 
     </LinearLayout>
 </layout>

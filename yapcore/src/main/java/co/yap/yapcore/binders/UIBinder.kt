@@ -604,4 +604,18 @@ object UIBinder {
             view.setTextColor(view.context.resources.getColor(R.color.greyDark))
         }
     }
+
+
+    @BindingAdapter("setBeneficiaryImageSrc")
+    @JvmStatic
+    fun setImageSrc(imageView: ImageView, transferType: String) {
+
+        if (transferType.equals("CASHPAYOUT")) {
+            imageView.setImageResource(R.drawable.ic_cash)
+
+        } else {
+            imageView.setImageResource(R.drawable.ic_bank)
+
+        }
+    }
 }

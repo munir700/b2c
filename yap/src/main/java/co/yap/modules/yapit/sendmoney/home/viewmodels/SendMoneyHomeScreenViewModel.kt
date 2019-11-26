@@ -64,8 +64,9 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    state.toast = response.data.toString()
-                    allBeneficiariesList = response.data.data
+                     allBeneficiariesList = response.data.data
+                    yapContactLiveData.value= allBeneficiariesList
+
                 }
 
                 is RetroApiResponse.Error -> {
@@ -85,6 +86,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                     state.loading = false
                     state.toast = response.data.toString()
                     recentBeneficiariesList = response.data.data
+
                 }
 
                 is RetroApiResponse.Error -> {
