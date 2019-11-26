@@ -5,9 +5,8 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.CategoryAnalyticsAdaptor
-import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.viewmodels.AnalyticsItemViewModel
-import co.yap.networking.cards.responsedtos.TxnAnalytic
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.helpers.getColors
 import co.yap.yapcore.interfaces.OnItemClickListener
 

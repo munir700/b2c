@@ -5,8 +5,7 @@ import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.ItemAnalyticsBinding
 import co.yap.modules.dashboard.cards.analytics.adaptors.viewholders.MerchantAnalyticsItemViewHolder
-import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
-import co.yap.networking.cards.responsedtos.TxnAnalytic
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.BaseBindingRecyclerAdapter
 
 class MerchantAnalyticsAdaptor(private val list: MutableList<TxnAnalytic>) :

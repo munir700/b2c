@@ -25,10 +25,11 @@ import co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsViewMode
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
+import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayoutMediator
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
-    ICardAnalytics.View {
+    ICardAnalytics.View, OnChartValueSelectedListener {
 
     private var chart: PieChart? = null
     override fun getBindingVariable(): Int = BR.viewModel
@@ -43,6 +44,12 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         setupAdaptor()
         setupTabs()
         setPieView()
+        getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
+            requireContext(),
+            viewModel.state.monthlyAverageString,
+            "AED",
+            "5600.00"
+        )
         viewModel.fetchCardAnalytics()
 
     }
@@ -51,58 +58,21 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         chart = getBindingView().chart1
         chart!!.setUsePercentValues(false)
         chart!!.description.isEnabled = false
-        chart!!.setExtraOffsets(5f, 10f, 5f, 5f)
         chart!!.dragDecelerationFrictionCoef = 0.95f
-        //chart!!.setCenterTextTypeface(tfLight)
-        chart!!.centerText = generateCenterSpannableText()
         chart!!.isDrawHoleEnabled = true
-        chart!!.setHoleColor(Color.WHITE)
+        chart!!.setHoleColor(Color.TRANSPARENT)
         chart!!.setTransparentCircleColor(Color.WHITE)
         chart!!.setTransparentCircleAlpha(200)
         chart!!.holeRadius = 70f
         chart!!.transparentCircleRadius = 70f
         chart!!.setDrawCenterText(true)
         chart!!.rotationAngle = 0f
-        // enable rotation of the chart by touch
-        // enable rotation of the chart by touch
         chart!!.isRotationEnabled = false
         chart!!.isHighlightPerTapEnabled = true
-        // chart.setUnit(" €");
-        // chart.setDrawUnitsInChart(true);
-        // add a selection listener
-        // chart.setUnit(" €");
-// chart.setDrawUnitsInChart(true);
-// add a selection listener
-        // chart!!.setOnChartValueSelectedListener()
-//        seekBarX.setProgress(4)
-//        seekBarY.setProgress(10)
+        chart!!.setOnChartValueSelectedListener(this)
         chart!!.animateY(1400, Easing.EaseInOutQuad)
-        // chart.spin(2000, 0, 360);
-//        Legend l = chart.getLegend();
-//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-//        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-//        l.setDrawInside(false);
-//        l.setXEntrySpace(7f);
-//        l.setYEntrySpace(0f);
-//        l.setYOffset(0f);
-//        l.setEnabled(false);
-        // chart.spin(2000, 0, 360);
-//        Legend l = chart.getLegend();
-//        l.setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
-//        l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-//        l.setOrientation(Legend.LegendOrientation.VERTICAL);
-//        l.setDrawInside(false);
-//        l.setXEntrySpace(7f);
-//        l.setYEntrySpace(0f);
-//        l.setYOffset(0f);
-//        l.setEnabled(false);
         chart!!.legend.isEnabled = false // Hide the legend
-
-        // entry label styling
-        // entry label styling
         chart!!.setEntryLabelColor(Color.WHITE)
-        //  chart!!.setEntryLabelTypeface(tfRegular)
         chart!!.setEntryLabelTextSize(0f)
 
         setData(5, 2f)
@@ -113,9 +83,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         for (i in 0 until count) {
             entries.add(
                 PieEntry(
-                    (Math.random() * range + range / 5).toFloat(),
-                    parties[i % parties.size],
-                    resources.getDrawable(R.drawable.arrow)
+                    (Math.random() * range + range / 5).toFloat()
                 )
             )
         }
@@ -135,16 +103,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         for (c in ColorTemplate.PASTEL_COLORS) colors.add(c)
         colors.add(ColorTemplate.getHoloBlue())
         dataSet.colors = colors
-        //dataSet.setSelectionShift(0f);
         val data = PieData(dataSet)
-        //  data.setValueFormatter(PercentFormatter(chart))
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
-        // data.setValueTypeface(tfLight)
         chart!!.data = data
-        // undo all highlights
-        chart!!.highlightValues(null)
+        chart!!.highlightValue(0f, 0, true)
         chart!!.invalidate()
+
+
     }
 
     /*TODO: Set Icon*/
@@ -196,13 +162,22 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 //                            it
 //                        )?.title}"
 //                    )
+
+
+//                    val value = it
+//                    val highlight = Highlight(1.0f, 1.0f, 1)
+//                    //pieChart.highlightValue(highlight); //doesn't call onValueSelected()
+//                    //pieChart.highlightValue(highlight); //doesn't call onValueSelected()
+//                    chart!!.highlightValue(highlight, true) //call onValueSelected()
+
+
                 }
                 MERCHANT_ANALYTICS -> {
-//                    showToast(
-//                        "Position $it and data is ${viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
-//                            it
-//                        )?.title}"
-//                    )
+                    showToast(
+                        "Position $it and data is ${viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
+                            it
+                        )?.title}"
+                    )
                 }
             }
         })
@@ -252,11 +227,14 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         return (viewDataBinding as FragmentCardAnalyticsBinding)
     }
 
+    override fun onNothingSelected() {
+        //  Toast.makeText(context!!.applicationContext, "onNothingSelected", Toast.LENGTH_LONG).show()
 
-    val parties = arrayOf(
-        "Party A", "Party B", "Party C", "Party D", "Party E", "Party F", "Party G", "Party H",
-        "Party I", "Party J", "Party K", "Party L", "Party M", "Party N", "Party O", "Party P",
-        "Party Q", "Party R", "Party S", "Party T", "Party U", "Party V", "Party W", "Party X",
-        "Party Y", "Party Z"
-    )
+    }
+
+    override fun onValueSelected(e: Entry?, h: Highlight?) {
+        /*TODO:Pie Chart View Click Listener*/
+        val select_index_value = h!!.x.toShort()
+
+    }
 }

@@ -1,4 +1,4 @@
-package co.yap.networking.cards.responsedtos
+package co.yap.networking.transactions.responsedtos
 
 import co.yap.networking.models.ApiResponse
 
