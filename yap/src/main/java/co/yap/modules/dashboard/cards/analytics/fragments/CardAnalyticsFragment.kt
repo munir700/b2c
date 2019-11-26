@@ -42,7 +42,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             "AED",
             "5600.00"
         )
-        viewModel.fetchCardAnalytics()
+        //viewModel.fetchCardAnalytics()
 
     }
 
@@ -77,7 +77,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     /*
     * In this set Data in Pie View.
     * */
-    
+
     private fun setData(count: Int, range: Float) {
         val entries: ArrayList<PieEntry> = ArrayList<PieEntry>()
         for (i in 0 until count) {
@@ -119,9 +119,13 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
                     showPieView(it)
+                    viewModel.fetchCardCategoryAnalytics()
+
+
                 }
                 MERCHANT_ANALYTICS -> {
                     showPieView(it)
+                    viewModel.fetchCardMerchantAnalytics()
 
                 }
             }

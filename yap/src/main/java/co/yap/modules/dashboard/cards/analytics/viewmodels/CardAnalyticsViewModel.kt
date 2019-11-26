@@ -7,6 +7,8 @@ import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMa
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
+import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.SingleClickEvent
 
@@ -15,6 +17,7 @@ class CardAnalyticsViewModel(application: Application) :
     ICardAnalytics.ViewModel {
     override val state: CardAnalyticsState = CardAnalyticsState(application)
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
+    val repository: TransactionsRepository = TransactionsRepository
     override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override fun onCreate() {
@@ -36,11 +39,24 @@ class CardAnalyticsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun fetchCardAnalytics() {
-        val list = ArrayList<TxnAnalytic>()
-        val list2 = ArrayList<TxnAnalytic>()
+    override fun fetchCardCategoryAnalytics() {
+        val categoryList = ArrayList<TxnAnalytic>()
 
-        list2.add(
+        //call api here
+        launch {
+            state.loading = true
+            when (val response = repository.getAnalyticsByCategoryName("826336237263632", "12-12-2019")) {
+                is RetroApiResponse.Success -> {
+
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
+        }
+
+        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList
+
+        /*list2.add(
             TxnAnalytic(
                 "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
                 "Amazon",
@@ -134,10 +150,24 @@ class CardAnalyticsViewModel(application: Application) :
 //            list.add(AnalyticsItem("Shopping", 12, "5687.16", 0.5145))
 //
 //        for (i in 0..4)
-//            list2.add(AnalyticsItem("Amazon", 4, "5687.16", 0.51234))
+//            list2.add(AnalyticsItem("Amazon", 4, "5687.16", 0.51234))*/
 
-        parentVM?.categoryAnalyticsItemLiveData?.value = list
-        parentVM?.merchantAnalyticsItemLiveData?.value = list2
+
+    }
+
+    override fun fetchCardMerchantAnalytics() {
+        val merchantList = ArrayList<TxnAnalytic>()
+        launch {
+            state.loading = true
+            when (val response = repository.getAnalyticsByCategoryName("826336237263632", "12-12-2019")) {
+                is RetroApiResponse.Success -> {
+
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
+        }
+        parentVM?.merchantAnalyticsItemLiveData?.value = merchantList
 
     }
 }
