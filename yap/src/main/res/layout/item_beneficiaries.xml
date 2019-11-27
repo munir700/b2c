@@ -75,97 +75,88 @@
             </FrameLayout>
         </LinearLayout>
 
-        <LinearLayout
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/foregroundContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="@dimen/margin_small">
+            android:background="@color/colorWhite">
 
+            <include
+                android:id="@+id/lyUserImage"
+                layout="@layout/layout_initial_image_user"
+                app:image="@{viewModel.beneficiary.beneficiaryPictureUrl}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:name="@{viewModel.beneficiary.firstName + ' ' + viewModel.beneficiary.lastName}" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/lyContact"
-                android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:background="@color/colorWhite"
-                android:onClick="@{(v) -> viewModel.onViewClicked(v)}">
+                android:layout_marginStart="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:gravity="center"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/section"
+                app:layout_constraintStart_toEndOf="@+id/lyUserImage"
+                app:layout_constraintTop_toTopOf="@+id/lyUserImage">
 
-                <include
-                    android:id="@+id/lyUserImage"
-                    layout="@layout/layout_initial_image_user"
-                    app:image="@{viewModel.beneficiary.beneficiaryPictureUrl}"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:name="@{viewModel.beneficiary.firstName + ' ' + viewModel.beneficiary.lastName}" />
-
-                <LinearLayout
-                    android:id="@+id/content"
-                    android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/tvName"
+                    style="@style/Regular"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_normal"
-                    android:layout_marginEnd="@dimen/margin_small"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:gravity="bottom"
+                    android:lineSpacingExtra="0dp"
+                    android:lines="1"
+                    android:text="@{viewModel.beneficiary.title}"
+                    tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/section"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="@+id/content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/content">
+
+
+                <ImageView
+                    android:id="@+id/ivTransferType"
+                    android:layout_width="@dimen/_24sdp"
+                    android:layout_height="@dimen/_24sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="@dimen/margin_small"
+                    android:contentDescription="@string/empty_string"
                     android:gravity="center"
-                    android:orientation="vertical"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/section"
-                    app:layout_constraintStart_toEndOf="@+id/lyUserImage"
-                    app:layout_constraintTop_toTopOf="@+id/lyUserImage">
-
-                    <TextView
-                        android:id="@+id/tvName"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="end"
-                        android:gravity="bottom"
-                        android:lineSpacingExtra="0dp"
-                        android:lines="1"
-                        android:text="@{viewModel.beneficiary.title}"
-                        tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/section"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="0dp"
-                    android:gravity="center"
-                    app:layout_constraintBottom_toBottomOf="@+id/content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/content">
+                    android:src="@drawable/ic_cash"
+                    android:tint="@color/greyDark"
+                    app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
+                    tools:visibility="visible" />
 
 
-                    <ImageView
-                        android:id="@+id/ivTransferType"
-                        android:layout_width="@dimen/_24sdp"
-                        android:layout_height="@dimen/_24sdp"
-                        android:layout_gravity="center"
-                        android:layout_marginRight="@dimen/margin_small"
-                        android:contentDescription="@string/empty_string"
-                        android:gravity="center"
-                        android:src="@drawable/ic_cash"
-                        android:tint="@color/greyDark"
-                        app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
-                        tools:visibility="visible" />
+                <co.yap.widgets.CoreCircularImageView
+                    android:id="@+id/flag_img"
+                    android:layout_width="@dimen/_20sdp"
+                    android:layout_height="@dimen/_20sdp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/bitmap" />
 
 
-                    <co.yap.widgets.CoreCircularImageView
-                        android:id="@+id/flag_img"
-                        android:layout_width="@dimen/_20sdp"
-                        android:layout_height="@dimen/_20sdp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/bitmap" />
+                <!-- need to set country from updated response in the UIBinder , right now its not returning the Country object ,its just sending the name-->
 
+                <!--            app:src="@{dataCountry.flagDrawableResId}"-->
 
-                    <!-- need to set country from updated response in the UIBinder , right now its not returning the Country object ,its just sending the name-->
-
-                    <!--            app:src="@{dataCountry.flagDrawableResId}"-->
-
-                </LinearLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
+            </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </co.yap.widgets.swipe_lib.SwipeLayout>
 </layout>
