@@ -4,6 +4,7 @@ import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.provider.ContactsContract
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
@@ -15,11 +16,9 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.Utils
-import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.isActive
+
 
 class PhoneContactViewModel(application: Application) :
     Y2YBaseViewModel<IPhoneContact.State>(application),
@@ -77,70 +76,103 @@ class PhoneContactViewModel(application: Application) :
 
     private fun fetchContacts(context: Context): MutableList<Contact> {
 
-        val contacts: MutableList<Contact> = ArrayList()
         if (ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
 
-            var defaultCountryCode = Utils.getDefaultCountryCode(context)
-            val phoneUtil = PhoneNumberUtil.getInstance()
+            //            var defaultCountryCode = Utils.getDefaultCountryCode(context)
+//            val phoneUtil = PhoneNumberUtil.getInstance()
 
+            val contacts = HashMap<Long, Contact>()
+
+            val projection = arrayOf(
+                ContactsContract.Data.CONTACT_ID,
+                ContactsContract.Data.DISPLAY_NAME_PRIMARY,
+                ContactsContract.Data.STARRED,
+                ContactsContract.Data.PHOTO_URI,
+                ContactsContract.Data.PHOTO_THUMBNAIL_URI,
+                ContactsContract.Data.DATA1,
+                ContactsContract.Data.MIMETYPE,
+                ContactsContract.Data.IN_VISIBLE_GROUP
+            )
             val cursor = context.contentResolver.query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
+                ContactsContract.Data.CONTENT_URI,
+                projection,
+                null, null,
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
             )
-            try {
-                cursor?.let {
-                    if (it.count > 0) {
-                        while (it.moveToNext()) {
-                            if (viewModelBGScope.isActive) {
-                                val name =
-                                    it.getString(it.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
 
-                                var phoneNo =
-                                    it.getString(it.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+            if (cursor != null) {
+                cursor.moveToFirst()
 
-                                // contactId for email
-                                //val contactId =
-                                //    it.getLong(it.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
-                                // contactId2 for email
-                                val contactId =
-                                    it.getLong(it.getColumnIndex(ContactsContract.Data.CONTACT_ID))
+                val idColumnIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID)
+                //val inVisibleGroupColumnIndex =
+                //    cursor.getColumnIndex(ContactsContract.Data.IN_VISIBLE_GROUP)
+                val displayNamePrimaryColumnIndex =
+                    cursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME_PRIMARY)
+                //val starredColumnIndex = cursor.getColumnIndex(ContactsContract.Data.STARRED)
+                //val photoColumnIndex = cursor.getColumnIndex(ContactsContract.Data.PHOTO_URI)
+                val thumbnailColumnIndex =
+                    cursor.getColumnIndex(ContactsContract.Data.PHOTO_THUMBNAIL_URI)
+                val mimetypeColumnIndex = cursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
+                val dataColumnIndex = cursor.getColumnIndex(ContactsContract.Data.DATA1)
 
-                                try {
-                                    val pn =
-                                        phoneUtil.parse(phoneNo, defaultCountryCode)
-                                    pn.nationalNumber.toString()
-                                    phoneNo = pn.nationalNumber.toString()
-                                    defaultCountryCode = "00${pn.countryCode}"
-                                } catch (e: Exception) {
-                                }
+                while (!cursor.isAfterLast) {
+                    val id = cursor.getLong(idColumnIndex)
+                    var contact = contacts[id]
+                    if (contact == null) {
 
-                                val contact = Contact(
-                                    name,
-                                    defaultCountryCode,
-                                    phoneNo,
-                                    "",
-                                    contactId.toString(),
-                                    false, null
-                                )
-                                contacts.add(contact)
-                            }
-                            if (contacts.size == 200)
-                                break
+                        contact = Contact()
+                        val displayName = cursor.getString(displayNamePrimaryColumnIndex)
+                        if (displayName != null && displayName.isNotEmpty()) {
+                            contact.title = displayName
                         }
+
+                        contact.countryCode = "0092"
+
+                        val mimetype = cursor.getString(mimetypeColumnIndex)
+                        when (mimetype) {
+                            ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE -> {
+                                val email = cursor.getString(dataColumnIndex)
+                                if (email != null && email.isNotEmpty()) {
+                                    contact.email = email
+                                }
+                            }
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE -> {
+                                var phoneNumber = cursor.getString(dataColumnIndex)
+                                if (phoneNumber != null && phoneNumber.isNotEmpty()) {
+                                    // Remove all whitespaces
+                                    phoneNumber = phoneNumber.replace("\\s+".toRegex(), "")
+                                    contact.mobileNo = phoneNumber
+                                }
+                            }
+                        }
+                        val uri = cursor.getString(thumbnailColumnIndex)
+                        if (uri != null && !uri.isEmpty()) {
+                            contact.beneficiaryPictureUrl = Uri.parse(uri).toString()
+                        }
+
+                        contacts[id] = contact
                     }
+                    cursor.moveToNext()
                 }
-                cursor?.close()
-            } catch (ex: Exception) {
-                ex.printStackTrace()
+                cursor.close()
             }
+            return (ArrayList(contacts.values.take(50)) as MutableList<Contact>)
         }
-        return contacts
+        return mutableListOf()
     }
 
+//    try {
+//                                    val pn =
+//                                        phoneUtil.parse(phoneNo, defaultCountryCode)
+//                                    pn.nationalNumber.toString()
+//                                    phoneNo = pn.nationalNumber.toString()
+//                                    defaultCountryCode = "00${pn.countryCode}"
+//                                } catch (e: Exception) {
+//                                }
 //    interface UploadIdCardRetroService {
 //
 //        @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
