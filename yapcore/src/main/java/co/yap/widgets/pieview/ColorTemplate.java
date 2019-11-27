@@ -74,8 +74,8 @@ public class ColorTemplate {
      *
      * @return
      */
-    public static int getHoloBlue() {
-        return Color.rgb(51, 181, 229);
+    public static int getEmptyColor() {
+        return rgb("#5cdae0f0");
     }
 
     /**

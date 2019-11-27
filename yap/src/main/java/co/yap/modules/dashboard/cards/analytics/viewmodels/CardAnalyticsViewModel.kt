@@ -29,7 +29,6 @@ class CardAnalyticsViewModel(application: Application) :
         parentVM?.let {
             parentViewModel = it
         }
-
     }
 
     override fun onResume() {

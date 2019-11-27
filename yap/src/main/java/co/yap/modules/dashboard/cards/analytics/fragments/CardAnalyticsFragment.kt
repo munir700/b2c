@@ -22,7 +22,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import kotlinx.android.synthetic.main.fragment_help_support.*
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
     ICardAnalytics.View, OnChartValueSelectedListener {
@@ -78,34 +77,31 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     * */
 
     private fun setData(txnAnalytics: List<TxnAnalytic>?) {
-        if (!txnAnalytics.isNullOrEmpty()) {
-            val entries: ArrayList<PieEntry> = ArrayList()
-            txnAnalytics.let {
-                for (item in it.iterator()) {
-                    entries.add(
-                        PieEntry(item.totalSpendingInPercentage.toFloat())
-                    )
-                }
-                val dataSet = PieDataSet(entries, "")
-                dataSet.setDrawIcons(false)
-                dataSet.sliceSpace = 0f
-                dataSet.iconsOffset = MPPointF(0f, 40f)
-                dataSet.selectionShift = 20f
-                dataSet.setDrawValues(false)
-                val colors = ArrayList<Int>()
-                colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
-                dataSet.colors = colors
-                val data = PieData(dataSet)
-                data.setValueTextSize(11f)
-                data.setValueTextColor(Color.WHITE)
-                chart.data = data
-
-                chart.highlightValue(0f, 0, true)
-                chart.invalidate()
-            }
+        val entries: ArrayList<PieEntry> = ArrayList()
+        val colors = ArrayList<Int>()
+        if (txnAnalytics.isNullOrEmpty()) {
+            entries.add(PieEntry(100f))
+            colors.add(ColorTemplate.getEmptyColor())
+        } else {
+            for (item in txnAnalytics.iterator())
+                entries.add(PieEntry(item.totalSpendingInPercentage.toFloat()))
         }
-
+        colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
+        val dataSet = PieDataSet(entries, "")
+        dataSet.setDrawIcons(false)
+        dataSet.sliceSpace = 0f
+        dataSet.iconsOffset = MPPointF(0f, 40f)
+        dataSet.selectionShift = 20f
+        dataSet.setDrawValues(false)
+        dataSet.colors = colors
+        val data = PieData(dataSet)
+        data.setValueTextSize(11f)
+        data.setValueTextColor(Color.WHITE)
+        chart.data = data
+        chart.highlightValue(0f, 0, true)
+        chart.invalidate()
     }
+
 
     override fun setObservers() {
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
