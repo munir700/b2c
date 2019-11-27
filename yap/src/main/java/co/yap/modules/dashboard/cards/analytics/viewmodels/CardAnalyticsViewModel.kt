@@ -9,28 +9,48 @@ import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
     ICardAnalytics.ViewModel {
+
     override val state: CardAnalyticsState = CardAnalyticsState(application)
     override var selectedModel: MutableLiveData<AnalyticsItem> = MutableLiveData()
     val repository: TransactionsRepository = TransactionsRepository
     override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+
     override fun onCreate() {
         super.onCreate()
         parentVM?.let {
             parentViewModel = it
         }
+        MyUserManager.user?.creationDate?.let {
+            val date =
+                DateUtils.stringToDate(
+                    it,
+                    DateUtils.FORMAT_LONG_INPUT
+                )
 
+            date?.let {
+                if (Date().month == date.month) {
+                    state.nextMonth = false
+                    state.previousMonth = false
+                } else {
+                    if (Date().month > date.month) {
+                        state.previousMonth = true
+                    }
+                }
+            }
+        }
     }
 
     override fun onResume() {
@@ -64,6 +84,24 @@ class CardAnalyticsViewModel(application: Application) :
                     state.totalSpent = state.totalCategorySpent
                     clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
                     fetchCardMerchantAnalytics()
+                    state.selectedMonth = DateUtils.convertAnalyticsDate(response.data.data.date)
+
+                    val parser = SimpleDateFormat("yyyy-MM")
+                    parser.timeZone = TimeZone.getTimeZone("UTC")
+                    val strDate = parser.parse(response.data.data.date)
+
+                    if (System.currentTimeMillis() > strDate.time) {
+                        state.nextMonth = true
+//                        if (datePassed) {
+//
+//                        }
+                    } else {
+
+                    }
+
+                    2019 - 11
+                    //"date" : "2019-10",
+//November , 2019
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false

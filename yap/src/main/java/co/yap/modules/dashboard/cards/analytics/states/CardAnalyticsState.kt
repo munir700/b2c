@@ -13,6 +13,20 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
     val context = application.applicationContext
 
     @get:Bindable
+    override var previousMonth: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousMonth)
+        }
+
+    @get:Bindable
+    override var nextMonth: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.nextMonth)
+        }
+
+    @get:Bindable
     override var selectedMonth: String? = ""
         set(value) {
             field = value
