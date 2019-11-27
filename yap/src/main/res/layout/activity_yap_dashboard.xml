@@ -37,23 +37,7 @@
 
         </RelativeLayout>
 
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/drawerNav"
-            android:layout_width="@dimen/_290sdp"
-            android:layout_height="match_parent"
-            android:layout_gravity="end"
-            android:background="@color/white"
-            android:elevation="4dp"
-            android:fitsSystemWindows="true"
-            app:elevation="4dp">
 
-            <include
-                android:id="@+id/includedDrawerLayout"
-                layout="@layout/layout_drawer_yap_dashboard"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:viewModel="@{viewModel}" />
-        </com.google.android.material.navigation.NavigationView>
         <LinearLayout
             android:id="@+id/rlYapIt"
             android:layout_width="wrap_content"
@@ -93,7 +77,23 @@
             android:background="@color/white"
             android:visibility="gone" />
 
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/drawerNav"
+            android:layout_width="@dimen/_290sdp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:fitsSystemWindows="true"
+            app:elevation="4dp">
 
+            <include
+                android:id="@+id/includedDrawerLayout"
+                layout="@layout/layout_drawer_yap_dashboard"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:viewModel="@{viewModel}" />
+        </com.google.android.material.navigation.NavigationView>
     </androidx.drawerlayout.widget.DrawerLayout>
 
 

@@ -116,14 +116,14 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.cardTopUpTransactionRequest(orderId, topUpTransactionRequest) })
 
     override suspend fun getAnalyticsByMerchantName(
-        cardSerialNo: String,
-        date: String
+        cardSerialNo: String?,
+        date: String?
     ): RetroApiResponse<AnalyticsResponseDTO> =
         executeSafely(call = { api.getAnalyticsByMerchantName(cardSerialNo, date) })
 
     override suspend fun getAnalyticsByCategoryName(
-        cardSerialNo: String,
-        date: String
+        cardSerialNo: String?,
+        date: String?
     ): RetroApiResponse<AnalyticsResponseDTO> =
         executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
 }

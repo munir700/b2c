@@ -3,6 +3,8 @@ package co.yap.yapcore.helpers
 import android.annotation.SuppressLint
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 object DateUtils {
@@ -137,6 +139,11 @@ object DateUtils {
         parser.timeZone = TimeZone.getTimeZone("UTC")
         val convertedDate = parser.parse(creationDate)
         return isDatePassed(convertedDate)
+    }
+    @SuppressLint("SimpleDateFormat")
+    fun getCurrentDate():String{
+        val sdf = SimpleDateFormat("YYYY-MM-dd")
+        return sdf.format(Date())
     }
 
 }

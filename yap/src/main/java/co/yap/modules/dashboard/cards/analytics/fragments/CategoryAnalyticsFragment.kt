@@ -34,7 +34,10 @@ class CategoryAnalyticsFragment : CardAnalyticsBaseFragment<ICategoryAnalytics.V
     }
 
     private fun setObservers() {
-        viewModel.parentViewModel.categoryAnalyticsItemLiveData.observe(this, Observer {
+        viewModel.parentViewModel.categoryAnalyticsItemLiveData?.observe(this, Observer {
+            if (it == null) {
+                return@Observer
+            }
             getAdaptor().setList(it)
         })
         viewModel.parentViewModel.selectedItemPositionParent.observe(this, Observer {

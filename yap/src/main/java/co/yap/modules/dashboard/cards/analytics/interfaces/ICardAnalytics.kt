@@ -16,18 +16,25 @@ interface ICardAnalytics {
         val clickEvent: SingleClickEvent
         var selectedModel: MutableLiveData<AnalyticsItem>
         var parentViewModel: ICardAnalyticsMain.ViewModel
-        fun fetchCardAnalytics()
+        fun fetchCardCategoryAnalytics()
+        fun fetchCardMerchantAnalytics()
         fun handlePressOnView(id: Int)
 
     }
 
     interface State : IBase.State {
         var monthlyAverageString: String
-        var currencyType: String
+        var monthlyMerchantAverageString: String
+        var currencyType: String?
+        var monthlyCategoryAvgAmount: String?
+        var monthlyMerchantAvgAmount: String?
         var selectedItemSpentValue: String
         var selectedItemPercentage: String
-        var selectedItemName: String
+        var selectedItemName: String?
         var selectedItemPosition: Int
+        var totalSpent: String?
+        var totalCategorySpent: String?
+        var totalMerchantSpent: String?
         var selectedTxnAnalyticsItem: TxnAnalytic?
     }
 }

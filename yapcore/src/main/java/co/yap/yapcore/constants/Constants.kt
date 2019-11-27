@@ -57,6 +57,12 @@ object Constants {
     const val CARD_FEE: Int = 23
     const val TOP_UP_TRANSACTION_SUCCESS: Int = 6
 
+    //CardAnalytics constants
+    const val CATEGORY_AVERAGE_AMOUNT_VALUE: Int = 7
+    const val MERCHANT_AVERAGE_AMOUNT_VALUE: Int = 8
+
+
+
 
     //Add Card Payment gateway URL
     const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
