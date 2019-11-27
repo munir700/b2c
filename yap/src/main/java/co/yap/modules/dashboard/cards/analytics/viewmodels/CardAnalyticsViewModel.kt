@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
+import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
@@ -33,7 +34,7 @@ class CardAnalyticsViewModel(application: Application) :
 
     override fun onResume() {
         super.onResume()
-        setToolBarTitle("Analytics")
+        setToolBarTitle(getString(Strings.screen_card_analytics_tool_bar_title))
     }
 
     override fun handlePressOnView(id: Int) {
