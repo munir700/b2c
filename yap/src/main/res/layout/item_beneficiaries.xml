@@ -38,12 +38,16 @@
                 android:layout_weight="1"
                 android:background="@color/colorPrimary">
 
-                <ImageView
+                <TextView
+                    style="@style/Micro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/ic_edit_swipe"
-                    android:tint="@color/white" />
+                    android:drawableTop="@drawable/ic_edit_swipe"
+                    android:drawablePadding="@dimen/_2sdp"
+                    android:gravity="center"
+                    android:text="Edit"
+                    android:textColor="@color/white" />
 
             </FrameLayout>
 
@@ -55,12 +59,19 @@
                 android:layout_weight="1"
                 android:background="@color/colorSecondaryMagenta">
 
-                <ImageView
-                    android:layout_width="@dimen/_32sdp"
-                    android:layout_height="@dimen/_32sdp"
+                <TextView
+                    style="@style/Micro"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:src="@drawable/close"
-                    android:tint="@color/white" />
+                    android:drawableTop="@drawable/close"
+                    android:drawablePadding="@dimen/_2sdp"
+                    android:drawableTint="@color/white"
+                    android:gravity="center"
+                    android:text="Delete"
+                    android:textColor="@color/white" />
+
+
             </FrameLayout>
         </LinearLayout>
 
@@ -68,7 +79,8 @@
             android:id="@+id/foregroundContainer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white">
+            android:background="@color/white"
+            android:padding="@dimen/margin_small">
 
 
             <androidx.constraintlayout.widget.ConstraintLayout
