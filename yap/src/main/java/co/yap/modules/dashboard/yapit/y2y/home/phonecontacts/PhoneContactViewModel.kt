@@ -128,6 +128,8 @@ class PhoneContactViewModel(application: Application) :
                                 )
                                 contacts.add(contact)
                             }
+                            if (contacts.size == 200)
+                                break
                         }
                     }
                 }

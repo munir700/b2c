@@ -10,7 +10,7 @@
             type="String" />
 
         <variable
-            name="image"
+            name="contactId"
             type="String" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
@@ -21,24 +21,27 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_8sdp"
+        app:loadContactPhoto="@{contactId}"
+        app:loadContactName="@{name}">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_45sdp"
             android:layout_height="@dimen/_45sdp"
             android:contentDescription="@string/empty_string"
+            android:tag="imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:loadContactPhoto="@{image}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/lyNameInitials"
             android:layout_width="wrap_content"
+            android:tag="lyNameInitials"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round_with_space_white"
-            android:visibility="@{image.equals(``)? View.VISIBLE :View.GONE}"
+            android:visibility="@{contactId.equals(``)? View.VISIBLE :View.GONE}"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +50,7 @@
             <TextView
                 android:id="@+id/tvNameInitials"
                 style="@style/ARegular"
+                android:tag="tvNameInitials"
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"
                 android:gravity="center"

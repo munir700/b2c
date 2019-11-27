@@ -24,11 +24,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.CoreDialerPad
 import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
@@ -104,46 +106,69 @@ object UIBinder {
         }
     }
 
-    @BindingAdapter("loadContactPhoto")
+    @BindingAdapter("loadContactPhoto", "loadContactName")
     @JvmStatic
-    fun getPhotoContact(view: ImageView, contactId: String?) {
-        if (contactId == null) {
-            view.visibility = View.GONE
-            return
-        }
+    fun getPhotoContact(constraintLayout: ConstraintLayout, contactId: String?, name: String?) {
 
-        if (contactId.contains("http")) {
-            view.loadImage(contactId)
+        val image = constraintLayout.findViewWithTag<CoreCircularImageView>("imgProfile")
+        val lyName = constraintLayout.findViewWithTag<LinearLayout>("lyNameInitials")
+        val tvName = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
+
+        if (contactId == null) {
+            image.visibility = View.GONE
+            // name case
         } else {
-            try {
-                val uri = getPhotoUri(contactId.toLong())
-                if (uri != null) {
-                    val cursor = view.context.contentResolver.query(
-                        uri,
-                        arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
-                    )
-                    if (cursor != null) {
-                        if (cursor.moveToFirst()) {
-                            val data = cursor.getBlob(0)
-                            if (data != null) {
-                                cursor.close()
-                                val bitmap = byteArrayToBitmap(data)
-                                view.visibility = View.VISIBLE
-                                view.setImageBitmap(bitmap)
+            if (contactId.contains("http")) {
+                image.visibility = View.VISIBLE
+                image.loadImage(contactId)
+            } else {
+                try {
+                    val uri = getPhotoUri(contactId.toLong())
+                    if (uri != null) {
+                        val cursor = image.context.contentResolver.query(
+                            uri,
+                            arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
+                        )
+                        if (cursor != null) {
+                            if (cursor.moveToFirst()) {
+                                val data = cursor.getBlob(0)
+                                if (data != null) {
+                                    cursor.close()
+                                    val bitmap = byteArrayToBitmap(data)
+                                    if (bitmap != null) {
+                                        image.visibility = View.VISIBLE
+                                        lyName.visibility = View.GONE
+                                        image.setImageBitmap(bitmap)
+                                    } else {
+                                        setShortName(image,lyName,tvName, name)
+
+                                    }
+                                } else {
+                                    view.setImageResource(0)
+                                }
                             } else {
-                                view.setImageResource(0)
+
                             }
+                            cursor.close()
+                        } else {
+                            view.setImageResource(0)
                         }
-                        cursor.close()
                     } else {
                         view.setImageResource(0)
                     }
-                } else {
-                    view.setImageResource(0)
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
+        }
+    }
+
+    private fun setShortName(textView: TextView, name: String?) {
+        if (name != null) {
+            textView.text = Utils.shortName(it)
+            textView.visibility = View.VISIBLE
+        } else {
+
         }
     }
 
@@ -193,7 +218,7 @@ object UIBinder {
         return emlAdd
     }
 
-    fun byteArrayToBitmap(byteArray: ByteArray): Bitmap? {
+    private fun byteArrayToBitmap(byteArray: ByteArray): Bitmap? {
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
