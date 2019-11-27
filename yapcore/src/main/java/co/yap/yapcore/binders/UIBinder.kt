@@ -115,8 +115,7 @@ object UIBinder {
         val tvName = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
 
         if (contactId == null) {
-            image.visibility = View.GONE
-            // name case
+            setShortName(image, lyName, tvName, name)
         } else {
             if (contactId.contains("http")) {
                 image.visibility = View.VISIBLE
@@ -140,36 +139,46 @@ object UIBinder {
                                         lyName.visibility = View.GONE
                                         image.setImageBitmap(bitmap)
                                     } else {
-                                        setShortName(image,lyName,tvName, name)
-
+                                        setShortName(image, lyName, tvName, name)
                                     }
                                 } else {
-                                    view.setImageResource(0)
+                                    setShortName(image, lyName, tvName, name)
                                 }
                             } else {
-
+                                setShortName(image, lyName, tvName, name)
                             }
                             cursor.close()
                         } else {
-                            view.setImageResource(0)
+                            setShortName(image, lyName, tvName, name)
                         }
                     } else {
-                        view.setImageResource(0)
+                        setShortName(image, lyName, tvName, name)
                     }
                 } catch (e: Exception) {
                     e.printStackTrace()
+                    setShortName(image, lyName, tvName, name)
                 }
             }
         }
     }
 
-    private fun setShortName(textView: TextView, name: String?) {
+    private fun setShortName(
+        imageView: CoreCircularImageView,
+        layout: LinearLayout,
+        initials: TextView,
+        name: String?
+    ) {
         if (name != null) {
-            textView.text = Utils.shortName(it)
-            textView.visibility = View.VISIBLE
+            initials.text = Utils.shortName(name)
+            initials.visibility = View.VISIBLE
+            layout.visibility = View.VISIBLE
+            imageView.visibility = View.GONE
         } else {
-
+            imageView.visibility = View.VISIBLE
+            layout.visibility = View.GONE
+            initials.visibility = View.GONE
         }
+        //view.setImageResource(0)
     }
 
     private fun getPhotoUri(contactId: Long): Uri? {
