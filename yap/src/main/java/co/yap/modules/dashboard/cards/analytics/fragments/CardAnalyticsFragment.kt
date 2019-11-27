@@ -39,11 +39,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
             requireContext(),
             viewModel.state.monthlyAverageString,
-            "AED",
-            "5600.00"
+            viewModel.state.currencyType.toString(),
+            Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyAvgAmount.toString())
         )
-        //viewModel.fetchCardAnalytics()
-
+        viewModel.fetchCardCategoryAnalytics()
     }
 
     /*
@@ -119,13 +118,13 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
                     showPieView(it)
-                    viewModel.fetchCardCategoryAnalytics()
+                    //viewModel.fetchCardCategoryAnalytics()
 
 
                 }
                 MERCHANT_ANALYTICS -> {
                     showPieView(it)
-                    viewModel.fetchCardMerchantAnalytics()
+                   // viewModel.fetchCardMerchantAnalytics()
 
                 }
             }
@@ -164,6 +163,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             R.id.ivNext -> {
                 showToast("Next")
             }
+
+
+
+
+
         }
     }
 

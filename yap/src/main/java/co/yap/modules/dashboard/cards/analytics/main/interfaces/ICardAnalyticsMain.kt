@@ -12,8 +12,8 @@ interface ICardAnalyticsMain {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
-        val categoryAnalyticsItemLiveData: MutableLiveData<ArrayList<TxnAnalytic>>
-        val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<TxnAnalytic>>
+        val categoryAnalyticsItemLiveData: MutableLiveData<ArrayList<TxnAnalytic>>?
+        val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<TxnAnalytic>>?
         val selectedItemPosition: MutableLiveData<Int>
     }
 

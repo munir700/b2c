@@ -92,11 +92,11 @@ interface TransactionsRetroService {
 
     //Get analytics by merchant name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_MERCHANT_NAME)
-    suspend fun getAnalyticsByMerchantName(@Query("cardSerialNo") cardSerialNo: String, @Query("date") date: String): Response<AnalyticsResponseDTO>
+    suspend fun getAnalyticsByMerchantName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
 
     //Get analytics by category name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
-    suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String, @Query("date") date: String): Response<AnalyticsResponseDTO>
+    suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
 
 
 }

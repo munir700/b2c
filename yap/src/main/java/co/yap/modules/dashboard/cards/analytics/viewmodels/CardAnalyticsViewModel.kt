@@ -11,6 +11,9 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.managers.MyUserManager
 
 class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
@@ -25,8 +28,7 @@ class CardAnalyticsViewModel(application: Application) :
         parentVM?.let {
             parentViewModel = it
         }
-        state.currencyType = "AED"
-        state.setUpString(state.currencyType, "5,600.00")
+
     }
 
     override fun onResume() {
@@ -40,21 +42,31 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardCategoryAnalytics() {
-        val categoryList = ArrayList<TxnAnalytic>()
+        //   val categoryList = ArrayList<TxnAnalytic>()
 
         //call api here
         launch {
             state.loading = true
-            when (val response = repository.getAnalyticsByCategoryName("826336237263632", "12-12-2019")) {
+            when (val response = repository.getAnalyticsByCategoryName(
+                MyUserManager.getCardSerialNumber(),
+                DateUtils.getCurrentDate()
+            )) {
                 is RetroApiResponse.Success -> {
+                    parentVM?.categoryAnalyticsItemLiveData?.value = response.data.data.txnAnalytics
+                    state.monthlyAvgAmount = response.data.data.monthlyAvgAmount?.toString()
+                    state.setUpString(state.currencyType, response.data.data.monthlyAvgAmount.toString())
+                   // clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
+                    fetchCardMerchantAnalytics()
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
 
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
             }
-            state.loading = false
         }
 
-        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList
+//        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList
 
         /*list2.add(
             TxnAnalytic(
@@ -64,110 +76,27 @@ class CardAnalyticsViewModel(application: Application) :
                 0.07663441603317209,
                 24
             )
-        )
-        list2.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Uber",
-                "887.12",
-                0.07663441603317209,
-                24
-            )
-        )
-        list2.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg",
-                "Emirates",
-                "887.12",
-                0.07663441603317209,
-                24
-            )
-        )
-        list2.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg",
-                "CANDY",
-                "887.12",
-                0.07663441603317209,
-                24
-            )
-        )
-        list2.add(
-            TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/emirates.jpg",
-                "Others",
-                "887.12",
-                0.07663441603317209,
-                24
-            )
-        )
-
-        list.add(
-            TxnAnalytic(
-                null,
-                "Food and drink",
-                "887.12",
-                0.07663441603317209,
-                10
-            )
-        )
-        list.add(
-            TxnAnalytic(
-                null,
-                "Travel",
-                "887.12",
-                0.07663441603317209,
-                20
-            )
-        )
-        list.add(
-            TxnAnalytic(
-                null,
-                "Shopping",
-                "887.12",
-                0.07663441603317209,
-                12
-            )
-        )
-        list.add(
-            TxnAnalytic(
-                null,
-                "Health and beauty",
-                "887.12",
-                0.07663441603317209,
-                4
-            )
-        )
-        list.add(
-            TxnAnalytic(
-                null,
-                "Others",
-                "887.12",
-                0.07663441603317209,
-                2
-            )
-        )
-//            list.add(AnalyticsItem("Shopping", 12, "5687.16", 0.5145))
-//
-//        for (i in 0..4)
-//            list2.add(AnalyticsItem("Amazon", 4, "5687.16", 0.51234))*/
+        )*/
 
 
     }
 
     override fun fetchCardMerchantAnalytics() {
-        val merchantList = ArrayList<TxnAnalytic>()
-        launch {
-            state.loading = true
-            when (val response = repository.getAnalyticsByCategoryName("826336237263632", "12-12-2019")) {
-                is RetroApiResponse.Success -> {
-
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-            state.loading = false
-        }
-        parentVM?.merchantAnalyticsItemLiveData?.value = merchantList
+        //val merchantList = ArrayList<TxnAnalytic>()
+//        launch {
+//            state.loading = true
+//            when (val response = repository.getAnalyticsByMerchantName(
+//                MyUserManager.getCardSerialNumber(),
+//                DateUtils.getCurrentDate()
+//            )) {
+//                is RetroApiResponse.Success -> {
+//                    parentVM?.merchantAnalyticsItemLiveData?.value = response.data.txnAnalytics
+//                }
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+//            }
+//            state.loading = false
+//        }
+        //   parentVM?.merchantAnalyticsItemLiveData?.value = merchantList
 
     }
 }
