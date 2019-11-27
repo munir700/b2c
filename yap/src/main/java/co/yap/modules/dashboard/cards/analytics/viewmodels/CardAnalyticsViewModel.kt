@@ -116,7 +116,7 @@ class CardAnalyticsViewModel(application: Application) :
         list.add(
             TxnAnalytic(
                 null,
-                "Health and beauty",
+                "Health And beauty",
                 "887.12",
                 10.00,
                 4

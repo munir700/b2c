@@ -24,5 +24,4 @@ class CategoryAnalyticsAdaptor(private val list: MutableList<TxnAnalytic>) :
             holder.onBind(this,list[position], position, onItemClickListener)
         }
     }
-
 }
