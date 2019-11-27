@@ -4,7 +4,7 @@ import android.Manifest
 import android.app.Application
 import android.content.Context
 import android.content.pm.PackageManager
-import android.net.Uri
+import android.database.Cursor
 import android.provider.ContactsContract
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
@@ -17,7 +17,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
+import kotlinx.coroutines.withContext
 
 
 class PhoneContactViewModel(application: Application) :
@@ -29,6 +29,7 @@ class PhoneContactViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     private var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var phoneContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
+    private val mSelectionBuilder = StringBuilder()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -42,9 +43,10 @@ class PhoneContactViewModel(application: Application) :
         return phoneContactLiveData.value?.isEmpty() ?: true
     }
 
-    private suspend fun getLocalContacts() = viewModelBGScope.async(Dispatchers.IO) {
-        fetchContacts(context)
-    }.await()
+    private suspend fun getLocalContacts() =
+        withContext(viewModelBGScope.coroutineContext + Dispatchers.IO) {
+            fetchContacts(context)
+        }
 
     override fun onCleared() {
         viewModelBGScope.close()
@@ -55,7 +57,8 @@ class PhoneContactViewModel(application: Application) :
 
         pagingState.value = PagingState.LOADING
         launch {
-            val localContacts = getLocalContacts()
+            val  localContacts = getLocalContacts()
+            val list = localContacts.filter { c-> c.email?.isNotEmpty()!!}
             if (localContacts.isEmpty()) {
                 phoneContactLiveData.value = mutableListOf()
                 pagingState.value = PagingState.DONE
@@ -81,10 +84,6 @@ class PhoneContactViewModel(application: Application) :
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-
-            //            var defaultCountryCode = Utils.getDefaultCountryCode(context)
-//            val phoneUtil = PhoneNumberUtil.getInstance()
-
             val contacts = HashMap<Long, Contact>()
 
             val projection = arrayOf(
@@ -100,25 +99,19 @@ class PhoneContactViewModel(application: Application) :
             val cursor = context.contentResolver.query(
                 ContactsContract.Data.CONTENT_URI,
                 projection,
-                null, null,
+                generateSelection(), null,
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
             )
 
             if (cursor != null) {
                 cursor.moveToFirst()
-
                 val idColumnIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID)
-                //val inVisibleGroupColumnIndex =
-                //    cursor.getColumnIndex(ContactsContract.Data.IN_VISIBLE_GROUP)
                 val displayNamePrimaryColumnIndex =
                     cursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME_PRIMARY)
-                //val starredColumnIndex = cursor.getColumnIndex(ContactsContract.Data.STARRED)
-                //val photoColumnIndex = cursor.getColumnIndex(ContactsContract.Data.PHOTO_URI)
                 val thumbnailColumnIndex =
                     cursor.getColumnIndex(ContactsContract.Data.PHOTO_THUMBNAIL_URI)
                 val mimetypeColumnIndex = cursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
                 val dataColumnIndex = cursor.getColumnIndex(ContactsContract.Data.DATA1)
-
                 while (!cursor.isAfterLast) {
                     val id = cursor.getLong(idColumnIndex)
                     var contact = contacts[id]
@@ -129,42 +122,61 @@ class PhoneContactViewModel(application: Application) :
                         if (displayName != null && displayName.isNotEmpty()) {
                             contact.title = displayName
                         }
-
+                        mapThumbnail(cursor, contact, thumbnailColumnIndex)
                         contact.countryCode = "0092"
-
-                        val mimetype = cursor.getString(mimetypeColumnIndex)
-                        when (mimetype) {
-                            ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE -> {
-                                val email = cursor.getString(dataColumnIndex)
-                                if (email != null && email.isNotEmpty()) {
-                                    contact.email = email
-                                }
-                            }
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE -> {
-                                var phoneNumber = cursor.getString(dataColumnIndex)
-                                if (phoneNumber != null && phoneNumber.isNotEmpty()) {
-                                    // Remove all whitespaces
-                                    phoneNumber = phoneNumber.replace("\\s+".toRegex(), "")
-                                    contact.mobileNo = phoneNumber
-                                }
-                            }
-                        }
-                        val uri = cursor.getString(thumbnailColumnIndex)
-                        if (uri != null && !uri.isEmpty()) {
-                            contact.beneficiaryPictureUrl = Uri.parse(uri).toString()
-                        }
-
                         contacts[id] = contact
                     }
+                    val mimetype = cursor.getString(mimetypeColumnIndex)
+                        when (mimetype) {
+                            ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE -> mapEmail(
+                                cursor,
+                                contact,
+                                dataColumnIndex
+                            )
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE -> mapPhoneNumber(
+                                cursor,
+                                contact,
+                                dataColumnIndex
+                            )
+                        }
                     cursor.moveToNext()
                 }
                 cursor.close()
             }
-            return (ArrayList(contacts.values.take(50)) as MutableList<Contact>)
+            return (ArrayList(contacts.values) as MutableList<Contact>)
         }
         return mutableListOf()
     }
 
+    private fun generateSelection(): String {
+        if (mSelectionBuilder.isNotEmpty())
+            mSelectionBuilder.append(" AND ")
+        mSelectionBuilder.append(ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER)
+            .append(" = 1")
+        return mSelectionBuilder.toString()
+    }
+
+    private fun mapThumbnail(cursor: Cursor, contact: Contact, columnIndex: Int) {
+        val uri = cursor.getString(columnIndex)
+        if (uri != null && uri.isNotEmpty()) {
+            contact.beneficiaryPictureUrl = uri//Uri.parse(uri)
+        }
+    }
+    fun mapEmail(cursor: Cursor, contact: Contact, columnIndex: Int) {
+        val email = cursor.getString(columnIndex)
+        if (email != null && email.isNotEmpty()) {
+            contact.email = email//getEmails().add(email)
+        }
+    }
+
+    fun mapPhoneNumber(cursor: Cursor, contact: Contact, columnIndex: Int) {
+        var phoneNumber: String? = cursor.getString(columnIndex)
+        if (phoneNumber != null && phoneNumber.isNotEmpty()) {
+            // Remove all whitespaces
+            phoneNumber = phoneNumber.replace("\\s+".toRegex(), "")
+            contact.mobileNo = phoneNumber//.getPhoneNumbers().add(phoneNumber)
+        }
+    }
 //    try {
 //                                    val pn =
 //                                        phoneUtil.parse(phoneNo, defaultCountryCode)
