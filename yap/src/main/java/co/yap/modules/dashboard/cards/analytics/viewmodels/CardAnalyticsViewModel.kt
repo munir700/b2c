@@ -13,6 +13,7 @@ import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 
 class CardAnalyticsViewModel(application: Application) :
@@ -34,7 +35,6 @@ class CardAnalyticsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle("Analytics")
-
     }
 
     override fun handlePressOnView(id: Int) {
@@ -53,9 +53,15 @@ class CardAnalyticsViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     parentVM?.categoryAnalyticsItemLiveData?.value = response.data.data.txnAnalytics
-                    state.monthlyAvgAmount = response.data.data.monthlyAvgAmount?.toString()
-                    state.setUpString(state.currencyType, response.data.data.monthlyAvgAmount.toString())
-                   // clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
+                    state.monthlyCategoryAvgAmount = response.data.data.monthlyAvgAmount?.toString()
+                    state.setUpString(
+                        state.currencyType,
+                        Utils.getFormattedCurrency(state.monthlyCategoryAvgAmount)
+                    )
+                    state.totalCategorySpent =
+                        state.currencyType + " ${Utils.getFormattedCurrency(response.data.data.totalTxnAmount.toString())}"
+                    state.totalSpent = state.totalCategorySpent
+                    clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
                     fetchCardMerchantAnalytics()
                 }
                 is RetroApiResponse.Error -> {
@@ -83,19 +89,29 @@ class CardAnalyticsViewModel(application: Application) :
 
     override fun fetchCardMerchantAnalytics() {
         //val merchantList = ArrayList<TxnAnalytic>()
-//        launch {
-//            state.loading = true
-//            when (val response = repository.getAnalyticsByMerchantName(
-//                MyUserManager.getCardSerialNumber(),
-//                DateUtils.getCurrentDate()
-//            )) {
-//                is RetroApiResponse.Success -> {
-//                    parentVM?.merchantAnalyticsItemLiveData?.value = response.data.txnAnalytics
-//                }
-//                is RetroApiResponse.Error -> state.toast = response.error.message
-//            }
-//            state.loading = false
-//        }
+        launch {
+            state.loading = true
+            when (val response = repository.getAnalyticsByMerchantName(
+                MyUserManager.getCardSerialNumber(),
+                DateUtils.getCurrentDate()
+            )) {
+                is RetroApiResponse.Success -> {
+                    parentVM?.merchantAnalyticsItemLiveData?.value = response.data.data.txnAnalytics
+                    state.monthlyMerchantAvgAmount = response.data.data.monthlyAvgAmount?.toString()
+//                    state.monthlyMerchantAvgAmount = "2000.0"
+                    state.totalMerchantSpent =
+                        state.currencyType + " ${Utils.getFormattedCurrency(response.data.data.totalTxnAmount.toString())}"
+                    // state.totalMerchantSpent = state.currencyType + " ${"2,02929.00"}"
+                    state.setUpStringForMerchant(
+                        state.currencyType,
+                        Utils.getFormattedCurrency(state.monthlyMerchantAvgAmount)
+                    )
+
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+            state.loading = false
+        }
         //   parentVM?.merchantAnalyticsItemLiveData?.value = merchantList
 
     }

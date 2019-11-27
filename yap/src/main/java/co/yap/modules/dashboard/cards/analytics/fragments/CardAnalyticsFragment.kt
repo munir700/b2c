@@ -18,9 +18,11 @@ import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_help_support.*
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
     ICardAnalytics.View, OnChartValueSelectedListener {
@@ -39,12 +41,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         setupAdaptor()
         setupTabs()
         setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
-        getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
-            requireContext(),
-            viewModel.state.monthlyAverageString,
-            viewModel.state.currencyType.toString(),
-            Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyAvgAmount.toString())
-        )
     }
 
     /*
@@ -72,6 +68,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.legend.isEnabled = false // Hide the legend
             chart.setEntryLabelColor(Color.WHITE)
             chart.setEntryLabelTextSize(0f)
+
             setData(data)
         }
     }
@@ -81,32 +78,34 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     * */
 
     private fun setData(txnAnalytics: List<TxnAnalytic>?) {
-        val entries: ArrayList<PieEntry> = ArrayList()
-        txnAnalytics?.let {
-            for (item in it.iterator()) {
-                entries.add(
-                    PieEntry(item.totalSpendingInPercentage.toFloat())
-                )
+        if (!txnAnalytics.isNullOrEmpty()) {
+            val entries: ArrayList<PieEntry> = ArrayList()
+            txnAnalytics.let {
+                for (item in it.iterator()) {
+                    entries.add(
+                        PieEntry(item.totalSpendingInPercentage.toFloat())
+                    )
+                }
+                val dataSet = PieDataSet(entries, "")
+                dataSet.setDrawIcons(false)
+                dataSet.sliceSpace = 0f
+                dataSet.iconsOffset = MPPointF(0f, 40f)
+                dataSet.selectionShift = 20f
+                dataSet.setDrawValues(false)
+                val colors = ArrayList<Int>()
+                colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
+                dataSet.colors = colors
+                val data = PieData(dataSet)
+                data.setValueTextSize(11f)
+                data.setValueTextColor(Color.WHITE)
+                chart.data = data
+
+                chart.highlightValue(0f, 0, true)
+                chart.invalidate()
             }
-            val dataSet = PieDataSet(entries, "")
-            dataSet.setDrawIcons(false)
-            dataSet.sliceSpace = 0f
-            dataSet.iconsOffset = MPPointF(0f, 40f)
-            dataSet.selectionShift = 20f
-            dataSet.setDrawValues(false)
-            val colors = ArrayList<Int>()
-            colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
-            dataSet.colors = colors
-            val data = PieData(dataSet)
-            data.setValueTextSize(11f)
-            data.setValueTextColor(Color.WHITE)
-            chart.data = data
-
-            chart.highlightValue(0f, 0, true)
-            chart.invalidate()
         }
 
-        }
+    }
 
 
     override fun setObservers() {
@@ -165,6 +164,15 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             R.id.ivNext -> {
                 showToast("Next")
             }
+            Constants.CATEGORY_AVERAGE_AMOUNT_VALUE -> {
+                getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
+                    requireContext(),
+                    viewModel.state.monthlyAverageString,
+                    viewModel.state.currencyType.toString(),
+                    Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
+                )
+            }
+
         }
     }
     private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
@@ -178,9 +186,23 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 when (it.position) {
                     CATEGORY_ANALYTICS -> {
                         setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
+                        viewModel.state.totalSpent = viewModel.state.totalCategorySpent
+                        getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
+                            requireContext(),
+                            viewModel.state.monthlyAverageString,
+                            viewModel.state.currencyType.toString(),
+                            Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
+                        )
                     }
                     MERCHANT_ANALYTICS -> {
                         setPieView(viewModel.parentViewModel.merchantAnalyticsItemLiveData.value)
+                        viewModel.state.totalSpent = viewModel.state.totalMerchantSpent
+                        getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
+                            requireContext(),
+                            viewModel.state.monthlyMerchantAverageString,
+                            viewModel.state.currencyType.toString(),
+                            Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyMerchantAvgAmount.toString())
+                        )
                     }
                 }
             }
@@ -243,14 +265,22 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setSelectedTabData(TabPosition: Int, contentPos: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
-                updatePieChartInnerData(
-                    viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(contentPos)
-                )
+                if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
+                    updatePieChartInnerData(
+                        viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
+                            contentPos
+                        )
+                    )
+                }
             }
             MERCHANT_ANALYTICS -> {
-                updatePieChartInnerData(
-                    viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(contentPos)
-                )
+                if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
+                    updatePieChartInnerData(
+                        viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
+                            contentPos
+                        )
+                    )
+                }
             }
         }
         viewModel.state.selectedItemPosition = contentPos

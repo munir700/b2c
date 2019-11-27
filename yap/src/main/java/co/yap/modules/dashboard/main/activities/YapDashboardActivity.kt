@@ -71,9 +71,6 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
-        /*   getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
-               showToast("ana")
-           }*/
     }
 
 
@@ -290,7 +287,9 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 ExpandableLayout.State.COLLAPSED -> ivChevron.setImageResource(R.drawable.ic_chevron_down)
             }
         }
-
+        getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
+            startActivity(Intent(this, CardAnalyticsActivity::class.java))
+        }
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.yapHome -> {
@@ -311,8 +310,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     }
                 }
                 R.id.yapMore -> {
-                    startActivity(Intent(this, CardAnalyticsActivity::class.java))
-                    //getViewBinding().viewPager.setCurrentItem(3, false)
+                    getViewBinding().viewPager.setCurrentItem(3, false)
                 }
             }
             true

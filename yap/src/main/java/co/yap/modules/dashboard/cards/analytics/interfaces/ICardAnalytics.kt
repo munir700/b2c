@@ -23,11 +23,16 @@ interface ICardAnalytics {
 
     interface State : IBase.State {
         var monthlyAverageString: String
+        var monthlyMerchantAverageString: String
         var currencyType: String?
-        var monthlyAvgAmount: String?
+        var monthlyCategoryAvgAmount: String?
+        var monthlyMerchantAvgAmount: String?
         var selectedItemSpentValue: String
         var selectedItemPercentage: String
-        var selectedItemName: String
+        var selectedItemName: String?
         var selectedItemPosition: Int
+        var totalSpent: String?
+        var totalCategorySpent: String?
+        var totalMerchantSpent: String?
     }
 }
