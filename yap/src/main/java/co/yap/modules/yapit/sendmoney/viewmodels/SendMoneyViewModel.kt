@@ -11,14 +11,15 @@ class SendMoneyViewModel(application: Application) :
     ISendMoney.ViewModel {
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
-    override val state: SendMoneyState =
-        SendMoneyState()
+    override val addButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val state: SendMoneyState = SendMoneyState()
 
     override fun handlePressOnBackButton() {
         backButtonPressEvent.value = true
+
     }
 
     override fun handlePressOnAddButton(id: Int) {
-
+        addButtonPressEvent.value = true
     }
 }

@@ -28,10 +28,10 @@ abstract class SendMoneyBaseViewModel<S : IBase.State>(application: Application)
     fun toggleAddButtonVisibility(visibility: Boolean) {
 
         if (visibility) {
-            parentViewModel?.state?.enableAddCard = true
+            parentViewModel?.state?.enableAddBeneficiary = true
 
         } else {
-            parentViewModel?.state?.enableAddCard = false
+            parentViewModel?.state?.enableAddBeneficiary = false
 
         }
     }

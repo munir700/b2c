@@ -147,6 +147,9 @@
                         android:layout_centerVertical="true"
                         android:src="@drawable/bitmap" />
 
+
+                    <!-- need to set country from updated response in the UIBinder , right now its not returning the Country object ,its just sending the name-->
+
                     <!--            app:src="@{dataCountry.flagDrawableResId}"-->
 
                 </LinearLayout>

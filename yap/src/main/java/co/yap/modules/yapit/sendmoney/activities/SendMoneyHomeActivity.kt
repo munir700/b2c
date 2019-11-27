@@ -3,6 +3,7 @@ package co.yap.modules.yapit.sendmoney.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.widget.ImageView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
@@ -17,13 +18,17 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import kotlinx.android.synthetic.main.activity_send_money_home.*
+import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.view.*
 
 class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavigator,
     IFragmentHolder {
 
+     private var addIcon: ImageView? = null
+
     public companion object {
         fun newIntent(context: Context): Intent {
-            val intent = Intent(context,SendMoneyHomeActivity::class.java)
+            val intent = Intent(context, SendMoneyHomeActivity::class.java)
             return intent
         }
 
@@ -42,9 +47,9 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
+        addIcon = toolbar.tbBtnAddBeneficiary
 
     }
-
 
     override fun onDestroy() {
         viewModel.backButtonPressEvent.removeObservers(this)
@@ -63,5 +68,8 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
             super.onBackPressed()
 
         }
+    }
+    open fun getAddIcon():ImageView?{
+        return addIcon
     }
 }

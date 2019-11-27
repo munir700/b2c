@@ -8,10 +8,10 @@ import co.yap.yapcore.BaseState
 class SendMoneyState : BaseState(), ISendMoney.State {
 
     @get:Bindable
-    override var enableAddCard: Boolean = false
+    override var enableAddBeneficiary: Boolean = false
         set(value) {
             field = value
-            notifyPropertyChanged(BR.enableAddCard)
+            notifyPropertyChanged(BR.enableAddBeneficiary)
 
         }
 

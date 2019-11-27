@@ -48,7 +48,7 @@
             android:text="@={viewModel.state.tootlBarTitle}" />
 
         <ImageView
-            android:id="@+id/tbBtnAddCard"
+            android:id="@+id/tbBtnAddBeneficiary"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
             android:layout_alignParentEnd="true"
@@ -56,8 +56,7 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{(v) -> viewModel.handlePressOnAddButton(v.id)}"
-            android:visibility="@{viewModel.state.enableAddCard ? View.VISIBLE:View.GONE}"
+             android:visibility="@{viewModel.state.enableAddBeneficiary ? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_add_sign" />

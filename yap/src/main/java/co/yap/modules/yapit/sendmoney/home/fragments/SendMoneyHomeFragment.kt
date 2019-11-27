@@ -11,14 +11,15 @@ import co.yap.R
 import co.yap.databinding.FragmentSendMoneyHomeBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
- import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.modules.yapit.sendmoney.activities.SendMoneyHomeActivity
+import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
 import co.yap.modules.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.requestdtos.Contact
-import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
+import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.*
 
 
 class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
@@ -35,10 +36,15 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initState()
         initComponents()
         setObservers()
 
+        activity!!.tbBtnAddBeneficiary.setOnClickListener(object : View.OnClickListener {
+            override fun onClick(v: View?) {
+                findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
+
+            }
+        })
     }
 
     override fun onPause() {
@@ -53,7 +59,10 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.addContactsButton ->
-                    findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
+                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
+
+                R.id.tbBtnAddBeneficiary ->
+                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
             }
         })
 
@@ -66,30 +75,11 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
 
     private fun initComponents() {
-//        adaptor = AllBeneficiriesAdapter(mutableListOf())
-//        getBinding().recycler.adapter = adaptor
-//        adaptor.setItemListener(listener)
-
-
-        getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter = AllBeneficiriesAdapter(mutableListOf())
-        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(listener)
-    }
-
-    private fun initState() {
-
-//        viewModel.getState().observe(this, Observer { state ->
-//            if ((getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).getDataList().isNullOrEmpty()) {
-//                getBinding().layoutBeneficiaries.rvAllBeneficiaries.visibility = View.VISIBLE
-////                getBinding().layoutBeneficiaries.rvAllBeneficiaries.visibility = View.GONE
-//
-//            } else {
-//                getBinding().layoutBeneficiaries.rvAllBeneficiaries.visibility = View.VISIBLE
-//            }
-//        })
-//        viewModel.pagingState.value = PagingState.LOADING
-
-
-        getBinding().layoutBeneficiaries.rvAllBeneficiaries.visibility = View.VISIBLE
+        getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
+            AllBeneficiriesAdapter(mutableListOf())
+        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(
+            listener
+        )
     }
 
     @SuppressLint("SetTextI18n")
@@ -97,7 +87,9 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         viewModel.clickEvent.observe(this, observer)
 
         viewModel.yapContactLiveData?.observe(this, Observer {
-             (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setList(it)
+            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setList(
+                it
+            )
 //            initComponents()
 //                 if (it.isEmpty()) View.GONE else View.VISIBLE
 
@@ -110,16 +102,6 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
             this,
             Observer {
 
-//                getBinding().tvContactListDescription.visibility =
-//                    if (it == 0) View.GONE else View.VISIBLE
-//                getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
-//            getBinding().txtError.text =
-//                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
-//                    requireContext(),
-//                    Strings.screen_y2y_display_text_no_yap_contacts
-//                )
-//                getBinding().tvContactListDescription.text =
-//                    if (it == 1) "$it YAP contact" else "$it YAP contacts"
             })
     }
 
@@ -129,6 +111,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
                 R.id.tvInvite -> {
                     Utils.shareText(requireContext(), getBody())
                 }
+
                 R.id.lyContact -> {
                     if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
                         if (parentFragment is YapToYapFragment) {
