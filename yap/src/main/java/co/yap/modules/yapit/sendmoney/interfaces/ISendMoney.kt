@@ -12,13 +12,9 @@ class ISendMoney {
 
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnBackButton()
-        fun handlePressOnAddButton(id:Int)
         val backButtonPressEvent: SingleLiveEvent<Boolean>
-        val addButtonPressEvent: SingleLiveEvent<Boolean>
     }
 
     interface View : IBase.View<ViewModel>
-    {
-        fun handlePressOnAddButton(clicked: Boolean)
-    }
+
 }

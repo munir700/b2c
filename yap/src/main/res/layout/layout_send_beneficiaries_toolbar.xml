@@ -56,7 +56,7 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-             android:visibility="@{viewModel.state.enableAddBeneficiary ? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.enableAddBeneficiary ? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_add_sign" />

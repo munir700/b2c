@@ -24,8 +24,6 @@ import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.view.*
 class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavigator,
     IFragmentHolder {
 
-     private var addIcon: ImageView? = null
-
     public companion object {
         fun newIntent(context: Context): Intent {
             val intent = Intent(context, SendMoneyHomeActivity::class.java)
@@ -47,7 +45,6 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.backButtonPressEvent.observe(this, backButtonObserver)
-        addIcon = toolbar.tbBtnAddBeneficiary
 
     }
 
@@ -68,8 +65,5 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
             super.onBackPressed()
 
         }
-    }
-    open fun getAddIcon():ImageView?{
-        return addIcon
     }
 }
