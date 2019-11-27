@@ -72,7 +72,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.legend.isEnabled = false // Hide the legend
             chart.setEntryLabelColor(Color.WHITE)
             chart.setEntryLabelTextSize(0f)
-
             setData(data)
         }
     }
@@ -96,7 +95,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             dataSet.selectionShift = 20f
             dataSet.setDrawValues(false)
             val colors = ArrayList<Int>()
-
             colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
             dataSet.colors = colors
             val data = PieData(dataSet)
@@ -232,12 +230,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     override fun onNothingSelected() {
-        //  Toast.makeText(context!!.applicationContext, "onNothingSelected", Toast.LENGTH_LONG).show()
 
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
-//        /*TODO:Pie Chart View Click Listener*/
         h?.let {
             setSelectedTabData(getBindingView().viewPager.currentItem, it.x.toInt())
             viewModel.parentViewModel.selectedItemPositionParent.value = it.x.toInt()
