@@ -43,7 +43,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerInParent="true"
                         android:layout_marginStart="@dimen/margin_medium_large"
-                        android:background="@drawable/ic_shopping" />
+                        app:categoryItem="@{viewModel.state.selectedTxnAnalyticsItem}"
+                        app:position="@{viewModel.state.selectedItemPosition}" />
 
                     <TextView
                         android:id="@+id/tvPieViewTitle"

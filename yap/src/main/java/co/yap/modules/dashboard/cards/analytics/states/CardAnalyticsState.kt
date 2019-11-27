@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
@@ -84,7 +85,13 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             notifyPropertyChanged(BR.totalMerchantSpent)
         }
 
-    fun setUpString(currencyType: String?, amount: String?) {
+    @get:Bindable
+    override var selectedTxnAnalyticsItem: TxnAnalytic? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selectedTxnAnalyticsItem)
+        }
+    fun setUpString(currencyType: String, amount: String) {
         monthlyAverageString =
             Translator.getString(context, Strings.screen_card_analytics_display_month_average_text)
                 .format(currencyType, amount)

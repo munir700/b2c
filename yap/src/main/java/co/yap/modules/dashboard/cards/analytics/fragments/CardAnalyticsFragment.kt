@@ -107,7 +107,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     }
 
-
     override fun setObservers() {
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
@@ -116,13 +115,16 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 CATEGORY_ANALYTICS -> {
                     viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.let { list ->
                         updatePieChartInnerData(list[it])
+                        setState(list[it])
                     }
+
                     viewModel.state.selectedItemPosition = it
                     showPieView(it)
                 }
                 MERCHANT_ANALYTICS -> {
                     viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.let { list ->
                         updatePieChartInnerData(list[it])
+                        setState(list[it])
                     }
                     viewModel.state.selectedItemPosition = it
                     showPieView(it)
@@ -266,23 +268,35 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
                 if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
-                    updatePieChartInnerData(
+                   /* updatePieChartInnerData(
                         viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
                             contentPos
                         )
-                    )
+                    )*/
+                    val txnItem =
+                        viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(contentPos)
+                    updatePieChartInnerData(txnItem)
+                    setState(txnItem)
                 }
             }
             MERCHANT_ANALYTICS -> {
                 if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
-                    updatePieChartInnerData(
+                    /*updatePieChartInnerData(
                         viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
                             contentPos
                         )
-                    )
+                    )*/
+                    val txnItem =
+                        viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(contentPos)
+                    updatePieChartInnerData(txnItem)
+                    setState(txnItem)
                 }
             }
         }
         viewModel.state.selectedItemPosition = contentPos
+    }
+
+    private fun setState(txnAnalytic: TxnAnalytic?) {
+        viewModel.state.selectedTxnAnalyticsItem = txnAnalytic
     }
 }

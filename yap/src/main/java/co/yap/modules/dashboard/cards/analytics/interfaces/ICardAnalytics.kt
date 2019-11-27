@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.cards.analytics.interfaces
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -34,5 +35,6 @@ interface ICardAnalytics {
         var totalSpent: String?
         var totalCategorySpent: String?
         var totalMerchantSpent: String?
+        var selectedTxnAnalyticsItem: TxnAnalytic?
     }
 }
