@@ -44,5 +44,7 @@ interface CustomersApi {
     suspend fun getAllBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
     suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO>
+    suspend fun editBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse>
+    suspend fun deleteBeneficiary(beneficiaryId: String): RetroApiResponse<ApiResponse>
 
 }

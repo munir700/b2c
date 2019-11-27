@@ -5,6 +5,6 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 
 interface SwipeCallBack {
     fun onSwipeEdit(beneficiary: Beneficiary)
-    fun onSwipeDelete(beneficiary: Beneficiary)
+    fun onSwipeDelete(beneficiary: Beneficiary, position: Int)
 
 }

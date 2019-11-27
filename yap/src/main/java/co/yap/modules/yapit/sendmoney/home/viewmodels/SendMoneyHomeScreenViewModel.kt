@@ -28,7 +28,9 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override var pagingState: MutableLiveData<PagingState> = MutableLiveData()
 
-    override val yapContactLiveData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
+    override val allBeneficiariesLiveData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
+
+    override var onDeleteSuccess: MutableLiveData<Int> = MutableLiveData()
 
     override fun handlePressOnBackButton() {
     }
@@ -64,8 +66,8 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                     allBeneficiariesList = response.data.data
-                    yapContactLiveData.value= allBeneficiariesList
+                    allBeneficiariesList = response.data.data
+                    allBeneficiariesLiveData.value = allBeneficiariesList
 
                 }
 
@@ -86,6 +88,26 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                     state.loading = false
                     state.toast = response.data.toString()
                     recentBeneficiariesList = response.data.data
+
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+
+                }
+            }
+        }
+    }
+
+    override fun requestDeleteBeneficiary(beneficiaryId: Int) {
+        launch {
+            state.loading = true
+            when (val response = repository.deleteBeneficiary(beneficiaryId.toString())) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.toast = response.data.toString()
+                    onDeleteSuccess.setValue(111)
 
                 }
 

@@ -175,7 +175,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
 
     /*  send money */
 
-    override suspend fun getRecentBeneficiaries() = executeSafely(call = { api.getRecentBeneficiaries() })
+    override suspend fun getRecentBeneficiaries() =
+        executeSafely(call = { api.getRecentBeneficiaries() })
 
     override suspend fun getAllBeneficiaries() = executeSafely(call = { api.getAllBeneficiaries() })
 
@@ -184,5 +185,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
         executeSafely(call = { api.addBeneficiary(beneficiary) })
 
+    override suspend fun editBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.editBeneficiary(beneficiary) })
 
+    override suspend fun deleteBeneficiary(beneficiaryId: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.deleteBeneficiaryById(beneficiaryId) })
 }

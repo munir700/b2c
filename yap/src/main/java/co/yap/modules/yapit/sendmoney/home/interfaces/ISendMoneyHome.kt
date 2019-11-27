@@ -18,12 +18,15 @@ interface ISendMoneyHome {
         fun handlePressOnBackButton()
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnView(id: Int)
+        fun requestDeleteBeneficiary(beneficiaryId: Int)
 
         var allBeneficiariesList: List<Beneficiary>
         var recentBeneficiariesList: List<Beneficiary>
         fun getState(): LiveData<PagingState>
         var pagingState: MutableLiveData<PagingState>
-        val yapContactLiveData: MutableLiveData<List<Beneficiary>>
+        val allBeneficiariesLiveData: MutableLiveData<List<Beneficiary>>
+        val onDeleteSuccess: MutableLiveData<Int>
+
 
     }
 

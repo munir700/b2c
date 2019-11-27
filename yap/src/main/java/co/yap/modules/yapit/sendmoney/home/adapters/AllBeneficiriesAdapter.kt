@@ -58,7 +58,7 @@ class AllBeneficiriesAdapter(
 
             itemContactsBinding.btnDelete.setOnClickListener(object : View.OnClickListener {
                 override fun onClick(v: View?) {
-                    onSwipe.onSwipeDelete(beneficiary!!)
+                    onSwipe.onSwipeDelete(beneficiary!!,position)
                 }
             })
 

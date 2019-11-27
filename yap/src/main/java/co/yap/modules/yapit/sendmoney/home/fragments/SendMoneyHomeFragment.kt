@@ -1,6 +1,7 @@
 package co.yap.modules.yapit.sendmoney.home.fragments
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -11,16 +12,16 @@ import co.yap.R
 import co.yap.databinding.FragmentSendMoneyHomeBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
-import co.yap.modules.yapit.sendmoney.activities.SendMoneyHomeActivity
+import co.yap.modules.kyc.fragments.AddressSelectionFragmentDirections
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
 import co.yap.modules.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.requestdtos.Contact
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.translation.Translator
 import co.yap.widgets.swipe_lib.SwipeCallBack
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.*
@@ -28,14 +29,12 @@ import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.*
 
 class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View, SwipeCallBack {
-
+var positionToDelete= 0
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_send_money_home
 
     override val viewModel: ISendMoneyHome.ViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyHomeScreenViewModel::class.java)
-
-    lateinit var adaptor: AllBeneficiriesAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,6 +52,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.onDeleteSuccess.removeObservers(this)
         super.onPause()
 
     }
@@ -70,6 +70,12 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
             }
         })
 
+        viewModel.onDeleteSuccess.observe(this, Observer {
+            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).removeItemAt(
+                positionToDelete
+            )
+        })
+
     }
 
     override fun onBackPressed(): Boolean {
@@ -80,7 +86,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
-            AllBeneficiriesAdapter(mutableListOf(), this )
+            AllBeneficiriesAdapter(mutableListOf(), this)
         (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(
             listener
         )
@@ -90,7 +96,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
 
-        viewModel.yapContactLiveData?.observe(this, Observer {
+        viewModel.allBeneficiariesLiveData?.observe(this, Observer {
             (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setList(
                 it
             )
@@ -148,10 +154,51 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     }
 
     override fun onSwipeEdit(beneficiary: Beneficiary) {
-        toast(beneficiary.title +" onSwipeEdit")
+        toast(beneficiary.title + " onSwipeEdit")
+        // using navigation controller go to edit beneficiary passing data beneficiary
+
     }
 
-    override fun onSwipeDelete(beneficiary: Beneficiary) {
-        toast(beneficiary.title +" onSwipeDelete")
+    override fun onSwipeDelete(beneficiary: Beneficiary, position: Int) {
+        positionToDelete = position
+        ConfirmDeleteBeneficiary(beneficiary)
+
+
     }
+
+
+    fun ConfirmDeleteBeneficiary(beneficiary: Beneficiary) {
+        androidx.appcompat.app.AlertDialog.Builder(activity!!)
+            .setTitle(
+                Translator.getString(
+                    activity!!,
+                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+                )
+            )
+            .setMessage(
+                Translator.getString(
+                    activity!!,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                )
+            )
+            .setPositiveButton(
+                Translator.getString(
+                    activity!!,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
+                ),
+                DialogInterface.OnClickListener { dialog, which ->
+                    viewModel.requestDeleteBeneficiary(beneficiary.id)
+                })
+
+            .setNegativeButton(
+                Translator.getString(
+                    activity!!,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+                ),
+                null
+            )
+            .show()
+    }
+
+
 }
