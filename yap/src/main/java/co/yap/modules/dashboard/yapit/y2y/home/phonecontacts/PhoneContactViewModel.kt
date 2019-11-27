@@ -58,6 +58,7 @@ class PhoneContactViewModel(application: Application) :
         pagingState.value = PagingState.LOADING
         launch {
             val  localContacts = getLocalContacts()
+            //TODO Remove Below line
             val list = localContacts.filter { c-> c.email?.isNotEmpty()!!}
             if (localContacts.isEmpty()) {
                 phoneContactLiveData.value = mutableListOf()
@@ -162,7 +163,7 @@ class PhoneContactViewModel(application: Application) :
             contact.beneficiaryPictureUrl = uri//Uri.parse(uri)
         }
     }
-    fun mapEmail(cursor: Cursor, contact: Contact, columnIndex: Int) {
+    private fun mapEmail(cursor: Cursor, contact: Contact, columnIndex: Int) {
         val email = cursor.getString(columnIndex)
         if (email != null && email.isNotEmpty()) {
             contact.email = email//getEmails().add(email)
