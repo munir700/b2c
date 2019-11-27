@@ -17,13 +17,17 @@ import co.yap.modules.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
 import co.yap.modules.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.requestdtos.Contact
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.widgets.swipe_lib.SwipeCallBack
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.*
 
 
 class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
-    ISendMoneyHome.View {
+    ISendMoneyHome.View, SwipeCallBack {
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_send_money_home
@@ -76,7 +80,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
-            AllBeneficiriesAdapter(mutableListOf())
+            AllBeneficiriesAdapter(mutableListOf(), this )
         (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(
             listener
         )
@@ -90,10 +94,6 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
             (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setList(
                 it
             )
-//            initComponents()
-//                 if (it.isEmpty()) View.GONE else View.VISIBLE
-
-//            viewModel.pagingState.value = PagingState.DONE
 
         })
 
@@ -145,5 +145,13 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     private fun getBinding(): FragmentSendMoneyHomeBinding {
         return (viewDataBinding as FragmentSendMoneyHomeBinding)
+    }
+
+    override fun onSwipeEdit(beneficiary: Beneficiary) {
+        toast(beneficiary.title +" onSwipeEdit")
+    }
+
+    override fun onSwipeDelete(beneficiary: Beneficiary) {
+        toast(beneficiary.title +" onSwipeDelete")
     }
 }
