@@ -27,9 +27,14 @@
             app:layout_constraintTop_toTopOf="parent">
             <include
                 android:id="@+id/lyAnalyticsImage"
-                layout="@layout/layout_initial_image_user"
+                layout="@layout/layout_analytics_initials"
+                app:analyticItem="@{viewModel.analyticsItem}"
+                app:position="@{viewModel.position}"
+                app:isMerchant="@{viewModel.merchant}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+
 <!--            <co.yap.widgets.CoreCircularImageView-->
 <!--                android:id="@+id/lyImage"-->
 <!--                android:layout_width="@dimen/_35sdp"-->

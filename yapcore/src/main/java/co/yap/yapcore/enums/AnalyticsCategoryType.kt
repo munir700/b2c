@@ -2,16 +2,16 @@ package co.yap.yapcore.enums
 
 enum class AnalyticsCategoryType(val title: String) {
     TRAVEL("Travel"),
-    utilities("Utilities"),
-    shopping("Shopping"),
-    groceries("Groceries"),
-    mediaAndEntertainment("Media and entertainment"),
-    foodAndDrinks("Food and drink"),
-    healthAndBeauty("Health And beauty"),
-    services("Services"),
-    transport("Transport"),
-    insurance("Insurance"),
-    education("Education"),
-    airportLounge("Airport lounge"),
-    other("Others")
+    UTILITIES("Utilities"),
+    SHOPPING("Shopping"),
+    GROCERIES("Groceries"),
+    MEDIA_AND_ENTERTAINMENT("Media and entertainment"),
+    FOOD_AND_DRINK("Food and drink"),
+    HEALTH_AND_BEAUTY("Health And beauty"),
+    SERVICES("Services"),
+    TRANSAPORT("Transport"),
+    INSURANCE("Insurance"),
+    EDUCATION("Education"),
+    AIRPORT_LOUNGE("Airport lounge"),
+    OTHERS("Others")
 }

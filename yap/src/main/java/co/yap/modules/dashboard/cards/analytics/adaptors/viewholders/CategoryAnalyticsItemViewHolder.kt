@@ -37,8 +37,7 @@ class CategoryAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnal
         }
 
         itemAnalyticsBinding.viewModel =
-            AnalyticsItemViewModel(analyticsItem, position, onItemClickListener)
+            AnalyticsItemViewModel(analyticsItem, position, onItemClickListener, false)
         itemAnalyticsBinding.executePendingBindings()
     }
-
 }

@@ -7,7 +7,8 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 class AnalyticsItemViewModel(
     val analyticsItem: TxnAnalytic?,
     val position: Int,
-    private val onItemClickListener: OnItemClickListener?
+    private val onItemClickListener: OnItemClickListener?,
+    val isMerchant: Boolean = false
 ) {
 
     fun onViewClicked(view: View) {

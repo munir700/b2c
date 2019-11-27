@@ -36,14 +36,17 @@
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true">
 
-                    <co.yap.widgets.CoreCircularImageView
-                        android:id="@+id/ivPieView"
+                    <include
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:id="@+id/ivPieView"
+                        layout="@layout/layout_analytics_initials"
+                        app:analyticItem="@{viewModel.state.selectedTxnAnalyticsItem}"
+                        app:isMerchant="@{viewModel.parentViewModel.isMerchant()}"
                         android:layout_alignParentTop="true"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
                         android:layout_centerInParent="true"
-                        android:layout_marginStart="@dimen/margin_medium_large"
-                        app:categoryItem="@{viewModel.state.selectedTxnAnalyticsItem}"
                         app:position="@{viewModel.state.selectedItemPosition}" />
 
                     <TextView

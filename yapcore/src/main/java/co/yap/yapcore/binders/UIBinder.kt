@@ -23,6 +23,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
@@ -54,61 +55,18 @@ import java.util.*
 
 object UIBinder {
 
-    @BindingAdapter("categoryItem", "position")
+
+    //    @BindingAdapter("loadContactPhoto", "loadContactName")
+//    @JvmStatic
+//
+    @BindingAdapter("categoryItem", "position", "isMerchant")
     @JvmStatic
     fun setCategoryItem(
-        circularImage: CoreCircularImageView,
-        txnAnalytic: TxnAnalytic?, position: Int
+        constraintLayout: ConstraintLayout,
+        txnAnalytic: TxnAnalytic?, position: Int,
+        isMerchant: Boolean
     ) {
-        txnAnalytic?.let {
-            if (!it.logoUrl.isNullOrEmpty()) {
-                circularImage.loadImage(it.logoUrl!!)
-            } else {
-                when (txnAnalytic.title) {
-                    AnalyticsCategoryType.TRAVEL.title -> {
-                        circularImage.setImageResource(R.drawable.ic_travel)
-                    }
-                    AnalyticsCategoryType.foodAndDrinks.title -> {
-                        circularImage.setImageResource(R.drawable.ic_food_drinks)
-                    }
-                    AnalyticsCategoryType.shopping.title -> {
-                        circularImage.setImageResource(R.drawable.ic_shopping)
-                    }
-                    AnalyticsCategoryType.other.title -> {
-                        circularImage.setImageResource(R.drawable.ic_bulb)
-                    }
-                    AnalyticsCategoryType.healthAndBeauty.title -> {
-                        circularImage.setImageResource(R.drawable.ic_health_and_beauty)
-                    }
-                    AnalyticsCategoryType.airportLounge.title -> {
-                        circularImage.setImageResource(R.drawable.ic_lounge)
-                    }
-                    AnalyticsCategoryType.education.title -> {
-                        circularImage.setImageResource(R.drawable.ic_education)
-                    }
-                    AnalyticsCategoryType.groceries.title -> {
-                        circularImage.setImageResource(R.drawable.ic_groceries)
-                    }
-                    AnalyticsCategoryType.mediaAndEntertainment.title -> {
-                        circularImage.setImageResource(R.drawable.ic_media_entertainment)
-                    }
-                    AnalyticsCategoryType.utilities.title -> {
-                        circularImage.setImageResource(R.drawable.ic_utilities)
-                    }
-                    AnalyticsCategoryType.insurance.title -> {
-                        circularImage.setImageResource(R.drawable.ic_insurance)
-                    }
-                    AnalyticsCategoryType.services.title -> {
-                        circularImage.setImageResource(R.drawable.ic_services)
-                    }
-                    else -> {
-                        circularImage.setImageResource(R.drawable.ic_bulb)
-                    }
-                }
-
-                updateColorScheme(circularImage, position)
-            }
-        }
+        setAnalyticsLogo(constraintLayout, txnAnalytic, isMerchant, position)
     }
 
     private fun updateColorScheme(circularImage: CoreCircularImageView, position: Int) {
@@ -203,6 +161,94 @@ object UIBinder {
         }
     }
 
+    fun setAnalyticsLogo(
+        constraintLayout: ConstraintLayout,
+        txnAnalytic: TxnAnalytic?,
+        isMerchant: Boolean,
+        position: Int
+    ) {
+        val image = constraintLayout.findViewWithTag<CoreCircularImageView>("imgProfile")
+        val lyName = constraintLayout.findViewWithTag<LinearLayout>("lyNameInitials")
+        val tvName = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
+        if (isMerchant) {
+            txnAnalytic?.let {
+                if (it.logoUrl == null) {
+                    setShortName(image, lyName, tvName, it.title)
+                } else {
+                    image.visibility = View.VISIBLE
+                    image.loadImage(it.logoUrl.toString())
+                }
+            }
+        } else {
+            txnAnalytic?.let {
+                when (it.title) {
+                    AnalyticsCategoryType.TRAVEL.title -> {
+                        image.setImageResource(R.drawable.ic_travel)
+                    }
+                    AnalyticsCategoryType.FOOD_AND_DRINK.title -> {
+                        image.setImageResource(R.drawable.ic_food_drinks)
+                    }
+                    AnalyticsCategoryType.SHOPPING.title -> {
+                        image.setImageResource(R.drawable.ic_shopping)
+                    }
+                    AnalyticsCategoryType.OTHERS.title -> {
+                        image.setImageResource(R.drawable.ic_bulb)
+                    }
+                    AnalyticsCategoryType.HEALTH_AND_BEAUTY.title -> {
+                        image.setImageResource(R.drawable.ic_health_and_beauty)
+                    }
+                    AnalyticsCategoryType.AIRPORT_LOUNGE.title -> {
+                        image.setImageResource(R.drawable.ic_lounge)
+                    }
+                    AnalyticsCategoryType.EDUCATION.title -> {
+                        image.setImageResource(R.drawable.ic_education)
+                    }
+                    AnalyticsCategoryType.GROCERIES.title -> {
+                        image.setImageResource(R.drawable.ic_groceries)
+                    }
+                    AnalyticsCategoryType.MEDIA_AND_ENTERTAINMENT.title -> {
+                        image.setImageResource(R.drawable.ic_media_entertainment)
+                    }
+                    AnalyticsCategoryType.UTILITIES.title -> {
+                        image.setImageResource(R.drawable.ic_utilities)
+                    }
+                    AnalyticsCategoryType.INSURANCE.title -> {
+                        image.setImageResource(R.drawable.ic_insurance)
+                    }
+                    AnalyticsCategoryType.SERVICES.title -> {
+                        image.setImageResource(R.drawable.ic_services)
+                    }
+                    AnalyticsCategoryType.TRANSAPORT.title -> {
+                        image.setImageResource(R.drawable.ic_transport)
+                    }
+                    else -> {
+                        setShortName(image, lyName, tvName, it.title)
+                    }
+                }
+                updateColorScheme(image, position)
+            }
+        }
+    }
+
+
+    private fun setShortName(
+        imageView: CoreCircularImageView,
+        layout: LinearLayout,
+        initials: TextView,
+        name: String?
+    ) {
+        if (name != null) {
+            initials.text = Utils.shortName(name)
+            initials.visibility = View.VISIBLE
+            layout.visibility = View.VISIBLE
+            imageView.visibility = View.INVISIBLE
+        } else {
+            imageView.visibility = View.INVISIBLE
+            layout.visibility = View.GONE
+            initials.visibility = View.GONE
+            imageView.setImageResource(0)
+        }
+    }
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {

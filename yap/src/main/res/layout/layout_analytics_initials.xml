@@ -2,25 +2,27 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
-
     <data>
-
         <variable
-            name="name"
-            type="String" />
-
+            name="analyticItem"
+            type="co.yap.networking.transactions.responsedtos.TxnAnalytic" />
         <variable
-            name="image"
-            type="String" />
+            name="position"
+            type="Integer" />
+        <variable
+            name="isMerchant"
+            type="Boolean"/>
 
         <import type="co.yap.yapcore.helpers.Utils" />
-
         <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        app:categoryItem="@{analyticsItem}"
+        app:position="@{position}"
+        app:isMerchant="@{merchant}"
         android:padding="@dimen/_8sdp">
 
         <co.yap.widgets.CoreCircularImageView
@@ -28,11 +30,9 @@
             android:layout_width="@dimen/_35sdp"
             android:layout_height="@dimen/_35sdp"
             android:contentDescription="@string/empty_string"
-            app:categoryItem="@{viewModel.analyticsItem}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_shopping"
-            app:position="@{viewModel.position}" />
+            tools:src="@drawable/ic_shopping" />
 
         <LinearLayout
             android:id="@+id/lyNameInitials"
