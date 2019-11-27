@@ -4,6 +4,7 @@ package co.yap.yapcore.binders
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
 import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -101,6 +102,95 @@ object UIBinder {
             }
             cursor?.close()
         }
+    }
+
+    @BindingAdapter("loadContactPhoto")
+    @JvmStatic
+    fun getPhotoContact(view: ImageView, contactId: String?) {
+        if (contactId == null) {
+            view.visibility = View.GONE
+            return
+        }
+
+        if (contactId.contains("http")) {
+            view.loadImage(contactId)
+        } else {
+            try {
+                val uri = getPhotoUri(contactId.toLong())
+                if (uri != null) {
+                    val cursor = view.context.contentResolver.query(
+                        uri,
+                        arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
+                    )
+                    if (cursor != null) {
+                        if (cursor.moveToFirst()) {
+                            val data = cursor.getBlob(0)
+                            if (data != null) {
+                                cursor.close()
+                                val bitmap = byteArrayToBitmap(data)
+                                view.visibility = View.VISIBLE
+                                view.setImageBitmap(bitmap)
+                            } else {
+                                view.setImageResource(0)
+                            }
+                        }
+                        cursor.close()
+                    } else {
+                        view.setImageResource(0)
+                    }
+                } else {
+                    view.setImageResource(0)
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private fun getPhotoUri(contactId: Long): Uri? {
+        return try {
+            Uri.withAppendedPath(
+                ContentUris.withAppendedId(
+                    ContactsContract.Contacts.CONTENT_URI, contactId
+                ),
+                ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun fetchContactsEmail(context: Context, id: Long): String {
+        var emlAdd = ""
+        val PROJECTION = arrayOf(
+            ContactsContract.CommonDataKinds.Email.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Email.DATA
+        )
+        val order = ("CASE WHEN "
+                + ContactsContract.Contacts.DISPLAY_NAME
+                + " NOT LIKE '%@%' THEN 1 ELSE 2 END, "
+                + ContactsContract.Contacts.DISPLAY_NAME
+                + ", "
+                + ContactsContract.CommonDataKinds.Email.DATA
+                + " COLLATE NOCASE")
+
+        val filter =
+            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE '' AND " + ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + (id)
+        val cur = context.contentResolver.query(
+            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+            PROJECTION,
+            filter,
+            null,
+            order
+        )
+        if (cur!!.moveToFirst()) {
+            do {
+                emlAdd = cur.getString(1)
+            } while (cur.moveToNext())
+        }
+
+        cur.close()
+        return emlAdd
     }
 
     fun byteArrayToBitmap(byteArray: ByteArray): Bitmap? {

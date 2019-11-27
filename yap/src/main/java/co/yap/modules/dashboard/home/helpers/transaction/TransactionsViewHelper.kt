@@ -104,7 +104,7 @@ class TransactionsViewHelper(
         }, delay)
     }
 
-     fun setTooltipOnZero() {
+    fun setTooltipOnZero() {
         tooltip?.visibility = View.VISIBLE
         addToolTipDelay(300) {
             val newView =
@@ -120,9 +120,15 @@ class TransactionsViewHelper(
 
     fun addTooltip(view: View?, data: HomeTransactionListData) {
         transactionsView.tvTransactionDate.visibility = View.VISIBLE
-        transactionsView.tvTransactionDate.text = DateUtils.reformatStringDate(data.date , FORMAT_DATE_MON_YEAR,FORMAT_MON_YEAR)
+        transactionsView.tvTransactionDate.text =
+            DateUtils.reformatStringDate(data.date, FORMAT_DATE_MON_YEAR, FORMAT_MON_YEAR)
         view?.let {
-            val text = String.format(Locale.US , "%s AED %s",data.date, Utils.getFormattedCurrency(data.closingBalance.toString()))
+            val text = String.format(
+                Locale.US,
+                "%s AED %s",
+                data.date,
+                Utils.getFormattedCurrency(data.closingBalance.toString())
+            )
             tooltip?.apply {
                 visibility = View.VISIBLE
                 it.bringToFront()
@@ -232,6 +238,5 @@ class TransactionsViewHelper(
     fun onToolbarExpanded() {
         toolbarCollapsed = false
     }
-
 
 }
