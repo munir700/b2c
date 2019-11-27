@@ -91,7 +91,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             field = value
             notifyPropertyChanged(BR.selectedTxnAnalyticsItem)
         }
-    fun setUpString(currencyType: String, amount: String) {
+    fun setUpString(currencyType: String?, amount: String?) {
         monthlyAverageString =
             Translator.getString(context, Strings.screen_card_analytics_display_month_average_text)
                 .format(currencyType, amount)

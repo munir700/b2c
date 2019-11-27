@@ -60,7 +60,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.holeRadius = 70f
             chart.transparentCircleRadius = 70f
             chart.setDrawCenterText(true)
-            chart.rotationAngle = 0f
+            chart.rotationAngle = -90f
             chart.isRotationEnabled = false
             chart.isHighlightPerTapEnabled = true
             chart.setOnChartValueSelectedListener(this)

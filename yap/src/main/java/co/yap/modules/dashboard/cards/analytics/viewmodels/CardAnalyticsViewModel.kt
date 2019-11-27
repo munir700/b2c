@@ -42,7 +42,7 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardCategoryAnalytics() {
-        //   val categoryList = ArrayList<TxnAnalytic>()
+//           val categoryList = ArrayList<TxnAnalytic>()
 
         //call api here
         launch {
@@ -71,8 +71,54 @@ class CardAnalyticsViewModel(application: Application) :
                 }
             }
         }
+        /*categoryList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        categoryList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        categoryList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        categoryList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        categoryList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
 
-//        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList
+
+        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList*/
 
         /*list2.add(
             TxnAnalytic(
@@ -88,7 +134,7 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardMerchantAnalytics() {
-        //val merchantList = ArrayList<TxnAnalytic>()
+//        val merchantList = ArrayList<TxnAnalytic>()
         launch {
             state.loading = true
             when (val response = repository.getAnalyticsByMerchantName(
@@ -112,7 +158,54 @@ class CardAnalyticsViewModel(application: Application) :
             }
             state.loading = false
         }
-        //   parentVM?.merchantAnalyticsItemLiveData?.value = merchantList
+        /*merchantList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        merchantList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        merchantList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        merchantList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        merchantList.add(
+                TxnAnalytic(
+                    "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                    "Amazon",
+                    "887.12",
+                    20.00,
+                    24
+                )
+                )
+
+
+           parentVM?.merchantAnalyticsItemLiveData?.value = merchantList*/
 
     }
 }
