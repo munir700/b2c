@@ -1,11 +1,14 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
 import co.yap.modules.yapit.sendmoney.addbeneficiary.states.BeneficiaryOverviewState
 import co.yap.modules.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -19,6 +22,8 @@ class BeneficiaryOverviewViewModel(application: Application) :
     override val state: BeneficiaryOverviewState = BeneficiaryOverviewState()
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override var beneficiary: Beneficiary= Beneficiary()
+    override var onDeleteSuccess: MutableLiveData<Int> = MutableLiveData()
 
 
     override fun handlePressOnAddNow(id: Int) {
@@ -27,6 +32,7 @@ class BeneficiaryOverviewViewModel(application: Application) :
 
     override fun handlePressOnConfirm(id: Int) {
         clickEvent.setValue(id)
+
     }
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
@@ -36,5 +42,26 @@ class BeneficiaryOverviewViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_edit_beneficiary_display_text_title))
         toggleAddButtonVisibility(false)
+    }
+
+    override fun requestUpdateBeneficiary(beneficiary: Beneficiary) {
+
+        launch {
+            state.loading = true
+            when (val response = repository.editBeneficiary(beneficiary)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.toast = response.data.toString()
+                    onDeleteSuccess.setValue(222)
+
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+
+                }
+            }
+        }
     }
 }

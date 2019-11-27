@@ -1,6 +1,8 @@
 package co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -31,9 +33,13 @@ interface IBeneficiaryOverview {
     interface ViewModel : IBase.ViewModel<State> {
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         var clickEvent: SingleClickEvent
+        var beneficiary: Beneficiary
 
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnConfirm(id: Int)
+        fun requestUpdateBeneficiary(beneficiary: Beneficiary)
+        val onDeleteSuccess: MutableLiveData<Int>
+
     }
 
     interface View : IBase.View<ViewModel>

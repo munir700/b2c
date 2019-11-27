@@ -31,6 +31,7 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     private fun editBeneficiaryScreen() {
@@ -45,6 +46,14 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.beneficiary =
+            arguments?.let { BeneficiaryOverviewFragmentArgs.fromBundle(it).beneficiary }!!
+
+
+        if (viewModel.beneficiary.id != null) {
+            isFromAddBeneficiary = false
+        }
+
         if (!isFromAddBeneficiary) {
             editBeneficiaryScreen()
         }
@@ -52,14 +61,14 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
+
 //                R.id.llBankDetail ->
 //                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_beneficiaryAccountDetailsFragment)
 
-
                 R.id.confirmButton ->
                     if (!isFromAddBeneficiary) {
-                        ConfirmAddBeneficiary(activity!!)       //may be show a dialogue to confirm edit beneficairy call and go back???
-
+//                        ConfirmAddBeneficiary(activity!!)       //may be show a dialogue to confirm edit beneficairy call and go back???
+                        viewModel.requestUpdateBeneficiary(viewModel.beneficiary )
                     } else {
                         ConfirmAddBeneficiary(activity!!)
 
@@ -70,10 +79,17 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.onDeleteSuccess.removeObservers(this)
         super.onPause()
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.onDeleteSuccess.observe(this, Observer {
+            super.onBackPressed()
+        })
+    }
 
     override fun onBackPressed(): Boolean {
 
@@ -100,7 +116,7 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
                     R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
                 ),
                 DialogInterface.OnClickListener { dialog, which ->
-//                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)// start funds transfer screen
+                    //                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)// start funds transfer screen
                     findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_transferSuccessFragment)// start funds transfer screen
 
                 })

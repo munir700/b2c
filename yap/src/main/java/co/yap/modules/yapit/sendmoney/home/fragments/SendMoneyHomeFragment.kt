@@ -28,7 +28,7 @@ import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.*
 
 class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View, SwipeCallBack {
-var positionToDelete= 0
+    var positionToDelete = 0
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_send_money_home
 
@@ -155,14 +155,16 @@ var positionToDelete= 0
     override fun onSwipeEdit(beneficiary: Beneficiary) {
         toast(beneficiary.title + " onSwipeEdit")
         // using navigation controller go to edit beneficiary passing data beneficiary
-
+        val action =
+            SendMoneyHomeFragmentDirections.actionSendMoneyHomeFragmentToBeneficiaryOverviewFragment(
+                beneficiary
+            )
+        findNavController().navigate(action)
     }
 
     override fun onSwipeDelete(beneficiary: Beneficiary, position: Int) {
         positionToDelete = position
         ConfirmDeleteBeneficiary(beneficiary)
-
-
     }
 
 
