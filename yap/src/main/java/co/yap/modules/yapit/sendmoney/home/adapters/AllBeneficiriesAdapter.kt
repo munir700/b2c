@@ -35,15 +35,15 @@ class AllBeneficiriesAdapter(private val list: MutableList<Beneficiary>) :
             onItemClickListener: OnItemClickListener?
         ) {
 
-            itemContactsBinding.lyUserImage.tvNameInitials.background = Utils.getContactBackground(
-                itemContactsBinding.lyUserImage.tvNameInitials.context,
+            itemContactsBinding.tvNameInitials.background = Utils.getContactBackground(
+                itemContactsBinding.tvNameInitials.context,
                 position
             )
 
 
-            itemContactsBinding.lyUserImage.tvNameInitials.setTextColor(
+            itemContactsBinding.tvNameInitials.setTextColor(
                 Utils.getContactColors(
-                    itemContactsBinding.lyUserImage.tvNameInitials.context, position
+                    itemContactsBinding.tvNameInitials.context, position
                 )
             )
             itemContactsBinding.viewModel =
