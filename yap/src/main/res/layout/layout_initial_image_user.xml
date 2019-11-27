@@ -45,7 +45,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imgProfile">
-            <!--            android:visibility="@{contactId.equals(``)? View.VISIBLE :View.GONE}"-->
+
             <TextView
                 android:id="@+id/tvNameInitials"
                 style="@style/ARegular"
@@ -54,7 +54,6 @@
                 android:gravity="center"
                 android:tag="tvNameInitials"
                 tools:text="NM" />
-            <!--            android:text="@{Utils.INSTANCE.shortName(name)}"-->
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

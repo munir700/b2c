@@ -172,13 +172,13 @@ object UIBinder {
             initials.text = Utils.shortName(name)
             initials.visibility = View.VISIBLE
             layout.visibility = View.VISIBLE
-            imageView.visibility = View.GONE
+            imageView.visibility = View.INVISIBLE
         } else {
-            imageView.visibility = View.VISIBLE
+            imageView.visibility = View.INVISIBLE
             layout.visibility = View.GONE
             initials.visibility = View.GONE
+            imageView.setImageResource(0)
         }
-        //view.setImageResource(0)
     }
 
     private fun getPhotoUri(contactId: Long): Uri? {
