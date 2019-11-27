@@ -100,7 +100,7 @@ class CardAnalyticsViewModel(application: Application) :
                 null,
                 "Travel",
                 "887.12",
-                10.00,
+                20.00,
                 20
             )
         )
@@ -109,7 +109,7 @@ class CardAnalyticsViewModel(application: Application) :
                 null,
                 "Shopping",
                 "887.12",
-                20.00,
+                10.00,
                 12
             )
         )

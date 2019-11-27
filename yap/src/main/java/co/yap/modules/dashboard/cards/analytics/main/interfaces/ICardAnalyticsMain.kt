@@ -16,6 +16,7 @@ interface ICardAnalyticsMain {
         val merchantAnalyticsItemLiveData: MutableLiveData<ArrayList<TxnAnalytic>>
         val selectedItemPosition: MutableLiveData<Int>
         val selectedItemPositionParent: MutableLiveData<Int>
+        val isMerchant: MutableLiveData<Boolean>
     }
 
     interface State : IBase.State {
