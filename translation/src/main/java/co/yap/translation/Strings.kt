@@ -855,8 +855,8 @@ object Strings {
     const val screen_send_money_display_text_all_beneficiaries: String =
         "screen_send_money_display_text_all_beneficiaries"
     const val screen_send_money_display_text_edit: String = "screen_send_money_display_text_edit"
-    const val screen_send_money_display_text_delete: String =
-        "screen_send_money_display_text_delete"
+    const val screen_send_money_display_text_delete: String = "screen_send_money_display_text_delete"
+    const val screen_send_money_display_text_delete_message: String = "screen_send_money_display_text_delete_message"
 
 
     //    Send Money Screen

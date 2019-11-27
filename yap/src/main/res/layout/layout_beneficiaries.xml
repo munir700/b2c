@@ -19,7 +19,8 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:background="@android:color/white"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        >
 
         <include
             android:id="@+id/layoutRecent"
@@ -87,7 +88,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAllBeneficiaries"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="@dimen/margin_medium"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -95,7 +96,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAllBeneficiaries"
             tools:listitem="@layout/item_beneficiaries"
-            tools:visibility="visible" />
+            tools:visibility="visible"
+            android:layout_marginBottom="@dimen/margin_medium"
+            />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

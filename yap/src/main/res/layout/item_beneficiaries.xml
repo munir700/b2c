@@ -13,6 +13,7 @@
 
         <import type="co.yap.yapcore.helpers.Utils" />
 
+        <import type="co.yap.translation.Strings" />
     </data>
 
     <co.yap.widgets.swipe_lib.SwipeLayout
@@ -46,7 +47,8 @@
                     android:drawableTop="@drawable/ic_edit_swipe"
                     android:drawablePadding="@dimen/_2sdp"
                     android:gravity="center"
-                    android:text="Edit"
+                    tools:text="Edit"
+                    app:text="@{Strings.screen_send_money_display_text_edit}"
                     android:textColor="@color/white" />
 
             </FrameLayout>
@@ -67,7 +69,8 @@
                     android:drawablePadding="@dimen/_2sdp"
                     android:drawableTint="@color/white"
                     android:gravity="center"
-                    android:text="Delete"
+                    tools:text="Delete"
+                    app:text="@{Strings.screen_send_money_display_text_delete}"
                     android:textColor="@color/white" />
 
 

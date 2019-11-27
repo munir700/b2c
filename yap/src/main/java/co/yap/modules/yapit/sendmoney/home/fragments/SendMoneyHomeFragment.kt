@@ -12,7 +12,6 @@ import co.yap.R
 import co.yap.databinding.FragmentSendMoneyHomeBinding
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
-import co.yap.modules.kyc.fragments.AddressSelectionFragmentDirections
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
 import co.yap.modules.yapit.sendmoney.home.interfaces.ISendMoneyHome
@@ -172,19 +171,19 @@ var positionToDelete= 0
             .setTitle(
                 Translator.getString(
                     activity!!,
-                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+                    R.string.screen_send_money_display_text_delete
                 )
             )
             .setMessage(
                 Translator.getString(
                     activity!!,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                    R.string.screen_send_money_display_text_delete_message
                 )
             )
             .setPositiveButton(
                 Translator.getString(
                     activity!!,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
+                    R.string.common_button_yes
                 ),
                 DialogInterface.OnClickListener { dialog, which ->
                     viewModel.requestDeleteBeneficiary(beneficiary.id)
@@ -193,7 +192,7 @@ var positionToDelete= 0
             .setNegativeButton(
                 Translator.getString(
                     activity!!,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+                    R.string.common_button_cancel
                 ),
                 null
             )
