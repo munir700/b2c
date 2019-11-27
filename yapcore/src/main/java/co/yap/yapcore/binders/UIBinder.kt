@@ -64,27 +64,48 @@ object UIBinder {
             if (!it.logoUrl.isNullOrEmpty()) {
                 circularImage.loadImage(it.logoUrl!!)
             } else {
-
                 when (txnAnalytic.title) {
                     AnalyticsCategoryType.TRAVEL.title -> {
-                        circularImage.setImageResource(R.drawable.ic_send_money)
+                        circularImage.setImageResource(R.drawable.ic_travel)
                     }
                     AnalyticsCategoryType.foodAndDrinks.title -> {
-                        circularImage.setImageResource(R.drawable.ic_send_money)
+                        circularImage.setImageResource(R.drawable.ic_food_drinks)
                     }
                     AnalyticsCategoryType.shopping.title -> {
-                        circularImage.setImageResource(R.drawable.ic_send_money)
+                        circularImage.setImageResource(R.drawable.ic_shopping)
                     }
                     AnalyticsCategoryType.other.title -> {
-                        circularImage.setImageResource(R.drawable.ic_send_money)
+                        circularImage.setImageResource(R.drawable.ic_bulb)
                     }
                     AnalyticsCategoryType.healthAndBeauty.title -> {
-                        circularImage.setImageResource(R.drawable.ic_send_money)
+                        circularImage.setImageResource(R.drawable.ic_health_and_beauty)
+                    }
+                    AnalyticsCategoryType.airportLounge.title -> {
+                        circularImage.setImageResource(R.drawable.ic_lounge)
+                    }
+                    AnalyticsCategoryType.education.title -> {
+                        circularImage.setImageResource(R.drawable.ic_education)
+                    }
+                    AnalyticsCategoryType.groceries.title -> {
+                        circularImage.setImageResource(R.drawable.ic_groceries)
+                    }
+                    AnalyticsCategoryType.mediaAndEntertainment.title -> {
+                        circularImage.setImageResource(R.drawable.ic_media_entertainment)
+                    }
+                    AnalyticsCategoryType.utilities.title -> {
+                        circularImage.setImageResource(R.drawable.ic_utilities)
+                    }
+                    AnalyticsCategoryType.insurance.title -> {
+                        circularImage.setImageResource(R.drawable.ic_insurance)
+                    }
+                    AnalyticsCategoryType.services.title -> {
+                        circularImage.setImageResource(R.drawable.ic_services)
                     }
                     else -> {
-                        circularImage.setImageResource(R.drawable.ic_send_money)
+                        circularImage.setImageResource(R.drawable.ic_bulb)
                     }
                 }
+
                 updateColorScheme(circularImage, position)
             }
         }
@@ -93,19 +114,44 @@ object UIBinder {
     private fun updateColorScheme(circularImage: CoreCircularImageView, position: Int) {
         when (position) {
             0 -> {
-                circularImage.drawable.setTint(R.color.colorSecondaryMagenta)
+                circularImage.drawable.setTint(
+                    ContextCompat.getColor(
+                        circularImage.context,
+                        R.color.colorSecondaryMagenta
+                    )
+                )
             }
             1 -> {
-                circularImage.drawable.setTint(R.color.colorSecondaryBlue)
+                circularImage.drawable.setTint(
+                    ContextCompat.getColor(
+                        circularImage.context,
+                        R.color.colorSecondaryBlue
+                    )
+                )
             }
             2 -> {
-                circularImage.drawable.setTint(R.color.colorSecondaryOrange)
+                circularImage.drawable.setTint(
+                    ContextCompat.getColor(
+                        circularImage.context,
+                        R.color.colorSecondaryOrange
+                    )
+                )
             }
             3 -> {
-                circularImage.drawable.setTint(R.color.colorSecondaryGreen)
+                circularImage.drawable.setTint(
+                    ContextCompat.getColor(
+                        circularImage.context,
+                        R.color.colorSecondaryGreen
+                    )
+                )
             }
             4 -> {
-                circularImage.drawable.setTint(R.color.colorPrimary)
+                circularImage.drawable.setTint(
+                    ContextCompat.getColor(
+                        circularImage.context,
+                        R.color.colorPrimary
+                    )
+                )
             }
         }
     }
