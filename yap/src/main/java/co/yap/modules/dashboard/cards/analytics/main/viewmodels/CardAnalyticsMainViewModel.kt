@@ -24,4 +24,6 @@ class CardAnalyticsMainViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override val selectedItemPositionParent: MutableLiveData<Int> = MutableLiveData()
+
 }

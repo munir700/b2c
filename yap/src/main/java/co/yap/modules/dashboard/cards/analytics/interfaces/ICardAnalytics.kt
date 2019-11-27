@@ -25,5 +25,9 @@ interface ICardAnalytics {
         var monthlyAverageString: String
         var currencyType: String?
         var monthlyAvgAmount: String?
+        var selectedItemSpentValue: String
+        var selectedItemPercentage: String
+        var selectedItemName: String
+        var selectedItemPosition: Int
     }
 }

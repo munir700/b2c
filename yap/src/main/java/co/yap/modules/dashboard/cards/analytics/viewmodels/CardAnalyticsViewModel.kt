@@ -73,7 +73,7 @@ class CardAnalyticsViewModel(application: Application) :
                 "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
                 "Amazon",
                 "887.12",
-                0.07663441603317209,
+                20.00,
                 24
             )
         )*/
