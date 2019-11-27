@@ -15,7 +15,6 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.AddTopUpCardDialog
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.interfaces.IAddTopUpCard
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.viewmodels.AddTopUpCardViewModel
-import co.yap.modules.dashboard.yapit.topup.topupamount.activities.TopUpCardActivity
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.yapcore.BR
 import co.yap.yapcore.BaseBindingActivity
@@ -151,9 +150,10 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
 
     }
 
-    private fun setData(isCardAdded: Boolean) {
+    private fun setData(card: TopUpCard?) {
         val intent = Intent()
-        intent.putExtra("isCardAdded", isCardAdded)
+        intent.putExtra("card", card)
+        intent.putExtra("isCardAdded", true)
         setResult(Activity.RESULT_OK, intent)
     }
 
@@ -162,12 +162,11 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
             override fun onProceed(id: Int) {
                 when (id) {
                     R.id.done -> {
-                        startActivity(TopUpCardActivity.newIntent(this@AddTopUpCardActivity, card))
-                        setData(true)
+                        setData(card)
                         finish()
                     }
                     R.id.btnLater -> {
-                        setData(true)
+                        setData(null)
                         finish()
                     }
                 }

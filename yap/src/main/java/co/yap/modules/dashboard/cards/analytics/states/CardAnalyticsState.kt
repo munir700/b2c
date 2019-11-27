@@ -11,6 +11,14 @@ import co.yap.yapcore.BaseState
 
 class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics.State {
     val context = application.applicationContext
+
+    @get:Bindable
+    override var selectedMonth: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selectedMonth)
+        }
+
     @get:Bindable
     override var monthlyAverageString: String = ""
         set(value) {
@@ -91,6 +99,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             field = value
             notifyPropertyChanged(BR.selectedTxnAnalyticsItem)
         }
+
     fun setUpString(currencyType: String?, amount: String?) {
         monthlyAverageString =
             Translator.getString(context, Strings.screen_card_analytics_display_month_average_text)

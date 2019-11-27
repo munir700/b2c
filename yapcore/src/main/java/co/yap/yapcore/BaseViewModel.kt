@@ -9,6 +9,8 @@ import androidx.lifecycle.OnLifecycleEvent
 import co.yap.translation.Translator
 import co.yap.yapcore.interfaces.CoroutineViewModel
 import kotlinx.coroutines.*
+import java.io.Closeable
+import kotlin.coroutines.CoroutineContext
 
 
 abstract class BaseViewModel<S : IBase.State>(application: Application) :
@@ -23,9 +25,25 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     override val viewModelScope: CoroutineScope
         get() = CoroutineScope(viewModelJob + Dispatchers.Main)
 
+    val viewModelBGScope = CloseableCoroutineScope(viewModelJob + Dispatchers.IO)
+
+    class CloseableCoroutineScope(context: CoroutineContext) : Closeable, CoroutineScope {
+        override val coroutineContext: CoroutineContext = context
+
+        override fun close() {
+            coroutineContext.cancel()
+        }
+    }
+
     override fun onCleared() {
         cancelAllJobs()
         super.onCleared()
+    }
+
+    override fun cancelAllJobs() {
+        viewModelBGScope.close()
+        viewModelScope.cancel()
+        viewModelJob.cancel()
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
@@ -34,7 +52,8 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_START)
-    override fun onStart(){}
+    override fun onStart() {
+    }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     override fun onResume() {
@@ -63,10 +82,6 @@ abstract class BaseViewModel<S : IBase.State>(application: Application) :
 
     override fun unregisterLifecycleOwner(owner: LifecycleOwner?) {
         owner?.lifecycle?.removeObserver(this)
-    }
-
-    override fun cancelAllJobs() {
-        viewModelJob.cancel()
     }
 
     override fun launch(block: suspend () -> Unit) {

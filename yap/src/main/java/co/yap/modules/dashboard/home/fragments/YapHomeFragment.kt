@@ -64,7 +64,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.fragment_yap_home
-    private lateinit var swipeToRefresh: SwipeRefreshLayout
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -81,13 +80,9 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
 
-        // swipeToRefresh = view?.findViewById(R.id.refreshLayout) as SwipeRefreshLayout
+
+
         getBindings().refreshLayout.setOnRefreshListener(this)
-        rvTransactionsBarChart.layoutManager = LinearLayoutManager(
-            context,
-            LinearLayoutManager.HORIZONTAL,
-            true
-        )
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
         getBindings().lyInclude.rvTransaction.apply {
@@ -118,7 +113,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             }
         }
     }
-
 
     override fun setObservers() {
         listenForToolbarExpansion()
@@ -165,8 +159,27 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             if (viewModel.isLoadMore.value!!) {
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
-                getRecycleViewAdaptor()?.setList(it)
-                getGraphRecycleViewAdapter()?.setList(it)
+
+                val listToAppend: MutableList<HomeTransactionListData> = mutableListOf()
+                val oldData = getGraphRecycleViewAdapter()?.getDataList()
+                for (parentItem in it) {
+
+                    var shouldAppend = false
+                    for (i in 0 until oldData?.size!!) {
+                        if (parentItem.date == oldData[i].date) {
+                            if (parentItem.content.size != oldData[i].content.size) {
+                                shouldAppend = true
+                                break
+                            }
+                            shouldAppend = true
+                            break
+                        }
+                    }
+                    if (!shouldAppend)
+                        listToAppend.add(parentItem)
+                }
+                getGraphRecycleViewAdapter()?.addList(listToAppend)
+                getRecycleViewAdaptor()?.addList(listToAppend)
             } else {
                 if (it.isEmpty()) {
                     ivNoTransaction.visibility = View.VISIBLE
@@ -174,33 +187,36 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 } else {
                     getRecycleViewAdaptor()?.setList(it)
                     getGraphRecycleViewAdapter()?.setList(it)
+                    transactionViewHelper?.setTooltipOnZero()
                 }
             }
         })
 
 //        getGraphRecycleViewAdapter()?.setItemListener(listener)
-        getRecycleViewAdaptor()?.setItemListener(listener)
+        getRecycleViewAdaptor()?.setItemListener(adaptorlistener)
         getRecycleViewAdaptor()?.allowFullItemClickListener = true
         //getBindings().lyInclude.rvTransaction.addOnScrollListener(endlessScrollListener)
-        getBindings().lyInclude.rvTransaction.addOnScrollListener(object :
-            RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                val layoutManager =
-                    getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
-                val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
-                if (lastVisiblePosition == layoutManager.itemCount - 1) {
-                    if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
-                        viewModel.isLoadMore.value = true
+        getBindings().lyInclude.rvTransaction.addOnScrollListener(
+            object :
+                RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                    super.onScrolled(recyclerView, dx, dy)
+                    val layoutManager =
+                        getBindings().lyInclude.rvTransaction.layoutManager as LinearLayoutManager
+                    val lastVisiblePosition = layoutManager.findLastVisibleItemPosition()
+                    if (lastVisiblePosition == layoutManager.itemCount - 1) {
+                        if (!viewModel.isLoadMore.value!! && !viewModel.isLast.value!!) {
+                            viewModel.isLoadMore.value = true
+                        }
                     }
                 }
-            }
-        })
+            })
 
-        viewModel.isLoadMore.observe(this, Observer {
+        viewModel.isLoadMore.observe(this, Observer
+        {
             if (it) {
-                homeTransactionsRequest.number =
-                    homeTransactionsRequest.number + 1
+                YAPApplication.homeTransactionsRequest.number =
+                    YAPApplication.homeTransactionsRequest.number + 1
                 val item =
                     getRecycleViewAdaptor()?.getDataForPosition(getRecycleViewAdaptor()?.itemCount!! - 1)
                         ?.copy()
@@ -273,6 +289,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                 it,
                 viewModel
             )
+            getGraphRecycleViewAdapter()?.helper = transactionViewHelper
         }
     }
 
@@ -412,19 +429,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
     private fun getFilterTransactions() {
         rvTransaction.adapter =
-            TransactionsHeaderAdapter(mutableListOf(), listener)
-
+            TransactionsHeaderAdapter(mutableListOf(), adaptorlistener)
 
         rvTransactionsBarChart.adapter =
             GraphBarsAdapter(mutableListOf(), viewModel)
 
         viewModel.filterTransactions()
-    }
-
-    val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            (data as HomeTransactionListData).content.get(0).transactionId
-        }
     }
 
     private fun getRecycleViewAdaptor(): TransactionsHeaderAdapter? {
@@ -433,24 +443,6 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         } else {
             null
         }
-    }
-
-    fun setUpGraph() {
-//        if (!viewModel.transactionLogicHelper.transactionList.isNullOrEmpty()) {
-//            rvTransactionsBarChart.adapter =
-//                GraphBarsAdapter(
-//                    viewModel.transactionLogicHelper.transactionList,
-//                    /*activity!!.applicationContext,*/
-//                    viewModel.MAX_CLOSING_BALANCE
-//                )
-
-//            rvTransactionsBarChart.layoutManager = LinearLayoutManager(
-//                context,
-//                LinearLayoutManager.HORIZONTAL,
-//                true
-//            )
-
-//        }
     }
 
 

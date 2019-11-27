@@ -1,4 +1,4 @@
-package co.yap.modules.dashboard.home
+package co.yap.modules.dashboard.home.component
 
 import android.annotation.SuppressLint
 import android.content.Context

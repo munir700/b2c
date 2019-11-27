@@ -18,10 +18,10 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.async
+import kotlinx.coroutines.isActive
 
 class PhoneContactViewModel(application: Application) :
     Y2YBaseViewModel<IPhoneContact.State>(application),
@@ -45,10 +45,14 @@ class PhoneContactViewModel(application: Application) :
         return phoneContactLiveData.value?.isEmpty() ?: true
     }
 
-    private suspend fun getLocalContacts() =
-        withContext(Dispatchers.IO) {
-            fetchContacts(context)
-        }
+    private suspend fun getLocalContacts() = viewModelBGScope.async(Dispatchers.IO) {
+        fetchContacts(context)
+    }.await()
+
+    override fun onCleared() {
+        viewModelBGScope.close()
+        super.onCleared()
+    }
 
     override fun getY2YBeneficiaries() {
 
@@ -162,43 +166,45 @@ class PhoneContactViewModel(application: Application) :
 
                 if ((cursor?.count ?: 0) > 0) {
                     while (cursor!!.moveToNext()) {
-                        val name =
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+                        if (viewModelBGScope.isActive) {
+                            val name =
+                                cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
 
-                        val phoneWihtoutCountryCode =
-                            cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
+                            val phoneWihtoutCountryCode =
+                                cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
 
-                        val phoneNo = Utils.getPhoneWithoutCountryCode(
-                            defaultCountryCode,
-                            phoneWihtoutCountryCode
-                        )
-                        val countryCode =
-                            Utils.getPhoneNumberCountryCodeForAPI(
+                            val phoneNo = Utils.getPhoneWithoutCountryCode(
                                 defaultCountryCode,
                                 phoneWihtoutCountryCode
                             )
-                        val contactId =
-                            cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
-                        val contactId2 =
-                            cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
-                        val email = fetchContactsEmail(contactId)
+                            val countryCode =
+                                Utils.getPhoneNumberCountryCodeForAPI(
+                                    defaultCountryCode,
+                                    phoneWihtoutCountryCode
+                                )
+                            val contactId =
+                                cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
+                            val contactId2 =
+                                cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
+                            val email = fetchContactsEmail(contactId)
 
-                        var photoContentUri: Uri? = getPhotoUri(contactId2)
-                        if (photoContentUri == null) photoContentUri = Uri.EMPTY
+                            var photoContentUri: Uri? = getPhotoUri(contactId2)
+                            if (photoContentUri == null) photoContentUri = Uri.EMPTY
 
-                        Log.d(
-                            "contact",
-                            "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
-                        )
-                        val contact = Contact(
-                            name,
-                            countryCode,
-                            phoneNo,
-                            email,
-                            photoContentUri?.toString(),
-                            false, null
-                        )
-                        contacts.add(contact)
+                            Log.d(
+                                "contact",
+                                "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
+                            )
+                            val contact = Contact(
+                                name,
+                                countryCode,
+                                phoneNo,
+                                email,
+                                photoContentUri?.toString(),
+                                false, null
+                            )
+                            contacts.add(contact)
+                        }
                     }
                 }
                 cursor?.close()
