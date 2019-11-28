@@ -48,27 +48,54 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
         super.onViewCreated(view, savedInstanceState)
         viewModel.beneficiary =
             arguments?.let { BeneficiaryOverviewFragmentArgs.fromBundle(it).beneficiary }!!
-
+        viewModel.state.beneficiary = viewModel.beneficiary
 
         if (viewModel.beneficiary.id != null) {
             isFromAddBeneficiary = false
+            viewModel.state.beneficiary = viewModel.beneficiary
         }
 
         if (!isFromAddBeneficiary) {
             editBeneficiaryScreen()
         }
+//        getActivity()!!.getFragmentManager().popBackStack()
 
+    }
+
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.clickEvent.removeObservers(this)
+        viewModel.onDeleteSuccess.removeObservers(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        observeEvents()
+    }
+
+    private fun observeEvents() {
+        viewModel.onDeleteSuccess.observe(this, Observer {
+            activity!!.onBackPressed()
+        })
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-//                R.id.llBankDetail ->
-//                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_beneficiaryAccountDetailsFragment)
+                //                R.id.llBankDetail ->
+                //                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_beneficiaryAccountDetailsFragment)
 
                 R.id.confirmButton ->
                     if (!isFromAddBeneficiary) {
-//                        ConfirmAddBeneficiary(activity!!)       //may be show a dialogue to confirm edit beneficairy call and go back???
-                        viewModel.requestUpdateBeneficiary(viewModel.beneficiary )
+                        //                        ConfirmAddBeneficiary(activity!!)       //may be show a dialogue to confirm edit beneficairy call ???
+                        viewModel.requestUpdateBeneficiary()
+
+
+                        // also need to add validation on fields like iban mobile etc
+
+                        // need to go back to main listing screen on succes
+
+
                     } else {
                         ConfirmAddBeneficiary(activity!!)
 
@@ -77,23 +104,10 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
         })
     }
 
-    override fun onPause() {
-        viewModel.clickEvent.removeObservers(this)
-        viewModel.onDeleteSuccess.removeObservers(this)
-        super.onPause()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onDeleteSuccess.observe(this, Observer {
-            super.onBackPressed()
-        })
-    }
 
     override fun onBackPressed(): Boolean {
 
-        return super.onBackPressed()
+        return false
     }
 
     fun ConfirmAddBeneficiary(context: Context) {

@@ -4,9 +4,40 @@ import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryOverview
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseState
 
 class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
+
+    @get:Bindable
+    override var beneficiary: Beneficiary? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiary)
+            updateAllFields(beneficiary!!)
+        }
+
+    private fun updateAllFields(beneficiary: Beneficiary) {
+//A we are not sure about updated response so placing these checks in order to avoid crash
+
+        if (!beneficiary.country.isNullOrEmpty()) country = beneficiary.country!!
+        if (!beneficiary.beneficiaryType.isNullOrEmpty()) transferType =
+            beneficiary.beneficiaryType!!
+        if (!beneficiary.currency.isNullOrEmpty()) currency = beneficiary.currency!!
+        if (!beneficiary.title.isNullOrEmpty()) nickName = beneficiary.title!!
+        if (!beneficiary.firstName.isNullOrEmpty()) firstName = beneficiary.firstName!!
+        if (!beneficiary.lastName.isNullOrEmpty()) lastName = beneficiary.lastName!!
+        if (!beneficiary.mobileNo.isNullOrEmpty()) phoneNumber = beneficiary.mobileNo!!
+        if (!beneficiary.mobileNo.isNullOrEmpty()) mobile = beneficiary.mobileNo!!
+        if (!beneficiary.accountNo.isNullOrEmpty()) accountIban = beneficiary.accountNo!!
+        if (!beneficiary.mobileNo.isNullOrEmpty()) swiftCode = beneficiary.swiftCode!!
+
+// now again not sure about required field including bank details, so consider it to work on...
+
+        if (!beneficiary.mobileNo.isNullOrEmpty()) countryBankRequirementFieldCode =
+            beneficiary.country!!
+
+    }
 
     @get:Bindable
     override var flagDrawableResId: Int = -1
@@ -20,6 +51,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
+
         }
 
 
@@ -29,15 +61,15 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
             field = value
             notifyPropertyChanged(BR.country)
 
+            beneficiary?.country = field
         }
-
 
     @get:Bindable
     override var transferType: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferType)
-
+//            beneficiary!!.beneficiaryType=value
         }
 
 
@@ -46,7 +78,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.currency)
-
+            beneficiary?.currency = field
         }
 
     @get:Bindable
@@ -54,7 +86,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.nickName)
-
+            beneficiary?.title = field
         }
 
     @get:Bindable
@@ -62,7 +94,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)
-
+            beneficiary?.firstName = field
         }
 
     @get:Bindable
@@ -70,15 +102,16 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.lastName)
-
+            beneficiary?.lastName = field
         }
 
 
     @get:Bindable
-    override var phoneNumber: String = ""
+    override var phoneNumber: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
+            beneficiary?.mobileNo = field
         }
 
 // for phone number field validation to be work on
@@ -92,15 +125,15 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         }
 
     @get:Bindable
-    override var mobile: String = ""
+    override var mobile: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.mobile)
-            if (mobile.length < 9) {
+            if (mobile!!.length < 9) {
                 mobileNoLength = 11
 
             }
-
+            beneficiary?.mobileNo = field
         }
 
     @get:Bindable
@@ -117,6 +150,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountIban)
+//           right now in old beneficiary item there is no field for iban so we need to check
 
         }
 
@@ -125,7 +159,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.swiftCode)
-
+            beneficiary?.swiftCode = field
         }
 
     @get:Bindable
@@ -133,6 +167,7 @@ class BeneficiaryOverviewState : BaseState(), IBeneficiaryOverview.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.countryBankRequirementFieldCode)
+// need to check with updated response
 
         }
 

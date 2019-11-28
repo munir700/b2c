@@ -44,11 +44,11 @@ class BeneficiaryOverviewViewModel(application: Application) :
         toggleAddButtonVisibility(false)
     }
 
-    override fun requestUpdateBeneficiary(beneficiary: Beneficiary) {
+    override fun requestUpdateBeneficiary() {
 
         launch {
             state.loading = true
-            when (val response = repository.editBeneficiary(beneficiary)) {
+            when (val response = repository.editBeneficiary(state.beneficiary!!)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.toast = response.data.toString()

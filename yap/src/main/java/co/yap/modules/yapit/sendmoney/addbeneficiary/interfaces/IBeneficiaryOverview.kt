@@ -16,9 +16,9 @@ interface IBeneficiaryOverview {
         var nickName: String
         var firstName: String
         var lastName: String
-        var phoneNumber: String
+        var phoneNumber: String?
         var flagDrawableResId: Int
-        var mobile: String
+        var mobile: String?
         var drawbleRight: Drawable?
         var mobileNoLength: Int
 
@@ -27,6 +27,8 @@ interface IBeneficiaryOverview {
         var swiftCode: String
 
         var valid: Boolean
+        var beneficiary: Beneficiary?
+
 
     }
 
@@ -37,7 +39,7 @@ interface IBeneficiaryOverview {
 
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnConfirm(id: Int)
-        fun requestUpdateBeneficiary(beneficiary: Beneficiary)
+        fun requestUpdateBeneficiary()
         val onDeleteSuccess: MutableLiveData<Int>
 
     }
