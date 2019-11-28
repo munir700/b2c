@@ -16,8 +16,12 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.Utils
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 
 
 class PhoneContactViewModel(application: Application) :
@@ -57,14 +61,12 @@ class PhoneContactViewModel(application: Application) :
 
         pagingState.value = PagingState.LOADING
         launch {
-            val  localContacts = getLocalContacts()
-            //TODO Remove Below line
-            val list = localContacts.filter { c-> c.email?.isNotEmpty()!!}
+            val localContacts = getLocalContacts()
             if (localContacts.isEmpty()) {
                 phoneContactLiveData.value = mutableListOf()
                 pagingState.value = PagingState.DONE
             } else {
-                when (val response = repository.getY2YBeneficiaries(localContacts)) {
+                when (val response = repository.getY2YBeneficiaries(localContacts.take(50))) {
                     is RetroApiResponse.Success -> {
                         phoneContactLiveData.value = response.data.data
                         pagingState.value = PagingState.DONE
@@ -85,6 +87,9 @@ class PhoneContactViewModel(application: Application) :
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
+            val defaultCountryCode = Utils.getDefaultCountryCode(context)
+            val phoneUtil = PhoneNumberUtil.getInstance()
+
             val contacts = HashMap<Long, Contact>()
 
             val projection = arrayOf(
@@ -101,7 +106,7 @@ class PhoneContactViewModel(application: Application) :
                 ContactsContract.Data.CONTENT_URI,
                 projection,
                 generateSelection(), null,
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY + " ASC"
             )
 
             if (cursor != null) {
@@ -114,38 +119,49 @@ class PhoneContactViewModel(application: Application) :
                 val mimetypeColumnIndex = cursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
                 val dataColumnIndex = cursor.getColumnIndex(ContactsContract.Data.DATA1)
                 while (!cursor.isAfterLast) {
-                    val id = cursor.getLong(idColumnIndex)
-                    var contact = contacts[id]
-                    if (contact == null) {
+                    if (viewModelBGScope.isActive) {
+                        val id = cursor.getLong(idColumnIndex)
+                        var contact = contacts[id]
+                        if (contact == null) {
 
-                        contact = Contact()
-                        val displayName = cursor.getString(displayNamePrimaryColumnIndex)
-                        if (displayName != null && displayName.isNotEmpty()) {
-                            contact.title = displayName
+                            contact = Contact()
+                            val displayName = cursor.getString(displayNamePrimaryColumnIndex)
+                            if (displayName != null && displayName.isNotEmpty()) {
+                                contact.title = displayName
+                            }
+                            mapThumbnail(cursor, contact, thumbnailColumnIndex)
+                            contacts[id] = contact
                         }
-                        mapThumbnail(cursor, contact, thumbnailColumnIndex)
-                        contact.countryCode = "0092"
-                        contacts[id] = contact
-                    }
-                    val mimetype = cursor.getString(mimetypeColumnIndex)
+                        val mimetype = cursor.getString(mimetypeColumnIndex)
                         when (mimetype) {
                             ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE -> mapEmail(
                                 cursor,
                                 contact,
                                 dataColumnIndex
                             )
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE -> mapPhoneNumber(
-                                cursor,
-                                contact,
-                                dataColumnIndex
-                            )
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE -> {
+                                var phoneNumber: String? = cursor.getString(dataColumnIndex)
+                                if (phoneNumber != null && phoneNumber.isNotEmpty()) {
+                                    phoneNumber = phoneNumber.replace("\\s+".toRegex(), "")
+
+                                    try {
+                                        val pn =
+                                            phoneUtil.parse(phoneNumber, defaultCountryCode)
+                                        contact.mobileNo = pn.nationalNumber.toString()
+                                        contact.countryCode = "00${pn.countryCode}"
+                                    } catch (e: Exception) {
+                                    }
+                                }
+                            }
                         }
-                    cursor.moveToNext()
+                        cursor.moveToNext()
+                    } else break
                 }
                 cursor.close()
             }
             return (ArrayList(contacts.values) as MutableList<Contact>)
         }
+
         return mutableListOf()
     }
 
@@ -163,6 +179,7 @@ class PhoneContactViewModel(application: Application) :
             contact.beneficiaryPictureUrl = uri//Uri.parse(uri)
         }
     }
+
     private fun mapEmail(cursor: Cursor, contact: Contact, columnIndex: Int) {
         val email = cursor.getString(columnIndex)
         if (email != null && email.isNotEmpty()) {
@@ -170,14 +187,6 @@ class PhoneContactViewModel(application: Application) :
         }
     }
 
-    fun mapPhoneNumber(cursor: Cursor, contact: Contact, columnIndex: Int) {
-        var phoneNumber: String? = cursor.getString(columnIndex)
-        if (phoneNumber != null && phoneNumber.isNotEmpty()) {
-            // Remove all whitespaces
-            phoneNumber = phoneNumber.replace("\\s+".toRegex(), "")
-            contact.mobileNo = phoneNumber//.getPhoneNumbers().add(phoneNumber)
-        }
-    }
 //    try {
 //                                    val pn =
 //                                        phoneUtil.parse(phoneNo, defaultCountryCode)

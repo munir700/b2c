@@ -114,7 +114,7 @@ object UIBinder {
         val lyName = constraintLayout.findViewWithTag<LinearLayout>("lyNameInitials")
         val tvName = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
 
-        if (contactId == null) {
+        if (contactId.isNullOrEmpty()) {
             setShortName(image, lyName, tvName, name)
         } else {
             if (contactId.contains("http")) {
