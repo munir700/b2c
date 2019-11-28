@@ -1,11 +1,13 @@
 package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.loader.content.Loader
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentPhoneContactsBinding
@@ -40,7 +42,6 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         setObservers()
         viewModel.getY2YBeneficiaries()
     }
-
 
     private fun initComponents() {
         adaptor = YapContactsAdaptor(mutableListOf())
@@ -132,10 +133,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     }
 
     private fun sendInvite(contact: Contact) {
-        //TODO: Add check if whatsapp exist or not if not then hide whatsapp text
-        inviteFriendBottomSheet = InvitePhoneContactBottomSheet(this, contact)
-        inviteFriendBottomSheet.show(this.fragmentManager!!, "")
-
+        this.fragmentManager?.let {
+            inviteFriendBottomSheet = InvitePhoneContactBottomSheet(this, contact)
+            inviteFriendBottomSheet.show(it, "")
+        }
     }
 
     override fun onClick(viewId: Int, contact: Contact) {
