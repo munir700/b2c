@@ -40,7 +40,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.fetchCardCategoryAnalytics(DateUtils.getCurrentDate())
         setObservers()
         setupAdaptor()
         setupTabs()
@@ -162,19 +161,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.ivPrevious -> {
-                val sdf = SimpleDateFormat("MMMM, yyyy")
-                val date = sdf.parse(viewModel.state.selectedMonth)
-                val cal = Calendar.getInstance()
-                cal.time = date
-                viewModel.state.monthCount = viewModel.state.monthCount - 1
-                cal.add(Calendar.MONTH, viewModel.state.monthCount)
-                val newSdf = SimpleDateFormat("YYYY-MM-dd")
-                val curentdate = newSdf.format(cal.time)
-
-                viewModel.fetchCardCategoryAnalytics(curentdate)
-            }
-            R.id.ivNext -> {
-                showToast("Next")
             }
             Constants.CATEGORY_AVERAGE_AMOUNT_VALUE -> {
                 getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
