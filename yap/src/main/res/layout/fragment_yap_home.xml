@@ -20,11 +20,11 @@
         app:srcCompat="@color/colorPrimary">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:id="@+id/main_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:fillViewport="true">
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:fillViewport="true">
 
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/clSnackbar"
@@ -86,7 +86,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
-                android:fitsSystemWindows="true"
                 android:theme="@style/AppTheme.AppBarOverlay"
                 app:elevation="0dp">
 
@@ -94,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/collapsing_toolbar_height"
                     android:fitsSystemWindows="true"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
                     app:titleEnabled="false">
 
                     <androidx.appcompat.widget.Toolbar
@@ -141,6 +140,7 @@
                 android:id="@+id/lyInclude"
                 layout="@layout/content_fragment_yap_home"
                 android:visibility="visible"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:viewModel="@{viewModel}" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

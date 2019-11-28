@@ -44,21 +44,60 @@
                 style="@style/Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="6sp"
                 android:textColor="@color/greyDark"
-                android:visibility="gone"
                 android:textSize="14sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:visibility="visible"
                 tools:text="April 2019" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/frameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:orientation="horizontal"
+                android:layout_gravity="center_horizontal">
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/dad"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                app:backgroundTint="@color/white"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:elevation="0dp"
+                app:fabSize="auto"
+                android:layout_gravity="center_vertical"
+                app:fabCustomSize="@dimen/_40sdp"
+                app:srcCompat="@drawable/ic_yap_it" />
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/eamf"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/_5sdp"
+                    app:backgroundTint="@color/white"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    app:elevation="0dp"
+                    app:fabSize="auto"
+                    android:layout_gravity="center_vertical"
+                    app:fabCustomSize="@dimen/_40sdp"
+                    app:srcCompat="@drawable/ic_yap_it" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
 
             <RelativeLayout
                 android:id="@+id/rlTransactionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
-              android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_small">
 
@@ -123,6 +162,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:listitem="@layout/item_transaction_list" />
 
             <ImageView
