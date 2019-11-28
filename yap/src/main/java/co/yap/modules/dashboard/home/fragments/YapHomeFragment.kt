@@ -20,6 +20,7 @@ import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.FragmentYapHomeBinding
+import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
@@ -101,15 +102,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             //Log.d("vertical Alpha>>", "$alp")
             val pram = frameLayout.layoutParams
 
-            if(abs(verticalOffset) <=20)
-            {
+            if (abs(verticalOffset) <= 20) {
                 frameLayout.alpha = 1f
                 //Log.d("vertical Alpha>>", "$alp")
                 pram.height = appBarLayout.totalScrollRange
                 frameLayout.layoutParams = pram
-            }
-            else
-            {
+            } else {
                 if (Math.abs(verticalOffset) > 0)
                     frameLayout.alpha = 10 / abs(verticalOffset).toFloat()
                 pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
@@ -168,6 +166,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                     }
                 }
+
+                R.id.lyAnalytics -> startActivity(
+                    Intent(
+                        requireContext(),
+                        CardAnalyticsActivity::class.java
+                    )
+                )
+
             }
         })
         parentViewModel =
@@ -395,6 +401,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         super.onDestroyView()
         unregisterTransactionBroadcast()
         getBindings().appbar.removeOnOffsetChangedListener(appbarListener)
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+
     }
 
     private fun setAvailableBalance(balance: String) {

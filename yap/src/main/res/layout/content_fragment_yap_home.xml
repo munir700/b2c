@@ -62,6 +62,7 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:id="@+id/lyAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
@@ -70,7 +71,7 @@
                     android:orientation="vertical">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/dad"
+                        android:id="@+id/btnAdd"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -88,21 +89,23 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="6sp"
                         android:text="Add"
-                        android:layout_marginTop="8dp"
                         android:textColor="#5e35b1"
                         android:textSize="12sp"
                         android:textStyle="normal" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/lyAnalytics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="@dimen/_18sdp"
                     android:layout_marginEnd="@dimen/_18sdp"
+                    android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
                     android:orientation="vertical">
 
                     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -114,9 +117,9 @@
                         android:tint="@color/white"
                         app:backgroundTint="@color/colorPrimary"
                         app:elevation="0dp"
-                        app:maxImageSize="@dimen/_18sdp"
                         app:fabCustomSize="@dimen/_32sdp"
                         app:fabSize="mini"
+                        app:maxImageSize="@dimen/_18sdp"
                         app:srcCompat="@drawable/ic_analytics" />
 
                     <TextView
@@ -124,10 +127,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
                         android:gravity="center_horizontal"
                         android:lineSpacingExtra="6sp"
                         android:text="Analytics"
-                        android:layout_marginTop="8dp"
                         android:textColor="#5e35b1"
                         android:textSize="12sp"
                         android:textStyle="normal" />

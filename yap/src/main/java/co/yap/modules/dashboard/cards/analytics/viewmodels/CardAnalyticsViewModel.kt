@@ -10,6 +10,7 @@ import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -114,7 +115,7 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardCategoryAnalytics(currentMonth: String) {
-//           val categoryList = ArrayList<TxnAnalytic>()
+        val categoryList = ArrayList<TxnAnalytic>()
         //call api here
         launch {
             state.loading = true
@@ -134,9 +135,9 @@ class CardAnalyticsViewModel(application: Application) :
                             state.currencyType + " ${Utils.getFormattedCurrency(response.data.data?.totalTxnAmount.toString())}"
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        fetchCardMerchantAnalytics(currentMonth)
                     }
-                    state.loading = false
+                    fetchCardMerchantAnalytics(currentMonth)
+//                    state.loading = false
 
                 }
                 is RetroApiResponse.Error -> {
@@ -211,7 +212,6 @@ class CardAnalyticsViewModel(application: Application) :
     override fun fetchCardMerchantAnalytics(currentMonth: String) {
 //        val merchantList = ArrayList<TxnAnalytic>()
         launch {
-            state.loading = true
             when (val response = repository.getAnalyticsByMerchantName(
                 MyUserManager.getCardSerialNumber(),
                 currentMonth
@@ -227,11 +227,14 @@ class CardAnalyticsViewModel(application: Application) :
                         state.currencyType,
                         Utils.getFormattedCurrency(state.monthlyMerchantAvgAmount)
                     )
-
+                    state.loading = false
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
             }
-            state.loading = false
+            //state.loading = false
         }
         /*merchantList.add(
             TxnAnalytic(
