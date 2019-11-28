@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.cards.analytics.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.dashboard.cards.analytics.interfaces.ICardAnalytics
 import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMain
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
@@ -9,10 +10,14 @@ import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.DateUtils.FORMAT_MONTH_YEAR
+import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
+import co.yap.yapcore.helpers.DateUtils.TIME_ZONE_Default
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import java.text.SimpleDateFormat
@@ -26,34 +31,35 @@ class CardAnalyticsViewModel(application: Application) :
     val repository: TransactionsRepository = TransactionsRepository
     override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+    var currentCalendar: Calendar = Calendar.getInstance()
+    var creationCalender: Calendar = Calendar.getInstance()
 
     override fun onCreate() {
         super.onCreate()
         parentVM?.let {
             parentViewModel = it
         }
+        DateUtils.datetoString(currentCalendar.time, "YYYY-MM-dd")
+        fetchCardCategoryAnalytics(DateUtils.datetoString(currentCalendar.time, "YYYY-MM-dd"))
+        state.nextMonth = false
         MyUserManager.user?.creationDate?.let {
             val date =
                 DateUtils.stringToDate(
                     it,
-                    DateUtils.FORMAT_LONG_INPUT
+                    DateUtils.FORMAT_LONG_INPUT, TIME_ZONE_Default
                 )
-
-            if (date != null) {
-                state.toast = "m in let"
-                //Creation and current date equals
-                if (Date().month == date.month) {
-                    state.nextMonth = false
+            state.selectedMonth = DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
+            date?.let { it ->
+                creationCalender.time = it
+                if (creationCalender.get(Calendar.MONTH) == currentCalendar.get(Calendar.MONTH)) {
                     state.previousMonth = false
-
                 } else {
-                    state.toast = "m in else"
-                    if (Date().month > date.month) {
+                    if (creationCalender.get(Calendar.MONTH) < currentCalendar.get(Calendar.MONTH)) {
                         state.previousMonth = true
                     }
                 }
-                //}
             }
+
 
         }
     }
@@ -64,11 +70,52 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun handlePressOnView(id: Int) {
+        when (id) {
+            R.id.ivPrevious -> {
+
+                if ((currentCalendar.get(Calendar.MONTH) - 1) > creationCalender.get(Calendar.MONTH)) {
+                    currentCalendar.add(Calendar.MONTH, -1)
+                    state.nextMonth = true
+                } else if ((currentCalendar.get(Calendar.MONTH) - 1) == creationCalender.get(
+                        Calendar.MONTH
+                    )
+                ) {
+                    currentCalendar.add(Calendar.MONTH, -1)
+                    state.previousMonth = false
+                }
+                state.selectedMonth =
+                    DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
+                fetchCardCategoryAnalytics(
+                    DateUtils.datetoString(
+                        currentCalendar.time,
+                        "YYYY-MM-dd"
+                    )
+                )
+            }
+            R.id.ivNext -> {
+                val tempCalendar = Calendar.getInstance()
+                if ((tempCalendar.get(Calendar.MONTH) - 1) > (currentCalendar.get(Calendar.MONTH))) {
+                    currentCalendar.add(Calendar.MONTH, 1)
+                    state.previousMonth = true
+                } else if ((tempCalendar.get(Calendar.MONTH) - 1) == currentCalendar.get(Calendar.MONTH)) {
+                    currentCalendar.add(Calendar.MONTH, 1)
+                    state.nextMonth = false
+                }
+                state.selectedMonth =
+                    DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
+                fetchCardCategoryAnalytics(
+                    DateUtils.datetoString(
+                        currentCalendar.time,
+                        "YYYY-MM-dd"
+                    )
+                )
+            }
+        }
         clickEvent.setValue(id)
     }
 
     override fun fetchCardCategoryAnalytics(currentMonth: String) {
-//           val categoryList = ArrayList<TxnAnalytic>()
+        val categoryList = ArrayList<TxnAnalytic>()
         //call api here
         launch {
             state.loading = true
@@ -88,48 +135,10 @@ class CardAnalyticsViewModel(application: Application) :
                             state.currencyType + " ${Utils.getFormattedCurrency(response.data.data?.totalTxnAmount.toString())}"
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                        state.selectedMonth = DateUtils.convertAnalyticsDate(it.date)
-
-                        val parser = SimpleDateFormat("yyyy-MM")
-                        parser.timeZone = TimeZone.getTimeZone("UTC")
-                        val strDate = parser.parse(it.date)
-
-                        if (Date().month > strDate.month) {
-                            state.nextMonth = true
-                        }
-
-                        MyUserManager.user?.creationDate?.let {
-                            val creationDate =
-                                DateUtils.stringToDate(
-                                    it,
-                                    DateUtils.FORMAT_LONG_INPUT
-                                )
-
-                            creationDate?.let {
-                                state.toast="in craetion check"
-                                if (strDate.month == creationDate.month) {
-                                    state.previousMonth = false
-                                    if (strDate.month == Date().month) {
-                                        state.nextMonth = false
-                                    } else {
-                                        if (strDate.month > Date().month) {
-                                            state.nextMonth = true
-                                        }
-                                    }
-                                } else {
-                                    if (creationDate.month < strDate.month) {
-                                        state.previousMonth = true
-                                    }
-                                }
-                            }
-                        }
                     }
-                    state.loading = false
-                    //fetchCardMerchantAnalytics()
+                    fetchCardMerchantAnalytics(currentMonth)
+//                    state.loading = false
 
-                    2019 - 11
-                    //"date" : "2019-10",
-//November , 2019
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -200,32 +209,32 @@ class CardAnalyticsViewModel(application: Application) :
 
     }
 
-    override fun fetchCardMerchantAnalytics() {
+    override fun fetchCardMerchantAnalytics(currentMonth: String) {
 //        val merchantList = ArrayList<TxnAnalytic>()
         launch {
-            state.loading = true
             when (val response = repository.getAnalyticsByMerchantName(
                 MyUserManager.getCardSerialNumber(),
-                DateUtils.getCurrentDate()
+                currentMonth
             )) {
                 is RetroApiResponse.Success -> {
                     parentVM?.merchantAnalyticsItemLiveData?.value =
                         response.data.data?.txnAnalytics
                     state.monthlyMerchantAvgAmount =
                         response.data.data?.monthlyAvgAmount?.toString()
-//                    state.monthlyMerchantAvgAmount = "2000.0"
                     state.totalMerchantSpent =
                         state.currencyType + " ${Utils.getFormattedCurrency(response.data.data?.totalTxnAmount.toString())}"
-                    // state.totalMerchantSpent = state.currencyType + " ${"2,02929.00"}"
                     state.setUpStringForMerchant(
                         state.currencyType,
                         Utils.getFormattedCurrency(state.monthlyMerchantAvgAmount)
                     )
-
+                    state.loading = false
                 }
-                is RetroApiResponse.Error -> state.toast = response.error.message
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
             }
-            state.loading = false
+            //state.loading = false
         }
         /*merchantList.add(
             TxnAnalytic(
