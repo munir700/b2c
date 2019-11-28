@@ -62,16 +62,13 @@ class CardAnalyticsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun fetchCardCategoryAnalytics() {
+    override fun fetchCardCategoryAnalytics(currentMonth :String) {
 //           val categoryList = ArrayList<TxnAnalytic>()
-
         //call api here
         launch {
             state.loading = true
             when (val response = repository.getAnalyticsByCategoryName(
-                MyUserManager.getCardSerialNumber(),
-                DateUtils.getCurrentDate()
-            )) {
+                MyUserManager.getCardSerialNumber(),currentMonth)) {
                 is RetroApiResponse.Success -> {
                     parentVM?.categoryAnalyticsItemLiveData?.value = response.data.data.txnAnalytics
                     state.monthlyCategoryAvgAmount = response.data.data.monthlyAvgAmount?.toString()
@@ -90,13 +87,33 @@ class CardAnalyticsViewModel(application: Application) :
                     parser.timeZone = TimeZone.getTimeZone("UTC")
                     val strDate = parser.parse(response.data.data.date)
 
-                    if (System.currentTimeMillis() > strDate.time) {
+                    if (Date().month > strDate.month) {
                         state.nextMonth = true
-//                        if (datePassed) {
-//
-//                        }
-                    } else {
+                    }
 
+                    MyUserManager.user?.creationDate?.let {
+                        val creationDate =
+                            DateUtils.stringToDate(
+                                it,
+                                DateUtils.FORMAT_LONG_INPUT
+                            )
+
+                        creationDate?.let {
+                            if (strDate.month == creationDate.month) {
+                                state.previousMonth = false
+                                if (strDate.month == Date().month) {
+                                    state.nextMonth = false
+                                } else {
+                                    if (strDate.month > Date().month) {
+                                        state.nextMonth = true
+                                    }
+                                }
+                            } else {
+                                if (creationDate.month < strDate.month) {
+                                    state.previousMonth = true
+                                }
+                            }
+                        }
                     }
 
                     2019 - 11
