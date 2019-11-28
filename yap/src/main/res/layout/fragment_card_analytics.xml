@@ -40,12 +40,15 @@
 
                     <co.yap.widgets.CoreCircularImageView
                         android:id="@+id/ivPieView"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
                         android:layout_centerInParent="true"
-                        android:layout_marginStart="@dimen/margin_medium_large"
-                        app:categoryItem="@{viewModel.state.selectedTxnAnalyticsItem}"
+                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="@string/empty_string"
+                        app:fullName="@{viewModel.state.selectedTxnAnalyticsItem.title}"
+                        app:imageUrl="@{viewModel.state.selectedTxnAnalyticsItem.logoUrl== null? ` ` : viewModel.state.selectedTxnAnalyticsItem.logoUrl}"
+                        app:isBackground="@{false}"
                         app:position="@{viewModel.state.selectedItemPosition}" />
 
                     <TextView
@@ -57,6 +60,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginEnd="@dimen/_14sdp"
                         android:layout_marginBottom="-25dp"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="@{viewModel.state.selectedItemName}"
                         android:textColor="@color/colorSecondaryMagenta"
                         android:textSize="@dimen/_10sdp"

@@ -23,18 +23,14 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
-import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
-import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.CoreDialerPad
 import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
-import co.yap.yapcore.enums.AnalyticsCategoryType
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
 import co.yap.yapcore.helpers.DateUtils
@@ -54,152 +50,16 @@ import java.util.*
 
 object UIBinder {
 
-    @BindingAdapter("categoryItem", "position")
-    @JvmStatic
-    fun setCategoryItem(
-        circularImage: CoreCircularImageView,
-        txnAnalytic: TxnAnalytic?, position: Int
-    ) {
-        txnAnalytic?.let {
-            if (!it.logoUrl.isNullOrEmpty()) {
-                circularImage.loadImage(it.logoUrl!!)
-            } else {
-                when (txnAnalytic.title) {
-                    AnalyticsCategoryType.TRAVEL.title -> {
-                        circularImage.setImageResource(R.drawable.ic_travel)
-                    }
-                    AnalyticsCategoryType.foodAndDrinks.title -> {
-                        circularImage.setImageResource(R.drawable.ic_food_drinks)
-                    }
-                    AnalyticsCategoryType.shopping.title -> {
-                        circularImage.setImageResource(R.drawable.ic_shopping)
-                    }
-                    AnalyticsCategoryType.other.title -> {
-                        circularImage.setImageResource(R.drawable.ic_bulb)
-                    }
-                    AnalyticsCategoryType.healthAndBeauty.title -> {
-                        circularImage.setImageResource(R.drawable.ic_health_and_beauty)
-                    }
-                    AnalyticsCategoryType.airportLounge.title -> {
-                        circularImage.setImageResource(R.drawable.ic_lounge)
-                    }
-                    AnalyticsCategoryType.education.title -> {
-                        circularImage.setImageResource(R.drawable.ic_education)
-                    }
-                    AnalyticsCategoryType.groceries.title -> {
-                        circularImage.setImageResource(R.drawable.ic_groceries)
-                    }
-                    AnalyticsCategoryType.mediaAndEntertainment.title -> {
-                        circularImage.setImageResource(R.drawable.ic_media_entertainment)
-                    }
-                    AnalyticsCategoryType.utilities.title -> {
-                        circularImage.setImageResource(R.drawable.ic_utilities)
-                    }
-                    AnalyticsCategoryType.insurance.title -> {
-                        circularImage.setImageResource(R.drawable.ic_insurance)
-                    }
-                    AnalyticsCategoryType.services.title -> {
-                        circularImage.setImageResource(R.drawable.ic_services)
-                    }
-                    else -> {
-                        circularImage.setImageResource(R.drawable.ic_bulb)
-                    }
-                }
-
-                updateColorScheme(circularImage, position)
-            }
-        }
-    }
-
-    private fun updateColorScheme(circularImage: CoreCircularImageView, position: Int) {
-        when (position) {
-            0 -> {
-                circularImage.drawable.setTint(
-                    ContextCompat.getColor(
-                        circularImage.context,
-                        R.color.colorSecondaryMagenta
-                    )
-                )
-            }
-            1 -> {
-                circularImage.drawable.setTint(
-                    ContextCompat.getColor(
-                        circularImage.context,
-                        R.color.colorSecondaryBlue
-                    )
-                )
-            }
-            2 -> {
-                circularImage.drawable.setTint(
-                    ContextCompat.getColor(
-                        circularImage.context,
-                        R.color.colorSecondaryOrange
-                    )
-                )
-            }
-            3 -> {
-                circularImage.drawable.setTint(
-                    ContextCompat.getColor(
-                        circularImage.context,
-                        R.color.colorSecondaryGreen
-                    )
-                )
-            }
-            4 -> {
-                circularImage.drawable.setTint(
-                    ContextCompat.getColor(
-                        circularImage.context,
-                        R.color.colorPrimary
-                    )
-                )
-            }
-        }
-    }
 
     @BindingAdapter("tvColor")
     @JvmStatic
     fun updateTextColor(view: TextView, position: Int) {
-        when (position) {
-            0 -> {
-                view.setTextColor(
-                    ContextCompat.getColor(
-                        view.context,
-                        R.color.colorSecondaryMagenta
-                    )
-                )
-            }
-            1 -> {
-                view.setTextColor(
-                    ContextCompat.getColor(
-                        view.context,
-                        R.color.colorSecondaryBlue
-                    )
-                )
-            }
-            2 -> {
-                view.setTextColor(
-                    ContextCompat.getColor(
-                        view.context,
-                        R.color.colorSecondaryOrange
-                    )
-                )
-            }
-            3 -> {
-                view.setTextColor(
-                    ContextCompat.getColor(
-                        view.context,
-                        R.color.colorSecondaryGreen
-                    )
-                )
-            }
-            4 -> {
-                view.setTextColor(
-                    ContextCompat.getColor(
-                        view.context,
-                        R.color.colorPrimary
-                    )
-                )
-            }
+        if (position == -1) return
+        try {
+            val colors = view.context.resources.getIntArray(R.array.analyticsColors)
+            view.setTextColor(colors[position % colors.size])
+        } catch (ex: Exception) {
+
         }
     }
 

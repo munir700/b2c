@@ -89,7 +89,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             notifyPropertyChanged(BR.selectedItemName)
         }
     @get:Bindable
-    override var selectedItemPosition: Int = 0
+    override var selectedItemPosition: Int = -1
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedItemPosition)
@@ -114,7 +114,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
         }
 
     @get:Bindable
-    override var selectedTxnAnalyticsItem: TxnAnalytic? = null
+    override var selectedTxnAnalyticsItem: TxnAnalytic? = TxnAnalytic("", "", "", 0.0, 0)
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedTxnAnalyticsItem)

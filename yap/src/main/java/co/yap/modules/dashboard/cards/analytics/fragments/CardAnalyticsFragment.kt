@@ -103,7 +103,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart.data = data
-        chart.highlightValue(0f, 0, true)
+//        chart.highlightValue(0f, 0, true)
         chart.invalidate()
     }
 
@@ -194,6 +194,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let {
+
                 setSelectedTabData(it.position, 0)
                 when (it.position) {
                     CATEGORY_ANALYTICS -> {
