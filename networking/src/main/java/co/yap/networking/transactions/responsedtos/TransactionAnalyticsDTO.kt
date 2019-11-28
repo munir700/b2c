@@ -5,5 +5,5 @@ data class TransactionAnalyticsDTO (
     val totalTxnAmount: Double?,
     val monthlyAvgAmount: Double?,
     val date: String?,
-    val txnAnalytics: ArrayList<TxnAnalytic>?
+    val txnAnalytics: ArrayList<TxnAnalytic>? = ArrayList()
 )

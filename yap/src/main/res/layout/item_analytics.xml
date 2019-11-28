@@ -25,18 +25,35 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="parent">
-
             <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/lyUserImage"
-                android:layout_width="@dimen/_45sdp"
-                android:layout_height="@dimen/_45sdp"
+                android:id="@+id/lyImage"
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
                 android:contentDescription="@string/empty_string"
-                android:src="@drawable/ic_shopping"
                 app:categoryItem="@{viewModel.analyticsItem}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_shopping"
                 app:position="@{viewModel.position}" />
 
+            <LinearLayout
+                android:id="@+id/lyNameInitials"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_round_with_space_white"
+                app:layout_constraintBottom_toBottomOf="@+id/lyImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/lyImage">
+
+                <TextView
+                    android:id="@+id/tvNameInitials"
+                    style="@style/ARegular"
+                    android:layout_width="@dimen/_35sdp"
+                    android:layout_height="@dimen/_35sdp"
+                    android:gravity="center"
+                    android:text="@{Utils.INSTANCE.shortName(viewModel.analyticsItem.title)}"
+                    tools:text="NM" />
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/content"
@@ -46,10 +63,10 @@
                 android:layout_marginEnd="@dimen/margin_small"
                 android:gravity="center"
                 android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="@+id/lyUserImage"
+                app:layout_constraintBottom_toBottomOf="@+id/lyImage"
                 app:layout_constraintEnd_toStartOf="@+id/tvAmount"
-                app:layout_constraintStart_toEndOf="@+id/lyUserImage"
-                app:layout_constraintTop_toTopOf="@+id/lyUserImage">
+                app:layout_constraintStart_toEndOf="@+id/lyImage"
+                app:layout_constraintTop_toTopOf="@+id/lyImage">
 
                 <TextView
                     android:id="@+id/tvName"
@@ -105,7 +122,7 @@
                 android:background="@color/divider"
                 app:layout_constraintEnd_toEndOf="@id/tvAmount"
                 app:layout_constraintStart_toStartOf="@+id/content"
-                app:layout_constraintTop_toBottomOf="@+id/lyUserImage" />
+                app:layout_constraintTop_toBottomOf="@+id/lyImage" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

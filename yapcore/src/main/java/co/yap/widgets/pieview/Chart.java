@@ -376,7 +376,7 @@ public abstract class Chart<T extends ChartData<? extends IDataSet<? extends Ent
 
             if (hasText) {
                 MPPointF c = getCenter();
-                canvas.drawText(mNoDataText, c.x, c.y, mInfoPaint);
+                //canvas.drawText(mNoDataText, c.x, c.y, mInfoPaint);
             }
 
             return;

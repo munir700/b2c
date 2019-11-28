@@ -25,5 +25,5 @@ class CardAnalyticsMainViewModel(application: Application) :
     }
 
     override val selectedItemPositionParent: MutableLiveData<Int> = MutableLiveData()
-
+    override val isMerchant: MutableLiveData<Boolean> = MutableLiveData(false)
 }
