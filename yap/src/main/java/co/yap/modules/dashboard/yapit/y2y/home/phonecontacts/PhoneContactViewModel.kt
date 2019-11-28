@@ -21,6 +21,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.isActive
+import timber.log.Timber
 
 
 class PhoneContactViewModel(application: Application) :
@@ -32,7 +33,6 @@ class PhoneContactViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     private var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var phoneContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
-    private val mSelectionBuilder = StringBuilder()
 
     override fun handlePressOnView(id: Int) {
         clickEvent.setValue(id)
@@ -117,6 +117,7 @@ class PhoneContactViewModel(application: Application) :
                 val mimetypeColumnIndex = cursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
                 val dataColumnIndex = cursor.getColumnIndex(ContactsContract.Data.DATA1)
                 while (!cursor.isAfterLast) {
+                    Timber.d("Loading")
                     if (viewModelBGScope.isActive) {
                         val id = cursor.getLong(idColumnIndex)
                         var contact = contacts[id]
@@ -164,6 +165,7 @@ class PhoneContactViewModel(application: Application) :
     }
 
     private fun generateSelection(): String {
+        val mSelectionBuilder = StringBuilder()
         if (mSelectionBuilder.isNotEmpty())
             mSelectionBuilder.append(" AND ")
         mSelectionBuilder.append(ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER)
@@ -181,7 +183,7 @@ class PhoneContactViewModel(application: Application) :
     private fun mapEmail(cursor: Cursor, contact: Contact, columnIndex: Int) {
         val email = cursor.getString(columnIndex)
         if (email != null && email.isNotEmpty()) {
-            contact.email = email//getEmails().add(email)
+            contact.email = email
         }
     }
 
