@@ -28,7 +28,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
     ICardAnalytics.View, OnChartValueSelectedListener {
 
@@ -167,7 +166,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 val date = sdf.parse(viewModel.state.selectedMonth)
                 val cal = Calendar.getInstance()
                 cal.time = date
-                cal.add(Calendar.MONTH, -1)
+                viewModel.state.monthCount = viewModel.state.monthCount - 1
+                cal.add(Calendar.MONTH, viewModel.state.monthCount)
                 val newSdf = SimpleDateFormat("YYYY-MM-dd")
                 val curentdate = newSdf.format(cal.time)
 

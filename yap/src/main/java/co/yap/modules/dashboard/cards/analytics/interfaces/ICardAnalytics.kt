@@ -36,6 +36,7 @@ interface ICardAnalytics {
         var totalCategorySpent: String?
         var totalMerchantSpent: String?
         var selectedMonth: String?
+        var monthCount:Int
         var selectedTxnAnalyticsItem: TxnAnalytic?
         var nextMonth: Boolean?
         var previousMonth: Boolean?

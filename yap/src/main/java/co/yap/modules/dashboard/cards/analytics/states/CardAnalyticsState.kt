@@ -32,6 +32,12 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             field = value
             notifyPropertyChanged(BR.selectedMonth)
         }
+    @get:Bindable
+    override var monthCount: Int = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.monthCount)
+        }
 
     @get:Bindable
     override var monthlyAverageString: String = ""
