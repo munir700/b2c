@@ -123,7 +123,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun requestDeleteBeneficiary(beneficiaryId: Int) {
         launch {
             state.loading = true
-            when (val response = repository.deleteBeneficiary(beneficiaryId.toString())) {
+            when (val response = repository.deleteBeneficiaryFromList(beneficiaryId.toString())) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.toast = response.data.toString()
