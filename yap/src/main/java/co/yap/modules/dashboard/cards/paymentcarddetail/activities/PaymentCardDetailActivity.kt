@@ -177,7 +177,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
         viewModel.card.observe(this, Observer {
             viewModel.cardTransactionRequest.serialNumber = viewModel.card.value?.cardSerialNumber!!
-            viewModel.cardTransactionRequest.number = 1
             viewModel.requestAccountTransactions()
         })
 

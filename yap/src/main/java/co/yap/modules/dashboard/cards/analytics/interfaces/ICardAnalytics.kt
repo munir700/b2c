@@ -16,7 +16,7 @@ interface ICardAnalytics {
         val clickEvent: SingleClickEvent
         var selectedModel: MutableLiveData<AnalyticsItem>
         var parentViewModel: ICardAnalyticsMain.ViewModel
-        fun fetchCardCategoryAnalytics()
+        fun fetchCardCategoryAnalytics(currentMonth: String)
         fun fetchCardMerchantAnalytics()
         fun handlePressOnView(id: Int)
 
@@ -35,6 +35,9 @@ interface ICardAnalytics {
         var totalSpent: String?
         var totalCategorySpent: String?
         var totalMerchantSpent: String?
+        var selectedMonth: String?
         var selectedTxnAnalyticsItem: TxnAnalytic?
+        var nextMonth: Boolean?
+        var previousMonth: Boolean?
     }
 }

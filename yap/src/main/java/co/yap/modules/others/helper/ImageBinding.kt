@@ -5,7 +5,6 @@ import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.BindingAdapter
 import co.yap.R
 import co.yap.widgets.TextDrawable
@@ -66,6 +65,8 @@ object ImageBinding {
         position: Int,
         isBackground: Boolean = true
     ) {
+        if (fullName.isNullOrEmpty()) return
+
         val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
         val resId = getResId("ic_${getDrawableName(fullName)}")
         if (resId != -1) {
@@ -75,7 +76,6 @@ object ImageBinding {
             else {
                 resImg?.setTint(getAnalyticsColor(colors, position))
             }
-
             setCircleCropImage(imageView, imageUrl, resImg!!)
 
         } else {

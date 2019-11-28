@@ -5,6 +5,8 @@
 
     <data>
 
+        <import type="co.yap.yapcore.R" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.cards.analytics.viewmodels.CardAnalyticsViewModel" />
@@ -45,7 +47,7 @@
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="@string/empty_string"
                         app:fullName="@{viewModel.state.selectedTxnAnalyticsItem.title}"
-                        app:imageUrl="@{viewModel.state.selectedTxnAnalyticsItem.logoUrl == null ? ` ` : viewModel.state.selectedTxnAnalyticsItem.logoUrl}"
+                        app:imageUrl="@{viewModel.state.selectedTxnAnalyticsItem.logoUrl== null? ` ` : viewModel.state.selectedTxnAnalyticsItem.logoUrl}"
                         app:isBackground="@{false}"
                         app:position="@{viewModel.state.selectedItemPosition}" />
 
@@ -62,8 +64,8 @@
                         android:singleLine="true"
                         android:text="@{viewModel.state.selectedItemName}"
                         android:textColor="@color/colorSecondaryMagenta"
-                        app:tvColor="@{viewModel.state.selectedItemPosition}"
-                        android:textSize="@dimen/_10sdp" />
+                        android:textSize="@dimen/_10sdp"
+                        app:tvColor="@{viewModel.state.selectedItemPosition}" />
 
                     <TextView
                         android:id="@+id/tvPieViewPrice"
@@ -77,6 +79,7 @@
                         android:text="@{viewModel.state.selectedItemSpentValue}"
                         android:textColor="#272262"
                         android:textSize="@dimen/_10sdp" />
+
                     <TextView
                         android:id="@+id/tvPieViewPercentage"
                         style="@style/Regular"
@@ -98,16 +101,17 @@
                     android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/tvMonthlyAverage"
+                style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                tools:text="Monthly average is AED 1,600.47"
-                style="@style/MicroGrey"
                 app:layout_constraintTop_toBottomOf="@+id/pieViewConstraintLayout"
-                />
+                tools:text="Monthly average is AED 1,600.47" />
+
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
                 android:layout_width="match_parent"
@@ -184,26 +188,30 @@
                         android:layout_height="wrap_content"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/lyCurrencyType">
+
                         <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/ivPrevious"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.state.previousMonth}"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                             android:padding="@dimen/_10sdp"
                             android:src="@drawable/ic_back_arrow_left_gery"
+                            android:tint="@{viewModel.state.previousMonth? R.color.greySoft : R.color.disabledLight}"
                             app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
                             app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
                             app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
                             app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+
                         <TextView
                             android:id="@+id/tvTransactionMonth"
                             style="@style/AMicroGrey"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="28dp"
-                            android:text="Jun 1 - Jun 30"
+                            android:text="@{viewModel.state.selectedMonth}"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.498"
                             app:layout_constraintStart_toStartOf="parent"
@@ -225,9 +233,11 @@
                             android:id="@+id/ivNext"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:enabled="@{viewModel.state.nextMonth}"
                             android:onClick="@{v -> viewModel.handlePressOnView(v.getId())}"
                             android:padding="@dimen/_10sdp"
                             android:src="@drawable/ic_chevron_right"
+                            android:tint="@{viewModel.state.nextMonth? R.color.greySoft : R.color.disabledLight}"
                             app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"

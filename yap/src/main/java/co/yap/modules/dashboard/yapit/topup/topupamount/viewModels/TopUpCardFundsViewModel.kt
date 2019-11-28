@@ -45,6 +45,13 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         state.buttonTitle = getString(Strings.screen_topup_funds_display_button_text)
     }
 
+    override fun buttonClickEvent(id: Int) {
+        if (state.checkValidityForAddTopUpFromExternalCard() == "") {
+            clickEvent.postValue(id)
+        } else {
+            errorEvent.postValue(id)
+        }
+    }
 
     private fun getTransactionFee() {
         launch {
@@ -88,7 +95,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                     errorEvent.call()
                 }
             }
-          //  state.loading = false
+            //  state.loading = false
         }
     }
 
@@ -97,7 +104,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
         orderId: String
     ) {
         launch {
-           // state.loading = true
+            // state.loading = true
             when (val response = transactionsRepository.check3DEnrollmentSession(
                 Check3DEnrollmentSessionRequest(
                     topupCrad.id?.toInt()!!,
@@ -155,7 +162,7 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
                     //clickEvent.postValue(100)
                 }
                 is RetroApiResponse.Error -> {
-                  //  state.toast = response.error.message
+                    //  state.toast = response.error.message
                     state.errorDescription = response.error.message
                     errorEvent.call()
                 }

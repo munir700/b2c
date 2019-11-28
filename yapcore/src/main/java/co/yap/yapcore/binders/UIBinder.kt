@@ -54,8 +54,13 @@ object UIBinder {
     @BindingAdapter("tvColor")
     @JvmStatic
     fun updateTextColor(view: TextView, position: Int) {
-        val colors = view.context.resources.getIntArray(R.array.analyticsColors)
-        view.setTextColor(colors[position % colors.size])
+        if (position == -1) return
+        try {
+            val colors = view.context.resources.getIntArray(R.array.analyticsColors)
+            view.setTextColor(colors[position % colors.size])
+        } catch (ex: Exception) {
+
+        }
     }
 
     @BindingAdapter("cardStatus")

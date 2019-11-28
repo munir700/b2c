@@ -11,6 +11,28 @@ import co.yap.yapcore.BaseState
 
 class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics.State {
     val context = application.applicationContext
+
+    @get:Bindable
+    override var previousMonth: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.previousMonth)
+        }
+
+    @get:Bindable
+    override var nextMonth: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.nextMonth)
+        }
+
+    @get:Bindable
+    override var selectedMonth: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selectedMonth)
+        }
+
     @get:Bindable
     override var monthlyAverageString: String = ""
         set(value) {
@@ -61,7 +83,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             notifyPropertyChanged(BR.selectedItemName)
         }
     @get:Bindable
-    override var selectedItemPosition: Int = 0
+    override var selectedItemPosition: Int = -1
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedItemPosition)
@@ -91,6 +113,7 @@ class CardAnalyticsState(application: Application) : BaseState(), ICardAnalytics
             field = value
             notifyPropertyChanged(BR.selectedTxnAnalyticsItem)
         }
+
     fun setUpString(currencyType: String?, amount: String?) {
         monthlyAverageString =
             Translator.getString(context, Strings.screen_card_analytics_display_month_average_text)

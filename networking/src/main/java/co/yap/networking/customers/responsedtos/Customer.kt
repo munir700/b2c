@@ -34,7 +34,9 @@ class Customer(
     }
 
     fun getCompletePhone(): String {
-        return "$countryCode $mobileNo"
+        return if (countryCode.startsWith("00"))
+            "$countryCode $mobileNo"
+        else "00$countryCode $mobileNo"
     }
 
     fun getFormattedPhoneNumber(context: Context): String {

@@ -110,11 +110,8 @@ class TopUpCardFundsFragment : BaseBindingFragment<IFundActions.ViewModel>(),
     var clickEvent = Observer<Int> {
         when (it) {
             R.id.btnAction -> {
-                //call api here
                 viewModel.createTransactionSession()
-                //findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             }
-            // 100 -> findNavController().navigate(R.id.action_topUpCardFundsFragment_to_verifyCardCvvFragment)
             R.id.ivCross -> activity?.finish()
             Constants.CARD_FEE -> setUpFeeData()
         }

@@ -19,9 +19,15 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
+
+
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
     ICardAnalytics.View, OnChartValueSelectedListener {
@@ -35,7 +41,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.fetchCardCategoryAnalytics()
+        viewModel.fetchCardCategoryAnalytics(DateUtils.getCurrentDate())
         setObservers()
         setupAdaptor()
         setupTabs()
@@ -98,7 +104,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart.data = data
-        chart.highlightValue(0f, 0, true)
+//        chart.highlightValue(0f, 0, true)
         chart.invalidate()
     }
 
@@ -157,7 +163,15 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.ivPrevious -> {
-                showToast("Previous")
+                val sdf = SimpleDateFormat("MMMM, yyyy")
+                val date = sdf.parse(viewModel.state.selectedMonth)
+                val cal = Calendar.getInstance()
+                cal.time = date
+                cal.add(Calendar.MONTH, -1)
+                val newSdf = SimpleDateFormat("YYYY-MM-dd")
+                val curentdate = newSdf.format(cal.time)
+
+                viewModel.fetchCardCategoryAnalytics(curentdate)
             }
             R.id.ivNext -> {
                 showToast("Next")
@@ -180,6 +194,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let {
+
                 setSelectedTabData(it.position, 0)
                 when (it.position) {
                     CATEGORY_ANALYTICS -> {
@@ -264,13 +279,15 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
                 if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
-                   /* updatePieChartInnerData(
+                    /* updatePieChartInnerData(
+                         viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
+                             contentPos
+                         )
+                     )*/
+                    val txnItem =
                         viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
                             contentPos
                         )
-                    )*/
-                    val txnItem =
-                        viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(contentPos)
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
                 }
@@ -283,7 +300,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                         )
                     )*/
                     val txnItem =
-                        viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(contentPos)
+                        viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
+                            contentPos
+                        )
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
                 }

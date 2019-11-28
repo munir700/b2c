@@ -7,10 +7,16 @@ import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMa
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
+import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.DateUtils
+import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.managers.MyUserManager
+import java.text.SimpleDateFormat
+import java.util.*
 
 class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
@@ -20,10 +26,29 @@ class CardAnalyticsViewModel(application: Application) :
     val repository: TransactionsRepository = TransactionsRepository
     override lateinit var parentViewModel: ICardAnalyticsMain.ViewModel
     override val clickEvent: SingleClickEvent = SingleClickEvent()
+
     override fun onCreate() {
         super.onCreate()
         parentVM?.let {
             parentViewModel = it
+        }
+        MyUserManager.user?.creationDate?.let {
+            val date =
+                DateUtils.stringToDate(
+                    it,
+                    DateUtils.FORMAT_LONG_INPUT
+                )
+
+            date?.let {
+                if (Date().month == date.month) {
+                    state.nextMonth = false
+                    state.previousMonth = false
+                } else {
+                    if (Date().month > date.month) {
+                        state.previousMonth = true
+                    }
+                }
+            }
         }
     }
 
@@ -36,40 +61,75 @@ class CardAnalyticsViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun fetchCardCategoryAnalytics() {
-        val categoryList = ArrayList<TxnAnalytic>()
-
+    override fun fetchCardCategoryAnalytics(currentMonth :String) {
+//           val categoryList = ArrayList<TxnAnalytic>()
         //call api here
-        /* launch {
-             state.loading = true
-             when (val response = repository.getAnalyticsByCategoryName(
-                 MyUserManager.getCardSerialNumber(),
-                 DateUtils.getCurrentDate()
-             )) {
-                 is RetroApiResponse.Success -> {
-                     parentVM?.categoryAnalyticsItemLiveData?.value = response.data.data.txnAnalytics
-                     state.monthlyCategoryAvgAmount = response.data.data.monthlyAvgAmount?.toString()
-                     state.setUpString(
-                         state.currencyType,
-                         Utils.getFormattedCurrency(state.monthlyCategoryAvgAmount)
-                     )
-                     state.totalCategorySpent =
-                         state.currencyType + " ${Utils.getFormattedCurrency(response.data.data.totalTxnAmount.toString())}"
-                     state.totalSpent = state.totalCategorySpent
-                     clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                     fetchCardMerchantAnalytics()
-                 }
-                 is RetroApiResponse.Error -> {
-                     state.loading = false
-                     state.toast = response.error.message
+        launch {
+            state.loading = true
+            when (val response = repository.getAnalyticsByCategoryName(
+                MyUserManager.getCardSerialNumber(),currentMonth)) {
+                is RetroApiResponse.Success -> {
+                    parentVM?.categoryAnalyticsItemLiveData?.value = response.data.data.txnAnalytics
+                    state.monthlyCategoryAvgAmount = response.data.data.monthlyAvgAmount?.toString()
+                    state.setUpString(
+                        state.currencyType,
+                        Utils.getFormattedCurrency(state.monthlyCategoryAvgAmount)
+                    )
+                    state.totalCategorySpent =
+                        state.currencyType + " ${Utils.getFormattedCurrency(response.data.data.totalTxnAmount.toString())}"
+                    state.totalSpent = state.totalCategorySpent
+                    clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
+                    fetchCardMerchantAnalytics()
+                    state.selectedMonth = DateUtils.convertAnalyticsDate(response.data.data.date)
 
-                 }
-             }
-         }*/
-        categoryList.add(
+                    val parser = SimpleDateFormat("yyyy-MM")
+                    parser.timeZone = TimeZone.getTimeZone("UTC")
+                    val strDate = parser.parse(response.data.data.date)
+
+                    if (Date().month > strDate.month) {
+                        state.nextMonth = true
+                    }
+
+                    MyUserManager.user?.creationDate?.let {
+                        val creationDate =
+                            DateUtils.stringToDate(
+                                it,
+                                DateUtils.FORMAT_LONG_INPUT
+                            )
+
+                        creationDate?.let {
+                            if (strDate.month == creationDate.month) {
+                                state.previousMonth = false
+                                if (strDate.month == Date().month) {
+                                    state.nextMonth = false
+                                } else {
+                                    if (strDate.month > Date().month) {
+                                        state.nextMonth = true
+                                    }
+                                }
+                            } else {
+                                if (creationDate.month < strDate.month) {
+                                    state.previousMonth = true
+                                }
+                            }
+                        }
+                    }
+
+                    2019 - 11
+                    //"date" : "2019-10",
+//November , 2019
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+
+                }
+            }
+        }
+        /*categoryList.add(
             TxnAnalytic(
-                null,
-                "Shopping",
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
                 "887.12",
                 20.00,
                 24
@@ -77,8 +137,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
         categoryList.add(
             TxnAnalytic(
-                null,
-                "Food and drink",
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
                 "887.12",
                 20.00,
                 24
@@ -86,8 +146,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
         categoryList.add(
             TxnAnalytic(
-                null,
-                "Groceries",
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
                 "887.12",
                 20.00,
                 24
@@ -95,8 +155,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
         categoryList.add(
             TxnAnalytic(
-                null,
-                "Services",
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
                 "887.12",
                 20.00,
                 24
@@ -104,8 +164,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
         categoryList.add(
             TxnAnalytic(
-                null,
-                "Media and entertainment",
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
                 "887.12",
                 20.00,
                 24
@@ -113,8 +173,7 @@ class CardAnalyticsViewModel(application: Application) :
         )
 
 
-        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList
-        fetchCardMerchantAnalytics()
+        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList*/
 
         /*list2.add(
             TxnAnalytic(
@@ -130,8 +189,8 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardMerchantAnalytics() {
-        val merchantList = ArrayList<TxnAnalytic>()
-        /*launch {
+//        val merchantList = ArrayList<TxnAnalytic>()
+        launch {
             state.loading = true
             when (val response = repository.getAnalyticsByMerchantName(
                 MyUserManager.getCardSerialNumber(),
@@ -153,17 +212,8 @@ class CardAnalyticsViewModel(application: Application) :
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
-        }*/
-        merchantList.add(
-            TxnAnalytic(
-                null,
-                "Amazon",
-                "887.12",
-                20.00,
-                24
-            )
-        )
-        merchantList.add(
+        }
+        /*merchantList.add(
             TxnAnalytic(
                 "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
                 "Amazon",
@@ -184,7 +234,16 @@ class CardAnalyticsViewModel(application: Application) :
         merchantList.add(
             TxnAnalytic(
                 "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Hyper Start",
+                "Amazon",
+                "887.12",
+                20.00,
+                24
+            )
+        )
+        merchantList.add(
+            TxnAnalytic(
+                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                "Amazon",
                 "887.12",
                 20.00,
                 24
@@ -193,13 +252,15 @@ class CardAnalyticsViewModel(application: Application) :
         merchantList.add(
                 TxnAnalytic(
                     "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                    "Others",
+                    "Amazon",
                     "887.12",
                     20.00,
                     24
                 )
                 )
 
-        parentVM?.merchantAnalyticsItemLiveData?.value = merchantList
+
+           parentVM?.merchantAnalyticsItemLiveData?.value = merchantList*/
+
     }
 }
