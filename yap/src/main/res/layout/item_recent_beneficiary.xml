@@ -16,9 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/small"
-        android:paddingRight="@dimen/small">
+        android:orientation="vertical" >
 
         <RelativeLayout
             android:id="@+id/rlPicture"
@@ -89,14 +87,13 @@
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/AppFontRegular"
-            android:layout_width="@dimen/_55sdp"
+            android:layout_width="@dimen/_60sdp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
             android:ellipsize="end"
-            android:gravity="center"
-            android:lineSpacingExtra="2sp"
+             android:lineSpacingExtra="2sp"
             android:lines="2"
-            android:paddingLeft="@dimen/small"
+            android:paddingLeft="@dimen/_10sdp"
             android:text="@{recentTransferItemVM.item.title}"
             android:textColor="@color/greyDark"
             android:textSize="@dimen/_10sdp"

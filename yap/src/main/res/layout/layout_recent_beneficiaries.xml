@@ -49,9 +49,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="horizontal"
-            android:paddingStart="@dimen/_16sdp"
-            android:paddingEnd="@dimen/_16sdp"
-            app:adapter="@{adapter}"
+              app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_recent_beneficiary" />
 
