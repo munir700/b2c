@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,44 +11,14 @@
 
     </data>
 
-    <!--    <LinearLayout-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:orientation="vertical">-->
-
-    <!--        <co.yap.widgets.CoreCircularImageView-->
-    <!--            android:id="@+id/imgProfile"-->
-    <!--            android:layout_width="@dimen/_40sdp"-->
-    <!--            android:layout_height="@dimen/_40sdp"-->
-    <!--            android:layout_gravity="center_horizontal"-->
-    <!--            android:contentDescription="@string/empty_string"-->
-    <!--            android:src="@drawable/ic_store_b2b"-->
-    <!--            app:fullName="@{recentTransferItemVM.item.title}"-->
-    <!--            app:imageUrl="@{recentTransferItemVM.item.beneficiaryPictureUrl}"-->
-    <!--            app:position="@{recentTransferItemVM.position}" />-->
-
-    <!--        <androidx.appcompat.widget.AppCompatTextView-->
-    <!--            style="@style/AppFontRegular"-->
-    <!--            android:layout_width="@dimen/_50sdp"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:layout_marginTop="@dimen/_5sdp"-->
-    <!--            android:ellipsize="end"-->
-    <!--            android:gravity="center_horizontal"-->
-    <!--            android:lineSpacingExtra="2sp"-->
-    <!--            android:lines="2"-->
-    <!--            android:text="@{recentTransferItemVM.item.title}"-->
-    <!--            android:textColor="@color/greyDark"-->
-    <!--            android:textSize="@dimen/_10sdp"-->
-    <!--            android:textStyle="normal"-->
-    <!--            tools:text="Arshad Ali hussain mirza " />-->
-
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/white"
-        android:paddingLeft="@dimen/margin_normal"
-        android:paddingRight="@dimen/margin_normal">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/small"
+        android:paddingRight="@dimen/small">
 
         <RelativeLayout
             android:id="@+id/rlPicture"
@@ -57,18 +28,26 @@
             android:background="@color/white"
             android:gravity="center|center_vertical|center_horizontal">
 
-            <TextView
-                android:id="@+id/tvAccountHolderNameInitials"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:background="@drawable/bg_round_red"
-                android:backgroundTint="#D8F6F3"
-                android:contentDescription="@string/app_name"
-                android:gravity="center"
-                android:maxLength="2"
-                android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.name)}"
-                android:textColor="@color/colorSecondaryGreen"
-                android:textSize="@dimen/_24sdp" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_10sdp">
+
+                <TextView
+                    android:id="@+id/tvAccountHolderNameInitials"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:background="@drawable/bg_round_red"
+                    android:backgroundTint="#D8F6F3"
+                    android:contentDescription="@string/app_name"
+                    android:gravity="center"
+                    android:maxLength="2"
+                    android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.name)}"
+                    android:textColor="@color/colorSecondaryGreen"
+                    android:textSize="@dimen/_24sdp" />
+
+
+            </FrameLayout>
 
             <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivProfilePic"
@@ -78,22 +57,17 @@
                 android:visibility="invisible"
                 app:src="@{viewModel.state.picture}" />
 
-            <!--
-               toggle visibility on the basis of transfer type
-                 -->
-
             <RelativeLayout
                 android:id="@+id/rlAddNewProfilePic"
                 android:layout_width="47dp"
                 android:layout_height="49dp"
                 android:layout_alignParentTop="true"
-                android:layout_marginLeft="-8dp"
-                android:layout_marginTop="-5dp"
+                android:layout_marginTop="-3dp"
                 android:visibility="visible">
 
                 <FrameLayout
-                    android:layout_width="@dimen/_16sdp"
-                    android:layout_height="@dimen/_16sdp"
+                    android:layout_width="@dimen/_18sdp"
+                    android:layout_height="@dimen/_18sdp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/_2sdp"
                     android:background="@drawable/bg_round_red"
@@ -112,7 +86,22 @@
                 </FrameLayout>
             </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
 
-    <!--    </LinearLayout>-->
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/AppFontRegular"
+            android:layout_width="@dimen/_55sdp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:lineSpacingExtra="2sp"
+            android:lines="2"
+            android:paddingLeft="@dimen/small"
+            android:text="@{recentTransferItemVM.item.title}"
+            android:textColor="@color/greyDark"
+            android:textSize="@dimen/_10sdp"
+            android:textStyle="normal"
+            tools:text="Arshad Ali hussain mirza " />
+
+    </LinearLayout>
 </layout>
