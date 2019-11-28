@@ -25,45 +25,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             app:layout_constraintTop_toTopOf="parent">
-            <include
+
+            <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/lyAnalyticsImage"
-                layout="@layout/layout_analytics_initials"
-                app:analyticItem="@{viewModel.analyticsItem}"
-                app:position="@{viewModel.position}"
-                app:isMerchant="@{viewModel.merchant}"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_gravity="center_horizontal"
+                android:contentDescription="@string/empty_string"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-<!--            <co.yap.widgets.CoreCircularImageView-->
-<!--                android:id="@+id/lyImage"-->
-<!--                android:layout_width="@dimen/_35sdp"-->
-<!--                android:layout_height="@dimen/_35sdp"-->
-<!--                android:contentDescription="@string/empty_string"-->
-<!--                app:categoryItem="@{viewModel.analyticsItem}"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent"-->
-<!--                tools:src="@drawable/ic_shopping"-->
-<!--                app:position="@{viewModel.position}" />-->
-
-<!--            <LinearLayout-->
-<!--                android:id="@+id/lyNameInitials"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:background="@drawable/bg_round_with_space_white"-->
-<!--                app:layout_constraintBottom_toBottomOf="@+id/lyImage"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="@+id/lyImage">-->
-
-<!--                <TextView-->
-<!--                    android:id="@+id/tvNameInitials"-->
-<!--                    style="@style/ARegular"-->
-<!--                    android:layout_width="@dimen/_35sdp"-->
-<!--                    android:layout_height="@dimen/_35sdp"-->
-<!--                    android:gravity="center"-->
-<!--                    android:text="@{Utils.INSTANCE.shortName(viewModel.analyticsItem.title)}"-->
-<!--                    tools:text="NM" />-->
-<!--            </LinearLayout>-->
+                app:isBackground="@{true}"
+                app:fullName="@{viewModel.analyticsItem.title}"
+                app:imageUrl="@{viewModel.analyticsItem.logoUrl == null ? ` ` : viewModel.analyticsItem.logoUrl}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:position="@{viewModel.position}" />
 
             <LinearLayout
                 android:id="@+id/content"

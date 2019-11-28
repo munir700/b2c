@@ -7,15 +7,10 @@ import co.yap.modules.dashboard.cards.analytics.main.interfaces.ICardAnalyticsMa
 import co.yap.modules.dashboard.cards.analytics.main.viewmodels.CardAnalyticsBaseViewModel
 import co.yap.modules.dashboard.cards.analytics.models.AnalyticsItem
 import co.yap.modules.dashboard.cards.analytics.states.CardAnalyticsState
-import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.responsedtos.TxnAnalytic
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.DateUtils
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
 
 class CardAnalyticsViewModel(application: Application) :
     CardAnalyticsBaseViewModel<ICardAnalytics.State>(application = application),
@@ -42,39 +37,39 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardCategoryAnalytics() {
-//           val categoryList = ArrayList<TxnAnalytic>()
+        val categoryList = ArrayList<TxnAnalytic>()
 
         //call api here
-        launch {
-            state.loading = true
-            when (val response = repository.getAnalyticsByCategoryName(
-                MyUserManager.getCardSerialNumber(),
-                DateUtils.getCurrentDate()
-            )) {
-                is RetroApiResponse.Success -> {
-                    parentVM?.categoryAnalyticsItemLiveData?.value = response.data.data.txnAnalytics
-                    state.monthlyCategoryAvgAmount = response.data.data.monthlyAvgAmount?.toString()
-                    state.setUpString(
-                        state.currencyType,
-                        Utils.getFormattedCurrency(state.monthlyCategoryAvgAmount)
-                    )
-                    state.totalCategorySpent =
-                        state.currencyType + " ${Utils.getFormattedCurrency(response.data.data.totalTxnAmount.toString())}"
-                    state.totalSpent = state.totalCategorySpent
-                    clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
-                    fetchCardMerchantAnalytics()
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
+        /* launch {
+             state.loading = true
+             when (val response = repository.getAnalyticsByCategoryName(
+                 MyUserManager.getCardSerialNumber(),
+                 DateUtils.getCurrentDate()
+             )) {
+                 is RetroApiResponse.Success -> {
+                     parentVM?.categoryAnalyticsItemLiveData?.value = response.data.data.txnAnalytics
+                     state.monthlyCategoryAvgAmount = response.data.data.monthlyAvgAmount?.toString()
+                     state.setUpString(
+                         state.currencyType,
+                         Utils.getFormattedCurrency(state.monthlyCategoryAvgAmount)
+                     )
+                     state.totalCategorySpent =
+                         state.currencyType + " ${Utils.getFormattedCurrency(response.data.data.totalTxnAmount.toString())}"
+                     state.totalSpent = state.totalCategorySpent
+                     clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
+                     fetchCardMerchantAnalytics()
+                 }
+                 is RetroApiResponse.Error -> {
+                     state.loading = false
+                     state.toast = response.error.message
 
-                }
-            }
-        }
-        /*categoryList.add(
+                 }
+             }
+         }*/
+        categoryList.add(
             TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
+                null,
+                "Shopping",
                 "887.12",
                 20.00,
                 24
@@ -82,8 +77,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
         categoryList.add(
             TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
+                null,
+                "Food and drink",
                 "887.12",
                 20.00,
                 24
@@ -91,8 +86,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
         categoryList.add(
             TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
+                null,
+                "Groceries",
                 "887.12",
                 20.00,
                 24
@@ -100,8 +95,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
         categoryList.add(
             TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
+                null,
+                "Services",
                 "887.12",
                 20.00,
                 24
@@ -109,8 +104,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
         categoryList.add(
             TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
+                null,
+                "Media and entertainment",
                 "887.12",
                 20.00,
                 24
@@ -118,7 +113,8 @@ class CardAnalyticsViewModel(application: Application) :
         )
 
 
-        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList*/
+        parentVM?.categoryAnalyticsItemLiveData?.value = categoryList
+        fetchCardMerchantAnalytics()
 
         /*list2.add(
             TxnAnalytic(
@@ -134,8 +130,8 @@ class CardAnalyticsViewModel(application: Application) :
     }
 
     override fun fetchCardMerchantAnalytics() {
-//        val merchantList = ArrayList<TxnAnalytic>()
-        launch {
+        val merchantList = ArrayList<TxnAnalytic>()
+        /*launch {
             state.loading = true
             when (val response = repository.getAnalyticsByMerchantName(
                 MyUserManager.getCardSerialNumber(),
@@ -157,10 +153,10 @@ class CardAnalyticsViewModel(application: Application) :
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
             state.loading = false
-        }
-        /*merchantList.add(
+        }*/
+        merchantList.add(
             TxnAnalytic(
-                "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
+                null,
                 "Amazon",
                 "887.12",
                 20.00,
@@ -188,7 +184,7 @@ class CardAnalyticsViewModel(application: Application) :
         merchantList.add(
             TxnAnalytic(
                 "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                "Amazon",
+                "Hyper Start",
                 "887.12",
                 20.00,
                 24
@@ -197,15 +193,13 @@ class CardAnalyticsViewModel(application: Application) :
         merchantList.add(
                 TxnAnalytic(
                     "https://yap-live.s3.eu-west-1.amazonaws.com/amazon.png",
-                    "Amazon",
+                    "Others",
                     "887.12",
                     20.00,
                     24
                 )
                 )
 
-
-           parentVM?.merchantAnalyticsItemLiveData?.value = merchantList*/
-
+        parentVM?.merchantAnalyticsItemLiveData?.value = merchantList
     }
 }

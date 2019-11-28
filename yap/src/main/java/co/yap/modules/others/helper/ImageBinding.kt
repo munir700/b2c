@@ -1,11 +1,11 @@
 package co.yap.modules.others.helper
 
-import android.content.res.Resources
 import android.net.Uri
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import androidx.databinding.BindingAdapter
 import co.yap.R
 import co.yap.widgets.TextDrawable
@@ -37,7 +37,7 @@ object ImageBinding {
     @JvmStatic
     @BindingAdapter(value = ["imageUrl", "fullName", "position"], requireAll = false)
     fun loadAvatar(imageView: ImageView, imageUrl: String, fullName: String, position: Int) {
-        val builder = TextDrawable.builder();
+        val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
             .height(imageView.context.dimen(R.dimen._40sdp)).
                 fontSize(imageView.context.dimen(R.dimen.text_size_h3))
@@ -54,6 +54,34 @@ object ImageBinding {
         )
     }
 
+    @JvmStatic
+    @BindingAdapter(
+        value = ["imageUrl", "fullName", "position", "isBackground"],
+        requireAll = false
+    )
+    fun loadAvatar1(
+        imageView: ImageView,
+        imageUrl: String,
+        fullName: String,
+        position: Int,
+        isBackground: Boolean = true
+    ) {
+        val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
+        val resId = getResId("ic_${getDrawableName(fullName)}")
+        if (resId != -1) {
+            val resImg = ContextCompat.getDrawable(imageView.context, resId)
+            if (isBackground)
+                resImg?.setTint(getAnalyticsColor(colors, position))
+            else {
+                resImg?.setTint(getAnalyticsColor(colors, position))
+            }
+
+            setCircleCropImage(imageView, imageUrl, resImg!!)
+
+        } else {
+            setDrawable(imageView, imageUrl, fullName, position)
+        }
+    }
 
     @JvmStatic
     @BindingAdapter("imageUrl", "app:srcCompat")
@@ -68,4 +96,45 @@ object ImageBinding {
         imageView.setImageResource(resource)
     }
 
+
+    private fun setDrawable(
+        imageView: ImageView,
+        imageUrl: String,
+        fullName: String,
+        position: Int
+    ) {
+        val colors = imageView.context.resources.getIntArray(co.yap.yapcore.R.array.analyticsColors)
+        val builder = TextDrawable.builder()
+        builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
+            .height(imageView.context.dimen(R.dimen._40sdp))
+            .fontSize(imageView.context.dimen(R.dimen.text_size_h3))
+            .useFont(ResourcesCompat.getFont(imageView.context, R.font.roboto_regular)!!)
+            .textColor(getAnalyticsColor(colors, position))
+        setCircleCropImage(
+            imageView,
+            imageUrl,
+            builder.buildRect(
+                Utils.shortName(fullName),
+                Utils.getBackgroundColor(imageView.context, position = position)
+            )
+        )
+    }
+
+    private fun getAnalyticsColor(colors: IntArray, position: Int): Int {
+        return colors[position % colors.size]
+    }
+
+    private fun getDrawableName(title: String): String {
+        return title.replace(" ", "_").toLowerCase()
+    }
+
+    private fun getResId(drawableName: String): Int {
+        return try {
+            val res = R.drawable::class.java
+            val field = res.getField(drawableName)
+            field.getInt(null)
+        } catch (e: Exception) {
+            -1
+        }
+    }
 }

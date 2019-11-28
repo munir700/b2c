@@ -36,17 +36,17 @@
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true">
 
-                    <include
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                    <co.yap.widgets.CoreCircularImageView
                         android:id="@+id/ivPieView"
-                        layout="@layout/layout_analytics_initials"
-                        app:analyticItem="@{viewModel.state.selectedTxnAnalyticsItem}"
-                        app:isMerchant="@{viewModel.parentViewModel.isMerchant()}"
                         android:layout_alignParentTop="true"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_width="@dimen/_40sdp"
+                        android:layout_height="@dimen/_40sdp"
                         android:layout_centerInParent="true"
+                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="@string/empty_string"
+                        app:fullName="@{viewModel.state.selectedTxnAnalyticsItem.title}"
+                        app:imageUrl="@{viewModel.state.selectedTxnAnalyticsItem.logoUrl == null ? ` ` : viewModel.state.selectedTxnAnalyticsItem.logoUrl}"
+                        app:isBackground="@{false}"
                         app:position="@{viewModel.state.selectedItemPosition}" />
 
                     <TextView
@@ -58,6 +58,8 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginEnd="@dimen/_14sdp"
                         android:layout_marginBottom="-25dp"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="@{viewModel.state.selectedItemName}"
                         android:textColor="@color/colorSecondaryMagenta"
                         app:tvColor="@{viewModel.state.selectedItemPosition}"
