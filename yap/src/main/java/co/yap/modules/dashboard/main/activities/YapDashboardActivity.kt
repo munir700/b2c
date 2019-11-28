@@ -304,6 +304,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     //getViewBinding().ivYapIt
                 }
                 R.id.yapCards -> {
+
                     if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                         getViewBinding().viewPager.setCurrentItem(2, false)
                     } else {
