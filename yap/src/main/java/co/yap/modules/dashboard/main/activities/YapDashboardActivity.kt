@@ -289,6 +289,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         }
         getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
             startActivity(Intent(this, CardAnalyticsActivity::class.java))
+            closeDrawer()
         }
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
