@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -47,7 +48,9 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
+import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
+import kotlin.math.abs
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -88,6 +91,31 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.apply {
             fixSwipeToRefresh(getBindings().refreshLayout)
         }
+
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            // if (Math.abs(verticalOffset) - appBarLayout?.totalScrollRange!! == 0) {
+            //frameLayout.translationY = verticalOffset.toFloat()
+//            if (Math.abs(verticalOffset) > 0)
+//                frameLayout.alpha = 10 / Math.abs(verticalOffset).toFloat()
+//            val alp = frameLayout.alpha
+            //Log.d("vertical Alpha>>", "$alp")
+            val pram = frameLayout.layoutParams
+
+            if(abs(verticalOffset) <=20)
+            {
+                frameLayout.alpha = 1f
+                //Log.d("vertical Alpha>>", "$alp")
+                pram.height = appBarLayout.totalScrollRange
+                frameLayout.layoutParams = pram
+            }
+            else
+            {
+                if (Math.abs(verticalOffset) > 0)
+                    frameLayout.alpha = 10 / abs(verticalOffset).toFloat()
+                pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
+                frameLayout.layoutParams = pram
+            }
+        })
     }
 
     override fun onRefresh() {

@@ -44,21 +44,104 @@
                 style="@style/Regular"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:gravity="center_horizontal"
                 android:lineSpacingExtra="6sp"
                 android:textColor="@color/greyDark"
-                android:visibility="gone"
                 android:textSize="14sp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_8sdp"
+                android:visibility="visible"
                 tools:text="April 2019" />
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:id="@+id/frameLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/dad"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:tint="@color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:elevation="0dp"
+                        app:fabCustomSize="@dimen/_32sdp"
+                        app:fabSize="mini"
+                        app:maxImageSize="@dimen/_18sdp"
+                        app:srcCompat="@drawable/ic_add_sign" />
+
+                    <TextView
+                        style="@style/AppFontRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:lineSpacingExtra="6sp"
+                        android:text="Add"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#5e35b1"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/eamf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:tint="@color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:elevation="0dp"
+                        app:maxImageSize="@dimen/_18sdp"
+                        app:fabCustomSize="@dimen/_32sdp"
+                        app:fabSize="mini"
+                        app:srcCompat="@drawable/ic_analytics" />
+
+                    <TextView
+                        style="@style/AppFontRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal"
+                        android:lineSpacingExtra="6sp"
+                        android:text="Analytics"
+                        android:layout_marginTop="8dp"
+                        android:textColor="#5e35b1"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
 
             <RelativeLayout
                 android:id="@+id/rlTransactionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/margin_medium_large"
-              android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:layout_marginEnd="@dimen/margin_medium_large"
                 android:layout_marginBottom="@dimen/margin_small">
 
@@ -123,6 +206,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:listitem="@layout/item_transaction_list" />
 
             <ImageView

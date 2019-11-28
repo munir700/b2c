@@ -65,13 +65,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.setDrawCenterText(true)
             chart.rotationAngle = -90f
             chart.isRotationEnabled = false
-            chart.isHighlightPerTapEnabled = true
             chart.setOnChartValueSelectedListener(this)
             chart.animateY(1400, Easing.EaseInOutQuad)
             chart.legend.isEnabled = false // Hide the legend
             chart.setEntryLabelColor(Color.WHITE)
             chart.setEntryLabelTextSize(0f)
-
             setData(data)
         }
     }
@@ -84,9 +82,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         val entries: ArrayList<PieEntry> = ArrayList()
         val colors = ArrayList<Int>()
         if (txnAnalytics.isNullOrEmpty()) {
+            chart.isHighlightPerTapEnabled = false
             entries.add(PieEntry(100f))
             colors.add(ColorTemplate.getEmptyColor())
         } else {
+            chart.isHighlightPerTapEnabled = true
             for (item in txnAnalytics.iterator())
                 entries.add(PieEntry(item.totalSpendingInPercentage.toFloat()))
         }
