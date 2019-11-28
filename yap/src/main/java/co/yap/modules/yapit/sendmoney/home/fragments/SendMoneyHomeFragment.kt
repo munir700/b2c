@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSendMoneyHomeBinding
+import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
 import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.modules.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -23,6 +24,7 @@ import co.yap.widgets.swipe_lib.SwipeCallBack
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.toast
+import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
 import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.*
 
 
@@ -58,6 +60,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
+        setupRecent()
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -77,6 +80,36 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     }
 
+    private fun setupRecent() {
+        if (viewModel.adapter.get() == null) {
+            viewModel.requestRecentBeneficiaries()
+            viewModel.recentTransferData.observe(this, Observer {
+                if (it.isEmpty()) {
+                    layoutRecent?.visibility = View.GONE
+                } else {
+                    viewModel.adapter.set(
+                        RecentTransferAdaptor(
+                            it.toMutableList(),
+                            findNavController()
+                        )
+                    )
+                    layoutRecent?.visibility = View.VISIBLE
+                }
+            })
+        } else {
+            if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
+                viewModel.adapter.set(
+                    RecentTransferAdaptor(
+                        viewModel.recentTransferData.value?.toMutableList()!!,
+                        findNavController()
+                    )
+                )
+                layoutRecent?.visibility = View.VISIBLE
+            }
+        }
+
+    }
+
     override fun onBackPressed(): Boolean {
 
         return super.onBackPressed()
@@ -89,6 +122,8 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(
             listener
         )
+
+
     }
 
     @SuppressLint("SetTextI18n")

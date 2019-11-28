@@ -8,6 +8,9 @@
         <variable
             name="adapter"
             type="co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor" />
+
+        <import type="co.yap.translation.Strings" />
+
     </data>
 
     <LinearLayout
@@ -26,9 +29,10 @@
             android:layout_marginTop="@dimen/_6sdp"
             android:gravity="center_horizontal"
             android:lineSpacingExtra="6sp"
-            android:text="@string/screen_y2y_display_text_send_money_to"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/_14sdp" />
+            android:textSize="@dimen/_14sdp"
+            app:text="@{Strings.screen_send_money_no_contacts_display_text_sub_heading}"
+            tools:text="@string/screen_send_money_no_contacts_display_text_sub_heading" />
 
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/AppFontRegular"
@@ -49,7 +53,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_10sdp"
             android:orientation="horizontal"
-              app:adapter="@{adapter}"
+            app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_recent_beneficiary" />
 

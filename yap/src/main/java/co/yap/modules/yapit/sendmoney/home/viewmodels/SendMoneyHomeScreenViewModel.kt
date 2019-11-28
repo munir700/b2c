@@ -1,12 +1,15 @@
 package co.yap.modules.yapit.sendmoney.home.viewmodels
 
 import android.app.Application
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.modules.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.yapit.sendmoney.home.states.SendMoneyHomeState
 import co.yap.modules.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
@@ -31,6 +34,10 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override val allBeneficiariesLiveData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
 
     override var onDeleteSuccess: MutableLiveData<Int> = MutableLiveData()
+
+    override val recentTransferData: MutableLiveData<List<RecentBeneficiary>> = MutableLiveData()
+
+    override val adapter = ObservableField<RecentTransferAdaptor>()
 
     override fun handlePressOnBackButton() {
     }
@@ -60,6 +67,19 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         return pagingState
     }
 
+    fun getRecentBeneficiaries() {
+        launch {
+            when (val response = repository.getRecentY2YBeneficiaries()) {
+                is RetroApiResponse.Success -> {
+                    recentTransferData.value = response.data.data
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+
+        }
+    }
+
+
     fun requestAllBeneficiaries() {
         launch {
             state.loading = true
@@ -80,7 +100,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         }
     }
 
-    fun requestRecentBeneficiaries() {
+   override fun requestRecentBeneficiaries() {
         launch {
             state.loading = true
             when (val response = repository.getRecentBeneficiaries()) {
@@ -119,4 +139,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             }
         }
     }
+
+
+
 }
