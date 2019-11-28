@@ -776,6 +776,20 @@ object Strings {
     const val screen_email_verification_display_text_heading: String =
         "screen_email_verification_display_text_heading"
 
+    //    Transaction Filters Screen
+    const val screen_transaction_filter_display_text_title: String =
+        "screen_transaction_filter_display_text_title"
+    const val screen_transaction_filter_button_apply_filter: String =
+        "screen_transaction_filter_button_apply_filter"
+    const val screen_transaction_filter_button_clear_filter: String =
+        "screen_transaction_filter_button_clear_filter"
+    const val screen_transaction_filter_display_text_incoming_transactions: String =
+        "screen_transaction_filter_display_text_incoming_transactions"
+    const val screen_transaction_filter_display_text_outgoing_transactions: String =
+        "screen_transaction_filter_display_text_outgoing_transactions"
+    const val screen_transaction_filter_display_text_balance: String =
+        "screen_transaction_filter_display_text_balance"
+
 
     //    Y2Y funds Transfer screen
     const val screen_y2y_funds_transfer_display_text_title: String =
@@ -835,7 +849,7 @@ object Strings {
         "screen_add_note_display_text_save"
 
 
-     //     Send Money no contacts Screen
+    //     Send Money no contacts Screen
     const val screen_send_money_no_contacts_display_text_title: String =
         "screen_send_money_no_contacts_display_text_title"
     const val screen_send_money_no_contacts_display_text_sub_heading: String =
@@ -855,8 +869,10 @@ object Strings {
     const val screen_send_money_display_text_all_beneficiaries: String =
         "screen_send_money_display_text_all_beneficiaries"
     const val screen_send_money_display_text_edit: String = "screen_send_money_display_text_edit"
-    const val screen_send_money_display_text_delete: String = "screen_send_money_display_text_delete"
-    const val screen_send_money_display_text_delete_message: String = "screen_send_money_display_text_delete_message"
+    const val screen_send_money_display_text_delete: String =
+        "screen_send_money_display_text_delete"
+    const val screen_send_money_display_text_delete_message: String =
+        "screen_send_money_display_text_delete_message"
 
 
     //    Send Money Screen
@@ -1023,7 +1039,7 @@ object Strings {
     const val screen_forgot_pin_display_text_heading: String =
         "screen_forgot_pin_display_text_heading"
 
-// Topup Type Selection Screen
+    // Topup Type Selection Screen
     const val screen_topup_type_selection_display_text_title: String =
         "screen_topup_type_selection_display_text_title"
     const val screen_topup_type_selection_display_text_heading: String =
@@ -1094,9 +1110,8 @@ object Strings {
     const val screen_topup_card_cvv_display_text_cvv: String =
         "screen_topup_card_cvv_display_text_cvv"
 
-
- const val screen_y2y_display_text_recent_transfer: String =
+    const val screen_y2y_display_text_recent_transfer: String =
         "screen_y2y_display_text_recent_transfer"
 
 
- }
+}

@@ -45,7 +45,7 @@ class PaymentCardDetailViewModel(application: Application) :
     var sortedCombinedTransactionList: ArrayList<HomeTransactionListData> = arrayListOf()
 
     override var cardTransactionRequest: CardTransactionRequest =
-        CardTransactionRequest(1, 20, "")
+        CardTransactionRequest(0, 20, "")
 
     override fun getCardBalance() {
         launch {

@@ -1,12 +1,10 @@
 package co.yap.networking.customers
 
 import co.yap.networking.authentication.responsedtos.KycResponse
-import co.yap.networking.customers.requestdtos.Contact
-import co.yap.networking.customers.requestdtos.DemographicDataRequest
-import co.yap.networking.customers.requestdtos.SendVerificationEmailRequest
-import co.yap.networking.customers.requestdtos.SignUpRequest
+import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -92,12 +90,25 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_DETECT)
     suspend fun uploadIdCard(@Part file: MultipartBody.Part): Response<KycResponse>
 
-
     @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
     suspend fun getY2YBeneficiaries(@Body contacts: List<Contact>): Response<Y2YBeneficiariesResponse>
 
     @GET(CustomersRepository.URL_Y2Y_RECENT_BENEFICIARIES)
     suspend fun getRecentY2YBeneficiaries(): Response<RecentBeneficiariesResponse>
+
+
+    @GET(CustomersRepository.URL_TOPUP_BENEFICIARIES)
+    suspend fun getTopUpBeneficiaries(): Response<TopUpBeneficiariesResponse>
+
+    @DELETE(CustomersRepository.URL_DELETE_BENEFICIARIE)
+    suspend fun deleteBeneficiary(@Path("cardId") cardId: String): Response<ApiResponse>
+
+    @POST(CustomersRepository.URL_CREATE_BENEFICIARIY)
+    suspend fun createBeneficiary(@Body createBeneficiaryRequest: CreateBeneficiaryRequest): Response<CreateBeneficiaryResponse>
+
+    @GET(CustomersRepository.URL_CARDS_LIMITS)
+    suspend fun getCardsLimit(): Response<CardsLimitResponse>
+
 
     /*  send money */
     @GET(CustomersRepository.URL_GET_RECENT_BENEFICIARIES)
@@ -117,5 +128,6 @@ interface CustomersRetroService {
 
     @DELETE(CustomersRepository.URL_DELETE_BENEFICIARY_BY_ID)
     suspend fun deleteBeneficiaryById(@Path("beneficiary-id") beneficiaryId: String): Response<ApiResponse>
+
 
 }

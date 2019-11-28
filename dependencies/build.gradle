@@ -110,6 +110,13 @@ project.ext {
             phoneLib                 : 'com.googlecode.libphonenumber:libphonenumber:7.2.2',
             easyImage                : 'com.github.jkwiecien:EasyImage:1.3.1',
 
+            //Firebase Crashlytics
+            creshlytics              : 'com.crashlytics.sdk.android:crashlytics:2.10.1',
+            FirebaseCreshlytics      : 'com.google.firebase:firebase-crash:9.0.0',
+            analytics                : 'com.google.firebase:firebase-analytics:17.2.0',
+
+            //Logger
+            timber                : 'com.jakewharton.timber:timber:4.7.1'
     ]
     // Test dependencies which need to be added in all modules
     testDependencies = [
@@ -137,7 +144,8 @@ project.ext {
             [configuration: "implementation", dependency: libraries.livechat],
             [configuration: "implementation", dependency: libraries.fineWebView],
             [configuration: "implementation", dependency: libraries.phoneLib],
-            [configuration: "implementation", dependency: libraries.easyImage]
+            [configuration: "implementation", dependency: libraries.easyImage],
+            [configuration: "implementation", dependency: libraries.timber]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies
@@ -147,7 +155,12 @@ project.ext {
             [configuration: "implementation", dependency: project(modules.yap)],
             [configuration: "implementation", dependency: project(modules.networking)],
             [configuration: "implementation", dependency: libraries.biometric],
-            [configuration: "implementation", dependency: libraries.viewpagerDots]
+            [configuration: "implementation", dependency: libraries.viewpagerDots],
+            [configuration: "implementation", dependency: libraries.creshlytics],
+            [configuration: "implementation", dependency: libraries.FirebaseCreshlytics],
+            [configuration: "implementation", dependency: libraries.analytics],
+            [configuration: "implementation", dependency: libraries.androidanimations],
+            [configuration: "implementation", dependency: libraries.androidanimationseasing]
     ]
 
     // dependencies which need to be added in app module only in conjunction with commonDependencies

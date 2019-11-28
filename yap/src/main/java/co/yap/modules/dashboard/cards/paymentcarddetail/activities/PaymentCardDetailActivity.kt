@@ -49,6 +49,7 @@ import kotlinx.android.synthetic.main.layout_card_info.*
 class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewModel>(),
     IPaymentCardDetail.View, CardClickListener {
 
+
     private lateinit var snackbar: Snackbar
     private lateinit var primaryCardBottomSheet: PrimaryCardBottomSheet
     private lateinit var spareCardBottomSheet: SpareCardBottomSheet
@@ -176,7 +177,6 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
         viewModel.card.observe(this, Observer {
             viewModel.cardTransactionRequest.serialNumber = viewModel.card.value?.cardSerialNumber!!
-            viewModel.cardTransactionRequest.number = 1
             viewModel.requestAccountTransactions()
         })
 
@@ -424,11 +424,11 @@ class PaymentCardDetailActivity : BaseBindingActivity<IPaymentCardDetail.ViewMod
 
     private val adaptorlistener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            if (dataList is Content) {
+//            if (data is Content) {
 //                startActivity(
 //                    TransactionDetailsActivity.newIntent(
 //                        applicationContext,
-//                        (dataList as HomeTransactionListData).content[0].transactionId
+//                        (data as HomeTransactionListData).content[0].transactionId
 //                    )
 //                )
 //            }

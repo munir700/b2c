@@ -16,6 +16,16 @@ object Constants {
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
 
+    const val TOP_UP: String = "TOP_UP"
+    const val CARD: String = "CARD"
+    const val KEY: String = "Key"
+    const val TYPE: String = "type"
+    const val TYPE_ADD_CARD: String = "TYPE_ADD_CARD"
+    const val TYPE_TOP_UP_TRANSACTION: String = "TYPE_TOP_UP_TRANSACTION"
+    const val START_POOLING: String = "START_POOLING"
+    const val TOP_UP_VIA_EXTERNAL_CARD: String = "TOP_UP_VIA_CARD"
+
+
     //Transaction Category Constant
     const val Y_TO_Y_TRANSFER = "P003"
     const val SUPP_CARD_TOP_UP = "P004"
@@ -34,6 +44,8 @@ object Constants {
     const val INTENT_ADD_NOTE_REQUEST = 2222
     const val KEY_NOTE_VALUE = "noteValue"
 
+    //Product codes
+    const val TOP_UP_VIA_CARD: String = "P009"
 
     // Invite Friend Constants
     const val URL_SHARE_APP_STORE = "itms-apps://itunes.apple.com/app/id1024941703"
@@ -42,4 +54,31 @@ object Constants {
     const val MODE_STATUS_SCREEN: Int = 1
     const val MODE_HELP_SUPPORT: Int = 2
     const val FORGOT_CARD_PIN_NAVIGATION: Int = 1
+
+    const val DUMMY_CARD: Int = 22
+    const val CARD_FEE: Int = 23
+    const val TOP_UP_TRANSACTION_SUCCESS: Int = 6
+
+
+    //Add Card Payment gateway URL
+    const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
+
+    //HTML Key
+    const val URL_TOP_UP_TRANSACTION_HTML = "URL_TOP_UP_TRANSACTION_HTML"
+
+    //Other events
+    const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
+
+    //Core Payment Card Types
+    const val VISA = "Visa"
+    const val MASTER = "Mastercard"
+    const val JCB = "JCB"
+    const val DINNERS = "Diners Club"
+    const val AMEX = "American Express"
+    const val DISCOVER = "Discover"
+    const val UATP = "UATP"
+
+    const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
+
+    const val BROADCAST_UPDATE_TRANSACTION: String = "BROADCAST_UPDATE_TRANSACTION"
 }

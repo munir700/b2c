@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
             name="viewModel"
-            type="co.yap.modules.onboarding.viewmodels.MobileViewModel"/>
+            type="co.yap.modules.onboarding.viewmodels.MobileViewModel" />
 
-        <import type="co.yap.translation.Strings"/>
+        <import type="co.yap.translation.Strings" />
 
     </data>
 
@@ -19,74 +19,71 @@
         android:layout_gravity="center_vertical"
         android:background="@color/white"
         android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium"
-        >
+        android:paddingRight="@dimen/margin_medium">
 
         <TextView
             android:id="@+id/tvHeadingMobile"
+            style="@style/ALarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            style="@style/ALarge"
             android:layout_marginTop="@dimen/margin_extra_large"
-            tools:text="@string/screen_phone_number_display_text_title"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteY="219dp"
             android:layout_marginBottom="@dimen/margin_heading_to_field"
-            tools:layout_editor_absoluteX="54dp"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
             app:text="@{Strings.screen_phone_number_display_text_title}"
-            />
+            tools:layout_editor_absoluteX="54dp"
+            tools:layout_editor_absoluteY="219dp"
+            tools:text="@string/screen_phone_number_display_text_title" />
 
         <LinearLayout
             android:id="@+id/viewPhoneNumber"
             android:layout_width="match_parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_heading_to_field"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile">
 
             <LinearLayout
                 android:id="@+id/ccpContainer"
                 android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
                 android:layout_height="wrap_content"
-                android:weightSum="1"
+                android:gravity="center_vertical"
                 android:minHeight="52dp"
-                app:setBackGroundRes="@{viewModel.state.background}"
-                app:isCCpActivated="@{viewModel.state.activeFieldValue}"
+                android:orientation="horizontal"
                 android:paddingLeft="@dimen/margin_medium"
-                android:paddingRight="@dimen/margin_medium">
+                android:paddingRight="@dimen/margin_medium"
+                android:weightSum="1"
+                app:isCCpActivated="@{viewModel.state.activeFieldValue}"
+                app:setBackGroundRes="@{viewModel.state.background}">
 
                 <co.yap.widgets.mobile.CountryCodePicker
                     android:id="@+id/ccpSelector"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight=".01"
-                    app:ccp_hintExampleNumber="true"
-                    app:ccp_countryPreference="us,ae"
-                    android:visibility="visible"
                     android:clickable="false"
-                    app:ccp_onFlagClick="false"
-                    />
+                    android:visibility="visible"
+                    app:ccp_countryPreference="us,ae"
+                    app:ccp_hintExampleNumber="true"
+                    app:ccp_onFlagClick="false" />
 
                 <EditText
                     android:id="@+id/etMobileNumber"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight=".99"
-                    android:editable="false"
-                    android:inputType="phone"
-                    android:singleLine="true"
-                    android:digits="1234567890 "
-                    android:paddingEnd="@dimen/margin_normal"
                     android:background="@null"
+                    android:digits="1234567890 "
                     android:drawableRight="@{viewModel.state.drawbleRight}"
-                    android:text="@={viewModel.state.mobile}"
-                    android:maxLength="@{viewModel.state.mobileNoLength}"
+                    android:editable="false"
                     android:imeOptions="actionDone"
-                    android:textSize="@dimen/_15sdp"
-                    android:textColor="@color/colorPrimaryDark"/>
+                    android:inputType="phone"
+                    android:maxLength="@{viewModel.state.mobileNoLength}"
+                    android:paddingEnd="@dimen/margin_normal"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.mobile}"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/_15sdp" />
 
             </LinearLayout>
 
@@ -94,27 +91,27 @@
                 android:id="@+id/tvMobileError"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="@dimen/margin_medium"
-                android:textSize="12sp"
-                android:text="@{viewModel.state.mobileError}"
-                android:visibility="@{viewModel.state.errorVisibility}"
+                android:layout_below="@+id/etMobileNumber"
                 android:layout_marginTop="@dimen/margin_small"
-                android:layout_below="@+id/etMobileNumber"/>
+                android:paddingLeft="@dimen/margin_medium"
+                android:text="@{viewModel.state.mobileError}"
+                android:textSize="12sp"
+                android:visibility="@{viewModel.state.errorVisibility}" />
         </LinearLayout>
 
         <co.yap.widgets.CoreButton
             android:id="@+id/next_button"
+            style="@style/FragmentsBtnStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/FragmentsBtnStyle"
-            android:text="@string/screen_phone_number_button_send"
             android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+            android:layout_marginBottom="@dimen/margin_medium_large"
+            android:onClick="@{() -> viewModel.handlePressOnNext()}"
+            android:text="@string/screen_phone_number_button_send"
+            app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            tools:layout_editor_absoluteX="44dp"
-            app:enableCoreButton="@{viewModel.state.valid}"
-            android:onClick="@{() -> viewModel.handlePressOnNext()}"/>
+            tools:layout_editor_absoluteX="44dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -4,6 +4,7 @@ package co.yap.yapcore.binders
 import `in`.aabhasjindal.otptextview.OTPListener
 import `in`.aabhasjindal.otptextview.OtpTextView
 import android.annotation.SuppressLint
+import android.content.ContentUris
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -23,14 +24,19 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Translator
 import co.yap.widgets.CoreButton
+import co.yap.widgets.CoreCircularImageView
 import co.yap.widgets.CoreDialerPad
+import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.loadImage
@@ -46,6 +52,21 @@ import java.util.*
 
 
 object UIBinder {
+
+    // Top up card status
+    @BindingAdapter("cardStatus")
+    @JvmStatic
+    fun setCardStatus(view: ImageView, card: TopUpCard?) {
+        card?.expiry?.let {
+            if (DateUtils.isDatePassed(it, SimpleDateFormat("MMyy"))) {
+                view.setImageResource(R.drawable.ic_status_expired)
+                view.visibility = View.VISIBLE
+            } else {
+                view.setImageResource(R.drawable.ic_card_status)
+                view.visibility = View.VISIBLE
+            }
+        }
+    }
 
     @BindingAdapter("bitmap")
     @JvmStatic
@@ -85,7 +106,128 @@ object UIBinder {
         }
     }
 
-    fun byteArrayToBitmap(byteArray: ByteArray): Bitmap? {
+    @BindingAdapter("loadContactPhoto", "loadContactName")
+    @JvmStatic
+    fun getPhotoContact(constraintLayout: ConstraintLayout, contactId: String?, name: String?) {
+
+        val image = constraintLayout.findViewWithTag<CoreCircularImageView>("imgProfile")
+        val lyName = constraintLayout.findViewWithTag<LinearLayout>("lyNameInitials")
+        val tvName = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
+
+        if (contactId.isNullOrEmpty()) {
+            setShortName(image, lyName, tvName, name)
+        } else {
+            if (contactId.contains("http")) {
+                image.visibility = View.VISIBLE
+                image.loadImage(contactId)
+            } else {
+                try {
+                    val uri = getPhotoUri(contactId.toLong())
+                    if (uri != null) {
+                        val cursor = image.context.contentResolver.query(
+                            uri,
+                            arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
+                        )
+                        if (cursor != null) {
+                            if (cursor.moveToFirst()) {
+                                val data = cursor.getBlob(0)
+                                if (data != null) {
+                                    cursor.close()
+                                    val bitmap = byteArrayToBitmap(data)
+                                    if (bitmap != null) {
+                                        image.visibility = View.VISIBLE
+                                        lyName.visibility = View.GONE
+                                        image.setImageBitmap(bitmap)
+                                    } else {
+                                        setShortName(image, lyName, tvName, name)
+                                    }
+                                } else {
+                                    setShortName(image, lyName, tvName, name)
+                                }
+                            } else {
+                                setShortName(image, lyName, tvName, name)
+                            }
+                            cursor.close()
+                        } else {
+                            setShortName(image, lyName, tvName, name)
+                        }
+                    } else {
+                        setShortName(image, lyName, tvName, name)
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                    setShortName(image, lyName, tvName, name)
+                }
+            }
+        }
+    }
+
+    private fun setShortName(
+        imageView: CoreCircularImageView,
+        layout: LinearLayout,
+        initials: TextView,
+        name: String?
+    ) {
+        if (name != null) {
+            initials.text = Utils.shortName(name)
+            initials.visibility = View.VISIBLE
+            layout.visibility = View.VISIBLE
+            imageView.visibility = View.INVISIBLE
+        } else {
+            imageView.visibility = View.INVISIBLE
+            layout.visibility = View.GONE
+            initials.visibility = View.GONE
+            imageView.setImageResource(0)
+        }
+    }
+
+    private fun getPhotoUri(contactId: Long): Uri? {
+        return try {
+            Uri.withAppendedPath(
+                ContentUris.withAppendedId(
+                    ContactsContract.Contacts.CONTENT_URI, contactId
+                ),
+                ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
+            )
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun fetchContactsEmail(context: Context, id: Long): String {
+        var emlAdd = ""
+        val PROJECTION = arrayOf(
+            ContactsContract.CommonDataKinds.Email.CONTACT_ID,
+            ContactsContract.CommonDataKinds.Email.DATA
+        )
+        val order = ("CASE WHEN "
+                + ContactsContract.Contacts.DISPLAY_NAME
+                + " NOT LIKE '%@%' THEN 1 ELSE 2 END, "
+                + ContactsContract.Contacts.DISPLAY_NAME
+                + ", "
+                + ContactsContract.CommonDataKinds.Email.DATA
+                + " COLLATE NOCASE")
+
+        val filter =
+            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE '' AND " + ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + (id)
+        val cur = context.contentResolver.query(
+            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+            PROJECTION,
+            filter,
+            null,
+            order
+        )
+        if (cur!!.moveToFirst()) {
+            do {
+                emlAdd = cur.getString(1)
+            } while (cur.moveToNext())
+        }
+
+        cur.close()
+        return emlAdd
+    }
+
+    private fun byteArrayToBitmap(byteArray: ByteArray): Bitmap? {
         return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
     }
 
@@ -411,7 +553,6 @@ object UIBinder {
         } else {
             view.settingUIForNormal()
         }
-
     }
 
     @JvmStatic
@@ -595,7 +736,7 @@ object UIBinder {
 
     }
 
-    @BindingAdapter("textColor")
+     @BindingAdapter("textColor")
     @JvmStatic
     fun setSelectedTextColor(view: TextView, isActive: Boolean) {
         if (isActive) {
@@ -618,4 +759,40 @@ object UIBinder {
 
         }
     }
-}
+     @JvmStatic
+    @BindingAdapter("cardNickname")
+    fun setCardNickname(view: CorePaymentCard, cardNickname: String?) {
+        if (cardNickname != null) {
+            view.setCardNickname(cardNickname)
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardNumber")
+    fun setCardNumber(view: CorePaymentCard, cardNumber: String?) {
+        if (cardNumber != null)
+            view.setCardNumber(cardNumber)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardExpiry")
+    fun setCardExpiry(view: CorePaymentCard, cardExpiry: String?) {
+        if (!cardExpiry.isNullOrEmpty())
+            view.setCardExpiry(cardExpiry)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardBackgroundColor")
+    fun setCardBackground(view: CorePaymentCard, cardBackgroundColor: String?) {
+        if (cardBackgroundColor != null)
+            view.setCardBackground(cardBackgroundColor)
+    }
+
+    @JvmStatic
+    @BindingAdapter("cardType")
+    fun setCardLogoByType(view: CorePaymentCard, cardType: String?) {
+        if (cardType != null)
+            view.setCardLogoByType(cardType)
+    }
+
+ }

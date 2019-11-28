@@ -129,7 +129,6 @@ class CoreDialerPad @JvmOverloads constructor(
                 if (length > 0) etPassCodeText.text.delete(length - 1, length)
             }
         }
-
     }
 
     fun getText(): String {

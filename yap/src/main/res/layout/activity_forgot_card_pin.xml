@@ -16,7 +16,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/layout_custom_toolbar"
+            layout="@layout/layout_custom_forgot_card_pin_toolbar"
             android:visibility="@{viewModel.state.toolBarVisibility ?View.VISIBLE:View.GONE}"
             app:viewModel="@{viewModel}"
             />

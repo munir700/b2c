@@ -9,6 +9,8 @@
             type="co.yap.modules.dashboard.transaction.viewmodels.TransactionDetailsViewModel" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="android.view.View" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -45,6 +47,53 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvTransactionHeading">
 
+            <TextView
+                android:id="@+id/tvSenderLable"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sender"
+                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Sender" />
+
+            <TextView
+                android:id="@+id/tvSenderName"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.transactionSender}"
+                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
+                app:layout_constraintBottom_toBottomOf="@+id/tvSenderLable"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvSenderLable"
+                tools:text="Hassnain Ali" />
+
+            <TextView
+                android:id="@+id/tvReceiverLable"
+                style="@style/ASmallGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="Receiver"
+                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE }"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSenderLable"
+                tools:text="Receiver" />
+
+            <TextView
+                android:id="@+id/tvReceiverName"
+                style="@style/ASmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{viewModel.state.transactionReceiver}"
+                android:visibility="@{viewModel.state.isYtoYTransfer? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@+id/tvReceiverLable"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvReceiverLable"
+                tools:text="Faheem Riaz" />
+
 
             <TextView
                 android:id="@+id/tvCardSpent"
@@ -52,8 +101,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{viewModel.state.spentTitle}"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginTop="@dimen/margin_medium"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvReceiverLable"
                 tools:text="Spent" />
 
             <TextView

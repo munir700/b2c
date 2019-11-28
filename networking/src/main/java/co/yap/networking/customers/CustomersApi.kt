@@ -3,6 +3,7 @@ package co.yap.networking.customers
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
@@ -38,6 +39,12 @@ interface CustomersApi {
     suspend fun getY2YBeneficiaries(contacts: List<Contact>): RetroApiResponse<Y2YBeneficiariesResponse>
     suspend fun getRecentY2YBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
 
+    suspend fun getTopUpBeneficiaries(): RetroApiResponse<TopUpBeneficiariesResponse>
+    suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse>
+    suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
+    suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
+
+
 /*  send money */
 
     suspend fun getRecentBeneficiaries(): RetroApiResponse<GetAllBeneficiaryResponse>
@@ -45,6 +52,6 @@ interface CustomersApi {
     suspend fun getAllCountries(): RetroApiResponse<CountryModel>
     suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO>
     suspend fun editBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse>
-    suspend fun deleteBeneficiary(beneficiaryId: String): RetroApiResponse<ApiResponse>
+    suspend fun deleteBeneficiaryFromList(beneficiaryId: String): RetroApiResponse<ApiResponse>
 
 }

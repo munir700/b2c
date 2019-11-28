@@ -9,8 +9,8 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.app.YAPApplication
-import co.yap.modules.transaction_filters.interfaces.ITransactionFilters
-import co.yap.modules.transaction_filters.viewmodels.TransactionFiltersViewModel
+import co.yap.modules.dashboard.home.filters.interfaces.ITransactionFilters
+import co.yap.modules.dashboard.home.filters.viewmodels.TransactionFiltersViewModel
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseBindingActivity

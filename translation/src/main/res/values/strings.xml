@@ -467,7 +467,7 @@
     <string name="screen_email_verified_popup_button_title_click_here">click here.</string>
 
 
-    <!--  Change Location Screen-->
+     <!--  Change Location Screen-->
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>
 
     <!--     Transactions Filters Screen-->
@@ -479,8 +479,16 @@
     <string name="screen_yap_to_yap_display_text_button">Invite now</string>
     <string name="screen_yap_to_yap_display_text_search_hint">Search</string>
 
+    <!-- Transaction Filters Screen -->
 
-    <!--Y2Y Contacts-->
+    <string name="screen_transaction_filter_display_text_title">Filters</string>
+    <string name="screen_transaction_filter_button_apply_filter">Apply filters</string>
+    <string name="screen_transaction_filter_button_clear_filter">Clear filters</string>
+    <string name="screen_transaction_filter_display_text_incoming_transactions">Incoming transactions</string>
+    <string name="screen_transaction_filter_display_text_outgoing_transactions">Outgoing transactions</string>
+    <string name="screen_transaction_filter_display_text_balance">AED balance</string>
+
+     <!--Y2Y Contacts-->
     <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
     <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
     <string name="screen_y2y_display_button_all_contacts">All contacts</string>
@@ -519,7 +527,7 @@
     <string name="screen_add_note_display_text_type_something">Type something…</string>
     <string name="screen_add_note_display_text_save">Save</string>
 
-    <!--  Send Money no contacts Screen-->
+     <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
     <string name="screen_send_money_no_contacts_display_text_sub_heading">Who do you want to send money to?</string>
     <string name="screen_send_money_no_contacts_display_text_detail">Send money to contacts outside your YAP network by adding them as a beneficiary. You can do so by tapping the + button on the top right of this screen. For now, start adding beneficiaries by clicking below.</string>
@@ -594,7 +602,6 @@
     <string name="screen_unverified_display_button_later">Maybe later</string>
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
 
-
     <!--  bank details screen -->
 
     <string name="screen_bank_details_display_text_title">Tell us about the bank</string>
@@ -646,5 +653,47 @@
     <!--    Forgot card pin screen-->
     <string name="screen_forgot_pin_display_text_heading">Verify your PIN change</string>
 
+    <!-- Topup Type Selection Screen -->
+    <string name="screen_topup_type_selection_display_text_title">Top up</string>
+    <string name="screen_topup_type_selection_display_text_heading">How do you want to top up?</string>
+    <string name="screen_topup_type_selection_button_bank_transfer">Bank transfer</string>
+    <string name="screen_topup_type_selection_button_card">Card</string>
+
+    <!-- Topup Card Detail Screen -->
+    <string name="screen_topup_card_detail_display_text_title">Card Detail</string>
+    <string name="screen_topup_card_detail_display_text_button_remove_card">Remove card</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_nickname">Card nickname</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_info">Card</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_type">Type</string>
+    <string name="screen_topup_card_detail_display_text_hint_card_expiry">Expiry date</string>
+    <string name="screen_topup_card_details_display_text_remove_card_confirmation">This card will be removed from your top-up methods</string>
+    <string name="screen_topup_card_details_display_text_remove_card_confirmation_remove">Remove</string>
+
+    <!--    TopUpFundsScreen-->
+    <string name="screen_topup_transfer_display_text_screen_title">Top up using card</string>
+    <string name="screen_topup_transfer_display_text_amount_title">Enter the top up amount</string>
+    <string name="screen_topup_transfer_display_text_available_balance">Your available balance is %1s %2s</string>
+    <string name="screen_topup_transfer_display_text_transaction_fee">Transaction fee: %1s</string>
+    <string name="screen_topup_transfer_display_text_transaction_no_fee">No Fee</string>
+    <string name="screen_topup_funds_display_button_text">Next</string>
+
+    <!-- TopUp Verify CVV Screen -->
+    <string name="screen_topup_card_cvv_display_text_title">Top up confirmation</string>
+    <string name="screen_topup_card_cvv_display_text_cvv">Enter the CVV to top up your acccount with %1s %2s</string>
+
+    <!--    Topup success screen-->
+    <string name="screen_topup_success_display_text_title">Top up successful</string>
+    <string name="screen_topup_success_display_text_card_title">Citi Bank Card</string>
+    <string name="screen_topup_success_display_text_success_transaction_message">You have now added %1s %2s to your account</string>
+    <string name="screen_topup_success_display_text_account_balance_title">Your new account balance is \n %1s %2s</string>
+    <string name="screen_topup_success_display_text_dashboard_action_button_title">Back to dashboard</string>
+
+
+    <!--Screen add top up card -->
+    <string name="screen_add_topup_card_display_text_title">Enter your card details</string>
+    <string name="screen_add_topup_card_display_text_succes_title">Your card has been added successfully</string>
+    <string name="screen_add_topup_card_display_text_succes_details">Top up now with this card?</string>
+    <string name="screen_add_topup_card_succes_button_top_up_now">Yes, top up now"</string>
+    <string name="screen_add_topup_card_succes_button_later">No, do it later</string>
 
 </resources>

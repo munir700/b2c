@@ -10,7 +10,7 @@
             type="String" />
 
         <variable
-            name="image"
+            name="contactId"
             type="String" />
 
         <import type="co.yap.yapcore.helpers.Utils" />
@@ -21,24 +21,26 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_8sdp"
+        app:loadContactName="@{name}"
+        app:loadContactPhoto="@{contactId}">
 
         <co.yap.widgets.CoreCircularImageView
             android:id="@+id/imgProfile"
             android:layout_width="@dimen/_45sdp"
             android:layout_height="@dimen/_45sdp"
             android:contentDescription="@string/empty_string"
+            android:tag="imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:stringToBitmap="@{image}" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <LinearLayout
             android:id="@+id/lyNameInitials"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_round_with_space_white"
-            android:visibility="@{image.equals(``)? View.VISIBLE :View.GONE}"
+            android:tag="lyNameInitials"
             app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +52,7 @@
                 android:layout_width="@dimen/_45sdp"
                 android:layout_height="@dimen/_45sdp"
                 android:gravity="center"
-                android:text="@{Utils.INSTANCE.shortName(name)}"
+                android:tag="tvNameInitials"
                 tools:text="NM" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

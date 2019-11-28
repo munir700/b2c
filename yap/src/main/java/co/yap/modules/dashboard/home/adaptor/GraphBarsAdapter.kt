@@ -2,37 +2,58 @@ package co.yap.modules.dashboard.home.adaptor
 
 import android.util.Log
 import android.view.View
-import android.widget.LinearLayout
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.databinding.ItemBarChartBinding
-import co.yap.modules.dashboard.home.ChartView
+import co.yap.databinding.ItemBarChartV2Binding
+import co.yap.modules.dashboard.home.component.ChartViewV2
+import co.yap.modules.dashboard.home.helpers.transaction.TransactionsViewHelper
 import co.yap.modules.dashboard.home.interfaces.IYapHome
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionListData
 import co.yap.yapcore.BaseBindingRecyclerAdapter
+import kotlinx.android.synthetic.main.item_bar_chart_v2.view.*
 
 
 class GraphBarsAdapter(
     private val listItems: MutableList<HomeTransactionListData>,
     val viewModel: IYapHome.ViewModel
-) : BaseBindingRecyclerAdapter<HomeTransactionListData, RecyclerView.ViewHolder>(listItems),
+) : BaseBindingRecyclerAdapter<HomeTransactionListData, GraphBarsAdapter.GraphViewHolder>(listItems),
     View.OnFocusChangeListener {
 
-    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_bar_chart
+    private var checkedPosition = 0
+    var helper: TransactionsViewHelper? = null
+
+    override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_bar_chart_v2
 
     override fun onCreateViewHolder(binding: ViewDataBinding): GraphViewHolder {
-        return GraphViewHolder(binding as ItemBarChartBinding, viewModel)
+        return GraphViewHolder(binding as ItemBarChartV2Binding, viewModel)
     }
 
-    companion object {
-        var previouslySelected: Int = 0
-        var isCellHighlighted: Boolean = false
-        var isCellHighlightedFromTransaction: Boolean = false
-    }
+    override fun onBindViewHolder(holder: GraphViewHolder, position: Int) {
+        val transactionModel: HomeTransactionListData = listItems[position]
+        holder.transactionBar.onFocusChangeListener = this
+        holder.onBind(transactionModel)
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        (holder as GraphViewHolder).onBind(listItems[position])
+        if (checkedPosition == -1) {
+            holder.transactionBar.needAnimation = false
+            holder.transactionBar.isSelected = false
+
+        } else {
+            holder.transactionBar.isSelected = checkedPosition == holder.adapterPosition
+        }
+
+        holder.itemView.setOnClickListener { v ->
+
+            if (checkedPosition != holder.adapterPosition) {
+                holder.transactionBar.needAnimation = true
+                holder.transactionBar.isSelected = true
+                helper?.addTooltip(v.findViewById(R.id.transactionBar), transactionModel)
+                notifyItemChanged(checkedPosition)
+                checkedPosition = holder.adapterPosition
+                helper?.barSelectedPosition = checkedPosition
+            }
+        }
+        holder.itemView.isClickable = false
     }
 
     override fun onFocusChange(v: View?, hasFocus: Boolean) {
@@ -40,67 +61,29 @@ class GraphBarsAdapter(
         //   viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
         //}
     }
+    override fun getItemCount(): Int {
+        helper?.totalItemCount = listItems.size
+        return listItems.size
+    }
 
     class GraphViewHolder(
-        private val itemBarChartBinding: ItemBarChartBinding,
+        itemBarChartBinding: ItemBarChartV2Binding,
         private val viewModel: IYapHome.ViewModel
-    ) :
-        RecyclerView.ViewHolder(itemBarChartBinding.root) {
+    ) : RecyclerView.ViewHolder(itemBarChartBinding.root) {
+        val transactionBar: ChartViewV2 = itemView.transactionBar
 
         fun onBind(transactionModel: HomeTransactionListData) {
             transactionModel.amountPercentage =
                 calculatePercentagePerDayFromClosingBalance(transactionModel.closingBalance)
-
-            val item =
-                ChartView(
-                    itemBarChartBinding.parent.context,
-                    transactionModel.amountPercentage.toInt()
-                )
-
-            val params = LinearLayout.LayoutParams(
-                26,
-                transactionModel.amountPercentage.toInt()
-            )
-            params.marginStart = 5
-            params.marginEnd = 5
-            //holder.transactionBar.onFocusChangeListener = this
-            itemBarChartBinding.parent.addView(item, params)
-            Log.e(
-                "graph1",
-                "pos $adapterPosition graph_height -> " + transactionModel.amountPercentage
-            )
-//            itemBarChartBinding.root.setOnClickListener {
-//                if (isCellHighlighted) {
-//                    if (isCellHighlightedFromTransaction) {
-//                        itemBarChartBinding.transactionBar.unSelectHighlightedBarOnTransactionCellClick(
-//                            true
-//                        )
-//                    } else {
-//                        itemBarChartBinding.transactionBar.unSelectHighlightedBarOnTransactionCellClick(
-//                            false
-//                        )
-//                    }
-//                } else {
-//                    itemBarChartBinding.transactionBar.unSelectHighlightedBarOnGraphClick(
-//                        isCellHighlighted
-//                    )
-//                }
-//            }
-            if (position == 0) {
-                //itemBarChartBinding.transactionBar.OnBarItemTouchEvent()
-            }
+            transactionBar.barHeight = transactionModel.amountPercentage.toFloat()
         }
-
-//        fun calculatePercentagePerDayFromClosingBalance(closingBalance: Double): Double {
-//            return (closingBalance / viewModel.MAX_CLOSING_BALANCE) * 100
-//        }
 
         private fun calculatePercentagePerDayFromClosingBalance(closingBalance: Double): Double {
             closingBalance.toString().replace("-", "").toDouble()
             val percentage: Double = (closingBalance.toString().replace(
                 "-",
                 ""
-            ).toDouble() / viewModel.MAX_CLOSING_BALANCE) * 100
+            ).toDouble() / viewModel.MAX_CLOSING_BALANCE)
             return percentage
         }
 

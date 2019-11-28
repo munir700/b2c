@@ -36,6 +36,10 @@ class YapHomeViewModel(application: Application) :
     override var MAX_CLOSING_BALANCE: Double = 0.0
     var closingBalanceArray: ArrayList<Double> = arrayListOf()
 
+
+    init {
+        YAPApplication.clearFilters()
+    }
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()

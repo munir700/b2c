@@ -1,5 +1,6 @@
 package co.yap.yapcore.helpers
 
+import android.annotation.SuppressLint
 import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
@@ -11,6 +12,8 @@ object DateUtils {
     val TIME_ZONE_Default = TimeZone.getDefault()
     val FORMAT_LONG_OUTPUT = "MMM dd, YYYY・HH:mma"//2015-11-28 10:17:18//2016-12-12 12:23:00
     val FORMAT_LONG_INPUT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
+    val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
+    val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
 
 //    Jan 29, 2019・10:35am
 
@@ -63,21 +66,32 @@ object DateUtils {
         }
         return convertedDate
     }
+    fun reformatStringDate(date: String, inputFormatter: String? = DEFAULT_DATE_FORMAT,outFormatter: String? = DEFAULT_DATE_FORMAT):String?
+    { var result = ""
+        val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
+        try {
+            result = formatter.format(stringToDate(date , inputFormatter))
+        } catch (e: Exception) {
+        }
+
+        return result
+
+    }
 
     fun dateToString(day: Int, month: Int, year: Int, format: String = DEFAULT_DATE_FORMAT) =
         SimpleDateFormat(format, Locale.US).format(toDate(day, month, year))
 
-    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT):String {
+    fun dateToString(date: Date?, format: String = DEFAULT_DATE_FORMAT): String {
 
         try {
             return SimpleDateFormat(format, Locale.US).format(date)
 
-        }catch (e:Exception)
-        {
+        } catch (e: Exception) {
             return " ";
         }
 
     }
+
     fun datetoString(date: Date?, format: String, timeZone: TimeZone = TIME_ZONE_Default): String {
         var result = ""
         val formatter = SimpleDateFormat(format, Locale.getDefault())
@@ -92,7 +106,8 @@ object DateUtils {
 
         return result
     }
-    fun stringToDate(dateStr: String, format: String , timeZone: TimeZone = GMT): Date? {
+
+    fun stringToDate(dateStr: String, format: String, timeZone: TimeZone = GMT): Date? {
         var d: Date? = null
         val formatter = SimpleDateFormat(format, Locale.getDefault())
         formatter.timeZone = timeZone
@@ -106,5 +121,35 @@ object DateUtils {
         return d
     }
 
+    @SuppressLint("SimpleDateFormat")
+    fun convertTopUpDate(creationDate: String?): String? {
+        try {
+            val parser = SimpleDateFormat("MMyy")
+            parser.timeZone = TimeZone.getTimeZone("UTC")
+            val convertedDate = parser.parse(creationDate)
+            val pattern = "MM/yyyy"
+            val simpleDateFormat = SimpleDateFormat(pattern)
+            return simpleDateFormat.format(convertedDate)
+        } catch (ex: Exception) {
+            return ""
+        }
+
+    }
+
+    fun convertTopUpDate(creationDate: String, parser: SimpleDateFormat): String? {
+        val parser = SimpleDateFormat("MMyy")
+        parser.timeZone = TimeZone.getTimeZone("UTC")
+        val convertedDate = parser.parse(creationDate)
+        val pattern = "MM/yyyy"
+        val simpleDateFormat = SimpleDateFormat(pattern)
+        return simpleDateFormat.format(convertedDate)
+    }
+
+
+    fun isDatePassed(creationDate: String, parser: SimpleDateFormat): Boolean {
+        parser.timeZone = TimeZone.getTimeZone("UTC")
+        val convertedDate = parser.parse(creationDate)
+        return isDatePassed(convertedDate)
+    }
 
 }

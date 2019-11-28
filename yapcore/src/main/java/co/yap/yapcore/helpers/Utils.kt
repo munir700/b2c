@@ -12,6 +12,8 @@ import android.os.Build
 import android.telephony.TelephonyManager
 import android.text.Spannable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
+import android.text.style.AbsoluteSizeSpan
 import android.text.style.ForegroundColorSpan
 import android.util.DisplayMetrics
 import android.view.LayoutInflater
@@ -93,13 +95,18 @@ object Utils {
     }
 
     fun getFormattedCurrency(num: String?): String {
-        return if ("" != num && null != num) {
-            val m = java.lang.Double.parseDouble(num)
-            val formatter = DecimalFormat("###,###,##0.00")
-            formatter.format(m)
-        } else {
+        return try {
+            if ("" != num && null != num) {
+                val m = java.lang.Double.parseDouble(num)
+                val formatter = DecimalFormat("###,###,##0.00")
+                formatter.format(m)
+            } else {
+                ""
+            }
+        } catch (e: Exception) {
             ""
         }
+
     }
 
     fun getFormattedCurrencyWithoutDecimal(num: String?): String {
@@ -113,11 +120,15 @@ object Utils {
     }
 
     fun getFormattedCurrencyWithoutComma(num: String?): String {
-        return if ("" != num && null != num) {
-            val m = java.lang.Double.parseDouble(num)
-            val formatter = DecimalFormat("########0.00")
-            formatter.format(m)
-        } else {
+        return try {
+            if ("" != num && null != num) {
+                val m = java.lang.Double.parseDouble(num)
+                val formatter = DecimalFormat("########0.00")
+                formatter.format(m)
+            } else {
+                ""
+            }
+        } catch (ex: Exception) {
             ""
         }
     }
@@ -357,6 +368,88 @@ object Utils {
         }
     }
 
+    fun getSppnableStringForAmount(
+        context: Context,
+        staticString: String,
+        currencyType: String,
+        amount: String
+    ): SpannableStringBuilder? {
+        return try {
+            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            val separated = staticString.split(currencyType)
+            val str = SpannableStringBuilder(staticString)
+
+            str.setSpan(
+                fcs,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str
+        } catch (e: Exception) {
+            return null
+        }
+
+
+    }
+
+    fun getSpannableString(
+        context: Context,
+        staticString: String?,
+        startDestination: String?
+    ): SpannableStringBuilder? {
+        return try {
+            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            val separated = staticString?.split(startDestination!!)
+            val str = SpannableStringBuilder(staticString)
+
+            str.setSpan(
+                fcs,
+                separated?.get(0)!!.length,
+                separated[0].length + startDestination!!.length,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
+        }
+
+    }
+
+    fun getSpannableStringForLargerBalance(
+        context: Context,
+        staticString: String,
+        currencyType: String,
+        amount: String
+    ): SpannableStringBuilder? {
+        return try {
+            var textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
+            val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
+            val fcsLarge = AbsoluteSizeSpan(textSize)
+            val separated = staticString.split(currencyType)
+            val str = SpannableStringBuilder(staticString)
+
+            str.setSpan(
+                fcs,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str.setSpan(
+                fcsLarge,
+                separated[0].length,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            str
+        } catch (e: Exception) {
+            return null
+        }
+
+
+    }
+
     @SuppressLint("DefaultLocale")
     fun getCountryCodeFromTelephony(context: Context): String {
         val tm = context.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
@@ -484,9 +577,15 @@ object Utils {
             Constants.URL_SHARE_APP_STORE,
             Constants.URL_SHARE_PLAY_STORE
         )
-
     }
 
+    fun getFormattedCardNumber(cardNumber: String): String {
+        return if (cardNumber.length == 4)
+            "XXXX XXXX XXXX $cardNumber"
+        else
+            "XXXX XXXX XXXX XXXX"
+
+    }
 
     fun ConfirmAddBeneficiary(context: Context) {
         androidx.appcompat.app.AlertDialog.Builder(context)
@@ -519,6 +618,6 @@ object Utils {
             )
             .show()
 
-
     }
+
 }

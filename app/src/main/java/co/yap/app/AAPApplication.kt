@@ -7,13 +7,19 @@ import co.yap.yapcore.helpers.AuthUtils
 import co.yap.yapcore.helpers.NetworkConnectionManager
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import co.yap.yapcore.helpers.Utils
+import com.crashlytics.android.Crashlytics
+import io.fabric.sdk.android.Fabric
+import timber.log.Timber
+import timber.log.Timber.DebugTree
 import java.util.*
+
 
 class AAPApplication : ChatApplication() {
 
     override fun onCreate() {
         super.onCreate()
         Utils.context = this
+
         RetroNetwork.initWith(this, BuildConfig.BASE_URL)
         NetworkConnectionManager.init(this)
         setAppUniqueId(this)
@@ -29,6 +35,19 @@ class AAPApplication : ChatApplication() {
                 AuthUtils.navigateToSoftLogin(applicationContext)
             }
         })
+
+        /*
+        * ***********Add Firebase Creshlaytics *************
+        * */
+        val fabric = Fabric.Builder(this)
+            .kits(Crashlytics())
+            .debuggable(BuildConfig.DEBUG) // Enables Crashlytics debugger
+            .build()
+        Fabric.with(fabric)
+
+        if (BuildConfig.DEBUG) {
+            Timber.plant(DebugTree())
+        }
     }
 
     private fun setAppUniqueId(context: Context) {

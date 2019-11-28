@@ -3,18 +3,21 @@ package co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.states
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import co.yap.BR
 import co.yap.modules.dashboard.cards.paymentcarddetail.addfunds.interfaces.IFundActions
+import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import okhttp3.internal.Util
+import java.lang.Exception
 
 class FundActionsState(application: Application) : BaseState(), IFundActions.State {
-
     var context: Context = application.applicationContext
     @get:Bindable
     override var cardNumber: String = ""
@@ -22,6 +25,8 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             field = value
             notifyPropertyChanged(BR.cardNumber)
         }
+
+    override var cardInfo: ObservableField<TopUpCard> = ObservableField(TopUpCard())
 
     @get:Bindable
     override var toolBarHeader: String = ""
@@ -174,44 +179,94 @@ class FundActionsState(application: Application) : BaseState(), IFundActions.Sta
             notifyPropertyChanged(BR.spareCardUpdatedBalance)
         }
 
+    @get:Bindable
+    override var transactionFee: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionFee)
+        }
+
+    @get:Bindable
+    override var transactionFeeSpannableString: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionFeeSpannableString)
+        }
+
     fun checkValidity(type: String): String {
-        if (amount != "") {
-            if (amount?.toDouble()!! > availableBalance.toDouble()) {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-                if (Constants.TYPE_REMOVE_FUNDS == type) {
-                    errorDescription = Translator.getString(
-                        context,
-                        Strings.screen_remove_funds_display_text_available_balance_error,
-                        currencyType,
-                        Utils.getFormattedCurrency(availableBalance)
-                    )
+        try {
+            if (amount != "") {
+                when {
+                    amount?.toDouble()!! > availableBalance.toDouble() -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+                        if (Constants.TYPE_REMOVE_FUNDS == type) {
+                            errorDescription = Translator.getString(
+                                context,
+                                Strings.screen_remove_funds_display_text_available_balance_error,
+                                currencyType,
+                                Utils.getFormattedCurrency(availableBalance)
+                            )
 
-                } else {
-                    errorDescription = Translator.getString(
-                        context,
-                        Strings.screen_add_funds_display_text_available_balance_error,
-                        currencyType,
-                        Utils.getFormattedCurrency(availableBalance)
-                    )
+                        } else {
+                            errorDescription = Translator.getString(
+                                context,
+                                Strings.screen_add_funds_display_text_available_balance_error,
+                                currencyType,
+                                Utils.getFormattedCurrency(availableBalance)
+                            )
+                        }
+                        return errorDescription
+                    }
+                    amount?.toDouble()!! > maxLimit -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+
+                        errorDescription = Translator.getString(
+                            context,
+                            Strings.screen_add_funds_display_text_max_limit_error,
+                            currencyType,
+                            Utils.getFormattedCurrency(maxLimit.toString())
+                        )
+                        return errorDescription
+
+                    }
+                    else -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                    }
                 }
-                return errorDescription
-            } else if (amount?.toDouble()!! > maxLimit) {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-
-                errorDescription = Translator.getString(
-                    context,
-                    Strings.screen_add_funds_display_text_max_limit_error,
-                    currencyType,
-                    Utils.getFormattedCurrency(maxLimit.toString())
-                )
-                return errorDescription
-
-            } else {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
             }
+        }catch (e:Exception){
+           return ""
+        }
+        return ""
+    }
+    fun checkValidityForAddTopUpFromExternalCard(): String {
+        try {
+            if (amount != "") {
+                when {
+                    amount?.toDouble()!! > maxLimit -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
+
+                        errorDescription = Translator.getString(
+                            context,
+                            Strings.screen_add_funds_display_text_max_limit_error,
+                            currencyType,
+                            Utils.getFormattedCurrency(maxLimit.toString())
+                        )
+                        return errorDescription
+
+                    }
+                    else -> {
+                        amountBackground =
+                            context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                    }
+                }
+            }
+        }catch (e:Exception){
+           return ""
         }
         return ""
     }
