@@ -102,7 +102,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             //Log.d("vertical Alpha>>", "$alp")
             val pram = frameLayout.layoutParams
 
-            if (abs(verticalOffset) <= 20) {
+            if (abs(verticalOffset) <= 5) {
                 frameLayout.alpha = 1f
                 //Log.d("vertical Alpha>>", "$alp")
                 pram.height = appBarLayout.totalScrollRange
