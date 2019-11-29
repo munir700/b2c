@@ -74,7 +74,7 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
         viewModel.phoneContactLiveData.observe(this, Observer {
-            adaptor.setList(it)
+            adaptor.addList(it)
             getBinding().tvContactListDescription.visibility =
                 if (it.isEmpty()) {
                     View.GONE
