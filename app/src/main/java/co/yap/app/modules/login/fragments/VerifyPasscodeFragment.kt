@@ -31,8 +31,9 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun getLayoutId(): Int = R.layout.fragment_verify_passcode
 
+
     override val viewModel: IVerifyPasscode.ViewModel
-        get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
+        get() = ViewModelProviders.of( activity!!).get(VerifyPasscodeViewModel::class.java)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -221,14 +222,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     }
 
+    // crashlytics crash  VerifyPasscodeFragment.kt line 35
+
+    // Never produced so we assumed replacing "context as MainActivity" activity!!.applicationContext in following block
+
     override fun onAuthenticationSuccessful() {
         viewModel.isFingerprintLogin = true
         viewModel.state.passcode = EncryptionUtils.decrypt(
-            context as MainActivity,
+            activity!!.applicationContext,
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
         )!!
         viewModel.state.username = EncryptionUtils.decrypt(
-            context as MainActivity,
+            activity!!.applicationContext,
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
         )!!
         viewModel.login()
