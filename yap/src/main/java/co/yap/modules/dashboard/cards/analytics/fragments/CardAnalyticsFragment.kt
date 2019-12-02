@@ -19,13 +19,9 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.widgets.pieview.*
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
@@ -40,10 +36,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setObservers()
         setupAdaptor()
         setupTabs()
-        setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
+        setObservers()
     }
 
     /*
@@ -102,7 +97,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart.data = data
-//        chart.highlightValue(0f, 0, true)
+        chart.highlightValue(0f, 0, true)
         chart.invalidate()
     }
 
@@ -110,6 +105,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun setObservers() {
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
+        viewModel.parentViewModel.categoryAnalyticsItemLiveData.observe(this, Observer {
+            setPieView(it)
+        })
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
                 CATEGORY_ANALYTICS -> {
@@ -170,7 +168,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                     Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
                 )
             }
-
         }
     }
     private val onTabSelectedListener = object : TabLayout.OnTabSelectedListener {
@@ -180,8 +177,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let {
-
-                setSelectedTabData(it.position, 0)
+                setSelectedTabData(it.position,0)
                 when (it.position) {
                     CATEGORY_ANALYTICS -> {
                         setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
@@ -192,6 +188,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                             viewModel.state.currencyType.toString(),
                             Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
                         )
+//                        setSelectedTabData(1, 0)
                     }
                     MERCHANT_ANALYTICS -> {
                         setPieView(viewModel.parentViewModel.merchantAnalyticsItemLiveData.value)
@@ -202,6 +199,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                             viewModel.state.currencyType.toString(),
                             Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyMerchantAvgAmount.toString())
                         )
+//                        setSelectedTabData(0, 0)
                     }
                 }
             }
@@ -255,8 +253,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     }
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
+
+       val selectedItem = getBindingView().tabLayout.selectedTabPosition
         h?.let {
-            setSelectedTabData(getBindingView().viewPager.currentItem, it.x.toInt())
+            setSelectedTabData(selectedItem, it.x.toInt())
             viewModel.parentViewModel.selectedItemPositionParent.value = it.x.toInt()
         }
     }
@@ -264,12 +264,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun setSelectedTabData(TabPosition: Int, contentPos: Int) {
         when (TabPosition) {
             CATEGORY_ANALYTICS -> {
-                if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
-                    /* updatePieChartInnerData(
-                         viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
-                             contentPos
-                         )
-                     )*/
+                if (!viewModel.parentViewModel.categoryAnalyticsItemLiveData.value.isNullOrEmpty()) {
                     val txnItem =
                         viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
                             contentPos
@@ -280,15 +275,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             }
             MERCHANT_ANALYTICS -> {
                 if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
-                    /*updatePieChartInnerData(
-                        viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
-                            contentPos
-                        )
-                    )*/
                     val txnItem =
                         viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
-                            contentPos
-                        )
+                            contentPos)
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
                 }
