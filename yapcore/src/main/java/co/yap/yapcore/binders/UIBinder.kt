@@ -53,7 +53,19 @@ import java.util.*
 
 object UIBinder {
 
-    // Top up card status
+
+    @BindingAdapter("tvColor")
+    @JvmStatic
+    fun updateTextColor(view: TextView, position: Int) {
+        if (position == -1) return
+        try {
+            val colors = view.context.resources.getIntArray(R.array.analyticsColors)
+            view.setTextColor(colors[position % colors.size])
+        } catch (ex: Exception) {
+
+        }
+    }
+
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {

@@ -524,7 +524,6 @@ object Utils {
     fun getContactBackground(context: Context, position: Int) =
         ContextCompat.getDrawable(context, backgrounds[position % backgrounds.size])
 
-
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
@@ -548,6 +547,8 @@ object Utils {
         R.color.colorSecondaryGreen,
         R.color.colorSecondaryOrange
     )
+
+
 
     fun getTwoDecimalPlaces(value: Double): Double {
         val df = DecimalFormat("#.##")

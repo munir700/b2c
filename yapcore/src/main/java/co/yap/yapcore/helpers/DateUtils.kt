@@ -13,6 +13,7 @@ object DateUtils {
     val FORMAT_LONG_OUTPUT = "MMM dd, YYYY・HH:mma"//2015-11-28 10:17:18//2016-12-12 12:23:00
     val FORMAT_LONG_INPUT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
     val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
+    val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
     val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
 
 //    Jan 29, 2019・10:35am
@@ -66,11 +67,16 @@ object DateUtils {
         }
         return convertedDate
     }
-    fun reformatStringDate(date: String, inputFormatter: String? = DEFAULT_DATE_FORMAT,outFormatter: String? = DEFAULT_DATE_FORMAT):String?
-    { var result = ""
+
+    fun reformatStringDate(
+        date: String,
+        inputFormatter: String? = DEFAULT_DATE_FORMAT,
+        outFormatter: String? = DEFAULT_DATE_FORMAT
+    ): String? {
+        var result = ""
         val formatter = SimpleDateFormat(outFormatter, Locale.getDefault())
         try {
-            result = formatter.format(stringToDate(date , inputFormatter))
+            result = formatter.format(stringToDate(date, inputFormatter))
         } catch (e: Exception) {
         }
 
@@ -152,4 +158,33 @@ object DateUtils {
         return isDatePassed(convertedDate)
     }
 
+    @SuppressLint("SimpleDateFormat")
+    fun getCurrentDate(): String {
+        val sdf = SimpleDateFormat("YYYY-MM-dd")
+        return sdf.format(Date())
+    }
+
+//    @SuppressLint("SimpleDateFormat")
+//    fun getCurrentDate(): Date {
+//        val sdf = SimpleDateFormat("YYYY-MM-dd")
+//        return sdf.format(Date())
+//    }
+
+    @SuppressLint("SimpleDateFormat")
+    fun convertAnalyticsDate(creationDate: String?): String? {
+        return try {
+            val parser = SimpleDateFormat("yyyy-MM")
+            parser.timeZone = TimeZone.getTimeZone("UTC")
+            val convertedDate = parser.parse(creationDate)
+            val pattern = "MMMM, yyyy"
+            val simpleDateFormat = SimpleDateFormat(pattern)
+            simpleDateFormat.format(convertedDate)
+        } catch (ex: Exception) {
+            ""
+        }
+
+    }
+
 }
+//"date" : "2019-11",
+//November , 2019
