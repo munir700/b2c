@@ -17,7 +17,7 @@ interface ICardAnalytics {
         var selectedModel: MutableLiveData<AnalyticsItem>
         var parentViewModel: ICardAnalyticsMain.ViewModel
         fun fetchCardCategoryAnalytics(currentMonth: String)
-        fun fetchCardMerchantAnalytics()
+        fun fetchCardMerchantAnalytics(currentMonth: String)
         fun handlePressOnView(id: Int)
 
     }

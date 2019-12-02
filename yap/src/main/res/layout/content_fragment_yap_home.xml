@@ -57,37 +57,84 @@
                 android:id="@+id/frameLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_12sdp"
-                android:orientation="horizontal"
-                android:layout_gravity="center_horizontal">
+                android:orientation="horizontal">
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/dad"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/_5sdp"
-                app:backgroundTint="@color/white"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginEnd="@dimen/_8sdp"
-                app:elevation="0dp"
-                app:fabSize="auto"
-                android:layout_gravity="center_vertical"
-                app:fabCustomSize="@dimen/_40sdp"
-                app:srcCompat="@drawable/ic_yap_it" />
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/eamf"
+                <LinearLayout
+                    android:id="@+id/lyAdd"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/_5sdp"
-                    app:backgroundTint="@color/white"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
-                    app:elevation="0dp"
-                    app:fabSize="auto"
                     android:layout_gravity="center_vertical"
-                    app:fabCustomSize="@dimen/_40sdp"
-                    app:srcCompat="@drawable/ic_yap_it" />
+                    android:layout_marginStart="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:orientation="vertical">
 
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/btnAdd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:tint="@color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:elevation="0dp"
+                        app:fabCustomSize="@dimen/_32sdp"
+                        app:fabSize="mini"
+                        app:maxImageSize="@dimen/_18sdp"
+                        app:srcCompat="@drawable/ic_add_sign" />
+
+                    <TextView
+                        style="@style/AppFontRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_horizontal"
+                        android:lineSpacingExtra="6sp"
+                        android:text="Add"
+                        android:textColor="#5e35b1"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lyAnalytics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="@dimen/_18sdp"
+                    android:layout_marginEnd="@dimen/_18sdp"
+                    android:onClick="@{(v)->viewModel.handlePressOnView(v.id)}"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.floatingactionbutton.FloatingActionButton
+                        android:id="@+id/eamf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="@dimen/_5sdp"
+                        android:tint="@color/white"
+                        app:backgroundTint="@color/colorPrimary"
+                        app:elevation="0dp"
+                        app:fabCustomSize="@dimen/_32sdp"
+                        app:fabSize="mini"
+                        app:maxImageSize="@dimen/_18sdp"
+                        app:srcCompat="@drawable/ic_analytics" />
+
+                    <TextView
+                        style="@style/AppFontRegular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_horizontal"
+                        android:lineSpacingExtra="6sp"
+                        android:text="Analytics"
+                        android:textColor="#5e35b1"
+                        android:textSize="12sp"
+                        android:textStyle="normal" />
+                </LinearLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -162,7 +209,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:listitem="@layout/item_transaction_list" />
 
             <ImageView

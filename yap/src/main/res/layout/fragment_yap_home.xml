@@ -140,7 +140,6 @@
                 android:id="@+id/lyInclude"
                 layout="@layout/content_fragment_yap_home"
                 android:visibility="visible"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 app:viewModel="@{viewModel}" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>

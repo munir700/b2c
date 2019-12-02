@@ -13,6 +13,7 @@ object DateUtils {
     val FORMAT_LONG_OUTPUT = "MMM dd, YYYY・HH:mma"//2015-11-28 10:17:18//2016-12-12 12:23:00
     val FORMAT_LONG_INPUT = "yyyy-MM-dd'T'HH:mm:ss"//2015-11-28 10:17:18
     val FORMAT_MON_YEAR = "MMMM yyyy"//2015-11-28 10:17:18
+    val FORMAT_MONTH_YEAR = "MMMM, yyyy"//2015-11-28 10:17:18
     val FORMAT_DATE_MON_YEAR = "MMMM dd, yyyy"//2015-11-28 10:17:18
 
 //    Jan 29, 2019・10:35am

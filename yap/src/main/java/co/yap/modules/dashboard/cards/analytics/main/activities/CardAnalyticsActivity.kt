@@ -1,5 +1,8 @@
 package co.yap.modules.dashboard.cards.analytics.main.activities
 
+import android.os.Bundle
+import androidx.databinding.Observable
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -21,10 +24,26 @@ class CardAnalyticsActivity : BaseBindingActivity<ICardAnalyticsMain.ViewModel>(
     override val viewModel: ICardAnalyticsMain.ViewModel
         get() = ViewModelProviders.of(this).get(CardAnalyticsMainViewModel::class.java)
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, clickEvent)
+
+    }
+
+    val clickEvent = Observer<Int> {
+        when (it) {
+            R.id.tbIvClose -> this.finish()
+        }
+    }
 
     override val navigator: IBaseNavigator
         get() = DefaultNavigator(
             this@CardAnalyticsActivity,
             R.id.card_analytics_nav_host_fragment
         )
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+    }
 }

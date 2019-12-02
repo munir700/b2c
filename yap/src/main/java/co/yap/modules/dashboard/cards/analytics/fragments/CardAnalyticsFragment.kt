@@ -40,7 +40,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.fetchCardCategoryAnalytics(DateUtils.getCurrentDate())
         setObservers()
         setupAdaptor()
         setupTabs()
@@ -66,13 +65,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             chart.setDrawCenterText(true)
             chart.rotationAngle = -90f
             chart.isRotationEnabled = false
-            chart.isHighlightPerTapEnabled = true
             chart.setOnChartValueSelectedListener(this)
             chart.animateY(1400, Easing.EaseInOutQuad)
             chart.legend.isEnabled = false // Hide the legend
             chart.setEntryLabelColor(Color.WHITE)
             chart.setEntryLabelTextSize(0f)
-
             setData(data)
         }
     }
@@ -85,9 +82,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         val entries: ArrayList<PieEntry> = ArrayList()
         val colors = ArrayList<Int>()
         if (txnAnalytics.isNullOrEmpty()) {
+            chart.isHighlightPerTapEnabled = false
             entries.add(PieEntry(100f))
             colors.add(ColorTemplate.getEmptyColor())
         } else {
+            chart.isHighlightPerTapEnabled = true
             for (item in txnAnalytics.iterator())
                 entries.add(PieEntry(item.totalSpendingInPercentage.toFloat()))
         }
@@ -162,19 +161,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private val clickEventObserver = Observer<Int> {
         when (it) {
             R.id.ivPrevious -> {
-                val sdf = SimpleDateFormat("MMMM, yyyy")
-                val date = sdf.parse(viewModel.state.selectedMonth)
-                val cal = Calendar.getInstance()
-                cal.time = date
-                viewModel.state.monthCount = viewModel.state.monthCount - 1
-                cal.add(Calendar.MONTH, viewModel.state.monthCount)
-                val newSdf = SimpleDateFormat("YYYY-MM-dd")
-                val curentdate = newSdf.format(cal.time)
-
-                viewModel.fetchCardCategoryAnalytics(curentdate)
-            }
-            R.id.ivNext -> {
-                showToast("Next")
             }
             Constants.CATEGORY_AVERAGE_AMOUNT_VALUE -> {
                 getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
