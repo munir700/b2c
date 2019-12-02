@@ -15,6 +15,7 @@ import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 import co.yap.networking.transactions.responsedtos.TransactionFilters
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import com.jaygoo.widget.OnRangeChangedListener
 import com.jaygoo.widget.RangeSeekBar
@@ -62,8 +63,8 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
         }
         YAPApplication.homeTransactionsRequest.txnType?.let {
             when (it) {
-                "CREDIT" -> cbInTransFilter.isChecked = true
-                "DEBIT" -> cbOutTransFilter.isChecked = true
+                Constants.MANUAL_CREDIT -> cbInTransFilter.isChecked = true
+                Constants.MANUAL_DEBIT -> cbOutTransFilter.isChecked = true
             }
         }
     }
@@ -244,11 +245,11 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
                 }
                 cbInTransFilter.isChecked -> {
                     YAPApplication.isAllChecked = false
-                    "CREDIT"
+                    Constants.MANUAL_CREDIT
                 }
                 cbOutTransFilter.isChecked -> {
                     YAPApplication.isAllChecked = false
-                    "DEBIT"
+                    Constants.MANUAL_DEBIT
                 }
                 else -> null
             }
