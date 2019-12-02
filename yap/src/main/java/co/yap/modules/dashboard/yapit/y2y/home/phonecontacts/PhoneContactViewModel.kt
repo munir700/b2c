@@ -2,12 +2,10 @@ package co.yap.modules.dashboard.yapit.y2y.home.phonecontacts
 
 import android.Manifest
 import android.app.Application
-import android.content.ContentUris
 import android.content.Context
 import android.content.pm.PackageManager
-import android.net.Uri
+import android.database.Cursor
 import android.provider.ContactsContract
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,9 +17,11 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.isActive
+import kotlin.math.ceil
 
 class PhoneContactViewModel(application: Application) :
     Y2YBaseViewModel<IPhoneContact.State>(application),
@@ -30,7 +30,8 @@ class PhoneContactViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: IPhoneContact.State = PhoneContactState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    private var pagingState: MutableLiveData<PagingState> = MutableLiveData()
+
+    var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var phoneContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
@@ -57,162 +58,254 @@ class PhoneContactViewModel(application: Application) :
     override fun getY2YBeneficiaries() {
 
         pagingState.value = PagingState.LOADING
-        launch {
-            val localContacts = getLocalContacts()
-            if (localContacts.isEmpty()) {
-                phoneContactLiveData.value = mutableListOf()
-                pagingState.value = PagingState.DONE
-            } else {
-                when (val response = repository.getY2YBeneficiaries(localContacts)) {
-                    is RetroApiResponse.Success -> {
-                        phoneContactLiveData.value = response.data.data
-                        pagingState.value = PagingState.DONE
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
-                        pagingState.value = PagingState.ERROR
+        if (listIsEmpty()) {
+            launch {
+                val localContacts = getLocalContacts()
+                if (localContacts.isEmpty()) {
+                    phoneContactLiveData.value = mutableListOf()
+                    pagingState.value = PagingState.DONE
+                } else {
+                    val combineContacts = arrayListOf<Contact>()
+                    val threshold = 3000
+                    var lastCount = 0
+                    val numberOfIteration =
+                        ceil((localContacts.size.toDouble()) / threshold.toDouble()).toInt()
+                    for (x in 1..numberOfIteration) {
+                        val itemsToPost = localContacts.subList(
+                            lastCount,
+                            if ((x * threshold) > localContacts.size) localContacts.size else x * threshold
+                        )
+                        viewModelBGScope.async(Dispatchers.IO) {
+                            when (val response =
+                                repository.getY2YBeneficiaries(itemsToPost)) {
+                                is RetroApiResponse.Success -> {
+                                    combineContacts.addAll(response.data.data)
+                                    if (combineContacts.size >= localContacts.size) {
+                                        combineContacts.sortBy { it.title }
+                                        phoneContactLiveData.postValue(combineContacts)
+                                        pagingState.postValue(PagingState.DONE)
+                                    }
+                                }
+                                is RetroApiResponse.Error -> {
+                                    //state.toast = response.error.message
+                                    //pagingState.postValue(PagingState.ERROR)
+                                }
+                            }
+                        }
+                        lastCount = x * threshold
                     }
                 }
             }
+        } else {
+            phoneContactLiveData.postValue(phoneContactLiveData.value)
+            pagingState.postValue(PagingState.DONE)
         }
-    }
-
-    private fun getPhotoUri(contactId: Long): Uri? {
-        val cursor = context.contentResolver.query(
-            ContactsContract.Data.CONTENT_URI, null,
-            ContactsContract.Data.CONTACT_ID
-                    + "="
-                    + contactId
-                    + " AND "
-
-                    + ContactsContract.Data.MIMETYPE
-                    + "='"
-                    + ContactsContract.CommonDataKinds.Photo.CONTENT_ITEM_TYPE
-                    + "'", null, null
-        )
-        try {
-            if (cursor != null) {
-                if (!cursor.moveToFirst()) {
-                    cursor.close()
-                    return null // no photo
-                }
-            } else {
-                return null // error in cursor process
-            }
-
-        } catch (e: Exception) {
-            cursor?.close()
-            e.printStackTrace()
-            return null
-        }
-        val person = ContentUris.withAppendedId(
-            ContactsContract.Contacts.CONTENT_URI, contactId
-        )
-        return Uri.withAppendedPath(
-            person,
-            ContactsContract.Contacts.Photo.CONTENT_DIRECTORY
-        )
-    }
-
-    private fun fetchContactsEmail(id: Long): String {
-        var emlAdd = ""
-        val PROJECTION = arrayOf(
-            ContactsContract.CommonDataKinds.Email.CONTACT_ID,
-            ContactsContract.CommonDataKinds.Email.DATA
-        )
-        val order = ("CASE WHEN "
-                + ContactsContract.Contacts.DISPLAY_NAME
-                + " NOT LIKE '%@%' THEN 1 ELSE 2 END, "
-                + ContactsContract.Contacts.DISPLAY_NAME
-                + ", "
-                + ContactsContract.CommonDataKinds.Email.DATA
-                + " COLLATE NOCASE")
-
-        val filter =
-            ContactsContract.CommonDataKinds.Email.DATA + " NOT LIKE '' AND " + ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = " + (id)
-        val cur = context.contentResolver.query(
-            ContactsContract.CommonDataKinds.Email.CONTENT_URI,
-            PROJECTION,
-            filter,
-            null,
-            order
-        )
-        if (cur!!.moveToFirst()) {
-            do {
-                emlAdd = cur.getString(1)
-            } while (cur.moveToNext())
-        }
-
-        cur.close()
-        return emlAdd
     }
 
     private fun fetchContacts(context: Context): MutableList<Contact> {
 
-        val contacts: MutableList<Contact> = ArrayList()
         if (ContextCompat.checkSelfPermission(
                 context,
                 Manifest.permission.READ_CONTACTS
             ) == PackageManager.PERMISSION_GRANTED
         ) {
-
             val defaultCountryCode = Utils.getDefaultCountryCode(context)
+            val phoneUtil = PhoneNumberUtil.getInstance()
 
-            val cursor = context.contentResolver.query(
-                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null, null,
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC"
+            val contacts = LinkedHashMap<Long, Contact>()
+
+            val projection = arrayOf(
+                ContactsContract.Data.CONTACT_ID,
+                ContactsContract.Data.DISPLAY_NAME_PRIMARY,
+                //ContactsContract.Data.STARRED,
+                //ContactsContract.Data.PHOTO_URI,
+                ContactsContract.Data.PHOTO_THUMBNAIL_URI,
+                ContactsContract.Data.DATA1,
+                ContactsContract.Data.MIMETYPE
+                //ContactsContract.Data.IN_VISIBLE_GROUP
             )
-            try {
+            val cursor = context.contentResolver.query(
+                ContactsContract.Data.CONTENT_URI,
+                projection,
+                generateSelection(), null,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY + " ASC"
+            )
 
-                if ((cursor?.count ?: 0) > 0) {
-                    while (cursor!!.moveToNext()) {
-                        if (viewModelBGScope.isActive) {
-                            val name =
-                                cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME))
+            if (cursor != null) {
+                cursor.moveToFirst()
+                val idColumnIndex = cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID)
+                val displayNamePrimaryColumnIndex =
+                    cursor.getColumnIndex(ContactsContract.Data.DISPLAY_NAME_PRIMARY)
+                val thumbnailColumnIndex =
+                    cursor.getColumnIndex(ContactsContract.Data.PHOTO_THUMBNAIL_URI)
+                val mimetypeColumnIndex = cursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
+                val dataColumnIndex = cursor.getColumnIndex(ContactsContract.Data.DATA1)
+                while (!cursor.isAfterLast) {
+                    if (viewModelBGScope.isActive) {
+                        val id = cursor.getLong(idColumnIndex)
+                        var contact = contacts[id]
+                        if (contact == null) {
 
-                            val phoneWihtoutCountryCode =
-                                cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-
-                            val phoneNo = Utils.getPhoneWithoutCountryCode(
-                                defaultCountryCode,
-                                phoneWihtoutCountryCode
-                            )
-                            val countryCode =
-                                Utils.getPhoneNumberCountryCodeForAPI(
-                                    defaultCountryCode,
-                                    phoneWihtoutCountryCode
-                                )
-                            val contactId =
-                                cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID))
-                            val contactId2 =
-                                cursor.getLong(cursor.getColumnIndex(ContactsContract.Data.CONTACT_ID))
-                            val email = fetchContactsEmail(contactId)
-
-                            var photoContentUri: Uri? = getPhotoUri(contactId2)
-                            if (photoContentUri == null) photoContentUri = Uri.EMPTY
-
-                            Log.d(
-                                "contact",
-                                "getAllContacts: $name $phoneNo $email $countryCode  ${photoContentUri}"
-                            )
-                            val contact = Contact(
-                                name,
-                                countryCode,
-                                phoneNo,
-                                email,
-                                photoContentUri?.toString(),
-                                false, null
-                            )
-                            contacts.add(contact)
+                            contact = Contact()
+                            val displayName = cursor.getString(displayNamePrimaryColumnIndex)
+                            if (displayName != null && displayName.isNotEmpty()) {
+                                contact.title = displayName
+                            }
+                            mapThumbnail(cursor, contact, thumbnailColumnIndex)
+                            contacts[id] = contact
                         }
-                    }
+                        val mimetype = cursor.getString(mimetypeColumnIndex)
+                        when (mimetype) {
+                            ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE -> mapEmail(
+                                cursor,
+                                contact,
+                                dataColumnIndex
+                            )
+                            ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE -> {
+                                var phoneNumber: String? = cursor.getString(dataColumnIndex)
+                                if (phoneNumber != null && phoneNumber.isNotEmpty()) {
+                                    phoneNumber = phoneNumber.replace("\\s+".toRegex(), "")
+
+                                    try {
+                                        val pn =
+                                            phoneUtil.parse(phoneNumber, defaultCountryCode)
+                                        contact.mobileNo = pn.nationalNumber.toString()
+                                        contact.countryCode = "00${pn.countryCode}"
+                                    } catch (e: Exception) {
+                                    }
+                                }
+                            }
+                        }
+                        cursor.moveToNext()
+                    } else break
                 }
-                cursor?.close()
-            } catch (ex: Exception) {
-                ex.printStackTrace()
+                cursor.close()
             }
+            return (ArrayList(contacts.values) as MutableList<Contact>)
         }
-        return contacts
+        return mutableListOf()
     }
 
+    private fun generateSelection(): String {
+        val mSelectionBuilder = StringBuilder()
+        if (mSelectionBuilder.isNotEmpty())
+            mSelectionBuilder.append(" AND ")
+        mSelectionBuilder.append(ContactsContract.CommonDataKinds.Phone.HAS_PHONE_NUMBER)
+            .append(" = 1")
+        return mSelectionBuilder.toString()
+    }
+
+    private fun mapThumbnail(cursor: Cursor, contact: Contact, columnIndex: Int) {
+        val uri = cursor.getString(columnIndex)
+        if (uri != null && uri.isNotEmpty()) {
+            contact.beneficiaryPictureUrl = uri//Uri.parse(uri)
+        }
+    }
+
+    private fun mapEmail(cursor: Cursor, contact: Contact, columnIndex: Int) {
+        val email = cursor.getString(columnIndex)
+        if (email != null && email.isNotEmpty()) {
+            contact.email = email
+        }
+    }
+
+//its for local instance testing
+//    interface UploadIdCardRetroService {
+//
+//        @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
+//        fun getY2YBeneficiaries(@Body contacts: List<Contact>): Call<Y2YBeneficiariesResponse>
+//    }
+
+//fun uploadDocument(list: MutableList<Contact>) {
+//    val logger = HttpLoggingInterceptor()
+//    logger.level = HttpLoggingInterceptor.Level.BODY
+//    val client = OkHttpClient.Builder()
+//        .connectTimeout(100, TimeUnit.SECONDS)
+//        .writeTimeout(100, TimeUnit.SECONDS)
+//        .readTimeout(100, TimeUnit.SECONDS)
+//        //.addInterceptor(CookiesInterceptor())
+//        .addInterceptor(logger)
+//        .build()
+//    val retro: Retrofit = Retrofit.Builder()
+//        .baseUrl("http://192.168.0.96:8080/")
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .client(client).build()
+//    val service = retro.create(UploadIdCardRetroService::class.java)
+////        val file = File(result.document.files[1].croppedFile)
+////        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
+////        val part =
+////            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
+////        state.loading = true
+//    list.apply {
+//        list.addAll(list)
+//        list.addAll(list)
+//        list.addAll(list)
+//
+//    }
+//
+//    Timber.d(
+//        ("contact time live request start ${list.size}" + android.text.format.DateFormat.format(
+//            "yyyy-MM-dd hh:mm:ss a",
+//            java.util.Date()
+//        ))
+//    )
+//    service.getY2YBeneficiaries(list).enqueue(object : Callback<Y2YBeneficiariesResponse> {
+//        override fun onFailure(call: Call<Y2YBeneficiariesResponse>, t: Throwable) {
+//            t.printStackTrace()
+//            Timber.d(
+//                ("contact time live request End" + android.text.format.DateFormat.format(
+//                    "yyyy-MM-dd hh:mm:ss a",
+//                    java.util.Date()
+//                ))
+//            )
+//            state.toast = t.message.toString()
+//            pagingState.postValue(PagingState.ERROR)
+//        }
+//
+//        override fun onResponse(
+//            call: Call<Y2YBeneficiariesResponse>,
+//            response: Response<Y2YBeneficiariesResponse>?
+//        ) {
+//
+//            Timber.d(
+//                ("contact time live request End" + android.text.format.DateFormat.format(
+//                    "yyyy-MM-dd hh:mm:ss a",
+//                    java.util.Date()
+//                ))
+//            )
+//            phoneContactLiveData.postValue(response?.body()?.data)
+//            pagingState.postValue(PagingState.DONE)
+//
+//        }
+//    })
+//}
+
+    //    override fun getY2YBeneficiaries() {
+//
+//        pagingState.value = PagingState.LOADING
+//        launch {
+//            val localContacts = getLocalContacts()
+//            if (localContacts.isEmpty()) {
+//                phoneContactLiveData.value = mutableListOf()
+//                pagingState.value = PagingState.DONE
+//            } else {
+//                viewModelBGScope.async(Dispatchers.IO) {
+//                    when (val response =
+//                        repository.getY2YBeneficiaries(
+//                            localContacts
+//                        )) {
+//                        is RetroApiResponse.Success -> {
+//                            phoneContactLiveData.postValue(response.data.data)
+//                            pagingState.postValue(PagingState.DONE)
+//
+//                        }
+//                        is RetroApiResponse.Error -> {
+//                            launch { state.toast = response.error.message }
+//                            pagingState.postValue(PagingState.ERROR)
+//                        }
+//                    }
+//                }.await()
+//            }
+//        }
+//    }
 }

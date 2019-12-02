@@ -6,18 +6,18 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class Contact(
-    var title: String?,
-    var countryCode: String?,
-    var mobileNo: String?,
-    var email: String?,
-    var beneficiaryPictureUrl: String?,
-    var yapUser: Boolean?,
-    val accountDetailList: List<Data>?
+    var title: String? = "",
+    var countryCode: String? = "",
+    var mobileNo: String? = "",
+    var email: String? = "",
+    var beneficiaryPictureUrl: String? = "",
+    var yapUser: Boolean? = false,
+    val accountDetailList: List<Data>? = null
 ) : ApiResponse(), Parcelable {
     @Parcelize
     data class Data(
-        val accountNo: String,
-        val accountType: String,
-        val accountUuid: String
+        val accountNo: String? = "",
+        val accountType: String? = "",
+        val accountUuid: String? = ""
     ) : ApiResponse(), Parcelable
 }
