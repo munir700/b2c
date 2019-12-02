@@ -102,9 +102,6 @@ class FloatingActionMenu
         get() {
             val coords = IntArray(2)
             mainActionView.getLocationOnScreen(coords)
-//            if (isSystemOverlay) {
-//                coords[1] -= statusBarHeight
-//            } else {
             val activityFrame = Rect()
             activityContentView.getWindowVisibleDisplayFrame(activityFrame)
             coords[0] -= screenSize.x - activityContentView.measuredWidth
@@ -204,13 +201,6 @@ class FloatingActionMenu
         if (animationHandler != null) {
             animationHandler.menu = this
         }
-
-//        if (isSystemOverlay) {
-//            overlayContainer = FrameLayout(mainActionView.context)
-//        } else {
-//            overlayContainer = null // beware NullPointerExceptions!
-//        }
-
         // Find items with undefined sizes
         for (item in subActionItems) {
             if (item.width == 0 || item.height == 0) {
@@ -259,8 +249,6 @@ class FloatingActionMenu
                     subActionItems[i].height,
                     Gravity.TOP or Gravity.LEFT
                 )
-
-
                 params.setMargins(
                     center.x - subActionItems[i].width / 2,
                     center.y - subActionItems[i].height / 2,
@@ -466,7 +454,8 @@ class FloatingActionMenu
     private fun addViewToCurrentContainer(view: View, layoutParams: ViewGroup.LayoutParams?) {
 //        view.findViewById<FloatingActionButton>(R.id.ivYapIt)
         view.findViewById<FloatingActionButton>(R.id.ivYapIt).setOnClickListener {
-            toggle(view, true)
+            if (isOpen && !animationHandler?.isAnimating()!!)
+                toggle(view, true)
 
         }
 
@@ -674,25 +663,6 @@ class FloatingActionMenu
             view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
             return this.addSubActionView(view, view.measuredWidth, view.measuredHeight, title)
         }
-
-//        fun addSubActionView(
-//            title: String,
-//            iconResId: Int,
-//            layoutResId: Int,
-//            context: Context,
-//            clickListener: OnItemClickListener,position:Int
-//        ): Builder {
-//            val inflater =
-//                context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//            val view = inflater.inflate(layoutResId, null, false)
-//            view.findViewById<TextView>(R.id.tvTitle).text = title
-//            view.findViewById<FloatingActionButton>(R.id.ivYapIt).setImageResource(iconResId)
-//            view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
-//            view.setOnClickListener {
-//                listener.onItemClick(it, title, position)
-//            }
-//            return this.addSubActionView(view, view.measuredWidth, view.measuredHeight)
-//        }
 
         /**
          * Sets the current animation handler to the specified MenuAnimationHandler child

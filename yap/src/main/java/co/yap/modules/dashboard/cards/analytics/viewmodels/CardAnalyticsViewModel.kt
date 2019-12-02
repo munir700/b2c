@@ -82,6 +82,8 @@ class CardAnalyticsViewModel(application: Application) :
                 ) {
                     currentCalendar.add(Calendar.MONTH, -1)
                     state.previousMonth = false
+                    // // Proper testing remaining
+                    state.nextMonth = true
                 }
                 state.selectedMonth =
                     DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
@@ -100,6 +102,8 @@ class CardAnalyticsViewModel(application: Application) :
                 } else if ((tempCalendar.get(Calendar.MONTH) - 1) == currentCalendar.get(Calendar.MONTH)) {
                     currentCalendar.add(Calendar.MONTH, 1)
                     state.nextMonth = false
+                    // Proper testing remaining
+                    state.previousMonth = true
                 }
                 state.selectedMonth =
                     DateUtils.dateToString(currentCalendar.time, FORMAT_MONTH_YEAR)
