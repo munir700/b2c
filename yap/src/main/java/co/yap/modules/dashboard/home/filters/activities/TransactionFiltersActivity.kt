@@ -82,16 +82,16 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     }
 
     private fun setRangeSeekBar(transactionFilters: TransactionFilters) {
-        rsbAmount?.setRange(
-            transactionFilters.minAmount.toFloat(),
-            transactionFilters.maxAmount.toFloat()
-        )
+        try {
+            rsbAmount?.setRange(
+                transactionFilters.minAmount.toFloat(),
+                transactionFilters.maxAmount.toFloat()
+            )
 
         if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters.maxAmount) {
             rsbAmount?.setProgress(
                 YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat(),
-                YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat()
-            )
+                YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat())
         } else {
             rsbAmount?.setProgress(
                 transactionFilters.maxAmount.toFloat(),
@@ -113,8 +113,10 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
             }
 
             override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {}
-
-        })
+        })} catch (ex: Exception) {
+            showToast("Max and Min range error")
+            ex.printStackTrace()
+        }
     }
 
     private val clickEventObserver = Observer<Int> {
@@ -140,6 +142,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
     private val stateObserver = object : Observable.OnPropertyChangedCallback() {
         override fun onPropertyChanged(sender: Observable?, propertyId: Int) {
             if (propertyId == BR.error && viewModel.state.error.isNotBlank()) {
+                showToast("Internal Server Error")
                 finish()
             }
         }
