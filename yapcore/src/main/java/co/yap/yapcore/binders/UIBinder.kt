@@ -134,7 +134,7 @@ object UIBinder {
                 image.loadImage(contactId)
             } else {
                 try {
-                    val uri = getPhotoUri(contactId.toLong())
+                    val uri = Uri.parse(contactId)
                     if (uri != null) {
                         val cursor = image.context.contentResolver.query(
                             uri,

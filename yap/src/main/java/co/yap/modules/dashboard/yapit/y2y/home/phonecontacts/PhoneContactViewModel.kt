@@ -21,8 +21,7 @@ import com.google.i18n.phonenumbers.PhoneNumberUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.isActive
-import timber.log.Timber
-
+import kotlin.math.ceil
 
 class PhoneContactViewModel(application: Application) :
     Y2YBaseViewModel<IPhoneContact.State>(application),
@@ -31,7 +30,8 @@ class PhoneContactViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: IPhoneContact.State = PhoneContactState()
     override val clickEvent: SingleClickEvent = SingleClickEvent()
-    private var pagingState: MutableLiveData<PagingState> = MutableLiveData()
+
+    var pagingState: MutableLiveData<PagingState> = MutableLiveData()
     override var phoneContactLiveData: MutableLiveData<List<Contact>> = MutableLiveData()
 
     override fun handlePressOnView(id: Int) {
@@ -58,23 +58,47 @@ class PhoneContactViewModel(application: Application) :
     override fun getY2YBeneficiaries() {
 
         pagingState.value = PagingState.LOADING
-        launch {
-            val localContacts = getLocalContacts()
-            if (localContacts.isEmpty()) {
-                phoneContactLiveData.value = mutableListOf()
-                pagingState.value = PagingState.DONE
-            } else {
-                when (val response = repository.getY2YBeneficiaries(localContacts)) {
-                    is RetroApiResponse.Success -> {
-                        phoneContactLiveData.value = response.data.data
-                        pagingState.value = PagingState.DONE
-                    }
-                    is RetroApiResponse.Error -> {
-                        state.toast = response.error.message
-                        pagingState.value = PagingState.ERROR
+        if (listIsEmpty()) {
+            launch {
+                val localContacts = getLocalContacts()
+                if (localContacts.isEmpty()) {
+                    phoneContactLiveData.value = mutableListOf()
+                    pagingState.value = PagingState.DONE
+                } else {
+                    val combineContacts = arrayListOf<Contact>()
+                    val threshold = 3000
+                    var lastCount = 0
+                    val numberOfIteration =
+                        ceil((localContacts.size.toDouble()) / threshold.toDouble()).toInt()
+                    for (x in 1..numberOfIteration) {
+                        val itemsToPost = localContacts.subList(
+                            lastCount,
+                            if ((x * threshold) > localContacts.size) localContacts.size else x * threshold
+                        )
+                        viewModelBGScope.async(Dispatchers.IO) {
+                            when (val response =
+                                repository.getY2YBeneficiaries(itemsToPost)) {
+                                is RetroApiResponse.Success -> {
+                                    combineContacts.addAll(response.data.data)
+                                    if (combineContacts.size >= localContacts.size) {
+                                        combineContacts.sortBy { it.title }
+                                        phoneContactLiveData.postValue(combineContacts)
+                                        pagingState.postValue(PagingState.DONE)
+                                    }
+                                }
+                                is RetroApiResponse.Error -> {
+                                    //state.toast = response.error.message
+                                    //pagingState.postValue(PagingState.ERROR)
+                                }
+                            }
+                        }
+                        lastCount = x * threshold
                     }
                 }
             }
+        } else {
+            phoneContactLiveData.postValue(phoneContactLiveData.value)
+            pagingState.postValue(PagingState.DONE)
         }
     }
 
@@ -88,17 +112,17 @@ class PhoneContactViewModel(application: Application) :
             val defaultCountryCode = Utils.getDefaultCountryCode(context)
             val phoneUtil = PhoneNumberUtil.getInstance()
 
-            val contacts = HashMap<Long, Contact>()
+            val contacts = LinkedHashMap<Long, Contact>()
 
             val projection = arrayOf(
                 ContactsContract.Data.CONTACT_ID,
                 ContactsContract.Data.DISPLAY_NAME_PRIMARY,
-                ContactsContract.Data.STARRED,
-                ContactsContract.Data.PHOTO_URI,
+                //ContactsContract.Data.STARRED,
+                //ContactsContract.Data.PHOTO_URI,
                 ContactsContract.Data.PHOTO_THUMBNAIL_URI,
                 ContactsContract.Data.DATA1,
-                ContactsContract.Data.MIMETYPE,
-                ContactsContract.Data.IN_VISIBLE_GROUP
+                ContactsContract.Data.MIMETYPE
+                //ContactsContract.Data.IN_VISIBLE_GROUP
             )
             val cursor = context.contentResolver.query(
                 ContactsContract.Data.CONTENT_URI,
@@ -117,7 +141,6 @@ class PhoneContactViewModel(application: Application) :
                 val mimetypeColumnIndex = cursor.getColumnIndex(ContactsContract.Data.MIMETYPE)
                 val dataColumnIndex = cursor.getColumnIndex(ContactsContract.Data.DATA1)
                 while (!cursor.isAfterLast) {
-                    Timber.d("Loading")
                     if (viewModelBGScope.isActive) {
                         val id = cursor.getLong(idColumnIndex)
                         var contact = contacts[id]
@@ -160,7 +183,6 @@ class PhoneContactViewModel(application: Application) :
             }
             return (ArrayList(contacts.values) as MutableList<Contact>)
         }
-
         return mutableListOf()
     }
 
@@ -187,61 +209,103 @@ class PhoneContactViewModel(application: Application) :
         }
     }
 
-//    try {
-//                                    val pn =
-//                                        phoneUtil.parse(phoneNo, defaultCountryCode)
-//                                    pn.nationalNumber.toString()
-//                                    phoneNo = pn.nationalNumber.toString()
-//                                    defaultCountryCode = "00${pn.countryCode}"
-//                                } catch (e: Exception) {
-//                                }
+//its for local instance testing
 //    interface UploadIdCardRetroService {
 //
 //        @POST(CustomersRepository.URL_Y2Y_BENEFICIARIES)
 //        fun getY2YBeneficiaries(@Body contacts: List<Contact>): Call<Y2YBeneficiariesResponse>
 //    }
-//
-//    fun uploadDocument(list: MutableList<Contact>) {
-//
-//        val logger = HttpLoggingInterceptor()
-//        logger.level = HttpLoggingInterceptor.Level.BODY
-//        val client = OkHttpClient.Builder()
-//            .connectTimeout(100, TimeUnit.SECONDS)
-//            .writeTimeout(100, TimeUnit.SECONDS)
-//            .readTimeout(100, TimeUnit.SECONDS)
-//            .addInterceptor { chain ->
-//                val request = chain.request().newBuilder()
-//                    .addHeader("X-XSRF-TOKEN", "f0a64479-cdd7-4fe8-a7a4-fcc10dc3180p")
-//                    .addHeader("Cookie:XSRF-TOKEN", "f0a64479-cdd7-4fe8-a7a4-fcc10dc3180p")
-//                    .addHeader(
-//                        "Authorization",
-//                        "Bearer eyJraWQiOiI3OTE3YzAyNC0xN2M1LTRjOWYtYWI1OC05ZmFjZWI2Njg2NzYiLCJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJub3RlMTBwbHVzMDAxQHlhcC5jb3xmMGFiZGY1Ni1jMjk4LTQ1NTctOTIzZC05OTQzZDM0YmJlNGMiLCJhdWQiOiJlM2M3ZGJhZC1mMTdmLTQ4ZjYtOTE5My01NzY4Y2RiNDY2ZTgiLCJpc3MiOiJodHRwczovL3NlbGYtaXNzdWVkLm1lIiwiZXhwIjoxNTc0Nzc1MzE3LCJpYXQiOjE1NzQ3NzE3MTcsImp0aSI6ImVhMDk0ZTliLTY1OWItNGYxYy05OWQxLWZmOTQ3MmJkN2YzNyJ9.RGtgmPbeElJee0Fqj4uvF2-WBKBVfJElexOxUtm_uF97k-BaKpltfOZpj6Xv74NrPKFUgQn4KWqamN13C87ehaQObYMNJG4P_wIIaWsoiZss5SZS39DCYj9_8IgEALjedv1aCj1Q4sVhNT3EucpGY8jYoLdwHoddiYSwgAScP3mbMMMqKQqWKhVMc8Vqm1wq3PWIPAsyu0Imlgu0Kr9p-CFI2kybl2conoLbb7TubpYIInJE_CZPjZf11w0qb2xU95PhYueK--oA9uowoUXqNH53Hs_06ylzL7VgAhA3F-w3hBflm95qRGg2VxUahthcFbQNxG-_fx7lSgOY2uNt5w"
-//                    )
-//                    .build()
-//                chain.proceed(request)
-//            }
-//            .build()
-//        val retro: Retrofit = Retrofit.Builder()
-//            .baseUrl("http://192.168.0.96:8080/")
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .client(client).build()
-//        val service = retro.create(UploadIdCardRetroService::class.java)
+
+//fun uploadDocument(list: MutableList<Contact>) {
+//    val logger = HttpLoggingInterceptor()
+//    logger.level = HttpLoggingInterceptor.Level.BODY
+//    val client = OkHttpClient.Builder()
+//        .connectTimeout(100, TimeUnit.SECONDS)
+//        .writeTimeout(100, TimeUnit.SECONDS)
+//        .readTimeout(100, TimeUnit.SECONDS)
+//        //.addInterceptor(CookiesInterceptor())
+//        .addInterceptor(logger)
+//        .build()
+//    val retro: Retrofit = Retrofit.Builder()
+//        .baseUrl("http://192.168.0.96:8080/")
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .client(client).build()
+//    val service = retro.create(UploadIdCardRetroService::class.java)
 ////        val file = File(result.document.files[1].croppedFile)
 ////        val fileReqBody = RequestBody.create(MediaType.parse("image/*"), file)
 ////        val part =
 ////            MultipartBody.Part.createFormData("image", file.name, fileReqBody)
 ////        state.loading = true
-//        service.getY2YBeneficiaries(list).enqueue(object : Callback<Y2YBeneficiariesResponse> {
-//            override fun onFailure(call: Call<Y2YBeneficiariesResponse>, t: Throwable) {
-//                t.printStackTrace()
-//            }
+//    list.apply {
+//        list.addAll(list)
+//        list.addAll(list)
+//        list.addAll(list)
 //
-//            override fun onResponse(
-//                call: Call<Y2YBeneficiariesResponse>,
-//                response: Response<Y2YBeneficiariesResponse>?
-//            ) {
-//                response?.body()?.data
+//    }
+//
+//    Timber.d(
+//        ("contact time live request start ${list.size}" + android.text.format.DateFormat.format(
+//            "yyyy-MM-dd hh:mm:ss a",
+//            java.util.Date()
+//        ))
+//    )
+//    service.getY2YBeneficiaries(list).enqueue(object : Callback<Y2YBeneficiariesResponse> {
+//        override fun onFailure(call: Call<Y2YBeneficiariesResponse>, t: Throwable) {
+//            t.printStackTrace()
+//            Timber.d(
+//                ("contact time live request End" + android.text.format.DateFormat.format(
+//                    "yyyy-MM-dd hh:mm:ss a",
+//                    java.util.Date()
+//                ))
+//            )
+//            state.toast = t.message.toString()
+//            pagingState.postValue(PagingState.ERROR)
+//        }
+//
+//        override fun onResponse(
+//            call: Call<Y2YBeneficiariesResponse>,
+//            response: Response<Y2YBeneficiariesResponse>?
+//        ) {
+//
+//            Timber.d(
+//                ("contact time live request End" + android.text.format.DateFormat.format(
+//                    "yyyy-MM-dd hh:mm:ss a",
+//                    java.util.Date()
+//                ))
+//            )
+//            phoneContactLiveData.postValue(response?.body()?.data)
+//            pagingState.postValue(PagingState.DONE)
+//
+//        }
+//    })
+//}
+
+    //    override fun getY2YBeneficiaries() {
+//
+//        pagingState.value = PagingState.LOADING
+//        launch {
+//            val localContacts = getLocalContacts()
+//            if (localContacts.isEmpty()) {
+//                phoneContactLiveData.value = mutableListOf()
+//                pagingState.value = PagingState.DONE
+//            } else {
+//                viewModelBGScope.async(Dispatchers.IO) {
+//                    when (val response =
+//                        repository.getY2YBeneficiaries(
+//                            localContacts
+//                        )) {
+//                        is RetroApiResponse.Success -> {
+//                            phoneContactLiveData.postValue(response.data.data)
+//                            pagingState.postValue(PagingState.DONE)
+//
+//                        }
+//                        is RetroApiResponse.Error -> {
+//                            launch { state.toast = response.error.message }
+//                            pagingState.postValue(PagingState.ERROR)
+//                        }
+//                    }
+//                }.await()
 //            }
-//        })
+//        }
 //    }
 }
