@@ -33,7 +33,7 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
 
     override val viewModel: IVerifyPasscode.ViewModel
-        get() = ViewModelProviders.of( activity!!).get(VerifyPasscodeViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(VerifyPasscodeViewModel::class.java)
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +56,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
             && BiometricUtil.isFingerprintAvailable(context as MainActivity)
         ) {
 
-            if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_TOUCH_ID_ENABLED, false)) {
+            if (sharedPreferenceManager.getValueBoolien(
+                    SharedPreferenceManager.KEY_TOUCH_ID_ENABLED,
+                    false
+                )
+            ) {
                 dialer.showFingerprintView()
                 Handler().postDelayed(
                     {
@@ -78,7 +82,11 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
         viewModel.forgotPasscodeButtonPressEvent.observe(this, Observer {
             when (it) {
                 R.id.tvForgotPassword -> {
-                    if (sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
+                    if (sharedPreferenceManager.getValueBoolien(
+                            SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                            false
+                        )
+                    ) {
                         viewModel.state.username = EncryptionUtils.decrypt(
                             context as MainActivity,
                             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
@@ -109,17 +117,21 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     private val signInButtonObserver = Observer<Boolean> {
         viewModel.isFingerprintLogin = false
         viewModel.state.passcode = dialer.getText()
-        if (!sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
+        if (!sharedPreferenceManager.getValueBoolien(
+                SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                false
+            )
+        ) {
             setUsername()
         } else {
-           if(null!=sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)){
-               viewModel.state.username = EncryptionUtils.decrypt(
-                   context as MainActivity,
-                   sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-               ) as String
-           }else{
-               viewModel.state.username = ""
-           }
+            if (null != sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)) {
+                viewModel.state.username = EncryptionUtils.decrypt(
+                    context as MainActivity,
+                    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
+                ) as String
+            } else {
+                viewModel.state.username = ""
+            }
         }
         viewModel.login()
     }
@@ -156,9 +168,15 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
                             Constants.TOUCH_ID_SCREEN_TYPE
                         )
                     findNavController().navigate(action)
-                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        true
+                    )
                 } else {
-                    sharedPreferenceManager.save(SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN, true)
+                    sharedPreferenceManager.save(
+                        SharedPreferenceManager.KEY_IS_FINGERPRINT_PERMISSION_SHOWN,
+                        true
+                    )
                     val action =
                         VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToSystemPermissionFragment(
                             Constants.NOTIFICATION_SCREEN_TYPE
@@ -175,12 +193,17 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
     }
 
     private val createOtpObserver = Observer<Boolean> {
-        val action = VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToPhoneVerificationSignInFragment(viewModel.state.username,  viewModel.state.passcode)
+        val action =
+            VerifyPasscodeFragmentDirections.actionVerifyPasscodeFragmentToPhoneVerificationSignInFragment(
+                viewModel.state.username,
+                viewModel.state.passcode
+            )
         findNavController().navigate(action)
     }
 
     private fun setUsername() {
-         viewModel.state.username = arguments?.let { VerifyPasscodeFragmentArgs.fromBundle(it).username } as String
+        viewModel.state.username =
+            arguments?.let { VerifyPasscodeFragmentArgs.fromBundle(it).username } as String
     }
 
 
@@ -228,14 +251,18 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onAuthenticationSuccessful() {
         viewModel.isFingerprintLogin = true
-        viewModel.state.passcode = EncryptionUtils.decrypt(
-            activity!!.applicationContext,
+        EncryptionUtils.decrypt(
+            requireContext(),
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
-        )!!
-        viewModel.state.username = EncryptionUtils.decrypt(
-            activity!!.applicationContext,
+        )?.let {
+            viewModel.state.passcode = it
+        }
+
+        EncryptionUtils.decrypt(
+            requireContext(),
             sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-        )!!
+        )?.let { viewModel.state.username = it }
+
         viewModel.login()
     }
 

@@ -63,7 +63,6 @@ object Constants {
 
 
 
-
     //Add Card Payment gateway URL
     const val URL_ADD_TOPUP_CARD = "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
 
@@ -84,5 +83,5 @@ object Constants {
 
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
 
-    const val BROADCAST_UPDATE_TRANSACTION :String = "BROADCAST_UPDATE_TRANSACTION"
+    const val BROADCAST_UPDATE_TRANSACTION: String = "BROADCAST_UPDATE_TRANSACTION"
 }

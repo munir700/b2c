@@ -107,7 +107,7 @@ class Y2YFundsTransferState(application: Application) : BaseState(), IY2YFundsTr
         }
 
     fun checkValidity(): String {
-        if (amount != "") {
+        if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty()) {
             if (amount.toDouble() > availableBalance!!.toDouble()) {
                 amountBackground =
                     context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)

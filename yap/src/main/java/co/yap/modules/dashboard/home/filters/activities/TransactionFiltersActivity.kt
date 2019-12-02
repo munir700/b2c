@@ -89,6 +89,7 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
                 transactionFilters.maxAmount.toFloat()
             )
 
+
         if (YAPApplication.homeTransactionsRequest.amountEndRange != null && YAPApplication.homeTransactionsRequest.amountEndRange != transactionFilters.maxAmount) {
             rsbAmount?.setProgress(
                 YAPApplication.homeTransactionsRequest.amountEndRange!!.toFloat(),
@@ -231,9 +232,9 @@ class TransactionFiltersActivity : BaseBindingActivity<ITransactionFilters.ViewM
 
     private fun getCurrentTxnType(): String? {
         // case null is used for all transaction
-        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked ){
+        if (!cbOutTransFilter.isChecked && !cbInTransFilter.isChecked) {
             return null
-        }else{
+        } else {
             return when {
                 cbInTransFilter.isChecked && cbOutTransFilter.isChecked -> {
                     YAPApplication.isAllChecked = true

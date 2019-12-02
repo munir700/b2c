@@ -18,7 +18,7 @@ import com.liveperson.messaging.model.AgentData
 import com.liveperson.messaging.sdk.api.LivePerson
 
 
-open class ChatApplication : YAPApplication() {
+open class ChatApplication(flavour: String) : YAPApplication(flavour) {
 
     private val authKey = "17038977"
     private val atg = ChatApplication::class.java.simpleName

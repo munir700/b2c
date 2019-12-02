@@ -115,7 +115,6 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                         updatePieChartInnerData(list[it])
                         setState(list[it])
                     }
-
                     viewModel.state.selectedItemPosition = it
                     showPieView(it)
                 }
