@@ -98,8 +98,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart.data = data
-        if (!txnAnalytics.isNullOrEmpty())
-            chart.highlightValue(0f, 0, true)
+        if (!txnAnalytics.isNullOrEmpty()) chart.highlightValue(
+            0f,
+            0,
+            true
+        ) else chart.highlightValue(0f, -1, true)
 
         chart.invalidate()
     }
@@ -110,6 +113,11 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
+            if (it.isEmpty()) {
+                getBindingView().rlDetails.visibility = View.INVISIBLE
+            } else
+                getBindingView().rlDetails.visibility = View.VISIBLE
+
             val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
             setupPieChart(selectedTabPos)
             setSelectedTabData(selectedTabPos, 0)
