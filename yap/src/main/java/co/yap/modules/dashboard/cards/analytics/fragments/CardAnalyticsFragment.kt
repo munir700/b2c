@@ -22,6 +22,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_card_analytics.*
 
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
@@ -105,6 +106,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
 
     override fun setObservers() {
+        rlDetails.setOnClickListener { }
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
@@ -180,7 +182,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let {
-                setSelectedTabData(it.position,0)
+                setSelectedTabData(it.position, 0)
                 setupPieChart(it.position)
             }
         }
@@ -234,7 +236,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
 
-       val selectedItem = getBindingView().tabLayout.selectedTabPosition
+        val selectedItem = getBindingView().tabLayout.selectedTabPosition
         h?.let {
             setSelectedTabData(selectedItem, it.x.toInt())
             viewModel.parentViewModel.selectedItemPositionParent.value = it.x.toInt()
@@ -257,7 +259,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
                     val txnItem =
                         viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
-                            contentPos)
+                            contentPos
+                        )
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
                 }
