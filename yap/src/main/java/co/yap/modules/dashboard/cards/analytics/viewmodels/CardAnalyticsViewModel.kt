@@ -128,7 +128,6 @@ class CardAnalyticsViewModel(application: Application) :
             )) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let {
-                        parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
                         state.monthlyCategoryAvgAmount =
                             response.data.data?.monthlyAvgAmount?.toString()
                         state.setUpString(
@@ -139,7 +138,9 @@ class CardAnalyticsViewModel(application: Application) :
                             state.currencyType + " ${Utils.getFormattedCurrency(response.data.data?.totalTxnAmount.toString())}"
                         state.totalSpent = state.totalCategorySpent
                         clickEvent.postValue(Constants.CATEGORY_AVERAGE_AMOUNT_VALUE)
+                        parentVM?.categoryAnalyticsItemLiveData?.value = it.txnAnalytics
                     }
+
                     fetchCardMerchantAnalytics(currentMonth)
 //                    state.loading = false
 
@@ -221,8 +222,6 @@ class CardAnalyticsViewModel(application: Application) :
                 currentMonth
             )) {
                 is RetroApiResponse.Success -> {
-                    parentVM?.merchantAnalyticsItemLiveData?.value =
-                        response.data.data?.txnAnalytics
                     state.monthlyMerchantAvgAmount =
                         response.data.data?.monthlyAvgAmount?.toString()
                     state.totalMerchantSpent =
@@ -231,6 +230,8 @@ class CardAnalyticsViewModel(application: Application) :
                         state.currencyType,
                         Utils.getFormattedCurrency(state.monthlyMerchantAvgAmount)
                     )
+                    parentVM?.merchantAnalyticsItemLiveData?.value =
+                        response.data.data?.txnAnalytics
                     state.loading = false
                 }
                 is RetroApiResponse.Error -> {

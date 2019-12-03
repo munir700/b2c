@@ -105,8 +105,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     override fun setObservers() {
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
-        viewModel.parentViewModel.categoryAnalyticsItemLiveData.observe(this, Observer {
-            setPieView(it)
+        viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
+            val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
+            setupPieChart(selectedTabPos)
+            setSelectedTabData(selectedTabPos, 0)
         })
         viewModel.parentViewModel.selectedItemPosition.observe(this, Observer {
             when (getBindingView().tabLayout.selectedTabPosition) {
@@ -177,30 +179,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let {
                 setSelectedTabData(it.position,0)
-                when (it.position) {
-                    CATEGORY_ANALYTICS -> {
-                        setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
-                        viewModel.state.totalSpent = viewModel.state.totalCategorySpent
-                        getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
-                            requireContext(),
-                            viewModel.state.monthlyAverageString,
-                            viewModel.state.currencyType.toString(),
-                            Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
-                        )
-//                        setSelectedTabData(1, 0)
-                    }
-                    MERCHANT_ANALYTICS -> {
-                        setPieView(viewModel.parentViewModel.merchantAnalyticsItemLiveData.value)
-                        viewModel.state.totalSpent = viewModel.state.totalMerchantSpent
-                        getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
-                            requireContext(),
-                            viewModel.state.monthlyMerchantAverageString,
-                            viewModel.state.currencyType.toString(),
-                            Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyMerchantAvgAmount.toString())
-                        )
-//                        setSelectedTabData(0, 0)
-                    }
-                }
+                setupPieChart(it.position)
             }
         }
     }
@@ -265,9 +244,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             CATEGORY_ANALYTICS -> {
                 if (!viewModel.parentViewModel.categoryAnalyticsItemLiveData.value.isNullOrEmpty()) {
                     val txnItem =
-                        viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
-                            contentPos
-                        )
+                        viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(contentPos)
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
                 }
@@ -283,6 +260,31 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             }
         }
         viewModel.state.selectedItemPosition = contentPos
+    }
+
+    private fun setupPieChart(TabPosition: Int) {
+        when (TabPosition) {
+            CATEGORY_ANALYTICS -> {
+                setPieView(viewModel.parentViewModel.categoryAnalyticsItemLiveData.value)
+                viewModel.state.totalSpent = viewModel.state.totalCategorySpent
+                getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
+                    requireContext(),
+                    viewModel.state.monthlyAverageString,
+                    viewModel.state.currencyType.toString(),
+                    Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyCategoryAvgAmount.toString())
+                )
+            }
+            MERCHANT_ANALYTICS -> {
+                setPieView(viewModel.parentViewModel.merchantAnalyticsItemLiveData.value)
+                viewModel.state.totalSpent = viewModel.state.totalMerchantSpent
+                getBindingView().tvMonthlyAverage.text = Utils.getSppnableStringForAmount(
+                    requireContext(),
+                    viewModel.state.monthlyMerchantAverageString,
+                    viewModel.state.currencyType.toString(),
+                    Utils.getFormattedCurrencyWithoutComma(viewModel.state.monthlyMerchantAvgAmount.toString())
+                )
+            }
+        }
     }
 
     private fun setState(txnAnalytic: TxnAnalytic?) {
