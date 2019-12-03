@@ -76,6 +76,9 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginEnd="@dimen/_14sdp"
                         android:layout_marginBottom="-15dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="@{viewModel.state.selectedItemSpentValue}"
                         android:textColor="#272262"
                         android:textSize="@dimen/_10sdp" />
@@ -196,14 +199,14 @@
                             android:enabled="@{viewModel.state.previousMonth}"
                             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                             android:padding="@dimen/_10sdp"
-                            app:srcCompat="@drawable/ic_back_arrow_left_gery"
                             android:tint="@{viewModel.state.previousMonth ? @color/greyDark : @color/greySoft}"
                             app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
                             app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
                             app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
-                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
+                            app:srcCompat="@drawable/ic_back_arrow_left_gery" />
 
                         <TextView
                             android:id="@+id/tvTransactionMonth"
@@ -242,8 +245,7 @@
 
                             app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
                             app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
-                            app:srcCompat="@drawable/ic_chevron_right"
-                            />
+                            app:srcCompat="@drawable/ic_chevron_right" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
