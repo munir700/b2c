@@ -22,6 +22,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.android.synthetic.main.fragment_card_analytics.*
 
 
 class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel>(),
@@ -97,17 +98,26 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart.data = data
-        if (!txnAnalytics.isNullOrEmpty())
-            chart.highlightValue(0f, 0, true)
+        if (!txnAnalytics.isNullOrEmpty()) chart.highlightValue(
+            0f,
+            0,
+            true
+        ) else chart.highlightValue(0f, -1, true)
 
         chart.invalidate()
     }
 
 
     override fun setObservers() {
+        rlDetails.setOnClickListener { }
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
+            if (it.isEmpty()) {
+                getBindingView().rlDetails.visibility = View.INVISIBLE
+            } else
+                getBindingView().rlDetails.visibility = View.VISIBLE
+
             val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
             setupPieChart(selectedTabPos)
             setSelectedTabData(selectedTabPos, 0)
@@ -180,7 +190,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
         override fun onTabSelected(tab: TabLayout.Tab?) {
             tab?.let {
-                setSelectedTabData(it.position,0)
+                setSelectedTabData(it.position, 0)
                 setupPieChart(it.position)
             }
         }
@@ -234,7 +244,7 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
 
     override fun onValueSelected(e: Entry?, h: Highlight?) {
 
-       val selectedItem = getBindingView().tabLayout.selectedTabPosition
+        val selectedItem = getBindingView().tabLayout.selectedTabPosition
         h?.let {
             setSelectedTabData(selectedItem, it.x.toInt())
             viewModel.parentViewModel.selectedItemPositionParent.value = it.x.toInt()
@@ -257,7 +267,8 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
                 if (!viewModel.parentViewModel.merchantAnalyticsItemLiveData.value.isNullOrEmpty()) {
                     val txnItem =
                         viewModel.parentViewModel.merchantAnalyticsItemLiveData.value?.get(
-                            contentPos)
+                            contentPos
+                        )
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
                 }

@@ -44,7 +44,7 @@ class TransactionsViewHelper(
         initCustomTooltip()
         //setTooltipOnZero()
         setRvTransactionScroll()
-        
+
     }
 
 

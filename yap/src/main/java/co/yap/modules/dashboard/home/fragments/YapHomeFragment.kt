@@ -89,12 +89,11 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().refreshLayout.setOnRefreshListener(this)
         rvTransactionsBarChart.adapter = GraphBarsAdapter(mutableListOf(), viewModel)
 
-     /*   getBindings().lyInclude.rvTransaction.apply {
+        getBindings().lyInclude.rvTransaction.apply {
             fixSwipeToRefresh(getBindings().refreshLayout)
-        }*/
+        }
 
         appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-            getBindings().refreshLayout.isEnabled = if(verticalOffset==0) true else false
             // if (Math.abs(verticalOffset) - appBarLayout?.totalScrollRange!! == 0) {
             //frameLayout.translationY = verticalOffset.toFloat()
 //            if (Math.abs(verticalOffset) > 0)
@@ -123,8 +122,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
             getBindings().refreshLayout.isRefreshing = false
-            getBindings().appbar.setExpanded(true)
-
+             getBindings().appbar.setExpanded(true)
         } else {
             getBindings().refreshLayout.isRefreshing = false
         }

@@ -32,11 +32,21 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent">
 
+                <co.yap.widgets.pieview.PieChart
+                    android:id="@+id/chart1"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_200sdp"
+                    android:layout_centerHorizontal="true" />
+
                 <RelativeLayout
+                    android:id="@+id/rlDetails"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_100sdp"
                     android:layout_centerInParent="true"
-                    android:layout_centerHorizontal="true">
+                    android:soundEffectsEnabled="false"
+                    android:layout_centerHorizontal="true"
+                    android:clickable="true"
+                    android:focusable="true">
 
                     <co.yap.widgets.CoreCircularImageView
                         android:id="@+id/ivPieView"
@@ -76,6 +86,9 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginEnd="@dimen/_14sdp"
                         android:layout_marginBottom="-15dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:singleLine="true"
                         android:text="@{viewModel.state.selectedItemSpentValue}"
                         android:textColor="#272262"
                         android:textSize="@dimen/_10sdp" />
@@ -93,12 +106,6 @@
                         android:textColor="#9391b1"
                         android:textSize="@dimen/_10sdp" />
                 </RelativeLayout>
-
-                <co.yap.widgets.pieview.PieChart
-                    android:id="@+id/chart1"
-                    android:layout_width="@dimen/_200sdp"
-                    android:layout_height="@dimen/_200sdp"
-                    android:layout_centerHorizontal="true" />
 
             </RelativeLayout>
 
@@ -136,7 +143,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tabLayout" />
         </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -196,14 +202,14 @@
                             android:enabled="@{viewModel.state.previousMonth}"
                             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
                             android:padding="@dimen/_10sdp"
-                            app:srcCompat="@drawable/ic_back_arrow_left_gery"
                             android:tint="@{viewModel.state.previousMonth ? @color/greyDark : @color/greySoft}"
                             app:layout_constraintBottom_toBottomOf="@id/tvTotalSpent"
                             app:layout_constraintEnd_toEndOf="@id/tvTransactionMonth"
                             app:layout_constraintEnd_toStartOf="@id/tvTransactionMonth"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/tvTransactionMonth"
-                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth" />
+                            app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
+                            app:srcCompat="@drawable/ic_back_arrow_left_gery" />
 
                         <TextView
                             android:id="@+id/tvTransactionMonth"
@@ -242,8 +248,7 @@
 
                             app:layout_constraintStart_toEndOf="@id/tvTransactionMonth"
                             app:layout_constraintTop_toTopOf="@id/tvTransactionMonth"
-                            app:srcCompat="@drawable/ic_chevron_right"
-                            />
+                            app:srcCompat="@drawable/ic_chevron_right" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.appbar.CollapsingToolbarLayout>
