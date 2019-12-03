@@ -90,18 +90,21 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         viewModel.parentViewModel?.searchQuery?.observe(this, Observer {
             adaptor.filter.filter(it)
         })
-        adaptor.filterCount.observe(this, Observer {
 
-            getBinding().tvContactListDescription.visibility =
-                if (it == 0) View.GONE else View.VISIBLE
-
-            getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
-            getBinding().txtError.text =
-                if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
-                    requireContext(),
-                    Strings.screen_y2y_display_text_no_contacts
-                )
-        })
+        viewModel.parentViewModel?.isSearching?.value?.let {
+            if (it)
+                if (viewModel.getState().value != null && viewModel.getState().value != PagingState.LOADING)
+                    adaptor.filterCount.observe(this, Observer {
+                        getBinding().tvContactListDescription.visibility =
+                            if (it == 0) View.GONE else View.VISIBLE
+                        getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
+                        getBinding().txtError.text =
+                            if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
+                                requireContext(),
+                                Strings.screen_y2y_display_text_no_contacts
+                            )
+                    })
+        }
     }
 
     val listener = object : OnItemClickListener {
