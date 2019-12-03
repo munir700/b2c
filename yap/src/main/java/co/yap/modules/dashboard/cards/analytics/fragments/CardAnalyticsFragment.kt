@@ -97,7 +97,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart.data = data
-        chart.highlightValue(0f, 0, true)
+        if (!txnAnalytics.isNullOrEmpty())
+            chart.highlightValue(0f, 0, true)
+
         chart.invalidate()
     }
 
@@ -244,7 +246,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
             CATEGORY_ANALYTICS -> {
                 if (!viewModel.parentViewModel.categoryAnalyticsItemLiveData.value.isNullOrEmpty()) {
                     val txnItem =
-                        viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(contentPos)
+                        viewModel.parentViewModel.categoryAnalyticsItemLiveData.value?.get(
+                            contentPos
+                        )
                     updatePieChartInnerData(txnItem)
                     setState(txnItem)
                 }
