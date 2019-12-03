@@ -26,7 +26,7 @@ class MerchantAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnal
                 setBackgroundColor(
                     ContextCompat.getColor(
                         context,
-                        if (adapter?.checkedPosition == position) R.color.greyLight else R.color.white
+                        if (adapter?.checkedPosition == position) R.color.itemBackground else R.color.white
                     )
                 )
                 itemAnalyticsBinding.tvName.setTextColor(
