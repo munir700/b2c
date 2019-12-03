@@ -123,9 +123,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
             getBindings().refreshLayout.isRefreshing = false
-//            activity!!.recreate()
             getBindings().appbar.setExpanded(true)
-//            AppBarLayout.setExpanded(boolean)
 
         } else {
             getBindings().refreshLayout.isRefreshing = false
@@ -196,6 +194,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
+                if (getRecycleViewAdaptor()?.itemCount!! == 0)            getBindings().appbar.setExpanded(true)
+
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
 

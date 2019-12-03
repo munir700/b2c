@@ -22,6 +22,7 @@ import co.yap.yapcore.helpers.DateUtils.FORMAT_MON_YEAR
 import co.yap.yapcore.helpers.RecyclerTouchListener
 import co.yap.yapcore.helpers.Utils
 import kotlinx.android.synthetic.main.content_fragment_yap_home.view.*
+import kotlinx.android.synthetic.main.fragment_yap_home.view.*
 import kotlinx.android.synthetic.main.view_graph.view.*
 import java.util.*
 
@@ -43,7 +44,7 @@ class TransactionsViewHelper(
         initCustomTooltip()
         //setTooltipOnZero()
         setRvTransactionScroll()
-
+        
     }
 
 
@@ -87,6 +88,10 @@ class TransactionsViewHelper(
                         removeRvTransactionScroll()
                         transactionsView.rvTransaction.smoothScrollToPosition(position)
                         setRvTransactionScroll()
+                        if (position==0){
+                                transactionsView.appbar.setExpanded(true)
+
+                            }
 
                     }
                 }
