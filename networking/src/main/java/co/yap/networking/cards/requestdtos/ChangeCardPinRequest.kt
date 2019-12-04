@@ -1,9 +1,15 @@
 package co.yap.networking.cards.requestdtos
 
+import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
 data class ChangeCardPinRequest(
-    var oldPin: String,
-    var newPin: String,
-    var confirmPin: String,
-    var cardSerialNumber: String
-) {
-}
+    @SerializedName("oldPin")
+    val oldPin: String,
+    @SerializedName("newPin")
+    val newPin: String,
+    @SerializedName("confirmPin")
+    val confirmPin: String,
+    @SerializedName("cardSerialNumber")
+    val cardSerialNumber: String
+) : Serializable

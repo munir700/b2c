@@ -45,7 +45,6 @@ interface CardsApi {
     suspend fun removeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun updateCardName(cardName: String, cardSerialNumber: String): RetroApiResponse<CardDetailResponseDTO>
     suspend fun reportAndBlockCard(cardsHotlistReequest: CardsHotlistRequest): RetroApiResponse<ApiResponse>
-
     suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse>
     suspend fun editAddressRequest(address: UpdateAddressRequest): RetroApiResponse<ApiResponse>
     suspend fun forgotCardPin(
