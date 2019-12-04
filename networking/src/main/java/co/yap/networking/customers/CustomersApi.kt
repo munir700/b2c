@@ -10,6 +10,8 @@ import okhttp3.MultipartBody
 
 interface CustomersApi {
 
+    /*TODO: Irfan ******************************/
+
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
     suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<ApiResponse>
     suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse>
@@ -20,6 +22,9 @@ interface CustomersApi {
     suspend fun validateEmail(email: String): RetroApiResponse<ApiResponse>
     suspend fun getMoreDocumentsByType(documentType: String): RetroApiResponse<ApiResponse>
     suspend fun uploadProfilePicture(profilePicture: MultipartBody.Part): RetroApiResponse<UploadProfilePictureResponse>
+    suspend fun detectCardData(file: MultipartBody.Part): RetroApiResponse<ApiResponse>
+
+    /*TODO ========================================*/
     suspend fun validatePhoneNumber(
         countryCode: String,
         mobileNumber: String
@@ -30,13 +35,16 @@ interface CustomersApi {
         mobileNumber: String
     ): RetroApiResponse<ApiResponse>
 
+
+    /*TODO: Faheem ******************************/
     suspend fun changeVerifiedEmail(email: String): RetroApiResponse<ApiResponse>
     suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse>
-    suspend fun detectCardData(file: MultipartBody.Part): RetroApiResponse<ApiResponse>
+
     suspend fun getY2YBeneficiaries(contacts: List<Contact>): RetroApiResponse<Y2YBeneficiariesResponse>
     suspend fun getRecentY2YBeneficiaries(): RetroApiResponse<RecentBeneficiariesResponse>
     suspend fun getTopUpBeneficiaries(): RetroApiResponse<TopUpBeneficiariesResponse>
     suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse>
     suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
     suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
+    /*TODO ======================================*/
 }
