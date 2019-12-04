@@ -8,6 +8,8 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 interface MessagesApi {
+    /*TODO: irfan ******************************/
+
     suspend fun createOtpOnboarding(createOtpOnboardingRequest: CreateOtpOnboardingRequest): RetroApiResponse<ApiResponse>
     suspend fun verifyOtpOnboarding(verifyOtpOnboardingRequest: VerifyOtpOnboardingRequest): RetroApiResponse<ApiResponse>
     suspend fun createOtpGeneric(createOtpGenericRequest: CreateOtpGenericRequest): RetroApiResponse<ApiResponse>
@@ -18,6 +20,7 @@ interface MessagesApi {
         verifyOtpGenericRequest: VerifyOtpGenericRequest
     ): RetroApiResponse<ApiResponse>
 
+    /*TODO: faheem ******************************/
     suspend fun createForgotPasscodeOTP(createForgotPasscodeOtpRequest: CreateForgotPasscodeOtpRequest): RetroApiResponse<ApiResponse>
     suspend fun verifyForgotPasscodeOtp(verifyForgotPasscodeOtpRequest: VerifyForgotPasscodeOtpRequest): RetroApiResponse<ApiResponse>
     suspend fun getHelpDeskContact(): RetroApiResponse<HelpDeskResponse>
