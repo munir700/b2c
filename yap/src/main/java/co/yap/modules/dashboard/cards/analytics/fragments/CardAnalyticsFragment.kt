@@ -98,11 +98,10 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         data.setValueTextSize(11f)
         data.setValueTextColor(Color.WHITE)
         chart.data = data
-        if (!txnAnalytics.isNullOrEmpty()) chart.highlightValue(
-            0f,
-            0,
-            true
-        ) else chart.highlightValue(0f, -1, true)
+        if (!txnAnalytics.isNullOrEmpty())
+            chart.highlightValue(0f, 0)
+        else
+            chart.highlightValue(0f, -1)
 
         chart.invalidate()
     }
@@ -113,9 +112,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
-            if (it.isEmpty()) {
+            if (it.isNullOrEmpty())
                 getBindingView().rlDetails.visibility = View.INVISIBLE
-            } else
+            else
                 getBindingView().rlDetails.visibility = View.VISIBLE
 
             val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
@@ -152,19 +151,19 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun showPieView(indexValue: Int) {
         when (indexValue) {
             0 -> {
-                chart.highlightValue(0f, 0, true)
+                chart.highlightValue(0f, 0)
             }
             1 -> {
-                chart.highlightValue(1f, 0, true)
+                chart.highlightValue(1f, 0)
             }
             2 -> {
-                chart.highlightValue(2f, 0, true)
+                chart.highlightValue(2f, 0)
             }
             3 -> {
-                chart.highlightValue(3f, 0, true)
+                chart.highlightValue(3f, 0)
             }
             4 -> {
-                chart.highlightValue(4f, 0, true)
+                chart.highlightValue(4f, 0)
             }
         }
     }

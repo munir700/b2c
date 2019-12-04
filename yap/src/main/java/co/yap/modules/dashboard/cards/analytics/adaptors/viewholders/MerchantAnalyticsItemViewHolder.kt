@@ -41,7 +41,7 @@ class MerchantAnalyticsItemViewHolder(private val itemAnalyticsBinding: ItemAnal
 
 
         itemAnalyticsBinding.viewModel =
-            AnalyticsItemViewModel(analyticsItem, position, onItemClickListener,true)
+            AnalyticsItemViewModel(analyticsItem, position, onItemClickListener)
         itemAnalyticsBinding.executePendingBindings()
     }
 }

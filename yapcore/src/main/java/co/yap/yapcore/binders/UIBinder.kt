@@ -182,7 +182,7 @@ object UIBinder {
         name: String?
     ) {
         if (name != null) {
-            initials.text = Utils.shortName(name)
+            initials.text = Utils.shortName2(name)
             initials.visibility = View.VISIBLE
             layout.visibility = View.VISIBLE
             imageView.visibility = View.INVISIBLE
