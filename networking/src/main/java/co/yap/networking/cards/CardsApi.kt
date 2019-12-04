@@ -43,11 +43,7 @@ interface CardsApi {
     suspend fun freezeUnfreezeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
     suspend fun getCardDetails(cardSerialNumber: String): RetroApiResponse<CardDetailResponseDTO>
     suspend fun removeCard(cardLimitConfigRequest: CardLimitConfigRequest): RetroApiResponse<ApiResponse>
-    suspend fun updateCardName(
-        cardName: String,
-        cardSerialNumber: String
-    ): RetroApiResponse<CardDetailResponseDTO>
-
+    suspend fun updateCardName(cardName: String, cardSerialNumber: String): RetroApiResponse<CardDetailResponseDTO>
     suspend fun reportAndBlockCard(cardsHotlistReequest: CardsHotlistRequest): RetroApiResponse<ApiResponse>
 
     suspend fun changeCardPinRequest(changeCardCardPinRequest: ChangeCardPinRequest): RetroApiResponse<ApiResponse>
