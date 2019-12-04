@@ -113,9 +113,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         getBindingView().tabLayout.addOnTabSelectedListener(onTabSelectedListener)
         viewModel.clickEvent.observe(this, clickEventObserver)
         viewModel.parentViewModel.merchantAnalyticsItemLiveData.observe(this, Observer {
-            if (it.isEmpty()) {
+            if (it.isNullOrEmpty())
                 getBindingView().rlDetails.visibility = View.INVISIBLE
-            } else
+            else
                 getBindingView().rlDetails.visibility = View.VISIBLE
 
             val selectedTabPos = getBindingView().tabLayout.selectedTabPosition
