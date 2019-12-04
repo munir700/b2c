@@ -12,7 +12,7 @@ data class SignUpRequest(
     @SerializedName("countryCode")
     var countryCode: String? = null,
     @SerializedName("mobileNo")
-    var mobileNo: String,
+    var mobileNo: String? = null,
     @SerializedName("email")
     var email: String? = null,
     @SerializedName("passcode")
