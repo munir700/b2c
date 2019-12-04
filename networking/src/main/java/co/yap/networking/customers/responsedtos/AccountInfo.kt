@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 
 class AccountInfo(
 
-    var creationDate: String,
+    var creationDate: String? = null,
     var createdBy: String,
     var updatedDate: String,
     var uuid: String,

@@ -9,6 +9,7 @@ import co.yap.networking.models.RetroApiResponse
 import okhttp3.MultipartBody
 
 interface CustomersApi {
+
     suspend fun signUp(signUpRequest: SignUpRequest): RetroApiResponse<SignUpResponse>
     suspend fun sendVerificationEmail(verificationEmailRequest: SendVerificationEmailRequest): RetroApiResponse<ApiResponse>
     suspend fun getAccountInfo(): RetroApiResponse<AccountInfoResponse>
