@@ -36,7 +36,7 @@ interface CardsApi {
 
     /*TODO :===========================*/
 
-    /*TODO: MIrza Adil ********************************/
+    /*TODO: Mirza Adil ********************************/
 
     suspend fun getUserAddressRequest(): RetroApiResponse<ApiResponse>
     suspend fun getCardBalance(cardSerialNumber: String): RetroApiResponse<CardBalanceResponseDTO>

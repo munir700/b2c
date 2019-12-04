@@ -6,17 +6,17 @@ import java.io.Serializable
 
 data class SignUpRequest(
     @SerializedName("firstName")
-    var firstName: String? = null,
+    val firstName: String? = null,
     @SerializedName("lastName")
-    var lastName: String? = null,
+    val lastName: String? = null,
     @SerializedName("countryCode")
-    var countryCode: String? = null,
+    val countryCode: String? = null,
     @SerializedName("mobileNo")
-    var mobileNo: String? = null,
+    val mobileNo: String? = null,
     @SerializedName("email")
-    var email: String? = null,
+    val email: String? = null,
     @SerializedName("passcode")
-    var passcode: String? = null,
+    val passcode: String? = null,
     @SerializedName("accountType")
-    var accountType: String? = null
+    val accountType: String? = null
 ) : Serializable
