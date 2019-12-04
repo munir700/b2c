@@ -421,7 +421,7 @@ object Utils {
         amount: String
     ): SpannableStringBuilder? {
         return try {
-            var textSize=context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
+            var textSize = context.resources.getDimensionPixelSize(R.dimen.text_size_h4)
             val fcs = ForegroundColorSpan(ContextCompat.getColor(context, R.color.colorPrimaryDark))
             val fcsLarge = AbsoluteSizeSpan(textSize)
             val separated = staticString.split(currencyType)
@@ -430,17 +430,17 @@ object Utils {
             str.setSpan(
                 fcs,
                 separated[0].length,
-                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str.setSpan(
                 fcsLarge,
                 separated[0].length,
-                separated[0].length + currencyType.length + getFormattedCurrency(amount).length+1,
+                separated[0].length + currencyType.length + getFormattedCurrency(amount).length + 1,
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
             )
             str
-        }catch (e:Exception){
+        } catch (e: Exception) {
             return null
         }
 
@@ -547,7 +547,6 @@ object Utils {
         R.color.colorSecondaryGreen,
         R.color.colorSecondaryOrange
     )
-
 
 
     fun getTwoDecimalPlaces(value: Double): Double {

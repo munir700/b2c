@@ -131,6 +131,7 @@ object UIBinder {
         } else {
             if (contactId.contains("http")) {
                 image.visibility = View.VISIBLE
+                image.tag = null
                 image.loadImage(contactId)
             } else {
                 try {
