@@ -38,13 +38,12 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         initState()
         initComponents()
         setObservers()
-        if (viewModel.listIsEmpty())
-            viewModel.getY2YBeneficiaries()
+        viewModel.getY2YBeneficiaries()
     }
 
     private fun initComponents() {
         adaptor =
-            YapContactsAdaptor(if (viewModel.listIsEmpty()) mutableListOf() else viewModel.phoneContactLiveData.value as MutableList<Contact>)
+            YapContactsAdaptor(mutableListOf())
         getBinding().recycler.adapter = adaptor
         adaptor.setItemListener(listener)
     }
