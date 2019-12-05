@@ -54,8 +54,8 @@ interface TransactionsRetroService {
     // Get Account Transaction
     @GET(TransactionsRepository.URL_GET_ACCOUNT_TRANSACTIONS)
     suspend fun getAccountTransactions(
-        @Path("number") number: Int,
-        @Path("size") size: Int,
+        @Path("number") number: Int?,
+        @Path("size") size: Int?,
         @Query("amountStartRange") minAmount: Double?,
         @Query("amountEndRange") maxAmount: Double?,
         @Query("txnType") txnType: String?,
@@ -65,9 +65,9 @@ interface TransactionsRetroService {
     // Get Account Transaction
     @GET(TransactionsRepository.URL_GET_CARD_TRANSACTIONS)
     suspend fun getCardTransactions(
-        @Path("number") number: Int,
-        @Path("size") size: Int,
-        @Query("cardSerialNumber") cardSerialNumber: String
+        @Path("number") number: Int?,
+        @Path("size") size: Int?,
+        @Query("cardSerialNumber") cardSerialNumber: String?
     ): Response<HomeTransactionsResponse>
 
     // Get transaction fee

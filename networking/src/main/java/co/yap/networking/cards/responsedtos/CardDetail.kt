@@ -1,8 +1,10 @@
 package co.yap.networking.cards.responsedtos
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 class CardDetail(
     @SerializedName("productCode")
     val productCode: String? = null,
@@ -29,7 +31,7 @@ class CardDetail(
     @SerializedName("activationDate")
     val activationDate: String? = null,
     @SerializedName("cardStatus")
-    val cardStatus: Int? = 0,
+    val cardStatus: Int? = null,
     @SerializedName("nonSoleProprietary")
     val nonSoleProprietary: Boolean = false
-) : Serializable
+) : Parcelable
