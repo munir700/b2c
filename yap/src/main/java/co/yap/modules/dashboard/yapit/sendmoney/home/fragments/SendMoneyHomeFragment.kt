@@ -84,7 +84,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         if (viewModel.adapter.get() == null) {
             viewModel.requestRecentBeneficiaries()
             viewModel.recentTransferData.observe(this, Observer {
-                if (it.isEmpty()) {
+                if (it.isNullOrEmpty()) {
                     layoutRecent?.visibility = View.GONE
                 } else {
                     viewModel.adapter.set(

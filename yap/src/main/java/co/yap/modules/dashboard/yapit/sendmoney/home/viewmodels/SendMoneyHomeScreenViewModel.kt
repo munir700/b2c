@@ -67,17 +67,17 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         return pagingState
     }
 
-    fun getRecentBeneficiaries() {
-        launch {
-            when (val response = repository.getRecentY2YBeneficiaries()) {
-                is RetroApiResponse.Success -> {
-                    recentTransferData.value = response.data.data
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-
-        }
-    }
+//    fun getRecentBeneficiaries() {
+//        launch {
+//            when (val response = repository.getRecentY2YBeneficiaries()) {
+//                is RetroApiResponse.Success -> {
+//                    recentTransferData.value = response.data.data
+//                }
+//                is RetroApiResponse.Error -> state.toast = response.error.message
+//            }
+//
+//        }
+//    }
 
 
     fun requestAllBeneficiaries() {
@@ -101,23 +101,38 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     }
 
    override fun requestRecentBeneficiaries() {
-        launch {
-            state.loading = true
-            when (val response = repository.getRecentBeneficiaries()) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                    state.toast = response.data.toString()
-                    recentBeneficiariesList = response.data.data
 
-                }
+       launch {
+           when (val response = repository.getRecentY2YBeneficiaries()) {
+               is RetroApiResponse.Success -> {
+                   recentTransferData.value = response.data.data
 
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
+               }
+               is RetroApiResponse.Error -> state.toast = response.error.message
+           }
 
-                }
-            }
-        }
+       }
+
+
+
+
+//        launch {
+//            state.loading = true
+//            when (val response = repository.getRecentBeneficiaries()) {
+//                is RetroApiResponse.Success -> {
+//                    state.loading = false
+//                    state.toast = response.data.toString()
+//                    recentBeneficiariesList = response.data.data
+//
+//                }
+//
+//                is RetroApiResponse.Error -> {
+//                    state.loading = false
+//                    state.toast = response.error.message
+//
+//                }
+//            }
+//        }
     }
 
     override fun requestDeleteBeneficiary(beneficiaryId: Int) {
