@@ -131,6 +131,7 @@ object UIBinder {
         } else {
             if (contactId.contains("http")) {
                 image.visibility = View.VISIBLE
+                image.tag = null
                 image.loadImage(contactId)
             } else {
                 try {
@@ -181,7 +182,7 @@ object UIBinder {
         name: String?
     ) {
         if (name != null) {
-            initials.text = Utils.shortName(name)
+            initials.text = Utils.shortName2(name)
             initials.visibility = View.VISIBLE
             layout.visibility = View.VISIBLE
             imageView.visibility = View.INVISIBLE

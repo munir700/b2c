@@ -73,7 +73,7 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:lines="1"
-                    android:text="@{viewModel.analyticsItem.txnCount+` transactions`}"
+                    android:text="@{viewModel.analyticsItem.txnCount==1?viewModel.analyticsItem.txnCount+` transaction`:viewModel.analyticsItem.txnCount+` transactions`}"
                     tools:text="5 transactions" />
 
             </LinearLayout>
