@@ -1,3 +1,13 @@
 package co.yap.networking.transactions.responsedtos
 
-class CardFee (val currency: String, val amount: String)
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+class CardFee(
+    @SerializedName("currency")
+    val currency: String?,
+    @SerializedName("amount")
+    val amount: String?
+) : Parcelable

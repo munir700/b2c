@@ -1,3 +1,15 @@
 package co.yap.networking.transactions.responsedtos
 
-data class CardStatement(val statementURL: String, val month: String, val year: String)
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
+
+@Parcelize
+data class CardStatement(
+    @SerializedName("statementURL")
+    val statementURL: String? = "",
+    @SerializedName("month")
+    val month: String? = "",
+    @SerializedName("year")
+    val year: String? = ""
+) : Parcelable

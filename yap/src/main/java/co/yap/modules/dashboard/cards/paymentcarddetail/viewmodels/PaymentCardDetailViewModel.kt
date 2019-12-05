@@ -60,10 +60,12 @@ class PaymentCardDetailViewModel(application: Application) :
             when (val response = cardsRepository.getCardBalance(card.value?.cardSerialNumber!!)) {
                 is RetroApiResponse.Success -> {
                     try {
-                        val cardBalance: CardBalance = response.data.data
-                        card.value?.availableBalance = cardBalance.availableBalance.toString()
+                        val cardBalance: CardBalance? = response.data.data?.let {
+                            it
+                        }
+                        card.value?.availableBalance = cardBalance?.availableBalance.toString()
                         state.cardBalance =
-                            cardBalance.currencyCode + " " + Utils.getFormattedCurrency(cardBalance.availableBalance)
+                            cardBalance?.currencyCode + " " + Utils.getFormattedCurrency(cardBalance?.availableBalance)
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
@@ -297,8 +299,10 @@ class PaymentCardDetailViewModel(application: Application) :
             state.loading = true
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.size != 0) {
-                        debitCardSerialNumber = response.data.data[0].cardSerialNumber
+                    if (response.data.data?.size != 0) {
+                        response.data.data?.let {
+                            debitCardSerialNumber = it[0].cardSerialNumber
+                        }
                         clickEvent.setValue(EVENT_SET_CARD_PIN)
                     }
                 }

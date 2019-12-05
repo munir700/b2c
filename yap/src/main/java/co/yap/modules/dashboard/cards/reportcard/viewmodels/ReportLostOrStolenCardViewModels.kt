@@ -105,7 +105,7 @@ class ReportLostOrStolenCardViewModels(application: Application) :
         launch {
             when (val response = transactionRepository.getCardFee("physical")) {
                 is RetroApiResponse.Success -> {
-                    cardFee = response.data.data.currency + " " + response.data.data.amount
+                    cardFee = response.data.data?.currency + " " + response.data.data?.amount
                     toggleToolBarVisibility(false)
                     clickEvent.setValue(CARD_REORDER_SUCCESS)
 
