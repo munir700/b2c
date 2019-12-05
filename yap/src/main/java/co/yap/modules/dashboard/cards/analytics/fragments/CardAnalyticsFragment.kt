@@ -84,7 +84,9 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
         } else {
             chart.isHighlightPerTapEnabled = true
             for (item in txnAnalytics.iterator())
-                entries.add(PieEntry(item.totalSpendingInPercentage.toFloat()))
+                item.totalSpendingInPercentage?.toFloat()?.let { PieEntry(it) }?.let {
+                    entries.add(it)
+                }
         }
         colors.addAll(resources.getIntArray(co.yap.yapcore.R.array.analyticsColors).toTypedArray())
         val dataSet = PieDataSet(entries, "")
