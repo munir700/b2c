@@ -55,16 +55,16 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse> =
         executeSafely(call = { api.getFundTransferDenominations(productCode) })
 
-    override suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse> =
+    override suspend fun getCardFee(cardType: String?): RetroApiResponse<CardFeeResponse> =
         executeSafely(call = { api.getCardFee(cardType) })
 
-    override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =
+    override suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })
 
-    override suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest?): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.y2yFundsTransferRequest(y2YFundsTransferRequest) })
 
-    override suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse> =
+    override suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest?): RetroApiResponse<AddEditNoteResponse> =
         executeSafely(call = { api.addEditNote(addEditNoteRequest) })
 
     override suspend fun getAccountTransactions(homeTransactionsRequest: HomeTransactionsRequest): RetroApiResponse<HomeTransactionsResponse> =
@@ -82,7 +82,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse> =
         executeSafely(call = { api.getSearchFilterAmount() })
 
-    override suspend fun getTransactionDetails(transactionId: String): RetroApiResponse<TransactionDetailsResponse> =
+    override suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse> =
         executeSafely(call = { api.getTransactionDetails(transactionId) })
 
     override suspend fun getCardTransactions(cardTransactionRequest: CardTransactionRequest): RetroApiResponse<HomeTransactionsResponse> =

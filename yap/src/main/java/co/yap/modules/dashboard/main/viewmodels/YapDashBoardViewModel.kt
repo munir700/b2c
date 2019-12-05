@@ -84,7 +84,7 @@ class YapDashBoardViewModel(application: Application) :
             when (val response = cardsRepository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.cardBalance.value =
-                        CardBalance(availableBalance = response.data.data.availableBalance.toString())
+                        CardBalance(availableBalance = response.data.data?.availableBalance.toString())
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

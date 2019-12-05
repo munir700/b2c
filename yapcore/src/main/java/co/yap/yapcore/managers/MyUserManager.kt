@@ -31,7 +31,7 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         GlobalScope.launch {
             when (val response = repository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
-                    cardBalance.postValue(CardBalance(availableBalance = response.data.data.availableBalance.toString()))
+                    cardBalance.postValue(CardBalance(availableBalance = response.data.data?.availableBalance.toString()))
                 }
                 is RetroApiResponse.Error -> {
 

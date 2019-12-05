@@ -1,4 +1,4 @@
-package co.yap.networking.authentication.responsedtos
+package co.yap.networking.customers.responsedtos
 
 import co.yap.networking.models.ApiError
 import co.yap.networking.models.ApiResponse

@@ -9,7 +9,7 @@ import co.yap.networking.transactions.responsedtos.topuptransactionsession.Creat
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 
 interface TransactionsApi {
-    /*TODO: faheem ******************************/
+    /*TODO: faheem ***************************** done */
 
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
     suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
@@ -19,14 +19,14 @@ interface TransactionsApi {
     /*TODO :===========================*/
 
 
-    /*TODO: sufyan ******************************/
+    /*Done: sufyan ******************************/
 
-    suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse>
-    suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse>
-    suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse>
-    suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse>
+    suspend fun getCardFee(cardType: String?): RetroApiResponse<CardFeeResponse>
+    suspend fun getCardStatements(cardSerialNumber: String?): RetroApiResponse<CardStatementsResponse>
+    suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest?): RetroApiResponse<ApiResponse>
+    suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest?): RetroApiResponse<AddEditNoteResponse>
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>
-    suspend fun getTransactionDetails(transactionId: String): RetroApiResponse<TransactionDetailsResponse>
+    suspend fun getTransactionDetails(transactionId: String?): RetroApiResponse<TransactionDetailsResponse>
 
     /*TODO :===========================*/
 

@@ -84,10 +84,12 @@ class TopUpCardFundsViewModel(application: Application) : FundActionsViewModel(a
             )) {
                 is RetroApiResponse.Success -> {
                     orderId = response.data.data.order.id
-                    check3DEnrollmentSessionRequest(
-                        response.data.data.session.id,
-                        response.data.data.order.id
-                    )
+                    response.data.data.session.id?.let {
+                        check3DEnrollmentSessionRequest(
+                            it,
+                            response.data.data.order.id
+                        )
+                    }
                 }
                 is RetroApiResponse.Error -> {
                     //state.toast = response.error.message
