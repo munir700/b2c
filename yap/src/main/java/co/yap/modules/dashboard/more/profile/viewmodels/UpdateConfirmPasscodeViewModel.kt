@@ -67,7 +67,10 @@ class UpdateConfirmPasscodeViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    mobileNumber = response.data.data
+                    response.data.data?.let {
+                        mobileNumber = it
+                    }
+
                     state.loading = false
                     forgotPasscodeclickEvent.postValue(id)
                 }

@@ -166,10 +166,12 @@ class ProfileSettingsViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
 
                     if (null != response.data.data) {
-                        state.profilePictureUrl = response.data.data.imageURL
-                        MyUserManager.user!!.currentCustomer.setPicture(response.data.data.imageURL)
-                        state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-                        state.nameInitialsVisibility = VISIBLE
+                        response.data.data?.let {
+                            it.imageURL?.let { state.profilePictureUrl = it }
+                            MyUserManager.user!!.currentCustomer.setPicture(it.imageURL)
+                            state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
+                            state.nameInitialsVisibility = VISIBLE
+                        }
                     }
                 }
 
@@ -195,7 +197,7 @@ class ProfileSettingsViewModel(application: Application) :
                     data = response.data
 
                     if (!data.data.dateExpiry.isNullOrEmpty()) {
-                        getExpiryDate(data.data.dateExpiry)
+                        getExpiryDate(data.data.dateExpiry!!)
                     }
                 }
 

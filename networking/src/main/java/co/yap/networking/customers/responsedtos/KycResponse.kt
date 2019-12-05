@@ -25,7 +25,7 @@ data class KycResponse(
         val number: String,
         val optional1: String,
         val optional2: String,
-        val sex: String,
+        val sex: String?=null,
         val success: Boolean,
         val surname: String,
         val type: String,
