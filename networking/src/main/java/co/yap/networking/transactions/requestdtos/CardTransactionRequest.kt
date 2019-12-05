@@ -7,9 +7,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class CardTransactionRequest(
     @SerializedName("number")
-    val number: Int? = null,
+    val number: Int? = 0,
     @SerializedName("size")
-    val size: Int? = null,
+    val size: Int? = 0,
     @SerializedName("serialNumber")
     val serialNumber: String? = null
 ) : Parcelable

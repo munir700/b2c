@@ -7,17 +7,17 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class HomeTransactionsRequest(
     @SerializedName("number")
-    val number: Int? = null,
+    val number: Int? = 0,
     @SerializedName("size")
-    val size: Int? = null,
+    val size: Int? = 0,
     @SerializedName("amountStartRange")
-    val amountStartRange: Double? = null,
+    val amountStartRange: Double? = 0.0,
     @SerializedName("amountEndRange")
-    val amountEndRange: Double? = null,
+    val amountEndRange: Double? = 0.0,
     @SerializedName("txnType")
     val txnType: String? = null,
     @SerializedName("title")
     val title: String? = null,
     @SerializedName("totalAppliedFilter")
-    val totalAppliedFilter: Int? = null
+    val totalAppliedFilter: Int? = 0
 ) : Parcelable
