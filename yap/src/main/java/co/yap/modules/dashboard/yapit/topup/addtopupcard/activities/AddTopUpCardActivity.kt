@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
+import android.view.View
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -102,31 +103,19 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
     @SuppressLint("SetJavaScriptEnabled")
     private fun setupWebViewForTopUpCardTransaction() {
         wb.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(
-                view: WebView?,
-                request: WebResourceRequest?
-            ): Boolean {
-                println("URL is ==: ${request?.url}")
-                return super.shouldOverrideUrlLoading(view, request)
-            }
-
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
-                println("URL is page started ==: $url")
                 url?.let {
                     if (it.contains("yap.co") || it.contains("transactions")) {
+                        view?.visibility = View.GONE
                         setDataForTopUpTransaction(true)
-                        finish()
+                         finish()
                     } else {
                         super.onPageStarted(view, url, favicon)
                     }
                 }
-            }
 
-            override fun onPageFinished(view: WebView?, url: String?) {
-                super.onPageFinished(view, url)
             }
         }
-//        wb.clearCache(true)
         wb.settings.javaScriptEnabled = true
         wb.settings.setSupportZoom(true)
         //        wb.loadUrl(viewModel.state.url)

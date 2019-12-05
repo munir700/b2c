@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.yapit.sendmoney.home.adapters.BeneficiaryItemViewModel" />
+            type="co.yap.modules.dashboard.yapit.sendmoney.home.adapters.BeneficiaryItemViewModel" />
 
         <import type="android.view.View" />
 

@@ -47,6 +47,13 @@ class PaymentCardDetailViewModel(application: Application) :
     override var cardTransactionRequest: CardTransactionRequest =
         CardTransactionRequest(0, 20, "")
 
+
+    override fun onResume() {
+        super.onResume()
+        cardTransactionRequest.number = 0
+        sortedCombinedTransactionList.clear()
+    }
+
     override fun getCardBalance() {
         launch {
             state.balanceLoading = true
@@ -121,7 +128,6 @@ class PaymentCardDetailViewModel(application: Application) :
             state.loading = false
         }
     }
-
 
     override fun requestAccountTransactions() {
         launch {

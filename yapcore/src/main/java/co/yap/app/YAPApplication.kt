@@ -3,9 +3,10 @@ package co.yap.app
 import android.app.Application
 import co.yap.networking.transactions.requestdtos.HomeTransactionsRequest
 
-open class YAPApplication : Application() {
+open class YAPApplication(selectedflavour: String) : Application() {
     companion object {
         var AUTO_RESTART_APP = true
+        var flavour = ""
         const val pageSize = 100
         var hasFilterStateChanged = false
         var isAllChecked = false
@@ -29,4 +30,9 @@ open class YAPApplication : Application() {
             )
         }
     }
+
+    init {
+        flavour = selectedflavour
+    }
+
 }

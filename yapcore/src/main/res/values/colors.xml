@@ -36,6 +36,9 @@
     <color name="colorSecondaryBlue">#478df4</color>
     <color name="colorSecondaryMagenta">#f44774</color>
 
+    <color name="colorMidnightExpress">#1e1c37</color>
+
+<!--    Backgorunds Colors-->
     <!--    Backgorunds Colors-->
 
     <color name="bg_round_light_red">#28f44774</color>
@@ -46,6 +49,7 @@
 
     <color name="semiBack">#30000000</color>
     <color name="dialog_title">#4b4b4b</color>
+    <color name="itemBackground">#fafafa</color>
 
 
     <color name="colorLightGreyGradient">#eff2f9</color>
@@ -58,5 +62,16 @@
     <color name="card_gradient_bottom_color">#5a2fb1</color>
     <color name="master_card_gradient_bottom_color">#4bdcd8</color>
     <color name="master_card_gradient_top_color">#1caaa1</color>
+
+
+    <array name="analyticsColors">
+        <item>@color/colorSecondaryMagenta</item>
+        <item>@color/colorSecondaryBlue</item>
+        <item>@color/colorSecondaryOrange</item>
+        <item>@color/colorSecondaryGreen</item>
+        <item>@color/colorPrimary</item>
+    </array>
+
+
 
 </resources>

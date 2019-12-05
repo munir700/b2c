@@ -28,7 +28,8 @@ class PhoneNumberUtils {
         val phoneUtil = PhoneNumberUtil.getInstance()
         try {
             // phone must begin with '+'
-            val numberProto = phoneUtil.parse(pNumber, "")
+            val numberProto = phoneUtil.parse(pNumber, "PK")
+            val pp = phoneUtil.getNationalSignificantNumber(numberProto)
             return numberProto.getCountryCode()
         } catch (e: NumberParseException) {
             System.err.println("NumberParseException was thrown: " + e.toString())
@@ -88,8 +89,8 @@ class PhoneNumberUtils {
         val phoneUtil = PhoneNumberUtil.getInstance()
         try {
             val ph = phoneUtil.parse(number, "")
-            ph.getNationalNumber()
-            return "" + ph.getNationalNumber()
+            ph.nationalNumber
+            return "" + ph.nationalNumber
         } catch (e: NumberParseException) {
         }
         return " "

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.BR
 import co.yap.R
+import co.yap.app.YAPApplication
 import co.yap.databinding.ActivityTopupCardsBinding
 import co.yap.modules.dashboard.yapit.topup.addtopupcard.activities.AddTopUpCardActivity
 import co.yap.modules.dashboard.yapit.topup.carddetail.TopupCardDetailActivity
@@ -273,13 +274,34 @@ class TopUpBeneficiariesActivity : BaseBindingActivity<ITopUpBeneficiaries.ViewM
     }
 
     private fun addCardProcess() {
-        startActivityForResult(
-            AddTopUpCardActivity.newIntent(
-                this,
-                co.yap.yapcore.constants.Constants.URL_ADD_TOPUP_CARD,
-                co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
-            ), Constants.EVENT_ADD_TOPUP_CARD
-        )
+        getUrl()?.let {
+            startActivityForResult(
+                AddTopUpCardActivity.newIntent(
+                    this,
+                    it,
+                    co.yap.yapcore.constants.Constants.TYPE_ADD_CARD
+                ), Constants.EVENT_ADD_TOPUP_CARD
+            )
+        }
+
+    }
+
+    private fun getUrl(): String? {
+        return when (YAPApplication.flavour) {
+            "live" -> {
+                "https://demo.yap.co/admin-web/HostedSessionIntegration.html"
+            }
+            "dev" -> {
+                "https://dev.yap.co/admin-web/HostedSessionIntegration.html"
+            }
+            "qa" -> {
+                "https://qa.yap.co/admin-web/HostedSessionIntegration.html"
+            }
+            "stg" -> {
+                "https://stg.yap.co/admin-web/HostedSessionIntegration.html"
+            }
+            else -> null
+        }
     }
 
     fun getBinding(): ActivityTopupCardsBinding {

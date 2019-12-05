@@ -2,6 +2,7 @@ package co.yap.yapcore.helpers
 
 import android.content.Context
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 
 
 fun Context?.toast(msg: String, duration: Int = Toast.LENGTH_LONG) = makeToast(this, msg, duration)
@@ -56,3 +57,5 @@ private object ToastQueue {
     fun removeToast(toast: Toast) = toastQueue.remove(toast)
 
 }
+
+fun Context.getColors(color: Int) = ContextCompat.getColor(this, color)

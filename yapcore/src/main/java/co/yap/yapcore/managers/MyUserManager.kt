@@ -40,4 +40,15 @@ object MyUserManager : IRepositoryHolder<CardsRepository> {
         }
     }
 
+    fun getCardSerialNumber(): String {
+        cards.value?.let {
+            for (card in it) {
+                if (card.cardType == "DEBIT") {
+                    return card.cardSerialNumber
+                }
+            }
+        }
+        return ""
+    }
+
 }

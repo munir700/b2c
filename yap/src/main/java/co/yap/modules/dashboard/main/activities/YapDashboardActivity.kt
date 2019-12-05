@@ -26,13 +26,14 @@ import androidx.viewpager.widget.ViewPager
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivityYapDashboardBinding
+import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
-import co.yap.modules.yapit.sendmoney.activities.SendMoneyHomeActivity
+import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -72,6 +73,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addListeners()
         setupYapButton()
     }
+
 
     private fun setupYapButton() {
         actionMenu = FloatingActionMenu.Builder(this)
@@ -170,6 +172,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
             when (it) {
                 R.id.btnCopy -> viewModel.copyAccountInfoToClipboard()
                 R.id.lUserInfo -> expandableLayout.toggle(true)
+                R.id.lAnalytics -> showToast("m in analytics")
             }
         })
 
@@ -292,7 +295,10 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                 ExpandableLayout.State.COLLAPSED -> ivChevron.setImageResource(R.drawable.ic_chevron_down)
             }
         }
-
+        getViewBinding().includedDrawerLayout.lAnalytics.lnAnalytics.setOnClickListener {
+            startActivity(Intent(this, CardAnalyticsActivity::class.java))
+            closeDrawer()
+        }
         bottomNav.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.yapHome -> {
@@ -306,6 +312,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                     //getViewBinding().ivYapIt
                 }
                 R.id.yapCards -> {
+
                     if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
                         getViewBinding().viewPager.setCurrentItem(2, false)
                     } else {

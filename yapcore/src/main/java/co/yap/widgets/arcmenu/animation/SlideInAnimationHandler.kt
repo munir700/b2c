@@ -115,7 +115,7 @@ class SlideInAnimationHandler : MenuAnimationHandler() {
                     ((menu!!.subActionItems.size - 1) * 100).toLong()
                 //animation.setStartDelay((menu.getSubActionItems().size() - i) * LAG_BETWEEN_ITEMS);
             }
-            if (i == 0) {
+            if (i == 1) {
                 lastAnimation = animation
             }
             animation.start()

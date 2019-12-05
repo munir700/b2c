@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.databinding.Observable
+import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -16,7 +17,7 @@ import co.yap.modules.kyc.enums.DocScanStatus
 import co.yap.modules.kyc.interfaces.IKYCHome
 import co.yap.modules.kyc.states.KYCHomeState
 import co.yap.modules.kyc.viewmodels.KYCHomeViewModel
-import co.yap.yapcore.BR
+
 import com.digitify.identityscanner.docscanner.activities.IdentityScannerActivity
 import com.digitify.identityscanner.docscanner.enums.DocumentType
 import kotlinx.android.synthetic.main.fragment_kyc_home.*
@@ -41,7 +42,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         } else {
             //todo need to verify that isoCountryCode2Digit
             //IdentityScannerActivity.CLOSE_SCANNER = false
-            viewModel.state.eidScanStatus  = DocScanStatus.SCAN_PENDING
+            viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
             tvSkip.visibility = View.VISIBLE
         }
         if (checkMore && checkScanned) {
@@ -91,8 +92,8 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == IdentityScannerActivity.SCAN_EID_CAM && resultCode == Activity.RESULT_OK) {
             data?.let {
-                    viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
-                    checkScanned = true
+                viewModel.onEIDScanningComplete(it.getParcelableExtra(IdentityScannerActivity.SCAN_RESULT))
+                checkScanned = true
 
             }
         }

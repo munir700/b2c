@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.yapit.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel" />
+            type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.TransferTypeViewModel" />
 
     </data>
 
@@ -61,8 +61,7 @@
                     android:layout_height="@dimen/_42sdp"
                     android:layout_gravity="center"
                     android:layout_margin="@dimen/_2sdp"
-                    android:background="@drawable/bg_round_purple_enabled"
-                    >
+                    android:background="@drawable/bg_round_purple_enabled">
 
                     <ImageView
                         android:layout_width="wrap_content"

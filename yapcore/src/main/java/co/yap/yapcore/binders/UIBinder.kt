@@ -53,7 +53,19 @@ import java.util.*
 
 object UIBinder {
 
-    // Top up card status
+
+    @BindingAdapter("tvColor")
+    @JvmStatic
+    fun updateTextColor(view: TextView, position: Int) {
+        if (position == -1) return
+        try {
+            val colors = view.context.resources.getIntArray(R.array.analyticsColors)
+            view.setTextColor(colors[position % colors.size])
+        } catch (ex: Exception) {
+
+        }
+    }
+
     @BindingAdapter("cardStatus")
     @JvmStatic
     fun setCardStatus(view: ImageView, card: TopUpCard?) {
@@ -119,10 +131,11 @@ object UIBinder {
         } else {
             if (contactId.contains("http")) {
                 image.visibility = View.VISIBLE
+                image.tag = null
                 image.loadImage(contactId)
             } else {
                 try {
-                    val uri = getPhotoUri(contactId.toLong())
+                    val uri = Uri.parse(contactId)
                     if (uri != null) {
                         val cursor = image.context.contentResolver.query(
                             uri,
@@ -169,7 +182,7 @@ object UIBinder {
         name: String?
     ) {
         if (name != null) {
-            initials.text = Utils.shortName(name)
+            initials.text = Utils.shortName2(name)
             initials.visibility = View.VISIBLE
             layout.visibility = View.VISIBLE
             imageView.visibility = View.INVISIBLE

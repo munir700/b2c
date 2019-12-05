@@ -29,4 +29,14 @@ interface TransactionsApi {
         orderId: String,
         topUpTransactionRequest: TopUpTransactionRequest
     ): RetroApiResponse<ApiResponse>
+
+    suspend fun getAnalyticsByMerchantName(
+        cardSerialNo: String? = "",
+        date: String? = ""
+    ): RetroApiResponse<AnalyticsResponseDTO>
+    suspend fun getAnalyticsByCategoryName(
+        cardSerialNo: String? = "",
+        date: String? = ""
+    ): RetroApiResponse<AnalyticsResponseDTO>
+
 }

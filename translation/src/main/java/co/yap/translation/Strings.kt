@@ -1039,7 +1039,7 @@ object Strings {
     const val screen_forgot_pin_display_text_heading: String =
         "screen_forgot_pin_display_text_heading"
 
-    // Topup Type Selection Screen
+// Topup Type Selection Screen
     const val screen_topup_type_selection_display_text_title: String =
         "screen_topup_type_selection_display_text_title"
     const val screen_topup_type_selection_display_text_heading: String =
@@ -1113,5 +1113,14 @@ object Strings {
     const val screen_y2y_display_text_recent_transfer: String =
         "screen_y2y_display_text_recent_transfer"
 
+    // Screen Card Analytics
+    const val screen_card_analytics_display_tab_title_category: String =
+        "screen_card_analytics_display_tab_title_category"
+    const val screen_card_analytics_display_tab_title_merchant: String =
+        "screen_card_analytics_display_tab_title_merchant"
+    const val screen_card_analytics_display_month_average_text: String =
+        "screen_card_analytics_display_month_average_text"
+    const val screen_card_analytics_tool_bar_title: String =
+        "screen_card_analytics_tool_bar_title"
 
 }

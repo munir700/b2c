@@ -696,4 +696,11 @@
     <string name="screen_add_topup_card_succes_button_top_up_now">Yes, top up now"</string>
     <string name="screen_add_topup_card_succes_button_later">No, do it later</string>
 
+    <!-- Screen Card Analytics -->
+    <string name="screen_card_analytics_display_tab_title_category">Category</string>
+    <string name="screen_card_analytics_display_tab_title_merchant">Merchant</string>
+    <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s %2s</string>
+    <string name="screen_card_analytics_tool_bar_title">Analytics</string>
+
+
 </resources>

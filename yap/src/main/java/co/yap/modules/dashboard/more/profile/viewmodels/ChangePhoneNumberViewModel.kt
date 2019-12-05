@@ -68,7 +68,7 @@ class ChangePhoneNumberViewModel(application: Application) :
     private fun createOtp(view: View) {
         launch {
             when (val response =
-                messagesRepository.createOtpGenericWithPhone(phone = state.countryCode+ state.mobile.replace(" ", ""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
+                messagesRepository.createOtpGenericWithPhone(phone = "00${state.countryCode}" + state.mobile.replace(" ", ""),createOtpGenericRequest = CreateOtpGenericRequest(Constants.CHANGE_MOBILE_NO))) {
                 is RetroApiResponse.Success -> {
                     val action =
                         ChangePhoneNumberFragmentDirections.actionChangePhoneNumberFragmentToGenericOtpFragment(
@@ -90,7 +90,7 @@ class ChangePhoneNumberViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                repository.changeMobileNumber(countryCode = state.countryCode, mobileNumber = state.mobile.replace(" ", ""))) {
+                repository.changeMobileNumber(countryCode = "00${state.countryCode}", mobileNumber = state.mobile.replace(" ", ""))) {
                 is RetroApiResponse.Success -> {
                     changePhoneNumberSuccessEvent.call()
                 }

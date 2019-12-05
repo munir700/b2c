@@ -7,6 +7,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -19,6 +20,7 @@ import co.yap.R
 import co.yap.app.YAPApplication
 import co.yap.app.YAPApplication.Companion.homeTransactionsRequest
 import co.yap.databinding.FragmentYapHomeBinding
+import co.yap.modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity
 import co.yap.modules.dashboard.home.adaptor.GraphBarsAdapter
 import co.yap.modules.dashboard.home.adaptor.NotificationAdapter
 import co.yap.modules.dashboard.home.adaptor.TransactionsHeaderAdapter
@@ -47,7 +49,9 @@ import co.yap.yapcore.managers.MyUserManager
 import com.google.android.material.appbar.AppBarLayout
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer
 import kotlinx.android.synthetic.main.content_fragment_yap_home.*
+import kotlinx.android.synthetic.main.fragment_yap_home.*
 import kotlinx.android.synthetic.main.view_graph.*
+import kotlin.math.abs
 
 
 class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHome.View,
@@ -88,6 +92,28 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         getBindings().lyInclude.rvTransaction.apply {
             fixSwipeToRefresh(getBindings().refreshLayout)
         }
+
+        appbar.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+            // if (Math.abs(verticalOffset) - appBarLayout?.totalScrollRange!! == 0) {
+            //frameLayout.translationY = verticalOffset.toFloat()
+//            if (Math.abs(verticalOffset) > 0)
+//                frameLayout.alpha = 10 / Math.abs(verticalOffset).toFloat()
+//            val alp = frameLayout.alpha
+            //Log.d("vertical Alpha>>", "$alp")
+            val pram = frameLayout.layoutParams
+
+            if (abs(verticalOffset) <= 5) {
+                frameLayout.alpha = 1f
+                //Log.d("vertical Alpha>>", "$alp")
+                pram.height = appBarLayout.totalScrollRange
+                frameLayout.layoutParams = pram
+            } else {
+                if (Math.abs(verticalOffset) > 0)
+                    frameLayout.alpha = 10 / abs(verticalOffset).toFloat()
+                pram.height = appBarLayout?.totalScrollRange?.plus(verticalOffset)!!
+                frameLayout.layoutParams = pram
+            }
+        })
     }
 
     override fun onRefresh() {
@@ -96,6 +122,7 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
             homeTransactionsRequest.number = 0
             viewModel.requestAccountTransactions()
             getBindings().refreshLayout.isRefreshing = false
+             getBindings().appbar.setExpanded(true)
         } else {
             getBindings().refreshLayout.isRefreshing = false
         }
@@ -140,6 +167,14 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
                             )
                     }
                 }
+
+                R.id.lyAnalytics -> startActivity(
+                    Intent(
+                        requireContext(),
+                        CardAnalyticsActivity::class.java
+                    )
+                )
+
             }
         })
         parentViewModel =
@@ -157,6 +192,8 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
 
         viewModel.transactionsLiveData.observe(this, Observer {
             if (viewModel.isLoadMore.value!!) {
+                if (getRecycleViewAdaptor()?.itemCount!! == 0)            getBindings().appbar.setExpanded(true)
+
                 if (getRecycleViewAdaptor()?.itemCount!! > 0)
                     getRecycleViewAdaptor()?.removeItemAt(getRecycleViewAdaptor()?.itemCount!! - 1)
 
@@ -367,6 +404,12 @@ class YapHomeFragment : YapDashboardChildFragment<IYapHome.ViewModel>(), IYapHom
         super.onDestroyView()
         unregisterTransactionBroadcast()
         getBindings().appbar.removeOnOffsetChangedListener(appbarListener)
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
+
     }
 
     private fun setAvailableBalance(balance: String) {

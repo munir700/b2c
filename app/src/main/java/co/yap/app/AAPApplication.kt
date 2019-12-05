@@ -14,7 +14,8 @@ import timber.log.Timber.DebugTree
 import java.util.*
 
 
-class AAPApplication : ChatApplication() {
+class AAPApplication : ChatApplication(BuildConfig.FLAVOR) {
+
 
     override fun onCreate() {
         super.onCreate()
