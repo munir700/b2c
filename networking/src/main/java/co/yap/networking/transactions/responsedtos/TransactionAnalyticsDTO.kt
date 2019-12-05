@@ -1,10 +1,7 @@
 package co.yap.networking.transactions.responsedtos
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class TransactionAnalyticsDTO(
     @SerializedName("totalTxnCount")
     val totalTxnCount: Int? = null,
@@ -15,5 +12,5 @@ data class TransactionAnalyticsDTO(
     @SerializedName("date")
     val date: String? = null,
     @SerializedName("txnAnalytics")
-    val txnAnalytics: ArrayList<TxnAnalytic>? = ArrayList()
-) : Parcelable
+    val txnAnalytics: ArrayList<TxnAnalytic>? = null
+)

@@ -6,7 +6,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class TopUpTransactionRequest(
-    @SerializedName("`3DSecureId`")
+    @SerializedName("3DSecureId")
     val `3DSecureId`: String? = null,
     @SerializedName("beneficiaryId")
     val beneficiaryId: Int? = null,

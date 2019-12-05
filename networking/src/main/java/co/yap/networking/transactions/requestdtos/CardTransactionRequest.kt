@@ -1,15 +1,12 @@
 package co.yap.networking.transactions.requestdtos
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
 
-@Parcelize
 data class CardTransactionRequest(
     @SerializedName("number")
-    val number: Int? = 0,
+    var number: Int,
     @SerializedName("size")
-    val size: Int? = 0,
+    var size: Int,
     @SerializedName("serialNumber")
-    val serialNumber: String? = null
-) : Parcelable
+    var serialNumber: String
+)

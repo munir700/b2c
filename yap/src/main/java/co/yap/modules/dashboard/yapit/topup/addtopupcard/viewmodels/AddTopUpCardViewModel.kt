@@ -30,7 +30,7 @@ class AddTopUpCardViewModel(application: Application) :
                 )
             )) {
                 is RetroApiResponse.Success -> {
-                    isCardAdded.value = response.data.data
+                    response.data.data?.let { isCardAdded.value = it }
                 }
 
                 is RetroApiResponse.Error -> {
