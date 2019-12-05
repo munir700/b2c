@@ -36,7 +36,7 @@ interface CustomersApi {
     ): RetroApiResponse<ApiResponse>
 
 
-    /*TODO: Faheem ******************************/
+    /*TODO: Faheem ***************************** done*/
     suspend fun changeVerifiedEmail(email: String): RetroApiResponse<ApiResponse>
     suspend fun changeUnverifiedEmail(newEmail: String): RetroApiResponse<ApiResponse>
 
@@ -46,5 +46,5 @@ interface CustomersApi {
     suspend fun deleteBeneficiary(cardId: String): RetroApiResponse<ApiResponse>
     suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse>
     suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse>
-    /*TODO ======================================*/
+    /*TODO ======================================  done*/
 }

@@ -48,7 +48,7 @@ class TopUpBeneficiariesViewModel(application: Application) :
         launch {
             when (val response = repository.getCardsLimit()) {
                 is RetroApiResponse.Success -> {
-                    remainingCardsLimit = response.data.data.remaining
+                    remainingCardsLimit = response.data.data?.remaining ?: 0
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }
@@ -61,8 +61,8 @@ class TopUpBeneficiariesViewModel(application: Application) :
             when (val response = repository.getTopUpBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     if (state.enableAddCard.get())
-                        response.data.data.add(TopUpCard(alias = "addCard"))
-                    topUpCards.value = response.data.data
+                        response.data.data?.add(TopUpCard(alias = "addCard"))
+                    response.data.data?.let { topUpCards.value = it }
                 }
 
                 is RetroApiResponse.Error -> state.toast = response.error.message

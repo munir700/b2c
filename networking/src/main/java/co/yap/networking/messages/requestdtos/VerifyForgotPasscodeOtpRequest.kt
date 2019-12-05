@@ -1,4 +1,12 @@
 package co.yap.networking.messages.requestdtos
 
-data class VerifyForgotPasscodeOtpRequest(val destination: String, val otp: String, val emailOTP: Boolean) {
-}
+import com.google.gson.annotations.SerializedName
+
+data class VerifyForgotPasscodeOtpRequest(
+    @SerializedName("destination")
+    val destination: String,
+    @SerializedName("otp")
+    val otp: String,
+    @SerializedName("emailOTP")
+    val emailOTP: Boolean
+)

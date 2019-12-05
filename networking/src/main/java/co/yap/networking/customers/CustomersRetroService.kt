@@ -1,6 +1,6 @@
 package co.yap.networking.customers
 
-import co.yap.networking.authentication.responsedtos.KycResponse
+import co.yap.networking.customers.responsedtos.KycResponse
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
