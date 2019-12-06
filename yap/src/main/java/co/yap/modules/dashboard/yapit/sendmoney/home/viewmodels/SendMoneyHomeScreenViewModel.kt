@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.states.SendMoneyHomeState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -55,11 +55,15 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
 
+    override fun onCreate() {
+        super.onCreate()
+        requestAllBeneficiaries()
+    }
+
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_send_money_display_text_title))
         toggleAddButtonVisibility(true)
-        requestAllBeneficiaries()
     }
 
 
@@ -100,7 +104,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         }
     }
 
-   override fun requestRecentBeneficiaries() {
+    override fun requestRecentBeneficiaries() {
         launch {
             state.loading = true
             when (val response = repository.getRecentBeneficiaries()) {
@@ -113,7 +117,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    //state.toast = response.error.message
 
                 }
             }
@@ -139,7 +143,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             }
         }
     }
-
 
 
 }
