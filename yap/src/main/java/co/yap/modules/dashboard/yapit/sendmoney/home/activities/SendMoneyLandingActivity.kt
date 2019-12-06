@@ -114,6 +114,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            //TODO: Start Sufyan Money Transfer flow
             showToast("On Full item clicked")
         }
     }
@@ -121,7 +122,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     override fun onSwipeEdit(beneficiary: Beneficiary) {
         toast(beneficiary.title + " onSwipeEdit clicked")
-        //TODO:Using StartActivityForResult Navigate to Edit Beneficiary Screen Used by Irfan
+        //TODO: Using StartActivityForResult Navigate to Edit Beneficiary Screen Used by Irfan
     }
 
     override fun onSwipeDelete(beneficiary: Beneficiary, position: Int) {
