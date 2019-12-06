@@ -4,29 +4,29 @@
 
     <data>
 
-        <!--        <variable-->
-        <!--            name="viewModel"-->
-        <!--            type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyNoContactsViewModel" />-->
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clSearch"
-
+        android:id="@+id/clSearchBeneficiary"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginStart="@dimen/_26sdp"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/_26sdp"
-        android:background="@drawable/bg_search_widget">
-        <!--        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">-->
+        android:background="@drawable/bg_search_widget"
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
 
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/svContacts"
+            android:id="@+id/svBeneficiary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/bg_search_widget"
             android:theme="@style/AppSearchView"
+            android:background="@drawable/bg_search_widget"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -10,6 +11,7 @@
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
 
+        <import type="android.view.View" />
     </data>
 
     <LinearLayout
@@ -28,12 +30,13 @@
             android:id="@+id/layoutNoContacts"
             layout="@layout/layout_no_contacts"
             app:viewModel="@{viewModel}"
-            android:visibility="gone"/>
-
+            android:visibility="@{viewModel.state.isNoBeneficiary()?View.VISIBLE:View.GONE}"
+            tools:visibility="gone" />
 
         <include
             android:id="@+id/layoutBeneficiaries"
             layout="@layout/layout_beneficiaries"
+            android:visibility="@{viewModel.state.isNoBeneficiary()?View.GONE:View.VISIBLE}"
             app:viewModel="@{viewModel}" />
 
     </LinearLayout>

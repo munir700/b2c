@@ -50,6 +50,8 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override val searchQuery: MutableLiveData<String> = MutableLiveData()
+    override val isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
     override var allBeneficiariesList: List<Beneficiary> = arrayListOf()
     override var recentBeneficiariesList: List<Beneficiary> = arrayListOf()
 
