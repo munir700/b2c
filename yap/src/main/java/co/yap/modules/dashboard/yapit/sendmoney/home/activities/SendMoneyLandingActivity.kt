@@ -31,13 +31,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     override val viewModel: ISendMoneyHome.ViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyHomeScreenViewModel::class.java)
 
-
-    public companion object {
+    companion object {
         fun newIntent(context: Context): Intent {
             val intent = Intent(context, SendMoneyLandingActivity::class.java)
             return intent
         }
-
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,9 +63,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         })
 
         viewModel.onDeleteSuccess.observe(this, Observer {
-            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).removeItemAt(
-                positionToDelete
-            )
+            getAdaptor().removeItemAt(positionToDelete)
         })
     }
 
@@ -98,12 +94,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 layoutRecent?.visibility = View.VISIBLE
             }
         }
-
     }
 
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
             AllBeneficiriesAdapter(mutableListOf(), this)
+        getAdaptor().allowFullItemClickListener = true
         getAdaptor().setItemListener(listener)
     }
 
@@ -118,27 +114,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-            when (view.id) {
-                R.id.tvInvite -> {
-
-                }
-
-                R.id.lyContact -> {
-                    showToast("full item clicked")
-                }
-            }
+            showToast("On Full item clicked")
         }
     }
 
 
     override fun onSwipeEdit(beneficiary: Beneficiary) {
-        toast(beneficiary.title + " onSwipeEdit")
-        // using navigation controller go to edit beneficiary passing data beneficiary
-//        val action =
-//            SendMoneyHomeFragmentDirections.actionSendMoneyHomeFragmentToBeneficiaryOverviewFragment(
-//                beneficiary
-//            )
-//        findNavController().navigate(action)
+        toast(beneficiary.title + " onSwipeEdit clicked")
+        //TODO:Using StartActivityForResult Navigate to Edit Beneficiary Screen Used by Irfan
     }
 
     override fun onSwipeDelete(beneficiary: Beneficiary, position: Int) {
