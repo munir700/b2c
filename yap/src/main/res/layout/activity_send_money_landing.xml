@@ -16,11 +16,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/colorWhite"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium"
         android:orientation="vertical">
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_send_beneficiaries_toolbar"
+            app:viewModel="@{viewModel}" />
 
         <include
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium"
             android:id="@+id/layoutNoContacts"
             layout="@layout/layout_no_contacts"
             app:viewModel="@{viewModel}"

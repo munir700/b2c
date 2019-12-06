@@ -175,6 +175,9 @@
             android:theme="@style/AppTheme.NoActionBar">
             <nav-graph android:value="@navigation/send_money_main_navigation" />
         </activity>
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"
+            android:screenOrientation="portrait" />
 
 
     </application>

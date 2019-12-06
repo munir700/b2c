@@ -9,7 +9,8 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel" />
+            type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+
     </data>
 
     <RelativeLayout
@@ -34,6 +35,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_back_arrow_left" />
 
+<!--        android:text="@={viewModel.state.tootlBarTitle}"-->
 
         <TextView
             android:id="@+id/tvTitle"
@@ -45,8 +47,8 @@
             android:layout_marginEnd="@dimen/_14sdp"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
-            android:text="@={viewModel.state.tootlBarTitle}" />
-
+       />
+<!--        android:visibility="@{viewModel.state.enableAddBeneficiary ? View.VISIBLE:View.GONE}"-->
         <ImageView
             android:id="@+id/tbBtnAddBeneficiary"
             android:layout_width="@dimen/_25sdp"
@@ -55,8 +57,8 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:clickable="true"
             android:focusable="true"
+            android:onClick="@{v->viewModel.handlePressOnView(v.id)}"
             android:foreground="?attr/selectableItemBackground"
-            android:visibility="@{viewModel.state.enableAddBeneficiary ? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_add_sign" />
