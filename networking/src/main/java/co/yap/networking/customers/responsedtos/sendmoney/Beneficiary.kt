@@ -23,7 +23,8 @@ open class Beneficiary : Serializable {
     var branchAddress: String? = null
     var identifierCode1: String? = null
     var identifierCode2: String? = null
-    var beneficiaryPictureUrl: String? = "" // assuming this field for profile picture but not sure whether to add pic or just go with initials only
+    var beneficiaryPictureUrl: String? =
+        "" // assuming this field for profile picture but not sure whether to add pic or just go with initials only
 
 
     var beneficiaryCountry: Any? = null
@@ -39,6 +40,10 @@ open class Beneficiary : Serializable {
 //        }
 //        return beneficiaryCountry
 //    }
+
+    fun fullName(): String {
+        return firstName + " " + lastName
+    }
 
     override fun toString(): String {
         return "Beneficiary{" +

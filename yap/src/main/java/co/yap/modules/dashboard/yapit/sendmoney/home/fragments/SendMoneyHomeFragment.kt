@@ -10,11 +10,9 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentSendMoneyHomeBinding
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
-import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
-import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.requestdtos.Contact
@@ -154,17 +152,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
                 R.id.lyContact -> {
                     if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
-                        if (parentFragment is YapToYapFragment) {
-                            (parentFragment as YapToYapFragment).findNavController().navigate(
-                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                    data.beneficiaryPictureUrl!!
-                                    ,
-                                    data.accountDetailList?.get(0)?.accountUuid!!,
-                                    data.title!!,
-                                    pos
-                                )
-                            )
-                        }
+
                     }
                 }
             }

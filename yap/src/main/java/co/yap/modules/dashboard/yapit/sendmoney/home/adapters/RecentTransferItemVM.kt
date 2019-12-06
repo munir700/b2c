@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.navigation.NavController
 import co.yap.R
-import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
-import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiary
+ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseListItemViewModel
 
-class RecentTransferItemVM : BaseListItemViewModel<RecentBeneficiary>() {
-    private lateinit var mItem: RecentBeneficiary
+class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
+    private lateinit var mItem: Beneficiary
     private var navigation: NavController? = null
     var position: Int = -1
 
-    override fun setItem(item: RecentBeneficiary, position: Int) {
+    override fun setItem(item: Beneficiary, position: Int) {
         this.mItem = item
         this.position = position
         notifyChange()
@@ -25,13 +24,13 @@ class RecentTransferItemVM : BaseListItemViewModel<RecentBeneficiary>() {
         this.navigation = navigation
     }
 
-    override fun layoutRes() = R.layout.item_recent_transfer
+    override fun layoutRes() = R.layout.item_recent_beneficiaries_transfer
     override fun onItemClick(view: View, data: Any, pos: Int) {
-        navigation?.navigate(
-            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                (data as RecentBeneficiary).beneficiaryPictureUrl
-                , data.beneficiaryUuid, data.title, pos
-            )
-        )
+//        navigation?.navigate(
+//            YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
+//                (data as Beneficiary).beneficiaryPictureUrl!!
+//                , data.accountUuid!!, data.title!!, pos
+//            )
+//        )
     }
 }
