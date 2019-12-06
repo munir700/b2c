@@ -97,7 +97,7 @@ class TransactionsDataSource(
     }
 
     private fun setUpSectionHeader(response: RetroApiResponse.Success<HomeTransactionsResponse>): ArrayList<HomeTransactionListData> {
-//        yapHomeViewModel.contentList = response.data.data.content as ArrayList<Content>
+//        yapHomeViewModel.contentList = response.dataList.dataList.content as ArrayList<Content>
 //        Collections.sort(yapHomeViewModel.contentList, object :
 //            Comparator<Content> {
 //            override fun compare(
@@ -140,15 +140,15 @@ class TransactionsDataSource(
 //                0.00 /*  "calculate the percentage as per formula from the keys".toDouble()*/,
 //                contentsList,
 //
-//                response.data.data.first,
-//                response.data.data.last,
-//                response.data.data.number,
-//                response.data.data.numberOfElements,
-//                response.data.data.pageable,
-//                response.data.data.size,
-//                response.data.data.sort,
-//                response.data.data.totalElements,
-//                response.data.data.totalPages
+//                response.dataList.dataList.first,
+//                response.dataList.dataList.last,
+//                response.dataList.dataList.number,
+//                response.dataList.dataList.numberOfElements,
+//                response.dataList.dataList.pageable,
+//                response.dataList.dataList.size,
+//                response.dataList.dataList.sort,
+//                response.dataList.dataList.totalElements,
+//                response.dataList.dataList.totalPages
 //            )
 //            transactionModelData.add(transactionModel)
 //

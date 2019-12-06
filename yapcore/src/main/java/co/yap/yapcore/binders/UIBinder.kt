@@ -749,7 +749,30 @@ object UIBinder {
 
     }
 
+     @BindingAdapter("textColor")
     @JvmStatic
+    fun setSelectedTextColor(view: TextView, isActive: Boolean) {
+        if (isActive) {
+            view.setTextColor(view.context.resources.getColor(R.color.colorPrimaryDark))
+        } else {
+            view.setTextColor(view.context.resources.getColor(R.color.greyDark))
+        }
+    }
+
+
+    @BindingAdapter("setBeneficiaryImageSrc")
+    @JvmStatic
+    fun setImageSrc(imageView: ImageView, transferType: String) {
+
+        if (transferType.equals("CASHPAYOUT")) {
+            imageView.setImageResource(R.drawable.ic_cash)
+
+        } else {
+            imageView.setImageResource(R.drawable.ic_bank)
+
+        }
+    }
+     @JvmStatic
     @BindingAdapter("cardNickname")
     fun setCardNickname(view: CorePaymentCard, cardNickname: String?) {
         if (cardNickname != null) {
@@ -785,4 +808,4 @@ object UIBinder {
             view.setCardLogoByType(cardType)
     }
 
-}
+ }

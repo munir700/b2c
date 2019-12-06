@@ -1,18 +1,26 @@
 package co.yap.yapcore
 
-import android.view.View
 import androidx.databinding.ViewDataBinding
 
-
 abstract class BaseBindingHolder(val binding: ViewDataBinding) {
-    var adapterPosition: Int = 0
 
-    var itemView: View? = null
-        get() = binding.root
+    var adapterPosition: Int = 0
+//    private lateinit var viewDataBinding: ViewDataBinding
+
+    var itemView = binding.root
 
     fun bind(obj: Object) {
-        // binding.setVariable(BR.get, obj)
-        binding.executePendingBindings()
-    }
 
+//        binding.setVariable(getBindingVariable(), obj)
+//        binding.executePendingBindings()
+//        viewDataBinding = binding
+
+        binding.setVariable(getBindingVariable(), obj)
+        binding.executePendingBindings()
+
+//        binding.dataList = binding.dataList
+//        binding.executePendingBindings()
+
+    }
+    abstract fun getBindingVariable(): Int
 }

@@ -240,7 +240,7 @@ class CountryCodePicker : RelativeLayout {
         }
 
     /**
-     * This updates country dynamically as user types in area code
+     * This updates country dynamically as user types in area isoCountryCode2Digit
      *
      * @return
      */
@@ -547,9 +547,9 @@ class CountryCodePicker : RelativeLayout {
 
     private fun applyCustomProperty(attrs: AttributeSet) {
         val a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.CountryCodePicker, 0, 0)
-        //default country code
+        //default country isoCountryCode2Digit
         try {
-            //hide nameCode. If someone wants only phone code to avoid name collision for same country phone code.
+            //hide nameCode. If someone wants only phone isoCountryCode2Digit to avoid name collision for same country phone isoCountryCode2Digit.
             showNameCode = a.getBoolean(R.styleable.CountryCodePicker_ccp_showNameCode, true)
             ccp_onFlagClick = a.getBoolean(R.styleable.CountryCodePicker_ccp_onFlagClick, false)
             ccp_hideFlag = a.getBoolean(R.styleable.CountryCodePicker_ccp_hideFlag, true)
@@ -561,12 +561,12 @@ class CountryCodePicker : RelativeLayout {
             }
             //number auto formatting
             numberAutoFormattingEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_autoFormatNumber, true)
-            //show phone code.
+            //show phone isoCountryCode2Digit.
             showPhoneCode = a.getBoolean(R.styleable.CountryCodePicker_ccp_showPhoneCode, true)
-            //show phone code on dialog
+            //show phone isoCountryCode2Digit on dialog
             isCcpDialogShowPhoneCode =
                 a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showPhoneCode, showPhoneCode)
-            //show name code on dialog
+            //show name isoCountryCode2Digit on dialog
             ccpDialogShowNameCode = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showNameCode, true)
             //show title on dialog
             ccpDialogShowTitle = a.getBoolean(R.styleable.CountryCodePicker_ccpDialog_showTitle, true)
@@ -592,7 +592,7 @@ class CountryCodePicker : RelativeLayout {
                 a.getResourceId(R.styleable.CountryCodePicker_ccpDialog_fastScroller_bubbleTextAppearance, 0)
             //auto detect language
             isAutoDetectLanguageEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_autoDetectLanguage, false)
-            //detect country from area code
+            //detect country from area isoCountryCode2Digit
             detectCountryWithAreaCode = a.getBoolean(R.styleable.CountryCodePicker_ccp_areaCodeDetectedCountry, true)
             //remember last selection
             rememberLastSelection = a.getBoolean(R.styleable.CountryCodePicker_ccp_rememberLastSelection, false)
@@ -1428,7 +1428,7 @@ class CountryCodePicker : RelativeLayout {
     internal fun setSelectedCountry(selectedCCPCountry: CCPCountry?) {
         var selectedCCPCountry = selectedCCPCountry
 
-        //force disable area code country detection
+        //force disable area isoCountryCode2Digit country detection
         countryDetectionBasedOnAreaAllowed = false
         lastCheckedAreaCode = ""
 
@@ -1468,7 +1468,7 @@ class CountryCodePicker : RelativeLayout {
         if (showFullName) {
             displayText = displayText + selectedCCPCountry.name
         }
-        // hide phone code if required
+        // hide phone isoCountryCode2Digit if required
         if (showPhoneCode) {
             if (displayText.length > 0) {
                 displayText += "  "
@@ -1503,7 +1503,7 @@ class CountryCodePicker : RelativeLayout {
         //once updates are done, this will release lock
         countryDetectionBasedOnAreaAllowed = true
 
-        //if the country was auto detected based on area code, this will correct the cursor position.
+        //if the country was auto detected based on area isoCountryCode2Digit, this will correct the cursor position.
         if (countryChangedDueToAreaCode) {
             try {
                 editText_registeredCarrierNumber!!.setSelection(lastCursorPosition)

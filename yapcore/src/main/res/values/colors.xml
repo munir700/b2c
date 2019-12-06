@@ -11,7 +11,7 @@
     <color name="colorPrimaryLight">#7c4dff</color>
     <color name="colorPrimarySoft">#a682ff</color>
     <color name="colorPrimaryWarm">#502C9E</color>
-     <color name="grey">#c9c8d8</color>
+    <color name="grey">#c9c8d8</color>
     <color name="greyDark">#9391b1</color>
     <color name="greyLight">#dae0f0</color>
     <color name="greySoft">#5cdae0f0</color>
@@ -39,6 +39,7 @@
     <color name="colorMidnightExpress">#1e1c37</color>
 
 <!--    Backgorunds Colors-->
+    <!--    Backgorunds Colors-->
 
     <color name="bg_round_light_red">#28f44774</color>
     <color name="bg_round_light_blue">#28478df4</color>

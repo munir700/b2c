@@ -18,7 +18,7 @@ class TransactionLogicHelper(
 //        HomeTransactionListData
 //    var contentList: List<HomeTransactionsResponse.HomeTransactionListData.Content>
 
-//   now structure that lis data
+//   now structure that lis dataList
     }
 //    val transactioModelList: ArrayList<HomeTransactionListData> = ArrayList<HomeTransactionListData>()
 
@@ -28,7 +28,7 @@ class TransactionLogicHelper(
 
 //        val mainObj = JSONObject(loadTransactionFromJsonAssets(context))
 //        if (mainObj != null) {
-//            val mainDataList = mainObj.getJSONArray("data")
+//            val mainDataList = mainObj.getJSONArray("dataList")
 //            if (mainDataList != null) {
 //
 //                for (i in 0 until mainDataList!!.length()) {

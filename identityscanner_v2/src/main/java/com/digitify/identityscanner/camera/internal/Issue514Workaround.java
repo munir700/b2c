@@ -13,7 +13,7 @@ import com.digitify.identityscanner.camera.preview.RendererThread;
 
 /**
  * Fixes an issue for some devices with snapshot picture and video recording.
- * This is so unclear that I wanted to have a separate class holding code and comments.
+ * This is so unclear that I wanted to have a separate class holding isoCountryCode2Digit and comments.
  *
  * WHEN TO USE THIS CLASS
  * There is actually no need of this class in some cases:

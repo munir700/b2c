@@ -37,6 +37,8 @@ import java.util.regex.Pattern
 
 
 object Utils {
+    var context: Context? = null
+
     fun getColor(context: Context, @ColorRes color: Int) =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             context.resources.getColor(color, null)
@@ -664,4 +666,38 @@ object Utils {
             "XXXX XXXX XXXX XXXX"
 
     }
+
+    fun ConfirmAddBeneficiary(context: Context) {
+        androidx.appcompat.app.AlertDialog.Builder(context)
+            .setTitle(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+                )
+            )
+            .setMessage(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                )
+            )
+            .setPositiveButton(Translator.getString(
+                context,
+                R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
+            ),
+                DialogInterface.OnClickListener { dialog, which ->
+                    //                    doLogout()
+                })
+
+            .setNegativeButton(
+                Translator.getString(
+                    context,
+                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+                ),
+                null
+            )
+            .show()
+
+    }
+
 }

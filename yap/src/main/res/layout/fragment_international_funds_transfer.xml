@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="co.yap.yapcore.helpers.StringUtils" />
+
+        <import type="co.yap.translation.Strings" />
+
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/svContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/_12sdp"
+            android:paddingRight="@dimen/_12sdp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_116sdp"
+                android:background="@color/white"
+                android:gravity="center|center_vertical">
+
+                <RelativeLayout
+                    android:id="@+id/rlPicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_vertical"
+                    android:background="@color/white"
+                    android:gravity="center|center_vertical">
+
+                    <TextView
+                        android:id="@+id/tvAccountHolderNameInitials"
+                        android:layout_width="@dimen/_65sdp"
+                        android:layout_height="@dimen/_65sdp"
+                        android:background="@drawable/bg_round_red"
+                        android:backgroundTint="#D8F6F3"
+                        android:contentDescription="@string/app_name"
+                        android:gravity="center"
+                        android:maxLength="2"
+                        android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.beneficiaryName)}"
+                        android:textColor="@color/colorSecondaryGreen"
+                        android:textSize="@dimen/_24sdp"
+                        android:visibility="@{viewModel.state.nameInitialsVisibility}" />
+
+                    <co.yap.widgets.CoreCircularImageView
+                        android:id="@+id/ivProfilePic"
+                        android:layout_width="@dimen/_65sdp"
+                        android:layout_height="@dimen/_65sdp"
+                        android:contentDescription="@string/app_name"
+                        android:visibility="invisible"
+                        app:src="@{viewModel.state.beneficiaryPicture}" />
+
+                    <!--
+                       toggle visibility on the basis of transfer type
+                         -->
+
+                    <RelativeLayout
+                        android:id="@+id/rlAddNewProfilePic"
+                        android:layout_width="47dp"
+                        android:layout_height="49dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="-11dp"
+                        android:layout_marginTop="-10dp"
+                        android:visibility="visible">
+
+                        <FrameLayout
+                            android:layout_width="@dimen/_29sdp"
+                            android:layout_height="@dimen/_29sdp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:background="@drawable/bg_round_red"
+                            android:backgroundTint="@color/white">
+
+                            <ImageView
+                                android:id="@+id/ivAddProfilePic"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:layout_marginEnd="@dimen/_2sdp"
+                                android:layout_marginBottom="@dimen/_2sdp"
+                                android:background="@drawable/bitmap" />
+
+                        </FrameLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <!--because we are not sure which design to go with ,from zeplin or fsd -->
+
+            <!--            <co.yap.widgets.CoreCircularImageView-->
+            <!--                android:id="@+id/ivFlag"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center_horizontal"-->
+            <!--                android:layout_marginTop="@dimen/margin_extra_large"-->
+            <!--                android:layout_marginBottom="@dimen/margin_extra_small"-->
+            <!--                android:src="@drawable/ic_uae_flag"-->
+            <!--                app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"-->
+            <!--                app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="@+id/etAmountLayout" />-->
+
+            <TextView
+                style="@style/Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{viewModel.state.beneficiaryName}"
+                android:textSize="@dimen/_18sdp"
+                tools:text="Jonathan Newport" />
+
+            <TextView
+                android:id="@+id/etSenderCurrency"
+                style="@style/SmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{viewModel.state.senderCurrency}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                tools:text="AED" />
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/etAmountLayout"
+                android:layout_width="@dimen/_140sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/small"
+                android:background="@drawable/bg_funds"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFullName">
+
+                <EditText
+                    android:id="@+id/etSenderAmount"
+                    style="@style/ATitle2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:labelFor="@+id/etAmount"
+                    android:maxLength="7"
+                    android:maxLines="1"
+                    app:hint="@{Strings.common_amount_hint}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                style="@style/Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="="
+                android:textSize="@dimen/_30sdp" />
+
+            <TextView
+                android:id="@+id/etBeneficiaryCurrency"
+                style="@style/SmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@{viewModel.state.senderCurrency}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                tools:text="CAD" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/etBeneficiaryAmountLayout"
+                android:layout_width="@dimen/_140sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/margin_extra_small"
+                android:background="@drawable/bg_funds"
+                android:paddingStart="@dimen/margin_medium"
+                android:paddingEnd="@dimen/margin_medium"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFullName">
+
+                <EditText
+                    android:id="@+id/etBeneficiaryConvertedAmount"
+                    style="@style/ATitle2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="numberDecimal"
+                    android:labelFor="@+id/etAmount"
+                    android:maxLength="7"
+                    android:maxLines="1"
+                    app:hint="@{Strings.common_amount_hint}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/ic_trending" />
+
+                <TextView
+                    style="@style/SmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_small"
+                    android:layout_marginRight="@dimen/margin_extra_small"
+                    android:textSize="@dimen/text_size_c3"
+                    app:text="@{Strings.screen_international_funds_transfer_display_text_yap_rate}"
+                    tools:text="@string/screen_international_funds_transfer_display_text_yap_rate" />
+
+                <!--           should make it spanable if required-->
+
+                <TextView
+                    style="@style/SmallGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/margin_extra_small"
+                    android:text=" X AED to X CAD"
+                    android:textSize="@dimen/text_size_c3" />
+            </LinearLayout>
+
+            <TextView
+                style="@style/Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="left"
+                android:text="@string/screen_add_beneficiary_display_text_transfer_type"
+                android:textSize="@dimen/_14sdp"
+                app:text="@{Strings.screen_international_funds_transfer_display_text_reson}"
+                tools:text="@string/screen_international_funds_transfer_display_text_reson" />
+
+
+            <RelativeLayout
+                android:id="@+id/layoutReasonsSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_normal">
+
+                <Spinner
+                    android:id="@+id/reasonsSpinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:layout_marginRight="@dimen/margin_normal"
+                    android:drawSelectorOnTop="false"
+                    android:dropDownHeight="50dp"
+                    android:gravity="bottom"
+                    android:overScrollMode="never"
+                    android:overlapAnchor="false"
+                    android:paddingLeft="@dimen/margin_small"
+                    android:paddingRight="@dimen/margin_small"
+                    android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
+                    android:spinnerMode="dropdown" />
+
+
+            </RelativeLayout>
+
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNote"
+                style="@style/ARegular"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:gravity="top"
+                android:inputType="text"
+                android:maxLength="100"
+                android:minHeight="@dimen/_40sdp"
+                app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+
+            <TextView
+                style="@style/SmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small"
+                android:layout_marginRight="@dimen/margin_extra_small"
+                android:gravity="center"
+                android:text="@{viewModel.state.transferFee}"
+                android:textSize="@dimen/text_size_c3"
+                tools:text="@string/screen_international_funds_transfer_display_text_fee" />
+
+            <TextView
+                style="@style/SmallGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginRight="@dimen/margin_extra_small"
+                android:gravity="center"
+                android:textSize="@dimen/text_size_c3"
+                tools:text="@string/screen_international_funds_transfer_display_text_note" />
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/next_button"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:text="@string/common_button_next"
+                app:enableCoreButton="@{viewModel.state.valid}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="44dp" />
+        </LinearLayout>
+    </ScrollView>
+</layout>

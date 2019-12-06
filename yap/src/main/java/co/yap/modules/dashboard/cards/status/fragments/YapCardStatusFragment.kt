@@ -27,7 +27,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         @JvmStatic
         fun newInstance(payLoad: Parcelable?) = YapCardStatusFragment().apply {
             arguments = Bundle().apply {
-                putParcelable("data", payLoad)
+                putParcelable("dataList", payLoad)
             }
         }
     }
@@ -44,7 +44,7 @@ class YapCardStatusFragment : BaseBindingFragment<IYapCardStatus.ViewModel>(), I
         super.onViewCreated(view, savedInstanceState)
         if (arguments != null) {
             args = arguments!!
-            card = arguments!!.getParcelable("data")
+            card = arguments!!.getParcelable("dataList")
         }
 
         setObservers()

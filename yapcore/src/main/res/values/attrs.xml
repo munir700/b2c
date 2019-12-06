@@ -314,6 +314,7 @@
         </attr>
     </declare-styleable>
 
+
     <declare-styleable name="CorePaymentCard">
         <attr name="bank_nickname" format="string" />
         <attr name="card_number" format="string" />
@@ -333,13 +334,23 @@
             <enum name="medium" value="1" />
             <enum name="large" value="2" />
         </attr>
-
-
     </declare-styleable>
+
 
     <declare-styleable name="HorizontalNonScrollRecyclerView">
         <attr name="canScroll" format="boolean" />
         <attr name="scroll_enable" format="boolean" />
+     </declare-styleable>
+
+    <!--SwipeLayout-->
+
+    <declare-styleable name="SwipeLayout">
+        <attr name="menuSide" format="enum">
+            <enum name="Left" value="1" />
+            <enum name="Right" value="0" />
+        </attr>
+        <attr name="dynamicMenuWidth" format="boolean" />
     </declare-styleable>
+
 
 </resources>

@@ -43,7 +43,7 @@ import java.util.List;
  * a good idea.
  *
  * About {@link android.media.MediaRecorder}, we know it uses this option from here:
- * https://stackoverflow.com/q/57479564/4288782 where all links to source code are shown.
+ * https://stackoverflow.com/q/57479564/4288782 where all links to source isoCountryCode2Digit are shown.
  * - StagefrightRecorder (https://android.googlesource.com/platform/frameworks/av/+/master/media/libmediaplayerservice/StagefrightRecorder.cpp#1782)
  * - MediaCodecSource (https://android.googlesource.com/platform/frameworks/av/+/master/media/libstagefright/MediaCodecSource.cpp#515)
  * - MediaCodecList (https://android.googlesource.com/platform/frameworks/av/+/master/media/libstagefright/MediaCodecList.cpp#322)

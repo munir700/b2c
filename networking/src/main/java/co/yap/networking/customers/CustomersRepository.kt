@@ -6,6 +6,8 @@ import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
+import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MediaType
@@ -41,6 +43,37 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_CARDS_LIMITS = "customers/api/mastercard/beneficiaries/limits"
 
     const val URL_DETECT = "digi-ocr/detect/"
+
+
+    // Bank transfer information as per old project integration................................................
+
+    const val URL_GET_ALL_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer"
+    const val URL_GET_RECENT_BENEFICIARIES = "/customers/api/beneficiaries/bank-transfer/recent"
+    const val URL_GET_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/{beneficiary-id}"
+    const val URL_DELETE_BENEFICIARY_BY_ID =
+        "/customers/api/beneficiaries/bank-transfer/{beneficiary-id}"
+    const val URL_EDIT_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/bank-transfer"
+    const val URL_GET_COUNTRIES = "/customers/api/countries"
+    const val URL_ADD_BENEFICIARY = "/customers/api/beneficiaries/bank-transfer"
+    const val URL_SEARCH_BANK_PARAMS = "/customers/api/other_bank/params"
+    const val URL_SEARCH_BANKS = "/customers/api/other_banks/query"
+
+    val URL_GET_TRANSFER_REASONS = "/transactions/api/product-codes/{product-code}/purpose-reasons"
+    val URL_INTERNAL_TRANSFER = "/transactions/api/internal-transfer"
+    val URL_SEND_MONEY_UAEFT = "/transactions/api/uaefts"
+    val URL_GET_FEE = "/transactions/api/product-codes/{product-code}/fees"
+    val URL_BENEFICIARY_CHECK_OTP_STATUS = "customers/api/beneficiaries/bank-transfer/otp-req"
+
+
+    val URL_RMT = "transactions/api/rmt"
+    val URL_SWIFT = "transactions/api/swift "
+    val URL_CASH_PICKUP = "/transactions/api/cashpayout "
+    val URL_CASH_PICKUP_PARTNER =
+        "customers/api/pickup-partner/currency-code/{currency-code}/country-code/{country-code} "
+
+
+    //.................... End region of old projects apis................................................
+
 
     private val api: CustomersRetroService =
         RetroNetwork.createService(CustomersRetroService::class.java)
@@ -87,21 +120,21 @@ object CustomersRepository : BaseRepository(), CustomersApi {
             executeSafely(call = {
                 api.uploadDocuments(
                     files,
-                    RequestBody.create(MediaType.parse("multipart/form-data"), documentType),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), firstName),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), lastName),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), nationality),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), documentType),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), firstName),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), lastName),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), nationality),
                     RequestBody.create(
-                        MediaType.parse("multipart/form-data"),
+                        MediaType.parse("multipart/form-dataList"),
                         dateFormatter.format(dateExpiry)
                     ),
                     RequestBody.create(
-                        MediaType.parse("multipart/form-data"),
+                        MediaType.parse("multipart/form-dataList"),
                         dateFormatter.format(dob)
                     ),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), fullName),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), gender),
-                    RequestBody.create(MediaType.parse("multipart/form-data"), identityNo)
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), fullName),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), gender),
+                    RequestBody.create(MediaType.parse("multipart/form-dataList"), identityNo)
                 )
             })
         }
@@ -144,6 +177,24 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getRecentY2YBeneficiaries() =
         executeSafely(call = { api.getRecentY2YBeneficiaries() })
 
+    /*  send money */
+
+    override suspend fun getRecentBeneficiaries() =
+        executeSafely(call = { api.getRecentBeneficiaries() })
+
+    override suspend fun getAllBeneficiaries() = executeSafely(call = { api.getAllBeneficiaries() })
+
+    override suspend fun getAllCountries() = executeSafely(call = { api.getAllCountries() })
+
+    override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
+        executeSafely(call = { api.addBeneficiary(beneficiary) })
+
+    override suspend fun editBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.editBeneficiary(beneficiary) })
+
+    override suspend fun deleteBeneficiaryFromList(beneficiaryId: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.deleteBeneficiaryById(beneficiaryId) })
+
     override suspend fun getTopUpBeneficiaries() =
         executeSafely(call = { api.getTopUpBeneficiaries() })
 
@@ -153,7 +204,8 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun createBeneficiary(createBeneficiaryRequest: CreateBeneficiaryRequest): RetroApiResponse<CreateBeneficiaryResponse> =
         executeSafely(call = { api.createBeneficiary(createBeneficiaryRequest) })
 
-    override suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse> = executeSafely(call = { api.getCardsLimit() })
+    override suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse> =
+        executeSafely(call = { api.getCardsLimit() })
 
 
 }

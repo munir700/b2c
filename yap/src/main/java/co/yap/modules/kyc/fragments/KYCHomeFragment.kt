@@ -40,7 +40,7 @@ class KYCHomeFragment : KYCChildFragment<IKYCHome.ViewModel>(), IKYCHome.View {
             findNavController().navigate(R.id.action_KYCHomeFragment_to_eidInfoReviewFragment)
 
         } else {
-            //todo need to verify that code
+            //todo need to verify that isoCountryCode2Digit
             //IdentityScannerActivity.CLOSE_SCANNER = false
             viewModel.state.eidScanStatus = DocScanStatus.SCAN_PENDING
             tvSkip.visibility = View.VISIBLE

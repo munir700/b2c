@@ -21,7 +21,8 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
 
 
     @get:Bindable
-    override var background: Drawable? = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_edit_text)
+    override var background: Drawable? =
+        mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_edit_text)
         set(value) {
             field = value
             notifyPropertyChanged(BR.background)
@@ -40,8 +41,8 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.mobile)
-            if (mobile.length<9){
-                mobileNoLength=11
+            if (mobile.length < 9) {
+                mobileNoLength = 11
 
             }
 
@@ -102,10 +103,11 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
             CountryCodePicker.PhoneNumberValidityChangeListener {
             override fun onValidityChanged(isValidNumber: Boolean) {
                 if (isValidNumber) {
-                    mobileNoLength=11
+                    mobileNoLength = 11
                     if (mobile.length == 11) {
                         setSuccessUI()
-                        drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+                        drawbleRight =
+                            mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
                         valid = true
 
                     } else {
@@ -153,7 +155,7 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
     }
 
     private fun setErrorLayout() {
-        mobileNoLength=9
+        mobileNoLength = 9
         valid = false
 
     }
@@ -162,8 +164,9 @@ class MobileState(application: Application) : BaseState(), IMobile.State {
         if (!mobileError.isNullOrEmpty()) {
 
             drawbleRight = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.invalid_name)
-            background = mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_error_layout)
-             errorVisibility = VISIBLE
+            background =
+                mContext!!.resources.getDrawable(co.yap.yapcore.R.drawable.bg_round_error_layout)
+            errorVisibility = VISIBLE
             //valid = false
         }
     }

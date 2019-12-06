@@ -168,5 +168,14 @@
             android:name=".modules.dashboard.cards.analytics.main.activities.CardAnalyticsActivity"
             android:screenOrientation="portrait" />
 
+
+        <activity
+            android:name="co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar">
+            <nav-graph android:value="@navigation/send_money_main_navigation" />
+        </activity>
+
+
     </application>
 </manifest>
