@@ -236,6 +236,8 @@
             <!--Reason for transfer-->
 
             <LinearLayout
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp"
                 android:id="@+id/lyReasonForTransfer"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -243,7 +245,53 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ly_YapRate">
-                
+
+                <TextView
+                    style="@style/Regular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
+                    tools:text="Reason for transfer" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:paddingTop="@dimen/margin_normal"
+                    android:paddingBottom="@dimen/margin_normal">
+
+                    <Spinner
+                        android:id="@+id/spinnerReasonTransfer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:layout_marginRight="@dimen/margin_normal"
+                        android:background="@drawable/bg_spinner"
+                        android:drawSelectorOnTop="false"
+                        android:dropDownHeight="@dimen/_50sdp"
+                        android:gravity="bottom"
+                        android:overScrollMode="never"
+                        android:overlapAnchor="false"
+                        android:spinnerMode="dropdown" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginTop="@dimen/_30sdp"
+                        android:background="@color/greyLight"
+                        android:minHeight="@dimen/_15sdp" />
+
+                    <View
+                        android:id="@+id/viewTriggerSpinnerClick"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_alignParentTop="true"
+                        android:onClick="@{(v) -> viewModel.handlePressOnSeclectCountry(v.id)}" />
+                </RelativeLayout>
 
             </LinearLayout>
 
