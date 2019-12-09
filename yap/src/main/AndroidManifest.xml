@@ -175,6 +175,10 @@
             android:theme="@style/AppTheme.NoActionBar">
             <nav-graph android:value="@navigation/send_money_main_navigation" />
         </activity>
+        <!-- Send Money Edit Beneficiary -->
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity"
+            android:screenOrientation="portrait" />
 
 
     </application>
