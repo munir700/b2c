@@ -12,6 +12,7 @@ import co.yap.yapcore.helpers.PagingState
 
 interface ISendMoneyHome {
     interface State : IBase.State {
+        var isNoBeneficiary: ObservableField<Boolean>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -32,6 +33,9 @@ interface ISendMoneyHome {
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries()
         fun getState(): LiveData<PagingState>
+        val searchQuery: MutableLiveData<String>
+        val isSearching: MutableLiveData<Boolean>
+
 
 
     }

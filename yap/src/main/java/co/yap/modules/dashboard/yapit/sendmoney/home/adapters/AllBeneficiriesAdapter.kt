@@ -56,17 +56,9 @@ class AllBeneficiriesAdapter(
             itemContactsBinding.viewModel = BeneficiaryItemViewModel(beneficiary, position, onItemClickListener)
             itemContactsBinding.executePendingBindings()
 
-            itemContactsBinding.btnDelete.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
-                    onSwipe.onSwipeDelete(beneficiary!!,position)
-                }
-            })
+            itemContactsBinding.btnDelete.setOnClickListener { onSwipe.onSwipeDelete(beneficiary!!,position) }
 
-            itemContactsBinding.btnEdit.setOnClickListener(object : View.OnClickListener {
-                override fun onClick(v: View?) {
-                    onSwipe.onSwipeEdit(beneficiary!!)
-                }
-            })
+            itemContactsBinding.btnEdit.setOnClickListener { onSwipe.onSwipeEdit(beneficiary!!) }
         }
     }
 

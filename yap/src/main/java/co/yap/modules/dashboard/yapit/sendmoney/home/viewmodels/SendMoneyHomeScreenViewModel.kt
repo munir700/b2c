@@ -8,6 +8,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdap
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.states.SendMoneyHomeState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
+import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
@@ -49,10 +50,17 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override val searchQuery: MutableLiveData<String> = MutableLiveData()
+    override val isSearching: MutableLiveData<Boolean> = MutableLiveData(false)
     override var allBeneficiariesList: List<Beneficiary> = arrayListOf()
 //    override var recentBeneficiariesList: List<Beneficiary> = arrayListOf()
 
     override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+
+    override fun onCreate() {
+        super.onCreate()
+        requestAllBeneficiaries()
+    }
 
     override fun onResume() {
         super.onResume()
@@ -65,6 +73,19 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun getState(): LiveData<PagingState> {
         return pagingState
     }
+
+    fun getRecentBeneficiaries() {
+        launch {
+            when (val response = repository.getRecentY2YBeneficiaries()) {
+                is RetroApiResponse.Success -> {
+                    recentTransferData.value = response.data.data
+                }
+                is RetroApiResponse.Error -> state.toast = response.error.message
+            }
+
+        }
+    }
+
 
     fun requestAllBeneficiaries() {
         launch {
@@ -93,8 +114,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
         launch {
             state.loading = true
-            when (val response = repository.getAllBeneficiaries()) {// for testing purpose only
-//            when (val response = repository.getRecentBeneficiaries()) {
+            when (val response = repository.getRecentBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.toast = response.data.toString()
@@ -105,7 +125,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    //state.toast = response.error.message
 
                 }
             }
@@ -131,4 +151,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             }
         }
     }
+
+
 }

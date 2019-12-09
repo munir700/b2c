@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         app:dynamicMenuWidth="false"
+        android:onClick="@{(v) ->viewModel.onViewClicked(v)}"
         app:menuSide="Right">
 
         <LinearLayout
