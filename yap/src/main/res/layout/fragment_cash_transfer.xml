@@ -231,9 +231,22 @@
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
                     tools:text="X CAD" />
+            </LinearLayout>
 
+            <!--Reason for transfer-->
+
+            <LinearLayout
+                android:id="@+id/lyReasonForTransfer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ly_YapRate">
+                
 
             </LinearLayout>
+
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNote"
@@ -244,7 +257,7 @@
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/ly_YapRate"
+                app:layout_constraintTop_toBottomOf="@+id/lyReasonForTransfer"
                 tools:hint="Type a note here"
                 tools:layout_editor_absoluteX="26dp" />
 
