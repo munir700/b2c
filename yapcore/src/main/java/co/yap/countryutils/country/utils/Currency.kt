@@ -1,41 +1,32 @@
 package co.yap.countryutils.country.utils
 
-import android.os.Parcel
 import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-
-class Currency : Parcelable {
-    var id: Int = 0
-    var code: String? = ""
-    var name: String? = ""
-    var symbol: String? = ""
-    var flag = -1
-    @SerializedName("cashPickUp")
-    var isCashPickUpAllowed: Boolean = false
-    var isRmt: Boolean = false
+@Parcelize
+class Currency(
+    var code: String? = "",
+    var name: String? = "",
+    var symbol: String? = "",
+    var id: Int = 0,
+    var default: Boolean? = false,
+    var flag: Int? = -1,
+    var isCashPickUpAllowed: Boolean = false,
+    var isRmt: Boolean = false,
+    var active: Boolean? = false
+) : Parcelable {
 
     /**
      * loads currency of the country
      *
      * @param countryCode 2 letter isoCountryCode2Digit of country
      */
-    constructor(countryCode: String) {
-        updateFromCountryCode(countryCode)
-    }
 
-    constructor(code: String, name: String, symbol: String, flag: Int) {
-        this.code = code
-        this.name = name
-        this.symbol = symbol
-        this.flag = flag
-    }
-
-    constructor(code: String, name: String, symbol: String) {
-        this.code = code
-        this.name = name
-        this.symbol = symbol
+    init {
+        code?.let {
+            updateFromCountryCode(it)
+        }
     }
 
     fun updateFromCountryCode(countryCode: String) {
@@ -50,8 +41,6 @@ class Currency : Parcelable {
             symbol = c!!.symbol
         }
     }
-
-    constructor() {}
 
     override fun equals(obj: Any?): Boolean {
         val obj1 = obj as Currency?
@@ -75,46 +64,6 @@ class Currency : Parcelable {
     class NameComparator : Comparator<Currency> {
         override fun compare(currency: Currency, t1: Currency): Int {
             return currency.name!!.compareTo(t1.name!!)
-        }
-    }
-
-    /*
-     * PARCEL
-     */
-
-
-    override fun describeContents(): Int {
-        return 0
-    }
-
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeInt(this.id)
-        dest.writeString(this.code)
-        dest.writeString(this.name)
-        dest.writeString(this.symbol)
-        dest.writeInt(this.flag)
-        dest.writeByte(if (this.isCashPickUpAllowed) 1.toByte() else 0.toByte())
-        dest.writeByte(if (this.isRmt) 1.toByte() else 0.toByte())
-    }
-
-    protected constructor(`in`: Parcel) {
-        this.id = `in`.readInt()
-        this.code = `in`.readString()
-        this.name = `in`.readString()
-        this.symbol = `in`.readString()
-        this.flag = `in`.readInt()
-        this.isCashPickUpAllowed = `in`.readByte().toInt() != 0
-        this.isRmt = `in`.readByte().toInt() != 0
-    }
-
-
-    companion object CREATOR : Parcelable.Creator<Currency> {
-        override fun createFromParcel(parcel: Parcel): Currency {
-            return Currency(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Currency?> {
-            return arrayOfNulls(size)
         }
     }
 }

@@ -25,7 +25,7 @@ interface ISendMoneyHome {
         val onDeleteSuccess: MutableLiveData<Int>
         val recentTransferData: MutableLiveData<List<Beneficiary>>
 //        val recentTransferData: MutableLiveData<List<RecentBeneficiary>>
-        val adapter: ObservableField<RecentTransferAdaptor>
+        //val adapter: ObservableField<RecentTransferAdaptor>
 
         fun handlePressOnBackButton()
         fun handlePressOnAddNow(id: Int)

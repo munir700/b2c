@@ -53,7 +53,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     const val URL_DELETE_BENEFICIARY_BY_ID =
         "/customers/api/beneficiaries/bank-transfer/{beneficiary-id}"
     const val URL_EDIT_BENEFICIARY_BY_ID = "/customers/api/beneficiaries/bank-transfer"
-    const val URL_GET_COUNTRIES = "/customers/api/countries"
+    const val URL_GET_COUNTRIES = "/customers/api/bank-transfer/countries"
     const val URL_ADD_BENEFICIARY = "/customers/api/beneficiaries/bank-transfer"
     const val URL_SEARCH_BANK_PARAMS = "/customers/api/other_bank/params"
     const val URL_SEARCH_BANKS = "/customers/api/other_banks/query"

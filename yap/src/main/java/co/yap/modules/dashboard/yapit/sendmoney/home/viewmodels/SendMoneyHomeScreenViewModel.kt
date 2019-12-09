@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.states.SendMoneyHomeState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -37,7 +36,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override var recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
 
-    override val adapter = ObservableField<RecentTransferAdaptor>()
+    //override val adapter = ObservableField<RecentTransferAdaptor>()
 
     override fun handlePressOnBackButton() {
     }
@@ -78,7 +77,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         launch {
             when (val response = repository.getRecentY2YBeneficiaries()) {
                 is RetroApiResponse.Success -> {
-                    recentTransferData.value = response.data.data
+                    //recentTransferData.value = response.data.data
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

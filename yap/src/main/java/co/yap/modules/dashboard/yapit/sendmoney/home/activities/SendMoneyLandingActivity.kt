@@ -113,32 +113,32 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun setupRecent() {
-        if (viewModel.adapter.get() == null) {
-            viewModel.requestRecentBeneficiaries()
-            viewModel.recentTransferData.observe(this, Observer {
-                if (it.isEmpty()) {
-                    layoutRecent?.visibility = View.GONE
-                } else {
-//                    viewModel.adapter.set(
-//                        RecentTransferAdaptor(
-//                            it.toMutableList(),
-//                            findNavController()
-//                        )
-//                    )
-                    layoutRecent?.visibility = View.VISIBLE
-                }
-            })
-        } else {
-            if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
-//                viewModel.adapter.set(
-//                    RecentTransferAdaptor(
-//                        viewModel.recentTransferData.value?.toMutableList()!!,
-//                        findNavController()
-//                    )
-//                )
-                layoutRecent?.visibility = View.VISIBLE
-            }
-        }
+//        if (viewModel.adapter.get() == null) {
+//            viewModel.requestRecentBeneficiaries()
+//            viewModel.recentTransferData.observe(this, Observer {
+//                if (it.isEmpty()) {
+//                    layoutRecent?.visibility = View.GONE
+//                } else {
+////                    viewModel.adapter.set(
+////                        RecentTransferAdaptor(
+////                            it.toMutableList(),
+////                            findNavController()
+////                        )
+////                    )
+//                    layoutRecent?.visibility = View.VISIBLE
+//                }
+//            })
+//        } else {
+//            if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
+////                viewModel.adapter.set(
+////                    RecentTransferAdaptor(
+////                        viewModel.recentTransferData.value?.toMutableList()!!,
+////                        findNavController()
+////                    )
+////                )
+//                layoutRecent?.visibility = View.VISIBLE
+//            }
+//        }
     }
 
     val listener = object : OnItemClickListener {
