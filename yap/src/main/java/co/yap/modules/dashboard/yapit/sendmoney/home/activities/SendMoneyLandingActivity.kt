@@ -17,19 +17,18 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
-import co.yap.widgets.swipe_lib.SwipeCallBack
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.hideKeyboard
 import co.yap.yapcore.helpers.toast
-import co.yap.yapcore.interfaces.OnItemClickListener
+import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.activity_send_money_landing.*
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
 class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
-    ISendMoneyHome.View,
-    SwipeCallBack {
+    ISendMoneyHome.View {
     var positionToDelete = 0
+    private lateinit var onTouchListener: RecyclerTouchListener
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_landing
 
@@ -63,9 +62,44 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
-            AllBeneficiriesAdapter(mutableListOf(), this)
-        getAdaptor().allowFullItemClickListener = true
-        getAdaptor().setItemListener(listener)
+            AllBeneficiriesAdapter(mutableListOf())
+        initSwipeListener()
+    }
+
+    private fun initSwipeListener() {
+        onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
+            .setClickable(
+                object : RecyclerTouchListener.OnRowClickListener {
+                    override fun onRowClicked(position: Int) {
+                        //TODO: Start Sufyan Money Transfer flow
+                        showToast("On Full item clicked")
+                    }
+
+                    override fun onIndependentViewClicked(
+                        independentViewID: Int,
+                        position: Int
+                    ) {
+                    }
+            }).setSwipeOptionViews(R.id.btnEdit, R.id.btnDelete)
+            .setSwipeable(
+                R.id.foregroundContainer, R.id.swipe
+            )
+            { viewID, position ->
+                when (viewID) {
+                    R.id.btnDelete -> {
+                        positionToDelete = position
+                        val beneficiary =
+                            viewModel.allBeneficiariesLiveData.value?.get(position)
+                        beneficiary?.let { confirmDeleteBeneficiary(it) }
+                    }
+                    R.id.btnEdit -> {
+                        //TODO: Using StartActivityForResult Navigate to Edit Beneficiary Screen Used by Irfan
+                        val beneficiary =
+                            viewModel.allBeneficiariesLiveData.value?.get(position)
+                        beneficiary?.let { toast(beneficiary.title + " onSwipeEdit clicked") }
+                    }
+                }
+            }
     }
 
     private fun setObservers() {
@@ -163,24 +197,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         }
     }
 
-    val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            //TODO: Start Sufyan Money Transfer flow
-            showToast("On Full item clicked")
-        }
-    }
-
-    override fun onSwipeEdit(beneficiary: Beneficiary) {
-        //TODO: Using StartActivityForResult Navigate to Edit Beneficiary Screen Used by Irfan
-        toast(beneficiary.title + " onSwipeEdit clicked")
-    }
-
-    override fun onSwipeDelete(beneficiary: Beneficiary, position: Int) {
-        positionToDelete = position
-        confirmDeleteBeneficiary(beneficiary)
-    }
-
-
     private fun confirmDeleteBeneficiary(beneficiary: Beneficiary) {
         androidx.appcompat.app.AlertDialog.Builder(this)
             .setTitle(
@@ -215,6 +231,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     override fun onPause() {
+        rvAllBeneficiaries.removeOnItemTouchListener(onTouchListener)
         viewModel.clickEvent.removeObservers(this)
         viewModel.onDeleteSuccess.removeObservers(this)
         super.onPause()
@@ -223,6 +240,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     override fun onResume() {
         super.onResume()
+        rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
         setSearchView(viewModel.isSearching.value!!)
         setupRecent()
         viewModel.clickEvent.observe(this, Observer {

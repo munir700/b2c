@@ -113,7 +113,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     private fun initComponents() {
         initSwipeListener()
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
-            AllBeneficiriesAdapter(mutableListOf(), this)
+            AllBeneficiriesAdapter(mutableListOf())
 //        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(
 //            listener
 //        )
