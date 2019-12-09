@@ -37,13 +37,13 @@ class AllBeneficiriesAdapter(
             onItemClickListener: OnItemClickListener?
         ) {
 
-            itemContactsBinding.tvNameInitials.background = Utils.getContactBackground(
+            itemContactsBinding.tvNameInitials.background = Utils.getBeneficiaryBackground(
                 itemContactsBinding.tvNameInitials.context,
                 position
             )
 
             itemContactsBinding.tvNameInitials.setTextColor(
-                Utils.getContactColors(
+                Utils.getBeneficiaryColors(
                     itemContactsBinding.tvNameInitials.context, position
                 )
             )

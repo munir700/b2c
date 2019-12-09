@@ -603,9 +603,15 @@ object Utils {
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
+    fun getBeneficiaryColors(context: Context, position: Int): Int {
+        return ContextCompat.getColor(context, beneficiaryColors[position % beneficiaryColors.size])
+    }
 
     fun getContactBackground(context: Context, position: Int) =
         ContextCompat.getDrawable(context, backgrounds[position % backgrounds.size])
+
+    fun getBeneficiaryBackground(context: Context, position: Int) =
+        ContextCompat.getDrawable(context, beneficiaryBackgroundColors[position % beneficiaryBackgroundColors.size])
 
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
@@ -629,6 +635,25 @@ object Utils {
         R.color.colorSecondaryBlue,
         R.color.colorSecondaryGreen,
         R.color.colorSecondaryOrange
+    )
+
+    private val beneficiaryColors = intArrayOf(
+        R.color.colorPrimaryLight,
+        R.color.colorSecondaryOrange,
+        R.color.colorSecondaryBlue,
+        R.color.colorSecondaryMagenta,
+        R.color.colorSecondaryGreen,
+        R.color.colorAccent
+    )
+
+    private val beneficiaryBackgroundColors = intArrayOf(
+        R.color.bg_round_light_blue,
+        R.color.bg_round_light_orange,
+        R.color.bg_round_light_blue,
+        R.color.bg_round_light_red,
+        R.color.bg_round_light_green,
+        R.color.bg_round_light_green
+
     )
 
 
