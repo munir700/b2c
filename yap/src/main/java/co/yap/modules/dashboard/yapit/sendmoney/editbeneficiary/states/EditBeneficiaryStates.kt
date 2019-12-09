@@ -29,7 +29,7 @@ class EditBeneficiaryStates : BaseState(), IEditBeneficiary.State {
     override var nickName: String? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.middleName)
+            notifyPropertyChanged(BR.nickName)
         }
     @get:Bindable
     override var firstName: String? = ""
