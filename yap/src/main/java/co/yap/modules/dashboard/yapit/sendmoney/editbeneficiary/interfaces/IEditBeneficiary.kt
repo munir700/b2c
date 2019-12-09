@@ -17,7 +17,7 @@ interface IEditBeneficiary {
         var country: String?
         var transferType: String?
         var currency: String?
-        var middleName: String?
+        var nickName: String?
         var firstName: String?
         var lastName: String?
         var phoneNumber: String?

@@ -26,7 +26,7 @@ class EditBeneficiaryStates : BaseState(), IEditBeneficiary.State {
             notifyPropertyChanged(BR.currency)
         }
     @get:Bindable
-    override var middleName: String? = ""
+    override var nickName: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.middleName)
