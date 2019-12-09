@@ -10,7 +10,6 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel" />
-        ø
     </data>
 
     <RelativeLayout
@@ -19,7 +18,8 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_8sdp"
+        android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}">
 
         <ImageView
             android:id="@+id/tbBtnBack"
@@ -48,8 +48,8 @@
             android:layout_marginEnd="@dimen/_14sdp"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
-            android:text="@={viewModel.state.toolbarTitle}"
-            android:visibility="@{viewModel.state.toolbarTitle? View.VISIBLE:View.GONE}" />
+            android:text="@{viewModel.state.toolbarTitle}"
+            android:visibility="@{viewModel.state.toolbarTitle.equals(``)? View.VISIBLE:View.GONE}" />
 
         <ImageView
             android:id="@+id/tbBtnAddBeneficiary"

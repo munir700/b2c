@@ -20,8 +20,7 @@
         <include
             android:id="@+id/toolbar"
             layout="@layout/layout_send_money_home_toolbar"
-            android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}"
-            app:viewModel="@{viewModel}" />
+             app:viewModel="@{viewModel}" />
 
         <fragment
             android:id="@+id/send_money_nav_host_fragment"

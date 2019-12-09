@@ -16,15 +16,4 @@ abstract class SendMoneyBaseViewModel<S : IBase.State>(application: Application)
     fun toggleToolBarVisibility(visibility: Boolean) {
         parentViewModel?.state?.toolbarVisibility?.set(visibility)
     }
-
-//    fun toggleAddButtonVisibility(visibility: Boolean) {
-//
-//        if (visibility) {
-//            parentViewModel?.state?.enableAddBeneficiary = true
-//
-//        } else {
-//            parentViewModel?.state?.enableAddBeneficiary = false
-//
-//        }
-//    }
 }
