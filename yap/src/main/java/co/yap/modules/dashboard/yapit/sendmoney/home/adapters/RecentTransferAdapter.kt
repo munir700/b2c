@@ -9,7 +9,7 @@ import co.yap.yapcore.BaseRVAdapter
 import co.yap.yapcore.BaseViewHolder
 import kotlin.reflect.full.primaryConstructor
 
-class RecentTransferAdaptor(mValue: MutableList<Beneficiary>, navigation: NavController) :
+class RecentTransferAdaptor(mValue: MutableList<Beneficiary>, navigation: NavController?) :
     BaseRVAdapter<Beneficiary, RecentTransferItemVM, RecentTransferAdaptor.ViewHolder>(
         mValue,
         navigation

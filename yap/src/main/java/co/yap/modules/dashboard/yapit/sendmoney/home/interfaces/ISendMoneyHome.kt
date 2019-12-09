@@ -16,19 +16,15 @@ interface ISendMoneyHome {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
         var clickEvent: SingleClickEvent
         var allBeneficiariesList: List<Beneficiary>
-//        var recentBeneficiariesList: List<Beneficiary>
+        var recentBeneficiariesList: List<Beneficiary>
         var pagingState: MutableLiveData<PagingState>
         val allBeneficiariesLiveData: MutableLiveData<List<Beneficiary>>
         val onDeleteSuccess: MutableLiveData<Int>
         val recentTransferData: MutableLiveData<List<Beneficiary>>
-//        val recentTransferData: MutableLiveData<List<RecentBeneficiary>>
-        //val adapter: ObservableField<RecentTransferAdaptor>
+        val adapter: ObservableField<RecentTransferAdaptor>
 
-        fun handlePressOnBackButton()
-        fun handlePressOnAddNow(id: Int)
         fun handlePressOnView(id: Int)
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries()
