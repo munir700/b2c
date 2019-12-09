@@ -18,13 +18,9 @@ class SelectCountryViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override var populateSpinnerData: MutableLiveData<List<Country>> = MutableLiveData()
-
-    override var countries: ArrayList<Country>? = ArrayList()
-
+    override var countries: ArrayList<Country> = ArrayList()
     override val repository: CustomersRepository = CustomersRepository
-
-    override val state: SelectCountryState = SelectCountryState()
-
+    override val state: SelectCountryState = SelectCountryState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onTransparentViewClick(id: Int) {
@@ -37,6 +33,11 @@ class SelectCountryViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        countries.clear()
+        countries.add(
+            0,
+            Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
+        )
         getAllCountries()
         //parentViewModel.handlePressOnBackButton()
     }
@@ -49,26 +50,24 @@ class SelectCountryViewModel(application: Application) :
 
 
     private fun getAllCountries() {
-
         launch {
             state.loading = true
             when (val response = repository.getAllCountries()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
-
-                        countries = it.map {
+                        countries.addAll(it.map {
                             Country(
                                 id = it.id,
                                 isoCountryCode3Digit = it.isoCountryCode2Digit,
                                 cashPickUp = it.cashPickUp,
                                 rmtCountry = it.rmtCountry,
                                 isoCountryCode2Digit = it.isoCountryCode2Digit,
-                                supportedCurrencies = it.currencyList?.map {
+                                supportedCurrencies = it.currencyList?.map { cur ->
                                     Currency(
-                                        code = it.code,
-                                        default = it.default,
-                                        name = it.name,
-                                        active = it.active
+                                        code = cur.code,
+                                        default = cur.default,
+                                        name = cur.name,
+                                        active = cur.active
                                     )
                                 },
                                 active = it.active,
@@ -77,13 +76,13 @@ class SelectCountryViewModel(application: Application) :
                                 cashPickUpAllowed = it.cashPickUp,
                                 name = it.name,
                                 currency = Currency(
-                                    code = it.currencyList?.firstOrNull { it.default!! }?.code,
-                                    default = it.currencyList?.firstOrNull { it.default!! }?.default,
-                                    name = it.currencyList?.firstOrNull { it.default!! }?.name,
-                                    active = it.currencyList?.firstOrNull { it.default!! }?.active
+                                    code = it.currencyList?.firstOrNull { cur -> cur.default!! }?.code,
+                                    default = it.currencyList?.firstOrNull { cur -> cur.default!! }?.default,
+                                    name = it.currencyList?.firstOrNull { cur -> cur.default!! }?.name,
+                                    active = it.currencyList?.firstOrNull { cur -> cur.default!! }?.active
                                 )
                             )
-                        } as? ArrayList<Country>
+                        })
                         populateSpinnerData.setValue(countries)
                     }
                     state.loading = false
@@ -103,7 +102,7 @@ class SelectCountryViewModel(application: Application) :
         if (pos == 0) {
             state.selectedCountry = null
         } else {
-            val country: Country = countries!!.get(pos)
+            val country: Country = countries[pos]
             state.selectedCountry = country
         }
     }

@@ -9,13 +9,14 @@ interface ISelectCountry {
 
     interface State : IBase.State {
         var selectedCountry: Country?
+        var valid: Boolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         fun handlePressOnSeclectCountry(id: Int)
         fun onTransparentViewClick(id: Int)
-        var countries: ArrayList<Country>?
+        var countries: ArrayList<Country>
         val populateSpinnerData: MutableLiveData<List<Country>>
         fun onCountrySelected(pos: Int)
 
