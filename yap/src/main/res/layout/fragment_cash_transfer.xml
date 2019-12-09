@@ -38,11 +38,16 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <include
-                    android:id="@+id/lyUserImage"
-                    layout="@layout/layout_y_to_y_transfer_initial_image"
-                    app:image="@{viewModel.state.imageUrl}"
-                    app:name="@{viewModel.state.fullName}" />
+
+                <co.yap.widgets.CoreCircularImageView
+                    android:id="@+id/ivFlag"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margin_medium_large"
+                    android:src="@drawable/ic_uae_flag"
+                    app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/etAmountLayout" />
             </LinearLayout>
 
 
@@ -58,45 +63,24 @@
                 app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
                 tools:text="Jonathan Newport" />
 
-            <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivFlag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
-                android:src="@drawable/ic_uae_flag"
-                app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/etAmountLayout" />
-
-            <TextView
-                android:id="@+id/tvCurrencyType"
-                style="@style/ATitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small"
-                app:layout_constraintBottom_toBottomOf="@+id/ivFlag"
-                app:layout_constraintLeft_toRightOf="@+id/ivFlag"
-                app:layout_constraintTop_toTopOf="@+id/ivFlag"
-                app:text="@{Strings.common_text_currency_type}"
-                tools:text="@string/common_text_currency_type"
-
-                />
+            <!--Default Currency-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/etAmountLayout"
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:layout_marginTop="56dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 android:background="@{viewModel.state.amountBackground}"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-                tools:background="@drawable/bg_funds">
+                tools:background="@drawable/bg_funds"
+                tools:ignore="MissingConstraints">
 
                 <EditText
-                    android:id="@+id/etAmount"
+                    android:id="@+id/etAmountAED"
                     style="@style/ATitle2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -115,7 +99,6 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/clAvailableAmount"
                 android:layout_width="wrap_content"
@@ -130,21 +113,11 @@
                     style="@style/MicroGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.availableBalanceGuide}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Your available balance is " />
+                    tools:text="=" />
 
-                <TextView
-                    android:id="@+id/tvAvailableBalance"
-                    style="@style/AMicro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.availableBalanceText}"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvAvailableBalanceGuide"
-                    app:layout_constraintLeft_toRightOf="@+id/tvAvailableBalanceGuide"
-                    app:layout_constraintTop_toTopOf="@+id/tvAvailableBalanceGuide"
-                    tools:text="AED 500" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputEditText
