@@ -38,12 +38,13 @@ class SelectCountryViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         getAllCountries()
+        //parentViewModel.handlePressOnBackButton()
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        toggleAddButtonVisibility(false)
+        //toggleAddButtonVisibility(false)
     }
 
 
@@ -82,7 +83,7 @@ class SelectCountryViewModel(application: Application) :
                                     active = it.currencyList?.firstOrNull { it.default!! }?.active
                                 )
                             )
-                        } as ArrayList<Country>
+                        } as? ArrayList<Country>
                         populateSpinnerData.setValue(countries)
                     }
                     state.loading = false
