@@ -19,11 +19,28 @@ class SelectCountryViewModel(application: Application) :
 
     override var populateSpinnerData: MutableLiveData<List<Country>> = MutableLiveData()
 
+    var defaultCountry: Country = Country(
+        0,
+        null,
+        false,
+        false,
+        "",
+        null,
+        false,
+        "",
+        false,
+        false,
+        getString(Strings.screen_add_beneficiary_display_text_select_country)
+        ,
+        -1,
+        null
+    )
+
     override var countries: ArrayList<Country>? = ArrayList()
 
     override val repository: CustomersRepository = CustomersRepository
 
-    override val state: SelectCountryState = SelectCountryState()
+    override val state: SelectCountryState = SelectCountryState(application)
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
@@ -44,18 +61,22 @@ class SelectCountryViewModel(application: Application) :
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         toggleAddButtonVisibility(false)
+        countries!!.add(0, defaultCountry)
+
     }
 
 
     private fun getAllCountries() {
-
         launch {
             state.loading = true
             when (val response = repository.getAllCountries()) {
                 is RetroApiResponse.Success -> {
                     response.data.data?.let { it ->
-
-                        countries = it.map {
+//                        if (it.size>0){
+//                            state.valid = true
+//                        }
+                        countries!!.addAll(it.map {
+                            defaultCountry
                             Country(
                                 id = it.id,
                                 isoCountryCode3Digit = it.isoCountryCode2Digit,
@@ -83,6 +104,7 @@ class SelectCountryViewModel(application: Application) :
                                 )
                             )
                         } as ArrayList<Country>
+                        )
                         populateSpinnerData.setValue(countries)
                     }
                     state.loading = false
