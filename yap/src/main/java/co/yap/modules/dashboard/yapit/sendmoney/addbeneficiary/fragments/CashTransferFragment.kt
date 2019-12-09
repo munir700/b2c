@@ -40,7 +40,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setUpData()
+//        setUpData()
     }
 
     override fun setObservers() {
@@ -71,34 +71,38 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 //            args.position
 //        )
 
-        lyUserImage.tvNameInitials.setTextColor(
-            Utils.getContactColors(
-                lyUserImage.tvNameInitials.context, 1
-            )
-        )
+//        lyUserImage.tvNameInitials.setTextColor(
+//            Utils.getContactColors(
+//                lyUserImage.tvNameInitials.context, 1
+//            )
+//        ) lyUserImage.tvNameInitials.setTextColor(
+//            Utils.getContactColors(
+//                lyUserImage.tvNameInitials.context, 1
+//            )
+//        )
 
-        viewModel.state.availableBalanceText =
-            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
-                viewModel.state.availableBalance
-            )
+//        viewModel.state.availableBalanceText =
+//            " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
+//                viewModel.state.availableBalance
+//            )
 
-        etAmount.filters =
-            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
-        etAmount.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (p0?.length!! > 0) {
-                    etAmount.gravity = Gravity.CENTER
-                } else {
-                    etAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
-                }
-            }
-        })
+//        etAmount.filters =
+//            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+//        etAmount.addTextChangedListener(object : TextWatcher {
+//            override fun afterTextChanged(p0: Editable?) {
+//            }
+//
+//            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//            }
+//
+//            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+//                if (p0?.length!! > 0) {
+//                    etAmount.gravity = Gravity.CENTER
+//                } else {
+//                    etAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+//                }
+//            }
+//        })
     }
 
     private fun showErrorSnackBar() {

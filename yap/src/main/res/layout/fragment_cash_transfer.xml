@@ -289,25 +289,57 @@
                         android:id="@+id/viewTriggerSpinnerClick"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_30sdp"
-                        android:layout_alignParentTop="true"
-                        android:onClick="@{(v) -> viewModel.handlePressOnSeclectCountry(v.id)}" />
+                        android:layout_alignParentTop="true" />
                 </RelativeLayout>
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:maxLength="@integer/note_max_length"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.noteValue}"
+                    app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
+                    tools:hint="Type a note here"
+                    tools:layout_editor_absoluteX="26dp" />
+
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/MicroGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        tools:text="International transfer fee:" />
+
+                    <TextView
+                        style="@style/MicroGrey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/_2sdp"
+                        android:layout_marginRight="@dimen/_2sdp"
+                        tools:text="AED XX" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/MicroGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    tools:text="Note that the recipient's bank may have its own charges." />
+
 
             </LinearLayout>
 
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etNote"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="68dp"
-                android:maxLength="@integer/note_max_length"
-                android:singleLine="true"
-                android:text="@={viewModel.state.noteValue}"
-                app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/lyReasonForTransfer"
-                tools:hint="Type a note here"
-                tools:layout_editor_absoluteX="26dp" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnInvite"
@@ -324,7 +356,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etNote"
+                app:layout_constraintTop_toBottomOf="@+id/lyReasonForTransfer"
                 app:layout_constraintVertical_bias="0.987"
                 app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
 
