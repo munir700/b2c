@@ -11,10 +11,10 @@ import java.util.*
 object CurrencyUtils {
     val CURRENCIES = arrayOf(
         Currency(
-            "EUR",
-            "Euro",
-            "€",
-            R.drawable.flag_eur
+            code = "EUR",
+            name = "Euro",
+            symbol = "€",
+            flag = R.drawable.flag_eur
         ),
         Currency(
             "USD",

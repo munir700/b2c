@@ -43,44 +43,15 @@ class Beneficiary : Parcelable {
     var identifierCode1: String? = null
     @SerializedName("identifierCode2")
     var identifierCode2: String? = null
+
     @SerializedName("beneficiaryPictureUrl")
-    var beneficiaryPictureUrl: String? = "" // assuming this field for profile picture but not sure whether to add pic or just go with initials only
+    var beneficiaryPictureUrl: String? =
+        "" // assuming this field for profile picture but not sure whether to add pic or just go with initials only
     @SerializedName("beneficiaryCountry")
     var beneficiaryCountry: Any? = null
-//    var beneficiaryCountry: Country? = null
 
+    fun fullName(): String {
+        return String.format("%s %s",firstName,lastName )
+    }
 
-//        if (beneficiaryCountry == null) {
-//            beneficiaryCountry = Country()
-//            beneficiaryCountry!!.isoCountryCode2Digit(country)
-//            val flagResName = "flag_" + country!!.toLowerCase()
-//            val flag = CurrencyUtils.getFlagDrawable(context, flagResName)
-//            beneficiaryCountry!!.setFlagDrawableResId(flag)
-//        }
-//        return beneficiaryCountry
-//    }
-
-//    override fun toString(): String {
-//        return "Beneficiary{" +
-//                "id=" + id +
-//                ", beneficiaryId='" + beneficiaryId + '\''.toString() +
-//                ", accountUuid='" + accountUuid + '\''.toString() +
-//                ", beneficiaryType='" + beneficiaryType + '\''.toString() +
-//                ", mobileNo='" + mobileNo + '\''.toString() +
-//                ", title='" + title + '\''.toString() +
-//                ", accountNo='" + accountNo + '\''.toString() +
-//                ", lastUsedDate='" + lastUsedDate + '\''.toString() +
-//                ", currency='" + currency + '\''.toString() +
-//                ", firstName='" + firstName + '\''.toString() +
-//                ", lastName='" + lastName + '\''.toString() +
-//                ", swiftCode='" + swiftCode + '\''.toString() +
-//                ", country='" + country + '\''.toString() +
-//                ", bankName='" + bankName + '\''.toString() +
-//                ", branchName='" + branchName + '\''.toString() +
-//                ", branchAddress='" + branchAddress + '\''.toString() +
-//                ", identifierCode1='" + identifierCode1 + '\''.toString() +
-//                ", identifierCode2='" + identifierCode2 + '\''.toString() +
-//                ", beneficiaryCountry=" + beneficiaryCountry +
-//                '}'.toString()
-//    }
 }

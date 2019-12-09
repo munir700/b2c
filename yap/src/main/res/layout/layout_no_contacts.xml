@@ -55,7 +55,7 @@
             android:layout_marginTop="@dimen/_60sdp"
             android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
             android:text="@string/screen_send_money_no_contacts_button_title_add_now"
             app:btn_enable="true"
             app:layout_constraintBottom_toBottomOf="parent"
