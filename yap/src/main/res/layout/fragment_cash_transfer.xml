@@ -56,7 +56,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:text="@{viewModel.state.fullName}"
+                android:text="Jonathan Newport"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
@@ -72,6 +72,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/etAmountLayout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:text="AED"
                 tools:text="AED" />
 
 
@@ -127,7 +128,7 @@
                     android:layout_height="wrap_content"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="=" />
+                    android:text="=" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -139,6 +140,7 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
+                android:text="CAD"
                 tools:text="CAD" />
 
 
