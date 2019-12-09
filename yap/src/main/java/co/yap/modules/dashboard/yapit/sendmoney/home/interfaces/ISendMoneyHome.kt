@@ -24,7 +24,7 @@ interface ISendMoneyHome {
         var pagingState: MutableLiveData<PagingState>
         val allBeneficiariesLiveData: MutableLiveData<List<Beneficiary>>
         val onDeleteSuccess: MutableLiveData<Int>
-        val recentTransferData: MutableLiveData<List<RecentBeneficiary>>
+        val recentTransferData: MutableLiveData<List<Beneficiary>>
         val adapter: ObservableField<RecentTransferAdaptor>
 
         fun handlePressOnBackButton()

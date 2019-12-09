@@ -54,7 +54,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
-        setupRecent()
+//        setupRecent()
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
@@ -74,40 +74,36 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     }
 
-    private fun setupRecent() {
-        if (viewModel.adapter.get() == null) {
-            viewModel.requestRecentBeneficiaries()
-            viewModel.recentTransferData.observe(this, Observer {
-                if (it.isEmpty()) {
-                    layoutRecent?.visibility = View.GONE
-                } else {
-                    viewModel.adapter.set(
-                        RecentTransferAdaptor(
-                            it.toMutableList(),
-                            findNavController()
-                        )
-                    )
-                    layoutRecent?.visibility = View.VISIBLE
-                }
-            })
-        } else {
-            if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
-                viewModel.adapter.set(
-                    RecentTransferAdaptor(
-                        viewModel.recentTransferData.value?.toMutableList()!!,
-                        findNavController()
-                    )
-                )
-                layoutRecent?.visibility = View.VISIBLE
-            }
-        }
+//    private fun setupRecent() {
+//        if (viewModel.adapter.get() == null) {
+//            viewModel.requestRecentBeneficiaries()
+//            viewModel.recentTransferData.observe(this, Observer {
+//                if (it.isEmpty()) {
+//                    layoutRecent?.visibility = View.GONE
+//                } else {
+//                    viewModel.adapter.set(
+//                        RecentTransferAdaptor(
+//                            it.toMutableList(),
+//                            findNavController()
+//                        )
+//                    )
+//                    layoutRecent?.visibility = View.VISIBLE
+//                }
+//            })
+//        } else {
+//            if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
+//                viewModel.adapter.set(
+//                    RecentTransferAdaptor(
+//                        viewModel.recentTransferData.value?.toMutableList()!!,
+//                        findNavController()
+//                    )
+//                )
+//                layoutRecent?.visibility = View.VISIBLE
+//            }
+//        }
+//
+//    }
 
-    }
-
-    override fun onBackPressed(): Boolean {
-
-        return super.onBackPressed()
-    }
 
 
     private fun initComponents() {

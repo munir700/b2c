@@ -35,7 +35,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override var onDeleteSuccess: MutableLiveData<Int> = MutableLiveData()
 
-    override val recentTransferData: MutableLiveData<List<RecentBeneficiary>> = MutableLiveData()
+    override val recentTransferData: MutableLiveData<List<Beneficiary>> = MutableLiveData()
 
     override val adapter = ObservableField<RecentTransferAdaptor>()
 
@@ -73,18 +73,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         return pagingState
     }
 
-    fun getRecentBeneficiaries() {
-        launch {
-            when (val response = repository.getRecentY2YBeneficiaries()) {
-                is RetroApiResponse.Success -> {
-                    recentTransferData.value = response.data.data
-                }
-                is RetroApiResponse.Error -> state.toast = response.error.message
-            }
-
-        }
-    }
-
 
     fun requestAllBeneficiaries() {
         launch {
@@ -113,8 +101,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.toast = response.data.toString()
-                    recentBeneficiariesList = response.data.data
-
+                    recentTransferData.value = response.data.data
                 }
 
                 is RetroApiResponse.Error -> {

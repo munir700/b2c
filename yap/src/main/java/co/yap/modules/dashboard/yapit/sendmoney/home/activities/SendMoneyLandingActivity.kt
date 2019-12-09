@@ -134,6 +134,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             if (!show) View.VISIBLE else View.GONE
         getSearchView().visibility =
             if (!show) View.GONE else View.VISIBLE
+        getBinding().layoutBeneficiaries.tvSendMoneyTo.visibility =
+            if (!show) View.VISIBLE else View.GONE
 
         if (!show) {
             getSearchView().isIconified = true
@@ -171,7 +173,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             if (viewModel.adapter.get() == null) {
                 viewModel.requestRecentBeneficiaries()
                 viewModel.recentTransferData.observe(this, Observer {
-                    if (it.isEmpty()) {
+                    if (it.isNullOrEmpty()) {
                         layoutRecent?.visibility = View.GONE
                     } else {
 //                    viewModel.adapter.set(
@@ -247,6 +249,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             when (it) {
                 R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
                 R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
+                R.id.tbBtnBack -> finish()
                 R.id.layoutSearchView -> {
                     viewModel.isSearching.value?.let { isSearching ->
                         if (!isSearching) {
