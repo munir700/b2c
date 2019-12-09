@@ -10,7 +10,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Intern
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 
-class InternationalFundsTransferFragment : SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
+class InternationalFundsTransferFragment :
+    SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
 
 
