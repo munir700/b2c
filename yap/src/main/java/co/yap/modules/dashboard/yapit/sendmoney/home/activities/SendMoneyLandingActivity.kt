@@ -227,8 +227,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         setupRecent()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-                R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity))
-                R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity))
+                R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
+                R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
                 R.id.layoutSearchView -> {
                     viewModel.isSearching.value?.let { isSearching ->
                         if (!isSearching) {
