@@ -100,10 +100,10 @@ class Country(
     }
 
     fun getFlagDrawableResId(): Int {
-        if (flagDrawableResId <= 0) flagDrawableResId =
-            CurrencyUtils.getFlagDrawable(
-                this.isoCountryCode2Digit!!
-            )
+        if (flagDrawableResId <= 0) {
+            if (!isoCountryCode2Digit.isNullOrEmpty())
+                flagDrawableResId = CurrencyUtils.getFlagDrawable(isoCountryCode2Digit!!)
+        }
         return flagDrawableResId
     }
 
