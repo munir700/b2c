@@ -9,8 +9,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.ActivitySendMoneyHomeBinding
+import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
@@ -40,12 +41,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         initComponents()
         setObservers()
 
-        activity!!.tbBtnAddBeneficiary.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                //findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
-
-            }
-        })
+//        activity!!.tbBtnAddBeneficiary.setOnClickListener { findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment) }
     }
 
     override fun onPause() {
@@ -57,9 +53,9 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
-        setupRecent()
+//        setupRecent()
 
-//        viewModel.clickEvent.observe(this, Observer {
+        viewModel.clickEvent.observe(this, Observer {
 //            when (it) {
 //                R.id.addContactsButton ->
 //                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
@@ -67,48 +63,55 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 //                R.id.tbBtnAddBeneficiary ->
 //                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
 //            }
-//        })
+        })
 
+        viewModel.onDeleteSuccess.observe(this, Observer {
+            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).removeItemAt(
+                positionToDelete
+            )
+        })
 
     }
 
     private fun setupRecent() {
-//        if (viewModel.adapter.get() == null) {
-//            viewModel.requestRecentBeneficiaries()
-//            viewModel.recentTransferData.observe(this, Observer {
-//                if (it.isNullOrEmpty()) {
-//                    layoutRecent?.visibility = View.GONE
-//                } else {
-//                    viewModel.adapter.set(
-//                        RecentTransferAdaptor(
-//                            it.toMutableList(),
-//                            findNavController()
-//                        )
-//                    )
-//                    layoutRecent?.visibility = View.VISIBLE
-//                }
-//            })
-//        } else {
-//            if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
-//                viewModel.adapter.set(
-//                    RecentTransferAdaptor(
-//                        viewModel.recentTransferData.value?.toMutableList()!!,
-//                        findNavController()
-//                    )
-//                )
-//                layoutRecent?.visibility = View.VISIBLE
-//            }
-//        }
+        if (viewModel.adapter.get() == null) {
+            viewModel.requestRecentBeneficiaries()
+            viewModel.recentTransferData.observe(this, Observer {
+                if (it.isNullOrEmpty()) {
+                    layoutRecent?.visibility = View.GONE
+                } else {
+                    viewModel.adapter.set(
+                        RecentTransferAdaptor(
+                            it.toMutableList(),
+                            findNavController()
+                        )
+                    )
+                    layoutRecent?.visibility = View.VISIBLE
+                }
+            })
+        } else {
+            if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
+                viewModel.adapter.set(
+                    RecentTransferAdaptor(
+                        viewModel.recentTransferData.value?.toMutableList()!!,
+                        findNavController()
+                    )
+                )
+                layoutRecent?.visibility = View.VISIBLE
+            }
+        }
 
     }
 
-    override fun onBackPressed(): Boolean {
-
-        return super.onBackPressed()
-    }
 
 
     private fun initComponents() {
+        getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
+            AllBeneficiriesAdapter(mutableListOf())
+        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(
+            listener
+        )
+
 
     }
 
@@ -116,6 +119,19 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     private fun setObservers() {
         viewModel.clickEvent.observe(this, observer)
 
+        viewModel.allBeneficiariesLiveData?.observe(this, Observer {
+            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setList(
+                it
+            )
+
+        })
+
+
+        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).filterCount.observe(
+            this,
+            Observer {
+
+            })
     }
 
     val listener = object : OnItemClickListener {
@@ -146,13 +162,18 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         }
     }
 
-    private fun getBinding(): ActivitySendMoneyHomeBinding {
-        return (viewDataBinding as ActivitySendMoneyHomeBinding)
+    private fun getBinding(): ActivitySendMoneyLandingBinding {
+        return (viewDataBinding as ActivitySendMoneyLandingBinding)
     }
 
     override fun onSwipeEdit(beneficiary: Beneficiary) {
         toast(beneficiary.title + " onSwipeEdit")
         // using navigation controller go to edit beneficiary passing data beneficiary
+//        val action =
+//            SendMoneyHomeFragmentDirections.actionSendMoneyHomeFragmentToBeneficiaryOverviewFragment(
+//                beneficiary
+//            )
+//        findNavController().navigate(action)
     }
 
     override fun onSwipeDelete(beneficiary: Beneficiary, position: Int) {

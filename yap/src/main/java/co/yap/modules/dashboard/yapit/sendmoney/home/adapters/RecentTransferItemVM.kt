@@ -20,7 +20,7 @@ class RecentTransferItemVM : BaseListItemViewModel<Beneficiary>() {
 
     override fun getItem() = mItem
 
-    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController) {
+    override fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?) {
         this.navigation = navigation
     }
 

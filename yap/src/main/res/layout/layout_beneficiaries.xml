@@ -18,20 +18,34 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
-        android:background="@android:color/white"
-        android:focusableInTouchMode="true">
+        android:background="@android:color/white">
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvSendMoneyTo"
+            style="@style/Regular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_6sdp"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="6sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="@dimen/_14sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:text="@{Strings.screen_send_money_no_contacts_display_text_sub_heading}"
+            tools:text="@string/screen_send_money_no_contacts_display_text_sub_heading" />
         <include
             android:id="@+id/layoutRecent"
             layout="@layout/layout_recent_beneficiaries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:visibility="visible"
-
+            android:visibility="gone"
+            app:adapter="@{viewModel.adapter}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-<!--        app:adapter="@{viewModel.adapter}"-->
+            app:layout_constraintTop_toBottomOf="@id/tvSendMoneyTo" />
         <include
             android:id="@+id/layoutSearchView"
             layout="@layout/layout_beneficiairy_search"
@@ -62,6 +76,22 @@
             app:layout_constraintTop_toTopOf="@id/layoutSearchView" />
 
         <TextView
+            android:id="@+id/txt_error"
+            style="@style/RegularGrey"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_xl"
+            android:layout_marginBottom="@dimen/margin_large"
+            android:gravity="center"
+            android:visibility="visible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:text="@{Strings.screen_y2y_display_text_no_contacts}"
+            tools:text="@string/screen_y2y_display_text_no_contacts" />
+
+        <TextView
             android:id="@+id/tvAllBeneficiaries"
             style="@style/ASmall"
             android:layout_width="match_parent"
@@ -80,14 +110,15 @@
             android:id="@+id/rvAllBeneficiaries"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/margin_medium"
-            android:layout_marginBottom="@dimen/margin_medium"
+            android:layout_marginTop="20dp"
             android:visibility="visible"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvAllBeneficiaries"
-            tools:listitem="@layout/item_beneficiaries"
+            tools:listitem="@layout/layout_item_beneficiary"
             tools:visibility="visible" />
 
 
