@@ -45,7 +45,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
-//            val action =
+            //            val action =
 //                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
 //                    viewModel.state.fullName,
 //                    "AED",
