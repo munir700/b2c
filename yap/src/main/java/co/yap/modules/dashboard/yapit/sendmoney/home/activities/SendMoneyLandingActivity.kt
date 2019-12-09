@@ -19,6 +19,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.widgets.swipe_lib.SwipeCallBack
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.hideKeyboard
 import co.yap.yapcore.helpers.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -76,6 +77,20 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 getAdaptor().setList(it)
             }
         })
+        viewModel.searchQuery.observe(this, Observer {
+            getAdaptor().filter.filter(it)
+        })
+        viewModel.isSearching.value?.let { isSearching ->
+            if (isSearching) {
+                if (viewModel.getState().value != null && viewModel.getState().value != PagingState.LOADING) {
+                    getAdaptor().filterCount.observe(this, Observer {
+                        if (it == 0)
+                            getBinding().layoutBeneficiaries.txtError.text =
+                                if (viewModel.isSearching.value!!) "No result" else ""
+                    })
+                }
+            }
+        }
     }
 
     private fun setSearchView(show: Boolean) {
