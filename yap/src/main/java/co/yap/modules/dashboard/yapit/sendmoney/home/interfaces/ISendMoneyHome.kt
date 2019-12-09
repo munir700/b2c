@@ -3,8 +3,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.home.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
-import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiary
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -17,7 +16,6 @@ interface ISendMoneyHome {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
         var clickEvent: SingleClickEvent
         var allBeneficiariesList: List<Beneficiary>
         var recentBeneficiariesList: List<Beneficiary>
@@ -27,8 +25,6 @@ interface ISendMoneyHome {
         val recentTransferData: MutableLiveData<List<Beneficiary>>
         val adapter: ObservableField<RecentTransferAdaptor>
 
-        fun handlePressOnBackButton()
-        fun handlePressOnAddNow(id: Int)
         fun handlePressOnView(id: Int)
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries()
