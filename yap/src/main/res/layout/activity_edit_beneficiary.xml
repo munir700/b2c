@@ -36,6 +36,7 @@
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
                 android:focusable="true"
+                android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/ic_back_arrow_left" />
@@ -172,7 +173,8 @@
                         android:layout_height="@dimen/_40sdp"
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="@string/empty_string"
-                        android:src="@drawable/ic_store_b2b" />
+                        app:fullName="@{editBeneficiaryViewModel.state.beneficiary.fullName()}"
+                        app:beneficiaryPicture="@{editBeneficiaryViewModel.state.beneficiary.beneficiaryPictureUrl}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Small"
@@ -186,7 +188,7 @@
                         android:gravity="center_vertical"
                         android:paddingStart="@dimen/_16sdp"
                         android:paddingEnd="@dimen/_16sdp"
-                        android:text="Amy person" />
+                        android:text="@{editBeneficiaryViewModel.state.beneficiary.title}" />
 
                     <co.yap.widgets.CoreCircularImageView
                         android:layout_width="@dimen/_20sdp"
@@ -212,13 +214,13 @@
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/labelCardType"
                         android:layout_width="wrap_content"
-                        android:layout_height="@dimen/_18sdp"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/round_light_gery_background"
                         android:gravity="center"
-                        android:text="$ CAD"
+                        android:text="@{editBeneficiaryViewModel.state.currency}"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_9sdp"
-                        tools:text="$ CAD" />
+                        tools:text="$ AED" />
 
                     <Space
                         android:layout_width="0dp"
@@ -284,7 +286,7 @@
                     android:imeOptions="actionNext"
                     android:maxLength="50"
                     android:text="@={editBeneficiaryViewModel.state.firstName}"
-                    app:hint="@{Strings.screen_edit_beneficiary_display_text_mid_name}" />
+                    app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -468,7 +470,9 @@
                     android:layout_marginTop="@dimen/_27sdp"
                     android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:btn_enable="true"
                     app:text="@{Strings.screen_beneficiary_overview_button_confirm}"
                     tools:text="@string/screen_beneficiary_overview_button_confirm" />
             </androidx.appcompat.widget.LinearLayoutCompat>

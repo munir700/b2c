@@ -5,53 +5,50 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Beneficiary : Parcelable {
+data class Beneficiary(
 
     @SerializedName("id")
-    var id: Int = 0
+    var id: Int = 0,
     @SerializedName("beneficiaryId")
-    var beneficiaryId: String? = null
+    var beneficiaryId: String? = null,
     @SerializedName("accountUuid")
-    var accountUuid: String? = null
+    var accountUuid: String? = null,
     @SerializedName("beneficiaryType")
-    var beneficiaryType: String? = null
+    var beneficiaryType: String? = null,
     @SerializedName("mobileNo")
-    var mobileNo: String? = null
+    var mobileNo: String? = null,
     @SerializedName("title")
-    var title: String? = null
+    var title: String? = null,
     @SerializedName("accountNo")
-    var accountNo: String? = null
+    var accountNo: String? = null,
     @SerializedName("lastUsedDate")
-    var lastUsedDate: String? = null
+    var lastUsedDate: String? = null,
     @SerializedName("currency")
-    var currency: String? = null
+    var currency: String? = null,
     @SerializedName("firstName")
-    var firstName: String? = null
+    var firstName: String? = null,
     @SerializedName("lastName")
-    var lastName: String? = null
+    var lastName: String? = null,
     @SerializedName("swiftCode")
-    var swiftCode: String? = null
+    var swiftCode: String? = null,
     @SerializedName("country")
-    var country: String? = null
+    var country: String? = null,
     @SerializedName("bankName")
-    var bankName: String? = null
+    var bankName: String? = null,
     @SerializedName("branchName")
-    var branchName: String? = null
+    var branchName: String? = null,
     @SerializedName("branchAddress")
-    var branchAddress: String? = null
+    var branchAddress: String? = null,
     @SerializedName("identifierCode1")
-    var identifierCode1: String? = null
+    var identifierCode1: String? = null,
     @SerializedName("identifierCode2")
-    var identifierCode2: String? = null
-
+    var identifierCode2: String? = null,
     @SerializedName("beneficiaryPictureUrl")
-    var beneficiaryPictureUrl: String? =
-        "" // assuming this field for profile picture but not sure whether to add pic or just go with initials only
+    var beneficiaryPictureUrl: String? = "", // assuming this field for profile picture but not sure whether to add pic or just go with initials only
     @SerializedName("beneficiaryCountry")
-    var beneficiaryCountry: Any? = null
-
+    var beneficiaryCountry: String? = null
+) : Parcelable {
     fun fullName(): String {
-        return String.format("%s %s",firstName,lastName )
+        return String.format("%s %s", firstName, lastName)
     }
-
 }
