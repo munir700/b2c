@@ -109,7 +109,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
 //                    state.toast = response.error.message
-
                 }
             }
         }
