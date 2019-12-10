@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <RelativeLayout
+        android:id="@+id/root_layout"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+<!--        <FrameLayout-->
+<!--            android:id="@+id/viewBackGround"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="@dimen/_50sdp"-->
+<!--            android:background="@color/warning">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:gravity="center"-->
+<!--                android:tag="input"-->
+<!--                android:text="testingComponent"-->
+<!--                android:textColor="@color/colorPrimary"-->
+<!--                android:textSize="@dimen/_20sdp" />-->
+<!--        </FrameLayout>-->
+
+        <ImageView
+            android:id="@+id/ivPopUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+             android:foregroundGravity="right"
+            android:src="@drawable/ic_support" />
+
+<!--        <EditText-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="skjhbdjabsld" />-->
+
+    </RelativeLayout>
+</layout>

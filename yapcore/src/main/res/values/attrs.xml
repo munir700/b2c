@@ -353,4 +353,8 @@
     </declare-styleable>
 
 
+    <declare-styleable name="CorePopUpWindow">
+        <attr name="textValue" format="string" />
+    </declare-styleable>
+
 </resources>

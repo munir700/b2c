@@ -162,19 +162,28 @@
                     tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
 
 
-                <EditText
-                    android:id="@+id/etIban"
-                    style="@style/Regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/greyLight"
-                    android:hint="xxxxxxxxx"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:maxLength="50"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.iban}" />
 
+                    <co.yap.widgets.CorePopUpWindow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/etIban"
+                        android:layout_alignParentTop="true" />
+
+
+<!--                </FrameLayout>-->
+
+                    <EditText
+                        android:id="@+id/etIban"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/greyLight"
+                        android:hint="xxxxxxxxx"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:maxLength="50"
+                        android:singleLine="true"
+                        android:text="@={viewModel.state.iban}" />
 
                 <TextView
                     style="@style/Small"
