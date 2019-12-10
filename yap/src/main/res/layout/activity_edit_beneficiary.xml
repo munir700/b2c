@@ -283,8 +283,8 @@
                     style="@style/Yap.App.Widget.TextInputEditText"
                     android:imeOptions="actionNext"
                     android:maxLength="50"
-                    android:text="@={editBeneficiaryViewModel.state.firstName}"
-                    app:hint="@{Strings.screen_edit_beneficiary_display_text_mid_name}" />
+                    android:text="@={editBeneficiaryViewModel.state.beneficiary.firstName}"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
@@ -468,6 +468,7 @@
                     android:layout_marginTop="@dimen/_27sdp"
                     android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{Strings.screen_beneficiary_overview_button_confirm}"
                     tools:text="@string/screen_beneficiary_overview_button_confirm" />

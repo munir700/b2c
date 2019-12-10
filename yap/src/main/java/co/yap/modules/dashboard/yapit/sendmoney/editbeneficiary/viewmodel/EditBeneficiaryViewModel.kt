@@ -22,6 +22,10 @@ class EditBeneficiaryViewModel(application: Application) :
 
     }
 
+    override fun onCreate() {
+        super.onCreate()
+    }
+
     override fun requestUpdateBeneficiary() {
         launch {
             state.loading = true

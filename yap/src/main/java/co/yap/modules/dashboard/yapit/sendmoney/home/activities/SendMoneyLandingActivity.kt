@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.home.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,9 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.Bundle_EXTRA
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.REQUEST_CODE
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
@@ -97,7 +101,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                         //TODO: Using StartActivityForResult Navigate to Edit Beneficiary Screen Used by Irfan
                         val beneficiary =
                             viewModel.allBeneficiariesLiveData.value?.get(position)
-                        beneficiary?.let { toast(beneficiary.title + " onSwipeEdit clicked") }
+                        beneficiary?.let {
+                            val intent = EditBeneficiaryActivity.newIntent(context = this)
+                            val bundle = Bundle()
+                            bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
+                            intent.putExtra(Bundle_EXTRA, bundle)
+                            startActivityForResult(intent, REQUEST_CODE)
+                        }
                     }
                 }
             }
@@ -177,12 +187,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     if (it.isNullOrEmpty()) {
                         layoutRecent?.visibility = View.GONE
                     } else {
-                    viewModel.adapter.set(
-                        RecentTransferAdaptor(
-                            it.toMutableList(),
-                            null
+                        viewModel.adapter.set(
+                            RecentTransferAdaptor(
+                                it.toMutableList(),
+                                null
+                            )
                         )
-                    )
                         layoutRecent?.visibility = View.VISIBLE
                     }
                 })
@@ -277,5 +287,18 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun getBinding(): ActivitySendMoneyLandingBinding {
         return (viewDataBinding as ActivitySendMoneyLandingBinding)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        data?.let {
+            when (requestCode) {
+                REQUEST_CODE -> {
+                    if (resultCode == Activity.RESULT_OK) {
+//                        TODO HANDLE EditBeneficiaryActivity result here
+                    }
+                }
+            }
+        }
     }
 }
