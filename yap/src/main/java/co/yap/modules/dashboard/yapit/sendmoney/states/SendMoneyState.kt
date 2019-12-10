@@ -11,6 +11,4 @@ class SendMoneyState : BaseState(), ISendMoney.State {
     override var rightIcon: ObservableBoolean = ObservableBoolean(false)
     override var leftIcon: ObservableBoolean = ObservableBoolean(false)
     override var toolbarVisibility: ObservableBoolean = ObservableBoolean(false)
-    override var selectedCountry: ObservableField<Country> = ObservableField(Country())
-    override var transferType: ObservableField<String> = ObservableField("")
 }

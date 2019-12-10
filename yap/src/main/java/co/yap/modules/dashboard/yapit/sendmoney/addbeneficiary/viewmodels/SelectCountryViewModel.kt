@@ -30,7 +30,7 @@ class SelectCountryViewModel(application: Application) :
 
     override fun handlePressOnSeclectCountry(id: Int) {
         if (id == R.id.nextButton) {
-            parentViewModel?.state?.selectedCountry?.set(state.selectedCountry)
+            parentViewModel?.selectedCountry?.value =(state.selectedCountry)
         }
         clickEvent.setValue(id)
     }

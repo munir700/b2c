@@ -98,17 +98,17 @@ class AddBeneficiaryInternationlTransferFragment :
 
 // for sure it's fields needs to be update, as they are taken form cashpayout
 
-        val beneficiary: Beneficiary = Beneficiary()
-        beneficiary.beneficiaryType = "CASHPAYOUT"
-        beneficiary.title = viewModel.state.nickName
-        beneficiary.firstName = viewModel.state.firstName
-        beneficiary.lastName = viewModel.state.lastName
-        beneficiary.currency = viewModel.state.currency
-        beneficiary.country = "UAE"
-//      beneficiary.country = viewModel.state.country
-        beneficiary.mobileNo = viewModel.state.phoneNumber
+//        val beneficiary: Beneficiary = Beneficiary()
+//        beneficiary.beneficiaryType = "CASHPAYOUT"
+//        beneficiary.title = viewModel.state.nickName
+//        beneficiary.firstName = viewModel.state.firstName
+//        beneficiary.lastName = viewModel.state.lastName
+//        beneficiary.currency = viewModel.state.currency
+//        beneficiary.country = "UAE"
+////      beneficiary.country = viewModel.state.country
+//        beneficiary.mobileNo = viewModel.state.phoneNumber
 
-        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
+        viewModel.generateCashPayoutBeneficiaryRequestDTO()
     }
 
 //    fun ConfirmAddBeneficiary() {

@@ -22,12 +22,12 @@ class TransferTypeViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnTypeBankTransfer(id: Int) {
-        parentViewModel?.state?.transferType?.set(SendMoneyBeneficiaryType.RMT.name) //domastic
+        parentViewModel?.transferType?.value=(SendMoneyBeneficiaryType.RMT.name) //domastic
         clickEvent.setValue(id)
     }
 
     override fun handlePressOnTypeCashPickUp(id: Int) {
-        parentViewModel?.state?.transferType?.set(SendMoneyBeneficiaryType.DOMESTIC.name) //local international
+        parentViewModel?.transferType?.value=(SendMoneyBeneficiaryType.DOMESTIC.name) //local international
         clickEvent.setValue(id)
     }
 
