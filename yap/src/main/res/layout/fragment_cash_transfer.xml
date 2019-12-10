@@ -43,7 +43,6 @@
                     android:id="@+id/ivFlag"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_medium_large"
                     android:src="@drawable/ic_uae_flag"
                     app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -68,7 +67,7 @@
                 style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/margin_normal"
                 app:layout_constraintBottom_toTopOf="@+id/etAmountLayout"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
@@ -81,7 +80,7 @@
                 android:id="@+id/etAmountLayout"
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="@dimen/_45sdp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 android:background="@{viewModel.state.amountBackground}"
@@ -116,7 +115,7 @@
                 android:id="@+id/clAvailableAmount"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_normal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
@@ -126,9 +125,12 @@
                     style="@style/MicroGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="="
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="@dimen/_24sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:text="=" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -137,6 +139,7 @@
                 style="@style/MicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
@@ -149,7 +152,7 @@
                 android:id="@+id/etDynamicLayout"
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="56dp"
+                android:layout_marginTop="@dimen/margin_normal"
                 android:background="@{viewModel.state.amountBackground}"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
@@ -182,23 +185,35 @@
 
             <!--YAP Rate-->
 
-
             <LinearLayout
-                android:id="@+id/ly_YapRate"
-                android:layout_marginTop="@dimen/_15sdp"
-                android:layout_width="wrap_content"
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/lnUserImage">
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:gravity="center"
+                android:id="@+id/ly_YapRate"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/etDynamicLayout">
+
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
-                    android:src="@drawable/ic_action_up" />
+                    android:src="@drawable/ic_transaction_rate_arrow" />
 
                 <TextView
                     style="@style/MicroGrey"
@@ -206,6 +221,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
+                    android:text="Yap rate :"
                     tools:text="Yap rate :" />
 
                 <TextView
@@ -215,6 +231,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
+                    android:text="X AED"
+                    android:textColor="@color/colorPrimaryDark"
                     tools:text="X AED" />
 
                 <TextView
@@ -223,15 +241,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
+                    android:text="to"
                     tools:text="to" />
 
                 <TextView
                     android:id="@+id/tvDynamicCurrencyRete"
                     style="@style/MicroGrey"
+                    android:textColor="@color/colorPrimaryDark"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
+                    android:text="X CAD"
                     tools:text="X CAD" />
             </LinearLayout>
 
@@ -244,6 +265,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:layout_marginTop="@dimen/margin_normal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ly_YapRate">
@@ -255,6 +277,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
+                    android:text="Reason for transfer"
                     tools:text="Reason for transfer" />
 
                 <RelativeLayout
@@ -308,6 +331,7 @@
 
 
                 <LinearLayout
+                    android:layout_marginTop="@dimen/margin_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -319,14 +343,17 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
+                        android:text="International transfer fee:"
                         tools:text="International transfer fee:" />
 
                     <TextView
+                        android:textColor="@color/colorPrimaryDark"
                         style="@style/MicroGrey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/_2sdp"
                         android:layout_marginRight="@dimen/_2sdp"
+                        android:text="AED XX"
                         tools:text="AED XX" />
                 </LinearLayout>
 
@@ -337,6 +364,8 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="Note that the recipient's bank may have its own charges."
                     tools:text="Note that the recipient's bank may have its own charges." />
 
 
@@ -357,6 +386,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_goneMarginTop="@dimen/margin_normal"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lyReasonForTransfer"
                 app:layout_constraintVertical_bias="0.987"
