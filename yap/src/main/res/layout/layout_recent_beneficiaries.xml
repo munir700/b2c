@@ -7,7 +7,7 @@
 
         <variable
             name="adapter"
-            type="co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor" />
+            type="co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor" />
 
         <import type="co.yap.translation.Strings" />
 
@@ -19,21 +19,6 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical">
-
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/tvSendMoneyTo"
-            style="@style/Regular"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_6sdp"
-            android:gravity="center_horizontal"
-            android:lineSpacingExtra="6sp"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="@dimen/_14sdp"
-            app:text="@{Strings.screen_send_money_no_contacts_display_text_sub_heading}"
-            tools:text="@string/screen_send_money_no_contacts_display_text_sub_heading" />
-
         <androidx.appcompat.widget.AppCompatTextView
             style="@style/AppFontRegular"
             android:layout_width="wrap_content"
@@ -55,7 +40,7 @@
             android:orientation="horizontal"
             app:adapter="@{adapter}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_recent_beneficiary" />
+            tools:listitem="@layout/item_recent_beneficiaries_transfer" />
 
         <View
             android:layout_width="match_parent"

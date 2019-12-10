@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel" />
@@ -17,9 +19,8 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/layout_send_beneficiaries_toolbar"
-            android:visibility="@{viewModel.state.tootlBarVisibility}"
-            app:viewModel="@{viewModel}" />
+            layout="@layout/layout_send_money_home_toolbar"
+             app:viewModel="@{viewModel}" />
 
         <fragment
             android:id="@+id/send_money_nav_host_fragment"

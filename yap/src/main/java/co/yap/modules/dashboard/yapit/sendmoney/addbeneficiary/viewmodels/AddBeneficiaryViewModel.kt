@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.constants.Constants
 
 class AddBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IAddBeneficiary.State>(application), IAddBeneficiary.ViewModel,
@@ -40,7 +41,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        toggleAddButtonVisibility(false)
+        ///toggleAddButtonVisibility(false)
     }
 
     fun requestAddBeneficiary(beneficiary: Beneficiary) {
@@ -69,11 +70,13 @@ class AddBeneficiaryViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.toast = response.data.toString()
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
 
                 }
             }

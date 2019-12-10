@@ -9,6 +9,8 @@
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -38,16 +40,13 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-
-                <co.yap.widgets.CoreCircularImageView
-                    android:id="@+id/ivFlag"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_uae_flag"
-                    app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/etAmountLayout" />
+                <include
+                    android:id="@+id/lyUserImage"
+                    layout="@layout/layout_y_to_y_transfer_initial_image"
+                    app:image="@{viewModel.state.imageUrl}"
+                    app:name="@{viewModel.state.fullName}" />
             </LinearLayout>
+
 
             <TextView
                 android:id="@+id/tvFullName"
@@ -55,43 +54,63 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_normal"
-                android:text="Jonathan Newport"
+                android:text="@{viewModel.state.fullName}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
                 tools:text="Jonathan Newport" />
 
-            <!--Default Currency Name-->
+            <!--  <co.yap.widgets.CoreCircularImageView
+                  android:id="@+id/ivFlag"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/margin_medium_large"
+                  android:src="@drawable/ic_uae_flag"
+                  app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"
+                  app:layout_constraintLeft_toLeftOf="parent"
+                  app:layout_constraintTop_toTopOf="@+id/etAmountLayout" />
+
+              <TextView
+                  android:id="@+id/tvCurrencyType"
+                  style="@style/ATitle2"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/small"
+                  app:layout_constraintBottom_toBottomOf="@+id/ivFlag"
+                  app:layout_constraintLeft_toRightOf="@+id/ivFlag"
+                  app:layout_constraintTop_toTopOf="@+id/ivFlag"
+                  app:text="@{Strings.common_text_currency_type}"
+                  tools:text="@string/common_text_currency_type"
+
+                  />-->
+
             <TextView
-                android:id="@+id/tvTransactionDefaultCurrency"
-                style="@style/MicroGrey"
+                android:id="@+id/tvCurrency"
+                style="@style/AMicroGrey"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_normal"
-                app:layout_constraintBottom_toTopOf="@+id/etAmountLayout"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@{viewModel.state.currencyType}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:text="AED"
+                app:layout_constraintTop_toBottomOf="@+id/tvFullName"
                 tools:text="AED" />
 
-
-            <!--Default Currency ConstraintLayout-->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/etAmountLayout"
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_45sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="@dimen/margin_small"
+                android:background="@{viewModel.state.amountBackground}"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
-                app:layout_constraintTop_toBottomOf="@+id/tvFullName"
-                tools:background="@drawable/bg_funds"
-                tools:ignore="MissingConstraints">
-
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
+                tools:background="@drawable/bg_funds">
 
                 <EditText
-                    android:id="@+id/etAmountAED"
+                    android:id="@+id/etAmount"
                     style="@style/ATitle2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -102,7 +121,7 @@
                     android:labelFor="@+id/etAmount"
                     android:maxLength="7"
                     android:maxLines="1"
-                    android:textColor="@color/colorPrimaryDark"
+                    android:text="@={viewModel.state.amount}"
                     app:hint="@{Strings.common_amount_hint}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -110,263 +129,34 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clAvailableAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_marginTop="@dimen/margin_normal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
-
-                <TextView
-                    android:id="@+id/tvDefaultCurrencyName"
-                    style="@style/MicroGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="="
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="@dimen/_24sdp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
-                android:id="@+id/tvDynamicCurrencyName"
+                android:id="@+id/tvAvailableBalanceGuide"
                 style="@style/MicroGrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
-                android:text="CAD"
-                tools:text="CAD" />
-
-
-            <!--Dynamic Currency Change View-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/etDynamicLayout"
-                android:layout_width="@dimen/_140sdp"
-                android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:paddingStart="@dimen/margin_medium"
-                android:paddingEnd="@dimen/margin_medium"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvDynamicCurrencyName"
-                tools:background="@drawable/bg_funds"
-                tools:ignore="MissingConstraints">
-
-                <EditText
-                    android:id="@+id/etDynamicCurrency"
-                    style="@style/ATitle2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@null"
-                    android:imeOptions="actionDone"
-                    android:importantForAutofill="no"
-                    android:inputType="numberDecimal"
-                    android:labelFor="@+id/etAmount"
-                    android:maxLength="7"
-                    android:maxLines="1"
-                    android:textColor="@color/colorPrimaryDark"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-            <!--YAP Rate-->
-
-            <LinearLayout
-
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lnUserImage">
-
-            </LinearLayout>
-
-            <LinearLayout
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
                 android:gravity="center"
-                android:id="@+id/ly_YapRate"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/_30sdp"
-                android:orientation="horizontal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etDynamicLayout">
+                android:text="@{viewModel.state.feeAmountSpannableString}"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
+                tools:text="Your available balance is " />
 
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                    android:layout_marginRight="@dimen/_2sdp"
-                    android:src="@drawable/ic_transaction_rate_arrow" />
-
-                <TextView
-                    style="@style/MicroGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                    android:layout_marginRight="@dimen/_2sdp"
-                    android:text="Yap rate :"
-                    tools:text="Yap rate :" />
-
-                <TextView
-                    android:id="@+id/tvDefaultCurrencyRate"
-                    style="@style/MicroGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                    android:layout_marginRight="@dimen/_2sdp"
-                    android:text="X AED"
-                    android:textColor="@color/colorPrimaryDark"
-                    tools:text="X AED" />
-
-                <TextView
-                    style="@style/MicroGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                    android:layout_marginRight="@dimen/_2sdp"
-                    android:text="to"
-                    tools:text="to" />
-
-                <TextView
-                    android:id="@+id/tvDynamicCurrencyRete"
-                    style="@style/MicroGrey"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                    android:layout_marginRight="@dimen/_2sdp"
-                    android:text="X CAD"
-                    tools:text="X CAD" />
-            </LinearLayout>
-
-            <!--Reason for transfer-->
-
-            <LinearLayout
-                android:layout_marginLeft="@dimen/_15sdp"
-                android:layout_marginRight="@dimen/_15sdp"
-                android:id="@+id/lyReasonForTransfer"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNote"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="@dimen/margin_normal"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ly_YapRate">
-
-                <TextView
-                    style="@style/Regular"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
-                    android:text="Reason for transfer"
-                    tools:text="Reason for transfer" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:paddingTop="@dimen/margin_normal"
-                    android:paddingBottom="@dimen/margin_normal">
-
-                    <Spinner
-                        android:id="@+id/spinnerReasonTransfer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="bottom"
-                        android:layout_marginRight="@dimen/margin_normal"
-                        android:background="@drawable/bg_spinner"
-                        android:drawSelectorOnTop="false"
-                        android:dropDownHeight="@dimen/_50sdp"
-                        android:gravity="bottom"
-                        android:overScrollMode="never"
-                        android:overlapAnchor="false"
-                        android:spinnerMode="dropdown" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginTop="@dimen/_30sdp"
-                        android:background="@color/greyLight"
-                        android:minHeight="@dimen/_15sdp" />
-
-                    <View
-                        android:id="@+id/viewTriggerSpinnerClick"
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_alignParentTop="true" />
-                </RelativeLayout>
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/etNote"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:maxLength="@integer/note_max_length"
-                    android:singleLine="true"
-                    app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                    tools:hint="Type a note here"
-                    tools:layout_editor_absoluteX="26dp" />
-
-
-                <LinearLayout
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/MicroGrey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_2sdp"
-                        android:layout_marginRight="@dimen/_2sdp"
-                        android:text="International transfer fee:"
-                        tools:text="International transfer fee:" />
-
-                    <TextView
-                        android:textColor="@color/colorPrimaryDark"
-                        style="@style/MicroGrey"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/_2sdp"
-                        android:layout_marginRight="@dimen/_2sdp"
-                        android:text="AED XX"
-                        tools:text="AED XX" />
-                </LinearLayout>
-
-                <TextView
-                    style="@style/MicroGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/_2sdp"
-                    android:layout_marginRight="@dimen/_2sdp"
-                    android:layout_marginTop="@dimen/margin_small"
-                    android:text="Note that the recipient's bank may have its own charges."
-                    tools:text="Note that the recipient's bank may have its own charges." />
-
-
-            </LinearLayout>
-
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:maxLength="@integer/note_max_length"
+                android:singleLine="true"
+                android:text="@={viewModel.state.noteValue}"
+                app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalanceGuide"
+                tools:hint="Type a note here" />
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnInvite"
@@ -377,15 +167,15 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginRight="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v)-> viewModel.handlePressOnView(v.id)}"
+                app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_goneMarginTop="@dimen/margin_normal"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lyReasonForTransfer"
+                app:layout_constraintTop_toBottomOf="@+id/etNote"
                 app:layout_constraintVertical_bias="0.987"
                 app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

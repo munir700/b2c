@@ -36,6 +36,7 @@ import co.yap.widgets.CorePaymentCard
 import co.yap.yapcore.R
 import co.yap.yapcore.enums.CardDeliveryStatus
 import co.yap.yapcore.enums.CardStatus
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
@@ -764,12 +765,10 @@ object UIBinder {
     @JvmStatic
     fun setImageSrc(imageView: ImageView, transferType: String) {
 
-        if (transferType.equals("CASHPAYOUT")) {
+        if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
             imageView.setImageResource(R.drawable.ic_cash)
-
         } else {
             imageView.setImageResource(R.drawable.ic_bank)
-
         }
     }
      @JvmStatic
