@@ -27,7 +27,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var country: String = "United Arab Emierates"
+    override var country: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.country)
@@ -36,7 +36,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var transferType: String = "Bank Transfer"
+    override var transferType: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferType)
@@ -45,7 +45,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var currency: String = "AED"
+    override var currency: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.currency)
@@ -84,7 +84,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var phoneNumber: String = "+923336000000"
+    override var phoneNumber: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
@@ -190,14 +190,14 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         }
 
     @get:Bindable
-    override var title: String? = "title"
+    override var title: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.title)
         }
 
     @get:Bindable
-    override var accountNo: String? = "AE070333000000000120082"
+    override var accountNo: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountNo)

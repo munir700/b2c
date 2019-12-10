@@ -45,7 +45,6 @@ class AddBeneficiaryViewModel(application: Application) :
             parentViewModel?.beneficiary?.value?.firstName = state.firstName
             parentViewModel?.beneficiary?.value?.lastName = state.lastName
             parentViewModel?.beneficiary?.value?.mobileNo = state.phoneNumber
-            parentViewModel?.beneficiary?.value?.currency = state.phoneNumber
             parentViewModel?.selectedCountry?.value?.let {
                 parentViewModel?.beneficiary?.value?.currency = it.getName()
                 parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
