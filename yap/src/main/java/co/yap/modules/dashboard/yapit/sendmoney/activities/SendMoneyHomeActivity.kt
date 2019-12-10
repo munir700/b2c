@@ -26,7 +26,6 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
             val intent = Intent(context, SendMoneyHomeActivity::class.java)
             return intent
         }
-
     }
 
     override fun getBindingVariable(): Int = BR.viewModel

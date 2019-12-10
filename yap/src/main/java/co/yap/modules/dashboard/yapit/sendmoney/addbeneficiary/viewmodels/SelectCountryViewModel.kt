@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
@@ -28,75 +29,80 @@ class SelectCountryViewModel(application: Application) :
     }
 
     override fun handlePressOnSeclectCountry(id: Int) {
+        if (id == R.id.nextButton) {
+            parentViewModel?.state?.selectedCountry?.set(state.selectedCountry)
+        }
         clickEvent.setValue(id)
     }
 
     override fun onCreate() {
         super.onCreate()
-        countries.clear()
-        countries.add(
-            0,
-            Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
-        )
         getAllCountries()
-        //parentViewModel.handlePressOnBackButton()
     }
 
     override fun onResume() {
         super.onResume()
+        state.valid = false
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        //toggleAddButtonVisibility(false)
     }
 
-
     private fun getAllCountries() {
-        launch {
-            state.loading = true
-            when (val response = repository.getAllCountries()) {
-                is RetroApiResponse.Success -> {
-                    response.data.data?.let { it ->
-                        countries.addAll(it.map {
-                            Country(
-                                id = it.id,
-                                isoCountryCode3Digit = it.isoCountryCode2Digit,
-                                cashPickUp = it.cashPickUp,
-                                rmtCountry = it.rmtCountry,
-                                isoCountryCode2Digit = it.isoCountryCode2Digit,
-                                supportedCurrencies = it.currencyList?.map { cur ->
-                                    Currency(
-                                        code = cur.code,
-                                        default = cur.default,
-                                        name = cur.name,
-                                        active = cur.active
-                                    )
-                                },
-                                active = it.active,
-                                isoNum = it.isoNum,
-                                signUpAllowed = it.signUpAllowed,
-                                cashPickUpAllowed = it.cashPickUp,
-                                name = it.name,
-                                currency = Currency(
-                                    code = it.currencyList?.firstOrNull { cur -> cur.default!! }?.code,
-                                    default = it.currencyList?.firstOrNull { cur -> cur.default!! }?.default,
-                                    name = it.currencyList?.firstOrNull { cur -> cur.default!! }?.name,
-                                    active = it.currencyList?.firstOrNull { cur -> cur.default!! }?.active
-                                )
+
+        if (!countries.isNullOrEmpty()) {
+            populateSpinnerData.setValue(countries)
+        } else {
+            launch {
+                state.loading = true
+                when (val response = repository.getAllCountries()) {
+                    is RetroApiResponse.Success -> {
+                        response.data.data?.let { it ->
+                            countries.clear()
+                            countries.add(
+                                0,
+                                Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
                             )
-                        })
-                        populateSpinnerData.setValue(countries)
+                            countries.addAll(it.map {
+                                Country(
+                                    id = it.id,
+                                    isoCountryCode3Digit = it.isoCountryCode2Digit,
+                                    cashPickUp = it.cashPickUp,
+                                    rmtCountry = it.rmtCountry,
+                                    isoCountryCode2Digit = it.isoCountryCode2Digit,
+                                    supportedCurrencies = it.currencyList?.map { cur ->
+                                        Currency(
+                                            code = cur.code,
+                                            default = cur.default,
+                                            name = cur.name,
+                                            active = cur.active
+                                        )
+                                    },
+                                    active = it.active,
+                                    isoNum = it.isoNum,
+                                    signUpAllowed = it.signUpAllowed,
+                                    cashPickUpAllowed = it.cashPickUp,
+                                    name = it.name,
+                                    currency = Currency(
+                                        code = it.currencyList?.firstOrNull { cur -> cur.default!! }?.code,
+                                        default = it.currencyList?.firstOrNull { cur -> cur.default!! }?.default,
+                                        name = it.currencyList?.firstOrNull { cur -> cur.default!! }?.name,
+                                        active = it.currencyList?.firstOrNull { cur -> cur.default!! }?.active
+                                    )
+                                )
+                            })
+                            populateSpinnerData.setValue(countries)
+                        }
+                        state.loading = false
                     }
-                    state.loading = false
-                }
 
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
 
+                    }
                 }
             }
         }
     }
-
 
     override fun onCountrySelected(pos: Int) {
         if (pos == 0) {

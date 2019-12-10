@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
+import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.models.AddBeneficiaryData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.AddBeneficiaryStates
@@ -24,6 +25,17 @@ class AddBeneficiaryViewModel(application: Application) :
     override val state: AddBeneficiaryStates = AddBeneficiaryStates(getApplication())
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+
+    override fun onCreate() {
+        super.onCreate()
+        parentViewModel?.state?.selectedCountry?.get()?.let {
+            state.country = it.getName()
+            state.flagDrawableResId =
+                Country(isoCountryCode2Digit = it.isoCountryCode2Digit).getFlagDrawableResId()
+            state.transferType = parentViewModel?.state?.transferType?.get() ?: ""
+            state.currency = it.getCurrency()?.code ?: ""
+        }
+    }
 
     override fun handlePressOnAddNow(id: Int) {
         clickEvent.setValue(id)
