@@ -28,77 +28,18 @@
             android:paddingLeft="@dimen/_12sdp"
             android:paddingRight="@dimen/_12sdp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/_116sdp"
-                android:background="@color/white"
-                android:gravity="center|center_vertical">
 
-                <RelativeLayout
-                    android:id="@+id/rlPicture"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center|center_vertical"
-                    android:background="@color/white"
-                    android:gravity="center|center_vertical">
+            <ImageView
+                android:id="@+id/ivAddProfilePic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/_2sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
+                android:background="@drawable/bitmap" />
 
-                    <TextView
-                        android:id="@+id/tvAccountHolderNameInitials"
-                        android:layout_width="@dimen/_65sdp"
-                        android:layout_height="@dimen/_65sdp"
-                        android:background="@drawable/bg_round_red"
-                        android:backgroundTint="#D8F6F3"
-                        android:contentDescription="@string/app_name"
-                        android:gravity="center"
-                        android:maxLength="2"
-                        android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.beneficiaryName)}"
-                        android:textColor="@color/colorSecondaryGreen"
-                        android:textSize="@dimen/_24sdp"
-                        android:visibility="@{viewModel.state.nameInitialsVisibility}" />
-
-                    <co.yap.widgets.CoreCircularImageView
-                        android:id="@+id/ivProfilePic"
-                        android:layout_width="@dimen/_65sdp"
-                        android:layout_height="@dimen/_65sdp"
-                        android:contentDescription="@string/app_name"
-                        android:visibility="invisible"
-                        app:src="@{viewModel.state.beneficiaryPicture}" />
-
-                    <!--
-                       toggle visibility on the basis of transfer type
-                         -->
-
-                    <RelativeLayout
-                        android:id="@+id/rlAddNewProfilePic"
-                        android:layout_width="47dp"
-                        android:layout_height="49dp"
-                        android:layout_alignParentTop="true"
-                        android:layout_marginLeft="-11dp"
-                        android:layout_marginTop="-10dp"
-                        android:visibility="visible">
-
-                        <FrameLayout
-                            android:layout_width="@dimen/_29sdp"
-                            android:layout_height="@dimen/_29sdp"
-                            android:layout_gravity="center"
-                            android:layout_margin="@dimen/_2sdp"
-                            android:background="@drawable/bg_round_red"
-                            android:backgroundTint="@color/white">
-
-                            <ImageView
-                                android:id="@+id/ivAddProfilePic"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:layout_marginStart="@dimen/_2sdp"
-                                android:layout_marginTop="@dimen/_2sdp"
-                                android:layout_marginEnd="@dimen/_2sdp"
-                                android:layout_marginBottom="@dimen/_2sdp"
-                                android:background="@drawable/bitmap" />
-
-                        </FrameLayout>
-                    </RelativeLayout>
-                </RelativeLayout>
-            </RelativeLayout>
 
             <!--because we are not sure which design to go with ,from zeplin or fsd -->
 
@@ -222,37 +163,66 @@
 
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small"
+                android:id="@+id/ly_YapRate"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:orientation="horizontal"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etDynamicLayout">
+
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_trending" />
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:src="@drawable/ic_transaction_rate_arrow" />
 
                 <TextView
-                    style="@style/SmallGrey"
+                    style="@style/MicroGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_small"
-                    android:layout_marginRight="@dimen/margin_extra_small"
-                    android:textSize="@dimen/text_size_c3"
-                    app:text="@{Strings.screen_international_funds_transfer_display_text_yap_rate}"
-                    tools:text="@string/screen_international_funds_transfer_display_text_yap_rate" />
-
-                <!--           should make it spanable if required-->
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:text="Yap rate :"
+                    tools:text="Yap rate :" />
 
                 <TextView
-                    style="@style/SmallGrey"
+                    android:id="@+id/tvDefaultCurrencyRate"
+                    style="@style/MicroGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/margin_extra_small"
-                    android:text=" X AED to X CAD"
-                    android:textSize="@dimen/text_size_c3" />
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:text="X AED"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:text="X AED" />
+
+                <TextView
+                    style="@style/MicroGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:text="to"
+                    tools:text="to" />
+
+                <TextView
+                    android:id="@+id/tvDynamicCurrencyRete"
+                    style="@style/MicroGrey"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/_2sdp"
+                    android:layout_marginRight="@dimen/_2sdp"
+                    android:text="X CAD"
+                    android:textColor="@color/colorPrimaryDark"
+                    tools:text="X CAD" />
             </LinearLayout>
+
 
             <TextView
                 style="@style/Small"

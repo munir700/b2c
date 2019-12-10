@@ -1,10 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputFilter
-import android.text.TextWatcher
-import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -12,14 +8,7 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.translation.Strings
 import co.yap.yapcore.BR
-import co.yap.yapcore.helpers.CustomSnackbar
-import co.yap.yapcore.helpers.DecimalDigitsInputFilter
-import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.managers.MyUserManager
-import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
-import kotlinx.android.synthetic.main.layout_y_to_y_transfer_initial_image.view.*
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
 
@@ -34,7 +23,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
+//        viewModel.stateInternational.availableBalance = MyUserManager.cardBalance.value?.availableBalance
         setObservers()
     }
 
@@ -45,6 +34,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
+
             //            val action =
 //                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
 //                    viewModel.state.fullName,
@@ -55,7 +45,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         })
 
         viewModel.errorEvent.observe(this, Observer {
-            showErrorSnackBar()
+            //  showErrorSnackBar()
         })
 
 
@@ -106,11 +96,11 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun showErrorSnackBar() {
-        CustomSnackbar.showErrorCustomSnackbar(
-            context = requireContext(),
-            layout = clFTSnackbar,
-            message = viewModel.state.errorDescription
-        )
+        //CustomSnackbar.showErrorCustomSnackbar(
+//            context = requireContext(),
+//            layout = clFTSnackbar,
+//            message = viewModel.stateInternational.errorDescription
+        //)
     }
 
     override fun onDestroy() {
@@ -121,7 +111,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
 
     override fun onBackPressed(): Boolean {
-        viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
+        //    viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
         return super.onBackPressed()
     }
 
