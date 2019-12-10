@@ -178,13 +178,9 @@
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_height="wrap_content"
+                    tools:src="@drawable/flag_ae"
                     app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
-
-
-                <!-- need to set country from updated response in the UIBinder , right now its not returning the Country object ,its just sending the name-->
-
-                <!--            app:src="@{dataCountry.flagDrawableResId}"-->
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
