@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
@@ -31,10 +32,16 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.amountBackground)
         }
     @get:Bindable
-    override var feeAmountString: SpannableString = SpannableString("")
+    override var feeAmountString: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.feeAmountString)
+        }
+    @get:Bindable
+    override var feeAmountSpannableString: SpannableStringBuilder? = SpannableStringBuilder("")
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.feeAmountSpannableString)
         }
 
     @get:Bindable

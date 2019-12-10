@@ -60,29 +60,29 @@
                 app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
                 tools:text="Jonathan Newport" />
 
-          <!--  <co.yap.widgets.CoreCircularImageView
-                android:id="@+id/ivFlag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_medium_large"
-                android:src="@drawable/ic_uae_flag"
-                app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/etAmountLayout" />
+            <!--  <co.yap.widgets.CoreCircularImageView
+                  android:id="@+id/ivFlag"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/margin_medium_large"
+                  android:src="@drawable/ic_uae_flag"
+                  app:layout_constraintBottom_toBottomOf="@+id/etAmountLayout"
+                  app:layout_constraintLeft_toLeftOf="parent"
+                  app:layout_constraintTop_toTopOf="@+id/etAmountLayout" />
 
-            <TextView
-                android:id="@+id/tvCurrencyType"
-                style="@style/ATitle2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/small"
-                app:layout_constraintBottom_toBottomOf="@+id/ivFlag"
-                app:layout_constraintLeft_toRightOf="@+id/ivFlag"
-                app:layout_constraintTop_toTopOf="@+id/ivFlag"
-                app:text="@{Strings.common_text_currency_type}"
-                tools:text="@string/common_text_currency_type"
+              <TextView
+                  android:id="@+id/tvCurrencyType"
+                  style="@style/ATitle2"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginStart="@dimen/small"
+                  app:layout_constraintBottom_toBottomOf="@+id/ivFlag"
+                  app:layout_constraintLeft_toRightOf="@+id/ivFlag"
+                  app:layout_constraintTop_toTopOf="@+id/ivFlag"
+                  app:text="@{Strings.common_text_currency_type}"
+                  tools:text="@string/common_text_currency_type"
 
-                />-->
+                  />-->
 
             <TextView
                 android:id="@+id/tvCurrency"
@@ -100,12 +100,12 @@
                 android:id="@+id/etAmountLayout"
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_small"
                 android:background="@{viewModel.state.amountBackground}"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
                 tools:background="@drawable/bg_funds">
 
@@ -130,36 +130,19 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clAvailableAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
+            <TextView
+                android:id="@+id/tvAvailableBalanceGuide"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium_large"
                 android:layout_marginTop="@dimen/margin_medium_large"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout">
-
-                <TextView
-                    android:id="@+id/tvAvailableBalanceGuide"
-                    style="@style/MicroGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.feeAmountString}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Your available balance is " />
-
-             <!--   <TextView
-                    android:id="@+id/tvAvailableBalance"
-                    style="@style/AMicro"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.availableBalanceText}"
-                    app:layout_constraintBottom_toBottomOf="@+id/tvAvailableBalanceGuide"
-                    app:layout_constraintLeft_toRightOf="@+id/tvAvailableBalanceGuide"
-                    app:layout_constraintTop_toTopOf="@+id/tvAvailableBalanceGuide"
-                    tools:text="AED 500" />-->
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:gravity="center"
+                android:text="@{viewModel.state.feeAmountSpannableString}"
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@+id/etAmountLayout"
+                tools:text="Your available balance is " />
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/etNote"
@@ -172,7 +155,7 @@
                 android:singleLine="true"
                 android:text="@={viewModel.state.noteValue}"
                 app:hint="@{Strings.screen_y2y_funds_transfer_display_text_note_placeholder}"
-                app:layout_constraintTop_toBottomOf="@+id/clAvailableAmount"
+                app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalanceGuide"
                 tools:hint="Type a note here" />
 
             <co.yap.widgets.CoreButton
