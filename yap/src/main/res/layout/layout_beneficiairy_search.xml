@@ -7,6 +7,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+        <import type="android.view.View"/>
 
     </data>
 
@@ -32,6 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:queryBackground="@color/transparent"
             app:queryHint="Search"
+            android:visibility="@{viewModel.state.isSearching()? View.VISIBLE : View.GONE }"
             app:searchIcon="@drawable/ic_search_grey" />
 
         <ImageView
@@ -44,6 +46,7 @@
             android:layout_marginEnd="4dp"
             android:layout_toStartOf="@id/tvSearch"
             android:paddingTop="@dimen/_2sdp"
+            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             android:src="@drawable/ic_search_grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/tvSearch"
@@ -55,6 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search"
+            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             app:layout_constraintBottom_toBottomOf="@+id/ivSearch"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

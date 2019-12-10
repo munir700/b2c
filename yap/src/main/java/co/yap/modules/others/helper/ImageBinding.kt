@@ -34,21 +34,27 @@ object ImageBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["imageUrl", "fullName", "position"], requireAll = false)
-    fun loadAvatar(imageView: ImageView, imageUrl: String, fullName: String, position: Int) {
+    @BindingAdapter(value = ["imageUrl", "fullName", "position", "colorType"], requireAll = false)
+    fun loadAvatar(
+        imageView: ImageView,
+        imageUrl: String,
+        fullName: String,
+        position: Int,
+        colorType: String
+    ) {
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
             .height(imageView.context.dimen(R.dimen._40sdp)).
                 fontSize(imageView.context.dimen(R.dimen.text_size_h3))
             .useFont(ResourcesCompat.getFont(imageView.context , R.font.roboto_regular)!!)
-            .textColor(Utils.getContactColors(imageView.context, position = position))
+            .textColor(getTextColorFromType(colorType, imageView, position))
 
         setCircleCropImage(
             imageView,
             imageUrl,
             builder.buildRect(
                 Utils.shortName(fullName),
-                Utils.getBackgroundColor(imageView.context, position = position)
+                getBgColorFromType(colorType, imageView, position)
             )
         )
     }
@@ -97,6 +103,17 @@ object ImageBinding {
     }
 
 
+    @JvmStatic
+    @BindingAdapter("app:setFlagDrawable")
+    fun setIsoCountryDrawable(imageView: ImageView, isoCountryCode: String?) {
+        isoCountryCode?.let {
+            val resId = getResId("flag_${getDrawableName(it)}")
+            if (resId != -1) {
+                imageView.setImageResource(resId)
+            }
+        }
+    }
+
     private fun setDrawable(
         imageView: ImageView,
         imageUrl: String,
@@ -135,6 +152,24 @@ object ImageBinding {
             field.getInt(null)
         } catch (e: Exception) {
             -1
+        }
+    }
+
+
+    private fun getTextColorFromType(colorType: String, imageView: ImageView, position: Int): Int {
+
+       return when (colorType) {
+            "Beneficiary" -> Utils.getBeneficiaryColors(imageView.context, position = position)
+            else -> Utils.getContactColors(imageView.context, position = position)
+
+        }
+    }
+
+    private fun getBgColorFromType(colorType: String, imageView: ImageView, position: Int): Int {
+        return when (colorType) {
+            "Beneficiary" -> Utils.getBeneficiaryBackgroundColor(imageView.context, position = position)
+            else -> Utils.getBackgroundColor(imageView.context, position = position)
+
         }
     }
 }
