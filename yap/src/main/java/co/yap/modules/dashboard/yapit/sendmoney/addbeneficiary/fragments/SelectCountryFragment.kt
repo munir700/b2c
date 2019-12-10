@@ -26,18 +26,12 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     override val viewModel: ISelectCountry.ViewModel
         get() = ViewModelProviders.of(this).get(SelectCountryViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.populateSpinnerData.observe(this, Observer {
             countriesSpinner.setAdapter(getCountryAdapter())
-
             getCountryAdapter().setItemListener(listener)
-
         })
     }
 
@@ -51,12 +45,10 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()
-
     }
 
     override fun onResume() {
         super.onResume()
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 

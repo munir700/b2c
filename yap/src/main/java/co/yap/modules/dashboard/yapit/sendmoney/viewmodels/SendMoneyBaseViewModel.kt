@@ -10,29 +10,10 @@ abstract class SendMoneyBaseViewModel<S : IBase.State>(application: Application)
     var parentViewModel: ISendMoney.ViewModel? = null
 
     fun setToolBarTitle(title: String) {
-        parentViewModel?.state?.tootlBarTitle = title
+        parentViewModel?.state?.toolbarTitle = title
     }
 
     fun toggleToolBarVisibility(visibility: Boolean) {
-        val VISIBLE: Int = 0x00000000
-        val GONE: Int = 0x00000008
-        if (visibility) {
-            parentViewModel?.state?.tootlBarVisibility = VISIBLE
-
-        } else {
-            parentViewModel?.state?.tootlBarVisibility = GONE
-
-        }
-    }
-
-    fun toggleAddButtonVisibility(visibility: Boolean) {
-
-        if (visibility) {
-            parentViewModel?.state?.enableAddBeneficiary = true
-
-        } else {
-            parentViewModel?.state?.enableAddBeneficiary = false
-
-        }
+        parentViewModel?.state?.toolbarVisibility?.set(visibility)
     }
 }

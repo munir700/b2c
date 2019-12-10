@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -9,6 +10,7 @@ import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.R
+import co.yap.databinding.FragmentCashTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -45,7 +47,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
-//            val action =
+            //            val action =
 //                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
 //                    viewModel.state.fullName,
 //                    "AED",
@@ -70,12 +72,14 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 //            getBinding().lyUserImage.tvNameInitials.context,
 //            args.position
 //        )
+        /* lyUserImage.tvNameInitials.setTextColor(
+             Utils.getContactColors(
+                 lyUserImage.tvNameInitials.context, 1
+             )
+         )*/
+        getBindings().lyUserImage.lyNameInitials.background =
+            context?.resources?.getDrawable(R.drawable.bg_round_denominations, null)
 
-        lyUserImage.tvNameInitials.setTextColor(
-            Utils.getContactColors(
-                lyUserImage.tvNameInitials.context, 1
-            )
-        )
 
         viewModel.state.availableBalanceText =
             " " + getString(Strings.common_text_currency_type) + " " + Utils.getFormattedCurrency(
@@ -117,8 +121,12 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
 
     override fun onBackPressed(): Boolean {
-        viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
+      //  viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
         return super.onBackPressed()
+    }
+
+    fun getBindings(): FragmentCashTransferBinding {
+        return viewDataBinding as FragmentCashTransferBinding
     }
 
 }

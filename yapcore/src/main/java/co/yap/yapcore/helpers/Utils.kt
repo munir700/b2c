@@ -603,12 +603,21 @@ object Utils {
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
+    fun getBeneficiaryColors(context: Context, position: Int): Int {
+        return ContextCompat.getColor(context, beneficiaryColors[position % beneficiaryColors.size])
+    }
 
     fun getContactBackground(context: Context, position: Int) =
         ContextCompat.getDrawable(context, backgrounds[position % backgrounds.size])
 
+    fun getBeneficiaryBackground(context: Context, position: Int) =
+        ContextCompat.getDrawable(context, beneficiaryBackgroundColors[position % beneficiaryBackgroundColors.size])
+
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
+
+    fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
+        ContextCompat.getColor(context, beneficiaryBackgrounds[position % beneficiaryBackgrounds.size])
 
     private val backgrounds = intArrayOf(
         R.drawable.bg_round_light_red,
@@ -631,6 +640,33 @@ object Utils {
         R.color.colorSecondaryOrange
     )
 
+    private val beneficiaryColors = intArrayOf(
+        R.color.colorPrimaryLight,
+        R.color.colorSecondaryOrange,
+        R.color.colorSecondaryBlue,
+        R.color.colorSecondaryMagenta,
+        R.color.colorSecondaryGreen,
+        R.color.colorAccent
+    )
+
+    private val beneficiaryBackgroundColors = intArrayOf(
+        R.drawable.bg_round_light_blue,
+        R.drawable.bg_round_light_orange,
+        R.drawable.bg_round_light_blue,
+        R.drawable.bg_round_light_red,
+        R.drawable.bg_round_light_green,
+        R.drawable.bg_round_light_green
+
+    )
+    private val beneficiaryBackgrounds = intArrayOf(
+        R.color.bg_round_light_blue,
+        R.color.bg_round_light_orange,
+        R.color.bg_round_light_blue,
+        R.color.bg_round_light_red,
+        R.color.bg_round_light_green,
+        R.color.bg_round_light_green
+
+    )
 
     fun getTwoDecimalPlaces(value: Double): Double {
         val df = DecimalFormat("#.##")

@@ -155,7 +155,7 @@ abstract class BaseListItemViewModel<ITEM : Any> : ViewModel(), Observable, OnIt
      * @param bundle argument dataList
      */
     @CallSuper
-    open fun onCreate(bundle: Bundle?, navigation: NavController) {
+    open fun onCreate(bundle: Bundle?, navigation: NavController?) {
         if (isFirstTimeUiCreate) {
             onFirsTimeUiCreate(bundle, navigation)
             isFirstTimeUiCreate = false
@@ -173,7 +173,7 @@ abstract class BaseListItemViewModel<ITEM : Any> : ViewModel(), Observable, OnIt
      *
      * @param bundle
      */
-    abstract fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController)
+    abstract fun onFirsTimeUiCreate(bundle: Bundle?, navigation: NavController?)
 
     /**
      * It is importance to un-reference activity / fragment instance after they are destroyed
