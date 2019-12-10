@@ -90,37 +90,21 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/imgProfile"
-                    android:layout_width="@dimen/_42sdp"
-                    android:layout_height="@dimen/_42sdp"
+                    android:layout_width="@dimen/_40sdp"
+                    android:layout_height="@dimen/_40sdp"
+                    android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/empty_string"
+                    android:layout_marginTop="@dimen/small"
+                    android:src="@drawable/ic_store_b2b"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:stringToBitmap="@{viewModel.beneficiary.beneficiaryPictureUrl}" />
-
-                <LinearLayout
-                    android:id="@+id/lyNameInitials"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/bg_round_with_space_white"
-                    android:visibility="@{viewModel.beneficiary.beneficiaryPictureUrl.equals(``)? View.VISIBLE :View.GONE}"
-                    app:layout_constraintBottom_toBottomOf="@+id/imgProfile"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/imgProfile">
-
-                    <TextView
-                        android:id="@+id/tvNameInitials"
-                        style="@style/ARegular"
-                        android:layout_width="@dimen/_42sdp"
-                        android:layout_height="@dimen/_42sdp"
-                        android:gravity="center"
-                        android:text="@{Utils.INSTANCE.shortName(viewModel.beneficiary.firstName + ' ' + viewModel.beneficiary.lastName)}"
-                        tools:text="NM" />
-                </LinearLayout>
+                    app:colorType="@{`Beneficiary`}"
+                    app:fullName="@{viewModel.beneficiary.firstName + ' ' + viewModel.beneficiary.lastName}"
+                    app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
+                    app:position="@{viewModel.position}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
