@@ -160,8 +160,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     return true
                 }
             })
-            getSearchView().onFocusChangeListener =
-                View.OnFocusChangeListener { view, hasFoucs -> if (!hasFoucs) view.hideKeyboard() }
         }
     }
 
