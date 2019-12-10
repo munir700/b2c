@@ -9,12 +9,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.databinding.FragmentSendMoneyHomeBinding
-import co.yap.modules.dashboard.yapit.y2y.home.adaptors.RecentTransferAdaptor
-import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragment
-import co.yap.modules.dashboard.yapit.y2y.home.fragments.YapToYapFragmentDirections
+import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
 import co.yap.networking.customers.requestdtos.Contact
@@ -32,7 +30,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View, SwipeCallBack {
     var positionToDelete = 0
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.fragment_send_money_home
+    override fun getLayoutId(): Int = R.layout.activity_send_money_landing
 
     override val viewModel: ISendMoneyHome.ViewModel
         get() = ViewModelProviders.of(this).get(SendMoneyHomeScreenViewModel::class.java)
@@ -43,12 +41,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         initComponents()
         setObservers()
 
-        activity!!.tbBtnAddBeneficiary.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
-
-            }
-        })
+//        activity!!.tbBtnAddBeneficiary.setOnClickListener { findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment) }
     }
 
     override fun onPause() {
@@ -60,16 +53,16 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     override fun onResume() {
         super.onResume()
-        setupRecent()
+//        setupRecent()
 
         viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.addContactsButton ->
-                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
-
-                R.id.tbBtnAddBeneficiary ->
-                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
-            }
+//            when (it) {
+//                R.id.addContactsButton ->
+//                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
+//
+//                R.id.tbBtnAddBeneficiary ->
+//                    findNavController().navigate(R.id.action_sendMoneyHomeFragment_to_selectCountryFragment)
+//            }
         })
 
         viewModel.onDeleteSuccess.observe(this, Observer {
@@ -84,7 +77,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         if (viewModel.adapter.get() == null) {
             viewModel.requestRecentBeneficiaries()
             viewModel.recentTransferData.observe(this, Observer {
-                if (it.isEmpty()) {
+                if (it.isNullOrEmpty()) {
                     layoutRecent?.visibility = View.GONE
                 } else {
                     viewModel.adapter.set(
@@ -110,15 +103,11 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     }
 
-    override fun onBackPressed(): Boolean {
-
-        return super.onBackPressed()
-    }
 
 
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
-            AllBeneficiriesAdapter(mutableListOf(), this)
+            AllBeneficiriesAdapter(mutableListOf())
         (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(
             listener
         )
@@ -154,17 +143,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
                 R.id.lyContact -> {
                     if (data is Contact && data.yapUser!! && data.accountDetailList != null && data.accountDetailList?.isNotEmpty()!!) {
-                        if (parentFragment is YapToYapFragment) {
-                            (parentFragment as YapToYapFragment).findNavController().navigate(
-                                YapToYapFragmentDirections.actionYapToYapHomeToY2YTransferFragment(
-                                    data.beneficiaryPictureUrl!!
-                                    ,
-                                    data.accountDetailList?.get(0)?.accountUuid!!,
-                                    data.title!!,
-                                    pos
-                                )
-                            )
-                        }
+
                     }
                 }
             }
@@ -183,18 +162,18 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         }
     }
 
-    private fun getBinding(): FragmentSendMoneyHomeBinding {
-        return (viewDataBinding as FragmentSendMoneyHomeBinding)
+    private fun getBinding(): ActivitySendMoneyLandingBinding {
+        return (viewDataBinding as ActivitySendMoneyLandingBinding)
     }
 
     override fun onSwipeEdit(beneficiary: Beneficiary) {
         toast(beneficiary.title + " onSwipeEdit")
         // using navigation controller go to edit beneficiary passing data beneficiary
-        val action =
-            SendMoneyHomeFragmentDirections.actionSendMoneyHomeFragmentToBeneficiaryOverviewFragment(
-                beneficiary
-            )
-        findNavController().navigate(action)
+//        val action =
+//            SendMoneyHomeFragmentDirections.actionSendMoneyHomeFragmentToBeneficiaryOverviewFragment(
+//                beneficiary
+//            )
+//        findNavController().navigate(action)
     }
 
     override fun onSwipeDelete(beneficiary: Beneficiary, position: Int) {

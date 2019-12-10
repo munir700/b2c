@@ -28,6 +28,6 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_international_funds_transfer_display_text_title))
-        toggleAddButtonVisibility(false)
+        //toggleAddButtonVisibility(false)
     }
 }

@@ -1,21 +1,22 @@
 package co.yap.modules.dashboard.yapit.sendmoney.interfaces
 
+import androidx.databinding.ObservableBoolean
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
 
 class ISendMoney {
+    interface State : IBase.State {
+        var toolbarVisibility: ObservableBoolean
+        var rightIcon: ObservableBoolean
+        var leftIcon: ObservableBoolean
+    }
+
+    interface ViewModel : IBase.ViewModel<State> {
+        val clickEvent: SingleClickEvent
+        fun handlePressButton(id:Int)
+    }
 
     interface View : IBase.View<ViewModel>
 
-    interface ViewModel : IBase.ViewModel<State> {
-        fun handlePressOnBackButton()
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
-    }
-
-    interface State : IBase.State {
-        var tootlBarTitle: String
-        var tootlBarVisibility: Int
-        var leftButtonVisibility:Int
-        var enableAddBeneficiary: Boolean
-    }
 }

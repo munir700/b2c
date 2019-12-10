@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -10,9 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
-        <import type="co.yap.translation.Strings"/>
-
+            type="co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel" />
     </data>
 
     <RelativeLayout
@@ -21,7 +18,8 @@
         android:layout_marginTop="@dimen/_5sdp"
         android:background="@color/white"
         android:gravity="center_vertical"
-        android:padding="@dimen/_8sdp">
+        android:padding="@dimen/_8sdp"
+        android:visibility="@{viewModel.state.toolbarVisibility? View.VISIBLE:View.GONE}">
 
         <ImageView
             android:id="@+id/tbBtnBack"
@@ -32,13 +30,13 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:onClick="@{(v) -> viewModel.handlePressButton(v.id)}"
+            android:visibility="@{viewModel.state.leftIcon? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:tint="@color/colorPrimary"
-            app:srcCompat="@drawable/ic_close" />
+            app:srcCompat="@drawable/ic_back_arrow_left" />
 
-<!--        android:text="@={viewModel.state.tootlBarTitle}"-->
+        <!--        android:text="@={viewModel.state.tootlBarTitle}"-->
 
         <TextView
             android:id="@+id/tvTitle"
@@ -50,10 +48,9 @@
             android:layout_marginEnd="@dimen/_14sdp"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
-            app:text="@{Strings.screen_send_money_display_text_title}"
-            tools:text="@string/send_money"
-       />
-<!--        android:visibility="@{viewModel.state.enableAddBeneficiary ? View.VISIBLE:View.GONE}"-->
+            android:text="@{viewModel.state.toolbarTitle}"
+            android:visibility="@{viewModel.state.toolbarTitle.equals(``)? View.VISIBLE:View.GONE}" />
+
         <ImageView
             android:id="@+id/tbBtnAddBeneficiary"
             android:layout_width="@dimen/_25sdp"
@@ -62,8 +59,9 @@
             android:layout_marginEnd="@dimen/_5sdp"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{v->viewModel.handlePressOnView(v.id)}"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{v->viewModel.handlePressButton(v.id)}"
+            android:visibility="@{viewModel.state.rightIcon? View.VISIBLE:View.GONE}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_add_sign" />

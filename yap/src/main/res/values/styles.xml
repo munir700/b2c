@@ -53,6 +53,51 @@
         <item name="android:textStyle">normal</item>
         <item name="closeIcon">@android:color/transparent</item>
 
+    </style>
+
+    <!--    TextView Style-->
+    <style name="Yap.App.Widget.TextView" parent="TextAppearance.AppCompat.Title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:layout_gravity">center_vertical</item>
 
     </style>
+
+    <style name="Yap.App.Widget.TextView.Label" parent="Yap.App.Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h2</item>
+        <item name="android:lineSpacingExtra">6sp</item>
+        <item name="android:textColor">@color/greyDark</item>
+
+    </style>
+
+    <style name="Yap.App.Widget.TextInputEditText" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_h3</item>
+        <item name="android:lineSpacingExtra">8sp</item>
+        <item name="android:theme">@style/Theme.EditText</item>
+        <item name="android:fontFamily">@font/roboto_regular</item>
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+
+    </style>
+
+    <style name="Theme.EditText" parent="AppTheme">
+        <item name="colorControlNormal">@color/greyLight</item>
+        <item name="colorControlActivated">@color/greyLight</item>
+        <item name="colorControlHighlight">@color/greyLight</item>
+    </style>
+
+<!--    <style name="Yap.App.Widget.TextInputEditText.Name" parent="Yap.App.Widget.TextInputEditText">-->
+<!--        <item name="android:layout_width">match_parent</item>-->
+<!--        <item name="android:layout_height">wrap_content</item>-->
+<!--        <item name="android:textSize">@dimen/text_size_h3</item>-->
+<!--        <item name="android:lineSpacingExtra">8sp</item>-->
+<!--        <item name="android:fontFamily">@font/roboto_regular</item>-->
+<!--        <item name="android:textColor">@color/colorPrimaryDark</item>-->
+
+<!--    </style>-->
 </resources>

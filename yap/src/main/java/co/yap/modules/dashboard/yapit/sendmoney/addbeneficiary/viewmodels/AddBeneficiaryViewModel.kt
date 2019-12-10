@@ -41,7 +41,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        toggleAddButtonVisibility(false)
+        ///toggleAddButtonVisibility(false)
     }
 
     fun requestAddBeneficiary(beneficiary: Beneficiary) {
