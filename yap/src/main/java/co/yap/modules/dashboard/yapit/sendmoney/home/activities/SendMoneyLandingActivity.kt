@@ -24,7 +24,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.toast
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
@@ -175,12 +175,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     if (it.isNullOrEmpty()) {
                         layoutRecent?.visibility = View.GONE
                     } else {
-                        viewModel.adapter.set(
-                            RecentTransferAdaptor(
-                                it.toMutableList(),
-                                null
-                            )
+                        val adapter = RecentTransferAdaptor(
+                            it.toMutableList(),
+                            null
                         )
+                        adapter.onItemClickListener = recentItemClickListener
+                        viewModel.adapter.set(adapter)
+
                         layoutRecent?.visibility = View.VISIBLE
                     }
                 })
@@ -194,6 +195,15 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 //                )
                     layoutRecent?.visibility = View.VISIBLE
                 }
+            }
+        }
+    }
+
+
+    private val recentItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Beneficiary) {
+                showToast("data ${data.title}")
             }
         }
     }
@@ -287,7 +297,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             when (requestCode) {
                 REQUEST_CODE -> {
                     if (resultCode == Activity.RESULT_OK) {
-//                        TODO HANDLE EditBeneficiaryActivity result here
+                        viewModel.requestAllBeneficiaries()
                     }
                 }
             }

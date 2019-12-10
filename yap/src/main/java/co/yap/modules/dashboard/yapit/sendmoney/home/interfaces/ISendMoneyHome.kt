@@ -31,6 +31,7 @@ interface ISendMoneyHome {
         fun handlePressOnView(id: Int)
         fun requestDeleteBeneficiary(beneficiaryId: Int)
         fun requestRecentBeneficiaries()
+        fun requestAllBeneficiaries()
         fun getState(): LiveData<PagingState>
         val searchQuery: MutableLiveData<String>
         val isSearching: MutableLiveData<Boolean>

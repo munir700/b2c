@@ -57,7 +57,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     }
 
 
-    private fun requestAllBeneficiaries() {
+    override fun requestAllBeneficiaries() {
         launch {
             state.loading = true
             when (val response = repository.getAllBeneficiaries()) {
