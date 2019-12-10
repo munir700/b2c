@@ -19,6 +19,7 @@ class EditBeneficiaryStates : BaseState(), IEditBeneficiary.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferType)
+           // beneficiary?.beneficiaryType = field
         }
     @get:Bindable
     override var currency: String? = "AED"
@@ -28,7 +29,8 @@ class EditBeneficiaryStates : BaseState(), IEditBeneficiary.State {
             beneficiary?.currency = field
         }
     @get:Bindable
-    override var nickName: String? = ""
+    override var nickName: String? = null
+
         set(value) {
             field = value
             notifyPropertyChanged(BR.nickName)
@@ -37,35 +39,42 @@ class EditBeneficiaryStates : BaseState(), IEditBeneficiary.State {
 
 
     @get:Bindable
-    override var firstName: String?=null
+    override var firstName: String? = null
+
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)
+            //notifyChange()
             beneficiary?.firstName = field
         }
+
     @get:Bindable
     override var lastName: String? = null
+
         set(value) {
             field = value
             notifyPropertyChanged(BR.lastName)
+            notifyChange()
             beneficiary?.lastName = field
         }
     @get:Bindable
-    override var phoneNumber: String? = ""
+    override var phoneNumber: String? = null
+
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
             beneficiary?.mobileNo = field
         }
     @get:Bindable
-    override var accountNumber: String? = ""
+    override var accountNumber: String? = null
+
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountNumber)
             beneficiary?.accountNo = field
         }
     @get:Bindable
-    override var swiftCode: String? = ""
+    override var swiftCode: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.swiftCode)
@@ -78,7 +87,7 @@ class EditBeneficiaryStates : BaseState(), IEditBeneficiary.State {
             notifyPropertyChanged(BR.countryBankRequirementFieldCode)
         }
     @get:Bindable
-    override var beneficiary: Beneficiary? = null
+    override var beneficiary: Beneficiary? = Beneficiary()
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiary)
@@ -97,24 +106,8 @@ class EditBeneficiaryStates : BaseState(), IEditBeneficiary.State {
             it.swiftCode?.let { swiftCode = it}
             it.beneficiaryType?.let { transferType = it}
         }
-////A we are not sure about updated response so placing these checks in order to avoid crash
-//
-//        if (!beneficiary.country.isNullOrEmpty()) country = beneficiary.country!!
-//        if (!beneficiary.beneficiaryType.isNullOrEmpty()) transferType =
-//            beneficiary.beneficiaryType!!
-//        if (!beneficiary.currency.isNullOrEmpty()) currency = beneficiary.currency!!
-//        if (!beneficiary.title.isNullOrEmpty()) nickName = beneficiary.title!!
-//        if (!beneficiary.firstName.isNullOrEmpty()) firstName = beneficiary.firstName!!
-//        if (!beneficiary.lastName.isNullOrEmpty()) lastName = beneficiary.lastName!!
-//        if (!beneficiary.mobileNo.isNullOrEmpty()) phoneNumber = beneficiary.mobileNo!!
-//        if (!beneficiary.mobileNo.isNullOrEmpty()) mobile = beneficiary.mobileNo!!
-//        if (!beneficiary.accountNo.isNullOrEmpty()) accountIban = beneficiary.accountNo!!
-//        if (!beneficiary.mobileNo.isNullOrEmpty()) swiftCode = beneficiary.swiftCode!!
-//
-//// now again not sure about required field including bank details, so consider it to work on...
-//
-//        if (!beneficiary.mobileNo.isNullOrEmpty()) countryBankRequirementFieldCode =
-//            beneficiary.country!!
-
+        notifyChange()
     }
+
+
 }

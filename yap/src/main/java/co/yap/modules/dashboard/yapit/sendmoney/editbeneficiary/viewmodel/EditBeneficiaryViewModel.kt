@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.states.EditBeneficiaryStates
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -13,31 +14,29 @@ class EditBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IEditBeneficiary.State>(application), IEditBeneficiary.ViewModel
 , IRepositoryHolder<CustomersRepository> {
     override val repository: CustomersRepository = CustomersRepository
-    override val state: IEditBeneficiary.State
-        get() = EditBeneficiaryStates()
+    override val state: EditBeneficiaryStates=EditBeneficiaryStates()
 
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
 
     override fun handlePressOnConfirm(id: Int) {
-
+        clickEvent?.setValue(id)
     }
 
-    override fun onCreate() {
-        super.onCreate()
-    }
+    override var onUpdateSuccess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun requestUpdateBeneficiary() {
         launch {
             state.loading = true
-            when (val response = repository.editBeneficiary(state.beneficiary!!)) {
+            when (val response = repository.editBeneficiary(state.beneficiary)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    state.toast = response.data.toString()
-
+                    onUpdateSuccess.value = true
+                   // state.toast = response.data.toString()
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
+                    onUpdateSuccess.value = false
                     state.toast = response.error.message
 
                 }

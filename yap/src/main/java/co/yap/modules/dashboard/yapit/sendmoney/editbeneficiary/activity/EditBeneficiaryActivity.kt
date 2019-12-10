@@ -1,9 +1,11 @@
 package co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.PersistableBundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -39,14 +41,33 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
                 bundle?.let { viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name) }
             }
         }
-
-
+        viewDataBinding.executePendingBindings()
+        setObservers()
     }
 
-    override fun onPostCreate(savedInstanceState: Bundle?, persistentState: PersistableBundle?) {
-        super.onPostCreate(savedInstanceState, persistentState)
-    }
 
     override fun setObservers() {
+        viewModel.clickEvent?.observe(this, Observer {
+            when (it) {
+                R.id.tbBtnBack ->{
+                    val intent = Intent()
+                    setResult(Activity.RESULT_CANCELED,intent)
+                    finish()}
+                R.id.confirmButton ->
+                        viewModel.requestUpdateBeneficiary()
+            }
+        })
+
+        viewModel.onUpdateSuccess.observe(this, Observer {
+            val intent = Intent()
+            if(it) {
+                setResult(Activity.RESULT_OK, intent)
+                finish()
+            }else
+            {
+                setResult(Activity.RESULT_CANCELED,intent)
+            }
+
+        })
     }
 }
