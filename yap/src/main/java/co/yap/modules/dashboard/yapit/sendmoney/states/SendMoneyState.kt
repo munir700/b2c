@@ -30,4 +30,10 @@ class SendMoneyState : BaseState(), ISendMoney.State {
             notifyPropertyChanged(BR.tootlBarVisibility)
 
         }
+    @get:Bindable
+    override var leftButtonVisibility: Int=0x00000000
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.leftButtonVisibility)
+        }
 }

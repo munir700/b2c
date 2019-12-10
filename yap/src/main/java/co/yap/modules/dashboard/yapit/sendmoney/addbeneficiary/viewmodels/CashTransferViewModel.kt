@@ -4,6 +4,7 @@ import android.app.Application
 import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.CashTransferState
+import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
@@ -11,7 +12,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 
 class CashTransferViewModel(application: Application) :
-    Y2YBaseViewModel<ICashTransfer.State>(application),
+    SendMoneyBaseViewModel<ICashTransfer.State>(application),
     ICashTransfer.ViewModel {
     override val state: CashTransferState = CashTransferState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -21,9 +22,17 @@ class CashTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+      //  toggleToolBarVisibility(false)
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
     }
+    override fun onResume() {
+        super.onResume()
+        toggleToolBarVisibility(true)
+        toggleAddButtonVisibility(true)
+        setToolBarTitle(getString(Strings.screen_y2y_funds_transfer_display_text_title))
+    }
+
 
     override fun handlePressOnView(id: Int) {
         if (state.checkValidity() == "") {
@@ -55,13 +64,5 @@ class CashTransferViewModel(application: Application) :
             }
             state.loading = false
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        toggleToolBarVisibility(true)
-        setToolBarTitle(getString(Strings.screen_y2y_funds_transfer_display_text_title))
-        setRightButtonVisibility(false)
-        setLeftButtonVisibility(true)
     }
 }

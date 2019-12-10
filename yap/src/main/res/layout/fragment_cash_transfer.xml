@@ -9,6 +9,8 @@
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel" />
 
+        <import type="co.yap.yapcore.helpers.Utils" />
+
         <import type="co.yap.translation.Strings" />
     </data>
 
@@ -58,7 +60,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
                 tools:text="Jonathan Newport" />
 
-            <co.yap.widgets.CoreCircularImageView
+          <!--  <co.yap.widgets.CoreCircularImageView
                 android:id="@+id/ivFlag"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,19 +82,31 @@
                 app:text="@{Strings.common_text_currency_type}"
                 tools:text="@string/common_text_currency_type"
 
-                />
+                />-->
+
+            <TextView
+                android:id="@+id/tvCurrency"
+                style="@style/AMicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:text="@{viewModel.state.currencyType}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+                tools:text="AED" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/etAmountLayout"
                 android:layout_width="@dimen/_140sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:layout_marginTop="@dimen/margin_large"
-                android:layout_marginEnd="@dimen/margin_medium_large"
                 android:background="@{viewModel.state.amountBackground}"
                 android:paddingStart="@dimen/margin_medium"
                 android:paddingEnd="@dimen/margin_medium"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvCurrency"
                 tools:background="@drawable/bg_funds">
 
                 <EditText
@@ -130,12 +144,12 @@
                     style="@style/MicroGrey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.availableBalanceGuide}"
+                    android:text="@{viewModel.state.feeAmountString}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     tools:text="Your available balance is " />
 
-                <TextView
+             <!--   <TextView
                     android:id="@+id/tvAvailableBalance"
                     style="@style/AMicro"
                     android:layout_width="wrap_content"
@@ -144,7 +158,7 @@
                     app:layout_constraintBottom_toBottomOf="@+id/tvAvailableBalanceGuide"
                     app:layout_constraintLeft_toRightOf="@+id/tvAvailableBalanceGuide"
                     app:layout_constraintTop_toTopOf="@+id/tvAvailableBalanceGuide"
-                    tools:text="AED 500" />
+                    tools:text="AED 500" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.google.android.material.textfield.TextInputEditText

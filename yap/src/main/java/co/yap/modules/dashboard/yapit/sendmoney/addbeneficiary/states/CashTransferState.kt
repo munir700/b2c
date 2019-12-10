@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
+import android.text.SpannableString
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
@@ -10,12 +11,12 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 
-class CashTransferState (application: Application) : BaseState(), ICashTransfer.State {
+class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
 
     val context: Context = application.applicationContext
 
     @get:Bindable
-    override var fullName: String = ""
+    override var fullName: String = "Sufyan"
         set(value) {
             field = value
             notifyPropertyChanged(BR.fullName)
@@ -28,6 +29,12 @@ class CashTransferState (application: Application) : BaseState(), ICashTransfer.
         set(value) {
             field = value
             notifyPropertyChanged(BR.amountBackground)
+        }
+    @get:Bindable
+    override var feeAmountString: SpannableString = SpannableString("")
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.feeAmountString)
         }
 
     @get:Bindable
