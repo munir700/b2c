@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.states.SendMoneyHomeState
@@ -82,7 +83,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    state.toast = response.data.toString()
+//                    state.toast = response.data.toString()
                     recentTransferData.value = response.data.data
 
                 }
@@ -109,7 +110,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
 //                    state.toast = response.error.message
-
                 }
             }
         }

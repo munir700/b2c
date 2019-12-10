@@ -1123,4 +1123,9 @@ object Strings {
     const val screen_card_analytics_tool_bar_title: String =
         "screen_card_analytics_tool_bar_title"
 
+
+    //CashPickup Transfer screen
+    const val screen_cash_pickup_funds_display_text_fee: String =
+        "screen_cash_pickup_funds_display_text_fee"
+
 }

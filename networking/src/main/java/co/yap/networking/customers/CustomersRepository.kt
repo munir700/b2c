@@ -189,7 +189,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun addBeneficiary(beneficiary: Beneficiary): RetroApiResponse<AddBeneficiaryResponseDTO> =
         executeSafely(call = { api.addBeneficiary(beneficiary) })
 
-    override suspend fun editBeneficiary(beneficiary: Beneficiary): RetroApiResponse<ApiResponse> =
+    override suspend fun editBeneficiary(beneficiary: Beneficiary?): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.editBeneficiary(beneficiary) })
 
     override suspend fun deleteBeneficiaryFromList(beneficiaryId: String): RetroApiResponse<ApiResponse> =

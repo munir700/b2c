@@ -31,7 +31,6 @@ class BeneficiaryOverviewFragment : SendMoneyBaseFragment<IBeneficiaryOverview.V
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     private fun editBeneficiaryScreen() {

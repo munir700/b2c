@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
+import android.text.SpannableString
+import android.text.SpannableStringBuilder
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -19,6 +21,8 @@ interface ICashTransfer {
 
     interface State : IBase.State {
         var amountBackground: Drawable?
+        var feeAmountSpannableString: SpannableStringBuilder?
+        var feeAmountString: String
         var amount: String
         var valid: Boolean
         var minLimit: Double

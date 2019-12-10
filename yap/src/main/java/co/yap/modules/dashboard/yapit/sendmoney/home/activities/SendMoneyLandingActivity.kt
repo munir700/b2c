@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.home.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +13,9 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.Bundle_EXTRA
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.REQUEST_CODE
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
@@ -20,10 +24,8 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.hideKeyboard
 import co.yap.yapcore.helpers.toast
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
-import kotlinx.android.synthetic.main.activity_send_money_landing.*
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
 class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
@@ -58,7 +60,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         initComponents()
         setObservers()
         viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
-        viewModel.isSearching.value?.let { setSearchView(it) }
+        viewModel.isSearching.value?.let {
+            viewModel.state.isSearching.set(it)
+            setSearchView(it)
+        }
     }
 
     private fun initComponents() {
@@ -97,7 +102,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                         //TODO: Using StartActivityForResult Navigate to Edit Beneficiary Screen Used by Irfan
                         val beneficiary =
                             viewModel.allBeneficiariesLiveData.value?.get(position)
-                        beneficiary?.let { toast(beneficiary.title + " onSwipeEdit clicked") }
+                        beneficiary?.let {
+                            val intent = EditBeneficiaryActivity.newIntent(context = this)
+                            val bundle = Bundle()
+                            bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
+                            intent.putExtra(Bundle_EXTRA, bundle)
+                            startActivityForResult(intent, REQUEST_CODE)
+                        }
                     }
                 }
             }
@@ -107,8 +118,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.allBeneficiariesLiveData.observe(this, Observer {
             if (it.isNullOrEmpty()) {
                 viewModel.state.isNoBeneficiary.set(true)
+                viewModel.state.hasBeneficiary.set(false)
             } else {
                 viewModel.state.isNoBeneficiary.set(false)
+                viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
             }
         })
@@ -129,23 +142,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun setSearchView(show: Boolean) {
-        getBinding().layoutBeneficiaries.layoutSearchView.ivSearch.visibility =
-            if (!show) View.VISIBLE else View.GONE
-        getBinding().layoutBeneficiaries.layoutSearchView.tvSearch.visibility =
-            if (!show) View.VISIBLE else View.GONE
-        getSearchView().visibility =
-            if (!show) View.GONE else View.VISIBLE
-        getBinding().layoutBeneficiaries.tvSendMoneyTo.visibility =
-            if (!show) View.VISIBLE else View.GONE
-
         if (!show) {
             getSearchView().isIconified = true
             getBinding().run {
                 getSearchView().setIconifiedByDefault(false)
             }
-            getBinding().layoutBeneficiaries.tvCancel.visibility = View.GONE
         } else {
-            getBinding().layoutBeneficiaries.tvCancel.visibility = View.VISIBLE
             getSearchView().isIconified = false
             getBinding().run { getSearchView().setIconifiedByDefault(false) }
             getSearchView().setOnQueryTextListener(object :
@@ -160,29 +162,25 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     return true
                 }
             })
-            getSearchView().onFocusChangeListener =
-                View.OnFocusChangeListener { view, hasFoucs -> if (!hasFoucs) view.hideKeyboard() }
         }
     }
 
     private fun setupRecent() {
         if (viewModel.isSearching.value == true) {
             layoutRecent.visibility = View.GONE
-            toolbar.visibility = View.GONE
         } else {
-            toolbar.visibility = View.VISIBLE
             if (viewModel.adapter.get() == null) {
                 viewModel.requestRecentBeneficiaries()
                 viewModel.recentTransferData.observe(this, Observer {
                     if (it.isNullOrEmpty()) {
                         layoutRecent?.visibility = View.GONE
                     } else {
-                    viewModel.adapter.set(
-                        RecentTransferAdaptor(
-                            it.toMutableList(),
-                            null
+                        viewModel.adapter.set(
+                            RecentTransferAdaptor(
+                                it.toMutableList(),
+                                null
+                            )
                         )
-                    )
                         layoutRecent?.visibility = View.VISIBLE
                     }
                 })
@@ -244,27 +242,31 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     override fun onResume() {
         super.onResume()
         rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
+        viewModel.state.isSearching.set(viewModel.isSearching.value!!)
         setSearchView(viewModel.isSearching.value!!)
         setupRecent()
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
-                R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
-                R.id.tbBtnBack -> finish()
-                R.id.layoutSearchView -> {
-                    viewModel.isSearching.value?.let { isSearching ->
-                        if (!isSearching) {
-                            startActivity(getIntent(this, true, null))
-                        }
-                    }
-                }
-                R.id.tvCancel -> finish()
-            }
-        })
+        viewModel.clickEvent.observe(this, clickListener)
 
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
         })
+    }
+
+
+    private val clickListener = Observer<Int> {
+        when (it) {
+            R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
+            R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
+            R.id.tbBtnBack -> finish()
+            R.id.layoutSearchView -> {
+                viewModel.isSearching.value?.let { isSearching ->
+                    if (!isSearching) {
+                        startActivity(getIntent(this, true, null))
+                    }
+                }
+            }
+            R.id.tvCancel -> finish()
+        }
     }
 
     private fun getAdaptor(): AllBeneficiriesAdapter {
@@ -277,5 +279,18 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun getBinding(): ActivitySendMoneyLandingBinding {
         return (viewDataBinding as ActivitySendMoneyLandingBinding)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        data?.let {
+            when (requestCode) {
+                REQUEST_CODE -> {
+                    if (resultCode == Activity.RESULT_OK) {
+//                        TODO HANDLE EditBeneficiaryActivity result here
+                    }
+                }
+            }
+        }
     }
 }
