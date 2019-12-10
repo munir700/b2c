@@ -10,7 +10,6 @@ xmlns:tools="http://schemas.android.com/tools">
         type="co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferItemVM" />
 
     <import type="co.yap.yapcore.helpers.StringUtils" />
-
 </data>
 
 <LinearLayout
@@ -40,7 +39,6 @@ xmlns:tools="http://schemas.android.com/tools">
             />
 
         <LinearLayout
-            android:id="@+id/rlAddNewProfilePic"
             android:layout_width="@dimen/_18sdp"
             android:layout_height="@dimen/_18sdp"
             android:background="@drawable/bg_round_red"
@@ -48,14 +46,14 @@ xmlns:tools="http://schemas.android.com/tools">
             android:visibility="visible">
 
             <ImageView
-                android:id="@+id/ivAddProfilePic"
+                android:id="@+id/ivCountryFlag"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginStart="@dimen/_2sdp"
                 android:layout_marginTop="@dimen/_2sdp"
                 android:layout_marginEnd="@dimen/_2sdp"
                 android:layout_marginBottom="@dimen/_2sdp"
-                android:background="@drawable/bitmap" />
+                app:setFlagDrawable ="@{recentTransferItemVM.item.country}" />
 
         </LinearLayout>
     </RelativeLayout>

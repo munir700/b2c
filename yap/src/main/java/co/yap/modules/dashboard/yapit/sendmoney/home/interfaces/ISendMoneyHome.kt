@@ -15,6 +15,7 @@ interface ISendMoneyHome {
         var isNoBeneficiary: ObservableField<Boolean>
         var hasBeneficiary: ObservableField<Boolean>
         var isSearching: ObservableField<Boolean>
+        var flagDrawableResId: ObservableField<Int>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

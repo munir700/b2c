@@ -103,6 +103,17 @@ object ImageBinding {
     }
 
 
+    @JvmStatic
+    @BindingAdapter("app:setFlagDrawable")
+    fun setIsoCountryDrawable(imageView: ImageView, isoCountryCode: String?) {
+        isoCountryCode?.let {
+            val resId = getResId("flag_${getDrawableName(it)}")
+            if (resId != -1) {
+                imageView.setImageResource(resId)
+            }
+        }
+    }
+
     private fun setDrawable(
         imageView: ImageView,
         imageUrl: String,
@@ -143,6 +154,7 @@ object ImageBinding {
             -1
         }
     }
+
 
     private fun getTextColorFromType(colorType: String, imageView: ImageView, position: Int): Int {
 
