@@ -1,5 +1,6 @@
 package co.yap.modules.others.helper
 
+import android.graphics.Color
 import android.net.Uri
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
@@ -34,30 +35,48 @@ object ImageBinding {
     }
 
     @JvmStatic
-    @BindingAdapter(value = ["imageUrl", "fullName", "position", "colorType"], requireAll = false)
-    fun loadAvatar(
-        imageView: ImageView,
-        imageUrl: String,
-        fullName: String,
-        position: Int,
-        colorType: String
-    ) {
+    @BindingAdapter(value = ["beneficiaryPicture", "fullName"], requireAll = true)
+    fun loadAvatar(imageView: ImageView, beneficiaryPicture: String, fullName: String) {
+
         val builder = TextDrawable.builder()
         builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
             .height(imageView.context.dimen(R.dimen._40sdp)).
                 fontSize(imageView.context.dimen(R.dimen.text_size_h3))
             .useFont(ResourcesCompat.getFont(imageView.context , R.font.roboto_regular)!!)
-            .textColor(getTextColorFromType(colorType, imageView, position))
-
+            .textColor(ContextCompat.getColor(imageView.context,R.color.purple))
         setCircleCropImage(
             imageView,
-            imageUrl,
+            beneficiaryPicture,
             builder.buildRect(
-                Utils.shortName(fullName),
-                getBgColorFromType(colorType, imageView, position)
+                Utils.shortName(fullName),ContextCompat.getColor(imageView.context,R.color.disabledLight)
             )
         )
     }
+
+        @JvmStatic
+        @BindingAdapter(value = ["imageUrl", "fullName", "position", "colorType"], requireAll = false)
+        fun loadAvatar(
+            imageView: ImageView,
+            imageUrl: String,
+            fullName: String,
+            position: Int,
+            colorType: String
+        ) {
+            val builder = TextDrawable.builder()
+            builder.beginConfig().width(imageView.context.dimen(R.dimen._40sdp))
+                .height(imageView.context.dimen(R.dimen._40sdp)).
+                    fontSize(imageView.context.dimen(R.dimen.text_size_h3))
+                .useFont(ResourcesCompat.getFont(imageView.context , R.font.roboto_regular)!!)
+                .textColor(getTextColorFromType(colorType, imageView, position))
+            setCircleCropImage(
+                imageView,
+                imageUrl,
+                builder.buildRect(
+                    Utils.shortName(fullName),
+                    getBgColorFromType(colorType, imageView, position)
+                )
+            )
+        }
 
     @JvmStatic
     @BindingAdapter(
