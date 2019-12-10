@@ -82,7 +82,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    state.toast = response.data.toString()
+//                    state.toast = response.data.toString()
                     recentTransferData.value = response.data.data
 
                 }

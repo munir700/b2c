@@ -20,10 +20,8 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.hideKeyboard
 import co.yap.yapcore.helpers.toast
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
-import kotlinx.android.synthetic.main.activity_send_money_landing.*
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
 class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
@@ -237,25 +235,28 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.state.isSearching.set(viewModel.isSearching.value!!)
         setSearchView(viewModel.isSearching.value!!)
         setupRecent()
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
-                R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
-                R.id.tbBtnBack -> finish()
-                R.id.layoutSearchView -> {
-                    viewModel.isSearching.value?.let { isSearching ->
-                        if (!isSearching) {
-                            startActivity(getIntent(this, true, null))
-                        }
-                    }
-                }
-                R.id.tvCancel -> finish()
-            }
-        })
+        viewModel.clickEvent.observe(this, clickListener)
 
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
         })
+    }
+
+
+    private val clickListener = Observer<Int> {
+        when (it) {
+            R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
+            R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
+            R.id.tbBtnBack -> finish()
+            R.id.layoutSearchView -> {
+                viewModel.isSearching.value?.let { isSearching ->
+                    if (!isSearching) {
+                        startActivity(getIntent(this, true, null))
+                    }
+                }
+            }
+            R.id.tvCancel -> finish()
+        }
     }
 
     private fun getAdaptor(): AllBeneficiriesAdapter {
