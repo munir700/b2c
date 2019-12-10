@@ -14,6 +14,12 @@
         <import type="co.yap.yapcore.helpers.Utils" />
 
         <import type="co.yap.translation.Strings" />
+
+        <import type="co.yap.countryutils.country.utils.CurrencyUtils" />
+
+        <variable
+            name="dataCountry"
+            type="co.yap.countryutils.country.Country" />
     </data>
 
     <RelativeLayout
@@ -173,10 +179,7 @@
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="@dimen/_20sdp"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/bitmap" />
+                    app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
 
 
                 <!-- need to set country from updated response in the UIBinder , right now its not returning the Country object ,its just sending the name-->

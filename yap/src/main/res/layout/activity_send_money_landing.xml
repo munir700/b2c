@@ -21,6 +21,7 @@
         android:orientation="vertical">
         <include
             android:id="@+id/toolbar"
+            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             layout="@layout/layout_send_beneficiaries_toolbar"
             app:viewModel="@{viewModel}" />
 
@@ -36,7 +37,7 @@
         <include
             android:id="@+id/layoutBeneficiaries"
             layout="@layout/layout_beneficiaries"
-            android:visibility="@{viewModel.state.isNoBeneficiary()?View.GONE:View.VISIBLE}"
+            android:visibility="@{viewModel.state.hasBeneficiary?View.VISIBLE:View.GONE}"
             app:viewModel="@{viewModel}" />
 
     </LinearLayout>
