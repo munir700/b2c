@@ -11,7 +11,7 @@ abstract class SendMoneyBaseFragment<V : IBase.ViewModel<*>> : BaseBindingFragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (viewModel is SendMoneyBaseViewModel<*>) {
+        if (viewModel is SendMoneyBaseViewModel<*> && activity != null) {
             (viewModel as SendMoneyBaseViewModel<*>).parentViewModel =
                 ViewModelProviders.of(activity!!).get(SendMoneyViewModel::class.java)
         }

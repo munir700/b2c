@@ -23,7 +23,7 @@
 
     <fragment
         android:id="@+id/genericOtpFragment"
-        android:name="co.yap.modules.generic_otp.GenericOtpFragment"
+        android:name="co.yap.modules.others.otp.GenericOtpFragment"
         android:label="GenericOtpFragment" >
         <argument
             android:name="username"

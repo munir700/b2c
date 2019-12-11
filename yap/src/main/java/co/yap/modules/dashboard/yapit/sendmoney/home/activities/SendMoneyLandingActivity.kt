@@ -24,7 +24,7 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.helpers.PagingState
-import co.yap.yapcore.helpers.toast
+import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
@@ -72,49 +72,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         initSwipeListener()
     }
 
-    private fun initSwipeListener() {
-        onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
-            .setClickable(
-                object : RecyclerTouchListener.OnRowClickListener {
-                    override fun onRowClicked(position: Int) {
-                        //TODO: Start Sufyan Money Transfer flow
-                        showToast("On Full item clicked")
-                    }
-
-                    override fun onIndependentViewClicked(
-                        independentViewID: Int,
-                        position: Int
-                    ) {
-                    }
-                }).setSwipeOptionViews(R.id.btnEdit, R.id.btnDelete)
-            .setSwipeable(
-                R.id.foregroundContainer, R.id.swipe
-            )
-            { viewID, position ->
-                when (viewID) {
-                    R.id.btnDelete -> {
-                        positionToDelete = position
-                        val beneficiary =
-                            viewModel.allBeneficiariesLiveData.value?.get(position)
-                        beneficiary?.let { confirmDeleteBeneficiary(it) }
-                    }
-                    R.id.btnEdit -> {
-                        //TODO: Using StartActivityForResult Navigate to Edit Beneficiary Screen Used by Irfan
-                        val beneficiary =
-                            viewModel.allBeneficiariesLiveData.value?.get(position)
-                        beneficiary?.let {
-                            val intent = EditBeneficiaryActivity.newIntent(context = this)
-                            val bundle = Bundle()
-                            bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
-                            intent.putExtra(Bundle_EXTRA, bundle)
-                            startActivityForResult(intent, REQUEST_CODE)
-                        }
-                    }
-                }
-            }
-    }
-
     private fun setObservers() {
+        //Beneficiaries list observer
         viewModel.allBeneficiariesLiveData.observe(this, Observer {
             if (it.isNullOrEmpty()) {
                 viewModel.state.isNoBeneficiary.set(true)
@@ -125,9 +84,26 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 getAdaptor().setList(it)
             }
         })
+        //Beneficiaries list Search Query observer
         viewModel.searchQuery.observe(this, Observer {
             getAdaptor().filter.filter(it)
         })
+
+        //Recent Beneficiaries list observer
+        viewModel.recentTransferData.observe(this, Observer {
+            if (it.isNullOrEmpty()) {
+                layoutRecent?.visibility = View.GONE
+            } else {
+                val adapter = RecentTransferAdaptor(
+                    it.toMutableList(),
+                    null
+                )
+                adapter.onItemClickListener = recentItemClickListener
+                viewModel.adapter.set(adapter)
+                layoutRecent?.visibility = View.VISIBLE
+            }
+        })
+        //Searching Beneficiaries list Results Count observer
         viewModel.isSearching.value?.let { isSearching ->
             if (isSearching) {
                 if (viewModel.getState().value != null && viewModel.getState().value != PagingState.LOADING) {
@@ -166,35 +142,61 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun setupRecent() {
-        if (viewModel.isSearching.value == true) {
-            layoutRecent.visibility = View.GONE
-        } else {
-            if (viewModel.adapter.get() == null) {
+        if (viewModel.adapter.get() == null && !viewModel.state.isSearching.get()!!) // use `!!` because its default value is set it can never be null
                 viewModel.requestRecentBeneficiaries()
-                viewModel.recentTransferData.observe(this, Observer {
-                    if (it.isNullOrEmpty()) {
-                        layoutRecent?.visibility = View.GONE
-                    } else {
-                        viewModel.adapter.set(
-                            RecentTransferAdaptor(
-                                it.toMutableList(),
-                                null
-                            )
-                        )
-                        layoutRecent?.visibility = View.VISIBLE
+    }
+
+    private val recentItemClickListener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            if (data is Beneficiary)
+                startMoneyTransfer(data)
+        }
+    }
+
+    private fun initSwipeListener() {
+        onTouchListener = RecyclerTouchListener(this, rvAllBeneficiaries)
+            .setClickable(
+                object : RecyclerTouchListener.OnRowClickListener {
+                    override fun onRowClicked(position: Int) {
+                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
+                        startMoneyTransfer(beneficiary)
                     }
-                })
-            } else {
-                if (viewModel.recentTransferData.value != null && viewModel.recentTransferData.value!!.isNotEmpty()) {
-//                viewModel.adapter.set(
-//                    RecentTransferAdaptor(
-//                        viewModel.recentTransferData.value?.toMutableList()!!,
-//                        findNavController()
-//                    )
-//                )
-                    layoutRecent?.visibility = View.VISIBLE
+
+                    override fun onIndependentViewClicked(
+                        independentViewID: Int,
+                        position: Int
+                    ) {
+                    }
+                }).setSwipeOptionViews(R.id.btnEdit, R.id.btnDelete)
+            .setSwipeable(
+                R.id.foregroundContainer, R.id.swipe
+            )
+            { viewID, position ->
+                when (viewID) {
+                    R.id.btnDelete -> {
+                        positionToDelete = position
+                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
+                        beneficiary?.let { confirmDeleteBeneficiary(it) }
+                    }
+                    R.id.btnEdit -> {
+                        val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
+                        openEditBeneficiary(beneficiary)
+                    }
                 }
             }
+    }
+
+    private fun startMoneyTransfer(beneficiary: Beneficiary?) {
+        showToast("data ${beneficiary?.title}")
+    }
+
+    private fun openEditBeneficiary(beneficiary: Beneficiary?) {
+        beneficiary?.let {
+            val intent = EditBeneficiaryActivity.newIntent(context = this)
+            val bundle = Bundle()
+            bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
+            intent.putExtra(Bundle_EXTRA, bundle)
+            startActivityForResult(intent, REQUEST_CODE)
         }
     }
 
@@ -243,15 +245,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         super.onResume()
         rvAllBeneficiaries.addOnItemTouchListener(onTouchListener)
         viewModel.state.isSearching.set(viewModel.isSearching.value!!)
+        // calling this function on resume because whenever user go for search and back to home it will set the searchView according to its state
         setSearchView(viewModel.isSearching.value!!)
         setupRecent()
         viewModel.clickEvent.observe(this, clickListener)
-
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
         })
     }
-
 
     private val clickListener = Observer<Int> {
         when (it) {
@@ -287,7 +288,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             when (requestCode) {
                 REQUEST_CODE -> {
                     if (resultCode == Activity.RESULT_OK) {
-//                        TODO HANDLE EditBeneficiaryActivity result here
+                        viewModel.requestAllBeneficiaries()
                     }
                 }
             }

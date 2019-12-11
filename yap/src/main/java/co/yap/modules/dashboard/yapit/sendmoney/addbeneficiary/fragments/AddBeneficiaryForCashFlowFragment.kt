@@ -123,6 +123,6 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
 //      beneficiary.country = viewModel.state.country
         beneficiary.mobileNo = viewModel.state.phoneNumber
 
-        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
+        viewModel.generateCashPayoutBeneficiaryRequestDTO()
     }
 }
