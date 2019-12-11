@@ -23,7 +23,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScr
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.PagingState
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
 import kotlinx.android.synthetic.main.layout_beneficiaries.*
@@ -58,12 +58,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initComponents()
-        setObservers()
         viewModel.isSearching.value = intent.getBooleanExtra(searching, false)
         viewModel.isSearching.value?.let {
             viewModel.state.isSearching.set(it)
             setSearchView(it)
         }
+        setObservers()
     }
 
     private fun initComponents() {
@@ -76,12 +76,15 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         //Beneficiaries list observer
         viewModel.allBeneficiariesLiveData.observe(this, Observer {
             if (it.isNullOrEmpty()) {
+                // show and hide views for no beneficiary
                 viewModel.state.isNoBeneficiary.set(true)
                 viewModel.state.hasBeneficiary.set(false)
             } else {
                 viewModel.state.isNoBeneficiary.set(false)
                 viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
+                if (viewModel.state.isSearching.get()!!)
+                    Utils.requestKeyboard(getSearchView(), request = false, forced = true)
             }
         })
         //Beneficiaries list Search Query observer
@@ -106,13 +109,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         //Searching Beneficiaries list Results Count observer
         viewModel.isSearching.value?.let { isSearching ->
             if (isSearching) {
-                if (viewModel.getState().value != null && viewModel.getState().value != PagingState.LOADING) {
-                    getAdaptor().filterCount.observe(this, Observer {
-                        if (it == 0)
-                            getBinding().layoutBeneficiaries.txtError.text =
-                                if (viewModel.isSearching.value!!) "No result" else ""
-                    })
-                }
+                getAdaptor().filterCount.observe(this, Observer {
+                    getBinding().layoutBeneficiaries.txtError.visibility =
+                        if (it == 0) View.VISIBLE else View.GONE
+                })
             }
         }
     }
