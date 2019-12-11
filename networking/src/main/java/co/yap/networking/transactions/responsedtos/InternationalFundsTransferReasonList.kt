@@ -10,11 +10,10 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class InternationalFundsTransferReasonList(
     @SerializedName("errors")
-    val errors: String, // null
+    val errors: String? = null, // null
     @SerializedName("data")
-    val data: List<ReasonList>
+    val data: List<ReasonList>? = arrayListOf()
 ) : Parcelable, ApiResponse() {
-
     @Parcelize
     data class ReasonList(
         @SerializedName("reason")
