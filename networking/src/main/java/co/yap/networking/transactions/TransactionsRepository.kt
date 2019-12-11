@@ -39,6 +39,11 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/transaction/card/analytics-merchant-name"
     const val URL_GET_ANALYTICS_BY_CATEGORY_NAME =
         "/transactions/api/transaction/card/analytics-merchant-category"
+    const val URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE =
+        "/transactions/api/fees/product-codes/{product-code}"
+
+    const val URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST =
+        "/transactions/api/product-codes/{product-code}/purpose-reasons"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -57,6 +62,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse> =
         executeSafely(call = { api.getCardFee(cardType) })
+
+    override suspend fun getTransactionFeeWithProductCode(productCode: String): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.getTransactionFeeWithProductCode(productCode) })
 
     override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
+import android.text.SpannableStringBuilder
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -15,6 +16,7 @@ interface IInternationalFundsTransfer {
         var senderAmount: String
         var beneficiaryAmount: String
         var transferFee: String
+        var transferFeeSpannable: SpannableStringBuilder?
         var valid: Boolean
 
     }

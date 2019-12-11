@@ -3,8 +3,8 @@ package co.yap.networking.transactions
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
-import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
+import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import retrofit2.Response
 import retrofit2.http.*
@@ -97,6 +97,11 @@ interface TransactionsRetroService {
     //Get analytics by category name
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
     suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
+
+    //Get transaction fee
+    @GET(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
+    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String): Response<ApiResponse>
+
 
 
 }

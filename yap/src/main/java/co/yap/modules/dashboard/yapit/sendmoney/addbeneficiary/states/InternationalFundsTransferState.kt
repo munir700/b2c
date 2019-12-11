@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 
 import android.app.Application
+import android.text.SpannableStringBuilder
 import android.view.View
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
@@ -22,6 +23,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             ) + value
             notifyPropertyChanged(BR.transferFee)
 
+        }
+    @get:Bindable
+    override var transferFeeSpannable: SpannableStringBuilder?= SpannableStringBuilder("")
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.transferFeeSpannable)
         }
 
     @get:Bindable
