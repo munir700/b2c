@@ -8,13 +8,14 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 
 abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
     context: Context,
     private val resourceId: Int,
-    private val objects: List<T>
+    private val objects: List<InternationalFundsTransferReasonList.ReasonList>
 ) :
     ArrayAdapter<T>(context, resourceId, objects) {
 
