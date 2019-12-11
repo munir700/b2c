@@ -97,9 +97,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     } else {
                         transactionData.value = response.data.data
                     }
-
                 }
-
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message

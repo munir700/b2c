@@ -9,6 +9,7 @@ import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 
@@ -19,22 +20,27 @@ class InternationalFundsTransferFragment :
 
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_international_funds_transfer
-
     override val viewModel: IInternationalFundsTransfer.ViewModel
         get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
 
+    val reasonList = charArrayOf()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setObservers()
+    }
 
+    private fun setObservers() {
         viewModel.transactionData.observe(this, Observer {
-            if (it == null) {
-                return@Observer
-            }
-
-            toast(it.toString())
-            println()
+            if (it == null) return@Observer
+            populateReasonsList(it)
         })
     }
+
+    private fun populateReasonsList(reasons: List<InternationalFundsTransferReasonList.ReasonList>?) {
+
+    }
+
 
     private fun editBeneficiaryScreen() {
         etnickName.isEnabled = true
@@ -83,5 +89,6 @@ class InternationalFundsTransferFragment :
 
         return super.onBackPressed()
     }
+
 
 }
