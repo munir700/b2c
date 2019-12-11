@@ -57,7 +57,6 @@ object Utils {
                 InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
             )
         }
-
     }
 
     fun hideKeyboard(view: View?) {
