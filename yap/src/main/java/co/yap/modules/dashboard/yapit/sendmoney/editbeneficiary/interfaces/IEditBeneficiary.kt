@@ -13,6 +13,7 @@ interface IEditBeneficiary {
         var clickEvent: SingleClickEvent?
         fun handlePressOnConfirm(id: Int)
         fun requestUpdateBeneficiary()
+        fun getCurrenciesByCountryCode()
         var onUpdateSuccess:MutableLiveData<Boolean>
     }
     interface State : IBase.State {

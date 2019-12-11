@@ -35,6 +35,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.getCurrenciesByCountryCode()
         intent?.let {
             if (it.hasExtra(Bundle_EXTRA)) {
                 val bundle = it.getBundleExtra(Bundle_EXTRA)
