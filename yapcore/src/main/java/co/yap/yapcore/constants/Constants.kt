@@ -15,6 +15,7 @@ object Constants {
     const val TRANSACTION_TYPE_CREDIT: String = "CREDIT"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
+    const val BENEFICIARY_CASH_TRANSFER: String = "BENEFICIARY_CASH_TRANSFER"
 
     const val TOP_UP: String = "TOP_UP"
     const val CARD: String = "CARD"

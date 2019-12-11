@@ -20,15 +20,34 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
     override fun onCreate() {
         super.onCreate()
         when (action) {
-            Constants.CHANGE_EMAIL -> state.verificationTitle =
-                getString(Strings.screen_email_verification_display_text_heading)
-            Constants.FORGOT_CARD_PIN_ACTION -> state.verificationTitle =
-                getString(Strings.screen_forgot_pin_display_text_heading)
-            else -> state.verificationTitle =
-                getString(Strings.screen_forgot_passcode_otp_display_text_heading)
+            Constants.CHANGE_EMAIL -> {
+                state.verificationTitle =
+                    getString(Strings.screen_email_verification_display_text_heading)
+                state.verificationDescription =
+                    Strings.screen_verify_phone_number_display_text_sub_title
+            }
+            Constants.FORGOT_CARD_PIN_ACTION -> {
+                state.verificationTitle =
+                    getString(Strings.screen_forgot_pin_display_text_heading)
+                state.verificationDescription =
+                    Strings.screen_verify_phone_number_display_text_sub_title
+            }
+            Constants.BENEFICIARY_CASH_TRANSFER -> {
+                state.verificationTitle = "Cash pick up flow"
+                state.verificationDescription =
+                    Strings.screen_cash_pickup_funds_display_otp_text_description
+            }
+
+
+            else -> {
+                state.verificationTitle =
+                    getString(Strings.screen_forgot_passcode_otp_display_text_heading)
+                state.verificationDescription =
+                    Strings.screen_verify_phone_number_display_text_sub_title
+
+            }
         }
 
-        state.verificationDescription = Strings.screen_verify_phone_number_display_text_sub_title
         state.reverseTimer(10)
         state.validResend = false
     }

@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTr
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
@@ -48,8 +49,14 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
-          //  findNavController().navigate(R.id.action_cashTransferFragment_to_genericOtpFragment4)
-            val action=CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4()
+            //  findNavController().navigate(R.id.action_cashTransferFragment_to_genericOtpFragment4)
+            val action =
+                CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4(
+                    "",
+                    false,
+                    "03025101902",
+                    Constants.BENEFICIARY_CASH_TRANSFER
+                )
             findNavController().navigate(action)
             //            val action =
 //                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
