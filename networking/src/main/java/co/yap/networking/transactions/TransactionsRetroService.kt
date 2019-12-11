@@ -103,6 +103,6 @@ interface TransactionsRetroService {
     suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String): Response<ApiResponse>
 
     //Get transaction international purpose reasons.
-    @POST(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
-    suspend fun getInternationalTransactionReasonList(@Path("product-code") cardSerialNumber: String): Response<ApiResponse>
+    @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
+    suspend fun getInternationalTransactionReasonList(@Path("product-code") cardSerialNumber: String): Response<InternationalFundsTransferReasonList>
 }

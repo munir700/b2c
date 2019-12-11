@@ -34,6 +34,7 @@ class InternationalFundsTransferViewModel(application: Application) :
         state.transferFeeSpannable =
             Utils.getSppnableStringForAmount(context, state.transferFee, "AED", "50.00")
         getTransactionFeeInternational()
+        getTransactionInternationalReasonList()
     }
 
 
@@ -57,6 +58,28 @@ class InternationalFundsTransferViewModel(application: Application) :
 //                    state.transferFee = "International transfer fee: %1s %2s".format("AED","50.00")
 //                    state.transferFeeSpannable=Utils.getSppnableStringForAmount(context, state.transferFee,"AED","50.00")
 
+
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+//                    errorEvent.postValue(id)
+                }
+            }
+            state.loading = false
+        }
+    }
+
+
+    fun getTransactionInternationalReasonList() {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.getTransactionInternationalReasonList("P012")) {
+                is RetroApiResponse.Success -> {
+
+                    state.toast = response.data.toString()
 
                 }
 

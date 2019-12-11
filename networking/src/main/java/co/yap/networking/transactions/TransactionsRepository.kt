@@ -66,6 +66,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getTransactionFeeWithProductCode(productCode: String): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.getTransactionFeeWithProductCode(productCode) })
 
+    override suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList> =
+        executeSafely(call = { api.getInternationalTransactionReasonList(productCode) })
+
     override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })
 
