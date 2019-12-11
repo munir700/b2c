@@ -7,7 +7,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdap
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.PagingState
 
 interface ISendMoneyHome {
