@@ -57,7 +57,7 @@ class YapToYapFragment : Y2YBaseFragment<IYapToYap.ViewModel>(), OnItemClickList
             if (viewModel.adapter.get() == null) {
                 viewModel.getRecentBeneficiaries()
                 viewModel.recentTransferData.observe(this, Observer {
-                    if (it.isEmpty()) {
+                    if (it.isNullOrEmpty()) {
                         layoutRecent?.visibility = View.GONE
                     } else {
                         viewModel.adapter.set(

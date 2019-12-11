@@ -17,7 +17,8 @@ import co.yap.translation.Translator
 
 //this wil be the common screen in all three case only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
 
-class AddBeneficiaryInternationlTransferFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
+class AddBeneficiaryInternationlTransferFragment :
+    SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -30,17 +31,13 @@ class AddBeneficiaryInternationlTransferFragment : SendMoneyBaseFragment<IAddBen
     override val viewModel: IAddBeneficiary.ViewModel
         get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton ->
-                    ConfirmAddBeneficiary(this.activity!!)
+                    ConfirmAddBeneficiary()
 
 //                R.id.confirmDomesticButton ->
 //                    ConfirmAddBeneficiary(this.activity!!)
@@ -54,71 +51,64 @@ class AddBeneficiaryInternationlTransferFragment : SendMoneyBaseFragment<IAddBen
 
     }
 
-    override fun onResume() {
-        super.onResume()
-
-
-    }
-
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
 
-    fun ConfirmAddBeneficiary(context: Context) {
-        androidx.appcompat.app.AlertDialog.Builder(context)
-            .setTitle(
-                Translator.getString(
-                    context,
-                    R.string.screen_add_beneficiary_detail_display_text_alert_title
+    fun ConfirmAddBeneficiary() {
+        context?.let {
+            androidx.appcompat.app.AlertDialog.Builder(it)
+                .setTitle(
+                    Translator.getString(
+                        it,
+                        R.string.screen_add_beneficiary_detail_display_text_alert_title
+                    )
                 )
-            )
-            .setMessage(
-                Translator.getString(
-                    context,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                .setMessage(
+                    Translator.getString(
+                        it,
+                        R.string.screen_add_beneficiary_detail_display_button_block_alert_description
+                    )
                 )
-            )
-            .setPositiveButton(
-                Translator.getString(
-                    context,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
-                ),
-                DialogInterface.OnClickListener { dialog, which ->
-//                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
-                    onConfirmClick()
+                .setPositiveButton(
+                    Translator.getString(
+                        it,
+                        R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
+                    ),
+                    DialogInterface.OnClickListener { dialog, which ->
+                        //                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
+                        onConfirmClick()
 
 
-                })
+                    })
 
-            .setNegativeButton(
-                Translator.getString(
-                    context,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
-                ),
-                null
-            )
-            .show()
+                .setNegativeButton(
+                    Translator.getString(
+                        it,
+                        R.string.screen_add_beneficiary_detail_display_button_block_alert_no
+                    ),
+                    null
+                )
+                .show()
+        }
+
     }
 
-
-
-    fun onConfirmClick(){
+    fun onConfirmClick() {
 
 // for sure it's fields needs to be update, as they are taken form cashpayout
 
-        val beneficiary: Beneficiary = Beneficiary()
+//        val beneficiary: Beneficiary = Beneficiary()
+//        beneficiary.beneficiaryType = "CASHPAYOUT"
+//        beneficiary.title = viewModel.state.nickName
+//        beneficiary.firstName = viewModel.state.firstName
+//        beneficiary.lastName = viewModel.state.lastName
+//        beneficiary.currency = viewModel.state.currency
+//        beneficiary.country = "UAE"
+////      beneficiary.country = viewModel.state.country
+//        beneficiary.mobileNo = viewModel.state.phoneNumber
 
-        beneficiary.beneficiaryType = "CASHPAYOUT"
-        beneficiary.title = viewModel.state.nickName
-        beneficiary.firstName =viewModel.state.firstName
-        beneficiary.lastName =viewModel.state.lastName
-        beneficiary.currency =viewModel.state.currency
-        beneficiary.country = "UAE"
-//      beneficiary.country = viewModel.state.country
-        beneficiary.mobileNo =viewModel.state.phoneNumber
-
-        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
+        viewModel.generateCashPayoutBeneficiaryRequestDTO()
     }
 
 //    fun ConfirmAddBeneficiary() {

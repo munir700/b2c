@@ -124,7 +124,7 @@ interface CustomersRetroService {
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
 
     @PUT(CustomersRepository.URL_EDIT_BENEFICIARY_BY_ID)
-    suspend fun editBeneficiary(@Body beneficiary: Beneficiary): Response<ApiResponse>
+    suspend fun editBeneficiary(@Body beneficiary: Beneficiary?): Response<ApiResponse>
 
     @DELETE(CustomersRepository.URL_DELETE_BENEFICIARY_BY_ID)
     suspend fun deleteBeneficiaryById(@Path("beneficiary-id") beneficiaryId: String): Response<ApiResponse>

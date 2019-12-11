@@ -4,34 +4,37 @@
 
     <data>
 
-        <!--        <variable-->
-        <!--            name="viewModel"-->
-        <!--            type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyNoContactsViewModel" />-->
+        <variable
+            name="viewModel"
+            type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
+        <import type="android.view.View"/>
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/clSearch"
-
+        android:id="@+id/clSearchBeneficiary"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
         android:layout_marginStart="@dimen/_26sdp"
         android:layout_marginTop="@dimen/margin_medium"
         android:layout_marginEnd="@dimen/_26sdp"
-        android:background="@drawable/bg_search_widget">
-        <!--        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">-->
+        android:background="@drawable/bg_search_widget"
+        android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}">
 
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/svContacts"
+            android:id="@+id/svBeneficiary"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_30sdp"
-            android:background="@drawable/bg_search_widget"
             android:theme="@style/AppSearchView"
+            android:background="@drawable/bg_search_widget"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:queryBackground="@color/transparent"
             app:queryHint="Search"
+            app:requestKeyboard="@{true}"
+            android:visibility="@{viewModel.state.isSearching()? View.VISIBLE : View.GONE }"
             app:searchIcon="@drawable/ic_search_grey" />
 
         <ImageView
@@ -44,6 +47,7 @@
             android:layout_marginEnd="4dp"
             android:layout_toStartOf="@id/tvSearch"
             android:paddingTop="@dimen/_2sdp"
+            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             android:src="@drawable/ic_search_grey"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/tvSearch"
@@ -55,6 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Search"
+            android:visibility="@{viewModel.state.isSearching()? View.GONE : View.VISIBLE }"
             app:layout_constraintBottom_toBottomOf="@+id/ivSearch"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"

@@ -1,3 +1,5 @@
+
+
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.content.Context
@@ -6,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
@@ -13,6 +16,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBen
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
+import co.yap.yapcore.constants.Constants
 
 class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
@@ -30,6 +34,16 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this,clickEvent)
+    }
+
+    val clickEvent=Observer<Int>{
+        when(it){
+            Constants.ADD_CASH_PICK_UP_SUCCESS->{
+                findNavController().navigate(R.id.action_addBeneficiaryForCashFlowFragment_to_cashTransferFragment)
+            }
+
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -109,6 +123,6 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
 //      beneficiary.country = viewModel.state.country
         beneficiary.mobileNo = viewModel.state.phoneNumber
 
-        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
+        viewModel.generateCashPayoutBeneficiaryRequestDTO()
     }
 }

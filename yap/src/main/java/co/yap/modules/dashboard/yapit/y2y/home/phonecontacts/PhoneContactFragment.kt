@@ -93,10 +93,10 @@ class PhoneContactFragment : Y2YBaseFragment<IPhoneContact.ViewModel>(),
         viewModel.parentViewModel?.isSearching?.value?.let {
             if (it)
                 if (viewModel.getState().value != null && viewModel.getState().value != PagingState.LOADING)
-                    adaptor.filterCount.observe(this, Observer {
+                    adaptor.filterCount.observe(this, Observer {count->
                         getBinding().tvContactListDescription.visibility =
-                            if (it == 0) View.GONE else View.VISIBLE
-                        getBinding().txtError.visibility = if (it == 0) View.VISIBLE else View.GONE
+                            if (count == 0) View.GONE else View.VISIBLE
+                        getBinding().txtError.visibility = if (count == 0) View.VISIBLE else View.GONE
                         getBinding().txtError.text =
                             if (viewModel.parentViewModel?.isSearching?.value!!) "No result" else Translator.getString(
                                 requireContext(),

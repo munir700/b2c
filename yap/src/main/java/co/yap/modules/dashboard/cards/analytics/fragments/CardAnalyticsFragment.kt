@@ -151,19 +151,19 @@ class CardAnalyticsFragment : CardAnalyticsBaseFragment<ICardAnalytics.ViewModel
     private fun showPieView(indexValue: Int) {
         when (indexValue) {
             0 -> {
-                chart.highlightValue(0f, 0)
+                chart.highlightValue(0f, 0, true)
             }
             1 -> {
-                chart.highlightValue(1f, 0)
+                chart.highlightValue(1f, 0, true)
             }
             2 -> {
-                chart.highlightValue(2f, 0)
+                chart.highlightValue(2f, 0, true)
             }
             3 -> {
-                chart.highlightValue(3f, 0)
+                chart.highlightValue(3f, 0, true)
             }
             4 -> {
-                chart.highlightValue(4f, 0)
+                chart.highlightValue(4f, 0, true)
             }
         }
     }

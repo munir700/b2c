@@ -16,18 +16,16 @@ class InternationalFundsTransferViewModel(application: Application) :
 
 
     override val repository: CustomersRepository = CustomersRepository
-
     override val state: InternationalFundsTransferState = InternationalFundsTransferState(application)
-
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-
     override fun handlePressOnNext(id: Int) {
         clickEvent.setValue(id)
     }
 
+
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_international_funds_transfer_display_text_title))
-        toggleAddButtonVisibility(false)
+        //toggleAddButtonVisibility(false)
     }
 }

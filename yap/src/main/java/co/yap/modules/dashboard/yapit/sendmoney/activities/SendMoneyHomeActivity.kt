@@ -8,9 +8,9 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.more.profile.fragments.PersonalDetailsFragment
-import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.modules.dashboard.yapit.sendmoney.interfaces.ISendMoney
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyViewModel
+import co.yap.modules.kyc.activities.DocumentsDashboardActivity
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
@@ -21,12 +21,11 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavigator,
     IFragmentHolder {
 
-    public companion object {
+    companion object {
         fun newIntent(context: Context): Intent {
             val intent = Intent(context, SendMoneyHomeActivity::class.java)
             return intent
         }
-
     }
 
     override fun getBindingVariable(): Int = BR.viewModel
@@ -41,12 +40,11 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.backButtonPressEvent.observe(this, backButtonObserver)
-
+        viewModel.clickEvent.observe(this, backButtonObserver)
     }
 
     override fun onDestroy() {
-        viewModel.backButtonPressEvent.removeObservers(this)
+        viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
         PersonalDetailsFragment.checkMore = false
         PersonalDetailsFragment.checkScanned = false
@@ -54,7 +52,7 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
         DocumentsDashboardActivity.hasStartedScanner = false
     }
 
-    private val backButtonObserver = Observer<Boolean> { onBackPressed() }
+    private val backButtonObserver = Observer<Int> { onBackPressed() }
 
     override fun onBackPressed() {
         val fragment = supportFragmentManager.findFragmentById(R.id.send_money_nav_host_fragment)

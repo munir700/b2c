@@ -2,12 +2,13 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.countryutils.country.Country
+import co.yap.countryutils.country.utils.Currency
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.SelectCountryState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -18,13 +19,9 @@ class SelectCountryViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override var populateSpinnerData: MutableLiveData<List<Country>> = MutableLiveData()
-
-    override var countries: ArrayList<Country>? = ArrayList()
-
+    override var countries: ArrayList<Country> = ArrayList()
     override val repository: CustomersRepository = CustomersRepository
-
-    override val state: SelectCountryState = SelectCountryState()
-
+    override val state: SelectCountryState = SelectCountryState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onTransparentViewClick(id: Int) {
@@ -32,57 +29,86 @@ class SelectCountryViewModel(application: Application) :
     }
 
     override fun handlePressOnSeclectCountry(id: Int) {
+        if (id == R.id.nextButton) {
+            parentViewModel?.selectedCountry?.value =(state.selectedCountry)
+        }
         clickEvent.setValue(id)
+    }
+
+    override fun onCreate() {
+        super.onCreate()
+        getAllCountries()
     }
 
     override fun onResume() {
         super.onResume()
+        state.valid = false
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        toggleAddButtonVisibility(false)
-        getAllCountries()
     }
 
+    private fun getAllCountries() {
 
-    fun getAllCountries() {
-
-        launch {
-            state.loading = true
-            when (val response = repository.getAllCountries()) {
-                is RetroApiResponse.Success -> {
-                    var countryModel: CountryModel = response.data
-
-                    for (data in countryModel.data) {
-                        var country: Country = Country()
-
-                        country!!.id = data.id
-                        country!!.setName(data.name)
-                        country!!.isoCountryCode2Digit = data.isoCountryCode2Digit
-                        country!!.isoCountryCode3Digit = data.isoCountryCode3Digit
-
-                        countries!!.add(country)
+        if (!countries.isNullOrEmpty()) {
+            populateSpinnerData.setValue(countries)
+        } else {
+            launch {
+                state.loading = true
+                when (val response = repository.getAllCountries()) {
+                    is RetroApiResponse.Success -> {
+                        response.data.data?.let { it ->
+                            countries.clear()
+                            countries.add(
+                                0,
+                                Country(name = getString(Strings.screen_add_beneficiary_display_text_select_country))
+                            )
+                            countries.addAll(it.map {
+                                Country(
+                                    id = it.id,
+                                    isoCountryCode3Digit = it.isoCountryCode2Digit,
+                                    cashPickUp = it.cashPickUp,
+                                    rmtCountry = it.rmtCountry,
+                                    isoCountryCode2Digit = it.isoCountryCode2Digit,
+                                    supportedCurrencies = it.currencyList?.map { cur ->
+                                        Currency(
+                                            code = cur.code,
+                                            default = cur.default,
+                                            name = cur.name,
+                                            active = cur.active
+                                        )
+                                    },
+                                    active = it.active,
+                                    isoNum = it.isoNum,
+                                    signUpAllowed = it.signUpAllowed,
+                                    cashPickUpAllowed = it.cashPickUp,
+                                    name = it.name,
+                                    currency = Currency(
+                                        code = it.currencyList?.firstOrNull { cur -> cur.default!! }?.code,
+                                        default = it.currencyList?.firstOrNull { cur -> cur.default!! }?.default,
+                                        name = it.currencyList?.firstOrNull { cur -> cur.default!! }?.name,
+                                        active = it.currencyList?.firstOrNull { cur -> cur.default!! }?.active
+                                    )
+                                )
+                            })
+                            populateSpinnerData.setValue(countries)
+                        }
+                        state.loading = false
                     }
 
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
 
-                    populateSpinnerData.setValue(countries)
-
-                    state.loading = false
-                }
-
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-
+                    }
                 }
             }
         }
     }
 
-
     override fun onCountrySelected(pos: Int) {
         if (pos == 0) {
             state.selectedCountry = null
         } else {
-            val country: Country = countries!!.get(pos)
+            val country: Country = countries[pos]
             state.selectedCountry = country
         }
     }

@@ -52,7 +52,7 @@ interface IAddBeneficiary {
         fun handlePressOnAddDomestic(id: Int)
 
 //      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
-        fun generateCashPayoutBeneficiaryRequestDTO(beneficiary: Beneficiary)
+        fun generateCashPayoutBeneficiaryRequestDTO()
 //      var onSuccess: MutableLiveData<Int>
 
     }
