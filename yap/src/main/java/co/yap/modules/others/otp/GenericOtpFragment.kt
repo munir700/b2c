@@ -19,23 +19,26 @@ class GenericOtpFragment : ForgotPasscodeOtpFragment() {
         get() = ViewModelProviders.of(this).get(GenericOtpViewModel::class.java)
 
     override fun loadData() {
-        if (args?.mobileNumber!!.startsWith("00")) {
-            viewModel.state.mobileNumber[0] =
-                args!!.mobileNumber.replaceRange(
-                    0,
-                    2,
-                    "+"
-                )
-        } else if (args?.mobileNumber!!.startsWith("+")) {
-            viewModel.state.mobileNumber[0] = Utils.getFormattedPhone(args?.mobileNumber.toString())
-        } else {
-            viewModel.state.mobileNumber[0] =
-                Utils.formatePhoneWithPlus(args?.mobileNumber.toString())
+        args?.mobileNumber?.let {
+            if (it.startsWith("00")) {
+                viewModel.state.mobileNumber[0] =
+                    args!!.mobileNumber.replaceRange(
+                        0,
+                        2,
+                        "+"
+                    )
+            } else if (args?.mobileNumber!!.startsWith("+")) {
+                viewModel.state.mobileNumber[0] = Utils.getFormattedPhone(args?.mobileNumber.toString())
+            } else {
+                viewModel.state.mobileNumber[0] =
+                    Utils.formatePhoneWithPlus(args?.mobileNumber.toString())
+            }
         }
 
-        viewModel.destination = args!!.username
-        viewModel.emailOtp = args!!.emailOtp
-        viewModel.action = args!!.otpType
+
+        viewModel.destination = args?.username
+        viewModel.emailOtp = args?.emailOtp
+        viewModel.action = args?.otpType
     }
 
     override fun setObservers() {

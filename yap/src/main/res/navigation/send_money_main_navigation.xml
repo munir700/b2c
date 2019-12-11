@@ -15,34 +15,34 @@
     <!--    app:startDestination="@id/addBeneficiaryFragment">-->
 
 
-<!--    <fragment-->
-<!--        android:id="@+id/sendMoneyHomeFragment"-->
-<!--        android:name="co.yap.modules.dashboard.yapit.sendmoney.home.fragments.SendMoneyHomeFragment"-->
-<!--        android:label="YAP to YAP"-->
-<!--        tools:layout="@layout/activity_send_money_landing">-->
+    <!--    <fragment-->
+    <!--        android:id="@+id/sendMoneyHomeFragment"-->
+    <!--        android:name="co.yap.modules.dashboard.yapit.sendmoney.home.fragments.SendMoneyHomeFragment"-->
+    <!--        android:label="YAP to YAP"-->
+    <!--        tools:layout="@layout/activity_send_money_landing">-->
 
-<!--        &lt;!&ndash;        <action&ndash;&gt;-->
-<!--        &lt;!&ndash;            android:id="@+id/action_selectCountryFragment_to_transferTypeFragment"&ndash;&gt;-->
-<!--        &lt;!&ndash;            app:destination="@id/transferTypeFragment"&ndash;&gt;-->
-<!--        &lt;!&ndash;            app:enterAnim="@anim/slide_in_right"&ndash;&gt;-->
-<!--        &lt;!&ndash;            app:exitAnim="@anim/slide_out_left"&ndash;&gt;-->
-<!--        &lt;!&ndash;            app:popUpToInclusive="true" />&ndash;&gt;-->
+    <!--        &lt;!&ndash;        <action&ndash;&gt;-->
+    <!--        &lt;!&ndash;            android:id="@+id/action_selectCountryFragment_to_transferTypeFragment"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            app:destination="@id/transferTypeFragment"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            app:enterAnim="@anim/slide_in_right"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            app:exitAnim="@anim/slide_out_left"&ndash;&gt;-->
+    <!--        &lt;!&ndash;            app:popUpToInclusive="true" />&ndash;&gt;-->
 
-<!--        <action-->
-<!--            android:id="@+id/action_sendMoneyHomeFragment_to_selectCountryFragment"-->
-<!--            app:destination="@id/selectCountryFragment"-->
-<!--            app:enterAnim="@anim/slide_in_right"-->
-<!--            app:exitAnim="@anim/slide_out_left"-->
-<!--            app:popUpToInclusive="true" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_sendMoneyHomeFragment_to_selectCountryFragment"-->
+    <!--            app:destination="@id/selectCountryFragment"-->
+    <!--            app:enterAnim="@anim/slide_in_right"-->
+    <!--            app:exitAnim="@anim/slide_out_left"-->
+    <!--            app:popUpToInclusive="true" />-->
 
-<!--        <action-->
-<!--            android:id="@+id/action_sendMoneyHomeFragment_to_beneficiaryOverviewFragment"-->
-<!--            app:destination="@id/beneficiaryOverviewFragment"-->
-<!--            app:enterAnim="@anim/slide_in_right"-->
-<!--            app:exitAnim="@anim/slide_out_left"-->
-<!--            app:popUpToInclusive="true" />-->
+    <!--        <action-->
+    <!--            android:id="@+id/action_sendMoneyHomeFragment_to_beneficiaryOverviewFragment"-->
+    <!--            app:destination="@id/beneficiaryOverviewFragment"-->
+    <!--            app:enterAnim="@anim/slide_in_right"-->
+    <!--            app:exitAnim="@anim/slide_out_left"-->
+    <!--            app:popUpToInclusive="true" />-->
 
-<!--    </fragment>-->
+    <!--    </fragment>-->
 
     <fragment
         android:id="@+id/selectCountryFragment"
@@ -207,7 +207,28 @@
         android:id="@+id/cashTransferFragment"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.CashTransferFragment"
         tools:layout="@layout/fragment_cash_transfer">
+        <argument
+            android:name="username"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="emailOtp"
+            android:defaultValue="false"
+            app:argType="boolean" />
+        <argument
+            android:name="mobileNumber"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="otpType"
+            android:defaultValue=" "
+            app:argType="string" />
 
+        <action
+            android:id="@+id/action_cashTransferFragment_to_genericOtpFragment4"
+            app:destination="@id/genericOtpFragment4"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -235,6 +256,10 @@
             app:popUpToInclusive="true" />
 
     </fragment>
+    <fragment
+        android:id="@+id/genericOtpFragment4"
+        android:name="co.yap.modules.others.otp.GenericOtpFragment"
+        android:label="GenericOtpFragment" />
 
 
 </navigation>

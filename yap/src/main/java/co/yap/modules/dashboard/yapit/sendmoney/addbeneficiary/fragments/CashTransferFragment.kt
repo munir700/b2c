@@ -9,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentCashTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
@@ -47,6 +48,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
+          //  findNavController().navigate(R.id.action_cashTransferFragment_to_genericOtpFragment4)
+            val action=CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4()
+            findNavController().navigate(action)
             //            val action =
 //                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
 //                    viewModel.state.fullName,
@@ -121,7 +125,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
 
     override fun onBackPressed(): Boolean {
-      //  viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
+        //  viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
         return super.onBackPressed()
     }
 

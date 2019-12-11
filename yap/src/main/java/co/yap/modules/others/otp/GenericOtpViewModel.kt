@@ -15,7 +15,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: MessagesRepository = MessagesRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
-    override var action: String = ""
+    override var action: String? = ""
 
     override fun onCreate() {
         super.onCreate()
@@ -46,7 +46,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
                 when (val response =
                     repository.verifyOtpGenericWithPhone(
                         state.mobileNumber[0]!!.replace(" ", "").replace("+", "00"),
-                        VerifyOtpGenericRequest(action, state.otp)
+                        VerifyOtpGenericRequest(action!!, state.otp)
                     )
                     ) {
                     is RetroApiResponse.Success -> {
@@ -65,7 +65,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
                 when (val response =
                     repository.verifyOtpGeneric(
                         VerifyOtpGenericRequest(
-                            action,
+                            action!!,
                             state.otp
                         )
                     )) {
@@ -97,7 +97,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
             when (val response =
                 messagesRepository.createOtpGeneric(
                     createOtpGenericRequest = CreateOtpGenericRequest(
-                        action
+                        action!!
                     )
                 )) {
                 is RetroApiResponse.Success -> {
