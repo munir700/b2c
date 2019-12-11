@@ -195,6 +195,7 @@
                         android:layout_height="@dimen/_20sdp"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/empty_string"
+                        app:setFlagDrawable ="@{`PK`}"
                         android:src="@drawable/flag_ua" />
                 </LinearLayout>
 
