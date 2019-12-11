@@ -199,7 +199,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         }
     }
 
-
     private val recentItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary) {
@@ -261,7 +260,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             getAdaptor().removeItemAt(positionToDelete)
         })
     }
-
 
     private val clickListener = Observer<Int> {
         when (it) {

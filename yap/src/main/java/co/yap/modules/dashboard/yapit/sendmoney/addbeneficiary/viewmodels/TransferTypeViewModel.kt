@@ -27,7 +27,7 @@ class TransferTypeViewModel(application: Application) :
     }
 
     override fun handlePressOnTypeCashPickUp(id: Int) {
-        parentViewModel?.transferType?.value=(SendMoneyBeneficiaryType.DOMESTIC.name) //local international
+        parentViewModel?.transferType?.value=(SendMoneyBeneficiaryType.CASHPAYOUT.name) //local international
         clickEvent.setValue(id)
     }
 
