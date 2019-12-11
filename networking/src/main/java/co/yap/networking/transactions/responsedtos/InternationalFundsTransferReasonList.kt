@@ -12,7 +12,7 @@ data class InternationalFundsTransferReasonList(
     @SerializedName("errors")
     val errors: String? = null, // null
     @SerializedName("data")
-    val data: List<ReasonList>? = arrayListOf()
+    val data: ArrayList<ReasonList>? = arrayListOf()
 ) : Parcelable, ApiResponse() {
     @Parcelize
     data class ReasonList(

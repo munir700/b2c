@@ -2,12 +2,14 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 
 class InternationalFundsTransferFragment :
@@ -23,6 +25,15 @@ class InternationalFundsTransferFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        viewModel.transactionData.observe(this, Observer {
+            if (it == null) {
+                return@Observer
+            }
+
+            toast(it.toString())
+            println()
+        })
     }
 
     private fun editBeneficiaryScreen() {
@@ -34,6 +45,7 @@ class InternationalFundsTransferFragment :
         etSwiftCode.isEnabled = true
         etBankREquiredFieldCode.isEnabled = true
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

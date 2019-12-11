@@ -6,6 +6,7 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings.screen_international_funds_transfer_display_text_fee
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
@@ -14,13 +15,9 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     IInternationalFundsTransfer.State {
 
     @get:Bindable
-    override var transferFee: String = "155"
+    override var transferFee: String = ""
         set(value) {
-//            field = value
-            field = Translator.getString(
-                application.applicationContext,
-                screen_international_funds_transfer_display_text_fee
-            ) + value
+            field = value
             notifyPropertyChanged(BR.transferFee)
 
         }
@@ -30,6 +27,17 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field=value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
+
+
+    @get:Bindable
+    override var reasonList: ArrayList<InternationalFundsTransferReasonList.ReasonList>? =
+        ArrayList()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonList)
+        }
+
+
 
     @get:Bindable
     override var nameInitialsVisibility: Int = View.VISIBLE
