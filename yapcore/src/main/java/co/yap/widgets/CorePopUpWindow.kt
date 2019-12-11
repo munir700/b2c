@@ -4,13 +4,16 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.TypedArray
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
-import android.transition.Fade
-import android.transition.TransitionManager
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.widget.*
+import android.view.View
+import android.view.ViewGroup
+import android.widget.PopupWindow
+import android.widget.RelativeLayout
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
@@ -27,25 +30,23 @@ class CorePopUpWindow @JvmOverloads constructor(
     defStyle: Int = 0,
     defStyleRes: Int = 0
 ) : RelativeLayout(context, attrs, defStyle, defStyleRes) {
+    private lateinit var mPopupWindow: PopupWindow
+    private lateinit var popupView: View
 
+    private val TYPE_WRAP_CONTENT = 0
+    private val TYPE_MATCH_PARENT = 1
 
-
-    private var viewWeight: Int = 0
-    private var viewHeight: Int = 0
-     var countryCode: String = "+971 "
     lateinit var typedArray: TypedArray
-    var inputType: Int = 0
 
-    var maxLength: Int = 0
-
-    private var viewDataBinding: ViewDataBinding
+    private var viewDataBinding: ViewDataBinding = DataBindingUtil.inflate(
+        LayoutInflater.from(context),
+        R.layout.layout_pop_up_window,
+        this,
+        true
+    )
 
     init {
-        viewDataBinding =
-            DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.layout_pop_up_window, this, true)
         viewDataBinding.executePendingBindings()
-//        editText = findViewWithTag("input")
-
         attrs?.let {
             typedArray = context.obtainStyledAttributes(it, R.styleable.CorePopUpWindow, 0, 0)
             val title = resources.getText(
@@ -53,85 +54,69 @@ class CorePopUpWindow @JvmOverloads constructor(
                     .getResourceId(R.styleable.CorePopUpWindow_textValue, R.string.empty_string)
             )
 
-            ivPopUp.setOnClickListener {
-                // Initialize a new layout inflater instance
-//                val inflater:LayoutInflater = LayoutInflater.from(context)
+            ivPopUp.setOnClickListener { v ->
                  val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
                 // Inflate a custom view using layout inflater
-                val view = inflater.inflate(R.layout.pop_up_view, null)
-
-                // Initialize a new instance of popup window
-                val popupWindow = PopupWindow(
-                    view, // Custom view to show in popup window
-                    LinearLayout.LayoutParams.WRAP_CONTENT, // Width of popup window
-                    LinearLayout.LayoutParams.WRAP_CONTENT // Window height
-                )
-
-                // Set an elevation for the popup window
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    popupWindow.elevation = 10.0F
-                }
-
-
-                // If API level 23 or higher then execute the code
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    // Create a new slide animation for popup window enter transition
-                    val slideIn = Fade()
-//                slideIn.slideEdge = Gravity.TOP
-                    popupWindow.enterTransition = slideIn
-
-                    // Slide animation for popup window exit transition
-                    val slideOut = Fade()
-//                slideOut.slideEdge = Gravity.RIGHT
-                    popupWindow.exitTransition = slideOut
-
-                }
-
-                // Get the widgets reference from custom view
-                val tv = view.findViewById<TextView>(R.id.text_view)
-                val buttonPopup = view.findViewById<Button>(R.id.button_popup)
-
-                // Set click listener for popup window's text view
-                tv.setOnClickListener {
-                    // Change the text color of popup window's text view
-                    tv.setTextColor(Color.RED)
-                }
-
-                // Set a click listener for popup's button widget
-                buttonPopup.setOnClickListener {
-                    // Dismiss the popup window
-                    popupWindow.dismiss()
-                }
-
-                // Set a dismiss listener for popup window
-                popupWindow.setOnDismissListener {
-                    Toast.makeText(context, "Popup closed", Toast.LENGTH_SHORT).show()
-                }
-
-
-                // Finally, show the popup window on app
-                TransitionManager.beginDelayedTransition(root_layout)
-                popupWindow.showAtLocation(
-                    root_layout, // Location to display popup window
-                    Gravity.CENTER, // Exact position of layout to display popup
-                    0, // X offset
-                    0 // Y offset
-                )
+                popupView = inflater.inflate(R.layout.pop_up_view, null)
+                val tvContent = popupView.findViewById<TextView>(R.id.tvContent)
+                tvContent.text = title
+                showAsPopUp(v)
             }
 
-
             typedArray.recycle()
-
-
         }
 
     }
 
-    override fun onSizeChanged(w: Int, h: Int, oldWidth: Int, oldHeight: Int) {
-        super.onSizeChanged(w, h, oldWidth, oldHeight)
-        viewWeight = w
-        viewHeight = h
+    private fun initPopupWindow(type: Int) {
+        if (type == TYPE_WRAP_CONTENT) {
+            mPopupWindow = PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        } else if (type == TYPE_MATCH_PARENT) {
+            mPopupWindow = PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+            )
+        }
+        mPopupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        setCancelable(true)
     }
 
+    private fun showAsPopUp(anchor: View) {
+        showAsPopUp(anchor, 0, 0)
+    }
+
+    private fun showAsPopUp(anchor: View, xoff: Int, yoff: Int) {
+        initPopupWindow(TYPE_MATCH_PARENT)
+        mPopupWindow.animationStyle = R.style.AnimationUpPopup
+        popupView.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val height: Int = popupView.measuredHeight
+        val location = IntArray(2)
+        anchor.getLocationInWindow(location)
+        mPopupWindow.showAtLocation(
+            anchor,
+            Gravity.TOP,
+            location[0] + xoff,
+            location[1] - height + yoff
+        )
+    }
+
+
+    /**
+     * touch outside dismiss the popupwindow, default is ture
+     * @param isCancelable
+     */
+    private fun setCancelable(isCancelable: Boolean) {
+        if (isCancelable) {
+            mPopupWindow.isOutsideTouchable = true
+            mPopupWindow.isFocusable = true
+        } else {
+            mPopupWindow.isOutsideTouchable = false
+            mPopupWindow.isFocusable = false
+        }
+    }
 }
