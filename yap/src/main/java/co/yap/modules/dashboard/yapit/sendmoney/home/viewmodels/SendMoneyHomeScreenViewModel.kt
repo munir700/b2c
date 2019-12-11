@@ -56,7 +56,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         return pagingState
     }
 
-
     override fun requestAllBeneficiaries() {
         launch {
             state.loading = true
@@ -78,7 +77,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override fun requestRecentBeneficiaries() {
         launch {
-            state.loading = true
+            state.loading = false
 //            when (val response = repository.getRecentBeneficiaries()) {
             when (val response = repository.getAllBeneficiaries()) {
                 is RetroApiResponse.Success -> {
