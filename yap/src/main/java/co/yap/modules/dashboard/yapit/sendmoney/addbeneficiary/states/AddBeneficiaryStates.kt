@@ -7,7 +7,7 @@ import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.yapcore.BaseState
 
-class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.State {
+class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
 
     var validateConfirmIban: Boolean = false
 
@@ -82,16 +82,6 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             validateDomesticUser()
         }
 
-
-    @get:Bindable
-    override var phoneNumber: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.phoneNumber)
-        }
-
-// for phone number field validation to be work on
-
     @get:Bindable
     override var drawbleRight: Drawable? = null
         set(value) {
@@ -101,11 +91,11 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         }
 
     @get:Bindable
-    override var mobile: String = ""
+    override var mobileNo: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(co.yap.BR.mobile)
-            if (mobile.length < 9) {
+            if (mobileNo.length < 9) {
                 mobileNoLength = 11
 
             }
