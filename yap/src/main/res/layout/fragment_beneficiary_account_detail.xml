@@ -10,9 +10,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel" />
-
     </data>
-
 
     <ScrollView
         android:layout_width="match_parent"

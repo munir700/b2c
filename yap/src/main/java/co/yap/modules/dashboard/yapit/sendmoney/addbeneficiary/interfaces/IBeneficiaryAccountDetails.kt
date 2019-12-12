@@ -23,7 +23,7 @@ interface IBeneficiaryAccountDetails {
     interface ViewModel : IBase.ViewModel<State> {
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         var clickEvent: SingleClickEvent
-
+        fun createBeneficiaryRequest()
         fun handlePressOnAddBank(id: Int)
     }
 
