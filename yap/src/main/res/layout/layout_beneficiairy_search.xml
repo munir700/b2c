@@ -33,6 +33,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:queryBackground="@color/transparent"
             app:queryHint="Search"
+            app:requestKeyboard="@{true}"
             android:visibility="@{viewModel.state.isSearching()? View.VISIBLE : View.GONE }"
             app:searchIcon="@drawable/ic_search_grey" />
 

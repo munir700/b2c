@@ -16,11 +16,7 @@ class SelectCountryState(val application: Application) : BaseState(), ISelectCou
         set(value) {
             field = value
             notifyPropertyChanged(BR.selectedCountry)
-            if (field!=null && !field!!.getName().equals(Translator.getString(application.applicationContext,screen_add_beneficiary_display_text_select_country))){
-                 valid = true
-            }else{
-                valid = false
-            }
+            valid = field!=null && !field!!.getName().equals(Translator.getString(application.applicationContext,screen_add_beneficiary_display_text_select_country))
         }
 
     @get:Bindable

@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.adapters.CountryAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelectCountry
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.SelectCountryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_select_country.*
 
@@ -30,8 +31,8 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.populateSpinnerData.observe(this, Observer {
-            countriesSpinner.setAdapter(getCountryAdapter())
-            getCountryAdapter().setItemListener(listener)
+            countriesSpinner.adapter = getCountryAdapter()
+            getCountryAdapter()?.setItemListener(listener)
         })
     }
 
@@ -51,10 +52,22 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         super.onResume()
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
                 R.id.nextButton -> {
-//                 findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
-                    findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
+                    viewModel.state.selectedCountry?.let { it ->
+                        it.isoCountryCode2Digit?.let { code ->
+                            if (code.equals("ae", true)) {
+                                findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
+                            } else {
+                                it.cashPickUp?.let { cashPickup ->
+                                    if (cashPickup) {
+                                        findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
+                                    } else {
+                                        findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
 
                 R.id.viewTriggerSpinnerClick -> {
@@ -64,20 +77,18 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         })
     }
 
-    fun getCountryAdapter(): CountryAdapter {
+    private fun getCountryAdapter(): CountryAdapter? {
 
         if (countryAdapter == null)
             countryAdapter =
                 context?.let {
-                    viewModel.countries?.let { it1 ->
-                        CountryAdapter(
-                            it, R.layout.item_country,
-                            it1
-                        )
-                    }
+                    CountryAdapter(
+                        it, R.layout.item_country,
+                        viewModel.countries
+                    )
                 }
 
-        return this!!.countryAdapter!!
+        return countryAdapter
     }
 
     override fun onBackPressed(): Boolean {

@@ -74,6 +74,10 @@ object Constants {
     //Other events
     const val EVENT_TOP_UP_CARD_TRANSACTION: Int = 5
 
+    // Cash pickup flow constants
+    const val ADD_CASH_PICK_UP_SUCCESS = 10001
+
+
     //Core Payment Card Types
     const val VISA = "Visa"
     const val MASTER = "Mastercard"

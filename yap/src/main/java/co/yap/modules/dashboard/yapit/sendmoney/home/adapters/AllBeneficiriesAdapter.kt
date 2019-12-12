@@ -3,16 +3,14 @@ package co.yap.modules.dashboard.yapit.sendmoney.home.adapters
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
-import co.yap.countryutils.country.Country
 import co.yap.databinding.LayoutItemBeneficiaryBinding
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.yapcore.BaseBindingRecyclerAdapter
-import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
 class AllBeneficiriesAdapter(
     private val list: MutableList<Beneficiary>
-) : BaseBindingRecyclerAdapter<Beneficiary, RecyclerView.ViewHolder>(list) {
+) : BaseBindingSearchRecylerAdapter<Beneficiary, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.layout_item_beneficiary
 
@@ -37,20 +35,18 @@ class AllBeneficiriesAdapter(
             position: Int,
             onItemClickListener: OnItemClickListener?
         ) {
-            itemContactsBinding.tvNameInitials.background = Utils.getBeneficiaryBackground(
-                itemContactsBinding.tvNameInitials.context,
-                position
-            )
 
-            itemContactsBinding.tvNameInitials.setTextColor(
-                Utils.getBeneficiaryColors(
-                    itemContactsBinding.tvNameInitials.context, position
-                )
-            )
             itemContactsBinding.viewModel = BeneficiaryItemViewModel(beneficiary, position, onItemClickListener)
             itemContactsBinding.executePendingBindings()
 
         }
+    }
+
+    override fun filterItem(constraint: CharSequence?, item: Beneficiary): Boolean {
+        val filterString = constraint.toString().toLowerCase()
+        val filterableString = item.title
+
+        return (filterableString?.toLowerCase()?.contains(filterString) ?: false)
     }
 
 }

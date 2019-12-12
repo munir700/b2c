@@ -467,7 +467,7 @@
     <string name="screen_email_verified_popup_button_title_click_here">click here.</string>
 
 
-     <!--  Change Location Screen-->
+    <!--  Change Location Screen-->
     <string name="screen_address_success_display_text_sub_heading">Your location address has been changed to\n</string>
 
     <!--     Transactions Filters Screen-->
@@ -488,7 +488,7 @@
     <string name="screen_transaction_filter_display_text_outgoing_transactions">Outgoing transactions</string>
     <string name="screen_transaction_filter_display_text_balance">AED balance</string>
 
-     <!--Y2Y Contacts-->
+    <!--Y2Y Contacts-->
     <string name="screen_y2y_display_text_no_yap_contacts">None of your friends have YAP yet.</string>
     <string name="screen_y2y_display_button_yap_contacts">YAP contacts</string>
     <string name="screen_y2y_display_button_all_contacts">All contacts</string>
@@ -497,6 +497,7 @@
     <string name="screen_y2y_display_text_invite_via_sms">SMS</string>
     <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
     <string name="screen_y2y_display_text_no_contacts">No contacts found.</string>
+    <string name="screen_y2y_display_text_no_result">No results</string>
     <string name="common_display_text_y2y_share">Hi %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%3$s\n\nDownload on Play Store:\n%4$s"</string>
     <string name="common_display_text_y2y_general_share">Hi \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%2$s\n\nDownload on Play Store:\n%3$s"</string>
 
@@ -527,7 +528,7 @@
     <string name="screen_add_note_display_text_type_something">Type something…</string>
     <string name="screen_add_note_display_text_save">Save</string>
 
-     <!--  Send Money no contacts Screen-->
+    <!--  Send Money no contacts Screen-->
     <string name="screen_send_money_no_contacts_display_text_title">YAP to YAP</string>
     <string name="screen_send_money_no_contacts_display_text_sub_heading">Who do you want to send money to?</string>
     <string name="screen_send_money_no_contacts_display_text_detail">Send money to contacts outside your YAP network by adding them as a beneficiary. You can do so by tapping the + button on the top right of this screen. For now, start adding beneficiaries by clicking below.</string>
@@ -704,5 +705,8 @@
 
 <!--    Edit -->
 
+
+    <!--    CashPickup Transfer screen-->
+    <string name="screen_cash_pickup_funds_display_text_fee">An %1s %2s fee will be charged to your YAP account for this transfer</string>
 
 </resources>

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
@@ -12,8 +11,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BankDe
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 
 // UI fields must be made dynamically based upon the response of API
-
-
 class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     IBankDetails.View {
 
@@ -25,34 +22,28 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, observer)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.confirmButton ->
-                    findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
-            }
-        })
     }
 
-    override fun onPause() {
+    val observer = Observer<Int> {
+        when (it) {
+            R.id.confirmButton ->
+                viewModel.createBeneficiaryRequest()
+            //findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
+        }
+    }
+
+    override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
-        super.onPause()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-
+        super.onDestroy()
 
     }
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
-
 }

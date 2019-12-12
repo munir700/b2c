@@ -270,7 +270,7 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_phone}"
-                    app:textColor="@{viewModel.state.mobile.empty ? true : false}"
+                    app:textColor="@{viewModel.state.mobileNo.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone" />
 
                 <LinearLayout
@@ -315,7 +315,7 @@
                             android:maxLength="@{viewModel.state.mobileNoLength}"
                             android:paddingEnd="@dimen/margin_normal"
                             android:singleLine="true"
-                            android:text="@={viewModel.state.mobile}"
+                            android:text="@={viewModel.state.mobileNo}"
                             android:textColor="@color/colorPrimaryDark"
                             android:textSize="@dimen/_15sdp" />
 
