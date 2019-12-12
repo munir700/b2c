@@ -17,8 +17,8 @@ data class InternationalFundsTransferReasonList(
     @Parcelize
     data class ReasonList(
         @SerializedName("reason")
-        val reason: String, // REAL ESTATE RELATED PAYMENTS
+        val reason: String?=null, // REAL ESTATE RELATED PAYMENTS
         @SerializedName("code")
-        val code: String // 26
+        val code: String?=null // 26
     ) : Parcelable
 }

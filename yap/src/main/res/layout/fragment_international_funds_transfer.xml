@@ -239,8 +239,6 @@
                 android:id="@+id/layoutReasonsSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:gravity="center_vertical"
                 android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal">
 
@@ -248,13 +246,7 @@
                     android:id="@+id/reasonsSpinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
                     android:layout_marginRight="@dimen/margin_normal"
-                    android:drawSelectorOnTop="false"
-                    android:dropDownHeight="50dp"
-                    android:gravity="bottom"
-                    android:overScrollMode="never"
-                    android:overlapAnchor="false"
                     android:paddingLeft="@dimen/margin_small"
                     android:paddingRight="@dimen/margin_small"
                     android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"

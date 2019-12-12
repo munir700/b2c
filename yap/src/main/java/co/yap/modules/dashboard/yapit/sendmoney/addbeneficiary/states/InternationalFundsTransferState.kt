@@ -28,14 +28,14 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
 
-
-    @get:Bindable
-    override var reasonList: ArrayList<InternationalFundsTransferReasonList.ReasonList>? =
-        ArrayList()
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.reasonList)
-        }
+//
+//    @get:Bindable
+//    override var reasonList: ArrayList<InternationalFundsTransferReasonList.ReasonList>? =
+//        ArrayList()
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.reasonList)
+//        }
 
 
 

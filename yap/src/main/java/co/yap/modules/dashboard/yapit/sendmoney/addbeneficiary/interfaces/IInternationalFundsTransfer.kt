@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.text.SpannableStringBuilder
 import androidx.lifecycle.MutableLiveData
+import co.yap.countryutils.country.Country
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
@@ -19,8 +20,6 @@ interface IInternationalFundsTransfer {
         var beneficiaryAmount: String
         var transferFee: String
         var transferFeeSpannable: SpannableStringBuilder?
-        val reasonList: ArrayList<InternationalFundsTransferReasonList.ReasonList>?
-
 
         var valid: Boolean
 
@@ -28,7 +27,8 @@ interface IInternationalFundsTransfer {
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        var transactionData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
+        var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
+        val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         fun handlePressOnNext(id: Int)
     }
 

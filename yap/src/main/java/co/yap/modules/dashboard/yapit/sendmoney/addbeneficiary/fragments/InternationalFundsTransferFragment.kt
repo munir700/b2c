@@ -6,18 +6,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.yapit.sendmoney.adapters.ReasonListAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
+import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
 class InternationalFundsTransferFragment :
     SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
 
-
+    private var countryAdapter: ReasonListAdapter? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_international_funds_transfer
     override val viewModel: IInternationalFundsTransfer.ViewModel
@@ -31,17 +34,28 @@ class InternationalFundsTransferFragment :
     }
 
     private fun setObservers() {
-        viewModel.transactionData.observe(this, Observer {
+        viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
-            populateReasonsList(it)
+
+            reasonsSpinner.adapter = getReasonListAdapter(it)
+            countryAdapter?.setItemListener(listener)
+
         })
     }
 
-    private fun populateReasonsList(reasons: List<InternationalFundsTransferReasonList.ReasonList>?) {
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+//            countriesSpinner.setSelection(pos.toInt())
+//            viewModel.onCountrySelected(pos)
 
+            toast(pos.toString())
+        }
     }
 
+    private fun papulateReasonsList(reasons: List<InternationalFundsTransferReasonList.ReasonList>?) {
+        toast(reasons.toString())
 
+    }
     private fun editBeneficiaryScreen() {
         etnickName.isEnabled = true
         etFirstName.isEnabled = true
@@ -55,33 +69,21 @@ class InternationalFundsTransferFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        if (!isFromAddBeneficiary) {
-//            editBeneficiaryScreen()
-//        }
-//
-//
-//        viewModel.clickEvent.observe(this, Observer {
-//            when (it) {
-//                R.id.llBankDetail ->
-//                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_beneficiaryAccountDetailsFragment)
-//
-//
-//                R.id.confirmButton ->
-//                    if (!isFromAddBeneficiary) {
-//                        ConfirmAddBeneficiary(activity!!)       //may be show a dialogue to confirm edit beneficairy call and go back???
-//
-//                    } else {
-//                        ConfirmAddBeneficiary(activity!!)
-//
-//                    }
-//            }
-//        })
     }
 
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()
 
+    }
+
+
+    fun getReasonListAdapter(it: List<InternationalFundsTransferReasonList.ReasonList>): ReasonListAdapter {
+        if (countryAdapter == null)
+            countryAdapter = ReasonListAdapter(
+                requireContext(), R.layout.item_reason_list, it
+            )
+        return this.countryAdapter!!
     }
 
 

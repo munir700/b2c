@@ -25,8 +25,11 @@ class InternationalFundsTransferViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: InternationalFundsTransferState = InternationalFundsTransferState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var transactionData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
+        ArrayList()
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
+
 
     override fun handlePressOnNext(id: Int) {
         clickEvent.setValue(id)
@@ -35,7 +38,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-
+        transactionData.clear()
         getTransactionFeeInternational()
         getTransactionInternationalReasonList()
     }
@@ -52,7 +55,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     * In this function get Transaction Fee.
     * */
 
-    fun getTransactionFeeInternational() {
+    private fun getTransactionFeeInternational() {
         launch {
             state.loading = true
             when (val response = mTransactionsRepository.getTransactionFeeWithProductCode("P001")) {
@@ -85,23 +88,27 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
+    /*
+    * In this function get All List of reasons.
+    * */
 
-    fun getTransactionInternationalReasonList() {
+    private fun getTransactionInternationalReasonList() {
         launch {
             state.loading = true
             when (val response =
                 mTransactionsRepository.getTransactionInternationalReasonList("P012")) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNullOrEmpty()) {
-                        return@launch
-                    } else {
-                        transactionData.value = response.data.data
+                    if (response.data.data.isNullOrEmpty()) return@launch
+                    response.data.data?.let {
+                        transactionData.addAll(it.map {item->
+                            InternationalFundsTransferReasonList.ReasonList(code = item.code?:"", reason = item.reason?:"")
+                        })
                     }
+                    populateSpinnerData.value = transactionData
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
-                    transactionData.value = null
                 }
             }
             state.loading = false

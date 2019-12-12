@@ -45,6 +45,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST =
         "/transactions/api/product-codes/{product-code}/purpose-reasons"
 
+
+
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
 
