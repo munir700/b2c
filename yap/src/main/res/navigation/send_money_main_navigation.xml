@@ -64,6 +64,12 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_selectCountryFragment_to_DomesticFragment"
+            app:destination="@id/addBeneficiaryForDomesticTransferFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment

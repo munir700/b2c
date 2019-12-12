@@ -123,22 +123,24 @@ object UIBinder {
     @JvmStatic
     fun getPhotoContact(constraintLayout: ConstraintLayout, contactId: String?, name: String?) {
 
-        val image = constraintLayout.findViewWithTag<CoreCircularImageView>("imgProfile")
-        val lyName = constraintLayout.findViewWithTag<LinearLayout>("lyNameInitials")
-        val tvName = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
+        val image: CoreCircularImageView? =
+            constraintLayout.findViewWithTag<CoreCircularImageView>("imgProfile")
+        val lyName: LinearLayout? =
+            constraintLayout.findViewWithTag<LinearLayout>("lyNameInitials")
+        val tvName: TextView? = constraintLayout.findViewWithTag<TextView>("tvNameInitials")
 
         if (contactId.isNullOrEmpty()) {
             setShortName(image, lyName, tvName, name)
         } else {
             if (contactId.contains("http")) {
-                image.visibility = View.VISIBLE
-                image.tag = null
-                image.loadImage(contactId)
+                image?.visibility = View.VISIBLE
+                image?.tag = null
+                image?.loadImage(contactId)
             } else {
                 try {
                     val uri = Uri.parse(contactId)
                     if (uri != null) {
-                        val cursor = image.context.contentResolver.query(
+                        val cursor = image?.context?.contentResolver?.query(
                             uri,
                             arrayOf(ContactsContract.Contacts.Photo.PHOTO), null, null, null
                         )
@@ -149,9 +151,9 @@ object UIBinder {
                                     cursor.close()
                                     val bitmap = byteArrayToBitmap(data)
                                     if (bitmap != null) {
-                                        image.visibility = View.VISIBLE
-                                        lyName.visibility = View.GONE
-                                        image.setImageBitmap(bitmap)
+                                        image?.visibility = View.VISIBLE
+                                        lyName?.visibility = View.GONE
+                                        image?.setImageBitmap(bitmap)
                                     } else {
                                         setShortName(image, lyName, tvName, name)
                                     }
@@ -177,21 +179,21 @@ object UIBinder {
     }
 
     private fun setShortName(
-        imageView: CoreCircularImageView,
-        layout: LinearLayout,
-        initials: TextView,
+        imageView: CoreCircularImageView?,
+        layout: LinearLayout?,
+        initials: TextView?,
         name: String?
     ) {
         if (name != null) {
-            initials.text = Utils.shortName2(name)
-            initials.visibility = View.VISIBLE
-            layout.visibility = View.VISIBLE
-            imageView.visibility = View.INVISIBLE
+            initials?.text = Utils.shortName2(name)
+            initials?.visibility = View.VISIBLE
+            layout?.visibility = View.VISIBLE
+            imageView?.visibility = View.INVISIBLE
         } else {
-            imageView.visibility = View.INVISIBLE
-            layout.visibility = View.GONE
-            initials.visibility = View.GONE
-            imageView.setImageResource(0)
+            imageView?.visibility = View.INVISIBLE
+            layout?.visibility = View.GONE
+            initials?.visibility = View.GONE
+            imageView?.setImageResource(0)
         }
     }
 
