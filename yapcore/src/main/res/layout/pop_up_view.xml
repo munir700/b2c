@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/tvContent"
-    style="@style/AMicro"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_white_round"
-    android:elevation="@dimen/_10sdp"
-    android:padding="@dimen/_10sdp"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    tools:text="You can find your International Bank Account Number (IBAN) and Bank Identifier Code (BIC or SWIFT) on your paper statement or by logging in to Online Banking." />
+    android:elevation="@dimen/_5sdp"
+    android:layout_marginStart="@dimen/margin_extra_small"
+    android:layout_marginTop="@dimen/margin_extra_small"
+    android:layout_marginEnd="@dimen/margin_extra_small"
+    android:background="@color/colorPrimary"
+    app:cardBackgroundColor="@color/colorPrimary"
+    app:cardCornerRadius="@dimen/_5sdp">
+
+    <TextView
+        android:id="@+id/tvContent"
+        style="@style/AMicro"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_10sdp"
+        tools:text="You can find your International Bank Account Number (IBAN) and Bank Identifier Code (BIC or SWIFT) on your paper statement or by logging in to Online Banking." />
+</androidx.cardview.widget.CardView>

@@ -146,6 +146,7 @@
                     android:maxLength="50"
                     android:drawableEnd="@drawable/ic_support"
                     android:drawableRight="@drawable/ic_support"
+                    app:popupContentValue="@string/textt"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
@@ -165,23 +166,17 @@
                     tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
 
 
-
-                    <co.yap.widgets.CorePopUpWindow
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:textValue="@string/textt"
-                        android:layout_alignTop="@+id/etIban"
-                        android:layout_alignParentTop="true" />
-
-<!--                </FrameLayout>-->
-
-                    <EditText
+                    <co.yap.widgets.DrawableClickEditText
                         android:id="@+id/etIban"
                         style="@style/Regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/greyLight"
                         android:hint="xxxxxxxxx"
+                        app:isDrawableShownWhenTextIsEmpty="true"
+                        android:drawableEnd="@drawable/ic_support"
+                        android:drawableRight="@drawable/ic_support"
+                        app:popupContentValue="@string/textt"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:maxLength="50"
