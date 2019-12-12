@@ -191,6 +191,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
+        Utils.hideKeyboard(getSearchView())
         beneficiary?.let {
             val intent = EditBeneficiaryActivity.newIntent(context = this)
             val bundle = Bundle()

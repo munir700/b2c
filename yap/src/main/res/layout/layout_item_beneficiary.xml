@@ -102,7 +102,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:colorType="@{`Beneficiary`}"
-                    app:fullName="@{viewModel.beneficiary.firstName + ' ' + viewModel.beneficiary.lastName}"
+                    app:fullName="@{viewModel.beneficiary.title}"
                     app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
                     app:position="@{viewModel.position}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
