@@ -2,20 +2,26 @@ package co.yap.widgets
 
 import android.content.Context
 import android.content.res.TypedArray
+import android.graphics.Color
 import android.graphics.Rect
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.view.MotionEvent
-import android.widget.EditText
+import android.view.*
+import android.widget.PopupWindow
+import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.AppCompatEditText
 import co.yap.yapcore.R
 import co.yap.yapcore.helpers.toast
 import kotlin.math.abs
 
+
 class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     AppCompatEditText(context, attrs) {
+    private var mPopupWindow: PopupWindow? = null
+    private var popupView: View? = null
 
     private var drawableRight: Drawable? = null
     private var drawableLeft: Drawable? = null
@@ -33,7 +39,6 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
                 when (target) {
                     DrawablePosition.BOTTOM -> {
 
-
                     }
                     DrawablePosition.LEFT -> {
 
@@ -42,6 +47,7 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
 
                     }
                     DrawablePosition.RIGHT -> {
+                        showAsPopUp(this@DrawableClickEditText)
                         context.toast("RIGHT Drawable click")
 
                     }
@@ -57,6 +63,7 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
                 R.styleable.DrawableClickEditText
             )
         )
+
     }
 
     private fun parseAttributes(obtainStyledAttributes: TypedArray) {
@@ -76,6 +83,48 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
         }
         invalidate()
     }
+
+    private fun initPopupWindow() {
+
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        popupView = inflater.inflate(R.layout.pop_up_view, null)
+        mPopupWindow = PopupWindow(
+            popupView,
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true
+        )
+        mPopupWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        setCancelable(true)
+    }
+
+    private fun showAsPopUp(anchor: View) {
+        showAsPopUp(anchor, 0, 0)
+    }
+
+    private fun showAsPopUp(anchor: View, xoff: Int, yoff: Int) {
+        initPopupWindow()
+        mPopupWindow?.animationStyle = R.style.AnimationUpPopup
+        // popupView.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val width = anchor.width
+        val location = IntArray(2)
+        anchor.getLocationInWindow(location)
+        mPopupWindow?.showAtLocation(anchor,Gravity.TOP,location[0],location[1])
+    }
+
+
+    /**
+     * touch outside dismiss the popupwindow, default is ture
+     * @param isCancelable
+     */
+    private fun setCancelable(isCancelable: Boolean) {
+        if (isCancelable) {
+            mPopupWindow?.isOutsideTouchable = true
+            mPopupWindow?.isFocusable = true
+        } else {
+            mPopupWindow?.isOutsideTouchable = false
+            mPopupWindow?.isFocusable = false
+        }
+    }
+
 
     override fun setCompoundDrawables(
         leftDrawable: Drawable?,
@@ -220,7 +269,11 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
         if (yClickPosition <= 0) yClickPosition = positionY
 
         /**If drawable bounds contains the x and y points then move ahead. */
-        if (bounds!!.contains(xClickPosition, yClickPosition) && (onDrawableClickListener != null || defaultClickListener!=null) ) {
+        if (bounds!!.contains(
+                xClickPosition,
+                yClickPosition
+            ) && (onDrawableClickListener != null || defaultClickListener != null)
+        ) {
             onDrawableClickListener?.onClick(DrawablePosition.RIGHT)
             defaultClickListener?.onClick(DrawablePosition.RIGHT)
             event.action = MotionEvent.ACTION_CANCEL
