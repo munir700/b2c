@@ -134,7 +134,7 @@
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_last_name" />
 
 
-                <EditText
+                <co.yap.widgets.DrawableClickEditText
                     android:id="@+id/etLastName"
                     style="@style/Regular"
                     android:layout_width="match_parent"
@@ -142,7 +142,10 @@
                     android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
+                    app:isDrawableShownWhenTextIsEmpty="true"
                     android:maxLength="50"
+                    android:drawableEnd="@drawable/ic_support"
+                    android:drawableRight="@drawable/ic_support"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
@@ -162,19 +165,28 @@
                     tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
 
 
-                <EditText
-                    android:id="@+id/etIban"
-                    style="@style/Regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/greyLight"
-                    android:hint="xxxxxxxxx"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:maxLength="50"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.iban}" />
 
+                    <co.yap.widgets.CorePopUpWindow
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:textValue="@string/screen_unverified_success_display_text_description"
+                        android:layout_alignTop="@+id/etIban"
+                        android:layout_alignParentTop="true" />
+
+<!--                </FrameLayout>-->
+
+                    <EditText
+                        android:id="@+id/etIban"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/greyLight"
+                        android:hint="xxxxxxxxx"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:maxLength="50"
+                        android:singleLine="true"
+                        android:text="@={viewModel.state.iban}" />
 
                 <TextView
                     style="@style/Small"
