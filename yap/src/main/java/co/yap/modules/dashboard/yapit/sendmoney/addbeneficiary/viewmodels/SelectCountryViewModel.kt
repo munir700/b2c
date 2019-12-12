@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.countryutils.country.utils.Currency
@@ -13,6 +14,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class SelectCountryViewModel(application: Application) :
     SendMoneyBaseViewModel<ISelectCountry.State>(application), ISelectCountry.ViewModel,
@@ -31,6 +33,13 @@ class SelectCountryViewModel(application: Application) :
     override fun handlePressOnSeclectCountry(id: Int) {
         if (id == R.id.nextButton) {
             parentViewModel?.selectedCountry?.value =(state.selectedCountry)
+            state.selectedCountry?.let { it ->
+                it.isoCountryCode2Digit?.let { code ->
+                    if (code.equals("ae", true)) {
+                        parentViewModel?.transferType?.value=(SendMoneyBeneficiaryType.DOMESTIC.name) //local international
+                    }
+                }
+            }
         }
         clickEvent.setValue(id)
     }

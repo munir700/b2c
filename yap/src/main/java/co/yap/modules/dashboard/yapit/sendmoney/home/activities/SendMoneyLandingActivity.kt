@@ -140,7 +140,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun setupRecent() {
         if (viewModel.adapter.get() == null && !viewModel.state.isSearching.get()!!) // use `!!` because its default value is set it can never be null
-                viewModel.requestRecentBeneficiaries()
+            viewModel.requestRecentBeneficiaries()
     }
 
     private val recentItemClickListener = object : OnItemClickListener {
