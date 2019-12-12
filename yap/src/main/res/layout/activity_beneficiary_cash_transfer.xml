@@ -13,9 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
-
-
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/layout_beneficiary_transfer_tool_bar"
+            app:viewModel="@{viewModel}"
+            />
 
         <fragment
             android:id="@+id/beneficiary_cash_transfer_nav_host_fragment"

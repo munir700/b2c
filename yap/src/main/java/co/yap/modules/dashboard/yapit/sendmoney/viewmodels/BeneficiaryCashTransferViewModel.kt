@@ -11,4 +11,8 @@ class BeneficiaryCashTransferViewModel(application: Application) :
     IBeneficiaryCashTransfer.ViewModel {
     override val state: BeneficiaryCashTransferState = BeneficiaryCashTransferState()
 
+    override fun handlePressOnView(id: Int) {
+
+    }
+
 }
