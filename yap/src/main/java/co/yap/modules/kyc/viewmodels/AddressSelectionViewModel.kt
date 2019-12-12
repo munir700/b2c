@@ -141,6 +141,7 @@ class AddressSelectionViewModel(application: Application) :
             state.landmarkField,
             "",
             state.addressField,
+            state.addressField,
             mDefaultLocation.latitude,
             mDefaultLocation.longitude,
             city, country
