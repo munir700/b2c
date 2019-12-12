@@ -29,10 +29,14 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
-            (activity as BeneficiaryCashTransferActivity).viewModel.state.leftButtonVisibility =
-                false
-            (activity as BeneficiaryCashTransferActivity).viewModel.state.rightButtonVisibility =
-                false
+            (activity as BeneficiaryCashTransferActivity).let {
+                it.viewModel.state.leftButtonVisibility =
+                    false
+                it.viewModel.state.rightButtonVisibility =
+                    false
+                it.viewModel.state.toolBarTitle="Cash transfer successful"
+            }
+
         }
         viewModel.clickEvent.observe(this, Observer {
             when (it) {

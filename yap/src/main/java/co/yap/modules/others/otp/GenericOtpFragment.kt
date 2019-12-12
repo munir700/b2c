@@ -38,6 +38,10 @@ class GenericOtpFragment : ForgotPasscodeOtpFragment() {
         }
         viewModel.destination = args?.username
         viewModel.emailOtp = args?.emailOtp
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).viewModel.state.toolBarTitle =
+                "Confirm transfer"
+        }
     }
 
     override fun setObservers() {

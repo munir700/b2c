@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
+import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ITransferSuccess
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.TransferSuccessState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -21,7 +22,6 @@ class TransferSuccessViewModel(application: Application) :
     override fun handlePressOnGoBackToDashboard(id: Int) {
         clickEvent.setValue(id)
     }
-
 
     override val backButtonPressEvent: SingleClickEvent = SingleClickEvent()
 

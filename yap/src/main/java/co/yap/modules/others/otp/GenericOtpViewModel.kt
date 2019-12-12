@@ -1,6 +1,7 @@
 package co.yap.modules.others.otp
 
 import android.app.Application
+import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.forgotpasscode.viewmodels.ForgotPasscodeOtpViewModel
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
@@ -34,9 +35,9 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
             }
             Constants.BENEFICIARY_CASH_TRANSFER -> {
                 state.mobileNumber = arrayOfNulls(3)
-                state.mobileNumber[0]="AED"
-                state.mobileNumber[1]="300"
-                state.mobileNumber[2]="Sufyan Shabbir"
+                state.mobileNumber[0] = "AED"
+                state.mobileNumber[1] = "300"
+                state.mobileNumber[2] = "Sufyan Shabbir"
 
                 state.verificationTitle = "Sufyan Shabbir"
                 state.verificationDescription =
