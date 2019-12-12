@@ -1,8 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
-import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.models.AddBeneficiaryData
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -16,9 +14,8 @@ interface IAddBeneficiary {
         var nickName: String
         var firstName: String
         var lastName: String
-        var phoneNumber: String
         var flagDrawableResId: Int
-        var mobile: String
+        var mobileNo: String
         var iban: String
         var confirmIban: String
         var drawbleRight: Drawable?
@@ -43,16 +40,12 @@ interface IAddBeneficiary {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
         var clickEvent: SingleClickEvent
-
-        var addBeneficiaryData: AddBeneficiaryData
-
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnAddDomestic(id: Int)
 
 //      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
-        fun generateCashPayoutBeneficiaryRequestDTO()
+        //fun generateCashPayoutBeneficiaryRequestDTO()
 //      var onSuccess: MutableLiveData<Int>
 
     }
