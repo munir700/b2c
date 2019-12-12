@@ -94,17 +94,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
         //Recent Beneficiaries list observer
         viewModel.recentTransferData.observe(this, Observer {
-            if (it.isNullOrEmpty()) {
-                layoutRecent?.visibility = View.GONE
-            } else {
-                val adapter = RecentTransferAdaptor(
-                    it.toMutableList(),
+            if (it.isNullOrEmpty()) return@Observer
+            val adapter = RecentTransferAdaptor(
+                it.toMutableList(),
                     null
                 )
-                adapter.onItemClickListener = recentItemClickListener
-                viewModel.adapter.set(adapter)
-                layoutRecent?.visibility = View.VISIBLE
-            }
+            adapter.onItemClickListener = recentItemClickListener
+            viewModel.adapter.set(adapter)
+
         })
         //Searching Beneficiaries list Results Count observer
         viewModel.isSearching.value?.let { isSearching ->
