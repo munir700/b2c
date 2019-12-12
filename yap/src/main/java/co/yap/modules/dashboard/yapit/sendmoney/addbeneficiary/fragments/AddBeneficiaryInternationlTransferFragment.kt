@@ -54,7 +54,6 @@ class AddBeneficiaryInternationlTransferFragment :
             }
             R.id.emptyCardLayout -> {
             }
-            //ConfirmAddBeneficiary()
         }
     }
 
@@ -70,77 +69,5 @@ class AddBeneficiaryInternationlTransferFragment :
     private fun getBindings(): FragmentAddBeneficiaryInternationalBankTransferBinding? {
         return viewDataBinding as? FragmentAddBeneficiaryInternationalBankTransferBinding
     }
-
-//    fun ConfirmAddBeneficiary() {
-//        context?.let {
-//            androidx.appcompat.app.AlertDialog.Builder(it)
-//                .setTitle(
-//                    Translator.getString(
-//                        it,
-//                        R.string.screen_add_beneficiary_detail_display_text_alert_title
-//                    )
-//                )
-//                .setMessage(
-//                    Translator.getString(
-//                        it,
-//                        R.string.screen_add_beneficiary_detail_display_button_block_alert_description
-//                    )
-//                )
-//                .setPositiveButton(
-//                    Translator.getString(
-//                        it,
-//                        R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
-//                    ),
-//                    DialogInterface.OnClickListener { dialog, which ->
-//                        //                    findNavController().navigate(R.id.action_addBeneficiaryFragment_to_addBankDetailsFragment)
-//                        onConfirmClick()
-//
-//
-//                    })
-//
-//                .setNegativeButton(
-//                    Translator.getString(
-//                        it,
-//                        R.string.screen_add_beneficiary_detail_display_button_block_alert_no
-//                    ),
-//                    null
-//                )
-//                .show()
-//        }
-//
-//    }
-
-//    fun onConfirmClick() {
-//
-//// for sure it's fields needs to be update, as they are taken form cashpayout
-//
-////        val beneficiary: Beneficiary = Beneficiary()
-////        beneficiary.beneficiaryType = "CASHPAYOUT"
-////        beneficiary.title = viewModel.state.nickName
-////        beneficiary.firstName = viewModel.state.firstName
-////        beneficiary.lastName = viewModel.state.lastName
-////        beneficiary.currency = viewModel.state.currency
-////        beneficiary.country = "UAE"
-//////      beneficiary.country = viewModel.state.country
-////        beneficiary.mobileNo = viewModel.state.phoneNumber
-//
-//        viewModel.generateCashPayoutBeneficiaryRequestDTO()
-//    }
-
-//    fun ConfirmAddBeneficiary() {
-//        AlertDialog.Builder(this!!.activity!!)
-//            .setTitle(getString(R.string.screen_add_beneficiary_detail_display_text_alert_title))
-//            .setMessage(getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_description))
-//            .setPositiveButton(getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_yes),
-//                DialogInterface.OnClickListener { dialog, which ->
-//                    //                    doLogout()
-//                })
-//
-//            .setNegativeButton(
-//                getString(R.string.screen_add_beneficiary_detail_display_button_block_alert_no),
-//                null
-//            )
-//            .show()
-//    }
 
 }
