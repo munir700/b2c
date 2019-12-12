@@ -94,17 +94,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
         //Recent Beneficiaries list observer
         viewModel.recentTransferData.observe(this, Observer {
-            if (it.isNullOrEmpty()) {
-                layoutRecent?.visibility = View.GONE
-            } else {
-                val adapter = RecentTransferAdaptor(
-                    it.toMutableList(),
+            if (it.isNullOrEmpty()) return@Observer
+            val adapter = RecentTransferAdaptor(
+                it.toMutableList(),
                     null
                 )
-                adapter.onItemClickListener = recentItemClickListener
-                viewModel.adapter.set(adapter)
-                layoutRecent?.visibility = View.VISIBLE
-            }
+            adapter.onItemClickListener = recentItemClickListener
+            viewModel.adapter.set(adapter)
+
         })
         //Searching Beneficiaries list Results Count observer
         viewModel.isSearching.value?.let { isSearching ->
@@ -143,7 +140,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun setupRecent() {
         if (viewModel.adapter.get() == null && !viewModel.state.isSearching.get()!!) // use `!!` because its default value is set it can never be null
-                viewModel.requestRecentBeneficiaries()
+            viewModel.requestRecentBeneficiaries()
     }
 
     private val recentItemClickListener = object : OnItemClickListener {
@@ -187,10 +184,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?) {
+        Utils.hideKeyboard(getSearchView())
         showToast("data ${beneficiary?.title}")
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
+        Utils.hideKeyboard(getSearchView())
         beneficiary?.let {
             val intent = EditBeneficiaryActivity.newIntent(context = this)
             val bundle = Bundle()

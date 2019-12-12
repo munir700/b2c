@@ -102,7 +102,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:colorType="@{`Beneficiary`}"
-                    app:fullName="@{viewModel.beneficiary.firstName + ' ' + viewModel.beneficiary.lastName}"
+                    app:fullName="@{viewModel.beneficiary.fullName()}"
                     app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
                     app:position="@{viewModel.position}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -130,7 +130,7 @@
                     android:gravity="bottom"
                     android:lineSpacingExtra="0dp"
                     android:lines="1"
-                    android:text="@{viewModel.beneficiary.title}"
+                    android:text="@{viewModel.beneficiary.fullName()}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
 
             </LinearLayout>

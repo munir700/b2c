@@ -13,6 +13,7 @@ interface ISendMoneyHome {
     interface State : IBase.State {
         var isNoBeneficiary: ObservableField<Boolean>
         var hasBeneficiary: ObservableField<Boolean>
+        var isNoRecentBeneficiary: ObservableField<Boolean>
         var isSearching: ObservableField<Boolean>
         var flagDrawableResId: ObservableField<Int>
     }
