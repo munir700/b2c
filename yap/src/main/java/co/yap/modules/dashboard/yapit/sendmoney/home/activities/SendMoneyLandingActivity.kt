@@ -184,6 +184,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?) {
+        Utils.hideKeyboard(getSearchView())
         showToast("data ${beneficiary?.title}")
     }
 
