@@ -475,6 +475,7 @@ class AddressSelectionViewModel(application: Application) :
                             if (currentPlace.address != null) {
                                 markerSnippet = currentPlace.address
                                 placeSubTitle = markerSnippet.toString()
+
                             }
 
                             if (state.isFromPersonalDetailView && !locationSelectionStart) {

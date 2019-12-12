@@ -43,7 +43,8 @@ abstract class BaseRVAdapter<T:Any, VM : BaseListItemViewModel<T>, VH : BaseView
     protected fun createViewModel(): VM {
         val viewModel: VM = getViewModel()
         viewModel.onCreate(Bundle(),navigation)
-        onItemClickListener = viewModel
+        navigation?.let {  onItemClickListener = viewModel}
+
         return viewModel
     }
 
