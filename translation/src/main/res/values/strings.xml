@@ -707,5 +707,6 @@
 
     <!--    CashPickup Transfer screen-->
     <string name="screen_cash_pickup_funds_display_text_fee">An %1s %2s fee will be charged to your YAP account for this transfer</string>
+    <string name="textt">You can find your International Bank Account Number (IBAN) and Bank Identifier Code (BIC or SWIFT) on your paper statement or by logging in to Online Banking.</string>
 
 </resources>

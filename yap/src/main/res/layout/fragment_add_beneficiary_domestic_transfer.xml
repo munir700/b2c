@@ -166,7 +166,7 @@
                     <co.yap.widgets.CorePopUpWindow
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:textValue="@string/screen_unverified_success_display_text_description"
+                        app:textValue="@string/textt"
                         android:layout_alignTop="@+id/etIban"
                         android:layout_alignParentTop="true" />
 
