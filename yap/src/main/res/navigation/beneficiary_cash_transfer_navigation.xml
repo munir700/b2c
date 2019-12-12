@@ -8,11 +8,15 @@
         android:id="@+id/cashTransferFragment"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.CashTransferFragment"
         tools:layout="@layout/fragment_cash_transfer">
-
-
         <action
             android:id="@+id/action_cashTransferFragment_to_genericOtpFragment4"
             app:destination="@id/genericOtpFragment4"
+            app:enterAnim="@anim/slide_in_from_bottom"
+            app:exitAnim="@anim/slide_down"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_cashTransferFragment_to_transferSuccessFragment2"
+            app:destination="@id/transferSuccessFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
     </fragment>
@@ -35,6 +39,16 @@
             app:argType="string" />
         <argument
             android:name="otpType"
+            android:defaultValue=" "
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/transferSuccessFragment2"
+        android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.TransferSuccessFragment"
+        android:label="TransferSuccessFragment"
+        tools:layout="@layout/fragment_transfer_success">
+        <argument
+            android:name="successType"
             android:defaultValue=" "
             app:argType="string" />
     </fragment>

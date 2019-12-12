@@ -33,7 +33,12 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
                     Strings.screen_verify_phone_number_display_text_sub_title
             }
             Constants.BENEFICIARY_CASH_TRANSFER -> {
-                state.verificationTitle = "Cash pick up flow"
+                state.mobileNumber = arrayOfNulls(3)
+                state.mobileNumber[0]="AED"
+                state.mobileNumber[1]="300"
+                state.mobileNumber[2]="Sufyan Shabbir"
+
+                state.verificationTitle = "Sufyan Shabbir"
                 state.verificationDescription =
                     Strings.screen_cash_pickup_funds_display_otp_text_description
             }
@@ -102,7 +107,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
     }
 
     override fun handlePressOnResendOTP(id: Int) {
-        if (action == Constants.CHANGE_EMAIL || action == Constants.FORGOT_CARD_PIN_ACTION) {
+        if (action == Constants.CHANGE_EMAIL || action == Constants.FORGOT_CARD_PIN_ACTION || action == Constants.BENEFICIARY_CASH_TRANSFER) {
             createOtp()
         } else if (action == Constants.CHANGE_MOBILE_NO) {
             createOtpForPhoneNumber()

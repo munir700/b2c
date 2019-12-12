@@ -7,7 +7,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewMode
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 class TransferSuccessViewModel(application: Application) :
     SendMoneyBaseViewModel<ITransferSuccess.State>(application), ITransferSuccess.ViewModel,
@@ -24,7 +23,7 @@ class TransferSuccessViewModel(application: Application) :
     }
 
 
-    override val backButtonPressEvent: SingleLiveEvent<Boolean> = SingleLiveEvent()
+    override val backButtonPressEvent: SingleClickEvent = SingleClickEvent()
 
     override fun onResume() {
         super.onResume()

@@ -14,6 +14,13 @@ class BeneficiaryCashTransferState : BaseState(), IBeneficiaryCashTransfer.State
             notifyPropertyChanged(BR.toolBarTitle)
         }
 
+    @get:Bindable
+    override var otpSuccess: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.otpSuccess)
+        }
+
 
     @get:Bindable
     override var toolBarVisibility: Boolean? = false

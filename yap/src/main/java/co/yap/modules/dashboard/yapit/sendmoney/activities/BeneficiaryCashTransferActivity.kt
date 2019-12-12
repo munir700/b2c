@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.activities
 
+import android.os.Bundle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
@@ -9,6 +11,7 @@ import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
+import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
 
 class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTransfer.ViewModel>(),
@@ -24,4 +27,25 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
             this@BeneficiaryCashTransferActivity,
             R.id.beneficiary_cash_transfer_nav_host_fragment
         )
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, clickEvent)
+    }
+
+    val clickEvent = Observer<Int> {
+        when (it) {
+            R.id.tbIvClose -> onBackPressed()
+            R.id.tvRightToolbar -> this.finish()
+        }
+    }
+
+    override fun onBackPressed() {
+        val fragment =
+            supportFragmentManager.findFragmentById(R.id.beneficiary_cash_transfer_nav_host_fragment)
+        if (!BackPressImpl(fragment).onBackPressed()) {
+            super.onBackPressed()
+
+        }
+    }
 }

@@ -15,7 +15,7 @@ object Constants {
     const val TRANSACTION_TYPE_CREDIT: String = "CREDIT"
     const val FORGOT_CARD_PIN_FLOW: String = "FORGOT_CARD_PIN_FLOW"
     const val FORGOT_CARD_PIN_ACTION: String = "FORGOT_CARD_PIN"
-    const val BENEFICIARY_CASH_TRANSFER: String = "BENEFICIARY_CASH_TRANSFER"
+    const val BENEFICIARY_CASH_TRANSFER: String = "CASHPAYOUT"
 
     const val TOP_UP: String = "TOP_UP"
     const val CARD: String = "CARD"
@@ -77,6 +77,7 @@ object Constants {
 
     // Cash pickup flow constants
     const val ADD_CASH_PICK_UP_SUCCESS = 10001
+    const val ADD_CASH_PICK_UP_FlOW = 10002
 
 
     //Core Payment Card Types

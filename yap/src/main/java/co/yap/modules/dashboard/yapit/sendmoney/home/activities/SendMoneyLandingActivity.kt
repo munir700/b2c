@@ -24,6 +24,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScr
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -188,9 +189,10 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     }
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?) {
-
         startActivity(Intent(this, BeneficiaryCashTransferActivity::class.java))
-
+        /*   startActivityForResult(Intent(this, BeneficiaryCashTransferActivity::class.java)
+               , Constants.ADD_CASH_PICK_UP_FlOW
+           )*/
         //showToast("data ${beneficiary?.title}")
     }
 

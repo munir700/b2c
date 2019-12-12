@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
-import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -12,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentCashTransferBinding
+import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -23,7 +23,6 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
-import kotlinx.android.synthetic.main.layout_y_to_y_transfer_initial_image.view.*
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
 
@@ -52,7 +51,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             //  findNavController().navigate(R.id.action_cashTransferFragment_to_genericOtpFragment4)
             val action =
                 CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4(
-                    "",
+                    "Sufyan",
                     false,
                     "03025101902",
                     Constants.BENEFICIARY_CASH_TRANSFER
@@ -75,7 +74,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun setUpData() {
-
+        if (context is BeneficiaryCashTransferActivity){
+            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
+                if(it){
+                    findNavController().navigate(R.id.action_cashTransferFragment_to_transferSuccessFragment2)
+                }
+            }
+        }
 //        viewModel.state.fullName = args.beneficiaryName
 //        viewModel.receiverUUID = args.receiverUUID
 //        viewModel.state.imageUrl = args.imagePath
@@ -127,7 +132,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
-
     }
 
 
