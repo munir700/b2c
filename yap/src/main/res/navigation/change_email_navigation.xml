@@ -12,19 +12,18 @@
             android:id="@+id/action_changeEmailFragment_to_genericOtpFragment"
             app:destination="@id/genericOtpFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"
-            />
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_changeEmailFragment_to_changeEmailSuccessFragment"
             app:destination="@id/changeEmailSuccessFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
         android:id="@+id/genericOtpFragment"
-        android:name="co.yap.modules.generic_otp.GenericOtpFragment"
-        android:label="GenericOtpFragment" >
+        android:name="co.yap.modules.others.otp.GenericOtpFragment"
+        android:label="GenericOtpFragment">
         <argument
             android:name="username"
             android:defaultValue=" "
@@ -47,7 +46,7 @@
             app:destination="@id/changeEmailSuccessFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
-            app:popUpToInclusive="true"/>
+            app:popUpToInclusive="true" />
 
     </fragment>
 
@@ -55,17 +54,15 @@
         android:id="@+id/changeEmailSuccessFragment"
         android:name="co.yap.modules.dashboard.more.profile.fragments.SuccessFragment"
         android:label="ChangeEmailSuccessFragment"
-        tools:layout="@layout/fragment_success" >
+        tools:layout="@layout/fragment_success">
         <argument
             android:name="staticString"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="destinationValue"
             android:defaultValue=" "
-            app:argType="string"
-            />
+            app:argType="string" />
         <argument
             android:name="successType"
             android:defaultValue=" "
@@ -73,9 +70,8 @@
         <action
             android:id="@+id/action_changeEmailSuccessFragment_to_moreNavigation"
             app:destination="@id/personalDetailsFragment"
-            app:popUpTo="@id/personalDetailsFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:popUpToInclusive="true"
-            />
+            app:popUpTo="@id/personalDetailsFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

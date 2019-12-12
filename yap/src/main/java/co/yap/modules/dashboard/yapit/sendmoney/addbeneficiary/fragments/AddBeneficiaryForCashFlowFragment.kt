@@ -121,8 +121,8 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
         beneficiary.currency = viewModel.state.currency
         beneficiary.country = "UAE"
 //      beneficiary.country = viewModel.state.country
-        beneficiary.mobileNo = viewModel.state.phoneNumber
+        beneficiary.mobileNo = viewModel.state.mobileNo
 
-        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
+        //viewModel.generateCashPayoutBeneficiaryRequestDTO()
     }
 }

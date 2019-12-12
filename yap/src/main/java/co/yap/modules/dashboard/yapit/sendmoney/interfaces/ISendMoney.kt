@@ -1,9 +1,12 @@
 package co.yap.modules.dashboard.yapit.sendmoney.interfaces
 
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import co.yap.countryutils.country.Country
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 class ISendMoney {
     interface State : IBase.State {
@@ -14,7 +17,10 @@ class ISendMoney {
 
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
-        fun handlePressButton(id:Int)
+        var selectedCountry: MutableLiveData<Country>
+        var transferType: MutableLiveData<String>
+        var beneficiary: MutableLiveData<Beneficiary>
+        fun handlePressButton(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

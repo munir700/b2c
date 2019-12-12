@@ -7,7 +7,7 @@ import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.yapcore.BaseState
 
-class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.State {
+class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
 
     var validateConfirmIban: Boolean = false
 
@@ -27,7 +27,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var country: String = "United Arab Emierates"
+    override var country: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.country)
@@ -36,7 +36,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var transferType: String = "Bank Transfer"
+    override var transferType: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferType)
@@ -45,7 +45,7 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
 
 
     @get:Bindable
-    override var currency: String = "AED"
+    override var currency: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.currency)
@@ -82,16 +82,6 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
             validateDomesticUser()
         }
 
-
-    @get:Bindable
-    override var phoneNumber: String = "+923336000000"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.phoneNumber)
-        }
-
-// for phone number field validation to be work on
-
     @get:Bindable
     override var drawbleRight: Drawable? = null
         set(value) {
@@ -101,11 +91,11 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         }
 
     @get:Bindable
-    override var mobile: String = ""
+    override var mobileNo: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(co.yap.BR.mobile)
-            if (mobile.length < 9) {
+            if (mobileNo.length < 9) {
                 mobileNoLength = 11
 
             }
@@ -190,14 +180,14 @@ class AddBeneficiaryStates(context: Context) : BaseState(), IAddBeneficiary.Stat
         }
 
     @get:Bindable
-    override var title: String? = "title"
+    override var title: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.title)
         }
 
     @get:Bindable
-    override var accountNo: String? = "AE070333000000000120082"
+    override var accountNo: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountNo)

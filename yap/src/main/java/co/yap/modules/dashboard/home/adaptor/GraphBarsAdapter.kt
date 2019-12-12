@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.home.adaptor
 
-import android.util.Log
 import android.view.View
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
@@ -61,6 +60,7 @@ class GraphBarsAdapter(
         //   viewHolder.transactionBar.unSelectHighlightedBarOnGraphClick(hasFocus)
         //}
     }
+
     override fun getItemCount(): Int {
         helper?.totalItemCount = listItems.size
         return listItems.size

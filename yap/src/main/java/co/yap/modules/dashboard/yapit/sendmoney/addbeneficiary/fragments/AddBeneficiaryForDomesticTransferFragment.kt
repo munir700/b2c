@@ -105,7 +105,7 @@ class AddBeneficiaryForDomesticTransferFragment :
         beneficiary.country = "AE"
         beneficiary.accountNo = viewModel.state.accountNo
 
-        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
+        //viewModel.generateCashPayoutBeneficiaryRequestDTO()
     }
 
 }
