@@ -9,6 +9,8 @@
 
         <import type="co.yap.yapcore.helpers.StringUtils" />
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel" />
@@ -21,7 +23,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:orientation="vertical">
 
@@ -89,9 +91,10 @@
                             android:layout_width="47dp"
                             android:layout_height="49dp"
                             android:layout_alignParentTop="true"
-                            android:layout_marginLeft="-11dp"
+                            android:layout_marginStart="-11dp"
                             android:layout_marginTop="-10dp"
-                            android:visibility="visible">
+                            android:visibility="@{viewModel.state.flagLayoutVisibility? View.VISIBLE:View.GONE}"
+                            tools:visibility="visible">
 
                             <FrameLayout
                                 android:layout_width="@dimen/_29sdp"
@@ -99,7 +102,8 @@
                                 android:layout_gravity="center"
                                 android:layout_margin="@dimen/_2sdp"
                                 android:background="@drawable/bg_round_red"
-                                android:backgroundTint="@color/white">
+                                android:backgroundTint="@color/white"
+                                tools:ignore="UselessParent">
 
                                 <ImageView
                                     android:id="@+id/ivAddProfilePic"
@@ -109,7 +113,8 @@
                                     android:layout_marginTop="@dimen/_2sdp"
                                     android:layout_marginEnd="@dimen/_2sdp"
                                     android:layout_marginBottom="@dimen/_2sdp"
-                                    android:background="@drawable/bitmap" />
+                                    android:background="@drawable/bitmap"
+                                    android:contentDescription="@string/empty_string" />
 
                             </FrameLayout>
                         </RelativeLayout>
@@ -172,6 +177,7 @@
                         android:layout_width="@dimen/_45sdp"
                         android:layout_height="@dimen/_45sdp"
                         android:layout_gravity="center_vertical|center"
+                        android:contentDescription="@string/empty_string"
                         android:src="@drawable/ic_check" />
                 </FrameLayout>
 
@@ -182,6 +188,7 @@
                     android:layout_marginTop="@dimen/margin_medium"
                     android:background="@drawable/card_border_selector"
                     android:clickable="true"
+                    android:focusable="true"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/margin_medium"
                     android:paddingBottom="@dimen/margin_medium">
@@ -262,8 +269,8 @@
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:enabled="true"
-                app:btn_enable="true"
                 android:onClick="@{(v) -> viewModel.handlePressOnGoBackToDashboard(v.id)}"
+                app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.screen_crash_transfer_success_button_text_back}"
                 tools:ignore="MissingConstraints"

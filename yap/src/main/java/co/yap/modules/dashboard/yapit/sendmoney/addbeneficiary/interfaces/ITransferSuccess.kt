@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface ITransferSuccess {
 
@@ -16,11 +15,12 @@ interface ITransferSuccess {
         var picture: String
         var pickUpAgentLocationAddress: String
         var referenceNumber: String
+        var flagLayoutVisibility: Boolean?
 
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
+        val backButtonPressEvent: SingleClickEvent
         var clickEvent: SingleClickEvent
         fun handlePressOnGoBackToDashboard(id: Int)
     }

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
+import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.Bundle_EXTRA
@@ -23,6 +24,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScr
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -185,7 +188,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getSearchView())
-        showToast("data ${beneficiary?.title}")
+        startActivity(Intent(this, BeneficiaryCashTransferActivity::class.java))
+        /*   startActivityForResult(Intent(this, BeneficiaryCashTransferActivity::class.java)
+               , Constants.ADD_CASH_PICK_UP_FlOW
+           )*/
+        //showToast("data ${beneficiary?.title}")
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
