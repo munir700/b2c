@@ -326,14 +326,22 @@
                     app:textColor="@{editBeneficiaryViewModel.state.phoneNumber.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone" />
 
-                <androidx.appcompat.widget.AppCompatEditText
+                <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     style="@style/Yap.App.Widget.TextInputEditText"
-                    android:digits="1234567890 "
+                    app:pse_setPrefix="+91 "
+                    app:pse_setPrefixTextColor="#FF4081"
+                    app:pse_setBorderView="false"
+                    app:pse_setClearIconVisible="false"
+                    app:pse_setCornerRadius="0dp"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true"
-                    android:text="@={editBeneficiaryViewModel.state.phoneNumber}" />
+                    android:importantForAutofill="no"
+                    android:text="@={editBeneficiaryViewModel.state.phoneNumber}"
+                    app:pse_setStrokeWidth="0dp"/>
 
                 <LinearLayout
                     android:id="@+id/llBankDetail"
