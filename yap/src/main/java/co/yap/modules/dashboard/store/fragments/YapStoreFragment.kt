@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
+import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.yapcore.BaseBindingFragment
@@ -27,6 +28,7 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         setObservers()
         initState()
         initComponents()
+        startActivity(HouseHoldLandingActivity.newIntent(activity!!))
     }
 
     private fun initComponents() {
@@ -62,6 +64,8 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
+            startActivity(HouseHoldLandingActivity.newIntent(activity!!))
+
 //            val action =
 //                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((dataList as Store).id.toString())
 //            view.findNavController().navigate(action)

@@ -185,6 +185,15 @@
             android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".modules.dashboard.store.household.activities.HouseHoldLandingActivity"
+            android:screenOrientation="portrait" />
+
+
+        <activity
+            android:name=".modules.dashboard.store.household.activities.YapHouseHoldSubscriptionSelectionActivity"
+            android:screenOrientation="portrait" />
+
 
     </application>
 </manifest>

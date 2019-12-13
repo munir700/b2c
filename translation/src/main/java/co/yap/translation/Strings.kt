@@ -1042,7 +1042,7 @@ object Strings {
     const val screen_forgot_pin_display_text_heading: String =
         "screen_forgot_pin_display_text_heading"
 
-// Topup Type Selection Screen
+    // Topup Type Selection Screen
     const val screen_topup_type_selection_display_text_title: String =
         "screen_topup_type_selection_display_text_title"
     const val screen_topup_type_selection_display_text_heading: String =
@@ -1130,5 +1130,53 @@ object Strings {
     //CashPickup Transfer screen
     const val screen_cash_pickup_funds_display_text_fee: String =
         "screen_cash_pickup_funds_display_text_fee"
+
+
+    //House hold screen
+
+    const val screen_yap_house_hold_onboarding_landing_display_text_title: String =
+        "screen_yap_house_hold_onboarding_landing_display_text_title"
+    const val screen_yap_house_hold_onboarding_landing_display_text_description: String =
+        "screen_yap_house_hold_onboarding_landing_display_text_description"
+    const val screen_yap_house_hold_onboarding_landing_display_text_heading: String =
+        "screen_yap_house_hold_onboarding_landing_display_text_heading"
+    const val screen_yap_house_hold_onboarding_landing_display_text_sub_heading: String =
+        "screen_yap_house_hold_onboarding_landing_display_text_sub_heading"
+    const val screen_yap_house_hold_onboarding_landing_button_text: String =
+        "screen_yap_house_hold_onboarding_landing_button_text"
+
+
+    // YAP Household subscription selection screen
+
+    const val screen_yap_house_hold_subscription_selection_display_text_title: String =
+        "screen_yap_house_hold_subscription_selection_display_text_title"
+    const val screen_yap_house_hold_subscription_selection_display_text_house_hold_card: String =
+        "screen_yap_house_hold_subscription_selection_display_text_house_hold_card"
+    const val screen_yap_house_hold_subscription_selection_display_text_house_hold_heading: String =
+        "screen_yap_house_hold_subscription_selection_display_text_house_hold_heading"
+    const val screen_yap_house_hold_subscription_selection_display_text_select_plan: String =
+        "screen_yap_house_hold_subscription_selection_display_text_select_plan"
+    const val screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly: String =
+        "screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly"
+    const val screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly: String =
+        "screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly"
+    const val screen_yap_house_hold_subscription_selection_display_text_per_month: String =
+        "screen_yap_house_hold_subscription_selection_display_text_per_month"
+    const val screen_yap_house_hold_subscription_selection_display_text_per_year: String =
+        "screen_yap_house_hold_subscription_selection_display_text_per_year"
+    const val screen_yap_house_hold_subscription_selection_display_text_months: String =
+        "screen_yap_house_hold_subscription_selection_display_text_months"
+    const val screen_yap_house_hold_subscription_selection_display_text_saving: String =
+        "screen_yap_house_hold_subscription_selection_display_text_saving"
+    //benefits
+    const val screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries: String =
+        "screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries"
+    const val screen_yap_house_hold_subscription_selection_display_text_benefit_allocate_budget: String =
+        "screen_yap_house_hold_subscription_selection_display_text_benefit_allocate_budget"
+    const val screen_yap_house_hold_subscription_selection_display_text_benefit_setup_payments: String =
+        "screen_yap_house_hold_subscription_selection_display_text_benefit_setup_payments"
+    const val screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense: String =
+        "screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense"
+
 
 }

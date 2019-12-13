@@ -703,10 +703,38 @@
     <string name="screen_card_analytics_display_month_average_text">Monthly average is %1s %2s</string>
     <string name="screen_card_analytics_tool_bar_title">Analytics</string>
 
-<!--    Edit -->
+    <!--    Edit -->
 
 
     <!--    CashPickup Transfer screen-->
     <string name="screen_cash_pickup_funds_display_text_fee">An %1s %2s fee will be charged to your YAP account for this transfer</string>
 
+
+    <!-- HouseHold screen-->
+    <string name="screen_yap_house_hold_onboarding_landing_display_text_title">Household</string>
+    <string name="screen_yap_house_hold_onboarding_landing_display_text_description">Manage your household salaries digitally</string>
+    <string name="screen_yap_house_hold_onboarding_landing_display_text_heading">Paying your household help is now easier than ever</string>
+    <string name="screen_yap_house_hold_onboarding_landing_display_text_sub_heading">Struggling to keep up with managing your day-to-day house expenses? With Household, set up a quick and safe payment system so you can pay your help and manage expenses easily. Set up monthly salary payments, keep track of grocery spends, and simplify your life without having to rely on cash. Give your household help a card they can use for spending and remittances. </string>
+    <string name="screen_yap_house_hold_onboarding_landing_button_text">Get a Household card</string>
+
+
+    <!-- YAP Household subscription selection screen-->
+    <string name="screen_yap_house_hold_subscription_selection_display_text_title">Get a Household card</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_card">Household card</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_heading">Get a card for your household help and start managing your finances easily! </string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan">Select a plan. You will be charged only when your Household staff confirms their card. </string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly">Monthly</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly">Yearly</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_per_month">per month</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_per_year">per year</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_months">12 months</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_saving">save 25%</string>
+    <!--benefits-->
+    <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries">Send salaries directly to account</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_allocate_budget">Allocate household budgets</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_setup_payments">Set up automatic payments</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense">Track expenses through analytics</string>
+
+
 </resources>
+
