@@ -84,28 +84,35 @@ class InternationalFundsTransferViewModel(application: Application) :
                         /*TODO: Check Fee Type*/
                     }
 
+
+                    println(totalAmount)
                     state.transferFee =
                         getString(Strings.screen_international_funds_transfer_display_text_fee).format(
                             "AED",
-                            totalAmount
+                            Utils.getFormattedCurrency(totalAmount.toString())
                         )
 
                     state.transferFeeSpannable =
-                        Utils.getSppnableStringForAmount(context, state.transferFee, "AED", "50.00")
+                        Utils.getSppnableStringForAmount(
+                            context,
+                            state.transferFee,
+                            "AED",
+                            Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
+                        )
 
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
-                    state.transferFee =
-                        getString(Strings.screen_international_funds_transfer_display_text_fee).format(
-                            "AED",
-                            "50.00"
-                        )
-
-                    state.transferFeeSpannable =
-                        Utils.getSppnableStringForAmount(context, state.transferFee, "AED", "50.00")
+                    // state.transferFee =
+//                        getString(Strings.screen_international_funds_transfer_display_text_fee).format(
+//                            "AED",
+//                            "50.00"
+//                        )
+//
+//                    state.transferFeeSpannable =
+//                        Utils.getSppnableStringForAmount(context, state.transferFee, "AED", "50.00")
                 }
             }
             state.loading = false
