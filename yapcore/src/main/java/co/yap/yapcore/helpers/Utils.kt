@@ -552,6 +552,20 @@ object Utils {
         }
     }
 
+    fun getCountryCodeFormString(
+        region: String
+    ): String {
+        return try {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            val pn = phoneUtil.getCountryCodeForRegion(region)
+            return "+$pn"
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+
     fun getPhoneWithoutCountryCode(defaultCountryCode: String, mobileNo: String): String {
         return try {
             val phoneUtil = PhoneNumberUtil.getInstance()

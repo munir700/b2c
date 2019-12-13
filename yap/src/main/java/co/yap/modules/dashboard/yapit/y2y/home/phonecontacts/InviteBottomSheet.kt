@@ -9,9 +9,9 @@ import co.yap.networking.customers.requestdtos.Contact
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet_invite_friend.view.*
 
-class InvitePhoneContactBottomSheet(
+class InviteBottomSheet(
     private val mListener: OnItemClickListener,
-    private val contact: Contact
+    private val T: Any
 ) : BottomSheetDialogFragment() {
 
     override fun getTheme(): Int = R.style.AppBottomSheetDialogTheme
@@ -21,18 +21,18 @@ class InvitePhoneContactBottomSheet(
     ): View? {
         val view = inflater.inflate(R.layout.bottom_sheet_invite_friend, container, false)
 
-        view.tvChooseEmail.setOnClickListener { mListener.onClick(view.tvChooseEmail.id, contact) }
-        view.tvChooseSMS.setOnClickListener { mListener.onClick(view.tvChooseSMS.id, contact) }
+        view.tvChooseEmail.setOnClickListener { mListener.onClick(view.tvChooseEmail.id, T) }
+        view.tvChooseSMS.setOnClickListener { mListener.onClick(view.tvChooseSMS.id, T) }
         view.tvChooseWhatsapp.setOnClickListener {
             mListener.onClick(
                 view.tvChooseWhatsapp.id,
-                contact
+                T
             )
         }
         return view
     }
 
     interface OnItemClickListener {
-        fun onClick(viewId: Int, contact: Contact)
+        fun onClick(viewId: Int, T: Any)
     }
 }

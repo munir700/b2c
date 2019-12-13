@@ -1,11 +1,13 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -48,7 +50,10 @@ class BeneficiaryAccountDetailsFragment :
                             override fun onItemClick(view: View, data: Any, pos: Int) {
                                 if (data is Boolean) {
                                     if (data) {
-                                        // open transfer slow
+                                        startActivity(Intent(it, BeneficiaryCashTransferActivity::class.java))
+                                        activity?.let { activity ->
+                                            activity.finish()
+                                        }
                                     } else {
                                         activity?.let { activity ->
                                             activity.finish()

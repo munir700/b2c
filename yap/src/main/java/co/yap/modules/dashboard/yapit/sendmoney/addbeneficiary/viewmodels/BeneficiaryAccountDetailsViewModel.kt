@@ -12,6 +12,7 @@ import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class BeneficiaryAccountDetailsViewModel(application: Application) :
     SendMoneyBaseViewModel<IBeneficiaryAccountDetails.State>(application),
@@ -26,6 +27,18 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        parentViewModel?.transferType?.value?.let { it ->
+            if (it.isNotEmpty())
+                when (SendMoneyBeneficiaryType.valueOf(it)) {
+                    SendMoneyBeneficiaryType.SWIFT -> {
+                        state.showlyIban.set(true)
+                        state.showlyConfirmIban.set(true)
+                    }
+                    else -> {
+
+                    }
+                }
+        }
         parentViewModel?.beneficiary?.value?.let {
             state.bankName = it.bankName ?: ""
             state.idCode = it.id.toString()
@@ -57,13 +70,13 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         state.loading = false
                         state.toast = response.data.toString()
-                        success.value =true
+                        success.value = true
                     }
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         state.toast = response.error.message
-                        success.value =false
+                        success.value = false
                     }
                 }
             }
