@@ -39,6 +39,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/transaction/card/analytics-merchant-name"
     const val URL_GET_ANALYTICS_BY_CATEGORY_NAME =
         "/transactions/api/transaction/card/analytics-merchant-category"
+    const val URL_CASH_PAYOUT_TRANSFER =
+        "/transactions/api/cashpayout"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -126,4 +128,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         date: String?
     ): RetroApiResponse<AnalyticsResponseDTO> =
         executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
+
+    override suspend fun cashPayoutTransferRequest(): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.cashPayoutTransferRequest() })
 }

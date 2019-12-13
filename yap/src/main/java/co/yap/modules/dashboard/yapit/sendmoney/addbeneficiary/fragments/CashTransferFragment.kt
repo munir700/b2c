@@ -47,24 +47,25 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            //  findNavController().navigate(R.id.action_cashTransferFragment_to_genericOtpFragment4)
-            val action =
-                CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4(
-                    "Sufyan",
-                    false,
-                    "03025101902",
-                    Constants.BENEFICIARY_CASH_TRANSFER
-                )
-            findNavController().navigate(action)
-            //            val action =
-//                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-//                    viewModel.state.fullName,
-//                    "AED",
-//                    viewModel.state.amount, args.position
+        viewModel.clickEvent.observe(this, clickEvent)
+//        viewModel.clickEvent.observe(this, Observer {
+//            //  findNavController().navigate(R.id.action_cashTransferFragment_to_genericOtpFragment4)
+//            val action =
+//                CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4(
+//                    "Sufyan",
+//                    false,
+//                    "03025101902",
+//                    Constants.BENEFICIARY_CASH_TRANSFER
 //                )
 //            findNavController().navigate(action)
-        })
+//            //            val action =
+////                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
+////                    viewModel.state.fullName,
+////                    "AED",
+////                    viewModel.state.amount, args.position
+////                )
+////            findNavController().navigate(action)
+//        })
 
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
@@ -73,11 +74,29 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     }
 
+    val clickEvent = Observer<Int> {
+        when (it) {
+            R.id.btnConfirm -> {
+                val action =
+                    CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4(
+                        "Sufyan",
+                        false,
+                        "03025101902",
+                        Constants.BENEFICIARY_CASH_TRANSFER
+                    )
+                findNavController().navigate(action)
+            }
+            Constants.ADD_CASH_PICK_UP_SUCCESS -> {
+                findNavController().navigate(R.id.action_cashTransferFragment_to_transferSuccessFragment2)
+            }
+        }
+    }
+
     private fun setUpData() {
-        if (context is BeneficiaryCashTransferActivity){
+        if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
-                if(it){
-                    findNavController().navigate(R.id.action_cashTransferFragment_to_transferSuccessFragment2)
+                if (it) {
+                    viewModel.cashPayoutTransferRequest()
                 }
             }
         }

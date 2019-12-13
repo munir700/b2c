@@ -98,5 +98,9 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
     suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
 
+    //Cash payout transfer request
+    @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
+    suspend fun cashPayoutTransferRequest(): Response<ApiResponse>
+
 
 }
