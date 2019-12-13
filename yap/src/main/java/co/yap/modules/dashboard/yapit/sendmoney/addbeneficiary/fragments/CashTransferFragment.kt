@@ -78,16 +78,22 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         when (it) {
             R.id.btnConfirm -> {
                 val action =
-                    CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4(
-                        "Sufyan",
+                    CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
                         false,
-                        "03025101902",
-                        Constants.BENEFICIARY_CASH_TRANSFER
+                        Constants.BENEFICIARY_CASH_TRANSFER,
+                        viewModel.state.amount
+
                     )
                 findNavController().navigate(action)
             }
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
-                findNavController().navigate(R.id.action_cashTransferFragment_to_transferSuccessFragment2)
+                val action =
+                    CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
+                        "",
+                        viewModel.state.currencyType,
+                        Utils.getFormattedCurrency(viewModel.state.amount)
+                    )
+                findNavController().navigate(action)
             }
         }
     }
@@ -112,6 +118,15 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                  lyUserImage.tvNameInitials.context, 1
              )
          )*/
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).let { it ->
+                it.viewModel.state.leftButtonVisibility = false
+                it.viewModel.state.beneficiary.let {
+                    viewModel.state.fullName = "${it?.firstName} ${it?.lastName}"
+                }
+            }
+
+        }
         getBindings().lyUserImage.lyNameInitials.background =
             context?.resources?.getDrawable(R.drawable.bg_round_denominations, null)
 
@@ -155,11 +170,10 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
 
     override fun onBackPressed(): Boolean {
-        //  viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
         return super.onBackPressed()
     }
 
-    fun getBindings(): FragmentCashTransferBinding {
+    private fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }
 

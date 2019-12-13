@@ -6,15 +6,15 @@ import co.yap.yapcore.SingleClickEvent
 interface ITransferSuccess {
 
     interface State : IBase.State {
-        var pickUpAgentLocation: String
-        var transferType: String
-        var amount: String
-        var currency: String
-        var flag: String
-        var name: String
-        var picture: String
-        var pickUpAgentLocationAddress: String
-        var referenceNumber: String
+        var pickUpAgentLocation: String?
+        var transferType: String?
+        var amount: String?
+        var currency: String?
+        var flag: String?
+        var name: String?
+        var picture: String?
+        var pickUpAgentLocationAddress: String?
+        var referenceNumber: String?
         var flagLayoutVisibility: Boolean?
 
     }

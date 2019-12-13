@@ -11,6 +11,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransf
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ITransferSuccess
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.translation.Strings
 
 class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel>(),
     ITransferSuccess.View {
@@ -34,8 +35,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
                     false
                 it.viewModel.state.rightButtonVisibility =
                     false
-                it.viewModel.state.toolBarTitle="Cash transfer successful"
+                viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+                it.viewModel.state.toolBarTitle =
+                    getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
             }
+            viewModel.state.amount = "${args.currencyType} ${args.amount}"
 
         }
         viewModel.clickEvent.observe(this, Observer {
