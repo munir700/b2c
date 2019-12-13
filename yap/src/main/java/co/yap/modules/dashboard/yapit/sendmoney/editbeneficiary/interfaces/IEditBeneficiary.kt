@@ -28,5 +28,6 @@ interface IEditBeneficiary {
         var swiftCode: String?
         var countryBankRequirementFieldCode: String?
         var beneficiary: Beneficiary?
+        var needOverView:Boolean?
     }
 }

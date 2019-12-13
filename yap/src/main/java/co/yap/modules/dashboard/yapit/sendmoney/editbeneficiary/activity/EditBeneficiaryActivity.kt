@@ -19,6 +19,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
 
     companion object {
         const val Bundle_EXTRA = "bundle_extra"
+        const val OVERVIEW_BENEFICIARY = "overview_beneficiary"
         const val REQUEST_CODE = 101
         fun newIntent(context: Context): Intent {
             return Intent(context, EditBeneficiaryActivity::class.java)
@@ -39,10 +40,11 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         intent?.let {
             if (it.hasExtra(Bundle_EXTRA)) {
                 val bundle = it.getBundleExtra(Bundle_EXTRA)
-                bundle?.let { viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name) }
+                bundle?.let {
+                    viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY,false)
+                    viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name) }
             }
         }
-        viewDataBinding.executePendingBindings()
         setObservers()
     }
 

@@ -11,6 +11,10 @@ import co.yap.app.BuildConfig
 import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
+import co.yap.modules.others.helper.Constants.BUILD_TYPE
+import co.yap.modules.others.helper.Constants.FLAVOR
+import co.yap.modules.others.helper.Constants.VERSION_CODE
+import co.yap.modules.others.helper.Constants.VERSION_NAME
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import kotlinx.android.synthetic.main.fragment_splash.*
@@ -62,9 +66,11 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
     private fun setAppVersion() {
         try {
-            if (!BuildConfig.FLAVOR.equals("live")) {
-                appVersion.text =  String.format("Version Name: %s, Version Code: %d" ,BuildConfig.VERSION_NAME,BuildConfig.VERSION_CODE )
-            }
+            VERSION_NAME = BuildConfig.VERSION_NAME
+            VERSION_CODE = BuildConfig.VERSION_CODE
+            FLAVOR = BuildConfig.FLAVOR
+            BUILD_TYPE = BuildConfig.BUILD_TYPE
+
         } catch (e: Exception) {
 
         }

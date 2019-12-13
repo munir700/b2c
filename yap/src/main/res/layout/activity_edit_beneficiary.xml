@@ -8,6 +8,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <variable
             name="editBeneficiaryViewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel" />
@@ -76,18 +78,18 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:gravity="center"
-                    android:text="@string/screen_add_beneficiary_detail_display_text_title"
+                    android:text="@string/screen_beneficiary_overview_display_text_title"
                     android:textSize="@dimen/text_size_h3"
-                    android:visibility="gone"
-                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_title}"
-                    tools:text="@string/screen_add_beneficiary_detail_display_text_title" />
+                    android:visibility="@{editBeneficiaryViewModel.state.needOverView ? View.VISIBLE : View.GONE}"
+                    app:text="@{Strings.screen_beneficiary_overview_display_text_title}"
+                    tools:text="@string/screen_beneficiary_overview_display_text_title" />
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:orientation="horizontal"
-                    android:visibility="gone">
+                    android:visibility="@{editBeneficiaryViewModel.state.needOverView ? View.VISIBLE : View.GONE}">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="0dp"
@@ -108,6 +110,7 @@
                             android:id="@+id/imgFlag"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/margin_normal"
                             android:src="@drawable/flag_ac"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/appCompatTextView" />
@@ -117,6 +120,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_9sdp"
+                            android:layout_marginTop="@dimen/margin_normal"
                             android:gravity="center_vertical"
                             android:text="@{editBeneficiaryViewModel.state.country}"
                             app:layout_constraintStart_toEndOf="@+id/imgFlag"
@@ -143,6 +147,7 @@
                             android:id="@+id/imgBankTransfer"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
+                            android:layout_marginTop="@dimen/margin_normal"
                             android:src="@drawable/ic_bank"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvTransferType" />
@@ -152,10 +157,12 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_9sdp"
+                            android:layout_marginTop="@dimen/margin_normal"
                             android:gravity="center_vertical"
-                            android:text="@{editBeneficiaryViewModel.state.transferType}"
+                            android:text='@{editBeneficiaryViewModel.state.transferType.equals("CASHPAYOUT")? @string/screen_add_beneficiary_display_text_transfer_type_cash_pickup:@string/screen_add_beneficiary_display_text_transfer_type_bank}'
                             app:layout_constraintStart_toEndOf="@+id/imgBankTransfer"
                             app:layout_constraintTop_toBottomOf="@+id/tvTransferType"
+                            app:text='@{editBeneficiaryViewModel.state.transferType.equals("CASHPAYOUT")?Strings.screen_add_beneficiary_display_text_transfer_type_cash_pickup:Strings.screen_add_beneficiary_display_text_transfer_type_bank}'
                             tools:text="@string/screen_add_beneficiary_display_text_transfer_type_bank" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -165,7 +172,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility="@{editBeneficiaryViewModel.state.needOverView ? View.GONE : View.VISIBLE}">
 
                     <co.yap.widgets.CoreCircularImageView
                         android:id="@+id/imgProfile"
@@ -173,8 +181,8 @@
                         android:layout_height="@dimen/_40sdp"
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="@string/empty_string"
-                        app:fullName="@{editBeneficiaryViewModel.state.beneficiary.fullName()}"
-                        app:beneficiaryPicture="@{editBeneficiaryViewModel.state.beneficiary.beneficiaryPictureUrl}" />
+                        app:beneficiaryPicture="@{editBeneficiaryViewModel.state.beneficiary.beneficiaryPictureUrl}"
+                        app:fullName="@{editBeneficiaryViewModel.state.beneficiary.fullName()}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         style="@style/Small"
@@ -195,8 +203,8 @@
                         android:layout_height="@dimen/_20sdp"
                         android:layout_gravity="center_vertical"
                         android:contentDescription="@string/empty_string"
-                        app:setFlagDrawable ="@{`PK`}"
-                        android:src="@drawable/flag_ua" />
+                        android:src="@drawable/flag_ua"
+                        app:setFlagDrawable="@{`PK`}" />
                 </LinearLayout>
 
                 <View
@@ -205,12 +213,23 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:background="@color/divider" />
 
+                <TextView
+                    style="@style/AppFontRegular"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_normal"
+                    android:textColor="@color/greyDark"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
+                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_currency}"
+                    tools:text="@string/screen_add_beneficiary_detail_display_text_currency" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_small"
                     android:layout_marginBottom="@dimen/margin_normal"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'>
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/labelCardType"
@@ -328,20 +347,20 @@
 
                 <co.yap.widgets.PrefixSuffixEditText
                     android:id="@+id/etPhoneNumber"
+                    style="@style/Yap.App.Widget.TextInputEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/Yap.App.Widget.TextInputEditText"
-                    app:pse_setPrefix="+91 "
-                    app:pse_setPrefixTextColor="#FF4081"
+                    android:imeOptions="actionDone"
+                    android:importantForAutofill="no"
+                    android:inputType="phone"
+                    android:singleLine="true"
+                    android:text="@={editBeneficiaryViewModel.state.phoneNumber}"
                     app:pse_setBorderView="false"
                     app:pse_setClearIconVisible="false"
                     app:pse_setCornerRadius="0dp"
-                    android:imeOptions="actionDone"
-                    android:inputType="phone"
-                    android:singleLine="true"
-                    android:importantForAutofill="no"
-                    android:text="@={editBeneficiaryViewModel.state.phoneNumber}"
-                    app:pse_setStrokeWidth="0dp"/>
+                    app:pse_setPrefix="+91 "
+                    app:pse_setPrefixTextColor="#FF4081"
+                    app:pse_setStrokeWidth="0dp" />
 
                 <LinearLayout
                     android:id="@+id/llBankDetail"
@@ -350,13 +369,15 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:background="@drawable/card_border_selector"
                     android:orientation="vertical"
-                    android:padding="@dimen/margin_medium">
+                    android:padding="@dimen/margin_medium"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'>
 
-                    <androidx.appcompat.widget.AppCompatImageView
+                    <co.yap.widgets.CoreCircularImageView
                         android:layout_width="@dimen/_42sdp"
                         android:layout_height="@dimen/_42sdp"
                         android:layout_gravity="center"
-                        android:src="@drawable/bg_round_purple" />
+                        app:beneficiaryPicture="@{` `}"
+                        app:fullName="@{editBeneficiaryViewModel.state.beneficiary.bankName!=null ? editBeneficiaryViewModel.state.beneficiary.bankName: ` ` }" />
 
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -366,7 +387,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
-                        android:text="TD BANK"
+                        android:text="@{editBeneficiaryViewModel.state.beneficiary.bankName}"
                         android:textSize="@dimen/text_size_c3" />
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -377,7 +398,8 @@
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
                         android:text="ID Code: 8060"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:textSize="@dimen/text_size_c3"
+                        android:visibility="gone" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvBankAddress"
@@ -386,7 +408,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:gravity="center"
-                        android:text="340 5TH AVE SW, CALGARY, AB, T2P0L3"
+                        android:text="@{editBeneficiaryViewModel.state.beneficiary.branchName}"
                         android:textSize="@dimen/text_size_c3" />
 
 
@@ -398,7 +420,8 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:gravity="center"
                         android:text="(403) 292-1100"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:textSize="@dimen/text_size_c3"
+                        android:visibility="gone" />
 
 
                 </LinearLayout>
@@ -409,6 +432,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_beneficiary_overview_display_text_account_number_iban"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -423,7 +447,8 @@
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:singleLine="true"
-                    android:text="@={editBeneficiaryViewModel.state.accountNumber}" />
+                    android:text="@={editBeneficiaryViewModel.state.accountNumber}"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }' />
                 <!---->
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Small"
@@ -431,7 +456,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_beneficiary_overview_display_text_swift_code"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintLeft_toLeftOf="parent"
+
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_beneficiary_overview_display_text_swift_code}"
@@ -445,7 +472,8 @@
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true"
-                    android:text="@={editBeneficiaryViewModel.state.swiftCode}" />
+                    android:text="@={editBeneficiaryViewModel.state.swiftCode}"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }' />
                 <!---->
                 <TextView
                     style="@style/Small"
@@ -453,6 +481,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_beneficiary_overview_display_text_field_code"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }'
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -467,7 +496,8 @@
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true"
-                    android:text="@={editBeneficiaryViewModel.state.countryBankRequirementFieldCode}" />
+                    android:text="@={editBeneficiaryViewModel.state.countryBankRequirementFieldCode}"
+                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }' />
 
 
                 <co.yap.widgets.CoreButton
@@ -480,8 +510,8 @@
                     android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
                     android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:btn_enable="true"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{Strings.screen_beneficiary_overview_button_confirm}"
                     tools:text="@string/screen_beneficiary_overview_button_confirm" />
             </androidx.appcompat.widget.LinearLayoutCompat>

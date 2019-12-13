@@ -87,6 +87,12 @@ class EditBeneficiaryStates : BaseState(), IEditBeneficiary.State {
             notifyPropertyChanged(BR.countryBankRequirementFieldCode)
         }
     @get:Bindable
+    override var needOverView: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.needOverView)
+        }
+    @get:Bindable
     override var beneficiary: Beneficiary? = Beneficiary()
         set(value) {
             field = value

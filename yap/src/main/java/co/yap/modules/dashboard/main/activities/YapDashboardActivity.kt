@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -35,6 +36,9 @@ import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
 import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity
+import co.yap.modules.others.helper.Constants.FLAVOR
+import co.yap.modules.others.helper.Constants.VERSION_CODE
+import co.yap.modules.others.helper.Constants.VERSION_NAME
 import co.yap.translation.Strings
 import co.yap.widgets.CoreButton
 import co.yap.widgets.arcmenu.FloatingActionMenu
@@ -48,6 +52,7 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
+import java.lang.Exception
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
     IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
@@ -73,6 +78,8 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
         addObservers()
         addListeners()
         setupYapButton()
+        setAppVersion()
+
     }
 
 
@@ -124,7 +131,7 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
                             }
                         }
-                        3 ->{
+                        3 -> {
                             startActivity(
                                 SendMoneyLandingActivity.newIntent(
                                     this@YapDashboardActivity
@@ -404,6 +411,18 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
 
     private fun getViewBinding(): ActivityYapDashboardBinding {
         return (viewDataBinding as ActivityYapDashboardBinding)
+    }
+
+    private fun setAppVersion() {
+        try {
+            if (!FLAVOR.equals("live")) {
+                tvVersionCode.text = String.format("Version Code: %d", VERSION_CODE)
+                String.format("Version Name: %s", VERSION_NAME)
+                tvVersionName.text = String.format("Version Name: %s", VERSION_NAME)
+            }
+        } catch (e: Exception) {
+
+        }
     }
 
 }
