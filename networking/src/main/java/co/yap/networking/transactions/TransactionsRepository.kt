@@ -46,6 +46,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     const val URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST =
         "/transactions/api/product-codes/{product-code}/purpose-reasons"
 
+    const val URL_GET_INTERNATIONAL_RX_RATE_LIST =
+        "transactions/api/product-codes/{product-code}/fxRate"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -73,6 +75,9 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList> =
         executeSafely(call = { api.getInternationalTransactionReasonList(productCode) })
+
+    override suspend fun getTransactionInternationalRXList(productCode: String,mRxListRequest: RxListRequest): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.getInternationalRXRateList(productCode,mRxListRequest) })
 
     override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })

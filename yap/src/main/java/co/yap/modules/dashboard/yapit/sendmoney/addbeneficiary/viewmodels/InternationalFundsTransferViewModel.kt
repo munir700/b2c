@@ -10,6 +10,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
+import co.yap.networking.transactions.requestdtos.RxListRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
@@ -40,8 +41,9 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         transactionData.clear()
-        getTransactionFeeInternational()
-        getTransactionInternationalReasonList()
+//        getTransactionFeeInternational()
+//        getTransactionInternationalReasonList()
+        getTransactionInternationalRxList()
     }
 
 
@@ -60,11 +62,8 @@ class InternationalFundsTransferViewModel(application: Application) :
         launch {
             state.loading = true
             val remittanceFeeRequestBody = RemittanceFeeRequest("PK", "")
-
             when (val response =
-
                 /*TODO:For Swift (P011) and for cash pickup (P013) */
-
                 mTransactionsRepository.getTransactionFeeWithProductCode(
                     "P013",
                     remittanceFeeRequestBody
@@ -77,9 +76,13 @@ class InternationalFundsTransferViewModel(application: Application) :
                         if (feeAmount != null) {
                             totalAmount = feeAmount + feeAmountVAT!!
                         }
+
                     } else if (response.data.data?.feeType == "TIER") {
+
                         println(response.data.data)
                         println(response.data.data)
+                        val list = response.data.data!!.tierRateDTOList
+
                     } else {
                         totalAmount = 0.0
                     }
@@ -105,14 +108,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                 is RetroApiResponse.Error -> {
                     state.loading = false
                     state.toast = response.error.message
-                    // state.transferFee =
-//                        getString(Strings.screen_international_funds_transfer_display_text_fee).format(
-//                            "AED",
-//                            "50.00"
-//                        )
-//
-//                    state.transferFeeSpannable =
-//                        Utils.getSppnableStringForAmount(context, state.transferFee, "AED", "50.00")
                 }
             }
             state.loading = false
@@ -136,6 +131,35 @@ class InternationalFundsTransferViewModel(application: Application) :
                         })
                     }
                     populateSpinnerData.value = transactionData
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            state.loading = false
+        }
+    }
+
+
+    /*
+    * In this function get All List of reasons.
+    * */
+
+    private fun getTransactionInternationalRxList() {
+        launch {
+
+            /*TODO: SWIFT("P011"), RMT("P012"), CASH_PAYOUT("P013"),*/
+            state.loading = true
+            val rxListBody = RxListRequest("100006299400029")
+
+            when (val response =
+                mTransactionsRepository.getTransactionInternationalRXList("P012", rxListBody)) {
+                is RetroApiResponse.Success -> {
+                    //if (response.data.isNullOrEmpty()) return@launch
+                    println(response)
+                    println(response)
+
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
