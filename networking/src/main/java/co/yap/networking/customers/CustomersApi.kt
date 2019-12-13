@@ -54,4 +54,6 @@ interface CustomersApi {
     suspend fun editBeneficiary(beneficiary: Beneficiary?): RetroApiResponse<ApiResponse>
     suspend fun deleteBeneficiaryFromList(beneficiaryId: String): RetroApiResponse<ApiResponse>
 
+    suspend fun getCurrenciesByCountryCode(country: String): RetroApiResponse<ApiResponse>
+
 }

@@ -43,4 +43,19 @@ class EditBeneficiaryViewModel(application: Application) :
             }
         }
     }
+
+    override fun getCurrenciesByCountryCode() {
+        launch {
+            when(val response = repository.getCurrenciesByCountryCode("PK"))
+            {
+                is RetroApiResponse.Success->
+                {
+
+                }
+                is RetroApiResponse.Error -> {
+
+                }
+            }
+        }
+    }
 }
