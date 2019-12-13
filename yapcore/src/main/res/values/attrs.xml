@@ -359,6 +359,8 @@
 
     <declare-styleable name="DrawableClickEditText">
         <attr name="isDrawableShownWhenTextIsEmpty" format="boolean"/>
+        <attr name="popupContentValue" format="string"/>
+        <attr name="popupConntentValue" format="reference"/>
     </declare-styleable>
 
 </resources>
