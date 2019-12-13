@@ -59,8 +59,6 @@ class InternationalFundsTransferViewModel(application: Application) :
     private fun getTransactionFeeInternational() {
         launch {
             state.loading = true
-//            val params = HashMap<String, String>()
-//            params["country"] = "PAKISTAN"
             val remittanceFeeRequestBody = RemittanceFeeRequest("PK", "")
 
             when (val response =
@@ -73,15 +71,18 @@ class InternationalFundsTransferViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
                     var totalAmount = 0.0
+                    /*TODO: Check Fee Type*/
                     if (response.data.data?.feeType == "FLAT") {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         if (feeAmount != null) {
                             totalAmount = feeAmount + feeAmountVAT!!
                         }
-
+                    } else if (response.data.data?.feeType == "TIER") {
+                        println(response.data.data)
+                        println(response.data.data)
                     } else {
-                        /*TODO: Check Fee Type*/
+                        totalAmount = 0.0
                     }
 
 
