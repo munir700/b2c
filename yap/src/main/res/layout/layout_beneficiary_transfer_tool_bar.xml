@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -30,7 +31,7 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:visibility="@{viewModel.state.leftButtonVisibility? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.leftButtonVisibility? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -55,9 +56,10 @@
             android:layout_height="wrap_content"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-            android:text="Cancel"
+            tools:text="Cancel"
+            android:text="@{viewModel.state.rightButtonText}"
             android:textColor="@color/colorPrimary"
-            android:visibility="@{viewModel.state.rightButtonVisibility? View.VISIBLE:View.GONE}"
+            android:visibility="@{viewModel.state.rightButtonVisibility? View.VISIBLE:View.INVISIBLE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

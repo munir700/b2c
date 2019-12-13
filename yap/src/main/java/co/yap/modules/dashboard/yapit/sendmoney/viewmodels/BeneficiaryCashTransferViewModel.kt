@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.viewmodels
 import android.app.Application
 import co.yap.modules.dashboard.yapit.sendmoney.interfaces.IBeneficiaryCashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.states.BeneficiaryCashTransferState
+import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
@@ -16,8 +17,9 @@ class BeneficiaryCashTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         state.toolBarVisibility = true
-        state.toolBarTitle = "Send money"
+        state.toolBarTitle = getString(Strings.screen_cash_pickup_funds_display_text_header)
         state.leftButtonVisibility = true
+        state.rightButtonText= getString(Strings.common_button_cancel)
         state.rightButtonVisibility = true
 
     }

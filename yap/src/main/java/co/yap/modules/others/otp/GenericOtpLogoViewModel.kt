@@ -1,0 +1,47 @@
+package co.yap.modules.others.otp
+
+import android.app.Application
+import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.Utils
+
+class GenericOtpLogoViewModel(application: Application) :
+    GenericOtpViewModel(application = application) {
+    private lateinit var descriptionString: String
+
+
+    override fun onCreate() {
+        super.onCreate()
+        when (action) {
+            Constants.BENEFICIARY_CASH_TRANSFER -> {
+                descriptionString =
+                    getString(Strings.screen_cash_pickup_funds_display_otp_text_description).format(
+                        state.currencyType,
+                        Utils.getFormattedCurrency(state.amount),
+                        state.fullName
+                    )
+                state.currencyType?.let {
+                    state.amount?.let {
+                        state.verificationDescriptionForLogo = Utils.getSppnableStringForAmount(
+                            context,
+                            descriptionString,
+                            state.currencyType!!,
+                            Utils.getFormattedCurrencyWithoutComma(state.amount!!)
+                        )
+                    }
+                }
+                state.fullName?.let {
+                    state.verificationTitle = it
+                }
+                state.verificationDescription =
+                    Strings.screen_cash_pickup_funds_display_otp_text_description
+            }
+        }
+        state.reverseTimer(10)
+        state.validResend = false
+    }
+
+    override fun handlePressOnResendOTP(id: Int) {
+        createOtp()
+    }
+}

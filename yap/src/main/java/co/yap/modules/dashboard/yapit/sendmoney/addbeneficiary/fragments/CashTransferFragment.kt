@@ -47,24 +47,25 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     override fun setObservers() {
-        viewModel.clickEvent.observe(this, Observer {
-            //  findNavController().navigate(R.id.action_cashTransferFragment_to_genericOtpFragment4)
-            val action =
-                CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4(
-                    "Sufyan",
-                    false,
-                    "03025101902",
-                    Constants.BENEFICIARY_CASH_TRANSFER
-                )
-            findNavController().navigate(action)
-            //            val action =
-//                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
-//                    viewModel.state.fullName,
-//                    "AED",
-//                    viewModel.state.amount, args.position
+        viewModel.clickEvent.observe(this, clickEvent)
+//        viewModel.clickEvent.observe(this, Observer {
+//            //  findNavController().navigate(R.id.action_cashTransferFragment_to_genericOtpFragment4)
+//            val action =
+//                CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpFragment4(
+//                    "Sufyan",
+//                    false,
+//                    "03025101902",
+//                    Constants.BENEFICIARY_CASH_TRANSFER
 //                )
 //            findNavController().navigate(action)
-        })
+//            //            val action =
+////                Y2YTransferFragmentDirections.actionY2YTransferFragmentToY2YFundsTransferSuccessFragment(
+////                    viewModel.state.fullName,
+////                    "AED",
+////                    viewModel.state.amount, args.position
+////                )
+////            findNavController().navigate(action)
+//        })
 
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
@@ -73,11 +74,35 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     }
 
+    val clickEvent = Observer<Int> {
+        when (it) {
+            R.id.btnConfirm -> {
+                val action =
+                    CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
+                        false,
+                        Constants.BENEFICIARY_CASH_TRANSFER,
+                        viewModel.state.amount
+
+                    )
+                findNavController().navigate(action)
+            }
+            Constants.ADD_CASH_PICK_UP_SUCCESS -> {
+                val action =
+                    CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
+                        "",
+                        viewModel.state.currencyType,
+                        Utils.getFormattedCurrency(viewModel.state.amount)
+                    )
+                findNavController().navigate(action)
+            }
+        }
+    }
+
     private fun setUpData() {
-        if (context is BeneficiaryCashTransferActivity){
+        if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
-                if(it){
-                    findNavController().navigate(R.id.action_cashTransferFragment_to_transferSuccessFragment2)
+                if (it) {
+                    viewModel.cashPayoutTransferRequest()
                 }
             }
         }
@@ -93,6 +118,15 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                  lyUserImage.tvNameInitials.context, 1
              )
          )*/
+        if (activity is BeneficiaryCashTransferActivity) {
+            (activity as BeneficiaryCashTransferActivity).let { it ->
+                it.viewModel.state.leftButtonVisibility = false
+                it.viewModel.state.beneficiary.let {
+                    viewModel.state.fullName = "${it?.firstName} ${it?.lastName}"
+                }
+            }
+
+        }
         getBindings().lyUserImage.lyNameInitials.background =
             context?.resources?.getDrawable(R.drawable.bg_round_denominations, null)
 
@@ -136,11 +170,10 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
 
     override fun onBackPressed(): Boolean {
-        //  viewModel.parentViewModel?.state?.rightButtonVisibility = View.VISIBLE
         return super.onBackPressed()
     }
 
-    fun getBindings(): FragmentCashTransferBinding {
+    private fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }
 
