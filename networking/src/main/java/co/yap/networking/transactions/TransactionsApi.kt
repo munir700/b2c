@@ -14,7 +14,10 @@ interface TransactionsApi {
     suspend fun getFundTransferLimits(productCode: String): RetroApiResponse<FundTransferLimitsResponse>
     suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse>
     suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse>
+    suspend fun getTransactionFeeWithProductCode(productCode: String, mRemittanceFeeRequest: RemittanceFeeRequest): RetroApiResponse<ApiResponse>
+    suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList>
     suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse>
+    suspend fun getTransactionInternationalRXList(RxNumber: String,mRxListRequest: RxListRequest): RetroApiResponse<ApiResponse>
     suspend fun y2yFundsTransferRequest(y2YFundsTransferRequest: Y2YFundsTransferRequest): RetroApiResponse<ApiResponse>
     suspend fun addEditNote(addEditNoteRequest: AddEditNoteRequest): RetroApiResponse<AddEditNoteResponse>
     suspend fun getSearchFilterAmount(): RetroApiResponse<SearchFilterAmountResponse>

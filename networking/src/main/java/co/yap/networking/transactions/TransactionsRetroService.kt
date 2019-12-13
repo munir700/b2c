@@ -3,9 +3,10 @@ package co.yap.networking.transactions
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
-import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
+import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -101,6 +102,18 @@ interface TransactionsRetroService {
     //Cash payout transfer request
     @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
     suspend fun cashPayoutTransferRequest(): Response<ApiResponse>
+
+    //Get transaction fee
+    @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
+    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>
+
+    //Get transaction international purpose reasons.
+    @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
+    suspend fun getInternationalTransactionReasonList(@Path("product-code") cardSerialNumber: String): Response<InternationalFundsTransferReasonList>
+
+    //Get transaction international purpose reasons.
+    @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
+    suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String, @Body mRxListRequest: RxListRequest): Response<ApiResponse>
 
 
 }
