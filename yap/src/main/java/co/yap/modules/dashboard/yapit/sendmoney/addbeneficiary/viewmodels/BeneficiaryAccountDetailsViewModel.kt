@@ -49,9 +49,18 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
     override fun handlePressOnAddBank(id: Int) {
         if (id == R.id.confirmButton) {
-            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
-            parentViewModel?.beneficiary?.value?.swiftCode = state.swiftCode
-            parentViewModel?.beneficiary?.value?.accountNo = state.beneficiaryAccountNumber
+            parentViewModel?.transferType?.value?.let { it ->
+                if (it.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(it)) {
+                        SendMoneyBeneficiaryType.SWIFT -> {
+                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+                        }
+                        else -> {
+
+                        }
+                    }
+            }
+
         }
         clickEvent.setValue(id)
     }

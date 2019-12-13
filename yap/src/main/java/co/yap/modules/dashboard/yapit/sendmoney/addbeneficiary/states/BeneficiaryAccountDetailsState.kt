@@ -16,6 +16,7 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountIban)
+            validateNonRmt()
         }
 
     @get:Bindable
@@ -23,6 +24,7 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountConfirmIban)
+            validateNonRmt()
         }
 
     @get:Bindable
@@ -55,6 +57,11 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
             field = value
             notifyPropertyChanged(BR.valid)
         }
+
+    private fun validateNonRmt() {
+        valid = !accountIban.isNullOrEmpty() && !accountConfirmIban.isNullOrEmpty() && accountIban == accountConfirmIban
+        notifyPropertyChanged(BR.valid)
+    }
 
     fun validate() {
         if (!countryBankRequirementFieldCode.isNullOrEmpty() && !beneficiaryAccountNumber.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !accountIban.isNullOrEmpty()) {
