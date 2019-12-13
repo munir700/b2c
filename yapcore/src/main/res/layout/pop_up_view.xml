@@ -4,17 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="@dimen/_5sdp"
-    android:layout_marginStart="@dimen/margin_extra_small"
-    android:layout_marginTop="@dimen/margin_extra_small"
-    android:layout_marginEnd="@dimen/margin_extra_small"
-    android:background="@color/colorPrimary"
-    app:cardBackgroundColor="@color/colorPrimary"
+    android:elevation="@dimen/_10sdp"
+    app:cardUseCompatPadding="true"
     app:cardCornerRadius="@dimen/_5sdp">
 
     <TextView
         android:id="@+id/tvContent"
         style="@style/AMicro"
+        android:lineHeight="18sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="@dimen/_10sdp"

@@ -51,7 +51,7 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
                     }
                     DrawablePosition.RIGHT -> {
                         val xoff = Utils.getDimensionInPercent(context,true,6)
-                        showAsPopUp(this@DrawableClickEditText, xoff, 10)
+                        showAsPopUp(this@DrawableClickEditText, xoff, 0)
                     }
                 }
             }
@@ -100,7 +100,7 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
         setPopupContent()
         val popUpWindowWidth = getScreenWidth() - Utils.getDimensionInPercent(context, true, 11)
         mPopupWindow =
-            PopupWindow(popupView, popUpWindowWidth, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+            PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
         mPopupWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setCancelable(true)
     }
@@ -120,12 +120,12 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
         val height = anchor.measuredHeight
         val ivHeight = drawableRight?.intrinsicHeight ?: 0
         val location = IntArray(2)
-        anchor.getLocationOnScreen(location)
+        anchor.getLocationInWindow(location)
         mPopupWindow?.showAtLocation(
             anchor,
             Gravity.TOP,
             location[0] - xoff,
-            location[1] - height - ivHeight - yoff
+            location[1] - height - ivHeight*2
         )
     }
 
