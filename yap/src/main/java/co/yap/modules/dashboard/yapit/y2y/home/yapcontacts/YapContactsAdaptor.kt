@@ -6,10 +6,10 @@ import co.yap.R
 import co.yap.databinding.ItemContactsBinding
 import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.YapContactItemViewHolder
 import co.yap.networking.customers.requestdtos.Contact
-import co.yap.yapcore.BaseBindingRecyclerAdapter
+import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 
 class YapContactsAdaptor(private val list: MutableList<Contact>) :
-    BaseBindingRecyclerAdapter<Contact, RecyclerView.ViewHolder>(list) {
+    BaseBindingSearchRecylerAdapter<Contact, RecyclerView.ViewHolder>(list) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.item_contacts
 
@@ -24,4 +24,12 @@ class YapContactsAdaptor(private val list: MutableList<Contact>) :
         }
     }
 
+    override fun filterItem(constraint: CharSequence?, item: Contact): Boolean {
+        val filterString = constraint.toString().toLowerCase()
+        val filterableString =
+            item.countryCode!! + "" + item.mobileNo!!
+        val filterableStringForName = item.title!!
+        return (filterableString.toLowerCase().contains(filterString) || filterableStringForName.toLowerCase().contains(filterString))
+
+    }
 }

@@ -4,7 +4,6 @@ import android.app.Application
 import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.states.SendMoneyHomeState
@@ -47,7 +46,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_send_money_display_text_title))
-        //toggleAddButtonVisibility(true)
         requestAllBeneficiaries()
     }
 
@@ -56,8 +54,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
         return pagingState
     }
 
-
-    private fun requestAllBeneficiaries() {
+    override fun requestAllBeneficiaries() {
         launch {
             state.loading = true
             when (val response = repository.getAllBeneficiaries()) {
@@ -69,8 +66,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-//                    state.toast = response.error.message
-
                 }
             }
         }
@@ -78,19 +73,21 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override fun requestRecentBeneficiaries() {
         launch {
-            state.loading = true
-//            when (val response = repository.getRecentBeneficiaries()) {
-            when (val response = repository.getAllBeneficiaries()) {
+            state.loading = false
+            when (val response = repository.getRecentBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-//                    state.toast = response.data.toString()
+                    if (response.data.data.isNullOrEmpty())
+                        state.isNoRecentBeneficiary.set(true)
+                    else
+                        state.isNoRecentBeneficiary.set(false)
+
                     recentTransferData.value = response.data.data
 
                 }
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    //state.toast = response.error.message
                 }
             }
         }
@@ -109,7 +106,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-//                    state.toast = response.error.message
+                    state.toast = response.error.message
                 }
             }
         }

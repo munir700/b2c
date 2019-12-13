@@ -23,20 +23,15 @@ class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
     override val viewModel: ITransferType.ViewModel
         get() = ViewModelProviders.of(this).get(TransferTypeViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
-
                 R.id.llBankTransferType -> {
                     findNavController().navigate(R.id.action_transferTypeFragment_to_addBeneficiaryFragment)
 //                    findNavController().navigate(R.id.action_transferTypeFragment_to_addBeneficiaryForDomesticTransferFragment)
-
                 }
 
                 R.id.llCashPickUpTransferType -> {
@@ -91,7 +86,7 @@ class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
                 })
 
             .setNegativeButton(
-                  "Domestic",
+                "Domestic",
                 DialogInterface.OnClickListener { dialog, which ->
                     findNavController().navigate(R.id.action_transferTypeFragment_to_addBeneficiaryForDomesticTransferFragment)
 
@@ -101,7 +96,6 @@ class TransferTypeFragment : SendMoneyBaseFragment<ITransferType.ViewModel>(),
             )
             .show()
     }
-
 
 
 }

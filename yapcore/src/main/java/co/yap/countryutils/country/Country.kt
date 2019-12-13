@@ -11,7 +11,7 @@ class Country(
     var id: Int? = null,
     var isoCountryCode3Digit: String? = null,
     private var cashPickUpAllowed: Boolean? = false,
-    private var rmtCountry: Boolean? = false,
+    var rmtCountry: Boolean? = false,
     var isoCountryCode2Digit: String? = null,
     var supportedCurrencies: List<Currency>? = null,
     var active: Boolean? = false,

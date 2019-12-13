@@ -17,6 +17,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.toast
 
 class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
@@ -40,7 +41,8 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
     val clickEvent=Observer<Int>{
         when(it){
             Constants.ADD_CASH_PICK_UP_SUCCESS->{
-                findNavController().navigate(R.id.action_addBeneficiaryForCashFlowFragment_to_cashTransferFragment)
+                toast("add flow")
+                //findNavController().navigate(R.id.action_addBeneficiaryForCashFlowFragment_to_cashTransferFragment)
             }
 
         }
@@ -121,8 +123,8 @@ class AddBeneficiaryForCashFlowFragment : SendMoneyBaseFragment<IAddBeneficiary.
         beneficiary.currency = viewModel.state.currency
         beneficiary.country = "UAE"
 //      beneficiary.country = viewModel.state.country
-        beneficiary.mobileNo = viewModel.state.phoneNumber
+        beneficiary.mobileNo = viewModel.state.mobileNo
 
-        viewModel.generateCashPayoutBeneficiaryRequestDTO(beneficiary)
+        //viewModel.generateCashPayoutBeneficiaryRequestDTO()
     }
 }

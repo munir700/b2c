@@ -497,6 +497,7 @@
     <string name="screen_y2y_display_text_invite_via_sms">SMS</string>
     <string name="screen_y2y_display_text_invite_via_whatsapp">Whatsapp</string>
     <string name="screen_y2y_display_text_no_contacts">No contacts found.</string>
+    <string name="screen_y2y_display_text_no_result">No results</string>
     <string name="common_display_text_y2y_share">Hi %1$s \n\n%2$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%3$s\n\nDownload on Play Store:\n%4$s"</string>
     <string name="common_display_text_y2y_general_share">Hi \n\n%1$s would like to send you some money via YAP. Download the app now and join YAP’s fast growing community!\n\nDownload on App Store:\n%2$s\n\nDownload on Play Store:\n%3$s"</string>
 
@@ -588,6 +589,8 @@
     <string name="screen_add_beneficiary_detail_display_text_transfer_phone">Phone number (optional)</string>
     <string name="screen_add_beneficiary_detail_button_confirm">Confirm</string>
     <string name="screen_sdd_beneficiary_display_confirm_iban">Confirm IBAN</string>
+
+    <string name="screen_add_beneficiary_display_help_content">You can find your International Bank Account Number (IBAN) and Bank Identifier Code (BIC or SWIFT) on your paper statement or by logging in to Online Banking.</string>
 
 
     <string name="screen_add_beneficiary_detail_display_text_alert_title">Beneficiary has been added successfully</string>
@@ -705,7 +708,8 @@
 <!--    Edit -->
 
 
-    <!--    CashPickup Transfer screen-->
+    <!--    CashPickup Transfer flow-->
     <string name="screen_cash_pickup_funds_display_text_fee">An %1s %2s fee will be charged to your YAP account for this transfer</string>
+    <string name="screen_cash_pickup_funds_display_otp_text_description">Enter the OTP sent to your registered mobile number to transfer %1s %2s to %3s</string>
 
 </resources>

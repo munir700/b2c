@@ -7,11 +7,18 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import co.yap.app.BuildConfig
 import co.yap.app.R
 import co.yap.app.modules.startup.interfaces.ISplash
 import co.yap.app.modules.startup.viewmodels.SplashViewModel
+import co.yap.modules.others.helper.Constants.BUILD_TYPE
+import co.yap.modules.others.helper.Constants.FLAVOR
+import co.yap.modules.others.helper.Constants.VERSION_CODE
+import co.yap.modules.others.helper.Constants.VERSION_NAME
 import co.yap.yapcore.BaseFragment
 import co.yap.yapcore.helpers.SharedPreferenceManager
+import kotlinx.android.synthetic.main.fragment_splash.*
+import java.lang.Exception
 
 class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
 
@@ -54,7 +61,19 @@ class SplashFragment : BaseFragment<ISplash.ViewModel>(), ISplash.View {
                 }
             }
         })
+        setAppVersion()
+    }
 
+    private fun setAppVersion() {
+        try {
+            VERSION_NAME = BuildConfig.VERSION_NAME
+            VERSION_CODE = BuildConfig.VERSION_CODE
+            FLAVOR = BuildConfig.FLAVOR
+            BUILD_TYPE = BuildConfig.BUILD_TYPE
+
+        } catch (e: Exception) {
+
+        }
     }
 
     override fun onDestroyView() {

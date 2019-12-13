@@ -8,6 +8,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class TransferTypeViewModel(application: Application) :
     SendMoneyBaseViewModel<ITransferType.State>(application), ITransferType.ViewModel,
@@ -20,10 +21,30 @@ class TransferTypeViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
     override fun handlePressOnTypeBankTransfer(id: Int) {
+        parentViewModel?.selectedCountry?.value?.let {
+            it.isoCountryCode2Digit?.let { code ->
+                if (code.equals("ae", true)) {
+                    parentViewModel?.transferType?.value =
+                        (SendMoneyBeneficiaryType.DOMESTIC.name)
+                } else {
+                    it.rmtCountry?.let { isRmt ->
+                        if (isRmt) {
+                            parentViewModel?.transferType?.value =
+                                (SendMoneyBeneficiaryType.RMT.name)
+                        } else {
+                            parentViewModel?.transferType?.value =
+                                (SendMoneyBeneficiaryType.SWIFT.name)
+                        }
+                    }
+                }
+            }
+        }
         clickEvent.setValue(id)
     }
 
     override fun handlePressOnTypeCashPickUp(id: Int) {
+        parentViewModel?.transferType?.value =
+            (SendMoneyBeneficiaryType.CASHPAYOUT.name)
         clickEvent.setValue(id)
     }
 

@@ -71,6 +71,9 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     val URL_CASH_PICKUP_PARTNER =
         "customers/api/pickup-partner/currency-code/{currency-code}/country-code/{country-code} "
 
+    const val URL_CURRENCIES_BY_COUNTRY_CODE =
+        "customers/api/country/{country}/currencies"
+
 
     //.................... End region of old projects apis................................................
 
@@ -207,5 +210,5 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCardsLimit(): RetroApiResponse<CardsLimitResponse> =
         executeSafely(call = { api.getCardsLimit() })
 
-
+    override suspend fun getCurrenciesByCountryCode(country: String)=executeSafely(call = { api.getCurrenciesByCountryCode(country) })
 }

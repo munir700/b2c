@@ -10,9 +10,7 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel" />
-
     </data>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -80,8 +78,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
-                        android:text="TD BANK"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.bankName}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="TD BANK" />
 
                     <TextView
                         android:id="@+id/tvIdCode"
@@ -90,8 +89,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
-                        android:text="ID Code: 8060"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.idCode}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="ID Code: 8060" />
 
                     <TextView
                         android:id="@+id/tvBankAddress"
@@ -100,8 +100,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:gravity="center"
-                        android:text="340 5TH AVE SW, CALGARY, AB, T2P0L3"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.bankAddress}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="340 5TH AVE SW, CALGARY, AB, T2P0L3" />
 
 
                     <TextView
@@ -111,8 +112,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:gravity="center"
-                        android:text="(403) 292-1100"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.bankPhoneNumber}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="(403) 292-1100" />
 
 
                 </LinearLayout>

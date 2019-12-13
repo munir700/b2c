@@ -1,8 +1,8 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface IBankDetails {
 
@@ -15,10 +15,9 @@ interface IBankDetails {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
         var clickEvent: SingleClickEvent
-
-        fun handlePressOnAddBank(id: Int)
+        fun handlePressOnView(id: Int)
+        fun searchRMTBanks()
     }
 
     interface View : IBase.View<ViewModel>

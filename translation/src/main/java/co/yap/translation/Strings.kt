@@ -818,6 +818,9 @@ object Strings {
         "common_display_text_y2y_share"
     const val common_display_text_y2y_general_share: String =
         "common_display_text_y2y_general_share"
+    const val screen_y2y_display_text_no_result: String =
+        "screen_y2y_display_text_no_result"
+
 
     //    Y2Y funds Transfer success screen
     const val screen_y2y_funds_transfer_success_display_text_title: String =
@@ -1127,5 +1130,7 @@ object Strings {
     //CashPickup Transfer screen
     const val screen_cash_pickup_funds_display_text_fee: String =
         "screen_cash_pickup_funds_display_text_fee"
+    const val screen_cash_pickup_funds_display_otp_text_description: String =
+        "screen_cash_pickup_funds_display_otp_text_description"
 
 }
