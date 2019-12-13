@@ -18,6 +18,7 @@ interface IBankDetails {
         var clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun createBeneficiaryRequest()
+        fun searchRMTBanks()
     }
 
     interface View : IBase.View<ViewModel>

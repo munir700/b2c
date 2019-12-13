@@ -58,7 +58,8 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var picture: String = "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+    override var picture: String =
+        "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
         set(value) {
             field = value
             notifyPropertyChanged(BR.picture)
@@ -71,6 +72,12 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             field = value
             notifyPropertyChanged(BR.referenceNumber)
 
+        }
+    @get:Bindable
+    override var flagLayoutVisibility: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.flagLayoutVisibility)
         }
 
     @get:Bindable

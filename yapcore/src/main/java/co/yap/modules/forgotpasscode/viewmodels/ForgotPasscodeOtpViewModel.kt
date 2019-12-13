@@ -20,9 +20,9 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: MessagesRepository = MessagesRepository
     //override var mobileNumber: String = "scsd"
-    override var destination: String = ""
-    override var emailOtp: Boolean = false
-    override var action: String = ""
+    override var destination: String? = ""
+    override var emailOtp: Boolean? = false
+    override var action: String? = ""
 
     override fun onCreate() {
         super.onCreate()
@@ -40,7 +40,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
     override fun handlePressOnResendOTP(id: Int) {
         launch {
             state.loading = true
-            when (val response=repository.createForgotPasscodeOTP(CreateForgotPasscodeOtpRequest(destination,emailOtp))) {
+            when (val response=repository.createForgotPasscodeOTP(CreateForgotPasscodeOtpRequest(destination.toString(),emailOtp!!))) {
                 is RetroApiResponse.Success ->{
                     state.toast=getString(Strings.screen_verify_phone_number_display_text_resend_otp_success)
                     state.reverseTimer(10)
@@ -62,7 +62,7 @@ open class ForgotPasscodeOtpViewModel(application: Application) : BaseViewModel<
         launch {
             state.loading = true
             when (val response =
-                repository.verifyForgotPasscodeOtp(VerifyForgotPasscodeOtpRequest(destination, state.otp, emailOtp))) {
+                repository.verifyForgotPasscodeOtp(VerifyForgotPasscodeOtpRequest(destination.toString(), state.otp, emailOtp!!))) {
                 is RetroApiResponse.Success -> {
                     nextButtonPressEvent.setValue(id)
                 }

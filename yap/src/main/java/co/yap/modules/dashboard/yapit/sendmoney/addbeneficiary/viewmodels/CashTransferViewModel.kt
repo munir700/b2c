@@ -46,14 +46,14 @@ class CashTransferViewModel(application: Application) :
         if (state.checkValidity() == "") {
             // clickEvent.postValue(id)
 //            temporary comment this service for
-            y2yFundsTransferRequest(id)
+            clickEvent.postValue(id)
 
         } else {
             errorEvent.postValue(id)
         }
     }
 
-    private fun y2yFundsTransferRequest(id: Int) {
+    /*private fun y2yFundsTransferRequest(id: Int) {
         val y2yFundsTransfer = Y2YFundsTransferRequest(
             receiverUUID, state.fullName, state.amount, false, state.noteValue
         )
@@ -72,5 +72,5 @@ class CashTransferViewModel(application: Application) :
             }
             state.loading = false
         }
-    }
+    }*/
 }
