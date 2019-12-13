@@ -15,9 +15,9 @@ interface IForgotPasscodeOtp {
         fun handlePressOnResendOTP(id: Int)
         fun setPasscode(passcode: String)
        // var mobileNumber: String
-        var destination: String
-        var emailOtp: Boolean
-        var action: String
+        var destination: String?
+        var emailOtp: Boolean?
+        var action: String?
     }
 
     interface State : IBase.State {

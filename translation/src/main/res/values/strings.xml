@@ -706,7 +706,8 @@
 <!--    Edit -->
 
 
-    <!--    CashPickup Transfer screen-->
+    <!--    CashPickup Transfer flow-->
     <string name="screen_cash_pickup_funds_display_text_fee">An %1s %2s fee will be charged to your YAP account for this transfer</string>
+    <string name="screen_cash_pickup_funds_display_otp_text_description">Enter the OTP sent to your registered mobile number to transfer %1s %2s to %3s</string>
 
 </resources>
