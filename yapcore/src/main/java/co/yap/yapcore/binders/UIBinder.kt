@@ -771,7 +771,6 @@ object UIBinder {
         if (transferType == SendMoneyBeneficiaryType.CASHPAYOUT.type) {
             imageView.setImageResource(R.drawable.ic_cash)
         } else {
-//            imageView.setColorFilter(ContextCompat.getColor(imageView.context, R.color.greyDark))
             imageView.setImageResource(R.drawable.ic_bank)
         }
     }
