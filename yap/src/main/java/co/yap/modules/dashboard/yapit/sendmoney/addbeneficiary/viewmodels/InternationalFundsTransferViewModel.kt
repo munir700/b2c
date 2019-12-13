@@ -9,6 +9,7 @@ import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
@@ -58,12 +59,35 @@ class InternationalFundsTransferViewModel(application: Application) :
     private fun getTransactionFeeInternational() {
         launch {
             state.loading = true
-            when (val response = mTransactionsRepository.getTransactionFeeWithProductCode("P001")) {
+//            val params = HashMap<String, String>()
+//            params["country"] = "PAKISTAN"
+            val remittanceFeeRequestBody = RemittanceFeeRequest("PK", "")
+
+            when (val response =
+
+                /*TODO:For Swift (P011) and for cash pickup (P013) */
+
+                mTransactionsRepository.getTransactionFeeWithProductCode(
+                    "P013",
+                    remittanceFeeRequestBody
+                )) {
                 is RetroApiResponse.Success -> {
+                    var totalAmount = 0.0
+                    if (response.data.data?.feeType == "FLAT") {
+                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                        val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                        if (feeAmount != null) {
+                            totalAmount = feeAmount + feeAmountVAT!!
+                        }
+
+                    } else {
+                        /*TODO: Check Fee Type*/
+                    }
+
                     state.transferFee =
                         getString(Strings.screen_international_funds_transfer_display_text_fee).format(
                             "AED",
-                            "50.00"
+                            totalAmount
                         )
 
                     state.transferFeeSpannable =
@@ -73,7 +97,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-//                    state.toast = response.error.message
+                    state.toast = response.error.message
                     state.transferFee =
                         getString(Strings.screen_international_funds_transfer_display_text_fee).format(
                             "AED",

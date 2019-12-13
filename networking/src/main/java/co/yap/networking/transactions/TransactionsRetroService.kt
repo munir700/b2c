@@ -6,6 +6,7 @@ import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import retrofit2.Response
 import retrofit2.http.*
 
@@ -99,8 +100,8 @@ interface TransactionsRetroService {
     suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
 
     //Get transaction fee
-    @GET(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
-    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String): Response<ApiResponse>
+    @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
+    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>
 
     //Get transaction international purpose reasons.
     @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)

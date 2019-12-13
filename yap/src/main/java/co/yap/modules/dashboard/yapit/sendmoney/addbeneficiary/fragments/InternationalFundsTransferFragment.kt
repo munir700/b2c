@@ -20,7 +20,7 @@ class InternationalFundsTransferFragment :
     SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
 
-    private var countryAdapter: ReasonListAdapter? = null
+    private var mReasonListAdapter: ReasonListAdapter? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_international_funds_transfer
     override val viewModel: IInternationalFundsTransfer.ViewModel
@@ -38,7 +38,7 @@ class InternationalFundsTransferFragment :
             if (it == null) return@Observer
 
             reasonsSpinner.adapter = getReasonListAdapter(it)
-            countryAdapter?.setItemListener(listener)
+            mReasonListAdapter?.setItemListener(listener)
 
         })
     }
@@ -69,6 +69,7 @@ class InternationalFundsTransferFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
     }
 
     override fun onPause() {
@@ -79,11 +80,11 @@ class InternationalFundsTransferFragment :
 
 
     fun getReasonListAdapter(it: List<InternationalFundsTransferReasonList.ReasonList>): ReasonListAdapter {
-        if (countryAdapter == null)
-            countryAdapter = ReasonListAdapter(
+        if (mReasonListAdapter == null)
+            mReasonListAdapter = ReasonListAdapter(
                 requireContext(), R.layout.item_reason_list, it
             )
-        return this.countryAdapter!!
+        return this.mReasonListAdapter!!
     }
 
 
