@@ -11,10 +11,11 @@ import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.*
 import android.widget.PopupWindow
-import androidx.appcompat.app.ActionBar
+import android.widget.TextView
 import androidx.appcompat.widget.AppCompatEditText
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.toast
+import co.yap.yapcore.getScreenWidth
+import co.yap.yapcore.helpers.Utils
 import kotlin.math.abs
 
 
@@ -27,9 +28,11 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     private var drawableLeft: Drawable? = null
     private var drawableTop: Drawable? = null
     private var drawableBottom: Drawable? = null
+    private var tvPopupContent: TextView? = null
     private var positionX: Int = 0
     private var positionY: Int = 0
     private var isDrawableShownWhenTextIsEmpty = true
+    private var popupTextValue = ""
     private var onDrawableClickListener: OnDrawableClickListener? = null
     private var defaultClickListener: OnDrawableClickListener? = null
 
@@ -47,9 +50,8 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
 
                     }
                     DrawablePosition.RIGHT -> {
-                        showAsPopUp(this@DrawableClickEditText)
-                        context.toast("RIGHT Drawable click")
-
+                        val xoff = Utils.getDimensionInPercent(context,true,6)
+                        showAsPopUp(this@DrawableClickEditText, xoff, 0)
                     }
                 }
             }
@@ -70,7 +72,14 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
         isDrawableShownWhenTextIsEmpty = obtainStyledAttributes.getBoolean(
             R.styleable.DrawableClickEditText_isDrawableShownWhenTextIsEmpty,
             isDrawableShownWhenTextIsEmpty
-        );
+        )
+        popupTextValue = resources.getText(
+            obtainStyledAttributes
+                .getResourceId(
+                    R.styleable.DrawableClickEditText_popupContentValue,
+                    R.string.empty_string
+                )
+        ).toString()
         obtainStyledAttributes.recycle()
         hasDrawable(isDrawableShownWhenTextIsEmpty)
         defaultClickListener = defaultClickListenerAdapter
@@ -85,15 +94,19 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     }
 
     private fun initPopupWindow() {
-
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
         popupView = inflater.inflate(R.layout.pop_up_view, null)
-        mPopupWindow = PopupWindow(
-            popupView,
-            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true
-        )
+        tvPopupContent = popupView?.findViewById(R.id.tvContent)
+        setPopupContent()
+        val popUpWindowWidth = getScreenWidth() - Utils.getDimensionInPercent(context, true, 11)
+        mPopupWindow =
+            PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true)
         mPopupWindow?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         setCancelable(true)
+    }
+
+    private fun setPopupContent() {
+        tvPopupContent?.text = popupTextValue
     }
 
     private fun showAsPopUp(anchor: View) {
@@ -103,13 +116,18 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
     private fun showAsPopUp(anchor: View, xoff: Int, yoff: Int) {
         initPopupWindow()
         mPopupWindow?.animationStyle = R.style.AnimationUpPopup
-        // popupView.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        val width = anchor.width
+        anchor.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        val height = anchor.measuredHeight
+        val ivHeight = drawableRight?.intrinsicHeight ?: 0
         val location = IntArray(2)
         anchor.getLocationInWindow(location)
-        mPopupWindow?.showAtLocation(anchor,Gravity.TOP,location[0],location[1])
+        mPopupWindow?.showAtLocation(
+            anchor,
+            Gravity.TOP,
+            location[0] - xoff,
+            location[1] - height - ivHeight*2
+        )
     }
-
 
     /**
      * touch outside dismiss the popupwindow, default is ture
@@ -124,7 +142,6 @@ class DrawableClickEditText(context: Context, attrs: AttributeSet) :
             mPopupWindow?.isFocusable = false
         }
     }
-
 
     override fun setCompoundDrawables(
         leftDrawable: Drawable?,
