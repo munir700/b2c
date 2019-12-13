@@ -29,12 +29,14 @@ class AddBeneficiaryViewModel(application: Application) :
             state.flagDrawableResId =
                 Country(isoCountryCode2Digit = it.isoCountryCode2Digit).getFlagDrawableResId()
 
-            when (SendMoneyBeneficiaryType.valueOf(parentViewModel?.transferType?.value ?: "")) {
-                SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                    state.transferType = "Cash Pickup"
-                }
-                else -> {
-                    state.transferType = "Bank Transfer"
+            parentViewModel?.transferType?.value?.let { it ->
+                when (SendMoneyBeneficiaryType.valueOf(it)) {
+                    SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                        state.transferType = "Cash Pickup"
+                    }
+                    else -> {
+                        state.transferType = "Bank Transfer"
+                    }
                 }
             }
             state.currency = it.getCurrency()?.code ?: ""

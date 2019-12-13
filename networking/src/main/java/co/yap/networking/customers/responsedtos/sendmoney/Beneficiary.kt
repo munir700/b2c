@@ -37,6 +37,8 @@ data class Beneficiary(
     var bankName: String? = null,
     @SerializedName("branchName")
     var branchName: String? = null,
+    @SerializedName("bankCity")
+    var bankCity: String? = null,
     @SerializedName("branchAddress")
     var branchAddress: String? = null,
     @SerializedName("identifierCode1")

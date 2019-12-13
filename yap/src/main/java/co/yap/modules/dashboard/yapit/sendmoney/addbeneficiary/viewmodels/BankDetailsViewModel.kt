@@ -23,11 +23,18 @@ class BankDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        when (SendMoneyBeneficiaryType.valueOf(parentViewModel?.transferType?.value ?: "")) {
-            SendMoneyBeneficiaryType.RMT -> {
-                searchRMTBanks()
-            }
-            else -> {
+        parentViewModel?.transferType?.value?.let {
+            when (SendMoneyBeneficiaryType.valueOf(it)) {
+                SendMoneyBeneficiaryType.RMT -> {
+                    searchRMTBanks()
+                }
+                SendMoneyBeneficiaryType.SWIFT -> {
+                    //searchRMTBanks()
+                    //Swift changes
+                }
+                else -> {
+
+                }
             }
         }
     }
@@ -36,7 +43,7 @@ class BankDetailsViewModel(application: Application) :
         if (id == R.id.confirmButton) {
             parentViewModel?.beneficiary?.value?.bankName = state.bankName
             parentViewModel?.beneficiary?.value?.branchName = state.bankBranch
-            //parentViewModel?.beneficiary?.value?.city = state.bankCity
+            parentViewModel?.beneficiary?.value?.bankCity = state.bankCity
             parentViewModel?.beneficiary?.value?.swiftCode = state.swiftCode
         }
         clickEvent.setValue(id)
@@ -48,27 +55,27 @@ class BankDetailsViewModel(application: Application) :
         //toggleAddButtonVisibility(false)
     }
 
-    override fun createBeneficiaryRequest() {
-        parentViewModel?.beneficiary?.value?.let {
-            launch {
-                state.loading = true
-                when (val response = repository.addBeneficiary(it)) {
-                    is RetroApiResponse.Success -> {
-                        state.loading = false
-                        state.toast = response.data.toString()
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                    }
-
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.toast = response.error.message
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-
-                    }
-                }
-            }
-        }
-    }
+//    override fun createBeneficiaryRequest() {
+//        parentViewModel?.beneficiary?.value?.let {
+//            launch {
+//                state.loading = true
+//                when (val response = repository.addBeneficiary(it)) {
+//                    is RetroApiResponse.Success -> {
+//                        state.loading = false
+//                        state.toast = response.data.toString()
+//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+//                    }
+//
+//                    is RetroApiResponse.Error -> {
+//                        state.loading = false
+//                        state.toast = response.error.message
+//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+//
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     override fun searchRMTBanks() {
         parentViewModel?.beneficiary?.value?.let {

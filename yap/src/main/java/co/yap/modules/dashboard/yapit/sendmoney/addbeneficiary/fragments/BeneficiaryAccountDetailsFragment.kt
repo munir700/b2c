@@ -23,28 +23,29 @@ class BeneficiaryAccountDetailsFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        viewModel.clickEvent.observe(this, observer)
+        viewModel.success.observe(this, Observer {
+            if (it)
+                context?.let { it ->
+                    Utils.ConfirmAddBeneficiary(it)
+                }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        viewModel.clickEvent.observe(this, Observer {
-            when (it) {
-                R.id.confirmButton ->
-                    Utils.ConfirmAddBeneficiary(this.activity!!)
-            }
-        })
     }
 
-    override fun onPause() {
+    private val observer = Observer<Int> {
+        when (it) {
+            R.id.confirmButton ->
+                viewModel.createBeneficiaryRequest()
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-        super.onPause()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-
 
     }
 

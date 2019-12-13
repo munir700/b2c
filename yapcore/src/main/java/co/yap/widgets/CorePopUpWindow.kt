@@ -60,7 +60,7 @@ class CorePopUpWindow @JvmOverloads constructor(
                 popupView = inflater.inflate(R.layout.pop_up_view, null)
                 val tvContent = popupView.findViewById<TextView>(R.id.tvContent)
                 tvContent.text = title
-                showAsPopUp(v)
+                showAsPopUp(root_layout)
             }
 
             typedArray.recycle()
@@ -96,15 +96,13 @@ class CorePopUpWindow @JvmOverloads constructor(
         popupView.measure(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
         val height: Int = popupView.measuredHeight
         val location = IntArray(2)
-        anchor.getLocationInWindow(location)
+//        anchor.getLocationInWindow(location)
         mPopupWindow.showAtLocation(
             anchor,
-            Gravity.TOP,
-            location[0] + xoff,
-            location[1] - height + yoff
+            Gravity.CENTER,
+            0,0
         )
     }
-
 
     /**
      * touch outside dismiss the popupwindow, default is ture
