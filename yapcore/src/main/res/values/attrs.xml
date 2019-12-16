@@ -86,6 +86,7 @@
         <attr name="ccp_useDummyEmojiForPreview" format="boolean" /> <!-- beta -->
         <attr name="ccp_onFlagClick" format="boolean" /> <!-- beta -->
         <attr name="ccp_hideFlag" format="boolean" /> <!-- beta -->
+        <attr name="ccp_pickerTextColor" format="color" />
 
         <attr name="ccp_textGravity" format="enum">
             <enum name="LEFT" value="-1" />

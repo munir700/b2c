@@ -133,6 +133,8 @@ class CountryCodePicker : RelativeLayout {
     var fastScrollerHandleColor = 0
         set
 
+    var tvCountryCodePickerColor: Int = 0
+
     var dialogBackgroundColor: Int = 0
         set
 
@@ -525,6 +527,7 @@ class CountryCodePicker : RelativeLayout {
         holder = findViewById(R.id.countryCodeHolder)
         imageViewFlag = findViewById(R.id.ivFlag)
         textView_selectedCountry!!.setText("+971")
+        textView_selectedCountry.seTextColor
         imageViewFlag!!.setImageResource(R.drawable.bitmap)
 
         linearFlagHolder = findViewById(R.id.llFlagHolder)
@@ -559,6 +562,12 @@ class CountryCodePicker : RelativeLayout {
                 imageViewFlag!!.visibility=View.GONE
 
             }
+
+            tvCountryCodePickerColor = a.getColor(R.styleable.CountryCodePicker_ccp_pickerTextColor, tvCountryCodePickerColor)jehgqlwjdhbj
+//            if (tvCountryCodePickerColor.){
+//                imageViewFlag!!.visibility = View.VISIBLE
+//            }
+
             //number auto formatting
             numberAutoFormattingEnabled = a.getBoolean(R.styleable.CountryCodePicker_ccp_autoFormatNumber, true)
             //show phone isoCountryCode2Digit.

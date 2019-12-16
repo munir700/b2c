@@ -11,7 +11,7 @@ class HouseHoldUserContactViewModel(application: Application) :
     IHouseHoldUserContact.ViewModel/*,
     IRepositoryHolder<CardsRepository>*/ {
 
-    override val state: HouseHoldUserContactState = HouseHoldUserContactState()
+    override val state: HouseHoldUserContactState = HouseHoldUserContactState(application)
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
 

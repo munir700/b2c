@@ -1,8 +1,9 @@
 package co.yap.modules.dashboard.store.household.onboarding.interfaces
 
+import android.graphics.drawable.Drawable
+import android.widget.EditText
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface IHouseHoldUserContact {
 
@@ -11,6 +12,14 @@ interface IHouseHoldUserContact {
         var confirmMobileNumber: String
          var valid: Boolean
 
+//
+        var countryCode:String
+        var mobile: String
+        var drawbleRight: Drawable?
+        var background: Drawable?
+        var mobileNoLength: Int
+        var etMobileNumber: EditText?
+         var errorMessage:String
 
     }
 
