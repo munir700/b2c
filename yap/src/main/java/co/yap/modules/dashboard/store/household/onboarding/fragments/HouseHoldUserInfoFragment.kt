@@ -9,6 +9,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserInfo
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserInfoViewModel
+import co.yap.translation.Translator
 
 class HouseHoldUserInfoFragment : BaseOnBoardingFragment<IHouseHoldUserInfo.ViewModel>(),
     IHouseHoldUserInfo.View {
@@ -28,7 +29,7 @@ class HouseHoldUserInfoFragment : BaseOnBoardingFragment<IHouseHoldUserInfo.View
 
     override fun onResume() {
         super.onResume()
-
+getString(Translator.getString())
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
