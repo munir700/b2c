@@ -10,6 +10,7 @@ interface ISelectCountry {
     interface State : IBase.State {
         var selectedCountry: Country?
         var valid: Boolean
+        var isDomestic: Boolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {

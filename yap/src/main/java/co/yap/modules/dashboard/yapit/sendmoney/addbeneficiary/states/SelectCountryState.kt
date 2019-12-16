@@ -25,4 +25,11 @@ class SelectCountryState(val application: Application) : BaseState(), ISelectCou
             field = value
             notifyPropertyChanged(BR.valid)
         }
+
+    @get:Bindable
+    override var isDomestic: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.isDomestic)
+        }
 }
