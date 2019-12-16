@@ -44,12 +44,19 @@ class YapHouseHoldSubscriptionSelectionActivity :
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-                R.id.llAnnualSubscription -> {
-                    startActivity(newIntent(this))
+                R.id.btnClose -> {
+//                    startActivity(newIntent(this))
+                    finish()// will check in fsd/story till where is it required to go back
                 }
+                R.id.llAnnualSubscription -> {
+//                    startActivity(newIntent(this))
+                showToast("llAnnualSubscription")
+            }
+
 
                 R.id.llMonthlySubscription -> {
-                    startActivity(newIntent(this))
+//                    startActivity(newIntent(this))
+                    showToast("llMonthlySubscription")
                 }
 
                 R.id.imgClose -> {

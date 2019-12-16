@@ -735,6 +735,34 @@
     <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_setup_payments">Set up automatic payments</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense">Track expenses through analytics</string>
 
+    <!-- YAP Household user info screen -->
+    <string name="screen_yap_house_hold_user_info_display_text_title">Get a Household card</string>
+    <string name="screen_yap_house_hold_user_info_display_text_heading">Who are you opening the plan for?</string>
+    <string name="screen_yap_house_hold_user_info_display_text_first_name">First name</string>
+    <string name="screen_yap_house_hold_user_info_display_text_last_name">Last name</string>
+    <string name="screen_yap_house_hold_user_info_input_text_first_name_hint">Name</string>
+    <string name="screen_yap_house_hold_user_info_input_text_last_name_hint">Last name</string>
+    <string name="screen_yap_house_hold_user_info_display_text_email">Email address</string>
+    <string name="screen_yap_house_hold_user_info_display_text_email_hint">example@email.com</string>
+    <string name="screen_yap_house_hold_user_info_button_next">Next</string>
 
-</resources>
+    <string name="screen_yap_house_hold_user_info_contact_display_text_heading">Tell us how to contact</string>
+    <string name="screen_yap_house_hold_user_info_contact_display_text_mobile">Mobile number</string>
+    <string name="screen_yap_house_hold_user_info_contact_display_text_confirm_mobile">Confirm mobile number</string>
+    <string name="screen_yap_house_hold_user_info_contact_button_next">Add</string>
+
+
+    <!-- YAP Household success screen -->
+    <string name="screen_yap_house_hold_success_display_text_title">%1s has been added to your account</string>
+    <string name="screen_yap_house_hold_success_display_text_heading">%1s\'s card is on it\'s way</string>
+    <string name="screen_yap_house_hold_success_display_text_house_hold_card">Household card</string>
+    <string name="screen_yap_house_hold_success_display_text_direct_message">%1s will receive an SMS and email to download the app</string>
+    <string name="screen_yap_house_hold_success_display_text_share_credentials">Share sign in credentials with %1s</string>
+    <string name="screen_yap_house_hold_success_display_text_share_email">Email address</string>
+    <string name="screen_yap_house_hold_success_display_text_share_pass_code">Passcode</string>
+    <string name="screen_yap_house_hold_success_button_text_share">Share</string>
+    <string name="screen_yap_house_hold_success_button_text_goto_house_hold">Go to Household</string>
+
+
+ </resources>
 

@@ -1179,4 +1179,53 @@ object Strings {
         "screen_yap_house_hold_subscription_selection_display_text_benefit_track_expense"
 
 
+    //  YAP Household user info screen
+    const val screen_yap_house_hold_user_info_display_text_title: String =
+        "screen_yap_house_hold_user_info_display_text_title"
+    const val screen_yap_house_hold_user_info_display_text_heading: String =
+        "screen_yap_house_hold_user_info_display_text_heading"
+    const val screen_yap_house_hold_user_info_display_text_first_name: String =
+        "screen_yap_house_hold_user_info_display_text_first_name"
+    const val screen_yap_house_hold_user_info_display_text_last_name: String =
+        "screen_yap_house_hold_user_info_display_text_last_name"
+    const val screen_yap_house_hold_user_info_input_text_last_name_hint: String =
+        "screen_yap_house_hold_user_info_input_text_last_name_hint"
+    const val screen_yap_house_hold_user_info_display_text_email: String =
+        "screen_yap_house_hold_user_info_display_text_email"
+    const val screen_yap_house_hold_user_info_display_text_email_hint: String =
+        "screen_yap_house_hold_user_info_display_text_email_hint"
+    const val screen_yap_house_hold_user_info_button_next: String =
+        "screen_yap_house_hold_user_info_button_next"
+    const val screen_yap_house_hold_user_info_input_text_first_name_hint: String =
+        "screen_yap_house_hold_user_info_input_text_first_name_hint"
+
+    const val screen_yap_house_hold_user_info_contact_display_text_heading: String =
+        "screen_yap_house_hold_user_info_contact_display_text_heading"
+    const val screen_yap_house_hold_user_info_contact_display_text_mobile: String =
+        "screen_yap_house_hold_user_info_contact_display_text_mobile"
+    const val screen_yap_house_hold_user_info_contact_display_text_confirm_mobile: String =
+        "screen_yap_house_hold_user_info_contact_display_text_confirm_mobile"
+    const val screen_yap_house_hold_user_info_contact_button_next: String =
+        "screen_yap_house_hold_user_info_contact_button_next"
+
+    //    YAP Household success screen
+    const val screen_yap_house_hold_success_display_text_title: String =
+        "screen_yap_house_hold_success_display_text_title"
+    const val screen_yap_house_hold_success_display_text_heading: String =
+        "screen_yap_house_hold_success_display_text_heading"
+    const val screen_yap_house_hold_success_display_text_house_hold_card: String =
+        "screen_yap_house_hold_success_display_text_house_hold_card"
+    const val screen_yap_house_hold_success_display_text_direct_message: String =
+        "screen_yap_house_hold_success_display_text_direct_message"
+    const val screen_yap_house_hold_success_display_text_share_credentials: String =
+        "screen_yap_house_hold_success_display_text_share_credentials"
+    const val screen_yap_house_hold_success_display_text_share_email: String =
+        "screen_yap_house_hold_success_display_text_share_email"
+    const val screen_yap_house_hold_success_display_text_share_pass_code: String =
+        "screen_yap_house_hold_success_display_text_share_pass_code"
+    const val screen_yap_house_hold_success_button_text_share: String =
+        "screen_yap_house_hold_success_button_text_share"
+    const val screen_yap_house_hold_success_button_text_goto_house_hold: String =
+        "screen_yap_house_hold_success_button_text_goto_house_hold"
+
 }
