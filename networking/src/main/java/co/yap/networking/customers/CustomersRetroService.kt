@@ -123,6 +123,12 @@ interface CustomersRetroService {
     @POST(CustomersRepository.URL_ADD_BENEFICIARY)
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
 
+    @POST(CustomersRepository.URL_SEARCH_BANKS)
+    suspend fun findOtherBank(otherBankQuery: OtherBankQuery): Response<AddBeneficiaryResponseDTO>
+
+    @POST(CustomersRepository.URL_SEARCH_BANK_PARAMS)
+    suspend fun getOtherBankParams(countryName: String): Response<AddBeneficiaryResponseDTO>
+
     @PUT(CustomersRepository.URL_EDIT_BENEFICIARY_BY_ID)
     suspend fun editBeneficiary(@Body beneficiary: Beneficiary?): Response<ApiResponse>
 
