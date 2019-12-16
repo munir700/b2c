@@ -202,7 +202,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
                     R.string.common_button_yes
                 ),
                 DialogInterface.OnClickListener { dialog, which ->
-                    viewModel.requestDeleteBeneficiary(beneficiary.id)
+                    viewModel.requestDeleteBeneficiary(beneficiary.id?:0)
                 })
 
             .setNegativeButton(

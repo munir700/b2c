@@ -44,6 +44,7 @@ interface IAddBeneficiary {
         var clickEvent: SingleClickEvent
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnAddDomestic(id: Int)
+        fun addCashPickupBeneficiary()
 
 //      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
         //fun generateCashPayoutBeneficiaryRequestDTO()
