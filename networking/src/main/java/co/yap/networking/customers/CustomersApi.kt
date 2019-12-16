@@ -55,5 +55,7 @@ interface CustomersApi {
     suspend fun deleteBeneficiaryFromList(beneficiaryId: String): RetroApiResponse<ApiResponse>
 
     suspend fun getCurrenciesByCountryCode(country: String): RetroApiResponse<ApiResponse>
+    suspend fun findOtherBank(otherBankQuery: OtherBankQuery): RetroApiResponse<ApiResponse>
+    suspend fun getOtherBankParams(countryName: String): RetroApiResponse<ApiResponse>
 
 }

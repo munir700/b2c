@@ -7,6 +7,15 @@ import co.yap.yapcore.BaseState
 
 class BankDetailsState : BaseState(), IBankDetails.State {
 
+
+    @get:Bindable
+    override var buttonText: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.buttonText)
+            validate()
+        }
+
     @get:Bindable
     override var bankName: String = ""
         set(value) {
@@ -48,6 +57,13 @@ class BankDetailsState : BaseState(), IBankDetails.State {
             field = value
             notifyPropertyChanged(BR.valid)
 //            validate()
+        }
+
+    @get:Bindable
+    override var hideSwiftSection: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.hideSwiftSection)
         }
 
     fun validate() {
