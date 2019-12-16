@@ -1,12 +1,14 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.AddBeneficiaryStates
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -22,6 +24,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: AddBeneficiaryStates = AddBeneficiaryStates()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override var addDomesticBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
 
     override fun onCreate() {
         super.onCreate()
@@ -85,8 +88,26 @@ class AddBeneficiaryViewModel(application: Application) :
                 when (val response = repository.addBeneficiary(it)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-                        state.toast = response.data.toString()
                         clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+                    }
+                }
+            }
+        }
+    }
+
+    override fun addDomesticBeneficiary(beneficiary: Beneficiary?) {
+        beneficiary?.let {
+            launch {
+                state.loading = true
+                when (val response = repository.addBeneficiary(it)) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        addDomesticBeneficiarySuccess.value = true
                     }
 
                     is RetroApiResponse.Error -> {
