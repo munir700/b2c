@@ -39,9 +39,9 @@ class SelectCountryViewModel(application: Application) :
                             if (code.equals("ae", true)) {
                                 parentViewModel?.transferType?.value =
                                     (SendMoneyBeneficiaryType.DOMESTIC.name)
-                                state.isDomestic = true
+                                state.isDomestic.set(true)
                             } else {
-                                state.isDomestic = false
+                                state.isDomestic.set(false)
                                 country.rmtCountry?.let { isRmt ->
                                     if (isRmt) {
                                         parentViewModel?.transferType?.value =

@@ -53,14 +53,14 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
             when (it) {
                 R.id.nextButton -> {
                     viewModel.state.selectedCountry?.let { it ->
-                        if (viewModel.state.isDomestic) {
-                            findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
+                        if (viewModel.state.isDomestic.get() == true) {
+                            moveToAddBeneficiary()
                         } else {
                             it.cashPickUp?.let { cashPickup ->
                                 if (cashPickup) {
-                                    findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
+                                    moveToTransferType()
                                 } else {
-                                    findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
+                                    moveToAddBeneficiary()
                                 }
                             }
                         }
@@ -75,11 +75,13 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     }
 
     private fun moveToAddBeneficiary(){
-        findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
+        findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
     }
+
     private fun moveToTransferType(){
         findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
     }
+
     private fun getCountryAdapter(): CountryAdapter? {
 
         if (countryAdapter == null)

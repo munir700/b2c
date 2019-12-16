@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import co.yap.countryutils.country.Country
 import co.yap.yapcore.IBase
@@ -10,7 +11,7 @@ interface ISelectCountry {
     interface State : IBase.State {
         var selectedCountry: Country?
         var valid: Boolean
-        var isDomestic: Boolean
+        var isDomestic: ObservableField<Boolean>
     }
 
     interface ViewModel : IBase.ViewModel<State> {
