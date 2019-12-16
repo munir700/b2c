@@ -119,6 +119,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.imageUrl)
         }
+    @get:Bindable
+    override var feeStringVisibility: Boolean = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.feeStringVisibility)
+        }
 
     fun checkValidity(): String {
         if (amount != "") {

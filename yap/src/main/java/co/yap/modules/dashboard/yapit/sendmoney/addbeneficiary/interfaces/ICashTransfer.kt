@@ -36,5 +36,6 @@ interface ICashTransfer {
         var fullName: String
         var noteValue: String
         var imageUrl: String
+        var feeStringVisibility: Boolean
     }
 }
