@@ -7,12 +7,12 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel" />
-
     </data>
-
 
     <ScrollView
         android:layout_width="match_parent"
@@ -64,11 +64,14 @@
                         android:layout_margin="@dimen/_2sdp"
                         android:background="@drawable/bg_round_purple">
 
-                        <!--                        <ImageView-->
-                        <!--                            android:layout_width="wrap_content"-->
-                        <!--                            android:layout_height="wrap_content"-->
-                        <!--                            android:layout_gravity="center"-->
-                        <!--                            android:src="@drawable/ic_bank" />-->
+                        <co.yap.widgets.CoreCircularImageView
+                            android:id="@+id/imgProfile"
+                            android:layout_width="@dimen/_40sdp"
+                            android:layout_height="@dimen/_40sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:contentDescription="@string/empty_string"
+                            app:beneficiaryPicture="@{``}"
+                            app:fullName="@{viewModel.state.bankName}" />
 
                     </FrameLayout>
 
@@ -80,8 +83,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
-                        android:text="TD BANK"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.bankName}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="TD BANK" />
 
                     <TextView
                         android:id="@+id/tvIdCode"
@@ -90,8 +94,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
-                        android:text="ID Code: 8060"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.idCode}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="ID Code: 8060" />
 
                     <TextView
                         android:id="@+id/tvBankAddress"
@@ -100,8 +105,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:gravity="center"
-                        android:text="340 5TH AVE SW, CALGARY, AB, T2P0L3"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.bankAddress}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="340 5TH AVE SW, CALGARY, AB, T2P0L3" />
 
 
                     <TextView
@@ -111,115 +117,181 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:gravity="center"
-                        android:text="(403) 292-1100"
-                        android:textSize="@dimen/text_size_c3" />
+                        android:text="@{viewModel.state.bankPhoneNumber}"
+                        android:textSize="@dimen/text_size_c3"
+                        tools:text="(403) 292-1100" />
 
 
                 </LinearLayout>
 
-                <TextView
-                    style="@style/Small"
+                <LinearLayout
+                    android:id="@+id/lyIban"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_medium_large"
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.state.showlyIban ? View.VISIBLE : View.GONE}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_beneficiary_account_details_display_text_iban}"
-                    app:textColor="@{viewModel.state.accountIban.empty ? true : false}"
-                    tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
 
+                    <TextView
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                        app:text="@{Strings.screen_beneficiary_account_details_display_text_iban}"
+                        app:textColor="@{viewModel.state.accountIban.empty ? true : false}"
+                        tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
 
-                <EditText
-                    android:id="@+id/etBranch"
-                    style="@style/Regular"
+                    <EditText
+                        android:id="@+id/etBranch"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/greyLight"
+                        android:hint="34564567"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:maxLength="50"
+                        android:text="@={viewModel.state.accountIban}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lyConfirmIban"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/greyLight"
-                    android:hint="34564567"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:maxLength="50"
-                    android:text="@={viewModel.state.accountIban}" />
-
-
-                <TextView
-                    style="@style/Small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.state.showlyConfirmIban ? View.VISIBLE : View.GONE}"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_beneficiary_account_details_display_text_account_number}"
-                    app:textColor="@{viewModel.state.beneficiaryAccountNumber.empty ? true : false}"
-                    tools:text="@string/screen_beneficiary_account_details_display_text_account_number" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
 
-                <EditText
-                    android:id="@+id/etAccountNumber"
-                    style="@style/Regular"
+                    <TextView
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_medium_large"
+                        android:text="Confirm IBAN"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                        app:textColor="@{viewModel.state.accountConfirmIban.empty ? true : false}"
+                        tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
+
+                    <EditText
+                        android:id="@+id/etConfirmIBAN"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/greyLight"
+                        android:hint="34564567"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:maxLength="50"
+                        android:text="@={viewModel.state.accountConfirmIban}" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lyaccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/greyLight"
-                    android:hint="123445679012"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:maxLength="50"
-                    android:text="@={viewModel.state.beneficiaryAccountNumber}" />
-
-
-                <TextView
-                    style="@style/Small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:orientation="vertical"
+                    android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_beneficiary_account_details_display_text_swift_code}"
-                    app:textColor="@{viewModel.state.swiftCode.empty ? true : false}"
-                    tools:text="@string/screen_beneficiary_account_details_display_text_swift_code" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
 
+                    <TextView
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        app:text="@{Strings.screen_beneficiary_account_details_display_text_account_number}"
+                        app:textColor="@{viewModel.state.beneficiaryAccountNumber.empty ? true : false}"
+                        tools:text="@string/screen_beneficiary_account_details_display_text_account_number" />
 
-                <EditText
-                    android:id="@+id/etSwiftCode"
-                    style="@style/Regular"
+                    <EditText
+                        android:id="@+id/etAccountNumber"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/greyLight"
+                        android:hint="123445679012"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:maxLength="50"
+                        android:text="@={viewModel.state.beneficiaryAccountNumber}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lySwiftCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/greyLight"
-                    android:hint="34564567"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:maxLength="50"
-                    android:text="@={viewModel.state.swiftCode}" />
-
-
-                <TextView
-                    style="@style/Small"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:orientation="vertical"
+                    android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_beneficiary_account_details_display_text_field_code}"
-                    app:textColor="@{viewModel.state.countryBankRequirementFieldCode.empty ? true : false}"
-                    tools:text="@string/screen_beneficiary_account_details_display_text_field_code" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
 
+                    <TextView
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        app:text="@{Strings.screen_beneficiary_account_details_display_text_swift_code}"
+                        app:textColor="@{viewModel.state.swiftCode.empty ? true : false}"
+                        tools:text="@string/screen_beneficiary_account_details_display_text_swift_code" />
 
-                <EditText
-                    android:id="@+id/etBankREquiredFieldCode"
-                    style="@style/Regular"
+                    <EditText
+                        android:id="@+id/etSwiftCode"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/greyLight"
+                        android:hint="34564567"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:maxLength="50"
+                        android:text="@={viewModel.state.swiftCode}" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lyFieldCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_100sdp"
-                    android:backgroundTint="@color/greyLight"
-                    android:hint="1234"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:maxLength="50"
-                    android:text="@={viewModel.state.countryBankRequirementFieldCode}" />
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
 
+                    <TextView
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        app:text="@{Strings.screen_beneficiary_account_details_display_text_field_code}"
+                        app:textColor="@{viewModel.state.countryBankRequirementFieldCode.empty ? true : false}"
+                        tools:text="@string/screen_beneficiary_account_details_display_text_field_code" />
+
+                    <EditText
+                        android:id="@+id/etBankREquiredFieldCode"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_100sdp"
+                        android:backgroundTint="@color/greyLight"
+                        android:hint="1234"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:maxLength="50"
+                        android:text="@={viewModel.state.countryBankRequirementFieldCode}" />
+                </LinearLayout>
             </LinearLayout>
 
             <co.yap.widgets.CoreButton

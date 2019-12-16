@@ -15,7 +15,7 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -297,16 +297,29 @@
                         android:paddingRight="@dimen/margin_small"
                         android:weightSum="1">
 
-                        <co.yap.widgets.mobile.CountryCodePicker
-                            android:id="@+id/ccpSelector"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".01"
-                            android:clickable="false"
-                            android:visibility="visible"
-                            app:ccp_countryPreference="us,ae"
-                            app:ccp_hintExampleNumber="true"
-                            app:ccp_onFlagClick="false" />
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/margin_medium"
+                            android:paddingBottom="@dimen/margin_medium">
+
+                            <co.yap.widgets.CoreCircularImageView
+                                android:id="@+id/flag_img_phone"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                app:src="@{viewModel.state.flagDrawableResId}" />
+
+                            <TextView
+                                android:id="@+id/txt_countryCode"
+                                style="@style/ASmallGrey"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/margin_normal"
+                                android:text="@{viewModel.state.countryCode}"
+                                tools:text="+971" />
+                        </LinearLayout>
 
                         <EditText
                             android:id="@+id/etMobileNumber"
@@ -320,6 +333,7 @@
                             android:imeOptions="actionDone"
                             android:inputType="phone"
                             android:maxLength="@{viewModel.state.mobileNoLength}"
+                            android:padding="@dimen/_5sdp"
                             android:paddingEnd="@dimen/margin_normal"
                             android:singleLine="true"
                             android:text="@={viewModel.state.mobileNo}"

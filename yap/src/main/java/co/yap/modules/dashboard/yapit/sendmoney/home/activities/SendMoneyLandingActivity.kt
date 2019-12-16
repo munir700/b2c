@@ -12,9 +12,11 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
+import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.Bundle_EXTRA
+import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.OVERVIEW_BENEFICIARY
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.REQUEST_CODE
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
@@ -23,6 +25,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScr
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -185,7 +189,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getSearchView())
-        showToast("data ${beneficiary?.title}")
+        val intent = Intent(this,BeneficiaryCashTransferActivity::class.java)
+        intent.putExtra(Constants.BENEFICIARY,beneficiary)
+        startActivity(intent)
+        /*   startActivityForResult(Intent(this, BeneficiaryCashTransferActivity::class.java)
+               , Constants.ADD_CASH_PICK_UP_FlOW
+           )*/
+        //showToast("data ${beneficiary?.title}")
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
@@ -193,6 +203,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         beneficiary?.let {
             val intent = EditBeneficiaryActivity.newIntent(context = this)
             val bundle = Bundle()
+            bundle.putBoolean(OVERVIEW_BENEFICIARY,true)
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
             intent.putExtra(Bundle_EXTRA, bundle)
             startActivityForResult(intent, REQUEST_CODE)

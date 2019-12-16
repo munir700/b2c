@@ -1128,8 +1128,16 @@ object Strings {
 
 
     //CashPickup Transfer screen
+    const val screen_cash_pickup_funds_display_text_header: String =
+        "screen_cash_pickup_funds_display_text_header"
     const val screen_cash_pickup_funds_display_text_fee: String =
         "screen_cash_pickup_funds_display_text_fee"
+    const val screen_cash_pickup_funds_display_otp_text_description: String =
+        "screen_cash_pickup_funds_display_otp_text_description"
+    const val screen_cash_pickup_funds_display_otp_header: String =
+        "screen_cash_pickup_funds_display_otp_header"
+    const val screen_cash_pickup_funds_success_toolbar_header: String =
+        "screen_cash_pickup_funds_success_toolbar_header"
 
 
     //House hold screen

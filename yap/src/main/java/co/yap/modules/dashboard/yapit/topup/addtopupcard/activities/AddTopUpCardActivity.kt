@@ -108,7 +108,7 @@ class AddTopUpCardActivity : BaseBindingActivity<IAddTopUpCard.ViewModel>(), IAd
                     if (it.contains("yap.co") || it.contains("transactions")) {
                         view?.visibility = View.GONE
                         setDataForTopUpTransaction(true)
-                         finish()
+                        finish()
                     } else {
                         super.onPageStarted(view, url, favicon)
                     }

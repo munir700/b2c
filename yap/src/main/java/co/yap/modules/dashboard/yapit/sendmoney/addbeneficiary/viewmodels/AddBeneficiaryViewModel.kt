@@ -7,12 +7,11 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBe
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.AddBeneficiaryStates
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
-import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.Utils
 
 class AddBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IAddBeneficiary.State>(application), IAddBeneficiary.ViewModel,
@@ -29,13 +28,18 @@ class AddBeneficiaryViewModel(application: Application) :
             state.flagDrawableResId =
                 Country(isoCountryCode2Digit = it.isoCountryCode2Digit).getFlagDrawableResId()
 
-            when (SendMoneyBeneficiaryType.valueOf(parentViewModel?.transferType?.value ?: "")) {
-                SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                    state.transferType = "Cash Pickup"
+            parentViewModel?.transferType?.value?.let { it ->
+                when (SendMoneyBeneficiaryType.valueOf(it)) {
+                    SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                        state.transferType = "Cash Pickup"
+                    }
+                    else -> {
+                        state.transferType = "Bank Transfer"
+                    }
                 }
-                else -> {
-                    state.transferType = "Bank Transfer"
-                }
+            }
+            it.isoCountryCode2Digit?.let {
+                state.countryCode = Utils.getCountryCodeFormString(it)
             }
             state.currency = it.getCurrency()?.code ?: ""
         }
@@ -66,45 +70,4 @@ class AddBeneficiaryViewModel(application: Application) :
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
         ///toggleAddButtonVisibility(false)
     }
-
-    fun requestAddBeneficiary(beneficiary: Beneficiary) {
-        var beneficiary: Beneficiary = Beneficiary()
-
-        launch {
-            state.loading = true
-            when (val response = repository.addBeneficiary(beneficiary)) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                }
-
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-
-                }
-            }
-        }
-    }
-
-//    override fun generateCashPayoutBeneficiaryRequestDTO() {
-//        parentViewModel?.beneficiary?.value?.let {
-//            launch {
-//                state.loading = true
-//                when (val response = repository.addBeneficiary(it)) {
-//                    is RetroApiResponse.Success -> {
-//                        state.loading = false
-//                        state.toast = response.data.toString()
-//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-//                    }
-//
-//                    is RetroApiResponse.Error -> {
-//                        state.loading = false
-//                        state.toast = response.error.message
-//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
 }

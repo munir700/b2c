@@ -9,6 +9,7 @@ interface IAddBeneficiary {
 
     interface State : IBase.State {
         var country: String
+        var countryCode: String
         var transferType: String
         var currency: String
         var nickName: String

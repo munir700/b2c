@@ -13,6 +13,7 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class SelectCountryViewModel(application: Application) :
     SendMoneyBaseViewModel<ISelectCountry.State>(application), ISelectCountry.ViewModel,
@@ -31,6 +32,28 @@ class SelectCountryViewModel(application: Application) :
     override fun handlePressOnSeclectCountry(id: Int) {
         if (id == R.id.nextButton) {
             parentViewModel?.selectedCountry?.value = state.selectedCountry
+            parentViewModel?.selectedCountry?.value?.let { country ->
+                country.cashPickUp?.let { it ->
+                    if (!it) {
+                        country.isoCountryCode2Digit?.let { code ->
+                            if (code.equals("ae", true)) {
+                                parentViewModel?.transferType?.value =
+                                    (SendMoneyBeneficiaryType.DOMESTIC.name)
+                            } else {
+                                country.rmtCountry?.let { isRmt ->
+                                    if (isRmt) {
+                                        parentViewModel?.transferType?.value =
+                                            (SendMoneyBeneficiaryType.RMT.name)
+                                    } else {
+                                        parentViewModel?.transferType?.value =
+                                            (SendMoneyBeneficiaryType.SWIFT.name)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
         clickEvent.setValue(id)
     }

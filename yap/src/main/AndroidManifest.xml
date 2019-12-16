@@ -180,6 +180,10 @@
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity"

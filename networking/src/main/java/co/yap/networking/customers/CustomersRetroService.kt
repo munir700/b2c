@@ -129,5 +129,8 @@ interface CustomersRetroService {
     @DELETE(CustomersRepository.URL_DELETE_BENEFICIARY_BY_ID)
     suspend fun deleteBeneficiaryById(@Path("beneficiary-id") beneficiaryId: String): Response<ApiResponse>
 
+    @DELETE(CustomersRepository.URL_CURRENCIES_BY_COUNTRY_CODE)
+    suspend fun getCurrenciesByCountryCode(@Path("country") country: String): Response<ApiResponse>
+
 
 }

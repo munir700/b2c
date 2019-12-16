@@ -17,7 +17,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     val context: Context = application.applicationContext
 
     @get:Bindable
-    override var fullName: String = "Sufyan"
+    override var fullName: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.fullName)
