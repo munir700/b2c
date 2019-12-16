@@ -189,7 +189,9 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getSearchView())
-        startActivity(Intent(this, BeneficiaryCashTransferActivity::class.java))
+        val intent = Intent(this,BeneficiaryCashTransferActivity::class.java)
+        intent.putExtra(Constants.BENEFICIARY,beneficiary)
+        startActivity(intent)
         /*   startActivityForResult(Intent(this, BeneficiaryCashTransferActivity::class.java)
                , Constants.ADD_CASH_PICK_UP_FlOW
            )*/

@@ -37,9 +37,12 @@ interface TransactionsApi {
         cardSerialNo: String? = "",
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
+
     suspend fun getAnalyticsByCategoryName(
         cardSerialNo: String? = "",
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
+
+    suspend fun cashPayoutTransferRequest(): RetroApiResponse<ApiResponse>
 
 }

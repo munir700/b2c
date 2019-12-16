@@ -7,8 +7,10 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.interfaces.IBeneficiaryCashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.BeneficiaryCashTransferViewModel
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
@@ -30,6 +32,10 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        if (intent != null) {
+            viewModel.state.beneficiary =
+                intent.getParcelableExtra(Constants.BENEFICIARY) as? Beneficiary?
+        }
         viewModel.clickEvent.observe(this, clickEvent)
     }
 
@@ -45,7 +51,6 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
             supportFragmentManager.findFragmentById(R.id.beneficiary_cash_transfer_nav_host_fragment)
         if (!BackPressImpl(fragment).onBackPressed()) {
             super.onBackPressed()
-
         }
     }
 }

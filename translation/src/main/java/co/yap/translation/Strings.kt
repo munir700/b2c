@@ -1042,7 +1042,7 @@ object Strings {
     const val screen_forgot_pin_display_text_heading: String =
         "screen_forgot_pin_display_text_heading"
 
-// Topup Type Selection Screen
+    // Topup Type Selection Screen
     const val screen_topup_type_selection_display_text_title: String =
         "screen_topup_type_selection_display_text_title"
     const val screen_topup_type_selection_display_text_heading: String =
@@ -1128,9 +1128,15 @@ object Strings {
 
 
     //CashPickup Transfer screen
+    const val screen_cash_pickup_funds_display_text_header: String =
+        "screen_cash_pickup_funds_display_text_header"
     const val screen_cash_pickup_funds_display_text_fee: String =
         "screen_cash_pickup_funds_display_text_fee"
     const val screen_cash_pickup_funds_display_otp_text_description: String =
         "screen_cash_pickup_funds_display_otp_text_description"
+    const val screen_cash_pickup_funds_display_otp_header: String =
+        "screen_cash_pickup_funds_display_otp_header"
+    const val screen_cash_pickup_funds_success_toolbar_header: String =
+        "screen_cash_pickup_funds_success_toolbar_header"
 
 }

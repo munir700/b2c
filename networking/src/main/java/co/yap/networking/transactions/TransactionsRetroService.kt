@@ -99,6 +99,10 @@ interface TransactionsRetroService {
     @GET(TransactionsRepository.URL_GET_ANALYTICS_BY_CATEGORY_NAME)
     suspend fun getAnalyticsByCategoryName(@Query("cardSerialNo") cardSerialNo: String?, @Query("date") date: String?): Response<AnalyticsResponseDTO>
 
+    //Cash payout transfer request
+    @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
+    suspend fun cashPayoutTransferRequest(): Response<ApiResponse>
+
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
     suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>

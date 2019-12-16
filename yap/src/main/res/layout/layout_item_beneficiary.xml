@@ -17,6 +17,8 @@
 
         <import type="co.yap.countryutils.country.utils.CurrencyUtils" />
 
+        <import type="co.yap.yapcore.R" />
+
         <variable
             name="dataCountry"
             type="co.yap.countryutils.country.Country" />
@@ -153,8 +155,8 @@
                     android:layout_marginRight="@dimen/margin_small"
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
-                    android:src="@drawable/ic_cash"
-                    android:tint="@color/greyDark"
+                    android:tint="@{viewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`)?@color/colorPrimaryDark:@color/greyDark}"
+                    tools:src="@drawable/ic_cash"
                     app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
                     tools:visibility="visible" />
 
