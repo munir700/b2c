@@ -52,6 +52,7 @@ class AddBeneficiaryViewModel(application: Application) :
             setBeneficiaryDetail()
             when (state.transferType) {
                 "Cash Pickup" -> {
+                    parentViewModel?.beneficiary?.value?.currency = null
                     addCashPickupBeneficiary()
                 }
                 else -> {
