@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentAddBeneficiaryInternationalBankTransferBinding
-import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -41,9 +40,9 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun initComponents() {
-        (activity as? SendMoneyHomeActivity)?.viewModel?.selectedCountry?.value?.let {
-            getBindings()?.ccpSelector?.setCountryForNameCode(it.isoCountryCode2Digit ?: "")
-        }
+//        (activity as? SendMoneyHomeActivity)?.viewModel?.selectedCountry?.value?.let {
+//            getBindings()?.ccpSelector?.setCountryForNameCode(it.isoCountryCode2Digit ?: "")
+//        }
     }
 
 

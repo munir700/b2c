@@ -151,10 +151,10 @@ class InternationalFundsTransferViewModel(application: Application) :
 
             /*TODO: SWIFT("P011"), RMT("P012"), CASH_PAYOUT("P013"),*/
             state.loading = true
-            val rxListBody = RxListRequest("100006299400029")
+            val rxListBody = RxListRequest("135")
 
             when (val response =
-                mTransactionsRepository.getTransactionInternationalRXList("P012", rxListBody)) {
+                mTransactionsRepository.getTransactionInternationalRXList("P013", rxListBody)) {
                 is RetroApiResponse.Success -> {
                     //if (response.data.isNullOrEmpty()) return@launch
                     println(response)
