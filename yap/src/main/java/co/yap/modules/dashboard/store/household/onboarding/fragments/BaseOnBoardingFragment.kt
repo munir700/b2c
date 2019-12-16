@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.store.household.onboarding.fragments
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
- import co.yap.modules.dashboard.more.main.viewmodels.MoreViewModel
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.BaseOnboardingViewModel
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldOnboardingViewModel
 import co.yap.yapcore.BaseBindingFragment
