@@ -59,7 +59,8 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         }
 
     private fun validateNonRmt() {
-        valid = !accountIban.isNullOrEmpty() && !accountConfirmIban.isNullOrEmpty() && accountIban == accountConfirmIban
+        valid =
+            !accountIban.isNullOrEmpty() && !accountConfirmIban.isNullOrEmpty() && accountIban == accountConfirmIban
         notifyPropertyChanged(BR.valid)
     }
 

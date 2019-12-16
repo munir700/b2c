@@ -7,6 +7,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel" />
@@ -77,8 +79,8 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:textColor="@{viewModel.state.bankBranch.empty ? true : false}"
                     app:text="@{Strings.screen_bank_details_display_text_branch_name}"
+                    app:textColor="@{viewModel.state.bankBranch.empty ? true : false}"
                     tools:text="@string/screen_bank_details_display_text_branch_name" />
 
 
@@ -119,37 +121,43 @@
                     android:maxLength="50"
                     android:text="@={viewModel.state.bankCity}"
                     app:hint="@{Strings.screen_bank_details_input_text_city_hint}" />
-<!-- this will vary according the transfer type-->
+                <!-- this will vary according the transfer type-->
 
-                <TextView
-                    style="@style/Small"
+                <LinearLayout
+                    android:id="@+id/lySwiftCode"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_bank_details_display_text_swift_code}"
-                    app:textColor="@{viewModel.state.swiftCode.empty ? true : false}"
-                    tools:text="@string/screen_bank_details_display_text_swift_code" />
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.state.hideSwiftSection?View.VISIBLE:View.GONE}">
 
+                    <TextView
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                        app:text="@{Strings.screen_bank_details_display_text_swift_code}"
+                        app:textColor="@{viewModel.state.swiftCode.empty ? true : false}"
+                        tools:text="@string/screen_bank_details_display_text_swift_code" />
 
-                <EditText
-                    android:id="@+id/etSwiftCode"
-                    style="@style/Regular"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/greyLight"
-                    android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
-                    android:maxLength="50"
-                    android:text="@={viewModel.state.swiftCode}"
-                    app:hint="@{Strings.screen_bank_details_input_text_city_hint}" />
+                    <EditText
+                        android:id="@+id/etSwiftCode"
+                        style="@style/Regular"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:backgroundTint="@color/greyLight"
+                        android:imeOptions="actionNext"
+                        android:importantForAutofill="no"
+                        android:maxLength="50"
+                        android:text="@={viewModel.state.swiftCode}"
+                        app:hint="@{Strings.screen_bank_details_input_text_city_hint}" />
 
-<!--                <androidx.core.widget.NestedScrollView-->
-<!--                    android:layout_width=""-->
-<!--                    android:layout_height=""-->
-
+                    <!--                <androidx.core.widget.NestedScrollView-->
+                    <!--                    android:layout_width=""-->
+                    <!--                    android:layout_height=""-->
+                </LinearLayout>
             </LinearLayout>
 
             <co.yap.widgets.CoreButton
@@ -162,11 +170,10 @@
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
-                app:text="@{Strings.common_button_next}"
+                android:text="@{viewModel.state.buttonText}"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="44dp"
                 tools:text="@string/common_button_next" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

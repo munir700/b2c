@@ -725,7 +725,7 @@ object Utils {
 
     }
 
-    fun confirmAddBeneficiary(
+    fun confirmationDialog(
         context: Context,
         title: String,
         message: String,
