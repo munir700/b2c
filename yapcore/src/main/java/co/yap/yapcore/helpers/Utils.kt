@@ -28,6 +28,7 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.R
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.math.RoundingMode
@@ -36,6 +37,7 @@ import java.util.*
 import java.util.regex.Pattern
 
 
+@SuppressLint("StaticFieldLeak")
 object Utils {
     var context: Context? = null
 
@@ -550,6 +552,20 @@ object Utils {
         }
     }
 
+    fun getCountryCodeFormString(
+        region: String
+    ): String {
+        return try {
+            val phoneUtil = PhoneNumberUtil.getInstance()
+            val pn = phoneUtil.getCountryCodeForRegion(region)
+            return "+$pn"
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+
     fun getPhoneWithoutCountryCode(defaultCountryCode: String, mobileNo: String): String {
         return try {
             val phoneUtil = PhoneNumberUtil.getInstance()
@@ -602,6 +618,7 @@ object Utils {
     fun getContactColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, contactColors[position % contactColors.size])
     }
+
     fun getBeneficiaryColors(context: Context, position: Int): Int {
         return ContextCompat.getColor(context, beneficiaryColors[position % beneficiaryColors.size])
     }
@@ -610,13 +627,19 @@ object Utils {
         ContextCompat.getDrawable(context, backgrounds[position % backgrounds.size])
 
     fun getBeneficiaryBackground(context: Context, position: Int) =
-        ContextCompat.getDrawable(context, beneficiaryBackgroundColors[position % beneficiaryBackgroundColors.size])
+        ContextCompat.getDrawable(
+            context,
+            beneficiaryBackgroundColors[position % beneficiaryBackgroundColors.size]
+        )
 
     fun getBackgroundColor(context: Context, position: Int) =
         ContextCompat.getColor(context, backgroundColors[position % backgroundColors.size])
 
     fun getBeneficiaryBackgroundColor(context: Context, position: Int) =
-        ContextCompat.getColor(context, beneficiaryBackgrounds[position % beneficiaryBackgrounds.size])
+        ContextCompat.getColor(
+            context,
+            beneficiaryBackgrounds[position % beneficiaryBackgrounds.size]
+        )
 
     private val backgrounds = intArrayOf(
         R.drawable.bg_round_light_red,
@@ -702,37 +725,26 @@ object Utils {
 
     }
 
-    fun ConfirmAddBeneficiary(context: Context) {
+    fun confirmationDialog(
+        context: Context,
+        title: String,
+        message: String,
+        positiveButton: String,
+        negitiveButton: String,
+        itemClick: OnItemClickListener
+    ) {
         androidx.appcompat.app.AlertDialog.Builder(context)
-            .setTitle(
-                Translator.getString(
-                    context,
-                    R.string.screen_add_beneficiary_detail_display_text_alert_title
-                )
-            )
-            .setMessage(
-                Translator.getString(
-                    context,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_description
-                )
-            )
-            .setPositiveButton(Translator.getString(
-                context,
-                R.string.screen_add_beneficiary_detail_display_button_block_alert_yes
-            ),
-                DialogInterface.OnClickListener { dialog, which ->
-                    //                    doLogout()
-                })
-
+            .setTitle(title).setMessage(message)
+            .setPositiveButton(
+                positiveButton
+            ) { _, _ ->
+                itemClick.onItemClick(View(context), true, 0)
+            }
             .setNegativeButton(
-                Translator.getString(
-                    context,
-                    R.string.screen_add_beneficiary_detail_display_button_block_alert_no
-                ),
-                null
-            )
+                negitiveButton
+            ) { _, _ ->
+                itemClick.onItemClick(View(context), false, 0)
+            }
             .show()
-
     }
-
 }

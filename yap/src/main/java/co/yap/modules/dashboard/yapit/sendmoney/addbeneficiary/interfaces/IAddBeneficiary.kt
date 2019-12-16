@@ -9,6 +9,7 @@ interface IAddBeneficiary {
 
     interface State : IBase.State {
         var country: String
+        var countryCode: String
         var transferType: String
         var currency: String
         var nickName: String
@@ -43,6 +44,7 @@ interface IAddBeneficiary {
         var clickEvent: SingleClickEvent
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnAddDomestic(id: Int)
+        fun addCashPickupBeneficiary()
 
 //      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
         //fun generateCashPayoutBeneficiaryRequestDTO()

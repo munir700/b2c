@@ -189,7 +189,9 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getSearchView())
-        startActivity(Intent(this, BeneficiaryCashTransferActivity::class.java))
+        val intent = Intent(this,BeneficiaryCashTransferActivity::class.java)
+        intent.putExtra(Constants.BENEFICIARY,beneficiary)
+        startActivity(intent)
         /*   startActivityForResult(Intent(this, BeneficiaryCashTransferActivity::class.java)
                , Constants.ADD_CASH_PICK_UP_FlOW
            )*/
@@ -228,7 +230,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     R.string.common_button_yes
                 )
             ) { dialog, which ->
-                viewModel.requestDeleteBeneficiary(beneficiary.id)
+                viewModel.requestDeleteBeneficiary(beneficiary.id?:0)
             }
 
             .setNegativeButton(

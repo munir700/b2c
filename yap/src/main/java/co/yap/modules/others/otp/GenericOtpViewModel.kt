@@ -11,7 +11,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 
-class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel(application) {
+open class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel(application) {
 
     override val nextButtonPressEvent: SingleClickEvent = SingleClickEvent()
     override val repository: MessagesRepository = MessagesRepository
@@ -33,17 +33,6 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
                 state.verificationDescription =
                     Strings.screen_verify_phone_number_display_text_sub_title
             }
-            Constants.BENEFICIARY_CASH_TRANSFER -> {
-                state.mobileNumber = arrayOfNulls(3)
-                state.mobileNumber[0] = "AED"
-                state.mobileNumber[1] = "300"
-                state.mobileNumber[2] = "Sufyan Shabbir"
-
-                state.verificationTitle = "Sufyan Shabbir"
-                state.verificationDescription =
-                    Strings.screen_cash_pickup_funds_display_otp_text_description
-            }
-
 
             else -> {
                 state.verificationTitle =
@@ -116,7 +105,7 @@ class GenericOtpViewModel(application: Application) : ForgotPasscodeOtpViewModel
     }
 
 
-    private fun createOtp() {
+    fun createOtp() {
         launch {
             state.loading = true
             when (val response =

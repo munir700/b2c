@@ -160,7 +160,7 @@
                 tools:hint="Type a note here" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/btnInvite"
+                android:id="@+id/btnConfirm"
                 style="@style/RectangleBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

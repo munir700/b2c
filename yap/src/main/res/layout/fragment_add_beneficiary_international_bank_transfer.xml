@@ -11,11 +11,12 @@
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel" />
 
+        <import type="android.view.View" />
     </data>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:fillViewport="true">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -133,7 +134,11 @@
                     this wil be the common screen in all three case
                      only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
                   -->
-
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="@{viewModel.state.transferType.equals(`Cash Pickup`)? View.GONE:View.VISIBLE}">
                 <TextView
                     style="@style/SmallGrey"
                     android:layout_width="wrap_content"
@@ -187,6 +192,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:background="@color/divider" />
+                </LinearLayout>
 
                 <TextView
                     style="@style/Small"
@@ -297,16 +303,29 @@
                         android:paddingRight="@dimen/margin_small"
                         android:weightSum="1">
 
-                        <co.yap.widgets.mobile.CountryCodePicker
-                            android:id="@+id/ccpSelector"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight=".01"
-                            android:clickable="false"
-                            android:visibility="visible"
-                            app:ccp_countryPreference="us,ae"
-                            app:ccp_hintExampleNumber="true"
-                            app:ccp_onFlagClick="false" />
+                            android:orientation="horizontal"
+                            android:paddingTop="@dimen/margin_medium"
+                            android:paddingBottom="@dimen/margin_medium">
+
+                            <co.yap.widgets.CoreCircularImageView
+                                android:id="@+id/flag_img_phone"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                app:src="@{viewModel.state.flagDrawableResId}" />
+
+                            <TextView
+                                android:id="@+id/txt_countryCode"
+                                style="@style/ASmallGrey"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:layout_marginStart="@dimen/margin_normal"
+                                android:text="@{viewModel.state.countryCode}"
+                                tools:text="+971" />
+                        </LinearLayout>
 
                         <EditText
                             android:id="@+id/etMobileNumber"
@@ -320,6 +339,7 @@
                             android:imeOptions="actionDone"
                             android:inputType="phone"
                             android:maxLength="@{viewModel.state.mobileNoLength}"
+                            android:padding="@dimen/_5sdp"
                             android:paddingEnd="@dimen/margin_normal"
                             android:singleLine="true"
                             android:text="@={viewModel.state.mobileNo}"
@@ -350,7 +370,7 @@
                 android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:text="@{Strings.common_button_next}"
+                app:text="@{viewModel.state.transferType.equals(`Cash Pickup`)?Strings.screen_add_beneficiary_detail_button_confirm:Strings.common_button_next}"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="44dp"
                 tools:text="@string/common_button_next" />

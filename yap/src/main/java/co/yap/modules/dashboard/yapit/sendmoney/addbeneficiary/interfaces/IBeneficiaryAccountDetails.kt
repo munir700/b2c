@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
+import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -9,6 +11,7 @@ interface IBeneficiaryAccountDetails {
 
     interface State : IBase.State {
         var accountIban: String
+        var accountConfirmIban: String
         var countryBankRequirementFieldCode: String
         var beneficiaryAccountNumber: String
         var swiftCode: String
@@ -18,6 +21,9 @@ interface IBeneficiaryAccountDetails {
         var idCode: String
         var bankAddress: String
         var bankPhoneNumber: String
+
+        var showlyIban: ObservableField<Boolean>
+        var showlyConfirmIban: ObservableField<Boolean>
 
     }
 

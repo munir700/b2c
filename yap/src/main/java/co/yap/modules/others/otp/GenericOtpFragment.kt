@@ -12,7 +12,7 @@ import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 
-class GenericOtpFragment : ForgotPasscodeOtpFragment() {
+open class GenericOtpFragment : ForgotPasscodeOtpFragment() {
     val args: GenericOtpFragmentArgs? by navArgs()
 
     override val viewModel: IForgotPasscodeOtp.ViewModel
