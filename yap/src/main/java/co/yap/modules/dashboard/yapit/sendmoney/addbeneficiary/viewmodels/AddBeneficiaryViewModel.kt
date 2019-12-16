@@ -8,8 +8,10 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.AddBenefic
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
@@ -47,22 +49,52 @@ class AddBeneficiaryViewModel(application: Application) :
 
     override fun handlePressOnAddNow(id: Int) {
         if (id == R.id.confirmButton) {
-            parentViewModel?.beneficiary?.value?.beneficiaryType =
-                parentViewModel?.transferType?.value ?: ""
-            parentViewModel?.beneficiary?.value?.title = state.nickName
-            parentViewModel?.beneficiary?.value?.firstName = state.firstName
-            parentViewModel?.beneficiary?.value?.lastName = state.lastName
-            parentViewModel?.beneficiary?.value?.mobileNo = state.mobileNo
-            parentViewModel?.selectedCountry?.value?.let {
-                parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
-                parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
+            setBeneficiaryDetail()
+            when (state.transferType) {
+                "Cash Pickup" -> {
+                    addCashPickupBeneficiary()
+                }
+                else -> {
+                }
             }
+            clickEvent.setValue(id)
         }
-        clickEvent.setValue(id)
+    }
+    private fun setBeneficiaryDetail() {
+        parentViewModel?.beneficiary?.value?.beneficiaryType =
+            parentViewModel?.transferType?.value ?: ""
+        parentViewModel?.beneficiary?.value?.title = state.nickName
+        parentViewModel?.beneficiary?.value?.firstName = state.firstName
+        parentViewModel?.beneficiary?.value?.lastName = state.lastName
+        parentViewModel?.beneficiary?.value?.mobileNo = state.mobileNo
+        parentViewModel?.selectedCountry?.value?.let {
+            parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
+            parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
+        }
     }
 
     override fun handlePressOnAddDomestic(id: Int) {
         clickEvent.setValue(id)
+    }
+
+    override fun addCashPickupBeneficiary() {
+        parentViewModel?.beneficiary?.value?.let {
+            launch {
+                state.loading = true
+                when (val response = repository.addBeneficiary(it)) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        state.toast = response.data.toString()
+                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+                    }
+                }
+            }
+        }
     }
 
     override fun onResume() {

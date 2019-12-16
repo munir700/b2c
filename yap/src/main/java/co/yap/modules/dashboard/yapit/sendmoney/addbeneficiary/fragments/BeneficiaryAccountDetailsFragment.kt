@@ -31,7 +31,7 @@ class BeneficiaryAccountDetailsFragment :
         viewModel.success.observe(this, Observer {
             if (it) {
                 context?.let { it ->
-                    Utils.confirmAddBeneficiary(it,
+                    Utils.confirmationDialog(it,
                         Translator.getString(
                             it,
                             R.string.screen_add_beneficiary_detail_display_text_alert_title
