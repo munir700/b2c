@@ -6,9 +6,6 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
-import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
-import co.yap.translation.Strings.screen_international_funds_transfer_display_text_fee
-import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 
 class InternationalFundsTransferState(val application: Application) : BaseState(),
@@ -27,6 +24,61 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field=value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
+    @get:Bindable
+    override var fxRateAmount: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fxRateAmount)
+            checkValidation()
+        }
+
+    @get:Bindable
+    override var receiverCurrency: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.receiverCurrency)
+        }
+
+    @get:Bindable
+    override var receiverCurrencyAmount: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.receiverCurrencyAmount)
+        }
+
+    @get:Bindable
+    override var receiverCurrencyAmountFxRate: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.receiverCurrencyAmountFxRate)
+
+        }
+
+    @get:Bindable
+    override var fromFxRate: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fromFxRate)
+        }
+    @get:Bindable
+    override var fromFxRateCurrency: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fromFxRateCurrency)
+        }
+    @get:Bindable
+    override var toFxRate: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.toFxRate)
+        }
+    @get:Bindable
+    override var toFxRateCurrency: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.toFxRateCurrency)
+        }
+
 
 //
 //    @get:Bindable
@@ -68,7 +120,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var senderCurrency: String = "AED"
+    override var senderCurrency: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.senderCurrency)
@@ -97,7 +149,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiaryAmount: String = "0.00"
+    override var beneficiaryAmount: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryAmount)
@@ -117,4 +169,21 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             valid = true
         }
     }
+
+    private fun checkValidation() {
+
+        if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
+            fxRateAmount?.let {
+                if (it?.isEmpty()) {
+                    receiverCurrencyAmount = ""
+                }
+            }
+            val amount =
+                receiverCurrencyAmountFxRate?.let { fxRateAmount?.toDouble()?.times(it.toDouble()) }
+            receiverCurrencyAmount = amount.toString()
+
+        }
+
+    }
+
 }

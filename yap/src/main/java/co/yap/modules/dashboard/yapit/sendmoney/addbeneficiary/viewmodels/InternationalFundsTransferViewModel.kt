@@ -12,6 +12,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RxListRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
@@ -31,6 +32,8 @@ class InternationalFundsTransferViewModel(application: Application) :
         ArrayList()
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
+    var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
+
 
 
     override fun handlePressOnNext(id: Int) {
@@ -41,8 +44,8 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         transactionData.clear()
-//        getTransactionFeeInternational()
-//        getTransactionInternationalReasonList()
+        getTransactionFeeInternational()
+        //getTransactionInternationalReasonList()
         getTransactionInternationalRxList()
     }
 
@@ -55,7 +58,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
 
     /*
-    * In this function get Transaction Fee.
+    * In this function get Remittance Transaction Fee.
     * */
 
     private fun getTransactionFeeInternational() {
@@ -69,26 +72,35 @@ class InternationalFundsTransferViewModel(application: Application) :
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
+
+                    val data_ =response.data.data
                     var totalAmount = 0.0
                     if (response.data.data?.feeType == "FLAT") {
+
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+
                         if (feeAmount != null) {
                             totalAmount = feeAmount + feeAmountVAT!!
                         }
 
+
                     } else if (response.data.data?.feeType == "TIER") {
-
-                        println(response.data.data)
-                        println(response.data.data)
-                        val list = response.data.data!!.tierRateDTOList
-
+                        listItemSelectedCart = response.data.data!!.tierRateDTOList!!
+                        val remittanceTierFee = findFee(1001.0, listItemSelectedCart)
+                        if (remittanceTierFee != null) {
+                            if (remittanceTierFee.isNotEmpty()) {
+                                val feeAmount = remittanceTierFee[0].feeAmount
+                                val feeAmountVAT = remittanceTierFee[0]?.vatAmount
+                                if (feeAmount != null) {
+                                    totalAmount = feeAmount + feeAmountVAT!!
+                                }
+                            }
+                        }
                     } else {
                         totalAmount = 0.0
                     }
 
-
-                    println(totalAmount)
                     state.transferFee =
                         getString(Strings.screen_international_funds_transfer_display_text_fee).format(
                             "AED",
@@ -113,6 +125,18 @@ class InternationalFundsTransferViewModel(application: Application) :
             state.loading = false
         }
     }
+
+    private fun findFee(
+        value: Double,
+        tierRateDTOList: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>?
+    ): List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? {
+        return tierRateDTOList?.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
+    }
+
+
+
+
+
 
     /*
     * In this function get All List of reasons.
@@ -156,9 +180,20 @@ class InternationalFundsTransferViewModel(application: Application) :
             when (val response =
                 mTransactionsRepository.getTransactionInternationalRXList("P013", rxListBody)) {
                 is RetroApiResponse.Success -> {
-                    //if (response.data.isNullOrEmpty()) return@launch
-                    println(response)
-                    println(response)
+                    println(response.data.data)
+                    state.senderCurrency = response.data.data.fromCurrencyCode
+                    state.receiverCurrency = response.data.data.toCurrencyCode
+                    state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
+
+                    state.fromFxRateCurrency = response.data.data.fromCurrencyCode
+                    state.fromFxRate =
+                        "${response.data.data.value?.amount} ${state.fromFxRateCurrency}"
+
+
+                    state.toFxRateCurrency = response.data.data.toCurrencyCode
+                    state.toFxRate =
+                        "${response.data.data.fxRates?.get(0)?.rate} ${state.toFxRateCurrency}"
+
 
                 }
                 is RetroApiResponse.Error -> {
@@ -169,4 +204,6 @@ class InternationalFundsTransferViewModel(application: Application) :
             state.loading = false
         }
     }
+
+
 }

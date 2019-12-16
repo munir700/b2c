@@ -8,6 +8,7 @@ import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 
@@ -76,7 +77,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList> =
         executeSafely(call = { api.getInternationalTransactionReasonList(productCode) })
 
-    override suspend fun getTransactionInternationalRXList(productCode: String,mRxListRequest: RxListRequest): RetroApiResponse<ApiResponse> =
+    override suspend fun getTransactionInternationalRXList(productCode: String,mRxListRequest: RxListRequest): RetroApiResponse<FxRateResponse> =
         executeSafely(call = { api.getInternationalRXRateList(productCode,mRxListRequest) })
 
     override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =

@@ -96,6 +96,7 @@
                     android:background="@null"
                     android:gravity="center"
                     android:imeOptions="actionDone"
+                    android:text="@={viewModel.state.fxRateAmount}"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     android:labelFor="@+id/etAmount"
@@ -122,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{viewModel.state.senderCurrency}"
+                android:text="@{viewModel.state.receiverCurrency}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -140,8 +141,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName">
 
-                <EditText
-                    android:id="@+id/etBeneficiaryConvertedAmount"
+                <TextView
+                    android:id="@+id/tvBeneficiaryConvertedAmount"
                     style="@style/ATitle2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,6 +153,7 @@
                     android:inputType="numberDecimal"
                     android:labelFor="@+id/etAmount"
                     android:maxLength="7"
+                    android:text="@{viewModel.state.receiverCurrencyAmount}"
                     android:maxLines="1"
                     app:hint="@{Strings.common_amount_hint}"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -197,7 +199,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
-                    android:text="X AED"
+                    android:text="@{viewModel.state.fromFxRate}"
                     android:textColor="@color/colorPrimaryDark"
                     tools:text="X AED" />
 
@@ -217,7 +219,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
-                    android:text="X CAD"
+                    android:text="@{viewModel.state.toFxRate}"
                     android:textColor="@color/colorPrimaryDark"
                     tools:text="X CAD" />
             </LinearLayout>
