@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/house_hold_onboarding_navigation"
+    app:startDestination="@id/changeEmailFragment">
+
+    <fragment
+        android:id="@+id/changeEmailFragment"
+        android:name="co.yap.modules.dashboard.more.profile.fragments.ChangeEmailFragment"
+        android:label="ChangeEmailFragment">
+        <action
+            android:id="@+id/action_changeEmailFragment_to_genericOtpFragment"
+            app:destination="@id/genericOtpFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_changeEmailFragment_to_changeEmailSuccessFragment"
+            app:destination="@id/changeEmailSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+
+</navigation>

@@ -11,11 +11,12 @@ import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
+import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.viewmodels.HouseHoldSubscriptionViewModel
 import co.yap.yapcore.BaseBindingActivity
 import kotlinx.android.synthetic.main.activity_yap_house_hold_subscription_selction.*
 
-class YapHouseHoldSubscriptionSelectionActivity :
+class SubscriptionSelectionActivity :
     BaseBindingActivity<IHouseHoldSubscription.ViewModel>(),
     IHouseHoldSubscription.View, SpareCardsLandingAdapter.OnItemClickedListener {
 
@@ -27,7 +28,7 @@ class YapHouseHoldSubscriptionSelectionActivity :
 
     companion object {
         fun newIntent(context: Context): Intent {
-            return Intent(context, YapHouseHoldSubscriptionSelectionActivity::class.java)
+            return Intent(context, SubscriptionSelectionActivity::class.java)
         }
     }
 
@@ -46,16 +47,16 @@ class YapHouseHoldSubscriptionSelectionActivity :
 
                 R.id.btnClose -> {
 //                    startActivity(newIntent(this))
-                    finish()// will check in fsd/story till where is it required to go back
+                    finish() // will check in fsd/story till where is it required to go back
                 }
                 R.id.llAnnualSubscription -> {
-//                    startActivity(newIntent(this))
-                showToast("llAnnualSubscription")
-            }
+                    startActivity(HouseHoldOnboardingActivity.newIntent(this))
+                    showToast("llAnnualSubscription")
+                }
 
 
                 R.id.llMonthlySubscription -> {
-//                    startActivity(newIntent(this))
+                    startActivity(HouseHoldOnboardingActivity.newIntent(this))
                     showToast("llMonthlySubscription")
                 }
 

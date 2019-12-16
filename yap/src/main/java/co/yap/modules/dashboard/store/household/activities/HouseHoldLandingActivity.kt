@@ -38,7 +38,7 @@ class HouseHoldLandingActivity : BaseBindingActivity<IHouseHoldLanding.ViewModel
             when (it) {
 
                 R.id.btnGetHouseHoldAccount -> {
-                    startActivity(YapHouseHoldSubscriptionSelectionActivity.newIntent(this))
+                    startActivity(SubscriptionSelectionActivity.newIntent(this))
                 }
 
                 R.id.imgClose -> {

@@ -191,8 +191,14 @@
 
 
         <activity
-            android:name=".modules.dashboard.store.household.activities.YapHouseHoldSubscriptionSelectionActivity"
+            android:name=".modules.dashboard.store.household.activities.SubscriptionSelectionActivity"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity"
+            android:screenOrientation="portrait">
+            <nav-graph android:value="@navigation/house_hold_onboarding_navigation" />
+        </activity>
 
 
     </application>
