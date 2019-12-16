@@ -253,8 +253,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="@string/screen_add_beneficiary_detail_display_text_change_currency"
                         android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
+                        android:text="@string/screen_add_beneficiary_detail_display_text_change_currency"
                         android:textColor="@color/colorPrimary"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent" />
@@ -355,13 +355,14 @@
                     android:importantForAutofill="no"
                     android:inputType="phone"
                     android:singleLine="true"
-                    android:drawableStart="@drawable/flag_in"
-                    android:drawableLeft="@drawable/flag_in"
                     android:text="@={editBeneficiaryViewModel.state.phoneNumber}"
+                    app:pse_compoundDrawableHeight="@dimen/_14sdp"
+                    app:pse_compoundDrawableWidth="@dimen/_14sdp"
                     app:pse_setBorderView="false"
                     app:pse_setClearIconVisible="false"
                     app:pse_setCornerRadius="0dp"
-                    app:pse_setPrefix="  +94 "
+                    app:pse_setPrefix=" +94"
+                    app:pse_setPrefixDrawable="@drawable/flag_in"
                     app:pse_setPrefixTextColor="#FF4081"
                     app:pse_setStrokeWidth="0dp" />
 
