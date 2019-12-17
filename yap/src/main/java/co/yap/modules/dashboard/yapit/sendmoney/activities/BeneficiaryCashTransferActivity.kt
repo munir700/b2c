@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.activities
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -18,6 +20,17 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 
 class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTransfer.ViewModel>(),
     IFragmentHolder, INavigator {
+
+    companion object {
+        fun newIntent(context: Context, beneficiary: Beneficiary?): Intent {
+            val intent = Intent(context, BeneficiaryCashTransferActivity::class.java)
+            intent.putExtra(Constants.BENEFICIARY, beneficiary)
+            return intent
+        }
+    }
+
+
+
     override fun getBindingVariable(): Int = BR.viewModel
 
     override fun getLayoutId(): Int = R.layout.activity_beneficiary_cash_transfer
@@ -32,10 +45,7 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        if (intent != null) {
-            viewModel.state.beneficiary =
-                intent.getParcelableExtra(Constants.BENEFICIARY) as? Beneficiary?
-        }
+        getBeneficiary()
         viewModel.clickEvent.observe(this, clickEvent)
     }
 
@@ -44,6 +54,14 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
             R.id.tbIvClose -> onBackPressed()
             R.id.tvRightToolbar -> this.finish()
         }
+    }
+
+    private fun getBeneficiary() {
+        if (intent != null) {
+            viewModel.state.beneficiary =
+                intent.getParcelableExtra(Constants.BENEFICIARY) as? Beneficiary?
+        }
+       // return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }
 
     override fun onBackPressed() {

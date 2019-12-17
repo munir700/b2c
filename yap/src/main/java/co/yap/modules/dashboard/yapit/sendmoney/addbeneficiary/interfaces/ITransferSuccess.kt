@@ -4,27 +4,25 @@ import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
 interface ITransferSuccess {
+    interface View : IBase.View<ViewModel>
+
+    interface ViewModel : IBase.ViewModel<State> {
+        val backButtonPressEvent: SingleClickEvent
+        var clickEvent: SingleClickEvent
+        fun handlePressOnButtonClick(id: Int)
+    }
 
     interface State : IBase.State {
-        var pickUpAgentLocation: String?
         var transferType: String?
         var amount: String?
         var currency: String?
         var flag: String?
         var name: String?
-        var picture: String?
+        var picture: String
         var pickUpAgentLocationAddress: String?
         var referenceNumber: String?
         var flagLayoutVisibility: Boolean?
+        var position: Int?
 
     }
-
-    interface ViewModel : IBase.ViewModel<State> {
-        val backButtonPressEvent: SingleClickEvent
-        var clickEvent: SingleClickEvent
-        fun handlePressOnGoBackToDashboard(id: Int)
-    }
-
-    interface View : IBase.View<ViewModel>
-
 }

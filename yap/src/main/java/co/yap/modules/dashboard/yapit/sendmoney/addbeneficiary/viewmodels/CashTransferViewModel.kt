@@ -9,6 +9,7 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.translation.Strings
@@ -28,20 +29,12 @@ class CashTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        getTransactionFeeForCashPayout()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
 
 
         state.currencyType = "AED"
-        state.feeAmountString =
-            getString(Strings.screen_cash_pickup_funds_display_text_fee).format(
-                state.currencyType,
-                "50.00"
-            )
-        state.feeAmountSpannableString = Utils.getSppnableStringForAmount(
-            context,
-            state.feeAmountString, state.currencyType, "50.00"
-        )
     }
 
     override fun onResume() {
@@ -81,11 +74,16 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    override fun cashPayoutTransferRequest() {
+    override fun cashPayoutTransferRequest(beneficiaryId: String?) {
         launch {
             state.loading = true
             when (val response =
-                transactionRepository.cashPayoutTransferRequest()
+                transactionRepository.cashPayoutTransferRequest(
+                    CashPayoutRequestDTO(
+                        "For some urgent reason",
+                        beneficiaryId, state.amount, state.currencyType
+                    )
+                )
                 ) {
                 is RetroApiResponse.Success -> {
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
@@ -99,17 +97,52 @@ class CashTransferViewModel(application: Application) :
             state.loading = false
         }
     }
-    fun getTransactionFeeForCashPayout() {
+
+    private fun getTransactionFeeForCashPayout() {
         launch {
             state.loading = true
             when (val response =
-                transactionRepository.getTransactionFeeWithProductCode("", RemittanceFeeRequest("",""))
+                transactionRepository.getTransactionFeeWithProductCode(
+                    "P013",
+                    RemittanceFeeRequest("PK", "")
+                )
                 ) {
                 is RetroApiResponse.Success -> {
-                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+
+                    var totalAmount = 0.0
+                    if (response.data.data?.feeType == "FLAT") {
+                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                        val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                        if (feeAmount != null) {
+                            totalAmount = feeAmount + feeAmountVAT!!
+                        }
+
+                    } else if (response.data.data?.feeType == "TIER") {
+
+                        println(response.data.data)
+                        println(response.data.data)
+                        val list = response.data.data!!.tierRateDTOList
+
+                    } else {
+                        totalAmount = 0.0
+                    }
+
+                    state.feeAmountString =
+                        getString(Strings.screen_cash_pickup_funds_display_text_fee).format(
+                            state.currencyType,
+                            Utils.getFormattedCurrency(totalAmount.toString())
+                        )
+                    state.feeAmountSpannableString = Utils.getSppnableStringForAmount(
+                        context,
+                        state.feeAmountString,
+                        state.currencyType,
+                        Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
+                    )
+
+                    //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.toast = response.error.message
                     state.loading = false
                 }

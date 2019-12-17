@@ -101,11 +101,11 @@ interface TransactionsRetroService {
 
     //Cash payout transfer request
     @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
-    suspend fun cashPayoutTransferRequest(): Response<ApiResponse>
+    suspend fun cashPayoutTransferRequest(@Body cashPayoutRequestDTO: CashPayoutRequestDTO): Response<ApiResponse>
 
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
-    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>
+    suspend fun getTransactionFeeWithProductCode(@Path("product-code") productCode: String?, @Body mRemittanceFeeRequest: RemittanceFeeRequest): Response<RemittanceFeeResponse>
 
     //Get transaction international purpose reasons.
     @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
