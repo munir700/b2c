@@ -62,8 +62,11 @@ class AddBeneficiaryViewModel(application: Application) :
                 }
             }
             clickEvent.setValue(id)
+        } else {
+            clickEvent.setValue(id)
         }
     }
+
     private fun setBeneficiaryDetail() {
         parentViewModel?.beneficiary?.value?.beneficiaryType =
             parentViewModel?.transferType?.value ?: ""

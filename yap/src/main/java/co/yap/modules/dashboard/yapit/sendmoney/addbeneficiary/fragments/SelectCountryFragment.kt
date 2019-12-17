@@ -53,7 +53,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
             when (it) {
                 R.id.nextButton -> {
                     viewModel.state.selectedCountry?.let { it ->
-                        if (viewModel.state.isDomestic.get() == true) {
+                        if (viewModel.state.isDomestic.get()!! ) {
                             findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
                         } else {
                             it.cashPickUp?.let { cashPickup ->
