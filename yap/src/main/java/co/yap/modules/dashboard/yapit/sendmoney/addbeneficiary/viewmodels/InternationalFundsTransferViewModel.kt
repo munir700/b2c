@@ -28,10 +28,9 @@ class InternationalFundsTransferViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: InternationalFundsTransferState = InternationalFundsTransferState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
-        ArrayList()
-    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
-        MutableLiveData()
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> = MutableLiveData()
+
     var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
 
 

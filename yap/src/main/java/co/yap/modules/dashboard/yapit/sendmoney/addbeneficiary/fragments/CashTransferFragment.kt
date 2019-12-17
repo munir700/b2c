@@ -231,8 +231,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             }
         }
         return ""
-
     }
-
 
 }
