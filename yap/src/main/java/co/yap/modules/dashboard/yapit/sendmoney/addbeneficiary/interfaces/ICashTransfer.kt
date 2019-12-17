@@ -16,7 +16,9 @@ interface ICashTransfer {
         val errorEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         var receiverUUID: String
+        fun getTransactionFeeForCashPayout(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: String?)
+        fun domesticTransferRequest(beneficiaryId: String?)
 
     }
 

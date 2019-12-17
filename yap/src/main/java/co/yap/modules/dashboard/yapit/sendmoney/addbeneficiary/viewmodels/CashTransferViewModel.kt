@@ -10,6 +10,7 @@ import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
+import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.translation.Strings
@@ -29,7 +30,7 @@ class CashTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        getTransactionFeeForCashPayout()
+        // getTransactionFeeForCashPayout()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
 
@@ -80,8 +81,9 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.cashPayoutTransferRequest(
                     CashPayoutRequestDTO(
-                        "For some urgent reason",
-                        beneficiaryId, state.amount, state.currencyType
+                        "other",
+                        beneficiaryId, state.amount.toDouble(), state.currencyType,
+                        state.noteValue
                     )
                 )
                 ) {
@@ -98,12 +100,41 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    private fun getTransactionFeeForCashPayout() {
+    override fun domesticTransferRequest(beneficiaryId: String?) {
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.domesticTransferRequest(
+                    DomesticTransactionRequestDTO(
+                        beneficiaryId,
+                        state.amount.toDouble(),
+                        0.0,
+                        "",
+                        "",
+                        state.noteValue
+                    )
+
+                )
+                ) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun getTransactionFeeForCashPayout(productCode: String?) {
         launch {
             state.loading = true
             when (val response =
                 transactionRepository.getTransactionFeeWithProductCode(
-                    "P013",
+                    productCode,
                     RemittanceFeeRequest("PK", "")
                 )
                 ) {

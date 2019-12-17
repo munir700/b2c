@@ -52,5 +52,6 @@ interface TransactionsApi {
     ): RetroApiResponse<AnalyticsResponseDTO>
 
     suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<ApiResponse>
+    suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<ApiResponse>
 
 }

@@ -18,10 +18,13 @@ import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.managers.MyUserManager
+import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
@@ -38,6 +41,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
+        viewModel.getTransactionFeeForCashPayout(getProductCode())
         setObservers()
     }
 
@@ -84,10 +88,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
                 if (it) {
-                    (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.id?.let { beneficiaryId ->
-                        viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
-                    }
-
+                    callTransactionApi()
                 }
             }
         }
@@ -125,6 +126,52 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         })
     }
 
+    private fun callTransactionApi() {
+        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+            beneficiary.beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        //RMT is for international( RMT(linked with Rak))
+                        SendMoneyBeneficiaryType.RMT -> {
+                            //Call service for RMT
+                            toast("Flow to be implemented for RMT")
+                        }
+                        //Swift is for international(non RMT(Not linked with Rak))
+                        SendMoneyBeneficiaryType.SWIFT -> {
+                            //call service for SWIFT
+                            toast("Flow to be implemented for swift")
+                        }
+                        SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                            //call service for CASHPAYOUT
+                            beneficiary.id?.let { beneficiaryId ->
+                                viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
+                            }
+
+                        }
+                        //Rak to Rak(yap to rak(Internal transfer))
+                        SendMoneyBeneficiaryType.DOMESTIC -> {
+                            //call service for DOMESTIC
+                            beneficiary.id?.let { beneficiaryId ->
+                                viewModel.domesticTransferRequest(beneficiaryId.toString())
+                            }
+                        }
+                        SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
+                            //call service for INTERNAL_TRANSFER
+
+                        }
+                        SendMoneyBeneficiaryType.UAEFTS -> {
+                            //call service for INTERNAL_TRANSFER
+
+                        }
+                        else -> {
+
+                        }
+                    }
+            }
+        }
+
+    }
+
     private fun showErrorSnackBar() {
         CustomSnackbar.showErrorCustomSnackbar(
             context = requireContext(),
@@ -146,5 +193,46 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     private fun getBindings(): FragmentCashTransferBinding {
         return viewDataBinding as FragmentCashTransferBinding
     }
+
+    fun getProductCode(): String {
+
+        if (context is BeneficiaryCashTransferActivity) {
+            (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                beneficiary.beneficiaryType?.let { beneficiaryType ->
+                    if (beneficiaryType.isNotEmpty())
+                        when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                            SendMoneyBeneficiaryType.RMT -> {
+                                return SendMoneyBeneficiaryProductCode.P012.name
+                            }
+                            SendMoneyBeneficiaryType.SWIFT -> {
+                                return SendMoneyBeneficiaryProductCode.P011.name
+                            }
+                            SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                return SendMoneyBeneficiaryProductCode.P013.name
+                            }
+                            SendMoneyBeneficiaryType.DOMESTIC -> {
+                                return SendMoneyBeneficiaryProductCode.P023.name
+                            }
+                            /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
+                                //call service for INTERNAL_TRANSFER
+
+                            }*/
+                            SendMoneyBeneficiaryType.UAEFTS -> {
+                                return SendMoneyBeneficiaryProductCode.P010.name
+
+
+                            }
+                            else -> {
+                                return SendMoneyBeneficiaryProductCode.P010.name
+
+                            }
+                        }
+                }
+            }
+        }
+        return ""
+
+    }
+
 
 }

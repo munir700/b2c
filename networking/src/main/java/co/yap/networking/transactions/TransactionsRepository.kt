@@ -50,6 +50,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "transactions/api/product-codes/{product-code}/fxRate"
     const val URL_CASH_PAYOUT_TRANSFER =
         "/transactions/api/cashpayout"
+    const val URL_DOMESTIC_TRANSFER =
+        "/transactions/api/yap-to-rak"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -160,4 +162,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.cashPayoutTransferRequest(cashPayoutRequestDTO) })
+
+    override suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.domesticTransferRequest(domesticTransactionRequestDTO) })
+
 }

@@ -115,5 +115,9 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
     suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String, @Body mRxListRequest: RxListRequest): Response<ApiResponse>
 
+    //Domestic transfer request
+    @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
+    suspend fun domesticTransferRequest(@Body domesticTransactionRequestDTO: DomesticTransactionRequestDTO): Response<ApiResponse>
+
 
 }
