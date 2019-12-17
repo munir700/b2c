@@ -46,15 +46,11 @@ class InternationalFundsTransferFragment :
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinner.setSelection(pos)
-//            viewModel.onCountrySelected(pos)
-
+            toast(data.toString())
         }
     }
 
-    private fun papulateReasonsList(reasons: List<InternationalFundsTransferReasonList.ReasonList>?) {
-        toast(reasons.toString())
 
-    }
     private fun editBeneficiaryScreen() {
         etnickName.isEnabled = true
         etFirstName.isEnabled = true
@@ -88,7 +84,6 @@ class InternationalFundsTransferFragment :
 
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
 
