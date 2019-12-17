@@ -28,6 +28,7 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     var adaptor: AddBeneficiariesAdaptor? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        addListener()
     }
 
     private fun addListener() {
@@ -53,7 +54,6 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        addListener()
     }
 
     val observer = Observer<Int> {
