@@ -105,7 +105,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                 app:text="@{Strings.screen_yap_house_hold_user_info_display_text_email}"
-                app:textColor="@{viewModel.state.nickName.empty ? true : false}"
+                app:textColor="@{viewModel.state.emailAddress.empty ? true : false}"
                 tools:text="@string/screen_yap_house_hold_user_info_display_text_email" />
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -128,7 +128,7 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnNext(v.id)}"
-            android:text="@{viewModel.state.screen_yap_house_hold_user_info_button_next}"
+            android:text="@{Strings.screen_yap_house_hold_user_info_button_next}"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints"

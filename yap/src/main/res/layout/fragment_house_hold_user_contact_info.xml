@@ -62,7 +62,7 @@
                 android:layout_marginTop="@dimen/margin_xl"
                 android:text="@string/screen_b2c_eid_info_review_display_text_name_heading"
                 app:text="@{Strings.screen_yap_house_hold_user_info_contact_display_text_mobile}"
-                app:textColor="@{viewModel.state.firstName.empty ? true : false}"
+                app:textColor="@{viewModel.state.mobileNumber.empty ? true : false}"
                 tools:text="@string/screen_yap_house_hold_user_info_contact_display_text_mobile" />
 
 
@@ -85,7 +85,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                 app:text="@{Strings.screen_yap_house_hold_user_info_contact_display_text_confirm_mobile}"
-                app:textColor="@{viewModel.state.lastName.empty ? true : false}"
+                app:textColor="@{viewModel.state.confirmMobileNumber.empty ? true : false}"
                 tools:text="@string/screen_yap_house_hold_user_info_contact_display_text_confirm_mobile" />
             ///
 
@@ -168,8 +168,10 @@
                     android:clickable="false"
                     android:gravity="center"
                     app:ccp_countryPreference="us,ae"
+                     app:ccp_hintExampleNumber="true"
                     app:ccp_hideFlag="true"
-                    app:ccp_hintExampleNumber="true"
+                    app:ccp_pickerTextColor="@color/warning"
+                    app:ccp_showDropDown="true"
                     app:ccp_onFlagClick="false"
                     app:layout_constraintBottom_toBottomOf="@+id/etNewMobileNumber"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -217,8 +219,8 @@
             android:layout_marginLeft="@dimen/margin_xxl"
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnNext(v.id)}"
-            android:text="@{viewModel.state.screen_yap_house_hold_user_info_contact_button_next}"
+            android:onClick="@{(v) -> viewModel.handlePressOnAdd(v.id)}"
+            android:text="@{Strings.screen_yap_house_hold_user_info_contact_button_next}"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:ignore="MissingConstraints"

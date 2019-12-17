@@ -29,7 +29,8 @@ class HouseHoldUserInfoFragment : BaseOnBoardingFragment<IHouseHoldUserInfo.View
 
     override fun onResume() {
         super.onResume()
-getString(Translator.getString())
+//        getString(Translator.getString())// to concatenate name of joe maybe
+
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
