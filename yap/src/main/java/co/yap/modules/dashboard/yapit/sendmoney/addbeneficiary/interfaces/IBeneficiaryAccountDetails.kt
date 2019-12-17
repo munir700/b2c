@@ -33,6 +33,7 @@ interface IBeneficiaryAccountDetails {
         var clickEvent: SingleClickEvent
         fun createBeneficiaryRequest()
         fun handlePressOnAddBank(id: Int)
+        fun retry()
     }
 
     interface View : IBase.View<ViewModel>

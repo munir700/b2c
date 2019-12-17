@@ -5,6 +5,7 @@ import co.yap.networking.CookiesManager
 import co.yap.networking.RetroNetwork
 import co.yap.networking.customers.requestdtos.*
 import co.yap.networking.customers.responsedtos.*
+import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
@@ -216,6 +217,6 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun findOtherBank(otherBankQuery: OtherBankQuery): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.findOtherBank(otherBankQuery) })
 
-    override suspend fun getOtherBankParams(countryName: String): RetroApiResponse<ApiResponse> =
+    override suspend fun getOtherBankParams(countryName: String): RetroApiResponse<BankParamsResponse> =
         executeSafely(call = { api.getOtherBankParams(countryName) })
 }
