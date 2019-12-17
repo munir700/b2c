@@ -16,6 +16,7 @@ interface ICashTransfer {
         val errorEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         var receiverUUID: String
+        fun cashPayoutTransferRequest(beneficiaryId: String?)
 
     }
 
@@ -26,6 +27,7 @@ interface ICashTransfer {
         var amount: String
         var valid: Boolean
         var minLimit: Double
+        var position: Int
         var availableBalance: String?
         var errorDescription: String
         var currencyType: String
@@ -35,5 +37,6 @@ interface ICashTransfer {
         var fullName: String
         var noteValue: String
         var imageUrl: String
+        var feeStringVisibility: Boolean
     }
 }

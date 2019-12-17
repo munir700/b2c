@@ -61,26 +61,42 @@
                         android:background="@color/white"
                         android:gravity="center|center_vertical">
 
-                        <TextView
-                            android:id="@+id/tvAccountHolderNameInitials"
-                            android:layout_width="@dimen/_65sdp"
-                            android:layout_height="@dimen/_65sdp"
-                            android:background="@drawable/bg_round_red"
-                            android:backgroundTint="#D8F6F3"
-                            android:contentDescription="@string/app_name"
-                            android:gravity="center"
-                            android:maxLength="2"
-                            android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.name)}"
-                            android:textColor="@color/colorSecondaryGreen"
-                            android:textSize="@dimen/_24sdp" />
 
                         <co.yap.widgets.CoreCircularImageView
-                            android:id="@+id/ivProfilePic"
-                            android:layout_width="@dimen/_65sdp"
-                            android:layout_height="@dimen/_65sdp"
-                            android:contentDescription="@string/app_name"
-                            android:visibility="invisible"
-                            app:src="@{viewModel.state.picture}" />
+                            android:id="@+id/ivUserImage"
+                            android:layout_width="@dimen/_62sdp"
+                            android:layout_height="@dimen/_62sdp"
+                            android:gravity="center"
+                            android:src="@drawable/ic_store_b2b"
+                            app:colorType="@{`Beneficiary`}"
+                            app:fullName="@{viewModel.state.name}"
+                            app:imageUrl="@{viewModel.state.picture}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:position="@{viewModel.state.position}" />
+
+
+                        <!--     <TextView
+                                 android:id="@+id/tvAccountHolderNameInitials"
+                                 android:layout_width="@dimen/_65sdp"
+                                 android:layout_height="@dimen/_65sdp"
+                                 android:background="@drawable/bg_round_red"
+                                 android:backgroundTint="#D8F6F3"
+                                 android:contentDescription="@string/app_name"
+                                 android:gravity="center"
+                                 android:maxLength="2"
+                                 android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.name)}"
+                                 android:textColor="@color/colorSecondaryGreen"
+                                 android:textSize="@dimen/_24sdp" />
+
+                             <co.yap.widgets.CoreCircularImageView
+                                 android:id="@+id/ivProfilePic"
+                                 android:layout_width="@dimen/_65sdp"
+                                 android:layout_height="@dimen/_65sdp"
+                                 android:contentDescription="@string/app_name"
+                                 android:visibility="invisible"
+                                 app:src="@{viewModel.state.picture}" />-->
 
                         <!--
                            toggle visibility on the basis of transfer type
@@ -153,7 +169,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_2sdp"
                     android:gravity="center"
-                    android:text="@{viewModel.state.currency + viewModel.state.amount}"
+                    android:text="@{viewModel.state.amount}"
                     android:textSize="@dimen/text_size_h5"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -242,7 +258,7 @@
                         tools:text="Exchange house 1, Exchange house 2, Exhange house 3" />
 
                     <TextView
-                        android:id="@+id/tvBankPhoneNumber"
+                        android:id="@+id/tvShareCode"
                         style="@style/Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -252,6 +268,7 @@
                         android:drawablePadding="@dimen/margin_extra_small"
                         android:drawableTint="@color/colorPrimary"
                         android:gravity="center"
+                        android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
                         android:paddingTop="@dimen/margin_small"
                         android:text="@string/screen_crash_transfer_success_display_text_share_code"
                         android:textColor="@color/colorPrimary"
@@ -269,7 +286,7 @@
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:enabled="true"
-                android:onClick="@{(v) -> viewModel.handlePressOnGoBackToDashboard(v.id)}"
+                android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.screen_crash_transfer_success_button_text_back}"

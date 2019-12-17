@@ -1,11 +1,21 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.yapcore.BaseState
 
 class BankDetailsState : BaseState(), IBankDetails.State {
+
+
+    @get:Bindable
+    override var buttonText: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.buttonText)
+            validate()
+        }
 
     @get:Bindable
     override var bankName: String = ""
@@ -41,6 +51,8 @@ class BankDetailsState : BaseState(), IBankDetails.State {
             validate()
         }
 
+    override var isRmt: ObservableField<Boolean> = ObservableField(false)
+
 
     @get:Bindable
     override var valid: Boolean = false
@@ -48,6 +60,13 @@ class BankDetailsState : BaseState(), IBankDetails.State {
             field = value
             notifyPropertyChanged(BR.valid)
 //            validate()
+        }
+
+    @get:Bindable
+    override var hideSwiftSection: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.hideSwiftSection)
         }
 
     fun validate() {

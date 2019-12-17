@@ -8,7 +8,7 @@ import kotlinx.android.parcel.Parcelize
 data class Beneficiary(
 
     @SerializedName("id")
-    var id: Int = 0,
+    var id: Int? =null,
     @SerializedName("beneficiaryId")
     var beneficiaryId: String? = null,
     @SerializedName("accountUuid")

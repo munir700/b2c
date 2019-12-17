@@ -8,15 +8,7 @@ import co.yap.yapcore.BaseState
 class TransferSuccessState : BaseState(), ITransferSuccess.State {
 
     @get:Bindable
-    override var pickUpAgentLocation: String = "nick name"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.pickUpAgentLocation)
-
-        }
-
-    @get:Bindable
-    override var transferType: String = "bank trasfer"
+    override var transferType: String? = "bank trasfer"
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferType)
@@ -24,7 +16,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var amount: String = " 700"
+    override var amount: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.amount)
@@ -33,7 +25,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
 
 
     @get:Bindable
-    override var currency: String = "AED "
+    override var currency: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.currency)
@@ -41,7 +33,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var flag: String = "flag"
+    override var flag: String? = "flag"
         set(value) {
             field = value
             notifyPropertyChanged(BR.flag)
@@ -50,11 +42,10 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
 
 
     @get:Bindable
-    override var name: String = "Bernard Erickson"
+    override var name: String? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.flag)
-
+            notifyPropertyChanged(BR.name)
         }
 
     @get:Bindable
@@ -67,7 +58,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var referenceNumber: String = "00313249457"
+    override var referenceNumber: String? = "00313249457"
         set(value) {
             field = value
             notifyPropertyChanged(BR.referenceNumber)
@@ -79,9 +70,15 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             field = value
             notifyPropertyChanged(BR.flagLayoutVisibility)
         }
+    @get:Bindable
+    override var position: Int? = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
 
     @get:Bindable
-    override var pickUpAgentLocationAddress: String =
+    override var pickUpAgentLocationAddress: String? =
         "Exchange house 1, Exchange house 2, Exhange house 3"
         set(value) {
             field = value

@@ -49,6 +49,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     const val URL_GET_INTERNATIONAL_RX_RATE_LIST =
         "transactions/api/product-codes/{product-code}/fxRate"
+    const val URL_CASH_PAYOUT_TRANSFER =
+        "/transactions/api/cashpayout"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -69,14 +71,24 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.getCardFee(cardType) })
 
     override suspend fun getTransactionFeeWithProductCode(
-        productCode: String,
+        productCode: String?,
         mRemittanceFeeRequest: RemittanceFeeRequest
     ): RetroApiResponse<RemittanceFeeResponse> =
-        executeSafely(call = { api.getTransactionFeeWithProductCode(productCode, mRemittanceFeeRequest) })
+        executeSafely(call = {
+            api.getTransactionFeeWithProductCode(
+                productCode,
+                mRemittanceFeeRequest
+            )
+        })
 
     override suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList> =
         executeSafely(call = { api.getInternationalTransactionReasonList(productCode) })
 
+//    override suspend fun getTransactionInternationalRXList(
+//        productCode: String,
+//        mRxListRequest: RxListRequest
+//    ): RetroApiResponse<ApiResponse> =
+//        executeSafely(call = { api.getInternationalRXRateList(productCode, mRxListRequest) })
     override suspend fun getTransactionInternationalRXList(productCode: String,mRxListRequest: RxListRequest): RetroApiResponse<FxRateResponse> =
         executeSafely(call = { api.getInternationalRXRateList(productCode,mRxListRequest) })
 
@@ -148,4 +160,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         date: String?
     ): RetroApiResponse<AnalyticsResponseDTO> =
         executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
+
+    override suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.cashPayoutTransferRequest(cashPayoutRequestDTO) })
 }

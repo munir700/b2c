@@ -6,7 +6,8 @@ import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
 
-class PhoneNumberUtils {
+object PhoneNumberUtils {
+
     fun getNationalNumber(editable: Editable, code: Int, codeString: String): String? {
 
 
@@ -53,7 +54,7 @@ class PhoneNumberUtils {
         return number
     }
 
-   fun getInterNationalNumber(unFormattedNumber: String, codeString: String): String? {
+    fun getInterNationalNumber(unFormattedNumber: String, codeString: String): String? {
         val phoneUtil = PhoneNumberUtil.getInstance()
         var number: String? = null
         try {

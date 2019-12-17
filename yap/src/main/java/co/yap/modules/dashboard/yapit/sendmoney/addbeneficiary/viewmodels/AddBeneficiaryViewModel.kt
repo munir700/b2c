@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
@@ -12,7 +13,9 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.Utils
 
 class AddBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IAddBeneficiary.State>(application), IAddBeneficiary.ViewModel,
@@ -21,7 +24,8 @@ class AddBeneficiaryViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: AddBeneficiaryStates = AddBeneficiaryStates()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-
+    override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var beneficiary: Beneficiary? = Beneficiary()
     override fun onCreate() {
         super.onCreate()
         parentViewModel?.selectedCountry?.value?.let {
@@ -39,74 +43,86 @@ class AddBeneficiaryViewModel(application: Application) :
                     }
                 }
             }
+            it.isoCountryCode2Digit?.let {
+                state.countryCode = Utils.getCountryCodeFormString(it)
+            }
             state.currency = it.getCurrency()?.code ?: ""
         }
     }
 
     override fun handlePressOnAddNow(id: Int) {
         if (id == R.id.confirmButton) {
-            parentViewModel?.beneficiary?.value?.beneficiaryType =
-                parentViewModel?.transferType?.value ?: ""
-            parentViewModel?.beneficiary?.value?.title = state.nickName
-            parentViewModel?.beneficiary?.value?.firstName = state.firstName
-            parentViewModel?.beneficiary?.value?.lastName = state.lastName
-            parentViewModel?.beneficiary?.value?.mobileNo = state.mobileNo
-            parentViewModel?.selectedCountry?.value?.let {
-                parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
-                parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
+            setBeneficiaryDetail()
+            when (state.transferType) {
+                "Cash Pickup" -> {
+                    parentViewModel?.beneficiary?.value?.currency = null
+                    addCashPickupBeneficiary()
+                }
+                else -> {
+                }
             }
+            clickEvent.setValue(id)
         }
-        clickEvent.setValue(id)
+    }
+    private fun setBeneficiaryDetail() {
+        parentViewModel?.beneficiary?.value?.beneficiaryType =
+            parentViewModel?.transferType?.value ?: ""
+        parentViewModel?.beneficiary?.value?.title = state.nickName
+        parentViewModel?.beneficiary?.value?.firstName = state.firstName
+        parentViewModel?.beneficiary?.value?.lastName = state.lastName
+        parentViewModel?.beneficiary?.value?.mobileNo = state.mobileNo
+        parentViewModel?.selectedCountry?.value?.let {
+            parentViewModel?.beneficiary?.value?.currency = it.getCurrency()?.code
+            parentViewModel?.beneficiary?.value?.country = it.isoCountryCode2Digit
+        }
     }
 
     override fun handlePressOnAddDomestic(id: Int) {
         clickEvent.setValue(id)
     }
 
-    override fun onResume() {
-        super.onResume()
-        setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        ///toggleAddButtonVisibility(false)
-    }
+    override fun addCashPickupBeneficiary() {
+        parentViewModel?.beneficiary?.value?.let {
+            launch {
+                state.loading = true
+                when (val response = repository.addBeneficiary(it)) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        beneficiary = response.data.data
+                        addBeneficiarySuccess.value = true
+                    }
 
-    fun requestAddBeneficiary(beneficiary: Beneficiary) {
-        var beneficiary: Beneficiary = Beneficiary()
-
-        launch {
-            state.loading = true
-            when (val response = repository.addBeneficiary(beneficiary)) {
-                is RetroApiResponse.Success -> {
-                    state.loading = false
-                }
-
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+                    }
                 }
             }
         }
     }
 
-//    override fun generateCashPayoutBeneficiaryRequestDTO() {
-//        parentViewModel?.beneficiary?.value?.let {
-//            launch {
-//                state.loading = true
-//                when (val response = repository.addBeneficiary(it)) {
-//                    is RetroApiResponse.Success -> {
-//                        state.loading = false
-//                        state.toast = response.data.toString()
-//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-//                    }
-//
-//                    is RetroApiResponse.Error -> {
-//                        state.loading = false
-//                        state.toast = response.error.message
-//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
+    override fun addDomesticBeneficiary(objBeneficiary: Beneficiary?) {
+        objBeneficiary?.let {
+            launch {
+                state.loading = true
+                when (val response = repository.addBeneficiary(it)) {
+                    is RetroApiResponse.Success -> {
+                        state.loading = false
+                        beneficiary = response.data.data
+                        addBeneficiarySuccess.value = true
+                    }
+
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
+    }
 }

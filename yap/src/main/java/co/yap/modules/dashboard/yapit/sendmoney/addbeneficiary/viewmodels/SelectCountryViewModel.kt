@@ -32,14 +32,22 @@ class SelectCountryViewModel(application: Application) :
     override fun handlePressOnSeclectCountry(id: Int) {
         if (id == R.id.nextButton) {
             parentViewModel?.selectedCountry?.value = state.selectedCountry
+
             parentViewModel?.selectedCountry?.value?.let { country ->
+                country.isoCountryCode2Digit?.let { code ->
+                    if (code.equals("ae", true)) {
+                        country.cashPickUp = false
+                    }
+                }
                 country.cashPickUp?.let { it ->
                     if (!it) {
                         country.isoCountryCode2Digit?.let { code ->
                             if (code.equals("ae", true)) {
                                 parentViewModel?.transferType?.value =
                                     (SendMoneyBeneficiaryType.DOMESTIC.name)
+                                state.isDomestic.set(true)
                             } else {
+                                state.isDomestic.set(false)
                                 country.rmtCountry?.let { isRmt ->
                                     if (isRmt) {
                                         parentViewModel?.transferType?.value =
@@ -126,6 +134,7 @@ class SelectCountryViewModel(application: Application) :
             }
         }
     }
+
 
     override fun onCountrySelected(pos: Int) {
         if (pos == 0) {

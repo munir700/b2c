@@ -1,5 +1,6 @@
 package co.yap.modules.forgotpasscode.interfaces
 
+import android.text.SpannableStringBuilder
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,7 +15,7 @@ interface IForgotPasscodeOtp {
         fun handlePressOnSendButton(id: Int)
         fun handlePressOnResendOTP(id: Int)
         fun setPasscode(passcode: String)
-       // var mobileNumber: String
+        // var mobileNumber: String
         var destination: String?
         var emailOtp: Boolean?
         var action: String?
@@ -32,5 +33,12 @@ interface IForgotPasscodeOtp {
         var validResend: Boolean
         fun reverseTimer(Seconds: Int)
         var color: Int
+        // Generic otp logo variables
+        var verificationDescriptionForLogo: SpannableStringBuilder?
+        var imageUrl: String?
+        var fullName: String?
+        var currencyType: String?
+        var amount: String?
+        var position: Int?
     }
 }

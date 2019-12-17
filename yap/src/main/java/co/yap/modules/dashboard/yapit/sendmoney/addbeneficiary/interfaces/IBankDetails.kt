@@ -1,6 +1,9 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.customers.requestdtos.OtherBankQuery
+import co.yap.networking.customers.responsedtos.beneficiary.BankParams
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -12,12 +15,17 @@ interface IBankDetails {
         var bankCity: String
         var swiftCode: String
         var valid: Boolean
+        var hideSwiftSection: Boolean
+        var isRmt: ObservableField<Boolean>
+        var buttonText: String
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
+        var bankParams: MutableLiveData<List<BankParams>>
         fun handlePressOnView(id: Int)
-        fun searchRMTBanks()
+        fun searchRMTBanks(otherBankQuery: OtherBankQuery)
+        fun retry()
     }
 
     interface View : IBase.View<ViewModel>

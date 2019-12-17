@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
@@ -10,6 +9,13 @@ import co.yap.yapcore.BaseState
 class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
 
     var validateConfirmIban: Boolean = false
+
+    override var countryCode: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.countryCode)
+        }
+
 
     @get:Bindable
     override var flagDrawableResId: Int = -1
@@ -243,14 +249,19 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
         }
 
     fun validateIban() {
-        if (!iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban.equals(
-                confirmIban,
-                false
-            )
-        ) {
-            validateConfirmIban = true
-            validateDomesticUser()
-        }
+        validateDomesticButton = !iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban == confirmIban
+        validateConfirmIban = validateDomesticButton
+        notifyPropertyChanged(BR.validateDomesticButton)
+        validateDomesticUser()
+//
+//        if (!iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban.equals(
+//                confirmIban,
+//                false
+//            )
+//        ) {
+//            validateConfirmIban = true
+//            validateDomesticUser()
+//        }
     }
 
     fun validateCashFlowUser() {
@@ -263,6 +274,9 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
     fun validateDomesticUser() {
         if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && validateConfirmIban) {
             validateDomesticButton = true
+            notifyPropertyChanged(BR.validateDomesticButton)
+        }else{
+            validateDomesticButton = false
             notifyPropertyChanged(BR.validateDomesticButton)
         }
     }

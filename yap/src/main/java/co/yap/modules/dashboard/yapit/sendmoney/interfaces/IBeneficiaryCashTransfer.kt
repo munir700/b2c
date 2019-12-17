@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.interfaces
 
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -14,7 +15,10 @@ interface IBeneficiaryCashTransfer {
         var toolBarVisibility: Boolean?
         var leftButtonVisibility: Boolean?
         var rightButtonVisibility: Boolean?
+        var rightButtonText: String?
         var toolBarTitle: String?
         var otpSuccess:Boolean?
+        var beneficiary: Beneficiary?
+        var position: Int
     }
 }

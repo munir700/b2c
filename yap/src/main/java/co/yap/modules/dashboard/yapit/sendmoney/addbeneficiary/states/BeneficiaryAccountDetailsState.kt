@@ -1,18 +1,30 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.yapcore.BaseState
 
 class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.State {
 
+    override var showlyIban: ObservableField<Boolean> = ObservableField(false)
+    override var showlyConfirmIban: ObservableField<Boolean> = ObservableField(false)
+
     @get:Bindable
     override var accountIban: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.accountIban)
-            validate()
+            validateNonRmt()
+        }
+
+    @get:Bindable
+    override var accountConfirmIban: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.accountConfirmIban)
+            validateNonRmt()
         }
 
     @get:Bindable
@@ -20,7 +32,6 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.swiftCode)
-            validate()
         }
 
 
@@ -29,7 +40,6 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryAccountNumber)
-            validate()
         }
 
 
@@ -38,7 +48,6 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.countryBankRequirementFieldCode)
-            validate()
         }
 
 
@@ -47,7 +56,13 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
-         }
+        }
+
+    private fun validateNonRmt() {
+        valid =
+            !accountIban.isNullOrEmpty() && !accountConfirmIban.isNullOrEmpty() && accountIban == accountConfirmIban
+        notifyPropertyChanged(BR.valid)
+    }
 
     fun validate() {
         if (!countryBankRequirementFieldCode.isNullOrEmpty() && !beneficiaryAccountNumber.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !accountIban.isNullOrEmpty()) {
