@@ -3,11 +3,12 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 import android.app.Application
 import android.content.Context
 import android.graphics.drawable.Drawable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
@@ -131,6 +132,21 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.feeStringVisibility)
         }
+
+    @get:Bindable
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
+        ArrayList()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionData)
+        }
+
+
+    @get:Bindable
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+        MutableLiveData()
+
+
 
     fun checkValidity(): String {
         if (amount != "") {

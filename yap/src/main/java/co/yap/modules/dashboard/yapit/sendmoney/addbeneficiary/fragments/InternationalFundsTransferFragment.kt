@@ -40,7 +40,6 @@ class InternationalFundsTransferFragment :
             reasonsSpinner.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
         })
-
     }
 
     val listener = object : OnItemClickListener {

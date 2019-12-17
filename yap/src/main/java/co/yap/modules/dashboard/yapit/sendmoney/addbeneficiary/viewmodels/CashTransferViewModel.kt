@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.CashTransferState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -12,7 +12,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
 import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
-import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -26,6 +26,11 @@ class CashTransferViewModel(application: Application) :
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     private val transactionRepository: TransactionsRepository = TransactionsRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
+    var mTransactionsRepository: TransactionsRepository = TransactionsRepository
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
+        ArrayList()
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+        MutableLiveData()
     override var receiverUUID: String = ""
 
     override fun onCreate() {
@@ -34,8 +39,9 @@ class CashTransferViewModel(application: Application) :
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
 
-
+        transactionData.clear()
         state.currencyType = "AED"
+        getTransactionInternationalReasonList()
     }
 
     override fun onResume() {
@@ -181,4 +187,35 @@ class CashTransferViewModel(application: Application) :
             state.loading = false
         }
     }
+
+    /*
+    * In this function get All List of reasons.
+    * */
+
+    private fun getTransactionInternationalReasonList() {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.getTransactionInternationalReasonList("P012")) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data.isNullOrEmpty()) return@launch
+                    response.data.data?.let {
+                        transactionData.addAll(it.map { item ->
+                            InternationalFundsTransferReasonList.ReasonList(
+                                code = item.code ?: "",
+                                reason = item.reason ?: ""
+                            )
+                        })
+                    }
+                    populateSpinnerData.value = transactionData
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            //state.loading = false
+        }
+    }
+
 }

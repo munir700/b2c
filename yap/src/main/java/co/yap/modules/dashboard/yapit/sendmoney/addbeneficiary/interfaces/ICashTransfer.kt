@@ -1,8 +1,9 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import android.graphics.drawable.Drawable
-import android.text.SpannableString
 import android.text.SpannableStringBuilder
+import androidx.lifecycle.MutableLiveData
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -15,6 +16,8 @@ interface ICashTransfer {
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
+        var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
+        val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
         fun getTransactionFeeForCashPayout(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: String?)
@@ -40,5 +43,8 @@ interface ICashTransfer {
         var noteValue: String
         var imageUrl: String
         var feeStringVisibility: Boolean
+
+        var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
+        val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
     }
 }

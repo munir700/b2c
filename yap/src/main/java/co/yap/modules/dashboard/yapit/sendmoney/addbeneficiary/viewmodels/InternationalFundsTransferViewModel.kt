@@ -129,7 +129,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
-            //state.loading = false
         }
     }
 
