@@ -13,7 +13,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBen
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -31,7 +30,7 @@ class AddBeneficiaryForDomesticTransferFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
-        viewModel.addDomesticBeneficiarySuccess.observe(this, Observer {
+        viewModel.addBeneficiarySuccess.observe(this, Observer {
             if(it){
                 addBeneficiarySuccessDialog()
             }
@@ -72,15 +71,7 @@ class AddBeneficiaryForDomesticTransferFragment :
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
                             if (data) {
-                                startActivity(
-                                    Intent(
-                                        it,
-                                        BeneficiaryCashTransferActivity::class.java
-                                    )
-                                )
-                                activity?.let { activity ->
-                                    activity.finish()
-                                }
+                                startMoneyTransfer()
                             } else {
                                 activity?.let { activity ->
                                     activity.finish()
@@ -89,6 +80,20 @@ class AddBeneficiaryForDomesticTransferFragment :
                         }
                     }
                 })
+        }
+    }
+
+    private fun startMoneyTransfer() {
+        viewModel.beneficiary?.let { beneficiary ->
+            startActivity(
+                Intent(
+                    requireContext(),
+                    BeneficiaryCashTransferActivity::class.java
+                )
+            )
+            activity?.let { activity ->
+                activity.finish()
+            }
         }
     }
 

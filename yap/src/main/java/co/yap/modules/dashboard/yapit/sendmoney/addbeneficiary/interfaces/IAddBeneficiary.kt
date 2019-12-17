@@ -46,8 +46,9 @@ interface IAddBeneficiary {
         fun handlePressOnAddNow(id: Int)
         fun handlePressOnAddDomestic(id: Int)
         fun addCashPickupBeneficiary()
-        fun addDomesticBeneficiary(beneficiary: Beneficiary?)
-        var addDomesticBeneficiarySuccess: MutableLiveData<Boolean>
+        fun addDomesticBeneficiary(objBeneficiary: Beneficiary?)
+        var addBeneficiarySuccess: MutableLiveData<Boolean>
+        var beneficiary:Beneficiary?
 
 //      fun generateRequestDTO(beneficiaryData: AddBeneficiaryData): AddBeneficiaryRequestDTO
         //fun generateCashPayoutBeneficiaryRequestDTO()

@@ -24,8 +24,8 @@ class AddBeneficiaryViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: AddBeneficiaryStates = AddBeneficiaryStates()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var addDomesticBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
-
+    override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
+    override var beneficiary: Beneficiary? = Beneficiary()
     override fun onCreate() {
         super.onCreate()
         parentViewModel?.selectedCountry?.value?.let {
@@ -88,7 +88,8 @@ class AddBeneficiaryViewModel(application: Application) :
                 when (val response = repository.addBeneficiary(it)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                        beneficiary = response.data.data
+                        addBeneficiarySuccess.value = true
                     }
 
                     is RetroApiResponse.Error -> {
@@ -100,14 +101,15 @@ class AddBeneficiaryViewModel(application: Application) :
         }
     }
 
-    override fun addDomesticBeneficiary(beneficiary: Beneficiary?) {
-        beneficiary?.let {
+    override fun addDomesticBeneficiary(objBeneficiary: Beneficiary?) {
+        objBeneficiary?.let {
             launch {
                 state.loading = true
                 when (val response = repository.addBeneficiary(it)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-                        addDomesticBeneficiarySuccess.value = true
+                        beneficiary = response.data.data
+                        addBeneficiarySuccess.value = true
                     }
 
                     is RetroApiResponse.Error -> {
@@ -122,6 +124,5 @@ class AddBeneficiaryViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        ///toggleAddButtonVisibility(false)
     }
 }
