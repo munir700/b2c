@@ -71,10 +71,12 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         viewModel.onUpdateSuccess.observe(this, Observer {
             val intent = Intent()
             if(it) {
+                intent.putExtra("beneficiary_change", true)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             }else
             {
+                intent.putExtra("beneficiary_change", false)
                 setResult(Activity.RESULT_CANCELED,intent)
             }
 
