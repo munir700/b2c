@@ -77,10 +77,12 @@ object Constants {
 
     // Cash pickup flow constants
     const val BENEFICIARY: String = "Beneficiary"
+    const val POSITION: String = "Position"
 
 
     const val ADD_CASH_PICK_UP_SUCCESS = 10001
     const val ADD_CASH_PICK_UP_FlOW = 10002
+    const val ADD_DOMESTIC_SUCCESS = 10003
 
 
     //Core Payment Card Types

@@ -55,5 +55,10 @@ class BeneficiaryCashTransferState : BaseState(), IBeneficiaryCashTransfer.State
             notifyPropertyChanged(BR.rightButtonText)
         }
 
-
+    @get:Bindable
+    override var position: Int = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
 }

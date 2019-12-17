@@ -19,7 +19,7 @@ class TransferSuccessViewModel(application: Application) :
 
     override var clickEvent: SingleClickEvent = SingleClickEvent()
 
-    override fun handlePressOnGoBackToDashboard(id: Int) {
+    override fun handlePressOnButtonClick(id: Int) {
         clickEvent.setValue(id)
     }
 

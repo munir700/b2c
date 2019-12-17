@@ -70,16 +70,24 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.getCardFee(cardType) })
 
     override suspend fun getTransactionFeeWithProductCode(
-        productCode: String,
+        productCode: String?,
         mRemittanceFeeRequest: RemittanceFeeRequest
     ): RetroApiResponse<RemittanceFeeResponse> =
-        executeSafely(call = { api.getTransactionFeeWithProductCode(productCode, mRemittanceFeeRequest) })
+        executeSafely(call = {
+            api.getTransactionFeeWithProductCode(
+                productCode,
+                mRemittanceFeeRequest
+            )
+        })
 
     override suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList> =
         executeSafely(call = { api.getInternationalTransactionReasonList(productCode) })
 
-    override suspend fun getTransactionInternationalRXList(productCode: String,mRxListRequest: RxListRequest): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.getInternationalRXRateList(productCode,mRxListRequest) })
+    override suspend fun getTransactionInternationalRXList(
+        productCode: String,
+        mRxListRequest: RxListRequest
+    ): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.getInternationalRXRateList(productCode, mRxListRequest) })
 
     override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =
         executeSafely(call = { api.getCardStatements(cardSerialNumber) })
@@ -150,6 +158,6 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<AnalyticsResponseDTO> =
         executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
 
-    override suspend fun cashPayoutTransferRequest(): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.cashPayoutTransferRequest() })
+    override suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.cashPayoutTransferRequest(cashPayoutRequestDTO) })
 }

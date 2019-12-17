@@ -8,14 +8,6 @@ import co.yap.yapcore.BaseState
 class TransferSuccessState : BaseState(), ITransferSuccess.State {
 
     @get:Bindable
-    override var pickUpAgentLocation: String? = "nick name"
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.pickUpAgentLocation)
-
-        }
-
-    @get:Bindable
     override var transferType: String? = "bank trasfer"
         set(value) {
             field = value
@@ -24,7 +16,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var amount: String? = " 700"
+    override var amount: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.amount)
@@ -57,7 +49,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var picture: String? =
+    override var picture: String =
         "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
         set(value) {
             field = value
@@ -77,6 +69,12 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.flagLayoutVisibility)
+        }
+    @get:Bindable
+    override var position: Int? = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
         }
 
     @get:Bindable
