@@ -51,13 +51,13 @@ class SubscriptionSelectionActivity :
                 }
                 R.id.llAnnualSubscription -> {
                     startActivity(HouseHoldOnboardingActivity.newIntent(this))
-                    showToast("llAnnualSubscription")
+//                    showToast("llAnnualSubscription")
                 }
 
 
                 R.id.llMonthlySubscription -> {
                     startActivity(HouseHoldOnboardingActivity.newIntent(this))
-                    showToast("llMonthlySubscription")
+//                    showToast("llMonthlySubscription")
                 }
 
                 R.id.imgClose -> {

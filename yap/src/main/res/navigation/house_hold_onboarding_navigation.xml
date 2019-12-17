@@ -9,7 +9,6 @@
         android:name="co.yap.modules.dashboard.store.household.onboarding.fragments.HouseHoldUserInfoFragment">
         <action
             android:id="@+id/action_houseHoldUserInfoFragment_to_houseHoldUserContactFragment"
-            app:destination="@id/genericOtpFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
 

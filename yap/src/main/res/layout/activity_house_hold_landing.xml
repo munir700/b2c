@@ -44,7 +44,7 @@
                     android:id="@+id/imgClose"
                     android:layout_width="@dimen/_32sdp"
                     android:layout_height="@dimen/_32sdp"
-                    android:layout_marginStart="@dimen/margin_large"
+                    android:layout_marginStart="@dimen/margin_medium_large"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:contentDescription="@string/empty_string"
                     android:onClick="@{(v) -> viewModel.handlePressOnCloseIcon(v.id)}"

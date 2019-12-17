@@ -2,7 +2,6 @@ package co.yap.modules.dashboard.store.household.onboarding.interfaces
 
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.SingleLiveEvent
 
 interface IHouseHoldUserInfo {
 
@@ -11,7 +10,6 @@ interface IHouseHoldUserInfo {
         var lastName: String
         var emailAddress: String
         var valid: Boolean
-        val backButtonPressEvent: SingleLiveEvent<Boolean>
 
     }
 
@@ -20,7 +18,7 @@ interface IHouseHoldUserInfo {
         val clickEvent: SingleClickEvent
         fun handlePressOnNext(id: Int)
         fun handlePressOnBackButton()
-
+//        val backButtonPressEvent: SingleLiveEvent<Boolean>
 
     }
 

@@ -29,7 +29,7 @@
             style="@style/ALarge"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_40sdp"
+            android:layout_marginTop="@dimen/_30sdp"
             android:gravity="center"
             android:paddingLeft="@dimen/margin_medium"
             android:paddingRight="@dimen/margin_medium"
@@ -46,8 +46,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium"
+            android:paddingLeft="@dimen/small"
+            android:paddingRight="@dimen/small"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile">
@@ -69,6 +69,7 @@
                 style="@style/Yap.App.Widget.TextInputEditText"
                 android:imeOptions="actionNext"
                 android:maxLength="50"
+                android:singleLine="true"
                 android:text="@={viewModel.state.firstName}"
                 app:hint="@{Strings.screen_yap_house_hold_user_info_input_text_first_name_hint}" />
 
@@ -92,6 +93,7 @@
                 android:imeOptions="actionNext"
                 android:importantForAutofill="no"
                 android:maxLength="50"
+                android:singleLine="true"
                 android:text="@={viewModel.state.lastName}"
                 app:hint="@{Strings.screen_yap_house_hold_user_info_input_text_last_name_hint}" />
 
@@ -111,9 +113,10 @@
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/etnickName"
                 style="@style/Yap.App.Widget.TextInputEditText"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:importantForAutofill="no"
                 android:maxLength="50"
+                android:singleLine="true"
                 android:text="@={viewModel.state.emailAddress}"
                 app:hint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}" />
 
@@ -128,9 +131,10 @@
             android:layout_marginRight="@dimen/margin_xxl"
             android:layout_marginBottom="@dimen/margin_medium_large"
             android:onClick="@{(v) -> viewModel.handlePressOnNext(v.id)}"
-            android:text="@{Strings.screen_yap_house_hold_user_info_button_next}"
+            android:text="@string/screen_yap_house_hold_user_info_button_next"
             app:enableCoreButton="@{viewModel.state.valid}"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:text="@{Strings.screen_yap_house_hold_user_info_button_next}"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="44dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>

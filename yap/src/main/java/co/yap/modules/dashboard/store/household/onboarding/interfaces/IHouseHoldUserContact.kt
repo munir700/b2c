@@ -10,16 +10,15 @@ interface IHouseHoldUserContact {
     interface State : IBase.State {
         var mobileNumber: String
         var confirmMobileNumber: String
-         var valid: Boolean
+        var valid: Boolean
 
-//
-        var countryCode:String
+        var countryCode: String
         var mobile: String
         var drawbleRight: Drawable?
         var background: Drawable?
         var mobileNoLength: Int
         var etMobileNumber: EditText?
-         var errorMessage:String
+        var errorMessage: String
 
     }
 
