@@ -39,5 +39,6 @@ interface IForgotPasscodeOtp {
         var fullName: String?
         var currencyType: String?
         var amount: String?
+        var position: Int?
     }
 }

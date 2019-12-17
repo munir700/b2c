@@ -30,21 +30,19 @@
             android:paddingBottom="@dimen/_24sdp"
             tools:context=".modules.onboarding.fragments.PhoneVerificationFragment">
 
-
-            <LinearLayout
-                android:id="@+id/lnUserImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <include
-                    android:id="@+id/lyUserImage"
-                    layout="@layout/layout_y_to_y_transfer_initial_image"
-                    app:image="@{viewModel.state.imageUrl}"
-                    app:name="@{viewModel.state.fullName}" />
-            </LinearLayout>
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivUserImage"
+                android:layout_width="@dimen/_62sdp"
+                android:layout_height="@dimen/_62sdp"
+                android:contentDescription="@string/empty_string"
+                android:src="@drawable/ic_store_b2b"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:colorType="@{`Beneficiary`}"
+                app:fullName="@{viewModel.state.fullName}"
+                app:imageUrl="@{viewModel.state.imageUrl}"
+                app:position="@{viewModel.state.position}" />
 
 
             <TextView
@@ -58,7 +56,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/lnUserImage"
+                app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
                 tools:layout_editor_absoluteX="54dp"
                 tools:layout_editor_absoluteY="219dp"
                 tools:text="@string/screen_forgot_passcode_otp_display_text_heading" />

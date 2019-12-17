@@ -64,6 +64,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.minLimit)
         }
+    @get:Bindable
+    override var position: Int = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
 
     @get:Bindable
     override var availableBalance: String? = ""

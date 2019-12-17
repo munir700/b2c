@@ -27,6 +27,7 @@ interface ICashTransfer {
         var amount: String
         var valid: Boolean
         var minLimit: Double
+        var position: Int
         var availableBalance: String?
         var errorDescription: String
         var currencyType: String
