@@ -106,7 +106,7 @@
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_first_name" />
 
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etFirstName"
                     style="@style/Regular"
                     android:layout_width="match_parent"
@@ -193,7 +193,7 @@
                     tools:text="@string/screen_sdd_beneficiary_display_confirm_iban" />
 
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etConfirmIban"
                     style="@style/Regular"
                     android:layout_width="match_parent"
@@ -218,10 +218,10 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
                     app:enableCoreButton="@{viewModel.state.validateDomesticButton}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:text="@{Strings.common_button_next}"
+                    app:text="@{Strings.screen_add_beneficiary_detail_button_confirm}"
                     tools:ignore="MissingConstraints"
                     tools:layout_editor_absoluteX="44dp"
-                    tools:text="@string/common_button_next" />
+                    tools:text="@string/screen_add_beneficiary_detail_button_confirm" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

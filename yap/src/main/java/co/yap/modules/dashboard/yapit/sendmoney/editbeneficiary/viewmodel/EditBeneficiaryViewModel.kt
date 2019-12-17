@@ -38,7 +38,6 @@ class EditBeneficiaryViewModel(application: Application) :
                     state.loading = false
                     onUpdateSuccess.value = false
                     state.toast = response.error.message
-
                 }
             }
         }

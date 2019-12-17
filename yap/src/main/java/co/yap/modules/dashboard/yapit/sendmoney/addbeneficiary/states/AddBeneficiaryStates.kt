@@ -249,14 +249,19 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
         }
 
     fun validateIban() {
-        if (!iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban.equals(
-                confirmIban,
-                false
-            )
-        ) {
-            validateConfirmIban = true
-            validateDomesticUser()
-        }
+        validateDomesticButton = !iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban == confirmIban
+        validateConfirmIban = validateDomesticButton
+        notifyPropertyChanged(BR.validateDomesticButton)
+        validateDomesticUser()
+//
+//        if (!iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban.equals(
+//                confirmIban,
+//                false
+//            )
+//        ) {
+//            validateConfirmIban = true
+//            validateDomesticUser()
+//        }
     }
 
     fun validateCashFlowUser() {
@@ -269,6 +274,9 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
     fun validateDomesticUser() {
         if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && validateConfirmIban) {
             validateDomesticButton = true
+            notifyPropertyChanged(BR.validateDomesticButton)
+        }else{
+            validateDomesticButton = false
             notifyPropertyChanged(BR.validateDomesticButton)
         }
     }

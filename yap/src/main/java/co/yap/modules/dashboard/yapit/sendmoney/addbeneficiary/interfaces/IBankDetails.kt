@@ -12,6 +12,8 @@ interface IBankDetails {
         var bankCity: String
         var swiftCode: String
         var valid: Boolean
+        var hideSwiftSection: Boolean
+        var buttonText: String
     }
 
     interface ViewModel : IBase.ViewModel<State> {

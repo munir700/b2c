@@ -248,11 +248,12 @@
                         android:layout_weight="1" />
 
                     <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/tvChangeCurrency"
                         style="@style/Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="?selectableItemBackground"
                         android:gravity="end"
+                        android:onClick="@{(v) -> editBeneficiaryViewModel.handlePressOnConfirm(v.id)}"
                         android:text="@string/screen_add_beneficiary_detail_display_text_change_currency"
                         android:textColor="@color/colorPrimary"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -355,10 +356,13 @@
                     android:inputType="phone"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.phoneNumber}"
+                    app:pse_compoundDrawableHeight="@dimen/_14sdp"
+                    app:pse_compoundDrawableWidth="@dimen/_14sdp"
                     app:pse_setBorderView="false"
                     app:pse_setClearIconVisible="false"
                     app:pse_setCornerRadius="0dp"
-                    app:pse_setPrefix="+91 "
+                    app:pse_setPrefix=" +94"
+                    app:pse_setPrefixDrawable="@drawable/flag_in"
                     app:pse_setPrefixTextColor="#FF4081"
                     app:pse_setStrokeWidth="0dp" />
 
