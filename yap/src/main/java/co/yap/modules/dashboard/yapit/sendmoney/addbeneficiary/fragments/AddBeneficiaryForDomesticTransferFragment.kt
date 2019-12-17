@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -35,6 +34,7 @@ class AddBeneficiaryForDomesticTransferFragment :
                 addBeneficiarySuccessDialog()
             }
         })
+
     }
 
     override fun onDestroy() {
