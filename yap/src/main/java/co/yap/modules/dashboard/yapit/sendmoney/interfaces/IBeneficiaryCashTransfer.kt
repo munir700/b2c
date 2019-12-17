@@ -19,5 +19,6 @@ interface IBeneficiaryCashTransfer {
         var toolBarTitle: String?
         var otpSuccess:Boolean?
         var beneficiary: Beneficiary?
+        var position: Int
     }
 }

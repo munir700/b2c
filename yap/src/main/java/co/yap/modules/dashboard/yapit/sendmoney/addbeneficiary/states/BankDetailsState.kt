@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states
 
 import androidx.databinding.Bindable
+import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.yapcore.BaseState
@@ -49,6 +50,8 @@ class BankDetailsState : BaseState(), IBankDetails.State {
             notifyPropertyChanged(BR.bankBranch)
             validate()
         }
+
+    override var isRmt: ObservableField<Boolean> = ObservableField(false)
 
 
     @get:Bindable

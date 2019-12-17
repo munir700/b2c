@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -14,7 +13,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBe
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.translation.Translator
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -38,6 +36,11 @@ class AddBeneficiaryInternationlTransferFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.clickEvent.observe(this, observer)
+        viewModel.addBeneficiarySuccess.observe(this, Observer {
+            if (it) {
+                addBeneficiaryDialog()
+            }
+        })
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -60,9 +63,6 @@ class AddBeneficiaryInternationlTransferFragment :
             }
             R.id.emptyCardLayout -> {
 
-            }
-            Constants.ADD_CASH_PICK_UP_SUCCESS -> {
-                addBeneficiaryDialog()
             }
         }
     }
@@ -88,10 +88,7 @@ class AddBeneficiaryInternationlTransferFragment :
                     override fun onItemClick(view: View, data: Any, pos: Int) {
                         if (data is Boolean) {
                             if (data) {
-                                startActivity(Intent(it, BeneficiaryCashTransferActivity::class.java))
-                                activity?.let { activity ->
-                                    activity.finish()
-                                }
+                                startMoneyTransfer()
                             } else {
                                 activity?.let { activity ->
                                     activity.finish()
@@ -101,15 +98,20 @@ class AddBeneficiaryInternationlTransferFragment :
                     }
                 })
         }
-
     }
+
+    private fun startMoneyTransfer() {
+        viewModel.beneficiary?.let { beneficiary ->
+            startActivity(BeneficiaryCashTransferActivity.newIntent(requireContext(), beneficiary))
+            activity?.let { activity ->
+                activity.finish()
+            }
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         viewModel.clickEvent.removeObservers(this)
-    }
-
-    override fun onBackPressed(): Boolean {
-        return super.onBackPressed()
     }
 
     private fun getBindings(): FragmentAddBeneficiaryInternationalBankTransferBinding? {

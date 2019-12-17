@@ -25,8 +25,6 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
     override fun getLayoutId(): Int = R.layout.fragment_generic_otp_logo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        getBindings().lyUserImage.lyNameInitials.background =
-            context?.resources?.getDrawable(R.drawable.bg_round_denominations, null)
     }
 
     override fun loadData() {

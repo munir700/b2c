@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
+import androidx.lifecycle.MutableLiveData
 import co.yap.R
 import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
@@ -8,6 +9,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.BankDetail
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.OtherBankQuery
+import co.yap.networking.customers.responsedtos.beneficiary.BankParams
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -19,6 +21,7 @@ class BankDetailsViewModel(application: Application) :
     SendMoneyBaseViewModel<IBankDetails.State>(application), IBankDetails.ViewModel,
     IRepositoryHolder<CustomersRepository> {
 
+    override var bankParams: MutableLiveData<List<BankParams>> = MutableLiveData()
     override val repository: CustomersRepository = CustomersRepository
     override val state: BankDetailsState = BankDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -29,16 +32,22 @@ class BankDetailsViewModel(application: Application) :
             if (it.isNotEmpty())
                 when (SendMoneyBeneficiaryType.valueOf(it)) {
                     SendMoneyBeneficiaryType.RMT -> {
+                        state.isRmt.set(true)
                         state.buttonText = "Find Bank"
                         state.hideSwiftSection = false
-                        getOtherBankParams(parentViewModel?.selectedCountry?.value)
+                        parentViewModel?.selectedCountry?.value?.isoCountryCode2Digit?.let { code ->
+                            getOtherBankParams(code)
+                        }
                     }
                     SendMoneyBeneficiaryType.SWIFT -> {
+                        state.isRmt.set(false)
+                        state.buttonText = "Next"
+                        state.hideSwiftSection = true
                         //searchRMTBanks()
                         //Swift changes
                     }
                     else -> {
-
+                        state.isRmt.set(false)
                     }
                 }
         }
@@ -57,7 +66,7 @@ class BankDetailsViewModel(application: Application) :
                         SendMoneyBeneficiaryType.RMT -> {
                             state.buttonText = "Find Bank"
                             state.hideSwiftSection = false
-                            //searchRMTBanks(otherSearchParams(parentViewModel?.selectedCountry?.value))
+                            searchRMTBanks(otherSearchParams(parentViewModel?.selectedCountry?.value))
                         }
                         SendMoneyBeneficiaryType.SWIFT -> {
                             clickEvent.setValue(id)
@@ -73,7 +82,7 @@ class BankDetailsViewModel(application: Application) :
         }
     }
 
-    private fun otherSearchParams(country: Country?): Any {
+    private fun otherSearchParams(country: Country?): OtherBankQuery {
         val query = OtherBankQuery()
         parentViewModel?.selectedCountry?.value?.let {
             query.max_records = 10
@@ -121,11 +130,11 @@ class BankDetailsViewModel(application: Application) :
 //        }
 //    }
 
-    override fun searchRMTBanks() {
+    override fun searchRMTBanks(otherBankQuery: OtherBankQuery) {
         parentViewModel?.beneficiary?.value?.let {
             launch {
                 state.loading = true
-                when (val response = repository.findOtherBank(OtherBankQuery())) {
+                when (val response = repository.findOtherBank(otherBankQuery)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
                         state.toast = response.data.toString()
@@ -143,25 +152,25 @@ class BankDetailsViewModel(application: Application) :
         }
     }
 
-    private fun getOtherBankParams(country: Country?) {
-        country?.let {
-            launch {
-                state.loading = true
-                when (val response = repository.getOtherBankParams(it.getName())) {
-                    is RetroApiResponse.Success -> {
-                        state.loading = false
-                        state.toast = response.data.toString()
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                    }
+    private fun getOtherBankParams(countryCode: String) {
+        launch {
+            state.loading = true
+            when (val response = repository.getOtherBankParams(countryCode)) {
+                is RetroApiResponse.Success -> {
+                    state.loading = false
+                    state.isRmt.set(true)
+                    bankParams.value = response.data.data?.params
+                }
 
-                    is RetroApiResponse.Error -> {
-                        state.loading = false
-                        state.toast = response.error.message
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-
-                    }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
                 }
             }
         }
+    }
+
+    override fun retry() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
