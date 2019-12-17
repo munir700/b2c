@@ -22,14 +22,13 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
     IFragmentHolder, INavigator {
 
     companion object {
-        fun newIntent(context: Context, beneficiary: Beneficiary?): Intent {
+        fun newIntent(context: Context, beneficiary: Beneficiary?, position: Int = 0): Intent {
             val intent = Intent(context, BeneficiaryCashTransferActivity::class.java)
             intent.putExtra(Constants.BENEFICIARY, beneficiary)
+            intent.putExtra(Constants.POSITION, position)
             return intent
         }
     }
-
-
 
     override fun getBindingVariable(): Int = BR.viewModel
 
@@ -60,6 +59,8 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
         if (intent != null) {
             viewModel.state.beneficiary =
                 intent.getParcelableExtra(Constants.BENEFICIARY) as? Beneficiary?
+
+            viewModel.state.position = intent.getIntExtra(Constants.POSITION, 0)
         }
        // return intent.getSerializableExtra(ACCOUNT_TYPE) as AccountType
     }

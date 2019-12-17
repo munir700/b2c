@@ -25,8 +25,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScr
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -150,7 +148,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private val recentItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary)
-                startMoneyTransfer(data)
+                startMoneyTransfer(data, pos)
         }
     }
 
@@ -160,7 +158,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 object : RecyclerTouchListener.OnRowClickListener {
                     override fun onRowClicked(position: Int) {
                         val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
-                        startMoneyTransfer(beneficiary)
+                        startMoneyTransfer(beneficiary, position)
                     }
 
                     override fun onIndependentViewClicked(
@@ -187,9 +185,9 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             }
     }
 
-    private fun startMoneyTransfer(beneficiary: Beneficiary?) {
+    private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getSearchView())
-        startActivity(BeneficiaryCashTransferActivity.newIntent(this, beneficiary))
+        startActivity(BeneficiaryCashTransferActivity.newIntent(this, beneficiary, position))
         // val intent = Intent(this,BeneficiaryCashTransferActivity::class.java)
         //intent.putExtra(Constants.BENEFICIARY,beneficiary)
         //startActivity(intent)

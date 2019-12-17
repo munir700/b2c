@@ -1,6 +1,5 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -103,12 +102,7 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let { beneficiary ->
-            startActivity(
-                Intent(
-                    requireContext(),
-                    BeneficiaryCashTransferActivity::class.java
-                )
-            )
+            startActivity(BeneficiaryCashTransferActivity.newIntent(requireContext(), beneficiary))
             activity?.let { activity ->
                 activity.finish()
             }
