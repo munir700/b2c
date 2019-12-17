@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 import android.text.SpannableStringBuilder
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -29,6 +30,8 @@ interface IInternationalFundsTransfer {
         var toFxRate: String?
         var toFxRateCurrency: String?
         var valid: Boolean
+        var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+
 
     }
 
