@@ -102,7 +102,10 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
                 if (it) {
-                    viewModel.cashPayoutTransferRequest()
+                    (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.id?.let { beneficiaryId ->
+                        viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
+                    }
+
                 }
             }
         }

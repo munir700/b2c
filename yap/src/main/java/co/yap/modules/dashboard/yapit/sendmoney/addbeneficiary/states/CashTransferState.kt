@@ -128,17 +128,22 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
 
     fun checkValidity(): String {
         if (amount != "") {
-            if (amount.toDouble() > availableBalance!!.toDouble()) {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds_error, null)
-                errorDescription = Translator.getString(
-                    context,
-                    Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
-                )
-                return errorDescription
-            } else {
-                amountBackground =
-                    context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+            if (amount.isNotEmpty() && !availableBalance.isNullOrEmpty()) {
+                if (amount.toDouble() > availableBalance!!.toDouble()) {
+                    amountBackground =
+                        context.resources.getDrawable(
+                            co.yap.yapcore.R.drawable.bg_funds_error,
+                            null
+                        )
+                    errorDescription = Translator.getString(
+                        context,
+                        Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
+                    )
+                    return errorDescription
+                } else {
+                    amountBackground =
+                        context.resources.getDrawable(co.yap.yapcore.R.drawable.bg_funds, null)
+                }
             }
         }
         return ""

@@ -22,7 +22,7 @@ interface ITransferSuccess {
     interface ViewModel : IBase.ViewModel<State> {
         val backButtonPressEvent: SingleClickEvent
         var clickEvent: SingleClickEvent
-        fun handlePressOnGoBackToDashboard(id: Int)
+        fun handlePressOnButtonClick(id: Int)
     }
 
     interface View : IBase.View<ViewModel>

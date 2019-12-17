@@ -9,6 +9,7 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
 import co.yap.translation.Strings
@@ -73,11 +74,16 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    override fun cashPayoutTransferRequest() {
+    override fun cashPayoutTransferRequest(beneficiaryId: String?) {
         launch {
             state.loading = true
             when (val response =
-                transactionRepository.cashPayoutTransferRequest()
+                transactionRepository.cashPayoutTransferRequest(
+                    CashPayoutRequestDTO(
+                        "For some urgent reason",
+                        beneficiaryId, state.amount, state.currencyType
+                    )
+                )
                 ) {
                 is RetroApiResponse.Success -> {
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
@@ -128,7 +134,9 @@ class CashTransferViewModel(application: Application) :
                         )
                     state.feeAmountSpannableString = Utils.getSppnableStringForAmount(
                         context,
-                        state.feeAmountString, state.currencyType, Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
+                        state.feeAmountString,
+                        state.currencyType,
+                        Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
                     )
 
                     //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)

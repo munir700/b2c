@@ -242,13 +242,14 @@
                         tools:text="Exchange house 1, Exchange house 2, Exhange house 3" />
 
                     <TextView
-                        android:id="@+id/tvBankPhoneNumber"
+                        android:id="@+id/tvShareCode"
                         style="@style/Small"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center|center_horizontal"
                         android:layout_marginTop="@dimen/_2sdp"
                         android:drawableEnd="@drawable/ic_share"
+                        android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
                         android:drawablePadding="@dimen/margin_extra_small"
                         android:drawableTint="@color/colorPrimary"
                         android:gravity="center"
@@ -269,7 +270,7 @@
                 android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:enabled="true"
-                android:onClick="@{(v) -> viewModel.handlePressOnGoBackToDashboard(v.id)}"
+                android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
                 app:btn_enable="true"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:text="@{Strings.screen_crash_transfer_success_button_text_back}"
