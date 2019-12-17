@@ -91,4 +91,8 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
             }
         }
     }
+
+    override fun retry() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

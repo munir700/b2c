@@ -28,17 +28,78 @@
             android:paddingRight="@dimen/_12sdp">
 
 
-            <ImageView
-                android:id="@+id/ivAddProfilePic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="@dimen/_2sdp"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:layout_marginEnd="@dimen/_2sdp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:background="@drawable/bitmap" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_116sdp"
+                android:background="@color/white"
+                android:gravity="center|center_vertical">
 
+                <RelativeLayout
+                    android:id="@+id/rlPicture"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center|center_vertical"
+                    android:background="@color/white"
+                    android:gravity="center|center_vertical">
+
+                    <TextView
+                        android:id="@+id/tvAccountHolderNameInitials"
+                        android:layout_width="@dimen/_65sdp"
+                        android:layout_height="@dimen/_65sdp"
+                        android:background="@drawable/bg_round_red"
+                        android:backgroundTint="#D8F6F3"
+                        android:contentDescription="@string/app_name"
+                        android:gravity="center"
+                        android:maxLength="2"
+                        android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.beneficiaryName)}"
+                        android:textColor="@color/colorSecondaryGreen"
+                        android:textSize="@dimen/_24sdp"
+                        android:visibility="@{viewModel.state.nameInitialsVisibility}" />
+
+                    <co.yap.widgets.CoreCircularImageView
+                        android:id="@+id/ivProfilePic"
+                        android:layout_width="@dimen/_65sdp"
+                        android:layout_height="@dimen/_65sdp"
+                        android:contentDescription="@string/app_name"
+                        android:visibility="invisible"
+                        app:src="@{viewModel.state.beneficiaryPicture}" />
+
+                    <!--
+                       toggle visibility on the basis of transfer type
+                         -->
+
+                    <RelativeLayout
+                        android:id="@+id/rlAddNewProfilePic"
+                        android:layout_width="47dp"
+                        android:layout_height="49dp"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginLeft="-11dp"
+                        android:layout_marginTop="-10dp"
+                        android:visibility="visible">
+
+                        <FrameLayout
+                            android:layout_width="@dimen/_29sdp"
+                            android:layout_height="@dimen/_29sdp"
+                            android:layout_gravity="center"
+                            android:layout_margin="@dimen/_2sdp"
+                            android:background="@drawable/bg_round_red"
+                            android:backgroundTint="@color/white">
+
+                            <ImageView
+                                android:id="@+id/ivAddProfilePic"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginStart="@dimen/_2sdp"
+                                android:layout_marginTop="@dimen/_2sdp"
+                                android:layout_marginEnd="@dimen/_2sdp"
+                                android:layout_marginBottom="@dimen/_2sdp"
+                                android:background="@drawable/bitmap" />
+
+                        </FrameLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+            </RelativeLayout>
+            <!--because we are not sure which design to go with ,from zeplin or fsd -->
 
             <!--because we are not sure which design to go with ,from zeplin or fsd -->
 
@@ -96,12 +157,12 @@
                     android:background="@null"
                     android:gravity="center"
                     android:imeOptions="actionDone"
+                    android:text="@={viewModel.state.fxRateAmount}"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     android:labelFor="@+id/etAmount"
                     android:maxLength="7"
                     android:maxLines="1"
-                    app:hint="@{Strings.common_amount_hint}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -122,7 +183,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="@{viewModel.state.senderCurrency}"
+                android:text="@{viewModel.state.receiverCurrency}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -140,8 +201,8 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFullName">
 
-                <EditText
-                    android:id="@+id/etBeneficiaryConvertedAmount"
+                <TextView
+                    android:id="@+id/tvBeneficiaryConvertedAmount"
                     style="@style/ATitle2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -152,8 +213,8 @@
                     android:inputType="numberDecimal"
                     android:labelFor="@+id/etAmount"
                     android:maxLength="7"
+                    android:text="@{viewModel.state.receiverCurrencyAmount}"
                     android:maxLines="1"
-                    app:hint="@{Strings.common_amount_hint}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -170,8 +231,7 @@
                 android:layout_marginTop="@dimen/margin_normal"
                 android:orientation="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etDynamicLayout">
+                app:layout_constraintRight_toRightOf="parent">
 
 
                 <ImageView
@@ -197,7 +257,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
-                    android:text="X AED"
+                    android:text="@{viewModel.state.fromFxRate}"
                     android:textColor="@color/colorPrimaryDark"
                     tools:text="X AED" />
 
@@ -217,7 +277,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/_2sdp"
                     android:layout_marginRight="@dimen/_2sdp"
-                    android:text="X CAD"
+                    android:text="@{viewModel.state.toFxRate}"
                     android:textColor="@color/colorPrimaryDark"
                     tools:text="X CAD" />
             </LinearLayout>
@@ -239,16 +299,12 @@
                 android:id="@+id/layoutReasonsSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal">
 
                 <Spinner
                     android:id="@+id/reasonsSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/margin_normal"
-                    android:paddingLeft="@dimen/margin_small"
-                    android:paddingRight="@dimen/margin_small"
+                    android:layout_height="@dimen/_50sdp"
                     android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
                     android:spinnerMode="dropdown" />
 

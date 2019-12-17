@@ -16,6 +16,7 @@ import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
+
 class InternationalFundsTransferFragment :
     SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
@@ -36,26 +37,20 @@ class InternationalFundsTransferFragment :
     private fun setObservers() {
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
-
             reasonsSpinner.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
-
         })
+
     }
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            countriesSpinner.setSelection(pos.toInt())
-//            viewModel.onCountrySelected(pos)
-
-            toast(pos.toString())
+            reasonsSpinner.setSelection(pos)
+            toast(data.toString())
         }
     }
 
-    private fun papulateReasonsList(reasons: List<InternationalFundsTransferReasonList.ReasonList>?) {
-        toast(reasons.toString())
 
-    }
     private fun editBeneficiaryScreen() {
         etnickName.isEnabled = true
         etFirstName.isEnabled = true
@@ -89,7 +84,6 @@ class InternationalFundsTransferFragment :
 
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
 

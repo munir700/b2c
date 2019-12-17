@@ -12,6 +12,7 @@ import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RxListRequest
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.helpers.Utils
@@ -31,6 +32,8 @@ class InternationalFundsTransferViewModel(application: Application) :
         ArrayList()
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
+    var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
+
 
 
     override fun handlePressOnNext(id: Int) {
@@ -41,9 +44,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         transactionData.clear()
-//        getTransactionFeeInternational()
-//        getTransactionInternationalReasonList()
-        getTransactionInternationalRxList()
+        getTransactionFeeInternational()
     }
 
 
@@ -55,7 +56,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
 
     /*
-    * In this function get Transaction Fee.
+    * In this function get Remittance Transaction Fee.
     * */
 
     private fun getTransactionFeeInternational() {
@@ -75,34 +76,25 @@ class InternationalFundsTransferViewModel(application: Application) :
                         val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
                         if (feeAmount != null) {
                             totalAmount = feeAmount + feeAmountVAT!!
+                            state.transferFee =
+                                getString(Strings.screen_international_funds_transfer_display_text_fee).format(
+                                    "AED",
+                                    Utils.getFormattedCurrency(totalAmount.toString())
+                                )
+                            state.transferFeeSpannable =
+                                Utils.getSppnableStringForAmount(
+                                    context,
+                                    state.transferFee,
+                                    "AED",
+                                    Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
+                                )
                         }
 
                     } else if (response.data.data?.feeType == "TIER") {
-
-                        println(response.data.data)
-                        println(response.data.data)
-                        val list = response.data.data!!.tierRateDTOList
-
-                    } else {
-                        totalAmount = 0.0
+                        listItemSelectedCart = response.data.data!!.tierRateDTOList!!
+                        state.listItemSelectedCart = listItemSelectedCart
                     }
-
-
-                    println(totalAmount)
-                    state.transferFee =
-                        getString(Strings.screen_international_funds_transfer_display_text_fee).format(
-                            "AED",
-                            Utils.getFormattedCurrency(totalAmount.toString())
-                        )
-
-                    state.transferFeeSpannable =
-                        Utils.getSppnableStringForAmount(
-                            context,
-                            state.transferFee,
-                            "AED",
-                            Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
-                        )
-
+                    getTransactionInternationalReasonList()
                 }
 
                 is RetroApiResponse.Error -> {
@@ -110,7 +102,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
+            // state.loading = false
         }
     }
 
@@ -130,6 +122,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                             InternationalFundsTransferReasonList.ReasonList(code = item.code?:"", reason = item.reason?:"")
                         })
                     }
+                    getTransactionInternationalfxList()
                     populateSpinnerData.value = transactionData
                 }
                 is RetroApiResponse.Error -> {
@@ -137,7 +130,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
+            //state.loading = false
         }
     }
 
@@ -146,7 +139,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     * In this function get All List of reasons.
     * */
 
-    private fun getTransactionInternationalRxList() {
+    private fun getTransactionInternationalfxList() {
         launch {
 
             /*TODO: SWIFT("P011"), RMT("P012"), CASH_PAYOUT("P013"),*/
@@ -156,9 +149,22 @@ class InternationalFundsTransferViewModel(application: Application) :
             when (val response =
                 mTransactionsRepository.getTransactionInternationalRXList("P013", rxListBody)) {
                 is RetroApiResponse.Success -> {
-                    //if (response.data.isNullOrEmpty()) return@launch
-                    println(response)
-                    println(response)
+                    state.loading = false
+
+                    println(response.data.data)
+                    state.senderCurrency = response.data.data.fromCurrencyCode
+                    state.receiverCurrency = response.data.data.toCurrencyCode
+                    state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
+
+                    state.fromFxRateCurrency = response.data.data.fromCurrencyCode
+                    state.fromFxRate =
+                        "${response.data.data.value?.amount} ${state.fromFxRateCurrency}"
+
+
+                    state.toFxRateCurrency = response.data.data.toCurrencyCode
+                    state.toFxRate =
+                        "${response.data.data.fxRates?.get(0)?.rate} ${state.toFxRateCurrency}"
+
 
                 }
                 is RetroApiResponse.Error -> {
@@ -166,7 +172,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.toast = response.error.message
                 }
             }
-            state.loading = false
         }
     }
+
+
 }

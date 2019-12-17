@@ -5,6 +5,7 @@ import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import retrofit2.Response
@@ -113,7 +114,7 @@ interface TransactionsRetroService {
 
     //Get transaction international purpose reasons.
     @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
-    suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String, @Body mRxListRequest: RxListRequest): Response<ApiResponse>
+    suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
 
     //Domestic transfer request
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
