@@ -27,5 +27,8 @@ data class BankParams(
     @SerializedName("min_characters")
     val minCharacters: String?,
     @SerializedName("max_characters")
-    val maxCharacters: String?
+    val maxCharacters: String?,
+    @Transient
+    val data: String? = ""
+
 ) : ApiResponse()

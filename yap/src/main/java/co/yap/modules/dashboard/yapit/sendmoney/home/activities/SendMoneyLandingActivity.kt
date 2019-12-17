@@ -257,7 +257,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.state.isSearching.set(viewModel.isSearching.value!!)
         // calling this function on resume because whenever user go for search and back to home it will set the searchView according to its state
         setSearchView(viewModel.isSearching.value!!)
-        setupRecent()
         viewModel.clickEvent.observe(this, clickListener)
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
@@ -297,7 +296,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         data?.let {
             when (requestCode) {
                 REQUEST_CODE -> {
-                    if (resultCode == Activity.RESULT_OK) {
+                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
+                            "beneficiary_change",
+                            false
+                        )
+                    ) {
                         viewModel.requestAllBeneficiaries()
                     }
                 }

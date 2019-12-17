@@ -1,6 +1,8 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -39,7 +41,7 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     }
 
     private fun setupAdaptor(list: List<BankParams>) {
-        adaptor = AddBeneficiariesAdaptor(list as MutableList<BankParams>)
+        adaptor = AddBeneficiariesAdaptor(list as MutableList<BankParams>, watcher)
         adaptor?.setItemListener(listener)
         recycler.adapter = adaptor
     }
@@ -60,6 +62,27 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
         when (it) {
             R.id.confirmButton ->
                 findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
+        }
+    }
+
+    private val watcher = object : TextWatcher {
+        override fun afterTextChanged(p0: Editable?) {
+            var isValid = false
+            if (adaptor?.getDataList() != null) {
+                for (field in adaptor!!.getDataList().iterator()) {
+                    if (field.isMandatory == "Y") {
+                        isValid = p0?.length == field.minCharacters?.toInt()
+                        break
+                    }
+                }
+            }
+            viewModel.state.valid = isValid
+        }
+
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+        override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
         }
     }
 
