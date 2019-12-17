@@ -45,7 +45,7 @@ class InternationalFundsTransferViewModel(application: Application) :
         super.onCreate()
         transactionData.clear()
         getTransactionFeeInternational()
-        //getTransactionInternationalReasonList()
+        getTransactionInternationalReasonList()
         getTransactionInternationalRxList()
     }
 

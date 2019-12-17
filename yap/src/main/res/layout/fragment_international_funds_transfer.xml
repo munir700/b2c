@@ -241,16 +241,12 @@
                 android:id="@+id/layoutReasonsSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/margin_normal"
                 android:paddingBottom="@dimen/margin_normal">
 
                 <Spinner
                     android:id="@+id/reasonsSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/margin_normal"
-                    android:paddingLeft="@dimen/margin_small"
-                    android:paddingRight="@dimen/margin_small"
+                    android:layout_height="@dimen/_50sdp"
                     android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
                     android:spinnerMode="dropdown" />
 
