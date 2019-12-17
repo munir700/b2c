@@ -11,13 +11,11 @@ class Country(
     var id: Int? = null,
     var isoCountryCode3Digit: String? = null,
     private var cashPickUpAllowed: Boolean? = false,
-    var rmtCountry: Boolean? = false,
     var isoCountryCode2Digit: String? = null,
     var supportedCurrencies: List<Currency>? = null,
     var active: Boolean? = false,
     var isoNum: String? = "",
     var signUpAllowed: Boolean? = false,
-    var cashPickUp: Boolean? = false,
     private var name: String? = null,
     private var flagDrawableResId: Int = -1,
     private var currency: Currency? = null
@@ -41,19 +39,6 @@ class Country(
             this.cashPickUpAllowed = cashPickUpAllowed
         }
 
-    var isRmt: Boolean?
-        get() {
-            val size = supportedCurrencies!!.size
-            if (size > 0) {
-                val mainCurrency = supportedCurrencies!![size - 1]
-                return mainCurrency.isRmt
-            }
-            return rmtCountry
-        }
-        @Deprecated("")
-        set(rmt) {
-            this.rmtCountry = rmt
-        }
 
     fun getName(): String {
         if (name == null) name = ""
