@@ -12,6 +12,7 @@ import android.text.InputType
 import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.*
+import android.view.Gravity.BOTTOM
 import android.view.View.OnClickListener
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -53,11 +54,17 @@ class CoreInputField @JvmOverloads constructor(
     private var PHONE_NUMBER_LENGTH: Int = 16
     var editText: EditText
     var checkFocusChange: Boolean = false
+    var view_plain_background: Boolean = false
     private var viewDataBinding: ViewDataBinding
 
     init {
         viewDataBinding =
-            DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.custom_widget_edit_text, this, true)
+            DataBindingUtil.inflate(
+                LayoutInflater.from(context),
+                R.layout.custom_widget_edit_text,
+                this,
+                true
+            )
         viewDataBinding.executePendingBindings()
         editText = findViewWithTag("input")
 
@@ -65,21 +72,44 @@ class CoreInputField @JvmOverloads constructor(
             typedArray = context.obtainStyledAttributes(it, R.styleable.CoreInputField, 0, 0)
             val title = resources.getText(
                 typedArray
-                    .getResourceId(R.styleable.CoreInputField_view_hint_input_field, R.string.empty_string)
+                    .getResourceId(
+                        R.styleable.CoreInputField_view_hint_input_field,
+                        R.string.empty_string
+                    )
             )
 
             inputType = typedArray.getInt(R.styleable.CoreInputField_view_input_type, inputType)
             maxLength = typedArray.getInt(R.styleable.CoreInputField_view_max_length, maxLength)
-            checkFocusChange = typedArray.getBoolean(R.styleable.CoreInputField_view_focusable, checkFocusChange)
-            imeiActionType = typedArray.getInt(R.styleable.CoreInputField_view_input_text_imei_actions, imeiActionType)
+            checkFocusChange =
+                typedArray.getBoolean(R.styleable.CoreInputField_view_focusable, checkFocusChange)
+            view_plain_background = typedArray.getBoolean(
+                R.styleable.CoreInputField_view_plain_background,
+                view_plain_background
+            )
+            imeiActionType = typedArray.getInt(
+                R.styleable.CoreInputField_view_input_text_imei_actions,
+                imeiActionType
+            )
+            if (view_plain_background) {
 
-           if (null!=typedArray.getInt(R.styleable.CoreInputField_view_id, view_id)){
-               view_id = typedArray.getInt(R.styleable.CoreInputField_view_id, view_id)
-               if (view_id>0) {
+                editText.setBackgroundResource(R.drawable.bg_plain_edit_text)
+                editText.setPadding(0,0,0,15)
+                rlTopMain.setPadding(0,-13,0,0)
+//                android:gravity="bottom"
+                editText.gravity=BOTTOM
 
-                   editText.id=view_id
-               }
-           }
+                //set plain bg
+            } else {
+                editText.setBackgroundResource(R.drawable.bg_round_edit_text)
+            }
+
+            if (null != typedArray.getInt(R.styleable.CoreInputField_view_id, view_id)) {
+                view_id = typedArray.getInt(R.styleable.CoreInputField_view_id, view_id)
+                if (view_id > 0) {
+
+                    editText.id = view_id
+                }
+            }
 
 
             val error = resources.getText(
@@ -96,7 +126,8 @@ class CoreInputField @JvmOverloads constructor(
             }
 
             if (null != typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)) {
-                drawableRight = typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)
+                drawableRight =
+                    typedArray.getDrawable(R.styleable.CoreInputField_view_drawable_right)
                 editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
             } else {
                 drawableRight = null
@@ -109,7 +140,12 @@ class CoreInputField @JvmOverloads constructor(
             }
 
             if (null != drawableRight && null != drawableLeft) {
-                editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+                editText.setCompoundDrawablesWithIntrinsicBounds(
+                    drawableLeft,
+                    null,
+                    drawableRight,
+                    null
+                )
             }
 
             if (!textInput.isEmpty()) {
@@ -132,8 +168,8 @@ class CoreInputField @JvmOverloads constructor(
             onKeyBoardDismissal(true)
             animteKeyboardDismissal()
 
-            if (maxLength>0){
-                 editText.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength)))
+            if (maxLength > 0) {
+                editText.setFilters(arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength)))
 
             }
         }
@@ -220,7 +256,12 @@ class CoreInputField @JvmOverloads constructor(
         drawableRight = drawable
 
         if (null != drawableLeft) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+            editText.setCompoundDrawablesWithIntrinsicBounds(
+                drawableLeft,
+                null,
+                drawableRight,
+                null
+            )
 
         } else {
             editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
@@ -232,7 +273,12 @@ class CoreInputField @JvmOverloads constructor(
         drawableLeft = drawable
 
         if (null != drawableRight) {
-            editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, drawableRight, null)
+            editText.setCompoundDrawablesWithIntrinsicBounds(
+                drawableLeft,
+                null,
+                drawableRight,
+                null
+            )
 
         } else {
             editText.setCompoundDrawablesWithIntrinsicBounds(drawableLeft, null, null, null)
@@ -249,7 +295,12 @@ class CoreInputField @JvmOverloads constructor(
     }
 
     fun settingUIForError(error: String) {
-        editText.setBackgroundResource(R.drawable.bg_round_error_layout)
+        if (view_plain_background) {
+            editText.setBackgroundResource(R.drawable.bg_red_line)
+        } else {
+            editText.setBackgroundResource(R.drawable.bg_round_error_layout)
+        }
+
         tvError.text = error
         tvError.visibility = View.VISIBLE
         setDrawableRightIcon(resources.getDrawable(R.drawable.invalid_name))
@@ -257,7 +308,11 @@ class CoreInputField @JvmOverloads constructor(
     }
 
     fun settingUIForNormal() {
-        editText.setBackgroundResource(R.drawable.bg_round_edit_text)
+        if (view_plain_background) {
+            editText.setBackgroundResource(R.drawable.bg_plain_edit_text)
+        } else {
+            editText.setBackgroundResource(R.drawable.bg_round_edit_text)
+        }
         tvError.text = ""
         drawableRight = null
         tvError.visibility = View.GONE
@@ -322,10 +377,11 @@ class CoreInputField @JvmOverloads constructor(
         val heightDiff = rootView.bottom - r.bottom
         return heightDiff > softKeyboardHeight * dm.density
     }
+
     fun requestKeyboard() {
         editText.requestFocus()
-            (editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
-                InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
-            )
+        (editText.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).toggleSoftInput(
+            InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY
+        )
     }
 }

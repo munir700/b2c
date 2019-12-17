@@ -8,6 +8,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.store.adaptor.YapStoreAdaptor
 import co.yap.modules.dashboard.store.household.activities.HouseHoldLandingActivity
+import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.interfaces.IYapStore
 import co.yap.modules.dashboard.store.viewmodels.YapStoreViewModel
 import co.yap.yapcore.BaseBindingFragment
@@ -28,7 +29,9 @@ class YapStoreFragment : BaseBindingFragment<IYapStore.ViewModel>(), IYapStore.V
         setObservers()
         initState()
         initComponents()
-        startActivity(HouseHoldLandingActivity.newIntent(activity!!))
+//        startActivity(HouseHoldLandingActivity.newIntent(activity!!))
+        startActivity(HouseHoldOnboardingActivity.newIntent(activity!!))
+
     }
 
     private fun initComponents() {

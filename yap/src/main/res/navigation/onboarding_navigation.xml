@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/onboarding_navigation"
-    app:startDestination="@id/mobileFragment">
+    app:startDestination="@id/nameFragment">
     <fragment
         android:id="@+id/emailFragment"
         android:name="co.yap.modules.onboarding.fragments.EmailFragment"
