@@ -122,7 +122,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                             InternationalFundsTransferReasonList.ReasonList(code = item.code?:"", reason = item.reason?:"")
                         })
                     }
-                    getTransactionInternationalRxList()
+                    getTransactionInternationalfxList()
                     populateSpinnerData.value = transactionData
                 }
                 is RetroApiResponse.Error -> {
@@ -139,7 +139,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     * In this function get All List of reasons.
     * */
 
-    private fun getTransactionInternationalRxList() {
+    private fun getTransactionInternationalfxList() {
         launch {
 
             /*TODO: SWIFT("P011"), RMT("P012"), CASH_PAYOUT("P013"),*/
