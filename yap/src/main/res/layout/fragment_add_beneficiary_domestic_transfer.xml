@@ -18,18 +18,13 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
-
             <LinearLayout
+                android:id="@+id/lyContainer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
+                android:orientation="vertical"
                 android:paddingRight="@dimen/margin_medium">
 
                 <TextView
@@ -39,9 +34,6 @@
                     android:layout_marginTop="@dimen/margin_large"
                     android:gravity="center"
                     android:text="@string/screen_add_beneficiary_detail_display_text_title"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_title}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_title" />
 
@@ -66,9 +58,6 @@
                         android:id="@+id/flag_img"
                         android:layout_width="@dimen/_20sdp"
                         android:layout_height="@dimen/_20sdp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerVertical="true"
                         android:background="@drawable/bitmap"
                         app:src="@{viewModel.state.flagDrawableResId}" />
 
@@ -98,9 +87,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}"
                     app:textColor="@{viewModel.state.firstName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_first_name" />
@@ -126,9 +112,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_last_name}"
                     app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_last_name" />
@@ -154,9 +137,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_beneficiary_account_details_display_text_iban}"
                     app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                     tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
@@ -168,16 +148,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/greyLight"
-                        android:hint="xxxxxxxxx"
-                        app:isDrawableShownWhenTextIsEmpty="true"
                         android:drawableEnd="@drawable/ic_support"
                         android:drawableRight="@drawable/ic_support"
-                        app:popupContentValue="@string/screen_add_beneficiary_display_help_content"
+                        android:hint="xxxxxxxxx"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:maxLength="50"
                         android:singleLine="true"
-                        android:text="@={viewModel.state.iban}" />
+                        android:text="@={viewModel.state.iban}"
+                        app:isDrawableShownWhenTextIsEmpty="true"
+                        app:popupContentValue="@string/screen_add_beneficiary_display_help_content" />
 
                 <TextView
                     style="@style/Small"
@@ -185,9 +165,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
                     android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                     app:text="@{Strings.screen_sdd_beneficiary_display_confirm_iban}"
                     app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                     tools:text="@string/screen_sdd_beneficiary_display_confirm_iban" />
@@ -219,10 +196,7 @@
                     app:enableCoreButton="@{viewModel.state.validateDomesticButton}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{Strings.screen_add_beneficiary_detail_button_confirm}"
-                    tools:ignore="MissingConstraints"
-                    tools:layout_editor_absoluteX="44dp"
                     tools:text="@string/screen_add_beneficiary_detail_button_confirm" />
             </LinearLayout>
-        </LinearLayout>
     </ScrollView>
 </layout>

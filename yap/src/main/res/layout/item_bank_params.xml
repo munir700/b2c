@@ -18,8 +18,9 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/margin_normal"
         android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_normal"
+        android:layout_marginEnd="@dimen/margin_normal"
         android:background="@color/white">
 
         <TextView
@@ -27,7 +28,8 @@
             style="@style/Small"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_medium_large"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/margin_small"
             android:text="@{viewModel.bankParams.name}"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -43,10 +45,7 @@
             android:imeOptions="actionNext"
             android:importantForAutofill="no"
             android:maxLength="50"
-            android:text="@{viewModel.bankParams.name}"
-            app:hint="@{Strings.screen_bank_details_display_text_bank_name}"
             app:layout_constraintTop_toBottomOf="@+id/txtTitle" />
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
