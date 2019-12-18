@@ -1,8 +1,11 @@
 package co.yap.yapcore.helpers
 
 import android.content.Context
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -30,6 +33,18 @@ fun ImageView.loadImage(path: String) {
     Glide.with(this)
         .load(path).centerCrop()
         .into(this)
+}
+
+fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
+    this.addTextChangedListener(object : TextWatcher {
+        override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        }
+        override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+        }
+        override fun afterTextChanged(editable: Editable?) {
+            afterTextChanged.invoke(editable.toString())
+        }
+    })
 }
 
 fun AppCompatActivity.addFragment(tag: String?, id: Int, fragment: Fragment) {

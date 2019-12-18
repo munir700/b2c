@@ -363,7 +363,7 @@
                     app:pse_setCornerRadius="0dp"
                     app:pse_setPrefix=" +94"
                     app:pse_setPrefixDrawable="@drawable/flag_in"
-                    app:pse_setPrefixTextColor="#FF4081"
+                    app:pse_setPrefixTextColor="@color/greyDark"
                     app:pse_setStrokeWidth="0dp" />
 
                 <LinearLayout

@@ -25,6 +25,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScr
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -99,8 +101,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             if (it.isNullOrEmpty()) return@Observer
             val adapter = RecentTransferAdaptor(
                 it.toMutableList(),
-                null
-            )
+                    null
+                )
             adapter.onItemClickListener = recentItemClickListener
             viewModel.adapter.set(adapter)
 
@@ -249,7 +251,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         viewModel.state.isSearching.set(viewModel.isSearching.value!!)
         // calling this function on resume because whenever user go for search and back to home it will set the searchView according to its state
         setSearchView(viewModel.isSearching.value!!)
-        setupRecent()
         viewModel.clickEvent.observe(this, clickListener)
         viewModel.onDeleteSuccess.observe(this, Observer {
             getAdaptor().removeItemAt(positionToDelete)
@@ -289,7 +290,11 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         data?.let {
             when (requestCode) {
                 REQUEST_CODE -> {
-                    if (resultCode == Activity.RESULT_OK) {
+                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
+                            "beneficiary_change",
+                            false
+                        )
+                    ) {
                         viewModel.requestAllBeneficiaries()
                     }
                 }

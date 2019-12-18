@@ -11,7 +11,6 @@ interface ISelectCountry {
     interface State : IBase.State {
         var selectedCountry: Country?
         var valid: Boolean
-        var isDomestic: ObservableField<Boolean>
     }
 
     interface ViewModel : IBase.ViewModel<State> {

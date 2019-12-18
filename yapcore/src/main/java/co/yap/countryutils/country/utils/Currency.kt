@@ -14,7 +14,9 @@ class Currency(
     var flag: Int? = -1,
     var isCashPickUpAllowed: Boolean = false,
     var isRmt: Boolean = false,
-    var active: Boolean? = false
+    var active: Boolean? = false,
+    var rmtCountry: Boolean? = false,
+    var cashPickUp: Boolean? = false
 ) : Parcelable {
 
     /**
@@ -28,6 +30,20 @@ class Currency(
             updateFromCountryCode(it)
         }
     }
+
+//    var isRmt: Boolean?
+//        get() {
+//            val size = supportedCurrencies!!.size
+//            if (size > 0) {
+//                val mainCurrency = supportedCurrencies!![size - 1]
+//                return mainCurrency.isRmt
+//            }
+//            return rmtCountry
+//        }
+//        @Deprecated("")
+//        set(rmt) {
+//            this.rmtCountry = rmt
+//        }
 
     fun updateFromCountryCode(countryCode: String) {
         val c =

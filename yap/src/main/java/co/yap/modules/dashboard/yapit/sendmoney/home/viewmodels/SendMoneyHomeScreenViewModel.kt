@@ -41,12 +41,12 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAllBeneficiaries()
+        requestRecentBeneficiaries()
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_send_money_display_text_title))
-        requestAllBeneficiaries()
     }
 
 

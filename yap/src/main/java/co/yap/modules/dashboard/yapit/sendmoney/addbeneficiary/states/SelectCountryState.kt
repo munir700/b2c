@@ -26,6 +26,4 @@ class SelectCountryState(val application: Application) : BaseState(), ISelectCou
             field = value
             notifyPropertyChanged(BR.valid)
         }
-
-    override var isDomestic: ObservableField<Boolean> = ObservableField(false)
 }
