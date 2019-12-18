@@ -15,6 +15,7 @@ import co.yap.networking.transactions.responsedtos.InternationalFundsTransferRea
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.helpers.Utils
 
 class InternationalFundsTransferViewModel(application: Application) :
@@ -26,14 +27,14 @@ class InternationalFundsTransferViewModel(application: Application) :
     var mTransactionsRepository: TransactionsRepository = TransactionsRepository
 
     override val repository: CustomersRepository = CustomersRepository
-    override val state: InternationalFundsTransferState = InternationalFundsTransferState(application)
+    override val state: InternationalFundsTransferState =
+        InternationalFundsTransferState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
     var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
-
 
 
     override fun handlePressOnNext(id: Int) {
@@ -44,7 +45,6 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         transactionData.clear()
-        getTransactionFeeInternational()
     }
 
 
@@ -59,14 +59,13 @@ class InternationalFundsTransferViewModel(application: Application) :
     * In this function get Remittance Transaction Fee.
     * */
 
-    private fun getTransactionFeeInternational() {
+    override fun getTransactionFeeInternational(productCode: String?) {
         launch {
             state.loading = true
             val remittanceFeeRequestBody = RemittanceFeeRequest("PK", "")
             when (val response =
-                /*TODO:For Swift (P011) and for cash pickup (P013) */
                 mTransactionsRepository.getTransactionFeeWithProductCode(
-                    "P013",
+                    productCode,
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
@@ -94,7 +93,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                         listItemSelectedCart = response.data.data!!.tierRateDTOList!!
                         state.listItemSelectedCart = listItemSelectedCart
                     }
-                    getTransactionInternationalReasonList()
+                    getTransactionInternationalReasonList(productCode)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -110,19 +109,22 @@ class InternationalFundsTransferViewModel(application: Application) :
     * In this function get All List of reasons.
     * */
 
-    private fun getTransactionInternationalReasonList() {
+    private fun getTransactionInternationalReasonList(productCode: String?) {
         launch {
             state.loading = true
             when (val response =
-                mTransactionsRepository.getTransactionInternationalReasonList("P012")) {
+                mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNullOrEmpty()) return@launch
                     response.data.data?.let {
-                        transactionData.addAll(it.map {item->
-                            InternationalFundsTransferReasonList.ReasonList(code = item.code?:"", reason = item.reason?:"")
+                        transactionData.addAll(it.map { item ->
+                            InternationalFundsTransferReasonList.ReasonList(
+                                code = item.code ?: "",
+                                reason = item.reason ?: ""
+                            )
                         })
                     }
-                    getTransactionInternationalfxList()
+                    getTransactionInternationalfxList(productCode)
                     populateSpinnerData.value = transactionData
                 }
                 is RetroApiResponse.Error -> {
@@ -139,15 +141,14 @@ class InternationalFundsTransferViewModel(application: Application) :
     * In this function get All List of reasons.
     * */
 
-    private fun getTransactionInternationalfxList() {
+    private fun getTransactionInternationalfxList(productCode: String?) {
         launch {
 
-            /*TODO: SWIFT("P011"), RMT("P012"), CASH_PAYOUT("P013"),*/
             state.loading = true
-            val rxListBody = RxListRequest("135")
+            val rxListBody = RxListRequest(state.beneficiaryId)
 
             when (val response =
-                mTransactionsRepository.getTransactionInternationalRXList("P013", rxListBody)) {
+                mTransactionsRepository.getTransactionInternationalRXList(productCode, rxListBody)) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
 

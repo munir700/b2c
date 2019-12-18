@@ -85,7 +85,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             )
         })
 
-    override suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList> =
+    override suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList> =
         executeSafely(call = { api.getInternationalTransactionReasonList(productCode) })
 
     //    override suspend fun getTransactionInternationalRXList(
@@ -94,7 +94,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 //    ): RetroApiResponse<ApiResponse> =
 //        executeSafely(call = { api.getInternationalRXRateList(productCode, mRxListRequest) })
     override suspend fun getTransactionInternationalRXList(
-        productCode: String,
+        productCode: String?,
         mRxListRequest: RxListRequest
     ): RetroApiResponse<FxRateResponse> =
         executeSafely(call = { api.getInternationalRXRateList(productCode, mRxListRequest) })

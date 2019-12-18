@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentCashTransferBinding
@@ -40,9 +41,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
-        viewModel.getTransactionFeeForCashPayout(getProductCode())
-        setObservers()
+        startFlows()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -246,4 +245,43 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
 
+    private fun startFlows() {
+        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+            beneficiary.beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        //RMT is for international( RMT(linked with Rak))
+                        SendMoneyBeneficiaryType.RMT -> {
+                            //Call service for RMT
+                            toast("Flow to be implemented for RMT")
+                            skipCashTransferFragment()
+                        }
+                        //Swift is for international(non RMT(Not linked with Rak))
+                        SendMoneyBeneficiaryType.SWIFT -> {
+                            //call service for SWIFT
+                            toast("Flow to be implemented for swift")
+                            skipCashTransferFragment()
+                        }
+                        else -> {
+                            viewModel.state.availableBalance =
+                                MyUserManager.cardBalance.value?.availableBalance
+                            viewModel.getTransactionFeeForCashPayout(getProductCode())
+                            setObservers()
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun skipCashTransferFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.cashTransferFragment, true) // starting destination skiped
+            .build()
+        findNavController().navigate(
+            R.id.action_cashTransferFragment_to_internationalFundsTransferFragment,
+            null,
+            navOptions
+        )
+
+    }
 }

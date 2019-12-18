@@ -110,11 +110,11 @@ interface TransactionsRetroService {
 
     //Get transaction international purpose reasons.
     @GET(TransactionsRepository.URL_GET_INTERNATIONAL_TRANSACTION_REASON_LIST)
-    suspend fun getInternationalTransactionReasonList(@Path("product-code") cardSerialNumber: String): Response<InternationalFundsTransferReasonList>
+    suspend fun getInternationalTransactionReasonList(@Path("product-code") productCode: String?): Response<InternationalFundsTransferReasonList>
 
     //Get transaction international purpose reasons.
     @POST(TransactionsRepository.URL_GET_INTERNATIONAL_RX_RATE_LIST)
-    suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
+    suspend fun getInternationalRXRateList(@Path("product-code") RXNumber: String?, @Body mRxListRequest: RxListRequest): Response<FxRateResponse>
 
     //Domestic transfer request
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)

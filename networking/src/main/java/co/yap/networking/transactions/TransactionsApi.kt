@@ -19,10 +19,10 @@ interface TransactionsApi {
         mRemittanceFeeRequest: RemittanceFeeRequest
     ): RetroApiResponse<ApiResponse>
 
-    suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList>
+    suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>
     suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse>
     suspend fun getTransactionInternationalRXList(
-        RxNumber: String,
+        RxNumber: String?,
         mRxListRequest: RxListRequest
     ): RetroApiResponse<ApiResponse>
 

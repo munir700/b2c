@@ -26,7 +26,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     @get:Bindable
     override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
     @get:Bindable
@@ -93,7 +93,6 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 //            field = value
 //            notifyPropertyChanged(BR.reasonList)
 //        }
-
 
 
     @get:Bindable
@@ -166,6 +165,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
+        }
+    @get:Bindable
+    override var beneficiaryId: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryId)
         }
     @get:Bindable
     override var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =

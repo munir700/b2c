@@ -19,6 +19,11 @@
             app:destination="@id/transferSuccessFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_cashTransferFragment_to_internationalFundsTransferFragment"
+            app:destination="@id/internationalFundsTransferFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/genericOtpLogoFragment"
@@ -57,5 +62,10 @@
             android:defaultValue=" "
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/internationalFundsTransferFragment"
+        android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
+        android:label="InternationalFundsTransferFragment"
+        tools:layout="@layout/fragment_international_funds_transfer"/>
 
 </navigation>
