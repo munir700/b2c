@@ -98,7 +98,7 @@
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/empty_string"
-                    android:layout_marginTop="@dimen/small"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:src="@drawable/ic_store_b2b"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +164,7 @@
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_20sdp"
-                    android:layout_height="@dimen/_20sdp"
+                    android:layout_height="wrap_content"
                     tools:src="@drawable/flag_ae"
                     app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
 
