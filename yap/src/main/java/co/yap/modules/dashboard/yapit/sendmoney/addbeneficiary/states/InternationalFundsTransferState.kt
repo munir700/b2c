@@ -168,11 +168,11 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.valid)
         }
     @get:Bindable
-    override var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+    override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()
         set(value) {
             field = value
-            notifyPropertyChanged(BR.listItemSelectedCart)
+            notifyPropertyChanged(BR.listItemRemittanceFee)
         }
 
     fun validate() {
@@ -229,7 +229,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     ): Double {
         var totalAmount = 0.0
         val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
-            listItemSelectedCart.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
+            listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
         if (remittanceTierFee != null) {
             if (remittanceTierFee.isNotEmpty()) {
                 val feeAmount = remittanceTierFee[0].feeAmount

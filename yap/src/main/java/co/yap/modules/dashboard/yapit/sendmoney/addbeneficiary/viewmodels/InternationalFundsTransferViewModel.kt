@@ -23,15 +23,14 @@ class InternationalFundsTransferViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
 
-    var mTransactionsRepository: TransactionsRepository = TransactionsRepository
-
+    private var mTransactionsRepository: TransactionsRepository = TransactionsRepository
     override val repository: CustomersRepository = CustomersRepository
     override val state: InternationalFundsTransferState = InternationalFundsTransferState(application)
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> = MutableLiveData()
-
-    var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
+    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+        ArrayList()
 
 
 
@@ -69,7 +68,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
-                    var totalAmount = 0.0
+                    var totalAmount: Double
                     if (response.data.data?.feeType == "FLAT") {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
                         val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
@@ -90,8 +89,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                         }
 
                     } else if (response.data.data?.feeType == "TIER") {
-                        listItemSelectedCart = response.data.data!!.tierRateDTOList!!
-                        state.listItemSelectedCart = listItemSelectedCart
+                        listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
+                        state.listItemRemittanceFee = listItemRemittanceFee
                     }
                     getTransactionInternationalReasonList()
                 }
@@ -142,7 +141,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
             /*TODO: SWIFT("P011"), RMT("P012"), CASH_PAYOUT("P013"),*/
             state.loading = true
-            val rxListBody = RxListRequest("135")
+            val rxListBody = RxListRequest("160")
 
             when (val response =
                 mTransactionsRepository.getTransactionInternationalRXList("P013", rxListBody)) {

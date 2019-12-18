@@ -26,7 +26,6 @@ class CashTransferViewModel(application: Application) :
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     private val transactionRepository: TransactionsRepository = TransactionsRepository
     private val messagesRepository: MessagesRepository = MessagesRepository
-    var mTransactionsRepository: TransactionsRepository = TransactionsRepository
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
@@ -196,7 +195,7 @@ class CashTransferViewModel(application: Application) :
         launch {
             state.loading = true
             when (val response =
-                mTransactionsRepository.getTransactionInternationalReasonList("P012")) {
+                transactionRepository.getTransactionInternationalReasonList("P012")) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNullOrEmpty()) return@launch
                     response.data.data?.let {

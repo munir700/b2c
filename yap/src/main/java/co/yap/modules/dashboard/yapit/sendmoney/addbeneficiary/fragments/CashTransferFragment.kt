@@ -36,13 +36,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
 //    val args: Y2YTransferFragmentArgs by navArgs()
 
+    private var mReasonListAdapter: ReasonListAdapter? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_cash_transfer
 
     override val viewModel: CashTransferViewModel
         get() = ViewModelProviders.of(this).get(CashTransferViewModel::class.java)
 
-    private var mReasonListAdapter: ReasonListAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

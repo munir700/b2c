@@ -30,7 +30,7 @@ interface IInternationalFundsTransfer {
         var toFxRate: String?
         var toFxRateCurrency: String?
         var valid: Boolean
-        var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+        var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
 
 
     }
