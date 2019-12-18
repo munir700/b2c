@@ -28,6 +28,7 @@ class InternationalFundsTransferFragment :
         get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
 
     val reasonList = charArrayOf()
+    var bankReasonList: MutableList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +38,7 @@ class InternationalFundsTransferFragment :
     private fun setObservers() {
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
+            bankReasonList = it as MutableList<InternationalFundsTransferReasonList.ReasonList>
             reasonsSpinner.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
         })
@@ -45,7 +47,18 @@ class InternationalFundsTransferFragment :
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinner.setSelection(pos)
-            toast(data.toString())
+            if (bankReasonList.isNotEmpty()) {
+                println(data.toString())
+                bankReasonList[pos].code
+                bankReasonList[pos].reason
+
+
+                println(bankReasonList[pos].code)
+                println(bankReasonList[pos].reason)
+                toast("")
+            }
+
+
         }
     }
 

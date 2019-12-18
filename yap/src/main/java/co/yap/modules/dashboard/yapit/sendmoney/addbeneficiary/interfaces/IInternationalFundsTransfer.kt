@@ -28,6 +28,7 @@ interface IInternationalFundsTransfer {
         var fromFxRate: String?
         var fromFxRateCurrency: String?
         var toFxRate: String?
+        var rate: String?
         var toFxRateCurrency: String?
         var valid: Boolean
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>

@@ -151,17 +151,13 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.senderCurrency = response.data.data.fromCurrencyCode
                     state.receiverCurrency = response.data.data.toCurrencyCode
                     state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
-
                     state.fromFxRateCurrency = response.data.data.fromCurrencyCode
                     state.fromFxRate =
                         "${response.data.data.value?.amount} ${state.fromFxRateCurrency}"
-
-
                     state.toFxRateCurrency = response.data.data.toCurrencyCode
                     state.toFxRate =
                         "${response.data.data.fxRates?.get(0)?.rate} ${state.toFxRateCurrency}"
-
-
+                    state.rate = response.data.data.fxRates?.get(0)?.rate
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false

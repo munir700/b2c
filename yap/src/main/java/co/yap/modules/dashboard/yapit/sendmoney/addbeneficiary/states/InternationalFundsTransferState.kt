@@ -72,10 +72,17 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.fromFxRateCurrency)
         }
     @get:Bindable
-    override var toFxRate: String? = ""
+    override var toFxRate: String? = "0.0"
         set(value) {
             field = value
             notifyPropertyChanged(BR.toFxRate)
+        }
+
+    @get:Bindable
+    override var rate: String? = "0.0"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.rate)
         }
     @get:Bindable
     override var toFxRateCurrency: String? = ""
@@ -189,12 +196,16 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                     setSpanable(0.0)
                     ""
                 } else {
-                    val amount =
+                    var amount =
                         receiverCurrencyAmountFxRate?.let {
                             fxRateAmount?.toDouble()?.times(it.toDouble())
                         }
                     setSpanable(amount ?: 0.0)
-                    amount.toString()
+                    val amountFxRate = amount
+                    val receiveFxRate = rate!!.toDouble()
+                    val result = amountFxRate?.times(receiveFxRate)
+                    receiverCurrencyAmount = result.toString()
+                    receiverCurrencyAmount.toString()
                 }
             }
         }
