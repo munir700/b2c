@@ -19,7 +19,7 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
 
 
     @get:Bindable
-    override var houseHoldUserName: String ?= ""
+    override var houseHoldUserName: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.houseHoldUserName)

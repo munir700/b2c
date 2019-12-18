@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/house_hold_onboarding_navigation"
-    app:startDestination="@id/houseHoldUserContactFragment">
+    app:startDestination="@id/houseHoldUserInfoFragment">
 <!--    app:startDestination="@id/houseHoldUserInfoFragment">-->
 
     <fragment
@@ -11,6 +11,7 @@
 
         <action
             android:id="@+id/action_houseHoldUserInfoFragment_to_houseHoldUserContactFragment"
+            app:destination="@id/houseHoldUserContactFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
 
@@ -20,11 +21,24 @@
     <fragment
         android:id="@+id/houseHoldUserContactFragment"
         android:name="co.yap.modules.dashboard.store.household.onboarding.fragments.HouseHoldUserContactFragment">
-        <!--        <action-->
-        <!--            android:id="@+id/action_changeEmailFragment_to_genericOtpFragment"-->
-        <!--            app:destination="@id/genericOtpFragment"-->
-        <!--            app:enterAnim="@anim/slide_in_right"-->
-        <!--            app:exitAnim="@anim/slide_out_left" />-->
+
+        <action
+            android:id="@+id/action_houseHoldUserContactFragment_to_houseHoldSuccessFragment"
+            app:destination="@id/houseHoldSuccessFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/houseHoldSuccessFragment"
+        android:name="co.yap.modules.dashboard.store.household.onboarding.fragments.HouseHoldSuccessFragment">
+
+<!--        <action-->
+<!--            android:id="@+id/action_houseHoldUserInfoFragment_to_houseHoldUserContactFragment"-->
+<!--            app:enterAnim="@anim/slide_in_right"-->
+<!--            app:exitAnim="@anim/slide_out_left" />-->
 
     </fragment>
 

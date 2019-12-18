@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserContact
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserContactViewModel
 import kotlinx.android.synthetic.main.fragment_house_hold_user_contact_info.*
@@ -37,8 +36,8 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-                R.id.tvEditPhoneNumber -> {
-                    findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                R.id.btnNext -> {
+                    findNavController().navigate(R.id.action_houseHoldUserContactFragment_to_houseHoldSuccessFragment)
                 }
 
             }
