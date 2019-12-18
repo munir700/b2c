@@ -18,6 +18,7 @@ interface IHouseHoldUserContact {
         var background: Drawable?
         var backgroundConfirmMobile: Drawable?
         var mobileNoLength: Int
+        var confirmMobileNoLength: Int
         var etMobileNumber: EditText?
         var etMobileNumberConfirmMobile : EditText?
         var errorMessage: String

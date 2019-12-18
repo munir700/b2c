@@ -163,7 +163,7 @@
                     android:imeOptions="actionDone"
                     android:importantForAutofill="no"
                     android:inputType="phone"
-                    android:maxLength="@{viewModel.state.mobileNoLength}"
+                    android:maxLength="@{viewModel.state.confirmMobileNoLength}"
                     android:singleLine="true"
                     android:text="@={viewModel.state.confirmMobileNumber}"
                     app:layout_constraintBottom_toBottomOf="parent"

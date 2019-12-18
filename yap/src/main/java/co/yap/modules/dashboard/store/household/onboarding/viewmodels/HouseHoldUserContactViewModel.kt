@@ -36,10 +36,9 @@ class HouseHoldUserContactViewModel(application: Application) :
      }
 
     override fun getConfirmCcp(editText: EditText) {
-        editText.requestFocus()
+//        editText.requestFocus()
         state.etMobileNumberConfirmMobile = editText
-        state.etMobileNumberConfirmMobile!!.requestFocus()
-//        state.etMobileNumber!!.requestFocus()
+ //        state.etMobileNumber!!.requestFocus()
 //        state.etMobileNumber!!.setOnEditorActionListener(onEditorActionListener())
     }
 }
