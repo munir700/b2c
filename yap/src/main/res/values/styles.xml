@@ -82,6 +82,8 @@
         <item name="android:theme">@style/Theme.EditText</item>
         <item name="android:fontFamily">@font/roboto_regular</item>
         <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:maxLines">1</item>
 
     </style>
 

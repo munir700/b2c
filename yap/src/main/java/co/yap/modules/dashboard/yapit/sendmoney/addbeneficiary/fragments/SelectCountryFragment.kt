@@ -52,18 +52,18 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.nextButton -> {
-                    viewModel.state.selectedCountry?.let { it ->
-                        if (viewModel.state.isDomestic.get() == true && it.cashPickUp == false) {
-                            findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
-                        } else {
-                            it.cashPickUp?.let { cashPickup ->
-                                if (cashPickup) {
-                                    moveToTransferType()
-                                } else {
-                                    moveToAddBeneficiary()
-                                }
+                    viewModel.state.selectedCountry?.getCurrency()?.let { it ->
+                        //                        if (viewModel.state.isDomestic.get() == true && it.cashPickUp == false) {
+//                            findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
+//                        } else {
+                        it.cashPickUp?.let { cashPickup ->
+                            if (cashPickup) {
+                                moveToTransferType()
+                            } else {
+                                moveToAddBeneficiary()
                             }
                         }
+//                        }
                     }
                 }
 
@@ -74,11 +74,11 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
         })
     }
 
-    private fun moveToAddBeneficiary(){
+    private fun moveToAddBeneficiary() {
         findNavController().navigate(R.id.action_selectCountryFragment_to_addBeneficiaryFragment)
     }
 
-    private fun moveToTransferType(){
+    private fun moveToTransferType() {
         findNavController().navigate(R.id.action_selectCountryFragment_to_transferTypeFragment)
     }
 

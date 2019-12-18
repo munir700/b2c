@@ -59,9 +59,10 @@ class PrefixSuffixEditText : AppCompatEditText {
     var prefixDrawable: Drawable? = null
         set(value) {
             field = value
+            //scale()
             if (value != null) {
 //                prefixBitmap = BitmapFactory.decodeResource(resources, R.drawable.flag_dele)
-                prefixBitmap = drawableToBitmap(value)
+                prefixBitmap = drawableToBitmap(prefixDrawable)
                 calculatePrefix()
                 invalidate()
             }
@@ -100,7 +101,7 @@ class PrefixSuffixEditText : AppCompatEditText {
         )
         mDrawableWidth = a.getDimensionPixelSize(
             R.styleable.PrefixSuffixEditText_pse_compoundDrawableWidth,
-           -1
+            -1
         )
         mDrawableHeight = a.getDimensionPixelSize(
             R.styleable.PrefixSuffixEditText_pse_compoundDrawableHeight,
@@ -147,7 +148,8 @@ class PrefixSuffixEditText : AppCompatEditText {
         if (!isPassword && isClearIconVisible) {
             handleClearButton()
         }
-        prefixDrawable = mPrefixDrawable
+
+        prefixDrawable = scale()
         if (mPrefix != null && mPrefix!!.length > 0) {
             calculatePrefix()
         }
@@ -319,7 +321,12 @@ class PrefixSuffixEditText : AppCompatEditText {
         if (drawable is BitmapDrawable) {
             val bitmapDrawable: BitmapDrawable = drawable as BitmapDrawable
             if (bitmapDrawable.bitmap != null) {
-                return bitmapDrawable.bitmap
+                val b = Bitmap.createScaledBitmap(bitmapDrawable.bitmap,
+                    mDrawableWidth,
+                    mDrawableHeight,
+                    false
+                )
+                return b
             }
         }
         bitmap = if (drawable?.intrinsicWidth!! <= 0 || drawable.intrinsicHeight <= 0) {
@@ -330,8 +337,8 @@ class PrefixSuffixEditText : AppCompatEditText {
             ) // Single color bitmap will be created of 1x1 pixel
         } else {
             Bitmap.createBitmap(
-                mDrawableWidth,
-                mDrawableHeight,
+                drawable.intrinsicWidth,
+                drawable.intrinsicHeight,
                 Bitmap.Config.ARGB_8888
             )
         }
@@ -451,7 +458,6 @@ class PrefixSuffixEditText : AppCompatEditText {
     }
 
 
-
     private fun calculatePrefix() {
         if (mOriginalLeftPadding == -1f) {
             val prefix = mPrefix
@@ -483,6 +489,51 @@ class PrefixSuffixEditText : AppCompatEditText {
         invalidate()
     }
 
+    private fun scale(): Drawable? {
+        if (mDrawableHeight > 0 || mDrawableWidth > 0) {
+            // for (drawable in drawables) {
+//                if (drawable == null) {
+//                    continue
+//                }
+
+            val realBounds =
+                Rect(0, 0, mPrefixDrawable?.intrinsicWidth!!, mPrefixDrawable?.intrinsicHeight!!)
+            var actualDrawableWidth = realBounds.width().toFloat()
+            var actualDrawableHeight = realBounds.height().toFloat()
+            val actualDrawableRatio = actualDrawableHeight / actualDrawableWidth
+
+            val scale: Float
+            // check if both width and height defined then adjust drawable size according to the ratio
+            if (mDrawableHeight > 0 && mDrawableWidth > 0) {
+                val placeholderRatio = mDrawableHeight / mDrawableWidth.toFloat()
+                if (placeholderRatio > actualDrawableRatio) {
+                    scale = mDrawableWidth / actualDrawableWidth
+                } else {
+                    scale = mDrawableHeight / actualDrawableHeight
+                }
+            } else if (mDrawableHeight > 0) { // only height defined
+                scale = mDrawableHeight / actualDrawableHeight
+            } else { // only width defined
+                scale = mDrawableWidth / actualDrawableWidth
+            }
+
+            actualDrawableWidth *= scale
+            actualDrawableHeight *= scale
+
+            realBounds.right = realBounds.left + Math.round(actualDrawableWidth)
+            realBounds.bottom = realBounds.top + Math.round(actualDrawableHeight)
+
+            mPrefixDrawable?.bounds = realBounds
+            //}
+        } else {
+            //for (drawable in drawables) {
+
+            mPrefixDrawable?.bounds =
+                Rect(0, 0, mPrefixDrawable?.intrinsicWidth!!, mPrefixDrawable?.intrinsicHeight!!)
+            //}
+        }
+        return mPrefixDrawable
+    }
 
     companion object {
 

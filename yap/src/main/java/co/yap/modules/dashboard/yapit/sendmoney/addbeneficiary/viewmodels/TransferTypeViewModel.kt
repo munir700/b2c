@@ -27,7 +27,7 @@ class TransferTypeViewModel(application: Application) :
                     parentViewModel?.transferType?.value =
                         (SendMoneyBeneficiaryType.DOMESTIC.name)
                 } else {
-                    it.rmtCountry?.let { isRmt ->
+                    it.getCurrency()?.rmtCountry?.let { isRmt ->
                         if (isRmt) {
                             parentViewModel?.transferType?.value =
                                 (SendMoneyBeneficiaryType.RMT.name)
