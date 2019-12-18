@@ -8,21 +8,21 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.BaseBindingSearchRecylerAdapter
 import co.yap.yapcore.interfaces.OnItemClickListener
 
-class AllBeneficiriesAdapter(
+class AllBeneficiariesAdapter(
     private val list: MutableList<Beneficiary>
-) : BaseBindingSearchRecylerAdapter<Beneficiary, RecyclerView.ViewHolder>(list) {
+) : BaseBindingSearchRecylerAdapter<Beneficiary, AllBeneficiariesAdapter.AllBeneficiariesItemViewHolder>(
+    list
+) {
 
     override fun getLayoutIdForViewType(viewType: Int): Int = R.layout.layout_item_beneficiary
 
-    override fun onCreateViewHolder(binding: ViewDataBinding): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(binding: ViewDataBinding): AllBeneficiariesItemViewHolder {
         return AllBeneficiariesItemViewHolder(binding as LayoutItemBeneficiaryBinding)
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AllBeneficiariesItemViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        if (holder is AllBeneficiariesItemViewHolder) {
             holder.onBind(list[position], position, onItemClickListener)
-        }
     }
 
     class AllBeneficiariesItemViewHolder(
@@ -44,9 +44,9 @@ class AllBeneficiriesAdapter(
 
     override fun filterItem(constraint: CharSequence?, item: Beneficiary): Boolean {
         val filterString = constraint.toString().toLowerCase()
-        val filterableString = item.title
+        val filterableString = item.fullName().toLowerCase()
 
-        return (filterableString?.toLowerCase()?.contains(filterString) ?: false)
+        return filterableString.contains(filterString)
     }
 
 }
