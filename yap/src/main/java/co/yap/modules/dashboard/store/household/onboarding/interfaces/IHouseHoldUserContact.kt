@@ -32,6 +32,9 @@ interface IHouseHoldUserContact {
         val clickEvent: SingleClickEvent
         fun handlePressOnAdd(id: Int)
         fun handlePressOnBackButton()
+        fun getCcp(etMobileNumber: EditText)
+        fun getConfirmCcp(etMobileNumber: EditText)
+
 //        val backButtonPressEvent: SingleLiveEvent<Boolean>
     }
 

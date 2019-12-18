@@ -17,13 +17,6 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
     IHouseHoldUserContact.State {
     val context = application.applicationContext
 
-    @get:Bindable
-    override var mobileNumber: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.mobileNumber)
-
-        }
 
     @get:Bindable
     override var confirmMobileNumber: String = ""
@@ -40,7 +33,8 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
         }
 
     @get:Bindable
-    override var backgroundConfirmMobile: Drawable? = context.getDrawable(R.drawable.bg_plain_edit_text)
+    override var backgroundConfirmMobile: Drawable? =
+        context.getDrawable(R.drawable.bg_plain_edit_text)
         set(value) {
             field = value
             notifyPropertyChanged(BR.backgroundConfirmMobile)
@@ -87,8 +81,17 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
         set(value) {
             field = value
             notifyPropertyChanged(BR.etMobileNumber)
-            findKeyBoardFocus()
+            findKeyBoardFocus(etMobileNumber!!)
             registerCarrierEditText()
+        }
+
+    @get:Bindable
+    override var etMobileNumberConfirmMobile: EditText? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.etMobileNumberConfirmMobile)
+            findKeyBoardFocus(etMobileNumberConfirmMobile!!)
+            registerCarrierEditTextConfirmMobile()
         }
 
 
@@ -129,11 +132,11 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
             notifyPropertyChanged(BR.errorMessageConfirmMobile)
             if (errorMessageConfirmMobile.isNotEmpty()) {
                 backgroundConfirmMobile = context.getDrawable(R.drawable.bg_red_line)
-                drawbleRight =
+                drawbleRightConfirmMobile =
                     context!!.resources.getDrawable(co.yap.yapcore.R.drawable.ic_error, null)
             } else {
                 backgroundConfirmMobile = context.getDrawable(R.drawable.bg_plain_edit_text)
-                drawbleRight = null
+                drawbleRightConfirmMobile = null
             }
         }
 
@@ -173,8 +176,43 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
         })
     }
 
-    fun findKeyBoardFocus() {
-        etMobileNumber!!.getViewTreeObserver().addOnGlobalLayoutListener(
+    fun registerCarrierEditTextConfirmMobile() {
+
+        val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(context)
+        ccpLoadNumber!!.registerCarrierNumberEditText(this.etMobileNumberConfirmMobile!!)
+
+        ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
+            CountryCodePicker.PhoneNumberValidityChangeListener {
+            override fun onValidityChanged(isValidNumber: Boolean) {
+                if (isValidNumber) {
+                    mobileNoLength = 11
+                    if (confirmMobileNumber.length == 11) {
+                        setSuccessUIConfirmMobile()
+                        drawbleRightConfirmMobile =
+                            context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
+                        valid = true
+
+                    } else {
+                        setSuccessUIConfirmMobile()
+                    }
+                } else {
+//                    mobileNoLength=9
+                    setSuccessUIConfirmMobile()
+                    if (confirmMobileNumber.toString().replace(" ", "").trim().length >= 9) {
+                        setErrorLayoutConfirmMobile()
+
+                    } else {
+                        setSuccessUIConfirmMobile()
+
+                    }
+
+                }
+            }
+        })
+    }
+
+    fun findKeyBoardFocus(editText: EditText) {
+        editText!!.getViewTreeObserver().addOnGlobalLayoutListener(
             object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
                     /* if (etMobileNumber!!.isFocused()) {
@@ -211,6 +249,20 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
     fun setErrorLayout() {
         drawbleRight = context.getDrawable(R.drawable.ic_error)
         background = context!!.resources.getDrawable(R.drawable.bg_red_line, null)
+    }
+
+    fun setSuccessUIConfirmMobile() {
+        drawbleRightConfirmMobile = null
+        backgroundConfirmMobile = context!!.resources.getDrawable(R.drawable.bg_plain_edit_text, null)
+//        activeFieldValue = true
+//        mobileError = ""
+        valid = false
+
+    }
+
+    fun setErrorLayoutConfirmMobile() {
+        drawbleRightConfirmMobile = context.getDrawable(R.drawable.ic_error)
+        backgroundConfirmMobile = context!!.resources.getDrawable(R.drawable.bg_red_line, null)
     }
 
 }
