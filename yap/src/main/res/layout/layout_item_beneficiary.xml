@@ -161,10 +161,10 @@
                     tools:visibility="visible" />
 
 
-                <co.yap.widgets.CoreCircularImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_20sdp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_20sdp"
                     tools:src="@drawable/flag_ae"
                     app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
 
