@@ -24,7 +24,6 @@ import com.google.gson.Gson
 import io.michaelrocks.libphonenumber.android.NumberParseException
 import io.michaelrocks.libphonenumber.android.PhoneNumberUtil
 import io.michaelrocks.libphonenumber.android.Phonenumber
-import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.*
 
@@ -567,7 +566,15 @@ class CountryCodePicker : RelativeLayout {
 
         holder = findViewById(R.id.countryCodeHolder)
         imageViewFlag = findViewById(R.id.ivFlag)
-        textView_selectedCountry!!.setText("+971")
+        if (setIconVisibility) {
+            relativeClickConsumer!!.setPadding(0, 0, 0, 0)
+            textView_selectedCountry!!.setText("971")
+
+        } else {
+            textView_selectedCountry!!.setText("+971")
+
+        }
+
         textView_selectedCountry!!.setTextColor(tvCountryCodePickerColor)
         imageViewFlag!!.setImageResource(R.drawable.bitmap)
 
@@ -617,6 +624,8 @@ class CountryCodePicker : RelativeLayout {
                 a.getBoolean(R.styleable.CountryCodePicker_ccp_showDropDown, setIconVisibility)
             if (setIconVisibility) {
                 ivDropDownIconDrawable!!.visibility = View.VISIBLE
+                relativeClickConsumer!!.setPadding(0, 0, 0, 0)
+                textView_selectedCountry!!.setText("971")
 
             }
 

@@ -8,17 +8,22 @@ import co.yap.yapcore.SingleClickEvent
 interface IHouseHoldUserContact {
 
     interface State : IBase.State {
-        var mobileNumber: String
-        var confirmMobileNumber: String
-        var valid: Boolean
+
+         var confirmMobileNumber: String
 
         var countryCode: String
         var mobile: String
         var drawbleRight: Drawable?
+        var drawbleRightConfirmMobile: Drawable?
         var background: Drawable?
+        var backgroundConfirmMobile: Drawable?
         var mobileNoLength: Int
         var etMobileNumber: EditText?
+        var etMobileNumberConfirmMobile : EditText?
         var errorMessage: String
+        var errorMessageConfirmMobile: String
+
+        var valid: Boolean
 
     }
 

@@ -9,12 +9,12 @@ import android.widget.EditText
 import androidx.databinding.Bindable
 import co.yap.BR
 import co.yap.R
-import co.yap.modules.dashboard.store.household.onboarding.interfaces.IBaseOnboarding
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserContact
 import co.yap.widgets.mobile.CountryCodePicker
 import co.yap.yapcore.BaseState
 
-class HouseHoldUserContactState(application:Application)  : BaseState(), IHouseHoldUserContact.State {
+class HouseHoldUserContactState(application: Application) : BaseState(),
+    IHouseHoldUserContact.State {
     val context = application.applicationContext
 
     @get:Bindable
@@ -23,7 +23,7 @@ class HouseHoldUserContactState(application:Application)  : BaseState(), IHouseH
             field = value
             notifyPropertyChanged(BR.mobileNumber)
 
-               }
+        }
 
     @get:Bindable
     override var confirmMobileNumber: String = ""
@@ -32,12 +32,18 @@ class HouseHoldUserContactState(application:Application)  : BaseState(), IHouseH
             notifyPropertyChanged(BR.confirmMobileNumber)
         }
 
-
     @get:Bindable
-    override var background: Drawable? = context.getDrawable(R.drawable.bg_phone_number_under_line)
+    override var background: Drawable? = context.getDrawable(R.drawable.bg_plain_edit_text)
         set(value) {
             field = value
             notifyPropertyChanged(BR.background)
+        }
+
+    @get:Bindable
+    override var backgroundConfirmMobile: Drawable? = context.getDrawable(R.drawable.bg_plain_edit_text)
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.backgroundConfirmMobile)
         }
 
 
@@ -46,6 +52,14 @@ class HouseHoldUserContactState(application:Application)  : BaseState(), IHouseH
         set(value) {
             field = value
             notifyPropertyChanged(BR.drawbleRight)
+
+        }
+
+    @get:Bindable
+    override var drawbleRightConfirmMobile: Drawable? = null
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.drawbleRightConfirmMobile)
 
         }
 
@@ -98,17 +112,33 @@ class HouseHoldUserContactState(application:Application)  : BaseState(), IHouseH
             field = value
             notifyPropertyChanged(BR.errorMessage)
             if (errorMessage.isNotEmpty()) {
-                background = context.getDrawable(R.drawable.bg_edit_text_red_under_line)
+                background = context.getDrawable(R.drawable.bg_red_line)
                 drawbleRight =
                     context!!.resources.getDrawable(co.yap.yapcore.R.drawable.ic_error, null)
-            }else{
-                background = context.getDrawable(R.drawable.bg_phone_number_under_line)
+            } else {
+                background = context.getDrawable(R.drawable.bg_plain_edit_text)
                 drawbleRight = null
             }
         }
 
 
-      fun registerCarrierEditText() {
+    @get:Bindable
+    override var errorMessageConfirmMobile: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.errorMessageConfirmMobile)
+            if (errorMessageConfirmMobile.isNotEmpty()) {
+                backgroundConfirmMobile = context.getDrawable(R.drawable.bg_red_line)
+                drawbleRight =
+                    context!!.resources.getDrawable(co.yap.yapcore.R.drawable.ic_error, null)
+            } else {
+                backgroundConfirmMobile = context.getDrawable(R.drawable.bg_plain_edit_text)
+                drawbleRight = null
+            }
+        }
+
+
+    fun registerCarrierEditText() {
 
         val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(context)
         ccpLoadNumber!!.registerCarrierNumberEditText(this.etMobileNumber!!)
@@ -143,7 +173,7 @@ class HouseHoldUserContactState(application:Application)  : BaseState(), IHouseH
         })
     }
 
-      fun findKeyBoardFocus() {
+    fun findKeyBoardFocus() {
         etMobileNumber!!.getViewTreeObserver().addOnGlobalLayoutListener(
             object : ViewTreeObserver.OnGlobalLayoutListener {
                 override fun onGlobalLayout() {
@@ -171,16 +201,16 @@ class HouseHoldUserContactState(application:Application)  : BaseState(), IHouseH
     fun setSuccessUI() {
         drawbleRight = null
         background =
-            context!!.resources.getDrawable(R.drawable.bg_edit_text_active_under_line, null)
+            context!!.resources.getDrawable(R.drawable.bg_plain_edit_text, null)
 //        activeFieldValue = true
 //        mobileError = ""
         valid = false
 
     }
 
-      fun setErrorLayout() {
+    fun setErrorLayout() {
         drawbleRight = context.getDrawable(R.drawable.ic_error)
-        background = context!!.resources.getDrawable(R.drawable.bg_edit_text_red_under_line, null)
+        background = context!!.resources.getDrawable(R.drawable.bg_red_line, null)
     }
 
 }

@@ -8,7 +8,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
 
-class HouseHoldSubscriptionViewModel(application: Application) :
+class SubscriptionSelectionViewModel(application: Application) :
     BaseViewModel<IHouseHoldSubscription.State>(application),
     IHouseHoldSubscription.ViewModel {
 

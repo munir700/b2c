@@ -50,8 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/llFlagHolder"
-            android:singleLine="true"
-             />
+            android:singleLine="true" />
 
         <ImageView
             android:id="@+id/ivDropDownIcon"
@@ -60,11 +59,9 @@
             android:layout_alignBaseline="@+id/tvSelectedCountry"
             android:layout_toRightOf="@+id/tvSelectedCountry"
             android:paddingBottom="@dimen/small"
-            android:visibility="gone"
             android:src="@drawable/ic_chevron_down"
-            android:tint="@color/colorPrimary" />
-
-
+            android:tint="@color/colorPrimaryDark"
+            android:visibility="gone" />
 
     </RelativeLayout>
 </RelativeLayout>

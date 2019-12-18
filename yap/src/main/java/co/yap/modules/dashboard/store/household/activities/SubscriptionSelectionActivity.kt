@@ -12,19 +12,19 @@ import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.cards.addpaymentcard.spare.SpareCardsLandingAdapter
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
-import co.yap.modules.dashboard.store.household.viewmodels.HouseHoldSubscriptionViewModel
+import co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelectionViewModel
 import co.yap.yapcore.BaseBindingActivity
-import kotlinx.android.synthetic.main.activity_yap_house_hold_subscription_selction.*
+import kotlinx.android.synthetic.main.activity_house_hold_subscription_selction.*
 
 class SubscriptionSelectionActivity :
     BaseBindingActivity<IHouseHoldSubscription.ViewModel>(),
     IHouseHoldSubscription.View, SpareCardsLandingAdapter.OnItemClickedListener {
 
     override fun getBindingVariable(): Int = BR.viewModel
-    override fun getLayoutId(): Int = R.layout.activity_yap_house_hold_subscription_selction
+    override fun getLayoutId(): Int = R.layout.activity_house_hold_subscription_selction
 
     override val viewModel: IHouseHoldSubscription.ViewModel
-        get() = ViewModelProviders.of(this).get(HouseHoldSubscriptionViewModel::class.java)
+        get() = ViewModelProviders.of(this).get(SubscriptionSelectionViewModel::class.java)
 
     companion object {
         fun newIntent(context: Context): Intent {

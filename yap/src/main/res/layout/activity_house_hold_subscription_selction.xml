@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.store.household.viewmodels.HouseHoldSubscriptionViewModel" />
+            type="co.yap.modules.dashboard.store.household.viewmodels.SubscriptionSelectionViewModel" />
 
     </data>
 

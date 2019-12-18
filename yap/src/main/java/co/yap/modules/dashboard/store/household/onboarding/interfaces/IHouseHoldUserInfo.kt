@@ -29,7 +29,6 @@ interface IHouseHoldUserInfo {
         var refreshField: Boolean
         var setSelection: Int
         var handleBackPress: Int
-        var emailTitle: String
         var emailVerificationTitle: String
         var emailBtnTitle: String
         var twoWayTextWatcher: String

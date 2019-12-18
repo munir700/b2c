@@ -34,6 +34,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
             notifyPropertyChanged(BR.valid)
             setFirstNameTextWatcher(firstName)
             validate()
+            notifyPropertyChanged(BR.valid)
         }
 
     @get:Bindable
@@ -42,6 +43,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
             field = value
             notifyPropertyChanged(BR.firstNameError)
             notifyPropertyChanged(BR.valid)
+
         }
 
     @get:Bindable
@@ -52,6 +54,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
             notifyPropertyChanged(BR.valid)
             setLastNameTextWatcher(lastName)
             validate()
+            notifyPropertyChanged(BR.valid)
         }
 
     @get:Bindable
@@ -125,19 +128,13 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
 
 
     @get:Bindable
-    override var emailTitle: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.emailTitle)
-        }
-
-    @get:Bindable
     override var twoWayTextWatcher: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.twoWayTextWatcher)
             settwoWayTextWatcher()
             validate()
+            notifyPropertyChanged(BR.valid)
         }
 
 
@@ -190,10 +187,10 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
     @get:Bindable
     override var valid: Boolean = false
         get() = validate()
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.valid)
-        }
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.valid)
+//        }
 
     private fun validate(): Boolean {
         return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && Utils.validateEmail(
@@ -214,6 +211,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
                 notifyPropertyChanged(BR.firstNameError)
                 drawbleRightFirstName = ctx!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
                 validate()
+                notifyPropertyChanged(BR.valid)
 
             } else {
                 valid = false
@@ -226,6 +224,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
             drawbleRightFirstName = null
 
         }
+
     }
 
     private fun setLastNameTextWatcher(value: String) {
@@ -234,17 +233,18 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
 
             if (StringUtils.validateName(value)) {
 //                valid = true
+
                 lastNameError = ""
                 notifyPropertyChanged(BR.lastNameError)
                 drawbleRightLastName =
                     ctx!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
-
+                notifyPropertyChanged(BR.valid)
             } else {
                 valid = false
                 lastNameError = "error"
                 notifyPropertyChanged(BR.lastNameError)
                 drawbleRightLastName = null
-
+                notifyPropertyChanged(BR.valid)
             }
         } else {
             drawbleRightLastName = null
@@ -259,6 +259,8 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
 //        valid = true
         emailError = ""
         drawbleRight = ctx!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
+        validate()
+        notifyPropertyChanged(BR.valid)
     }
 
     private fun setErrorUI(): Boolean {
@@ -274,6 +276,8 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
         refreshField = true
         valid = false
         drawbleRight = null
+        validate()
+        notifyPropertyChanged(BR.valid)
     }
 
     fun settwoWayTextWatcher() {
@@ -285,5 +289,7 @@ class HouseHoldUserInfoStates(var application: Application) : BaseState(),
                 setDefaultUI()
             }
         }
+        validate()
+        notifyPropertyChanged(BR.valid)
     }
 }
