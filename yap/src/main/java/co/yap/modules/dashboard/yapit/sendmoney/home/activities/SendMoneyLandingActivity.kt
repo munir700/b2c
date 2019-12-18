@@ -26,7 +26,6 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.PagingState
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -140,11 +139,6 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 }
             })
         }
-    }
-
-    private fun setupRecent() {
-        if (viewModel.adapter.get() == null && !viewModel.state.isSearching.get()!!) // use `!!` because its default value is set it can never be null
-            viewModel.requestRecentBeneficiaries()
     }
 
     private val recentItemClickListener = object : OnItemClickListener {

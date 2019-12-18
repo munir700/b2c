@@ -20,6 +20,8 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:focusableInTouchMode="true"
+        android:paddingEnd="@dimen/margin_extra_small"
+        android:paddingStart="@dimen/margin_extra_small"
         android:background="@android:color/white">
 
         <androidx.appcompat.widget.AppCompatTextView
