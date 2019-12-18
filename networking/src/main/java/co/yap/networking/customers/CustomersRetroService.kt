@@ -125,7 +125,7 @@ interface CustomersRetroService {
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
 
     @POST(CustomersRepository.URL_SEARCH_BANKS)
-    suspend fun findOtherBank(otherBankQuery: OtherBankQuery): Response<AddBeneficiaryResponseDTO>
+    suspend fun findOtherBank(@Body otherBankQuery: OtherBankQuery): Response<AddBeneficiaryResponseDTO>
 
     @GET(CustomersRepository.URL_SEARCH_BANK_PARAMS)
     suspend fun getOtherBankParams(@Query("other_bank_country") countryName: String): Response<BankParamsResponse>

@@ -64,9 +64,7 @@ class BankDetailsViewModel(application: Application) :
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
                         SendMoneyBeneficiaryType.RMT -> {
-                            state.buttonText = "Find Bank"
-                            state.hideSwiftSection = false
-                            searchRMTBanks(otherSearchParams(parentViewModel?.selectedCountry?.value))
+                            clickEvent.setValue(id)
                         }
                         SendMoneyBeneficiaryType.SWIFT -> {
                             clickEvent.setValue(id)
@@ -80,26 +78,6 @@ class BankDetailsViewModel(application: Application) :
         } else {
             clickEvent.setValue(id)
         }
-    }
-
-    private fun otherSearchParams(country: Country?): OtherBankQuery {
-        val query = OtherBankQuery()
-        parentViewModel?.selectedCountry?.value?.let {
-            query.max_records = 10
-            query.other_bank_country = it.getCurrency()?.name
-        }
-
-//        val bankName = OtherBankQuery.Params()
-//        bankName.id = ""
-//        query.params?.add(bankName)
-//
-//        val branchName = OtherBankQuery.Params()
-//        query.params?.add(branchName)
-//
-//        val bankCity = OtherBankQuery.Params()
-//        query.params?.add(bankCity)
-
-        return query
     }
 
     override fun onResume() {
@@ -171,6 +149,5 @@ class BankDetailsViewModel(application: Application) :
     }
 
     override fun retry() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }
