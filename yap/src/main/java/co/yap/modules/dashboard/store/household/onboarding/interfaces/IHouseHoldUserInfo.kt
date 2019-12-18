@@ -11,15 +11,12 @@ interface IHouseHoldUserInfo {
         var lastName: String
         var emailAddress: String
         var valid: Boolean
-        //
 
-        var dummyStrings: Array<String>
         var firstNameError: String
         var lastNameError: String
         var drawbleRight: Drawable?
         var drawbleRightLastName: Drawable?
         var drawbleRightFirstName: Drawable?
-
 
         var email: String
         var emailError: String

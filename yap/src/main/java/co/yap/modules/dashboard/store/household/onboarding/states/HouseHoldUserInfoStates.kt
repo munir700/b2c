@@ -14,8 +14,7 @@ import co.yap.yapcore.helpers.Utils
 class HouseHoldUserInfoStates(var application: Application) : BaseState(),
     IHouseHoldUserInfo.State {
 
-    override var dummyStrings: Array<String> = arrayOf("0123")
-    var ctx: Context = application.applicationContext
+     var ctx: Context = application.applicationContext
     override var verificationCompleted: Boolean = false
 
     @get:Bindable
