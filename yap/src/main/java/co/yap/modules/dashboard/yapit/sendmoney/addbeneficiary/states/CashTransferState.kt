@@ -9,9 +9,11 @@ import androidx.databinding.library.baseAdapters.BR
 import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.Utils
 
 class CashTransferState(application: Application) : BaseState(), ICashTransfer.State {
 
@@ -51,6 +53,13 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.amount)
             clearError()
+
+            if (amount.isNotEmpty()) {
+                setSpannableFee(findFee(amount.toDouble()).toString())
+            } else {
+                setSpannableFee("0.0")
+            }
+
         }
 
     @get:Bindable
@@ -134,6 +143,28 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         }
 
     @get:Bindable
+    override var transferFee: String = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFee)
+        }
+
+    @get:Bindable
+    override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeSpannable)
+        }
+
+    @get:Bindable
+    override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+        ArrayList()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.listItemRemittanceFee)
+        }
+
+    @get:Bindable
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
         set(value) {
@@ -182,6 +213,45 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         } else if (amount == "") {
             valid = false
         }
+    }
+
+
+    private fun findFee(
+        value: Double
+    ): Double {
+        var totalAmount = 0.0
+        val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
+            listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
+        if (remittanceTierFee != null) {
+            if (remittanceTierFee.isNotEmpty()) {
+                val feeAmount = remittanceTierFee[0].feeAmount
+                val feeAmountVAT = remittanceTierFee[0]?.vatAmount
+                if (feeAmount != null) {
+                    totalAmount = feeAmount + feeAmountVAT!!
+                }
+            }
+        }
+        return totalAmount
+    }
+
+    private fun setSpannableFee(totalAmount: String) {
+        transferFee =
+            Translator.getString(
+                context,
+                Strings.screen_cash_pickup_funds_display_text_fee
+            ).format(
+                "AED",
+                Utils.getFormattedCurrency(totalAmount)
+            )
+        feeAmountSpannableString =
+            Utils.getSppnableStringForAmount(
+                context,
+                transferFee,
+                "AED",
+                Utils.getFormattedCurrencyWithoutComma(totalAmount)
+            )
+
+
     }
 
 }

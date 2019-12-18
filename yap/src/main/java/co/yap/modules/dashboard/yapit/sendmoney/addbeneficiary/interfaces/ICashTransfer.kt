@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import androidx.lifecycle.MutableLiveData
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -43,6 +44,11 @@ interface ICashTransfer {
         var noteValue: String
         var imageUrl: String
         var feeStringVisibility: Boolean
+
+        var transferFee: String
+        var transferFeeSpannable: SpannableStringBuilder?
+        var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
+
 
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
