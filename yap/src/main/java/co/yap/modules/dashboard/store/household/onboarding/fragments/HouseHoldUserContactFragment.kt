@@ -7,10 +7,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.store.household.onboarding.HouseHoldOnboardingActivity
 import co.yap.modules.dashboard.store.household.onboarding.interfaces.IHouseHoldUserContact
 import co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserContactViewModel
 import kotlinx.android.synthetic.main.fragment_house_hold_user_contact_info.*
-import kotlinx.android.synthetic.main.fragment_mobile.*
 import kotlinx.android.synthetic.main.fragment_mobile.etMobileNumber
 
 class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContact.ViewModel>(),
@@ -26,9 +26,8 @@ class HouseHoldUserContactFragment : BaseOnBoardingFragment<IHouseHoldUserContac
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getCcp(etMobileNumber)!!
         viewModel.getConfirmCcp(etConfirmMobileNumber)!!
-
+        viewModel.getCcp(etMobileNumber)!!
 
     }
 

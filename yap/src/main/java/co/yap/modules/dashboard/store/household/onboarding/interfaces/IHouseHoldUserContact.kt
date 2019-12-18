@@ -9,8 +9,8 @@ interface IHouseHoldUserContact {
 
     interface State : IBase.State {
 
-         var confirmMobileNumber: String
-
+        var houseHoldUserName: String?
+        var confirmMobileNumber: String
         var countryCode: String
         var mobile: String
         var drawbleRight: Drawable?
@@ -20,7 +20,7 @@ interface IHouseHoldUserContact {
         var mobileNoLength: Int
         var confirmMobileNoLength: Int
         var etMobileNumber: EditText?
-        var etMobileNumberConfirmMobile : EditText?
+        var etMobileNumberConfirmMobile: EditText?
         var errorMessage: String
         var errorMessageConfirmMobile: String
 

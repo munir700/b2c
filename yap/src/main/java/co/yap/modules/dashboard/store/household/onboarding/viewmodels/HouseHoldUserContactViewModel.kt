@@ -26,19 +26,16 @@ class HouseHoldUserContactViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
-
+        state.houseHoldUserName = houseHoldUserName
     }
 
     override fun getCcp(editText: EditText) {
         editText.requestFocus()
         state.etMobileNumber = editText
         state.etMobileNumber!!.requestFocus()
-     }
+    }
 
     override fun getConfirmCcp(editText: EditText) {
-//        editText.requestFocus()
         state.etMobileNumberConfirmMobile = editText
- //        state.etMobileNumber!!.requestFocus()
-//        state.etMobileNumber!!.setOnEditorActionListener(onEditorActionListener())
     }
 }

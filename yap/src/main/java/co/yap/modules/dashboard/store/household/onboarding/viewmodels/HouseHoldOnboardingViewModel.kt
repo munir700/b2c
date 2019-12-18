@@ -20,5 +20,4 @@ class HouseHoldOnboardingViewModel(application: Application) :
     override fun handlePressOnTickButton() {
 
     }
-
 }

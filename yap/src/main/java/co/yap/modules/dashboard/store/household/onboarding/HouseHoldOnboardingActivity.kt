@@ -20,6 +20,7 @@ import co.yap.yapcore.interfaces.IBaseNavigator
 class HouseHoldOnboardingActivity : BaseBindingActivity<IBaseOnboarding.ViewModel>(), INavigator,
     IFragmentHolder {
 
+
     companion object {
         fun newIntent(context: Context): Intent {
             return Intent(context, HouseHoldOnboardingActivity::class.java)

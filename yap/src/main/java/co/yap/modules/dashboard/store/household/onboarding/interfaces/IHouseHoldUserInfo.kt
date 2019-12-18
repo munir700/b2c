@@ -43,6 +43,7 @@ interface IHouseHoldUserInfo {
         val clickEvent: SingleClickEvent
         fun handlePressOnNext(id: Int)
         fun handlePressOnBackButton()
+        fun setUserName()
 //        val backButtonPressEvent: SingleLiveEvent<Boolean>
 
     }

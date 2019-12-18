@@ -454,6 +454,14 @@ object UIBinder {
         view.text = Translator.getString(view.context, textKey, *concat)
     }
 
+    @BindingAdapter("textVal", "concatVal")
+    @JvmStatic
+    fun setconcatVal(tv: TextView, textKey: String, concat: String) {
+        Translator.getString(tv.context, textKey)
+        tv.text =  String.format( Translator.getString(tv.context, textKey),'\n'+ concat)
+
+    }
+
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textId: Int, concat: Array<String>) {

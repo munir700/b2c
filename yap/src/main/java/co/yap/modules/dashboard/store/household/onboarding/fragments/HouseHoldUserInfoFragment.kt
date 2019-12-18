@@ -35,6 +35,7 @@ class HouseHoldUserInfoFragment : BaseOnBoardingFragment<IHouseHoldUserInfo.View
             when (it) {
 
                 R.id.btnNext -> {
+                    viewModel.setUserName()
                     findNavController().navigate(R.id.action_houseHoldUserInfoFragment_to_houseHoldUserContactFragment)
                 }
 

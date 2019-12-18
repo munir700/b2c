@@ -14,6 +14,7 @@ interface IBaseOnboarding {
         fun handlePressOnBackButton()
         fun handlePressOnTickButton()
         val backButtonPressEvent: SingleLiveEvent<Boolean>
+
     }
 
     interface View : IBase.View<ViewModel>

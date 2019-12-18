@@ -22,9 +22,15 @@ class HouseHoldUserInfoViewModel(application: Application) :
     override fun handlePressOnBackButton() {
     }
 
+    override fun setUserName() {
+        houseHoldUserName = state.firstName
+    }
+
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
+        houseHoldUserName = "testUser"
+        state.firstName
 
     }
 

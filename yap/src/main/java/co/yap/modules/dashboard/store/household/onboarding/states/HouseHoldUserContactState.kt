@@ -19,6 +19,13 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
 
 
     @get:Bindable
+    override var houseHoldUserName: String ?= ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.houseHoldUserName)
+        }
+
+    @get:Bindable
     override var confirmMobileNumber: String = ""
         set(value) {
             field = value
@@ -96,7 +103,6 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
         set(value) {
             field = value
             notifyPropertyChanged(BR.etMobileNumberConfirmMobile)
-//            findKeyBoardFocus(etMobileNumberConfirmMobile!!)
             registerCarrierEditTextConfirmMobile()
         }
 
@@ -169,14 +175,11 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                         setSuccessUI()
                         drawbleRight =
                             context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
-//                        valid = true
                         validateFields()
                     } else {
                         setSuccessUI()
-//                        validateFields()
                     }
                 } else {
-//                    mobileNoLength=9
                     setSuccessUI()
                     if (mobile.toString().replace(" ", "").trim().length >= 9) {
                         setErrorLayout()
@@ -185,7 +188,6 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                         setSuccessUI()
 
                     }
-//                    validateFields()
 
                 }
             }
@@ -206,14 +208,11 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                         setSuccessUIConfirmMobile()
                         drawbleRightConfirmMobile =
                             context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
-//                        valid = true
                         validateFields()
                     } else {
                         setSuccessUIConfirmMobile()
-//                        validateFields()
                     }
                 } else {
-//                    mobileNoLength=9
                     setSuccessUIConfirmMobile()
                     if (confirmMobileNumber.toString().replace(" ", "").trim().length >= 9) {
                         setErrorLayoutConfirmMobile()
@@ -222,49 +221,10 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                         setSuccessUIConfirmMobile()
 
                     }
-//                    validateFields()
-
                 }
             }
         })
     }
-
-//    fun registerCarrierEditTextConfirmMobile() {
-//
-//        val ccpLoadNumber: CountryCodePicker? = CountryCodePicker(context)
-//        ccpLoadNumber!!.registerCarrierNumberEditText(this.etMobileNumberConfirmMobile!!)
-//
-//        ccpLoadNumber.setPhoneNumberValidityChangeListener(object :
-//            CountryCodePicker.PhoneNumberValidityChangeListener {
-//            override fun onValidityChanged(isValidNumber: Boolean) {
-//                if (isValidNumber) {
-//                    confirmMobileNoLength = 11
-//                    if (confirmMobileNumber.length == 11) {
-//                        setSuccessUIConfirmMobile()
-//                        drawbleRightConfirmMobile =
-//                            context!!.resources.getDrawable(co.yap.yapcore.R.drawable.path, null)
-////                        valid = true
-//                        validateFields()
-//                    } else {
-//                        setSuccessUIConfirmMobile()
-////                        validateFields()
-//                    }
-//                } else {
-////                    confirmMobileNoLength=9
-//                    setSuccessUIConfirmMobile()
-//                    if (confirmMobileNumber.toString().replace(" ", "").trim().length >= 9) {
-//                        setErrorLayoutConfirmMobile()
-//
-//                    } else {
-//                        setSuccessUIConfirmMobile()
-//
-//                    }
-////                    validateFields()
-//                }
-//            }
-//        })
-////        validateFields()
-//    }
 
     fun findKeyBoardFocus(editText: EditText) {
         editText!!.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -295,8 +255,6 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
         drawbleRight = null
         background =
             context!!.resources.getDrawable(R.drawable.bg_plain_edit_text, null)
-//        activeFieldValue = true
-//        mobileError = ""
         valid = false
 
     }
@@ -308,9 +266,8 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
 
     fun setSuccessUIConfirmMobile() {
         drawbleRightConfirmMobile = null
-        backgroundConfirmMobile = context!!.resources.getDrawable(R.drawable.bg_plain_edit_text, null)
-//        activeFieldValue = true
-//        mobileError = ""
+        backgroundConfirmMobile =
+            context!!.resources.getDrawable(R.drawable.bg_plain_edit_text, null)
         valid = false
 
     }
@@ -325,13 +282,10 @@ class HouseHoldUserContactState(application: Application) : BaseState(),
                 confirmMobileNumber
             )
         ) {
-//            setSuccessUIConfirmMobile()
-            //set both tik right
             drawbleRightConfirmMobile = context!!.resources.getDrawable(R.drawable.path, null)
-            drawbleRight= context!!.resources.getDrawable(R.drawable.path, null)
+            drawbleRight = context!!.resources.getDrawable(R.drawable.path, null)
             valid = true
         } else {
-//            setErrorLayoutConfirmMobile()
             valid = false
         }
     }
