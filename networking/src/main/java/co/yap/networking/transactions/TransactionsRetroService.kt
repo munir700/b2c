@@ -120,5 +120,9 @@ interface TransactionsRetroService {
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
     suspend fun domesticTransferRequest(@Body domesticTransactionRequestDTO: DomesticTransactionRequestDTO): Response<ApiResponse>
 
+    //Uaefts transfer request
+    @POST(TransactionsRepository.URL_UAEFTS_TRANSFER)
+    suspend fun uaeftsTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<ApiResponse>
+
 
 }

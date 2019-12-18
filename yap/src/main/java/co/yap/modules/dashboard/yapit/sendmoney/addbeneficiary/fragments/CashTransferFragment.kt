@@ -143,14 +143,15 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                         }
                         SendMoneyBeneficiaryType.CASHPAYOUT -> {
                             //call service for CASHPAYOUT
+                            toast("cashpayout request")
                             beneficiary.id?.let { beneficiaryId ->
                                 viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
                             }
-
                         }
                         //Rak to Rak(yap to rak(Internal transfer))
                         SendMoneyBeneficiaryType.DOMESTIC -> {
                             //call service for DOMESTIC
+                            toast("domestic request")
                             beneficiary.id?.let { beneficiaryId ->
                                 viewModel.domesticTransferRequest(beneficiaryId.toString())
                             }
@@ -159,8 +160,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                             //call service for INTERNAL_TRANSFER
 
                         }
+                        //UAE non RAK(within UAE(External transfer))
                         SendMoneyBeneficiaryType.UAEFTS -> {
                             //call service for INTERNAL_TRANSFER
+                            toast("Uaefts request")
+                            beneficiary.id?.let { beneficiaryId ->
+                                viewModel.uaeftsTransferRequest(beneficiaryId.toString())
+                            }
 
                         }
                         else -> {
@@ -194,7 +200,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         return viewDataBinding as FragmentCashTransferBinding
     }
 
-    fun getProductCode(): String {
+    private fun getProductCode(): String {
 
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
@@ -208,9 +214,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                                 return SendMoneyBeneficiaryProductCode.P011.name
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                toast("cashpayout flow")
                                 return SendMoneyBeneficiaryProductCode.P013.name
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
+                                toast("domestic flow")
+                                viewModel.state.ibanVisibility = true
+                                viewModel.state.ibanNumber = beneficiary.accountNo
                                 return SendMoneyBeneficiaryProductCode.P023.name
                             }
                             /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
@@ -218,9 +228,10 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
                             }*/
                             SendMoneyBeneficiaryType.UAEFTS -> {
+                                toast("UAEFTS flow")
+                                viewModel.state.ibanVisibility = true
+                                viewModel.state.ibanNumber = beneficiary.accountNo
                                 return SendMoneyBeneficiaryProductCode.P010.name
-
-
                             }
                             else -> {
                                 return SendMoneyBeneficiaryProductCode.P010.name

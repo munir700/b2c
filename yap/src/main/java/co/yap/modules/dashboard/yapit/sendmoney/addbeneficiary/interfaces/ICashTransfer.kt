@@ -19,6 +19,7 @@ interface ICashTransfer {
         fun getTransactionFeeForCashPayout(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: String?)
         fun domesticTransferRequest(beneficiaryId: String?)
+        fun uaeftsTransferRequest(beneficiaryId: String?)
 
     }
 
@@ -40,5 +41,7 @@ interface ICashTransfer {
         var noteValue: String
         var imageUrl: String
         var feeStringVisibility: Boolean
+        var ibanNumber: String?
+        var ibanVisibility: Boolean?
     }
 }

@@ -131,6 +131,18 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.feeStringVisibility)
         }
+    @get:Bindable
+    override var ibanNumber: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.ibanNumber)
+        }
+    @get:Bindable
+    override var ibanVisibility: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.ibanVisibility)
+        }
 
     fun checkValidity(): String {
         if (amount != "") {

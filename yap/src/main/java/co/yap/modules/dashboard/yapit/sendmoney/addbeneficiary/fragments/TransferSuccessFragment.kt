@@ -15,6 +15,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Transf
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.InviteBottomSheet
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import com.digitify.identityscanner.camera.engine.offset.Reference
 
@@ -35,6 +36,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
+            setData()
             (activity as BeneficiaryCashTransferActivity).let {
                 it.viewModel.state.leftButtonVisibility =
                     false
@@ -117,9 +119,62 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         val uri = Uri.parse(
             "sms:"
         )
-        val it = Intent(Intent.ACTION_SEND,uri)
+        val it = Intent(Intent.ACTION_SEND, uri)
         it.putExtra("sms_body", referenceNumber)
         startActivity(it)
+    }
+
+    fun setData() {
+        if (context is BeneficiaryCashTransferActivity) {
+            (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                beneficiary.beneficiaryType?.let { beneficiaryType ->
+                    if (beneficiaryType.isNotEmpty())
+                        when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                            SendMoneyBeneficiaryType.RMT -> {
+                                //Set views for RMT
+
+
+                            }
+                            SendMoneyBeneficiaryType.SWIFT -> {
+                                //set views for Swift
+
+                            }
+                            SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                //set views for cash payout
+                                setDataForCashPayout()
+                            }
+                            SendMoneyBeneficiaryType.DOMESTIC -> {
+                                //set views for domestic
+                                setDataForDomestic()
+                            }
+                            /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
+                                //call service for INTERNAL_TRANSFER
+
+                            }*/
+                            SendMoneyBeneficiaryType.UAEFTS -> {
+                                //set views for UAEFTS
+                                setDataForUAEFTS()
+                            }
+                            else -> {
+                                //common views
+
+                            }
+                        }
+                }
+            }
+        }
+    }
+
+    fun setDataForCashPayout() {
+        viewModel.state.locationLayoutVisibility = true
+    }
+
+    fun setDataForDomestic() {
+        viewModel.state.locationLayoutVisibility = false
+    }
+
+    fun setDataForUAEFTS() {
+        viewModel.state.locationLayoutVisibility = false
     }
 
 }

@@ -9,10 +9,7 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
-import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
-import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
-import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
+import co.yap.networking.transactions.requestdtos.*
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -109,8 +106,8 @@ class CashTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.amount.toDouble(),
                         0.0,
-                        "",
-                        "",
+                        "57",
+                        "iueieieieiei",
                         state.noteValue
                     )
 
@@ -127,6 +124,38 @@ class CashTransferViewModel(application: Application) :
             }
             state.loading = false
         }
+    }
+
+    override fun uaeftsTransferRequest(beneficiaryId: String?) {
+
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.uaeftsTransferRequest(
+                    UAEFTSTransactionRequestDTO(
+                        beneficiaryId,
+                        state.amount.toDouble(),
+                        0.0,
+                        "51",
+                        "dsdsdsds",
+                        state.noteValue,
+                        ""
+                    )
+                )
+                ) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+
+
     }
 
     override fun getTransactionFeeForCashPayout(productCode: String?) {
