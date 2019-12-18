@@ -12,188 +12,194 @@
 
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldUserContactViewModel" />
+            type="co.yap.modules.dashboard.store.household.onboarding.viewmodels.HouseHoldSuccessViewModel" />
     </data>
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_vertical"
-        android:background="@color/white"
-        android:paddingLeft="@dimen/margin_medium"
-        android:paddingRight="@dimen/margin_medium">
-
-        <TextView
-            android:id="@+id/tvHeadingMobile"
-            style="@style/ALarge"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_25sdp"
-            android:gravity="center"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium"
-            android:text="@string/screen_yap_house_hold_user_info_contact_display_text_heading"
-            android:textSize="@dimen/_18sdp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:textVal="@{Strings.screen_yap_house_hold_user_info_contact_display_text_heading}"
-            app:concatVal="@{viewModel.state.houseHoldUserName}"
-            />
-
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:background="@color/white"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/margin_extra_small"
-            android:paddingRight="@dimen/margin_extra_small"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvHeadingMobile">
+            android:paddingLeft="@dimen/margin_medium"
+            android:paddingRight="@dimen/margin_medium">
+
+                        <TextView
+                            style="@style/ALarge"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_25sdp"
+                            android:gravity="center"
+                            android:paddingLeft="@dimen/margin_medium"
+                            android:paddingRight="@dimen/margin_medium"
+                            android:text="@string/screen_yap_house_hold_success_display_text_title"
+                            android:textSize="@dimen/_18sdp"
+                            app:concatVal="@{viewModel.state.houseHoldUserName}"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:textVal="@{Strings.screen_yap_house_hold_success_display_text_title}" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/SmallGrey"
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/RegularGrey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium_large"
+                            android:layout_marginBottom="@dimen/margin_medium_large"
+                            android:gravity="center"
+                            android:text="@string/screen_yap_house_hold_success_display_text_heading"
+                            app:concatVal="@{viewModel.state.houseHoldUserName}"
+                            app:textVal="@{Strings.screen_yap_house_hold_success_display_text_heading}" />
+
+
+                        <ImageView
+                            android:id="@+id/cardView"
+                            android:layout_width="@dimen/_121sdp"
+                            android:layout_height="@dimen/_190sdp"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:src="@drawable/card_spare"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/RegularGrey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium_large"
+                            android:layout_marginBottom="@dimen/margin_medium_large"
+                            android:gravity="center"
+                            android:text="@string/screen_yap_house_hold_success_display_text_house_hold_card"
+                            app:text="@{Strings.screen_yap_house_hold_success_display_text_house_hold_card}"
+
+                            />
+
+
+                        <TextView
+                            android:id="@+id/tvBenefit"
+                            style="@style/RegularGrey"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawableStart="@drawable/ic_extra_small"
+                            android:drawablePadding="@dimen/margin_medium"
+                            android:gravity="center_vertical"
+                            android:text="@string/screen_yap_house_hold_success_display_text_direct_message"
+                            android:textSize="@dimen/_13sdp"
+                            app:concatVal="@{viewModel.state.houseHoldUserName}"
+                            app:text="@{Strings.screen_yap_house_hold_success_display_text_direct_message}"
+                            app:textVal="@{Strings.screen_yap_house_hold_success_display_text_direct_message}" />
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            style="@style/Small"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/margin_medium_large"
+                            android:layout_marginBottom="@dimen/margin_medium_large"
+                            android:gravity="center"
+                            android:text="@string/screen_yap_house_hold_success_display_text_share_credentials"
+                            android:textSize="@dimen/_13sdp"
+                            app:layout_constraintLeft_toLeftOf="parent"
+                            app:layout_constraintRight_toRightOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                            app:text="@{Strings.screen_yap_house_hold_success_display_text_share_credentials}"
+                            tools:text="@string/screen_yap_house_hold_success_display_text_share_credentials" />
+
+
+            <LinearLayout
+                android:id="@+id/llBankTransferType"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_xl"
-                android:text="@string/screen_b2c_eid_info_review_display_text_name_heading"
-                android:textSize="@dimen/_13sdp"
-                app:text="@{Strings.screen_yap_house_hold_user_info_contact_display_text_mobile}"
-                app:textColor="@{viewModel.state.mobile.empty ? true : false}"
-                tools:text="@string/screen_yap_house_hold_user_info_contact_display_text_mobile" />
+                android:layout_height="@dimen/_171sdp"
+                android:layout_marginLeft="@dimen/margin_small"
+                android:layout_marginRight="@dimen/margin_small"
+                android:background="@drawable/purple_card"
+                android:clickable="true"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_35sdp"
+                android:paddingTop="@dimen/margin_medium">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/ccpContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@{viewModel.state.background}"
-                app:layout_constraintTop_toBottomOf="@+id/tvMobileNumberHeading">
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/RegularGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/screen_yap_house_hold_success_display_text_share_email"
+                    app:text="@{Strings.screen_yap_house_hold_success_display_text_share_email}"
+                    tools:text="@string/screen_yap_house_hold_success_display_text_share_email" />
 
-                <co.yap.widgets.mobile.CountryCodePicker
-                    android:id="@+id/ccpSelector"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clickable="false"
-                    android:gravity="center"
-                    android:paddingRight="-5dp"
-                    app:ccp_countryPreference="us,ae"
-                    app:ccp_hideFlag="true"
-                    app:ccp_hintExampleNumber="true"
-                    app:ccp_onFlagClick="false"
-                    app:ccp_pickerTextColor="@color/colorPrimaryDark"
-                    app:ccp_showDropDown="true"
-                    app:layout_constraintBottom_toBottomOf="@+id/etMobileNumber"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/etMobileNumber" />
 
-                <EditText
-                    android:id="@+id/etMobileNumber"
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Regular"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:digits="1234567890 "
-                    android:drawableEnd="@{viewModel.state.drawbleRight}"
-                    android:gravity="bottom"
-                    android:hint="123 4567"
-                    android:imeOptions="actionDone"
-                    android:importantForAutofill="no"
-                    android:inputType="phone"
-                    android:maxLength="@{viewModel.state.mobileNoLength}"
-                    android:singleLine="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/screen_yap_house_hold_success_display_text_share_email"
+                    app:text="@{Strings.screen_yap_house_hold_success_display_text_share_email}"
+                    tools:text="@string/screen_yap_house_hold_success_display_text_share_email" />
 
-                    android:text="@={viewModel.state.mobile}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintLeft_toRightOf="@+id/ccpSelector"
-                    app:layout_constraintStart_toEndOf="@+id/ccpSelector"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="123 4567 89" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.appcompat.widget.AppCompatTextView
+                    style="@style/RegularGrey"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_small"
+                    android:text="@string/screen_yap_house_hold_success_display_text_share_pass_code"
+                    app:text="@{Strings.screen_yap_house_hold_success_display_text_share_pass_code}"
+                    tools:text="@string/screen_yap_house_hold_success_display_text_share_pass_code" />
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/SmallGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_normal"
-                android:text="@string/screen_yap_house_hold_user_info_contact_display_text_confirm_mobile"
-                android:textSize="@dimen/_13sdp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                app:text="@{Strings.screen_yap_house_hold_user_info_contact_display_text_confirm_mobile}"
-                app:textColor="@{viewModel.state.confirmMobileNumber.empty ? true : false}"
-                tools:text="@string/screen_yap_house_hold_user_info_contact_display_text_confirm_mobile" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/ccpContainerConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@{viewModel.state.backgroundConfirmMobile}">
-
-                <co.yap.widgets.mobile.CountryCodePicker
-                    android:id="@+id/ccpSelectorConfirm"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:clickable="false"
-                    android:gravity="center"
-                    android:paddingRight="-5dp"
-                    app:ccp_countryPreference="us,ae"
-                    app:ccp_hideFlag="true"
-                    app:ccp_hintExampleNumber="true"
-                    app:ccp_onFlagClick="false"
-                    app:ccp_pickerTextColor="@color/colorPrimaryDark"
-                    app:ccp_showDropDown="true"
-                    app:layout_constraintBottom_toBottomOf="@+id/etConfirmMobileNumber"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/etConfirmMobileNumber" />
-
-                <EditText
-                    android:id="@+id/etConfirmMobileNumber"
+                <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Regular"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:background="@null"
-                    android:digits="1234567890 "
-                    android:drawableEnd="@{viewModel.state.drawbleRightConfirmMobile}"
-                    android:gravity="bottom"
-                    android:hint="123 4567"
-                    android:imeOptions="actionDone"
-                    android:importantForAutofill="no"
-                    android:inputType="phone"
-                    android:maxLength="@{viewModel.state.confirmMobileNoLength}"
-                    android:singleLine="true"
-                    android:text="@={viewModel.state.confirmMobileNumber}"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintLeft_toRightOf="@+id/ccpSelectorConfirm"
-                    app:layout_constraintStart_toEndOf="@+id/ccpSelectorConfirm"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:text="123 4567 89" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:text="@{Strings.screen_yap_house_hold_success_display_text_share_email}"
+                    tools:text="2250"
+                    android:layout_marginBottom="@dimen/margin_medium"/>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/btnShare"
+                    style="@style/FragmentsBtnStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_25sdp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/margin_extra_large"
+                    android:layout_marginRight="@dimen/margin_extra_large"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                    tools:text="@string/screen_yap_house_hold_success_button_text_share"
+                    app:text="@{Strings.screen_yap_house_hold_success_button_text_share}"
+                    app:btn_drawable="@drawable/ic_share_white"
+                    app:btn_drawable_padding_left="10"
+                    app:btn_drawable_padding_top="4"
+                    app:btn_drawable_position="right"
+                    app:btn_text_size="@dimen/_12sdp"
+                    app:enableCoreButton="@{true}" />
+
+            </LinearLayout>
+
+            <co.yap.widgets.CoreButton
+                android:id="@+id/btnGoToHouseHold"
+                style="@style/FragmentsBtnStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_xxl"
+                android:layout_marginTop="@dimen/_35sdp"
+                android:layout_marginRight="@dimen/margin_xxl"
+                android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+                tools:text="@string/screen_yap_house_hold_success_button_text_goto_house_hold"
+                app:text="@{Strings.screen_yap_house_hold_success_button_text_goto_house_hold}"
+                app:btn_drawable="@drawable/ic_share_white"
+                app:btn_drawable_padding_left="10"
+                app:btn_drawable_padding_top="4"
+                app:btn_drawable_position="right"
+                app:enableCoreButton="@{true}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_goneMarginTop="@dimen/margin_extra_large" />
 
         </LinearLayout>
-
-        <co.yap.widgets.CoreButton
-            android:id="@+id/btnNext"
-            style="@style/FragmentsBtnStyle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_xxl"
-            android:layout_marginRight="@dimen/margin_xxl"
-            android:layout_marginBottom="@dimen/margin_medium_large"
-            android:onClick="@{(v) -> viewModel.handlePressOnAdd(v.id)}"
-            app:enableCoreButton="@{viewModel.state.valid}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:text="@{Strings.screen_yap_house_hold_user_info_contact_button_next}"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="44dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

@@ -13,7 +13,9 @@ interface IHouseHoldSuccess {
     }
 
     interface State : IBase.State {
-        var dummyStrings: Array<String>
+      var houseHoldUserName: String
+
+
 
 
     }

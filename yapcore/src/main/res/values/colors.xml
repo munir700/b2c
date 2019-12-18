@@ -63,6 +63,7 @@
     <color name="master_card_gradient_bottom_color">#4bdcd8</color>
     <color name="master_card_gradient_top_color">#1caaa1</color>
     <color name="purple">#7c4dff</color>
+    <color name="purpleLightCard">#f1edff</color>
 
 
     <array name="analyticsColors">

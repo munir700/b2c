@@ -8,11 +8,9 @@ import co.yap.yapcore.BaseState
 class HouseHoldSuccessState : BaseState(), IHouseHoldSuccess.State {
 
     @get:Bindable
-    override var dummyStrings: String = ""
+    override var houseHoldUserName: String? = ""
         set(value) {
             field = value
-            notifyPropertyChanged(BR.dummyStrings)
-
+            notifyPropertyChanged(BR.houseHoldUserName)
         }
-
 }
