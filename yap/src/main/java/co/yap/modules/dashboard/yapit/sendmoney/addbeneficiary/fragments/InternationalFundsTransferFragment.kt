@@ -38,11 +38,23 @@ class InternationalFundsTransferFragment :
         super.onCreate(savedInstanceState)
         setObservers()
         getBeneficiaryId()
-
         viewModel.getTransactionFeeInternational(getProductCode())
-
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        successOtpFlow()
+    }
+
+    fun successOtpFlow(){
+        if (context is BeneficiaryCashTransferActivity) {
+            (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
+                if (it) {
+                    showToast("m from otp success")
+                }
+            }
+        }
+    }
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.populateSpinnerData.observe(this, Observer {

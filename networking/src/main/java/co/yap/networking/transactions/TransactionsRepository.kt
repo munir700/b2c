@@ -55,6 +55,10 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "/transactions/api/yap-to-rak"
     const val URL_UAEFTS_TRANSFER =
         "/transactions/api/uaefts"
+    const val URL_RMT_TRANSFER =
+        "/transactions/api/rmt"
+    const val URL_SWIFT_TRANSFER =
+        "/transactions/api/swift"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -176,5 +180,13 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.uaeftsTransferRequest(uaeftsTransactionRequestDTO) })
+
+    override suspend fun rmtTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.rmtTransferRequest(uaeftsTransactionRequestDTO) })
+
+
+    override suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.swiftTransferRequest(uaeftsTransactionRequestDTO) })
+
 
 }

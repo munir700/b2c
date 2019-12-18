@@ -241,14 +241,10 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                         //RMT is for international( RMT(linked with Rak))
                         SendMoneyBeneficiaryType.RMT -> {
-                            //Call service for RMT
-                            toast("Flow to be implemented for RMT")
                             skipCashTransferFragment()
                         }
                         //Swift is for international(non RMT(Not linked with Rak))
                         SendMoneyBeneficiaryType.SWIFT -> {
-                            //call service for SWIFT
-                            toast("Flow to be implemented for swift")
                             skipCashTransferFragment()
                         }
                         else -> {

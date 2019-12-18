@@ -7,6 +7,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.Internatio
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.interfaces.IRepositoryHolder
+import co.yap.networking.messages.MessagesRepository
+import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
@@ -15,6 +17,7 @@ import co.yap.networking.transactions.responsedtos.InternationalFundsTransferRea
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.helpers.Utils
 
@@ -29,6 +32,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     override val repository: CustomersRepository = CustomersRepository
     override val state: InternationalFundsTransferState =
         InternationalFundsTransferState(application)
+    private val messagesRepository: MessagesRepository = MessagesRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
@@ -36,7 +40,7 @@ class InternationalFundsTransferViewModel(application: Application) :
         MutableLiveData()
 
     override fun handlePressOnButton(id: Int) {
-        clickEvent.postValue(id)
+        createOtp(id = id)
     }
 
     var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
@@ -179,5 +183,25 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
+    private fun createOtp(id: Int = 0) {
+        launch {
+            state.loading = true
+            when (val response =
+                messagesRepository.createOtpGeneric(
+                    createOtpGenericRequest = CreateOtpGenericRequest(
+                        otpAction.toString()
+                    )
+                )) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(id)
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+    }
 
 }

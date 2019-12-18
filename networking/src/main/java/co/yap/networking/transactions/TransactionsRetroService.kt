@@ -123,6 +123,12 @@ interface TransactionsRetroService {
     //Uaefts transfer request
     @POST(TransactionsRepository.URL_UAEFTS_TRANSFER)
     suspend fun uaeftsTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<ApiResponse>
+   //RMT transfer request
+    @POST(TransactionsRepository.URL_RMT_TRANSFER)
+    suspend fun rmtTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<ApiResponse>
+  //Swift transfer request
+    @POST(TransactionsRepository.URL_SWIFT_TRANSFER)
+    suspend fun swiftTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<ApiResponse>
 
 
 }
