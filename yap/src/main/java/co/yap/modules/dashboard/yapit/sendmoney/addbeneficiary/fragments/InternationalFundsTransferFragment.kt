@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
@@ -24,6 +25,7 @@ class InternationalFundsTransferFragment :
     SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
 
+
     private var mReasonListAdapter: ReasonListAdapter? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_international_funds_transfer
@@ -34,18 +36,37 @@ class InternationalFundsTransferFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getBeneficiaryId()
-        viewModel.getTransactionFeeInternational(getProductCode())
         setObservers()
+        getBeneficiaryId()
+
+        viewModel.getTransactionFeeInternational(getProductCode())
+
     }
 
     private fun setObservers() {
+        viewModel.clickEvent.observe(this, clickEvent)
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
             reasonsSpinner.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
         })
 
+    }
+
+    val clickEvent = Observer<Int> {
+        when (it) {
+            R.id.btnNext -> {
+
+                val action =
+                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
+                        false,
+                        viewModel.otpAction.toString(),
+                        viewModel.state.fxRateAmount.toString()
+                    )
+                findNavController().navigate(action)
+            }
+
+        }
     }
 
     val listener = object : OnItemClickListener {
@@ -96,13 +117,16 @@ class InternationalFundsTransferFragment :
 
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                viewModel.state.beneficiaryCountry = beneficiary.country
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         return when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                             SendMoneyBeneficiaryType.RMT -> {
+                                viewModel.otpAction = SendMoneyBeneficiaryType.RMT.name
                                 SendMoneyBeneficiaryProductCode.P012.name
                             }
                             SendMoneyBeneficiaryType.SWIFT -> {
+                                viewModel.otpAction = SendMoneyBeneficiaryType.SWIFT.name
                                 SendMoneyBeneficiaryProductCode.P011.name
                             }
                             else -> {
@@ -116,7 +140,7 @@ class InternationalFundsTransferFragment :
 
     }
 
-    fun getBeneficiaryId() {
+    private fun getBeneficiaryId() {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
                 beneficiary.id?.let { beneficiaryId ->

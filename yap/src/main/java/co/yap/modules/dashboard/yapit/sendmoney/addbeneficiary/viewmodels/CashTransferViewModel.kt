@@ -88,8 +88,8 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                    state.toast = response.error.message
+                  //  clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.errorDescription = response.error.message
                     state.loading = false
                 }
             }
@@ -118,7 +118,7 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
                     state.loading = false
                 }
             }
@@ -147,8 +147,8 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                    state.toast = response.error.message
+                  //  clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.errorDescription = response.error.message
                     state.loading = false
                 }
             }
@@ -164,7 +164,7 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.getTransactionFeeWithProductCode(
                     productCode,
-                    RemittanceFeeRequest("PK", "")
+                    RemittanceFeeRequest(state.beneficiaryCountry, "")
                 )
                 ) {
                 is RetroApiResponse.Success -> {
@@ -203,7 +203,7 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
                     state.loading = false
                 }
             }

@@ -24,8 +24,8 @@ class InternationalFundsTransferViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
 
-    var mTransactionsRepository: TransactionsRepository = TransactionsRepository
-
+    private var mTransactionsRepository: TransactionsRepository = TransactionsRepository
+    override var otpAction: String? = null
     override val repository: CustomersRepository = CustomersRepository
     override val state: InternationalFundsTransferState =
         InternationalFundsTransferState(application)
@@ -34,13 +34,12 @@ class InternationalFundsTransferViewModel(application: Application) :
         ArrayList()
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
-    var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
 
-
-    override fun handlePressOnNext(id: Int) {
-        clickEvent.setValue(id)
+    override fun handlePressOnButton(id: Int) {
+        clickEvent.postValue(id)
     }
 
+    var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
 
     override fun onCreate() {
         super.onCreate()
@@ -62,7 +61,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun getTransactionFeeInternational(productCode: String?) {
         launch {
             state.loading = true
-            val remittanceFeeRequestBody = RemittanceFeeRequest("PK", "")
+            val remittanceFeeRequestBody = RemittanceFeeRequest(state.beneficiaryCountry, "")
             when (val response =
                 mTransactionsRepository.getTransactionFeeWithProductCode(
                     productCode,
@@ -104,6 +103,7 @@ class InternationalFundsTransferViewModel(application: Application) :
             // state.loading = false
         }
     }
+
 
     /*
     * In this function get All List of reasons.
@@ -148,7 +148,10 @@ class InternationalFundsTransferViewModel(application: Application) :
             val rxListBody = RxListRequest(state.beneficiaryId)
 
             when (val response =
-                mTransactionsRepository.getTransactionInternationalRXList(productCode, rxListBody)) {
+                mTransactionsRepository.getTransactionInternationalRXList(
+                    productCode,
+                    rxListBody
+                )) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
 

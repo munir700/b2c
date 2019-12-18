@@ -34,6 +34,11 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.fxRateAmount)
+            fxRateAmount?.let {
+                if (it.isNotEmpty()) {
+                    valid = it.toDouble() > 0.0
+                }
+            }
             checkValidation()
         }
 
@@ -138,7 +143,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiaryCountry: String = "AED"
+    override var beneficiaryCountry: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryCountry)

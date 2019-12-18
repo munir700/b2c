@@ -66,6 +66,13 @@
         android:id="@+id/internationalFundsTransferFragment"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
         android:label="InternationalFundsTransferFragment"
-        tools:layout="@layout/fragment_international_funds_transfer"/>
+        tools:layout="@layout/fragment_international_funds_transfer">
+        <action
+            android:id="@+id/action_internationalFundsTransferFragment_to_genericOtpLogoFragment"
+            app:destination="@id/genericOtpLogoFragment"
+            app:enterAnim="@anim/slide_in_from_bottom"
+            app:exitAnim="@anim/slide_down"
+            app:popUpToInclusive="true" />
+    </fragment>
 
 </navigation>

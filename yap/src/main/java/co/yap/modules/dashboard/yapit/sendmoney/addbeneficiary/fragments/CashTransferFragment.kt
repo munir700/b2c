@@ -130,16 +130,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             beneficiary.beneficiaryType?.let { beneficiaryType ->
                 if (beneficiaryType.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                        //RMT is for international( RMT(linked with Rak))
-                        SendMoneyBeneficiaryType.RMT -> {
-                            //Call service for RMT
-                            toast("Flow to be implemented for RMT")
-                        }
-                        //Swift is for international(non RMT(Not linked with Rak))
-                        SendMoneyBeneficiaryType.SWIFT -> {
-                            //call service for SWIFT
-                            toast("Flow to be implemented for swift")
-                        }
                         SendMoneyBeneficiaryType.CASHPAYOUT -> {
                             //call service for CASHPAYOUT
                             toast("cashpayout request")
@@ -200,9 +190,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     private fun getProductCode(): String {
-
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                viewModel.state.beneficiaryCountry = beneficiary.country
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
@@ -234,7 +224,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                             }
                             else -> {
                                 return SendMoneyBeneficiaryProductCode.P010.name
-
                             }
                         }
                 }

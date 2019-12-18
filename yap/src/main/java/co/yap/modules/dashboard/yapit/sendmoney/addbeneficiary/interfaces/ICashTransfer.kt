@@ -43,5 +43,6 @@ interface ICashTransfer {
         var feeStringVisibility: Boolean
         var ibanNumber: String?
         var ibanVisibility: Boolean?
+        var beneficiaryCountry: String?
     }
 }

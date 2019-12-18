@@ -15,7 +15,7 @@ interface IInternationalFundsTransfer {
         var nameInitialsVisibility: Int
         var senderCurrency: String?
         var beneficiaryCurrency: String
-        var beneficiaryCountry: String
+        var beneficiaryCountry: String?
         var senderAmount: String
         var beneficiaryAmount: String
         var transferFee: String
@@ -33,15 +33,15 @@ interface IInternationalFundsTransfer {
         var beneficiaryId: String?
         var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
 
-
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
-        fun handlePressOnNext(id: Int)
+        fun handlePressOnButton(id:Int)
         fun getTransactionFeeInternational(productCode:String?)
+        var otpAction: String?
     }
 
     interface View : IBase.View<ViewModel>
