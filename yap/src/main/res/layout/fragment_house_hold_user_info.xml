@@ -57,12 +57,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_xl"
+                android:layout_marginBottom="-5dp"
                 android:text="@string/screen_b2c_eid_info_review_display_text_name_heading"
                 app:text="@{Strings.screen_yap_house_hold_user_info_display_text_first_name}"
                 app:textColor="@{viewModel.state.firstName.empty ? true : false}"
-                tools:text="@string/screen_yap_house_hold_user_info_display_text_first_name"
-                android:layout_marginBottom="-5dp"
-                />
+                tools:text="@string/screen_yap_house_hold_user_info_display_text_first_name" />
 
             <co.yap.widgets.CoreInputField
                 android:id="@+id/etFirstName"
@@ -70,7 +69,7 @@
                 android:layout_height="wrap_content"
                 app:coreInputDrawableRight="@{viewModel.state.drawbleRightFirstName}"
                 app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_input_text_first_name_hint}"
-                 app:realValue="@={viewModel.state.firstName}"
+                app:realValue="@={viewModel.state.firstName}"
                 app:translateHint="@{true}"
                 app:view_focusable="true"
                 app:view_id="333"
@@ -92,8 +91,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
-                android:text="@string/screen_yap_house_hold_user_info_display_text_last_name"
                 android:layout_marginBottom="-5dp"
+                android:text="@string/screen_yap_house_hold_user_info_display_text_last_name"
                 app:text="@{Strings.screen_yap_house_hold_user_info_display_text_last_name}"
                 app:textColor="@{viewModel.state.lastName.empty ? true : false}"
                 tools:text="@string/screen_yap_house_hold_user_info_display_text_last_name" />
@@ -115,7 +114,7 @@
                 app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_input_text_last_name_hint}"
                 app:realValue="@={viewModel.state.lastName}"
                 app:translateHint="@{true}"
-                 app:view_focusable="true"
+                app:view_focusable="true"
                 app:view_id="444"
                 app:view_input_text_imei_actions="IME_ACTION_NEXT"
                 app:view_max_length="40"
@@ -126,12 +125,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginBottom="-5dp"
                 android:text="@string/screen_yap_house_hold_user_info_display_text_email"
                 app:text="@{Strings.screen_yap_house_hold_user_info_display_text_email}"
                 app:textColor="@{viewModel.state.twoWayTextWatcher.empty ? true : false}"
-                tools:text="@string/screen_yap_house_hold_user_info_display_text_email"
-                android:layout_marginBottom="-5dp"
-                />
+                tools:text="@string/screen_yap_house_hold_user_info_display_text_email" />
 
             <!--            <androidx.appcompat.widget.AppCompatEditText-->
             <!--                android:id="@+id/etnickName"-->
@@ -148,17 +146,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:coreInputDrawableRight="@{viewModel.state.drawbleRight}"
-                 app:coreInputError="@{viewModel.state.emailError}"
+                app:coreInputError="@{viewModel.state.emailError}"
                 app:coreInputHint="@{Strings.screen_yap_house_hold_user_info_display_text_email_hint}"
-                app:deactivateEditText="@{viewModel.state.deactivateField}"
-                 app:realValue="@={viewModel.state.twoWayTextWatcher}"
-                app:resetUI="@{viewModel.state.refreshField}"
-                app:selection="@{viewModel.state.setSelection}"
+                app:realValue="@={viewModel.state.twoWayTextWatcher}"
                 app:translateHint="@{true}"
                 app:view_focusable="true"
                 app:view_id="555"
                 app:view_input_text_imei_actions="IME_ACTION_DONE"
-                app:view_input_type="email"
                 app:view_max_length="40"
                 app:view_plain_background="true" />
 

@@ -11,7 +11,8 @@ import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
 
-class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouseHoldUserInfo.State {
+class HouseHoldUserInfoStates(var application: Application) : BaseState(),
+    IHouseHoldUserInfo.State {
 
     override var dummyStrings: Array<String> = arrayOf("0123")
     var ctx: Context = application.applicationContext
@@ -41,7 +42,7 @@ class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouse
             field = value
             notifyPropertyChanged(BR.firstNameError)
             notifyPropertyChanged(BR.valid)
-         }
+        }
 
     @get:Bindable
     override var lastName: String = ""
@@ -95,7 +96,6 @@ class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouse
         }
 
 
-
     override fun reset() {
         super.reset()
         verificationCompleted = false
@@ -141,7 +141,6 @@ class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouse
         }
 
 
-
     @get:Bindable
     override var email: String = ""
         set(value) {
@@ -155,9 +154,6 @@ class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouse
             field = value
             notifyPropertyChanged(BR.emailError)
         }
-
-
-
 
 
     @get:Bindable
@@ -191,14 +187,19 @@ class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouse
         }
 
 
-
     @get:Bindable
     override var valid: Boolean = false
         get() = validate()
-
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
 
     private fun validate(): Boolean {
-        return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty()&& twoWayTextWatcher.isNullOrEmpty() && emailError.isNullOrEmpty()
+        return StringUtils.validateName(firstName) && StringUtils.validateName(lastName) && Utils.validateEmail(
+            twoWayTextWatcher
+        ) &&
+                firstNameError.isNullOrEmpty() && lastNameError.isNullOrEmpty() && emailError.isNullOrEmpty()
     }
 
 
@@ -207,7 +208,7 @@ class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouse
         if (!value.isNullOrEmpty() && value.length >= 2) {
 
             if (StringUtils.validateName(value)) {
-                valid = true
+//                valid = true
                 firstNameError = ""
                 firstNameError = ""
                 notifyPropertyChanged(BR.firstNameError)
@@ -232,7 +233,7 @@ class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouse
         if (!value.isNullOrEmpty() && value.length >= 2) {
 
             if (StringUtils.validateName(value)) {
-                valid = true
+//                valid = true
                 lastNameError = ""
                 notifyPropertyChanged(BR.lastNameError)
                 drawbleRightLastName =
@@ -251,16 +252,11 @@ class HouseHoldUserInfoStates(var application:Application) : BaseState(), IHouse
         }
     }
 
-
     ///
-
-
-
-
 
     private fun setSuccessUI() {
         refreshField = true
-        valid = true
+//        valid = true
         emailError = ""
         drawbleRight = ctx!!.resources.getDrawable(co.yap.yapcore.R.drawable.path)
     }

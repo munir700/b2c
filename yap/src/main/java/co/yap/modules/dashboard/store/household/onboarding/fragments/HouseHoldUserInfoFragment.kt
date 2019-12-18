@@ -34,8 +34,8 @@ class HouseHoldUserInfoFragment : BaseOnBoardingFragment<IHouseHoldUserInfo.View
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
 
-                R.id.tvEditPhoneNumber -> {
-                    findNavController().navigate(R.id.action_personalDetailsFragment_to_change_phone_number_navigation)
+                R.id.btnNext -> {
+                    findNavController().navigate(R.id.action_houseHoldUserInfoFragment_to_houseHoldUserContactFragment)
                 }
 
             }
