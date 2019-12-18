@@ -9,11 +9,13 @@ import androidx.lifecycle.ViewModelProviders
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
+import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.adaptor.RAKBankAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams
+import co.yap.networking.customers.responsedtos.sendmoney.Bank
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_add_bank_detail.*
 import kotlinx.coroutines.*
@@ -34,6 +36,8 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
         get() = ViewModelProviders.of(this).get(BankDetailsViewModel::class.java)
 
     var adaptor: AddBeneficiariesAdaptor? = null
+    var adaptorBanks: RAKBankAdaptor? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         addListener()
@@ -45,12 +49,21 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
         viewModel.bankParams.observe(this, Observer {
             setupAdaptor(it)
         })
+        viewModel.bankList.observe(this, Observer {
+            setupAdaptorBanks(it)
+        })
     }
 
     private fun setupAdaptor(list: List<BankParams>) {
         adaptor = AddBeneficiariesAdaptor(list as MutableList<BankParams>, watcher)
         adaptor?.setItemListener(listener)
         recycler.adapter = adaptor
+    }
+
+    private fun setupAdaptorBanks(list: List<Bank>) {
+        adaptorBanks = RAKBankAdaptor(list as MutableList<Bank>)
+        adaptorBanks?.setItemListener(listener)
+        recycler_banks.adapter = adaptorBanks
     }
 
     val listener = object : OnItemClickListener {
@@ -69,7 +82,6 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
             //findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
         }
     }
-
 
     private fun otherSearchParams(): OtherBankQuery {
         val query = OtherBankQuery()

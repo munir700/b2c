@@ -7,10 +7,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.beneficiary.RecentBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpBeneficiariesResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
-import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
-import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
-import co.yap.networking.customers.responsedtos.sendmoney.GetAllBeneficiaryResponse
+import co.yap.networking.customers.responsedtos.sendmoney.*
 import co.yap.networking.models.ApiResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -125,7 +122,7 @@ interface CustomersRetroService {
     suspend fun addBeneficiary(@Body beneficiary: Beneficiary): Response<AddBeneficiaryResponseDTO>
 
     @POST(CustomersRepository.URL_SEARCH_BANKS)
-    suspend fun findOtherBank(@Body otherBankQuery: OtherBankQuery): Response<AddBeneficiaryResponseDTO>
+    suspend fun findOtherBank(@Body otherBankQuery: OtherBankQuery): Response<RAKBankModel>
 
     @GET(CustomersRepository.URL_SEARCH_BANK_PARAMS)
     suspend fun getOtherBankParams(@Query("other_bank_country") countryName: String): Response<BankParamsResponse>

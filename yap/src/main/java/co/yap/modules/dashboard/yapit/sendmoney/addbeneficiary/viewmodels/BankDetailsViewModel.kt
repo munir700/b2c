@@ -3,18 +3,17 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
-import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.BankDetailsState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams
+import co.yap.networking.customers.responsedtos.sendmoney.Bank
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class BankDetailsViewModel(application: Application) :
@@ -22,6 +21,7 @@ class BankDetailsViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override var bankParams: MutableLiveData<List<BankParams>> = MutableLiveData()
+    override var bankList: MutableLiveData<ArrayList<Bank>> = MutableLiveData()
     override val repository: CustomersRepository = CustomersRepository
     override val state: BankDetailsState = BankDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -116,14 +116,12 @@ class BankDetailsViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         state.loading = false
                         state.toast = response.data.toString()
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                        bankList.value = response.data.data?.banks
                     }
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         state.toast = response.error.message
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-
                     }
                 }
             }

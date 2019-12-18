@@ -35,6 +35,7 @@
             android:layout_alignParentEnd="true"
             android:gravity="end"
             android:orientation="horizontal">
+
             <RelativeLayout
                 android:id="@+id/btnEdit"
                 android:layout_width="@dimen/_60sdp"
@@ -55,6 +56,7 @@
                     tools:text="Edit" />
 
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/btnDelete"
                 android:layout_width="@dimen/_60sdp"
@@ -65,10 +67,10 @@
                     style="@style/Micro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:drawableTop="@drawable/ic_close"
                     android:drawablePadding="@dimen/_2sdp"
-                    android:layout_centerInParent="true"
                     android:drawableTint="@color/white"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -78,6 +80,7 @@
 
             </RelativeLayout>
         </LinearLayout>
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/foregroundContainer"
             android:layout_width="match_parent"
@@ -92,21 +95,23 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
+
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
-                    android:contentDescription="@string/empty_string"
                     android:layout_marginTop="@dimen/small"
+                    android:contentDescription="@string/empty_string"
                     android:src="@drawable/ic_store_b2b"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
                     app:colorType="@{`Beneficiary`}"
                     app:fullName="@{viewModel.beneficiary.fullName()}"
                     app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     app:position="@{viewModel.position}" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -156,8 +161,8 @@
                     android:contentDescription="@string/empty_string"
                     android:gravity="center"
                     android:tint="@{viewModel.beneficiary.beneficiaryType.equals(`CASHPAYOUT`)?@color/colorPrimaryDark:@color/greyDark}"
-                    tools:src="@drawable/ic_cash"
                     app:setBeneficiaryImageSrc="@{viewModel.beneficiary.beneficiaryType}"
+                    tools:src="@drawable/ic_cash"
                     tools:visibility="visible" />
 
 
@@ -165,8 +170,8 @@
                     android:id="@+id/flag_img"
                     android:layout_width="@dimen/_20sdp"
                     android:layout_height="wrap_content"
-                    tools:src="@drawable/flag_ae"
-                    app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
+                    app:setFlagDrawable="@{viewModel.beneficiary.country}"
+                    tools:src="@drawable/flag_ae" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
