@@ -99,7 +99,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.deleteBeneficiaryFromList(beneficiaryId.toString())) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    state.toast = response.data.toString()
+                    state.toast = "Deleted Successfully"
                     onDeleteSuccess.setValue(111)
 
                 }

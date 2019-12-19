@@ -11,7 +11,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.ActivitySendMoneyLandingBinding
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiriesAdapter
+import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
 import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel
@@ -23,7 +23,6 @@ import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_yap_to_yap.*
-import kotlinx.android.synthetic.main.layout_send_beneficiaries_toolbar.*
 
 
 class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
@@ -66,7 +65,7 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         })
 
         viewModel.onDeleteSuccess.observe(this, Observer {
-            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).removeItemAt(
+            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiariesAdapter).removeItemAt(
                 positionToDelete
             )
         })
@@ -107,8 +106,8 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
 
     private fun initComponents() {
         getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter =
-            AllBeneficiriesAdapter(mutableListOf())
-        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setItemListener(
+            AllBeneficiariesAdapter(mutableListOf())
+        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiariesAdapter).setItemListener(
             listener
         )
 
@@ -120,14 +119,14 @@ class SendMoneyHomeFragment : SendMoneyBaseFragment<ISendMoneyHome.ViewModel>(),
         viewModel.clickEvent.observe(this, observer)
 
         viewModel.allBeneficiariesLiveData?.observe(this, Observer {
-            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).setList(
+            (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiariesAdapter).setList(
                 it
             )
 
         })
 
 
-        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiriesAdapter).filterCount.observe(
+        (getBinding().layoutBeneficiaries.rvAllBeneficiaries.adapter as AllBeneficiariesAdapter).filterCount.observe(
             this,
             Observer {
 
