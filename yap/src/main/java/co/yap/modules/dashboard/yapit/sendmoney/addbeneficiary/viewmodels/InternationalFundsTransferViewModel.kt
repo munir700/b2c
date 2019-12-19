@@ -114,7 +114,7 @@ class InternationalFundsTransferViewModel(application: Application) :
             when (val response =
                 mTransactionsRepository.rmtTransferRequest(
                     RMTTransactionRequestDTO(
-                        "25",
+                        state.reasonTransferCode,
                         beneficiaryId,
                         state.fxRateAmount?.toDouble(),
                         state.beneficiaryCurrency,

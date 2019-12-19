@@ -35,7 +35,6 @@ interface IInternationalFundsTransfer {
         var valid: Boolean
         var beneficiaryId: String?
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-
         var reasonTransferValue: String?
         var reasonTransferCode: String?
     }

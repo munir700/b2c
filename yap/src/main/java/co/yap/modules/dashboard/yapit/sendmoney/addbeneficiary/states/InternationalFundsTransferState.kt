@@ -39,9 +39,13 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             fxRateAmount?.let {
                 if (it.isNotEmpty()) {
                     valid = it.toDouble() > 0.0
+                } else {
+                    valid = false
                 }
+
             }
             checkValidation()
+            validate()
         }
 
     @get:Bindable
@@ -224,9 +228,9 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     fun validate() {
-        if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
-
+        if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()) {
             valid = true
+
         }
     }
 
