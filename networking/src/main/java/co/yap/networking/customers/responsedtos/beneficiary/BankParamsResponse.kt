@@ -29,6 +29,6 @@ data class BankParams(
     @SerializedName("max_characters")
     val maxCharacters: String?,
     @Transient
-    val data: String? = ""
+    var data: String? = ""
 
 ) : ApiResponse()

@@ -175,19 +175,43 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/_100sdp"
-                    tools:visibility="visible"
                     android:orientation="vertical"
-                    android:visibility="@{viewModel.state.isRmt ? View.VISIBLE : View.GONE}">
+                    android:visibility="@{viewModel.state.isRmt ? View.VISIBLE : View.GONE}"
+                    tools:visibility="visible">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:dividerHeight="2dp"
                         android:visibility="visible"
                         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                         tools:itemCount="5"
                         tools:listitem="@layout/item_bank_params" />
+
+                    <TextView
+                        android:id="@+id/txtLabelSmall"
+                        style="@style/Small"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/margin_normal"
+                        android:layout_marginTop="@dimen/margin_normal"
+                        android:text="@{viewModel.state.txtCount}"
+                        android:visibility="@{viewModel.state.txtCount.empty ? View.GONE : View.VISIBLE}"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                        tools:text="Select your bank (1 bank found)" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler_banks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:dividerHeight="2dp"
+                        android:visibility="visible"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/item_rak_bank" />
                 </LinearLayout>
             </LinearLayout>
 

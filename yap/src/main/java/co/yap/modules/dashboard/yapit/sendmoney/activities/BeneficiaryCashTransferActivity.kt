@@ -17,6 +17,11 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
+import androidx.navigation.NavOptions
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
+
 
 class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTransfer.ViewModel>(),
     IFragmentHolder, INavigator {
