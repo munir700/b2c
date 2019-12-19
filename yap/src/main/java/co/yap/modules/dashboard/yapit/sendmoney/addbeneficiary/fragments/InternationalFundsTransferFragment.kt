@@ -128,6 +128,11 @@ class InternationalFundsTransferFragment :
 
     }
 
+    override fun onResume() {
+        setObservers()
+        super.onResume()
+    }
+
 
     fun getReasonListAdapter(it: List<InternationalFundsTransferReasonList.ReasonList>): ReasonListAdapter {
         if (mReasonListAdapter == null)
@@ -202,6 +207,11 @@ class InternationalFundsTransferFragment :
             }
         }
 
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
     }
 
 }
