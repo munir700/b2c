@@ -14,6 +14,10 @@ class HouseHoldSuccessViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+  override fun handlePressOnGoBackToDashBoard(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override val state: HouseHoldSuccessState = HouseHoldSuccessState()
 
     override val clickEvent: SingleClickEvent = SingleClickEvent()
@@ -22,7 +26,9 @@ class HouseHoldSuccessViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_yap_house_hold_user_info_display_text_title))
-        houseHoldUserName= houseHoldUserName
+        state.houseHoldUserName = houseHoldUserName!!
+        state.houseHoldUserEmail = houseHoldUserEmail!!
+        state.houseHoldUserPassCode = "0099"
     }
 
 

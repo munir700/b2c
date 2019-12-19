@@ -10,13 +10,13 @@ interface IHouseHoldSuccess {
     interface ViewModel : IBase.ViewModel<State> {
         fun handlePressOnShare(id: Int)
         val clickEvent: SingleClickEvent
+        fun handlePressOnGoBackToDashBoard(id: Int)
     }
 
     interface State : IBase.State {
       var houseHoldUserName: String
-
-
-
+      var houseHoldUserEmail: String
+      var houseHoldUserPassCode: String
 
     }
 }

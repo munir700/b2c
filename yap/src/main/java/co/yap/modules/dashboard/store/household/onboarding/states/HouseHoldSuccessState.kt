@@ -8,9 +8,23 @@ import co.yap.yapcore.BaseState
 class HouseHoldSuccessState : BaseState(), IHouseHoldSuccess.State {
 
     @get:Bindable
-    override var houseHoldUserName: String? = ""
+    override var houseHoldUserName: String = "houseHoldUserName"
         set(value) {
             field = value
             notifyPropertyChanged(BR.houseHoldUserName)
+        }
+
+    @get:Bindable
+    override var houseHoldUserEmail: String = "emailz"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.houseHoldUserEmail)
+        }
+
+    @get:Bindable
+    override var houseHoldUserPassCode: String = "houseHoldUserPassCode"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.houseHoldUserPassCode)
         }
 }

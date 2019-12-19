@@ -462,6 +462,14 @@ object UIBinder {
 
     }
 
+    @BindingAdapter("textVal", "noLineconcatVal")
+    @JvmStatic
+    fun setconcatValWithOutNewLine(tv: TextView, textKey: String, concat: String) {
+        Translator.getString(tv.context, textKey)
+        tv.text =  String.format( Translator.getString(tv.context, textKey), concat)
+
+    }
+
     @BindingAdapter("text", "concat")
     @JvmStatic
     fun setText(view: TextView, textId: Int, concat: Array<String>) {

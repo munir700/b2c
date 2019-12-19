@@ -24,6 +24,7 @@ class HouseHoldUserInfoViewModel(application: Application) :
 
     override fun setUserName() {
         houseHoldUserName = state.firstName
+        houseHoldUserEmail = state.emailAddress
     }
 
     override fun onResume() {

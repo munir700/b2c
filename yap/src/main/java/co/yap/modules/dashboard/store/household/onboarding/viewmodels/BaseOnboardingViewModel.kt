@@ -8,7 +8,8 @@ import co.yap.yapcore.IBase
 abstract class BaseOnboardingViewModel<S : IBase.State>(application: Application) :
     BaseViewModel<S>(application) {
     var parentViewModel: IBaseOnboarding.ViewModel? = null
-    var houseHoldUserName: String? = " abc"
+    var houseHoldUserName: String? = "abc"
+    var houseHoldUserEmail: String? = "abc@gmail.com"
 
     fun setToolBarTitle(title: String) {
         parentViewModel?.state?.tootlBarTitle = title
