@@ -26,7 +26,7 @@ import java.util.*
 
 
 class PrefixSuffixEditText : AppCompatEditText {
-    private val DEFAULTCOLOR = Color.parseColor("#808080")
+    private val DEFAULTCOLOR = Color.parseColor("#9391b1")
     private var mBackgroundColor: Int = 0
     private var clearIconTint: Int = 0
     private var hideShowIconTint: Int = 0
@@ -46,8 +46,9 @@ class PrefixSuffixEditText : AppCompatEditText {
     private var drawableEnd: Drawable? = null
     private var mDrawableWidth: Int = 0
     private var mDrawableHeight: Int = 0
+    private var pseSpace: Int = 0
     private var mPrefix: String? = null
-    var prefixBitmap: Bitmap? = null
+    private var prefixBitmap: Bitmap? = null
     var prefix: String?
         get() = this.mPrefix
         set(prefix) {
@@ -107,10 +108,15 @@ class PrefixSuffixEditText : AppCompatEditText {
             R.styleable.PrefixSuffixEditText_pse_compoundDrawableHeight,
             -1
         )
+        pseSpace = a.getDimensionPixelSize(
+            R.styleable.PrefixSuffixEditText_pse_space,
+            10
+        )
         cPaddingRight = a.getDimensionPixelSize(
             R.styleable.PrefixSuffixEditText_android_paddingRight,
             DEFAULT_PADDING
         )
+
         cPaddingBottom = a.getDimensionPixelSize(
             R.styleable.PrefixSuffixEditText_android_paddingBottom,
             DEFAULT_PADDING
@@ -129,7 +135,7 @@ class PrefixSuffixEditText : AppCompatEditText {
             a.getColor(R.styleable.PrefixSuffixEditText_pse_hideShowPasswordIconTint, DEFAULTCOLOR)
         clearIconTint = a.getColor(R.styleable.PrefixSuffixEditText_pse_clearIconTint, DEFAULTCOLOR)
         mPrefix = a.getString(R.styleable.PrefixSuffixEditText_pse_setPrefix)
-        prefixTextColor = a.getColor(R.styleable.PrefixSuffixEditText_pse_setPrefixTextColor, 0)
+        prefixTextColor = a.getColor(R.styleable.PrefixSuffixEditText_pse_setPrefixTextColor, DEFAULTCOLOR)
         mCornerRadius = a.getDimension(R.styleable.PrefixSuffixEditText_pse_setCornerRadius, 1f)
         mPrefixDrawable = a.getDrawable(R.styleable.PrefixSuffixEditText_pse_setPrefixDrawable)
 
@@ -149,7 +155,7 @@ class PrefixSuffixEditText : AppCompatEditText {
             handleClearButton()
         }
 
-        prefixDrawable = scale()
+        prefixDrawable = mPrefixDrawable
         if (mPrefix != null && mPrefix!!.length > 0) {
             calculatePrefix()
         }
@@ -227,36 +233,36 @@ class PrefixSuffixEditText : AppCompatEditText {
     /**
      * This method is used to set the rectangle box on EditText
      */
-    private fun setBackGroundOfLayout(shape: Drawable?) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            background = shape
-        } else {
-            setBackgroundDrawable(shape)
-        }
-        padding(true)
-    }
-
-    private fun padding(isRound: Boolean) {
-        val extraPadding: Int
-        val extraPad: Int
-        if (isRound) {
-            extraPadding = 5
-            extraPad = 0
-        } else {
-            extraPad = 5
-            extraPadding = 0
-        }
-        if (cPadding != -1) {
-            super.setPadding(cPadding + extraPadding, cPadding, cPadding, cPadding + extraPad)
-        } else {
-            super.setPadding(
-                cPaddingLeft + extraPadding,
-                cPaddingTop,
-                cPaddingRight,
-                cPaddingBottom + extraPad
-            )
-        }
-    }
+//    private fun setBackGroundOfLayout(shape: Drawable?) {
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+//            background = shape
+//        } else {
+//            setBackgroundDrawable(shape)
+//        }
+//        padding(true)
+//    }
+//
+//    private fun padding(isRound: Boolean) {
+//        val extraPadding: Int
+//        val extraPad: Int
+//        if (isRound) {
+//            extraPadding = 5
+//            extraPad = 0
+//        } else {
+//            extraPad = 5
+//            extraPadding = 0
+//        }
+//        if (cPadding != -1) {
+//            super.setPadding(cPadding + extraPadding, cPadding, cPadding, cPadding + extraPad)
+//        } else {
+//            super.setPadding(
+//                cPaddingLeft + extraPadding,
+//                cPaddingTop,
+//                cPaddingRight,
+//                cPaddingBottom + extraPad
+//            )
+//        }
+//    }
 
 
     /**
@@ -298,16 +304,23 @@ class PrefixSuffixEditText : AppCompatEditText {
                         ?: paint
                 )
             } else {
+//                canvas.drawBitmap(
+//                    prefixBitmap!!,
+//                    mOriginalLeftPadding,
+//                    (height / 2 - prefixBitmap?.height!! / 2).toFloat(),
+//                    myPaint
+//                        ?: paint
+//                )
                 canvas.drawBitmap(
                     prefixBitmap!!,
                     mOriginalLeftPadding,
-                    (height / 2 - prefixBitmap?.height!! / 2).toFloat(),
+                    (((height - prefixBitmap?.height!!)/2)-(paddingBottom/2-paddingTop)).toFloat(),
                     myPaint
                         ?: paint
                 )
-                canvas.drawText(
-                    prefix!!,
-                    prefixBitmap?.width?.plus(mOriginalLeftPadding)!!,
+                    canvas.drawText(
+                        prefix!!,
+                    prefixBitmap?.width?.plus(mOriginalLeftPadding)?.plus(pseSpace/2)!!,
                     getLineBounds(0, null).toFloat(),
                     myPaint
                         ?: paint
@@ -337,8 +350,8 @@ class PrefixSuffixEditText : AppCompatEditText {
             ) // Single color bitmap will be created of 1x1 pixel
         } else {
             Bitmap.createBitmap(
-                drawable.intrinsicWidth,
-                drawable.intrinsicHeight,
+                mDrawableWidth,
+                mDrawableHeight,
                 Bitmap.Config.ARGB_8888
             )
         }
@@ -470,7 +483,7 @@ class PrefixSuffixEditText : AppCompatEditText {
             mOriginalLeftPadding = compoundPaddingLeft.toFloat()
             if (prefixBitmap != null) {
                 setPadding(
-                    (prefixBitmap?.width!! + textWidth + mOriginalLeftPadding).toInt() + 10,
+                    (prefixBitmap?.width!! + textWidth + mOriginalLeftPadding).toInt() + pseSpace,
                     paddingRight, paddingTop,
                     paddingBottom
                 )

@@ -67,10 +67,10 @@
                     style="@style/Micro"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
                     android:layout_gravity="center"
                     android:drawableTop="@drawable/ic_close"
                     android:drawablePadding="@dimen/_2sdp"
+                    android:layout_centerInParent="true"
                     android:drawableTint="@color/white"
                     android:gravity="center"
                     android:textColor="@color/white"
@@ -95,23 +95,21 @@
                 android:padding="@dimen/margin_small"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
                 <co.yap.widgets.CoreCircularImageView
                     android:id="@+id/imgProfile"
                     android:layout_width="@dimen/_40sdp"
                     android:layout_height="@dimen/_40sdp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/small"
                     android:contentDescription="@string/empty_string"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:src="@drawable/ic_store_b2b"
-                    app:colorType="@{`Beneficiary`}"
-                    app:fullName="@{viewModel.beneficiary.fullName()}"
-                    app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:colorType="@{`Beneficiary`}"
+                    app:fullName="@{viewModel.beneficiary.fullName()}"
+                    app:imageUrl="@{viewModel.beneficiary.beneficiaryPictureUrl}"
                     app:position="@{viewModel.position}" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -135,7 +133,6 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="bottom"
-                    android:lineSpacingExtra="0dp"
                     android:lines="1"
                     android:text="@{viewModel.beneficiary.fullName()}"
                     tools:text="Bril Lizzie Hugsadsadflksjdflkjsalk,nmbmfdjlsajfdllsjdflksjdflkjlsdfjklksdjfkljsdfalkfjaskljflkasfjlkasdjlfjfjlkasdfjklhes" />
@@ -166,12 +163,12 @@
                     tools:visibility="visible" />
 
 
-                <co.yap.widgets.CoreCircularImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/flag_img"
-                    android:layout_width="@dimen/_20sdp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:setFlagDrawable="@{viewModel.beneficiary.country}"
-                    tools:src="@drawable/flag_ae" />
+                    tools:src="@drawable/flag_ae"
+                    app:setFlagDrawable ="@{viewModel.beneficiary.country}" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
