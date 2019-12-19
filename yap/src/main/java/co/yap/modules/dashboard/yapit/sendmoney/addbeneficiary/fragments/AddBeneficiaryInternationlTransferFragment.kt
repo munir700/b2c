@@ -10,14 +10,15 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.countryutils.country.InternationalPhoneTextWatcher
-import co.yap.databinding.FragmentAddBeneficiaryInternationalBankTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.others.helper.getCurrencyPopMenu
 import co.yap.translation.Translator
+import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
+import co.yap.widgets.popmenu.PopupMenuItem
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.tvChangeCurrency
@@ -37,7 +38,7 @@ class AddBeneficiaryInternationlTransferFragment :
 //    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_domestic_transfer
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_international_bank_transfer
 
-    override val viewModel: IAddBeneficiary.ViewModel
+    override val viewModel: AddBeneficiaryViewModel
         get() = ViewModelProviders.of(this).get(AddBeneficiaryViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,14 +65,27 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun initComponents() {
-        currencyPopMenu = requireContext().getCurrencyPopMenu(this,null,null)
-//        (activity as? SendMoneyHomeActivity)?.viewModel?.selectedCountry?.value?.let {
-//            getBindings()?.ccpSelector?.setCountryForNameCode(it.isoCountryCode2Digit ?: "")
-//        }
+        currencyPopMenu =
+            requireContext().getCurrencyPopMenu(
+                this,
+                getCurrencyList(),
+                popupItemClickListener,
+                null
+            )
+        currencyPopMenu?.selectedPosition = 0
+    }
+
+    private fun getCurrencyList(): ArrayList<PopupMenuItem> {
+        val currencies = viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies
+        val popMenuCurrenciesList = ArrayList<PopupMenuItem>()
+        for (currency in currencies!!.iterator()) {
+            popMenuCurrenciesList.add(PopupMenuItem(currency.name))
+        }
+        return popMenuCurrenciesList
     }
 
 
-    val observer = Observer<Int> {
+    private val observer = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
                 if (viewModel.state.transferType != "Cash Pickup")
@@ -86,6 +100,19 @@ class AddBeneficiaryInternationlTransferFragment :
             }
         }
     }
+
+    private val popupItemClickListener =
+        OnMenuItemClickListener<PopupMenuItem?> { position, _ ->
+            val currencyItem =
+                viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies?.get(position)
+            if (currencyItem != null) {
+                currencyPopMenu?.selectedPosition = position
+                viewModel.state.currency = currencyItem.code ?: "AED"
+                viewModel.parentViewModel?.selectedCountry?.value?.setCurrency(
+                    currencyItem
+                )
+            }
+        }
 
     private fun addBeneficiaryDialog() {
         context?.let { it ->
@@ -150,8 +177,8 @@ class AddBeneficiaryInternationlTransferFragment :
         return false
     }
 
-    private fun getBindings(): FragmentAddBeneficiaryInternationalBankTransferBinding? {
-        return viewDataBinding as? FragmentAddBeneficiaryInternationalBankTransferBinding
-    }
+//    private fun getBindings(): FragmentAddBeneficiaryInternationalBankTransferBinding? {
+//        return viewDataBinding as? FragmentAddBeneficiaryInternationalBankTransferBinding
+//    }
 
 }
