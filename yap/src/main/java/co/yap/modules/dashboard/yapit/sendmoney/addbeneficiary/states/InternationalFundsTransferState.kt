@@ -23,12 +23,14 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.transferFee)
 
         }
+
     @get:Bindable
     override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
+
     @get:Bindable
     override var fxRateAmount: String? = ""
         set(value) {
@@ -205,6 +207,20 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.listItemRemittanceFee)
+        }
+
+    @get:Bindable
+    override var reasonTransferValue: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferValue)
+        }
+
+    @get:Bindable
+    override var reasonTransferCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferCode)
         }
 
     fun validate() {

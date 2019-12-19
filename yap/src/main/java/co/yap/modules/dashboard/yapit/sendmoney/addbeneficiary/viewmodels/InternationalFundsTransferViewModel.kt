@@ -20,7 +20,6 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.helpers.Utils
 
 class InternationalFundsTransferViewModel(application: Application) :

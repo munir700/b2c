@@ -36,6 +36,8 @@ interface IInternationalFundsTransfer {
         var beneficiaryId: String?
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
 
+        var reasonTransferValue: String?
+        var reasonTransferCode: String?
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -48,6 +50,8 @@ interface IInternationalFundsTransfer {
         fun rmtTransferRequest(beneficiaryId: String?)
         fun swiftTransferRequest(beneficiaryId: String?)
         var otpAction: String?
+
+
     }
 
     interface View : IBase.View<ViewModel>

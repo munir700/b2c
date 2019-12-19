@@ -17,7 +17,6 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
-import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 
@@ -91,14 +90,8 @@ class InternationalFundsTransferFragment :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinner.setSelection(pos)
             if (bankReasonList.isNotEmpty()) {
-                println(data.toString())
-                bankReasonList[pos].code
-                bankReasonList[pos].reason
-
-
-                println(bankReasonList[pos].code)
-                println(bankReasonList[pos].reason)
-                toast("")
+                viewModel.state.reasonTransferValue = bankReasonList[pos].reason
+                viewModel.state.reasonTransferCode = bankReasonList[pos].code
             }
 
 
