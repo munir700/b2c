@@ -32,7 +32,6 @@ interface IInternationalFundsTransfer {
         var toFxRateCurrency: String?
         var valid: Boolean
         var beneficiaryId: String?
-        var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
 
     }
@@ -41,8 +40,8 @@ interface IInternationalFundsTransfer {
         var clickEvent: SingleClickEvent
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
-        fun handlePressOnButton(id:Int)
-        fun getTransactionFeeInternational(productCode:String?)
+        fun handlePressOnButton(id: Int)
+        fun getTransactionFeeInternational(productCode: String?)
         fun rmtTransferRequest(beneficiaryId: String?)
         fun swiftTransferRequest(beneficiaryId: String?)
         var otpAction: String?
