@@ -135,6 +135,7 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
+
     override fun swiftTransferRequest(beneficiaryId: String?) {
         launch {
             state.loading = true
@@ -144,10 +145,10 @@ class InternationalFundsTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.fxRateAmount?.toDouble(),
                         0.0,
-                        "51",
-                        "dsdsdsds",
+                        state.reasonTransferCode,
+                        state.reasonTransferValue,
                         "",
-                        ""
+                        state.rate
                     )
                 )
                 ) {
