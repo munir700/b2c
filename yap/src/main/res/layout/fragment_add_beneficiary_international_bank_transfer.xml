@@ -214,15 +214,16 @@
                     app:textColor="@{viewModel.state.nickName.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name" />
 
-                <EditText
+                <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/etnickName"
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:backgroundTint="@color/greyLight"
                     android:imeOptions="actionNext"
-                    android:importantForAutofill="no"
                     android:maxLength="50"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="@={viewModel.state.nickName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_nick_name_hint}" />
 
@@ -232,7 +233,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_normal"
-                    android:text="@string/screen_add_beneficiary_detail_display_text_transfer_nick_name"
+                    android:text="@string/screen_add_beneficiary_detail_display_text_transfer_first_name"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -250,6 +251,8 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
 
@@ -277,6 +280,8 @@
                     android:imeOptions="actionNext"
                     android:importantForAutofill="no"
                     android:maxLength="50"
+                    android:maxLines="1"
+                    android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
@@ -293,94 +298,42 @@
                     app:textColor="@{viewModel.state.mobileNo.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone" />
 
-                <LinearLayout
-                    android:id="@+id/viewPhoneNumber"
+                <co.yap.widgets.PrefixSuffixEditText
+                    android:id="@+id/etMobileNumber"
+                    style="@style/Yap.App.Widget.TextInputEditText"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:paddingBottom="16dp"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.mobileNo}"
+                    app:countryCode="@{viewModel.state.countryCode!=null?viewModel.state.countryCode:` `}"
+                    app:countryName="@{viewModel.state.country2DigitIsoCode!=null?viewModel.state.country2DigitIsoCode:` `}"
+                    app:pse_compoundDrawableHeight="@dimen/_16sdp"
+                    app:pse_compoundDrawableWidth="@dimen/_16sdp"
+                    app:pse_setPrefix="+971"
+                    app:pse_setPrefixDrawable="@drawable/flag_ae"
+                    app:pse_space="@dimen/_12sdp"
+                    tools:text="322335" />
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/confirmButton"
+                    style="@style/FragmentsBtnStyle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_marginTop="@dimen/_60sdp"
+                    android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
+                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:text="@{viewModel.state.transferType.equals(`Cash Pickup`)?Strings.screen_add_beneficiary_detail_button_confirm:Strings.common_button_next}"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="44dp"
+                    tools:text="@string/common_button_next" />
 
-                    <LinearLayout
-                        android:id="@+id/ccpContainer"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:minHeight="52dp"
-                        android:orientation="horizontal"
-                        android:paddingLeft="@dimen/_2sdp"
-                        android:paddingRight="@dimen/margin_small"
-                        android:weightSum="1">
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingTop="@dimen/margin_medium"
-                            android:paddingBottom="@dimen/margin_medium">
-
-                            <co.yap.widgets.CoreCircularImageView
-                                android:id="@+id/flag_img_phone"
-                                android:layout_width="@dimen/_20sdp"
-                                android:layout_height="@dimen/_20sdp"
-                                app:src="@{viewModel.state.flagDrawableResId}" />
-
-                            <TextView
-                                android:id="@+id/txt_countryCode"
-                                style="@style/ASmallGrey"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginStart="@dimen/margin_normal"
-                                android:text="@{viewModel.state.countryCode}"
-                                tools:text="+971" />
-                        </LinearLayout>
-
-                        <EditText
-                            android:id="@+id/etMobileNumber"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight=".99"
-                            android:background="@null"
-                            android:digits="1234567890 "
-                            android:drawableRight="@{viewModel.state.drawbleRight}"
-                            android:editable="false"
-                            android:imeOptions="actionDone"
-                            android:inputType="phone"
-                            android:maxLength="@{viewModel.state.mobileNoLength}"
-                            android:padding="@dimen/_5sdp"
-                            android:paddingEnd="@dimen/margin_normal"
-                            android:singleLine="true"
-                            android:text="@={viewModel.state.mobileNo}"
-                            android:textColor="@color/colorPrimaryDark"
-                            android:textSize="@dimen/_15sdp" />
-
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="@dimen/_2sdp"
-                        android:layout_marginEnd="@dimen/_2sdp"
-                        android:layout_marginBottom="@dimen/_100sdp"
-                        android:background="@color/greyLight" />
-                </LinearLayout>
             </LinearLayout>
 
-            <co.yap.widgets.CoreButton
-                android:id="@+id/confirmButton"
-                style="@style/FragmentsBtnStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginTop="@dimen/_60sdp"
-                android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
-                android:layout_marginBottom="@dimen/margin_medium_large"
-                android:onClick="@{(v) -> viewModel.handlePressOnAddNow(v.id)}"
-                app:enableCoreButton="@{viewModel.state.valid}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:text="@{viewModel.state.transferType.equals(`Cash Pickup`)?Strings.screen_add_beneficiary_detail_button_confirm:Strings.common_button_next}"
-                tools:ignore="MissingConstraints"
-                tools:layout_editor_absoluteX="44dp"
-                tools:text="@string/common_button_next" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

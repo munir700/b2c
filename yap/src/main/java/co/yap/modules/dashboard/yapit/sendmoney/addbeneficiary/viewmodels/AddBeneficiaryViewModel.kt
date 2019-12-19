@@ -13,7 +13,6 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
@@ -30,6 +29,7 @@ class AddBeneficiaryViewModel(application: Application) :
         super.onCreate()
         parentViewModel?.selectedCountry?.value?.let {
             state.country = it.getName()
+            state.country2DigitIsoCode = it.isoCountryCode2Digit ?: "AE"
             state.flagDrawableResId =
                 Country(isoCountryCode2Digit = it.isoCountryCode2Digit).getFlagDrawableResId()
 
