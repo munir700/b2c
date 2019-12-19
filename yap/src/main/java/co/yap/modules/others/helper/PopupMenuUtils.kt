@@ -2,7 +2,6 @@ package co.yap.modules.others.helper
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Typeface
 import android.view.Gravity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
@@ -11,20 +10,12 @@ import co.yap.R
 import co.yap.widgets.popmenu.*
 
 fun Context.getCurrencyPopMenu(
-    lifecycleOwner: LifecycleOwner?,
+    lifecycleOwner: LifecycleOwner?, itemList: List<PopupMenuItem>,
     onMenuItemClickListener: OnMenuItemClickListener<PopupMenuItem?>?,
     onDismissedListener: OnDismissedListener?
 ): PopupMenu {
     return PopupMenu.Builder(this)
-        .addItem(PopupMenuItem("Pakistani Rupees", true))
-        .addItem(PopupMenuItem("US Dollars", false))
-        .addItem(PopupMenuItem("US Dollars", false))
-        .addItem(PopupMenuItem("US Dollars", false))
-        .addItem(PopupMenuItem("US Dollars", false))
-        .addItem(PopupMenuItem("US Dollars", false))
-        .addItem(PopupMenuItem("US Dollars", false))
-        .addItem(PopupMenuItem("US Dollars", false))
-        .addItem(PopupMenuItem("US Dollars", false))
+        .addItemList(itemList)
         .setAutoDismiss(true)
         .setLifecycleOwner(lifecycleOwner!!)
         .setAnimation(MenuAnimation.SHOWUP_TOP_RIGHT)

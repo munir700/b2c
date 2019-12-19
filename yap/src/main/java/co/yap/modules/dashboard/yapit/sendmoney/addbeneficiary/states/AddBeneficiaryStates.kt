@@ -6,7 +6,7 @@ import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.yapcore.BaseState
 
-class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
+class AddBeneficiaryStates(beneficiaryType:String?) : BaseState(), IAddBeneficiary.State {
 
     var validateConfirmIban: Boolean = false
 

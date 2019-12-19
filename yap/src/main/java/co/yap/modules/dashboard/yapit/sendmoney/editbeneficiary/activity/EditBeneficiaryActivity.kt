@@ -50,7 +50,7 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             }
         }
         setObservers()
-        currencyPopMenu = getCurrencyPopMenu(this,null,null)
+        currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
     }
 
 
