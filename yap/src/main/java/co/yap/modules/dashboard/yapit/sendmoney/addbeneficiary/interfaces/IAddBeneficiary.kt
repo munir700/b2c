@@ -25,6 +25,7 @@ interface IAddBeneficiary {
         var valid: Boolean
         var validateCashflowButton: Boolean
         var validateDomesticButton: Boolean
+        var country2DigitIsoCode:String
 
         var id: Int
         var beneficiaryId: String?

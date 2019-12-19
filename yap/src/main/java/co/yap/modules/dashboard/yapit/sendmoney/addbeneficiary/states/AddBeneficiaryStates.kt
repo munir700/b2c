@@ -103,7 +103,6 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
             notifyPropertyChanged(co.yap.BR.mobile)
             if (mobileNo.length < 9) {
                 mobileNoLength = 11
-
             }
         }
 
@@ -115,10 +114,7 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
         }
 
     fun validate() {
-        if (!lastName.isNullOrEmpty() && !nickName.isNullOrEmpty() && !lastName.isNullOrEmpty()) {
-            valid = true
-            notifyPropertyChanged(BR.valid)
-        }
+        valid = !firstName.isNullOrEmpty() && !nickName.isNullOrEmpty() && !lastName.isNullOrEmpty()
     }
 
     // fields for domestic user
@@ -131,6 +127,12 @@ class AddBeneficiaryStates : BaseState(), IAddBeneficiary.State {
             notifyPropertyChanged(BR.validateDomesticButton)
         }
 
+    @get:Bindable
+    override var country2DigitIsoCode: String = "AE"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.country2DigitIsoCode)
+        }
 
     @get:Bindable
     override var validateCashflowButton: Boolean = false

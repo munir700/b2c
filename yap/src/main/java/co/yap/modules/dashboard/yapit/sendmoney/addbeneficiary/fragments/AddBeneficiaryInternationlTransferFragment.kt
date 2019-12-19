@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -7,6 +9,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.databinding.FragmentAddBeneficiaryInternationalBankTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
@@ -17,7 +20,8 @@ import co.yap.translation.Translator
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
-import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
+import kotlinx.android.synthetic.main.activity_edit_beneficiary.tvChangeCurrency
+import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
 
 
 //this wil be the common screen in all three case only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
@@ -49,6 +53,14 @@ class AddBeneficiaryInternationlTransferFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initComponents()
+        etMobileNumber.addTextChangedListener(
+            InternationalPhoneTextWatcher(
+                requireContext(),
+                viewModel.state.country2DigitIsoCode,
+                viewModel.state.countryCode.toInt(),
+                true
+            )
+        )
     }
 
     private fun initComponents() {
@@ -98,8 +110,8 @@ class AddBeneficiaryInternationlTransferFragment :
                             if (data) {
                                 startMoneyTransfer()
                             } else {
-                                activity?.let { activity ->
-                                    activity.finish()
+                                activity?.let {
+                                    setIntentResult()
                                 }
                             }
                         }
@@ -111,10 +123,17 @@ class AddBeneficiaryInternationlTransferFragment :
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let { beneficiary ->
             startActivity(BeneficiaryCashTransferActivity.newIntent(requireContext(), beneficiary))
-            activity?.let { activity ->
-                activity.finish()
+            activity?.let {
+                setIntentResult()
             }
         }
+    }
+
+    private fun setIntentResult() {
+        val intent = Intent()
+        intent.putExtra("beneficiary_change", true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 
     override fun onDestroy() {

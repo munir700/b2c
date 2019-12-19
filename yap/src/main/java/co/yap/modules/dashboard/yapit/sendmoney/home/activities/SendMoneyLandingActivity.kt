@@ -259,8 +259,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private val clickListener = Observer<Int> {
         when (it) {
-            R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
-            R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
+            R.id.addContactsButton -> startActivityForResult(
+                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                REQUEST_CODE
+            ) //btn invoke add Beneficiary flow
+            R.id.tbBtnAddBeneficiary -> startActivityForResult(
+                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                REQUEST_CODE
+            ) //toolbar invoke add Beneficiary flow
             R.id.tbBtnBack -> finish()
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
