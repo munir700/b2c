@@ -34,6 +34,7 @@ class AddBeneficiaryViewModel(application: Application) :
                 Country(isoCountryCode2Digit = it.isoCountryCode2Digit).getFlagDrawableResId()
 
             parentViewModel?.transferType?.value?.let { it ->
+                if (it.isEmpty()) return@let
                 when (SendMoneyBeneficiaryType.valueOf(it)) {
                     SendMoneyBeneficiaryType.CASHPAYOUT -> {
                         state.transferType = "Cash Pickup"
