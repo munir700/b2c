@@ -8,6 +8,7 @@ import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.*
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.Check3DEnrollmentSessionResponse
 import co.yap.networking.transactions.responsedtos.topuptransactionsession.CreateTransactionSessionResponseDTO
+import co.yap.networking.transactions.responsedtos.transaction.FxRateResponse
 import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsResponse
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 
@@ -50,6 +51,14 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         "transactions/api/product-codes/{product-code}/fxRate"
     const val URL_CASH_PAYOUT_TRANSFER =
         "/transactions/api/cashpayout"
+    const val URL_DOMESTIC_TRANSFER =
+        "/transactions/api/yap-to-rak"
+    const val URL_UAEFTS_TRANSFER =
+        "/transactions/api/uaefts"
+    const val URL_RMT_TRANSFER =
+        "/transactions/api/rmt"
+    const val URL_SWIFT_TRANSFER =
+        "/transactions/api/swift"
 
     private val api: TransactionsRetroService =
         RetroNetwork.createService(TransactionsRetroService::class.java)
@@ -80,13 +89,18 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
             )
         })
 
-    override suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList> =
+    override suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList> =
         executeSafely(call = { api.getInternationalTransactionReasonList(productCode) })
 
+    //    override suspend fun getTransactionInternationalRXList(
+//        productCode: String,
+//        mRxListRequest: RxListRequest
+//    ): RetroApiResponse<ApiResponse> =
+//        executeSafely(call = { api.getInternationalRXRateList(productCode, mRxListRequest) })
     override suspend fun getTransactionInternationalRXList(
-        productCode: String,
+        productCode: String?,
         mRxListRequest: RxListRequest
-    ): RetroApiResponse<ApiResponse> =
+    ): RetroApiResponse<FxRateResponse> =
         executeSafely(call = { api.getInternationalRXRateList(productCode, mRxListRequest) })
 
     override suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse> =
@@ -160,4 +174,19 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
 
     override suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.cashPayoutTransferRequest(cashPayoutRequestDTO) })
+
+    override suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.domesticTransferRequest(domesticTransactionRequestDTO) })
+
+    override suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.uaeftsTransferRequest(uaeftsTransactionRequestDTO) })
+
+    override suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.rmtTransferRequest(rmtTransactionRequestDTO) })
+
+
+    override suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.swiftTransferRequest(uaeftsTransactionRequestDTO) })
+
+
 }
