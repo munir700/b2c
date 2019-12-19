@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.store.household.onboarding.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -38,8 +39,7 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
                 }
 
                 R.id.btnShare -> {
-//                    share the information let's see what
-                    findNavController().navigate(R.id.action_houseHoldUserInfoFragment_to_houseHoldUserContactFragment)
+                    shareInfo()
                 }
 
             }
@@ -59,4 +59,17 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
         super.onDestroy()
 
     }
+
+    private fun shareInfo() {
+        val sharingIntent = Intent(Intent.ACTION_SEND)
+        sharingIntent.type = "text/plain"
+        sharingIntent.putExtra(Intent.EXTRA_TEXT, getBody())
+        startActivity(Intent.createChooser(sharingIntent, "Share"))
+    }
+
+    private fun getBody(): String {
+        return "Email:\n ${viewModel.state.houseHoldUserEmail}\n" +
+                "PassCode:\n ${viewModel.state.houseHoldUserPassCode}"
+    }
+
 }
