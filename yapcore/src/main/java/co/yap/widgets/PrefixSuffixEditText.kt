@@ -21,6 +21,7 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
+import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.yapcore.R
 import java.util.*
 
@@ -187,6 +188,7 @@ class PrefixSuffixEditText : AppCompatEditText {
             }
             false
         })
+        addTextChangedListener(InternationalPhoneTextWatcher(context,"PK",92,true))
         a.recycle()
 
 //        val drawables = compoundDrawables
