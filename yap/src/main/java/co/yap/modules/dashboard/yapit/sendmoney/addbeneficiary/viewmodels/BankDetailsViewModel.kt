@@ -28,7 +28,7 @@ class BankDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.transferType?.value?.let {
+        parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
             if (it.isNotEmpty())
                 when (SendMoneyBeneficiaryType.valueOf(it)) {
                     SendMoneyBeneficiaryType.RMT -> {
@@ -60,7 +60,7 @@ class BankDetailsViewModel(application: Application) :
             parentViewModel?.beneficiary?.value?.bankCity = state.bankCity
             parentViewModel?.beneficiary?.value?.swiftCode = state.swiftCode
 
-            parentViewModel?.transferType?.value?.let {
+            parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
                         SendMoneyBeneficiaryType.RMT -> {
@@ -92,7 +92,6 @@ class BankDetailsViewModel(application: Application) :
                 when (val response = repository.findOtherBank(otherBankQuery)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-                        state.toast = response.data.toString()
                         bankList.value = response.data.data?.banks
                     }
 
@@ -125,5 +124,14 @@ class BankDetailsViewModel(application: Application) :
     }
 
     override fun retry() {
+    }
+
+    fun updateBeneficiaryBankData(data: Bank) {
+        parentViewModel?.beneficiary?.value?.also {
+            it.bankName = data.other_bank_name
+            it.identifierCode1 = data.identifier_code1
+            it.identifierCode2 = data.identifier_code2
+            it.branchAddress = data.other_branch_name
+        }
     }
 }

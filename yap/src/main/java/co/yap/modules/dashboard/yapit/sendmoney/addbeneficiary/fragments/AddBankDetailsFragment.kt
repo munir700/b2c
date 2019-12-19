@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.adaptor.AddBeneficiariesAdaptor
@@ -56,16 +57,11 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
 
     private fun setupAdaptor(list: List<BankParams>) {
         adaptor = AddBeneficiariesAdaptor(list as MutableList<BankParams>, watcher)
-        adaptor?.setItemListener(listener)
         recycler.adapter = adaptor
     }
 
     private fun setupAdaptorBanks(list: List<Bank>) {
-        if (list.isEmpty()) {
-            viewModel.state.txtCount.set("")
-        } else {
-            viewModel.state.txtCount.set("Select your bank (${list.size} bank found)")
-        }
+        viewModel.state.txtCount.set(if (list.isEmpty()) "" else "Select your bank (${list.size} bank found)")
         adaptorBanks = RAKBankAdaptor(list as MutableList<Bank>)
         adaptorBanks?.setItemListener(listener)
         recycler_banks.adapter = adaptorBanks
@@ -73,9 +69,16 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
 
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
-//            val action =
-//                YapStoreFragmentDirections.actionYapStoreFragmentToYapStoreDetailFragment((dataList as Store).id.toString())
-//            view.findNavController().navigate(action)
+            if (data is Bank) {
+                viewModel.parentViewModel?.beneficiary?.value?.also {beneficiary ->
+                    beneficiary.bankName = data.other_bank_name
+                    beneficiary.identifierCode1 = data.identifier_code1
+                    beneficiary.identifierCode2 = data.identifier_code2
+                    beneficiary.branchName = data.other_branch_name
+                    beneficiary.branchAddress = data.other_branch_addr1
+                    findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
+                }
+            }
         }
     }
 
@@ -84,7 +87,6 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
             R.id.confirmButton -> {
                 viewModel.searchRMTBanks(otherSearchParams())
             }
-            //findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
         }
     }
 

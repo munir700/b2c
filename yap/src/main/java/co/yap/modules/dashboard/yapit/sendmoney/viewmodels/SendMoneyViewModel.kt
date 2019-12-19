@@ -17,7 +17,7 @@ class SendMoneyViewModel(application: Application) :
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val state: SendMoneyState = SendMoneyState()
     override var selectedCountry: MutableLiveData<Country> = MutableLiveData(Country())
-    override var transferType: MutableLiveData<String> = MutableLiveData("")
+    //override var transferType: MutableLiveData<String> = MutableLiveData("")
     override var beneficiary: MutableLiveData<Beneficiary> = MutableLiveData(Beneficiary())
 
     override fun handlePressButton(id: Int) {

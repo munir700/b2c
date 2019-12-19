@@ -18,7 +18,7 @@ class ISendMoney {
     interface ViewModel : IBase.ViewModel<State> {
         val clickEvent: SingleClickEvent
         var selectedCountry: MutableLiveData<Country>
-        var transferType: MutableLiveData<String>
+        //var transferType: MutableLiveData<String>
         var beneficiary: MutableLiveData<Beneficiary>
         fun handlePressButton(id: Int)
     }

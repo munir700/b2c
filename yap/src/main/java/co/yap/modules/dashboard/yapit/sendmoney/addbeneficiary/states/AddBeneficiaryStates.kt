@@ -5,11 +5,21 @@ import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
-class AddBeneficiaryStates(beneficiaryType:String?) : BaseState(), IAddBeneficiary.State {
+class AddBeneficiaryStates : BaseState(),
+    IAddBeneficiary.State {
 
     var validateConfirmIban: Boolean = false
 
+    @get:Bindable
+    override var selectedBeneficiaryType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selectedBeneficiaryType)
+        }
+
+    @get:Bindable
     override var countryCode: String = ""
         set(value) {
             field = value
@@ -114,7 +124,25 @@ class AddBeneficiaryStates(beneficiaryType:String?) : BaseState(), IAddBeneficia
         }
 
     fun validate() {
-        valid = !firstName.isNullOrEmpty() && !nickName.isNullOrEmpty() && !lastName.isNullOrEmpty()
+        if (!selectedBeneficiaryType.isNullOrEmpty()) {
+            when (SendMoneyBeneficiaryType.valueOf(selectedBeneficiaryType!!)) {
+                SendMoneyBeneficiaryType.RMT -> {
+                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
+                }
+                SendMoneyBeneficiaryType.SWIFT -> {
+
+                }
+                SendMoneyBeneficiaryType.DOMESTIC -> {
+
+                }
+                SendMoneyBeneficiaryType.CASHPAYOUT -> {
+
+                }
+                SendMoneyBeneficiaryType.UAEFTS -> {
+
+                }
+            }
+        }
     }
 
     // fields for domestic user
@@ -251,7 +279,8 @@ class AddBeneficiaryStates(beneficiaryType:String?) : BaseState(), IAddBeneficia
         }
 
     fun validateIban() {
-        validateDomesticButton = !iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban == confirmIban
+        validateDomesticButton =
+            !iban.isNullOrEmpty() && !confirmIban.isNullOrEmpty() && iban == confirmIban
         validateConfirmIban = validateDomesticButton
         notifyPropertyChanged(BR.validateDomesticButton)
         validateDomesticUser()
@@ -277,7 +306,7 @@ class AddBeneficiaryStates(beneficiaryType:String?) : BaseState(), IAddBeneficia
         if (!lastName.isNullOrEmpty() && !firstName.isNullOrEmpty() && validateConfirmIban) {
             validateDomesticButton = true
             notifyPropertyChanged(BR.validateDomesticButton)
-        }else{
+        } else {
             validateDomesticButton = false
             notifyPropertyChanged(BR.validateDomesticButton)
         }
