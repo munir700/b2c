@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
@@ -11,7 +10,8 @@
         <variable
             name="viewModel"
             type="co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScreenViewModel" />
-        <import type="co.yap.translation.Strings"/>
+
+        <import type="co.yap.translation.Strings" />
 
     </data>
 
@@ -19,8 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:padding="@dimen/margin_medium"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:padding="@dimen/margin_medium">
 
         <ImageView
             android:id="@+id/tbBtnBack"
@@ -31,12 +31,10 @@
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
             android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}"
+            android:tint="@color/colorPrimary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:tint="@color/colorPrimary"
             app:srcCompat="@drawable/ic_close" />
-
-<!--        android:text="@={viewModel.state.tootlBarTitle}"-->
 
         <TextView
             android:id="@+id/tvTitle"
@@ -45,13 +43,12 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="@dimen/_14sdp"
+            android:layout_toStartOf="@+id/tbBtnAddBeneficiary"
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
             app:text="@{Strings.screen_send_money_display_text_title}"
-            tools:text="@string/send_money"
-       />
-<!--        android:visibility="@{viewModel.state.enableAddBeneficiary ? View.VISIBLE:View.GONE}"-->
+            tools:text="@string/send_money" />
+
         <ImageView
             android:id="@+id/tbBtnAddBeneficiary"
             android:layout_width="@dimen/_25sdp"
@@ -59,8 +56,8 @@
             android:layout_alignParentEnd="true"
             android:clickable="true"
             android:focusable="true"
-            android:onClick="@{v->viewModel.handlePressOnView(v.id)}"
             android:foreground="?attr/selectableItemBackground"
+            android:onClick="@{v->viewModel.handlePressOnView(v.id)}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/ic_add_sign" />

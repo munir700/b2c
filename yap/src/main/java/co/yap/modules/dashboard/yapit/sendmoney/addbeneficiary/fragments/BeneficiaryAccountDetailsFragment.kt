@@ -50,7 +50,12 @@ class BeneficiaryAccountDetailsFragment :
                             override fun onItemClick(view: View, data: Any, pos: Int) {
                                 if (data is Boolean) {
                                     if (data) {
-                                        startActivity(Intent(it, BeneficiaryCashTransferActivity::class.java))
+                                        startActivity(
+                                            Intent(
+                                                it,
+                                                BeneficiaryCashTransferActivity::class.java
+                                            )
+                                        )
                                         activity?.let { activity ->
                                             activity.finish()
                                         }
@@ -83,7 +88,6 @@ class BeneficiaryAccountDetailsFragment :
     }
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
 

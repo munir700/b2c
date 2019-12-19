@@ -32,7 +32,11 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 when (SendMoneyBeneficiaryType.valueOf(it)) {
                     SendMoneyBeneficiaryType.SWIFT -> {
                         state.showlyIban.set(true)
-                        state.showlyConfirmIban.set(true)
+                        //state.showlyConfirmIban.set(true)
+                    }
+                    SendMoneyBeneficiaryType.RMT -> {
+                        state.showlyIban.set(true)
+                        //state.showlyConfirmIban.set(true)
                     }
                     else -> {
 
@@ -41,9 +45,9 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
         }
         parentViewModel?.beneficiary?.value?.let {
             state.bankName = it.bankName ?: ""
-            state.idCode = it.id.toString()
-            state.bankAddress = it.bankCity ?: ""
-            state.bankPhoneNumber = it.mobileNo ?: ""
+            state.idCode = ""
+            state.bankAddress = it.branchAddress ?: ""
+            state.bankPhoneNumber = ""
         }
     }
 
@@ -54,15 +58,19 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
                         SendMoneyBeneficiaryType.SWIFT -> {
                             parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+                            createBeneficiaryRequest()
+                        }
+                        SendMoneyBeneficiaryType.RMT -> {
+                            parentViewModel?.beneficiary?.value?.accountNo = state.accountIban
+                            createBeneficiaryRequest()
                         }
                         else -> {
-
+                            clickEvent.setValue(id)
                         }
                     }
             }
-
-        }
-        clickEvent.setValue(id)
+        } else
+            clickEvent.setValue(id)
     }
 
     override fun onResume() {
@@ -93,6 +101,5 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
     }
 
     override fun retry() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -33,7 +33,8 @@ import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
 class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
-    var positionToDelete = 0
+
+    private var positionToDelete = 0
     private lateinit var onTouchListener: RecyclerTouchListener
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_landing
@@ -106,8 +107,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             if (it.isNullOrEmpty()) return@Observer
             val adapter = RecentTransferAdaptor(
                 it.toMutableList(),
-                    null
-                )
+                null
+            )
             adapter.onItemClickListener = recentItemClickListener
             viewModel.adapter.set(adapter)
 
@@ -189,8 +190,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?) {
         Utils.hideKeyboard(getSearchView())
-        val intent = Intent(this,BeneficiaryCashTransferActivity::class.java)
-        intent.putExtra(Constants.BENEFICIARY,beneficiary)
+        val intent = Intent(this, BeneficiaryCashTransferActivity::class.java)
+        intent.putExtra(Constants.BENEFICIARY, beneficiary)
         startActivity(intent)
         /*   startActivityForResult(Intent(this, BeneficiaryCashTransferActivity::class.java)
                , Constants.ADD_CASH_PICK_UP_FlOW
@@ -203,7 +204,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         beneficiary?.let {
             val intent = EditBeneficiaryActivity.newIntent(context = this)
             val bundle = Bundle()
-            bundle.putBoolean(OVERVIEW_BENEFICIARY,false)
+            bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
             intent.putExtra(Bundle_EXTRA, bundle)
             startActivityForResult(intent, REQUEST_CODE)
@@ -230,7 +231,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     R.string.common_button_yes
                 )
             ) { dialog, which ->
-                viewModel.requestDeleteBeneficiary(beneficiary.id?:0)
+                viewModel.requestDeleteBeneficiary(beneficiary.id ?: 0)
             }
 
             .setNegativeButton(
