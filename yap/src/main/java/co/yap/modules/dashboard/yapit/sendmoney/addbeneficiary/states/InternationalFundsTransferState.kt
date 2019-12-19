@@ -89,6 +89,21 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.rate)
         }
+
+    @get:Bindable
+    override var maxLimit: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.maxLimit)
+        }
+
+    @get:Bindable
+    override var minLimit: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.minLimit)
+        }
+
     @get:Bindable
     override var toFxRateCurrency: String? = ""
         set(value) {

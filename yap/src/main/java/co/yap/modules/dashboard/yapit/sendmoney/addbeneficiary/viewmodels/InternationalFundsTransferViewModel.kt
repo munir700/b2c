@@ -235,7 +235,6 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-<<<<<<< HEAD
     /*
     * In this function we get Min Max value for transaction.
     * */
@@ -254,7 +253,7 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-=======
+
     private fun createOtp(id: Int = 0) {
         launch {
             state.loading = true
@@ -275,6 +274,5 @@ class InternationalFundsTransferViewModel(application: Application) :
             state.loading = false
         }
     }
->>>>>>> feature/YM-3132-andorid-cash-pick-api-integration
 
 }

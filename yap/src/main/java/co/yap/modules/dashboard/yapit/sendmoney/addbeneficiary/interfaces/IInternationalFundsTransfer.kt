@@ -42,16 +42,12 @@ interface IInternationalFundsTransfer {
         var clickEvent: SingleClickEvent
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
-<<<<<<< HEAD
-        fun handlePressOnNext(id: Int)
         fun getFundTransferLimits(productCode: String)
-=======
         fun handlePressOnButton(id: Int)
         fun getTransactionFeeInternational(productCode: String?)
         fun rmtTransferRequest(beneficiaryId: String?)
         fun swiftTransferRequest(beneficiaryId: String?)
         var otpAction: String?
->>>>>>> feature/YM-3132-andorid-cash-pick-api-integration
     }
 
     interface View : IBase.View<ViewModel>
