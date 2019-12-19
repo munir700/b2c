@@ -83,6 +83,7 @@ object Constants {
     const val ADD_CASH_PICK_UP_SUCCESS = 10001
     const val ADD_CASH_PICK_UP_FlOW = 10002
     const val ADD_DOMESTIC_SUCCESS = 10003
+    const val ADD_SUCCESS = 10004
 
 
     //Core Payment Card Types

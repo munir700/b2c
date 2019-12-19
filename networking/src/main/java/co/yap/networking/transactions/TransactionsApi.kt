@@ -19,10 +19,10 @@ interface TransactionsApi {
         mRemittanceFeeRequest: RemittanceFeeRequest
     ): RetroApiResponse<ApiResponse>
 
-    suspend fun getTransactionInternationalReasonList(productCode: String): RetroApiResponse<InternationalFundsTransferReasonList>
+    suspend fun getTransactionInternationalReasonList(productCode: String?): RetroApiResponse<InternationalFundsTransferReasonList>
     suspend fun getCardStatements(cardSerialNumber: String): RetroApiResponse<CardStatementsResponse>
     suspend fun getTransactionInternationalRXList(
-        RxNumber: String,
+        RxNumber: String?,
         mRxListRequest: RxListRequest
     ): RetroApiResponse<ApiResponse>
 
@@ -52,5 +52,9 @@ interface TransactionsApi {
     ): RetroApiResponse<AnalyticsResponseDTO>
 
     suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<ApiResponse>
+    suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<ApiResponse>
+    suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse>
+    suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<ApiResponse>
+    suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse>
 
 }

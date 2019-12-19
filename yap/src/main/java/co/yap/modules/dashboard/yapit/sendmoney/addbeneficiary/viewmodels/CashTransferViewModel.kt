@@ -1,7 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
-import co.yap.modules.dashboard.yapit.y2y.main.viewmodels.Y2YBaseViewModel
+import androidx.lifecycle.MutableLiveData
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.CashTransferState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -9,9 +9,12 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
+import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
+import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
-import co.yap.networking.transactions.requestdtos.Y2YFundsTransferRequest
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
@@ -20,21 +23,32 @@ import co.yap.yapcore.helpers.Utils
 class CashTransferViewModel(application: Application) :
     SendMoneyBaseViewModel<ICashTransfer.State>(application),
     ICashTransfer.ViewModel {
+
+    private val transactionRepository: TransactionsRepository = TransactionsRepository
+    private val messagesRepository: MessagesRepository = MessagesRepository
+    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+        ArrayList()
+
+
     override val state: CashTransferState = CashTransferState(application)
     override val clickEvent: SingleClickEvent = SingleClickEvent()
     override val errorEvent: SingleClickEvent = SingleClickEvent()
-    private val transactionRepository: TransactionsRepository = TransactionsRepository
-    private val messagesRepository: MessagesRepository = MessagesRepository
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
+        ArrayList()
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+        MutableLiveData()
     override var receiverUUID: String = ""
 
     override fun onCreate() {
         super.onCreate()
-        getTransactionFeeForCashPayout()
+        // getTransactionFeeForCashPayout()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
 
-
+        transactionData.clear()
         state.currencyType = "AED"
+        getTransactionInternationalReasonList()
+        getTransactionFeeInternational()
     }
 
     override fun onResume() {
@@ -80,8 +94,9 @@ class CashTransferViewModel(application: Application) :
             when (val response =
                 transactionRepository.cashPayoutTransferRequest(
                     CashPayoutRequestDTO(
-                        "For some urgent reason",
-                        beneficiaryId, state.amount, state.currencyType
+                        "other",
+                        beneficiaryId, state.amount.toDouble(), state.currencyType,
+                        state.noteValue
                     )
                 )
                 ) {
@@ -90,7 +105,8 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
                     state.loading = false
                 }
             }
@@ -98,13 +114,77 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
-    private fun getTransactionFeeForCashPayout() {
+
+    override fun domesticTransferRequest(beneficiaryId: String?) {
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.domesticTransferRequest(
+                    DomesticTransactionRequestDTO(
+                        beneficiaryId,
+                        state.amount.toDouble(),
+                        0.0,
+                        "57",
+                        "iueieieieiei",
+                        state.noteValue
+                    )
+
+                )
+                ) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun uaeftsTransferRequest(beneficiaryId: String?) {
+
+        launch {
+            state.loading = true
+            when (val response =
+                transactionRepository.uaeftsTransferRequest(
+                    UAEFTSTransactionRequestDTO(
+                        beneficiaryId,
+                        state.amount.toDouble(),
+                        0.0,
+                        "51",
+                        "dsdsdsds",
+                        state.noteValue,
+                        ""
+                    )
+                )
+                ) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                  //  clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+
+
+    }
+
+    override fun getTransactionFeeForCashPayout(productCode: String?) {
         launch {
             state.loading = true
             when (val response =
                 transactionRepository.getTransactionFeeWithProductCode(
-                    "P013",
-                    RemittanceFeeRequest("PK", "")
+                    productCode,
+                    RemittanceFeeRequest(state.beneficiaryCountry, "")
                 )
                 ) {
                 is RetroApiResponse.Success -> {
@@ -118,11 +198,8 @@ class CashTransferViewModel(application: Application) :
                         }
 
                     } else if (response.data.data?.feeType == "TIER") {
-
-                        println(response.data.data)
-                        println(response.data.data)
-                        val list = response.data.data!!.tierRateDTOList
-
+                        listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
+                        state.listItemRemittanceFee = listItemRemittanceFee
                     } else {
                         totalAmount = 0.0
                     }
@@ -143,11 +220,95 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
                     state.loading = false
                 }
             }
             state.loading = false
         }
     }
+
+    /*
+    * In this function get All List of reasons.
+    * */
+
+    private fun getTransactionInternationalReasonList() {
+        launch {
+            //            state.loading = true
+            when (val response =
+                transactionRepository.getTransactionInternationalReasonList("P012")) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data.isNullOrEmpty()) return@launch
+                    response.data.data?.let {
+                        transactionData.addAll(it.map { item ->
+                            InternationalFundsTransferReasonList.ReasonList(
+                                code = item.code ?: "",
+                                reason = item.reason ?: ""
+                            )
+                        })
+                    }
+                    populateSpinnerData.value = transactionData
+                }
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            //state.loading = false
+        }
+    }
+
+
+    /*
+   * In this function get Remittance Transaction Fee.
+   * */
+
+    private fun getTransactionFeeInternational() {
+        launch {
+            val remittanceFeeRequestBody = RemittanceFeeRequest("PK", "")
+            when (val response =
+                /*TODO:For Swift (P011) and for cash pickup (P011) */
+                transactionRepository.getTransactionFeeWithProductCode(
+                    "P013",
+                    remittanceFeeRequestBody
+                )) {
+                is RetroApiResponse.Success -> {
+
+                    var totalAmount: Double
+                    if (response.data.data?.feeType == "FLAT") {
+                        val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
+                        val feeAmountVAT = response.data.data?.tierRateDTOList?.get(0)?.vatAmount
+                        if (feeAmount != null) {
+                            totalAmount = feeAmount + feeAmountVAT!!
+                            state.transferFee =
+                                getString(Strings.screen_international_funds_transfer_display_text_fee).format(
+                                    "AED",
+                                    Utils.getFormattedCurrency(totalAmount.toString())
+                                )
+                            state.transferFeeSpannable =
+                                Utils.getSppnableStringForAmount(
+                                    context,
+                                    state.transferFee,
+                                    "AED",
+                                    Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
+                                )
+                        }
+
+                    } else if (response.data.data?.feeType == "TIER") {
+                        listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
+                        state.listItemRemittanceFee = listItemRemittanceFee
+                    }
+                    getTransactionInternationalReasonList()
+                }
+
+                is RetroApiResponse.Error -> {
+                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+            // state.loading = false
+        }
+    }
+
 }

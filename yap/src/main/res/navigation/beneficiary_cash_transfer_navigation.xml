@@ -19,6 +19,11 @@
             app:destination="@id/transferSuccessFragment2"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
+        <action
+            android:id="@+id/action_cashTransferFragment_to_internationalFundsTransferFragment"
+            app:destination="@id/internationalFundsTransferFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/genericOtpLogoFragment"
@@ -56,6 +61,38 @@
             android:name="amount"
             android:defaultValue=" "
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/internationalFundsTransferFragment"
+        android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalFundsTransferFragment"
+        android:label="InternationalFundsTransferFragment"
+        tools:layout="@layout/fragment_international_funds_transfer">
+        <action
+            android:id="@+id/action_internationalFundsTransferFragment_to_genericOtpLogoFragment"
+            app:destination="@id/genericOtpLogoFragment"
+            app:enterAnim="@anim/slide_in_from_bottom"
+            app:exitAnim="@anim/slide_down"
+            app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment"
+            app:destination="@id/internationalTransactionConfirmationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+    <fragment
+        android:id="@+id/internationalTransactionConfirmationFragment"
+        android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragment"
+        android:label="InternationalTransactionConfirmationFragment"
+        tools:layout="@layout/fragment_international_transaction_confirmation">
+        <argument
+            android:name="name"
+            android:defaultValue=" "
+            app:argType="string" />
+        <action
+            android:id="@+id/action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2"
+            app:destination="@id/transferSuccessFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
 </navigation>

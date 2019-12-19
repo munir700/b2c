@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,8 +16,10 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Transf
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.InviteBottomSheet
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import com.digitify.identityscanner.camera.engine.offset.Reference
+
 
 class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel>(),
     ITransferSuccess.View, InviteBottomSheet.OnItemClickListener {
@@ -35,25 +38,14 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
-            (activity as BeneficiaryCashTransferActivity).let {
-                it.viewModel.state.leftButtonVisibility =
-                    false
-                it.viewModel.state.rightButtonVisibility =
-                    false
-                viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
-                it.viewModel.state.toolBarTitle =
-                    getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
-            }
+            setData()
             viewModel.state.amount = "${args.currencyType} ${args.amount}"
 
         }
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton -> {
-                    // go back to dashboard
-//                    activity!!.recreate()
                     activity?.finish()
-//                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_transferSuccessFragment)
                 }
                 R.id.tvShareCode -> {
                     showToast(
@@ -99,27 +91,119 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
 
     private fun inviteViaWhatsapp(referenceNumber: String) {
         val url =
-            "https://api.whatsapp.com/send?text=${referenceNumber})}"
-        val i = Intent(Intent.ACTION_SENDTO, Uri.fromParts("", "", null))
+            "https://wa.me/?text=${referenceNumber})}"
+        val i = Intent(Intent.ACTION_SEND, Uri.fromParts("", "", null))
         i.data = Uri.parse(url)
-        startActivity(i)
+        if (canHandleIntent(intent = i, activity = activity))
+            startActivity(i)
     }
 
     private fun inviteViaEmail(referenceNumber: String) {
-        val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "", null))
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.fromParts("mailto", "", null))
         intent.putExtra(Intent.EXTRA_TEXT, referenceNumber)
         startActivity(Intent.createChooser(intent, "Send mail..."))
-
     }
 
     private fun inviteViaSms(referenceNumber: String) {
-        val uri = Uri.parse(
-            "sms:"
-        )
-        val it = Intent(Intent.ACTION_SEND,uri)
-        it.putExtra("sms_body", referenceNumber)
-        startActivity(it)
+        val sendIntent = Intent(Intent.ACTION_VIEW)
+        sendIntent.data = Uri.parse("sms:")
+        sendIntent.putExtra("sms_body", referenceNumber)
+        if (canHandleIntent(intent = sendIntent, activity = activity))
+            startActivity(sendIntent)
+    }
+
+    private fun canHandleIntent(intent: Intent, activity: Activity?): Boolean {
+        val packageManager = activity?.packageManager
+        packageManager?.let {
+            return if (intent.resolveActivity(packageManager) != null) {
+                true
+            } else {
+                showToast("No app available to handle action")
+                false
+            }
+        }
+        return false
+    }
+
+    private fun setData() {
+        if (context is BeneficiaryCashTransferActivity) {
+            (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                beneficiary.beneficiaryType?.let { beneficiaryType ->
+                    if (beneficiaryType.isNotEmpty())
+                        when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                            SendMoneyBeneficiaryType.RMT -> {
+                                setDataForRmt()
+                            }
+                            SendMoneyBeneficiaryType.SWIFT -> {
+                                setDataForSwift()
+                            }
+                            SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                setDataForCashPayout()
+                            }
+                            SendMoneyBeneficiaryType.DOMESTIC -> {
+                                setDataForDomestic()
+                            }
+                            SendMoneyBeneficiaryType.UAEFTS -> {
+                                setDataForUAEFTS()
+                            }
+                            else -> {
+                                //common views
+
+                            }
+                        }
+                }
+            }
+        }
+    }
+
+    private fun setDataForCashPayout() {
+        viewModel.state.locationLayoutVisibility = true
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForDomestic() {
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForUAEFTS() {
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForSwift() {
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForRmt() {
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
     }
 
 }
