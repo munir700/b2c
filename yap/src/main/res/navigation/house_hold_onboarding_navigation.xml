@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/house_hold_onboarding_navigation"
-    app:startDestination="@id/houseHoldSuccessFragment">
+    app:startDestination="@id/houseHoldUserInfoFragment">
 <!--    app:startDestination="@id/houseHoldUserInfoFragment">-->
 
     <fragment
@@ -35,11 +36,17 @@
         android:id="@+id/houseHoldSuccessFragment"
         android:name="co.yap.modules.dashboard.store.household.onboarding.fragments.HouseHoldSuccessFragment">
 
-<!--        <action-->
-<!--            android:id="@+id/action_houseHoldUserInfoFragment_to_houseHoldUserContactFragment"-->
-<!--            app:enterAnim="@anim/slide_in_right"-->
-<!--            app:exitAnim="@anim/slide_out_left" />-->
+        <action
+            android:id="@+id/action_houseHoldSuccessFragment_to_yapDashboardActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popUpTo="@+id/yapDashboardActivity"
+            app:popUpToInclusive="true" />
 
     </fragment>
-
+    <activity
+        android:id="@+id/yapDashboardActivity"
+        android:name="co.yap.modules.dashboard.main.activities.YapDashboardActivity"
+        android:label="YapDashboardActivity"
+        tools:layout="@layout/activity_yap_dashboard" />
 </navigation>

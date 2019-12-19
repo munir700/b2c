@@ -34,9 +34,11 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnGoToHouseHold -> {
-//                    viewModel.setUserName()
-                    findNavController().navigate(R.id.action_houseHoldUserInfoFragment_to_houseHoldUserContactFragment)
-                }
+
+                    findNavController().navigate(R.id.action_houseHoldSuccessFragment_to_yapDashboardActivity)
+                    activity!!.finish()
+
+                 }
 
                 R.id.btnShare -> {
                     shareInfo()
