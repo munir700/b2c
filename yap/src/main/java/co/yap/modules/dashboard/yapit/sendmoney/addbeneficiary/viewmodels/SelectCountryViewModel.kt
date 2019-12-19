@@ -33,7 +33,6 @@ class SelectCountryViewModel(application: Application) :
     override fun handlePressOnSeclectCountry(id: Int) {
         if (id == R.id.nextButton) {
             parentViewModel?.selectedCountry?.value = state.selectedCountry
-
             parentViewModel?.selectedCountry?.value?.getCurrency()?.let { currency ->
                 currency.cashPickUp?.let { it ->
                     if (!it) {

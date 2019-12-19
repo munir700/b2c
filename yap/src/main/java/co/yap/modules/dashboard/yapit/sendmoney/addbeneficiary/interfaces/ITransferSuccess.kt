@@ -14,6 +14,7 @@ interface ITransferSuccess {
 
     interface State : IBase.State {
         var transferType: String?
+        var successHeader: String?
         var amount: String?
         var currency: String?
         var flag: String?
@@ -23,6 +24,7 @@ interface ITransferSuccess {
         var referenceNumber: String?
         var flagLayoutVisibility: Boolean?
         var position: Int?
+        var locationLayoutVisibility: Boolean
 
     }
 }

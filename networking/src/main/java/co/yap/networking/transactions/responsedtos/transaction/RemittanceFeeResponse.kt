@@ -33,9 +33,9 @@ data class RemittanceFeeResponse(
             @SerializedName("uuid")
             val uuid: String? = null, // null
             @SerializedName("amountFrom")
-            val amountFrom: String? = null, // null
+            val amountFrom: Double? = 0.0, // null
             @SerializedName("amountTo")
-            val amountTo: String? = null, // null
+            val amountTo: Double? = 0.0, // null
             @SerializedName("createdBy")
             val createdBy: String? = null, // null
             @SerializedName("createdOn")

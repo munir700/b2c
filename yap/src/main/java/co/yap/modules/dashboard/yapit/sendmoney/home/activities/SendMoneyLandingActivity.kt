@@ -151,7 +151,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
     private val recentItemClickListener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Beneficiary)
-                startMoneyTransfer(data)
+                startMoneyTransfer(data, pos)
         }
     }
 
@@ -161,7 +161,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 object : RecyclerTouchListener.OnRowClickListener {
                     override fun onRowClicked(position: Int) {
                         val beneficiary = viewModel.allBeneficiariesLiveData.value?.get(position)
-                        startMoneyTransfer(beneficiary)
+                        startMoneyTransfer(beneficiary, position)
                     }
 
                     override fun onIndependentViewClicked(
@@ -188,15 +188,9 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             }
     }
 
-    private fun startMoneyTransfer(beneficiary: Beneficiary?) {
+    private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getSearchView())
-        val intent = Intent(this, BeneficiaryCashTransferActivity::class.java)
-        intent.putExtra(Constants.BENEFICIARY, beneficiary)
-        startActivity(intent)
-        /*   startActivityForResult(Intent(this, BeneficiaryCashTransferActivity::class.java)
-               , Constants.ADD_CASH_PICK_UP_FlOW
-           )*/
-        //showToast("data ${beneficiary?.title}")
+        startActivity(BeneficiaryCashTransferActivity.newIntent(this, beneficiary, position))
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
@@ -204,7 +198,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         beneficiary?.let {
             val intent = EditBeneficiaryActivity.newIntent(context = this)
             val bundle = Bundle()
-            bundle.putBoolean(OVERVIEW_BENEFICIARY, false)
+            bundle.putBoolean(OVERVIEW_BENEFICIARY, true)
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
             intent.putExtra(Bundle_EXTRA, bundle)
             startActivityForResult(intent, REQUEST_CODE)
@@ -266,8 +260,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private val clickListener = Observer<Int> {
         when (it) {
-            R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
-            R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
+            R.id.addContactsButton -> startActivityForResult(
+                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                REQUEST_CODE
+            ) //btn invoke add Beneficiary flow
+            R.id.tbBtnAddBeneficiary -> startActivityForResult(
+                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                REQUEST_CODE
+            ) //toolbar invoke add Beneficiary flow
             R.id.tbBtnBack -> finish()
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->

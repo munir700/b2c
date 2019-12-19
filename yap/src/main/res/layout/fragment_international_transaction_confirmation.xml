@@ -5,15 +5,11 @@
 
     <data>
 
-        <import type="co.yap.translation.Strings" />
-
-        <import type="co.yap.yapcore.helpers.StringUtils" />
-
-        <import type="android.view.View" />
-
         <variable
             name="viewModel"
-            type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.TransferSuccessViewModel" />
+            type="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalTransactionConfirmationViewModel" />
+
+        <import type="android.view.View" />
     </data>
 
     <ScrollView
@@ -34,10 +30,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_large"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:text="@{viewModel.state.confirmHeading}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@{viewModel.state.successHeader}"
-                tools:text="@string/screen_crash_transfer_success_display_text_title" />
+                tools:text="Confirm transfer" />
 
 
             <co.yap.widgets.CoreCircularImageView
@@ -71,7 +67,7 @@
                 app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
 
             <RelativeLayout
-                android:id="@+id/rlAddNewProfilePic"
+                android:id="@+id/rlProfilePic"
                 android:layout_width="47dp"
                 android:layout_height="49dp"
                 android:layout_marginTop="@dimen/margin_medium_large"
@@ -120,51 +116,46 @@
 
             <TextView
                 android:id="@+id/tvTransferCaption"
-                style="@style/MicroGrey"
-                android:layout_width="wrap_content"
+                style="@style/SmallGrey"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
                 android:layout_marginTop="@dimen/margin_small"
-                android:textSize="@dimen/text_size_c3"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@{viewModel.state.transferDescription}"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvBeneficiaryName"
-                app:text="@{Strings.screen_crash_transfer_success_display_text_transfer}"
-                tools:text="@string/screen_crash_transfer_success_display_text_transfer" />
+                tools:text="Your transfer of AED 1000 to Jonathan will be sent at the exchange rage of X AED to X CAD" />
 
             <TextView
-                android:id="@+id/tvAmount"
-                style="@style/Large"
+                android:id="@+id/tvReceivingAmount"
+                style="@style/SmallGrey"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_2sdp"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_medium"
                 android:gravity="center"
-                android:text="@{viewModel.state.amount}"
-                android:textSize="@dimen/text_size_h5"
+                android:text="Jonathan will recieve 366.16 CAD"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvTransferCaption"
-                tools:text="AED 410.00" />
-
-            <FrameLayout
-                android:id="@+id/flTransactionComplete"
-                android:layout_width="@dimen/_70sdp"
-                android:layout_height="@dimen/_70sdp"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/_20sdp"
-                android:background="@drawable/transaction_complete_selector"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAmount">
+                tools:text="Jonathan will recieve 366.16 CAD" />
 
 
-                <ImageView
-                    android:layout_width="@dimen/_45sdp"
-                    android:layout_height="@dimen/_45sdp"
-                    android:layout_gravity="center_vertical|center"
-                    android:contentDescription="@string/empty_string"
-                    android:src="@drawable/ic_check" />
-            </FrameLayout>
+            <TextView
+                android:id="@+id/tvFeeDescription"
+                style="@style/MicroGrey"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="International transfer fee: AED XX \n Note that the recipient's bank may have its own charges."
+                app:layout_constraintTop_toBottomOf="@+id/tvReceivingAmount" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/llData"
@@ -207,14 +198,6 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvIdCode"
                     tools:text="00313249457" />
-
-                <include
-                    android:id="@+id/layoutAgentLocation"
-                    layout="@layout/layout_agent_location"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintTop_toBottomOf="@+id/tvReferenceNumber"
-                    app:viewModel="@{viewModel}" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <co.yap.widgets.CoreButton
@@ -228,12 +211,13 @@
                 android:layout_marginBottom="@dimen/margin_medium_large"
                 android:enabled="true"
                 android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
-                app:btn_enable="true"
+                app:enableCoreButton="@{true}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:text="@{Strings.screen_crash_transfer_success_button_text_back}"
+                android:text="Confirm"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="44dp"
                 tools:text="@string/screen_crash_transfer_success_button_text_back" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 </layout>

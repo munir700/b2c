@@ -6,14 +6,16 @@ import android.view.View
 import androidx.databinding.Bindable
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
-import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
-import co.yap.translation.Strings.screen_international_funds_transfer_display_text_fee
+import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
+import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.helpers.Utils
 
 class InternationalFundsTransferState(val application: Application) : BaseState(),
     IInternationalFundsTransfer.State {
 
+    val context = application.applicationContext
     @get:Bindable
     override var transferFee: String = ""
         set(value) {
@@ -22,11 +24,78 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
         }
     @get:Bindable
-    override var transferFeeSpannable: SpannableStringBuilder?= SpannableStringBuilder("")
+    override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
+    @get:Bindable
+    override var fxRateAmount: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fxRateAmount)
+            fxRateAmount?.let {
+                if (it.isNotEmpty()) {
+                    valid = it.toDouble() > 0.0
+                }
+            }
+            checkValidation()
+        }
+
+    @get:Bindable
+    override var receiverCurrency: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.receiverCurrency)
+        }
+
+    @get:Bindable
+    override var receiverCurrencyAmount: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.receiverCurrencyAmount)
+        }
+
+    @get:Bindable
+    override var receiverCurrencyAmountFxRate: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.receiverCurrencyAmountFxRate)
+
+        }
+
+    @get:Bindable
+    override var fromFxRate: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fromFxRate)
+        }
+    @get:Bindable
+    override var fromFxRateCurrency: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.fromFxRateCurrency)
+        }
+    @get:Bindable
+    override var toFxRate: String? = "0.0"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.toFxRate)
+        }
+
+    @get:Bindable
+    override var rate: String? = "0.0"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.rate)
+        }
+    @get:Bindable
+    override var toFxRateCurrency: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.toFxRateCurrency)
+        }
+
 
 //
 //    @get:Bindable
@@ -36,7 +105,6 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 //            field = value
 //            notifyPropertyChanged(BR.reasonList)
 //        }
-
 
 
     @get:Bindable
@@ -68,7 +136,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var senderCurrency: String = "AED"
+    override var senderCurrency: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.senderCurrency)
@@ -82,7 +150,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiaryCountry: String = "AED"
+    override var beneficiaryCountry: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryCountry)
@@ -97,7 +165,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiaryAmount: String = "0.00"
+    override var beneficiaryAmount: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryAmount)
@@ -110,6 +178,19 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.valid)
         }
+    @get:Bindable
+    override var beneficiaryId: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryId)
+        }
+    @get:Bindable
+    override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+        ArrayList()
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.listItemRemittanceFee)
+        }
 
     fun validate() {
         if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
@@ -117,4 +198,70 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             valid = true
         }
     }
+
+    private fun checkValidation() {
+        if (!receiverCurrencyAmountFxRate.isNullOrEmpty()) {
+            fxRateAmount?.let {
+                receiverCurrencyAmount = if (it.isEmpty()) {
+                    setSpanable(0.0)
+                    ""
+                } else {
+                    var amount =
+                        receiverCurrencyAmountFxRate?.let {
+                            fxRateAmount?.toDouble()?.times(it.toDouble())
+                        }
+                    setSpanable(amount ?: 0.0)
+                    val amountFxRate = amount
+                    val receiveFxRate = rate!!.toDouble()
+                    val result = amountFxRate?.times(receiveFxRate)
+                    receiverCurrencyAmount = result.toString()
+                    receiverCurrencyAmount.toString()
+                }
+            }
+        }
+    }
+
+    private fun setSpanable(amount: Double) {
+        transferFee =
+            Translator.getString(
+                context,
+                Strings.screen_international_funds_transfer_display_text_fee
+            ).format(
+                "AED",
+                Utils.getFormattedCurrency(findFee(amount).toString())
+            )
+
+        notifyPropertyChanged(BR.transferFee)
+
+        transferFeeSpannable =
+            Utils.getSppnableStringForAmount(
+                context,
+                transferFee,
+                "AED",
+                Utils.getFormattedCurrencyWithoutComma(
+                    findFee(amount).toString()
+                )
+            )
+        notifyPropertyChanged(BR.transferFeeSpannable)
+    }
+
+    private fun findFee(
+        value: Double
+    ): Double {
+        var totalAmount = 0.0
+        val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
+            listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
+        if (remittanceTierFee != null) {
+            if (remittanceTierFee.isNotEmpty()) {
+                val feeAmount = remittanceTierFee[0].feeAmount
+                val feeAmountVAT = remittanceTierFee[0]?.vatAmount
+                if (feeAmount != null) {
+                    totalAmount = feeAmount + feeAmountVAT!!
+                }
+            }
+        }
+        return totalAmount
+    }
+
+
 }
