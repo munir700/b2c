@@ -167,5 +167,23 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
+    /*
+    * In this function we get Min Max value for transaction.
+    * */
+
+    override fun getFundTransferLimits(productCode: String) {
+        launch {
+            when (val response = mTransactionsRepository.getFundTransferLimits(productCode)) {
+                is RetroApiResponse.Success -> {
+                    state.maxLimit = response.data.data.maxLimit.toDouble()
+                    state.minLimit = response.data.data.minLimit.toDouble()
+                }
+                is RetroApiResponse.Error -> {
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
 
 }

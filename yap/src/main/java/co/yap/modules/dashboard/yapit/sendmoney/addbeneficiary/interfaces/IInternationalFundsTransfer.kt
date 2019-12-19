@@ -29,6 +29,8 @@ interface IInternationalFundsTransfer {
         var fromFxRateCurrency: String?
         var toFxRate: String?
         var rate: String?
+        var maxLimit: Double?
+        var minLimit: Double?
         var toFxRateCurrency: String?
         var valid: Boolean
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
@@ -41,6 +43,7 @@ interface IInternationalFundsTransfer {
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         fun handlePressOnNext(id: Int)
+        fun getFundTransferLimits(productCode: String)
     }
 
     interface View : IBase.View<ViewModel>
