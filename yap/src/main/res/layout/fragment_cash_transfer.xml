@@ -190,6 +190,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/tvAvailableBalanceGuide"
                 tools:hint="Type a note here" />
 
+
+            <RelativeLayout
+                android:layout_marginStart="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/margin_medium_large"
+                android:id="@+id/layoutReasonsSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_normal"
+                android:paddingBottom="@dimen/margin_normal"
+                app:layout_constraintTop_toBottomOf="@+id/etNote"
+                tools:ignore="NotSibling">
+
+                <Spinner
+                    android:id="@+id/reasonsSpinnerCashTransfer"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_50sdp"
+                    android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
+                    android:spinnerMode="dropdown" />
+            </RelativeLayout>
+
+
             <co.yap.widgets.CoreButton
                 android:id="@+id/btnConfirm"
                 style="@style/RectangleBtnStyle"
@@ -205,7 +226,7 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/etNote"
+                app:layout_constraintTop_toBottomOf="@+id/layoutReasonsSpinner"
                 app:layout_constraintVertical_bias="0.987"
                 app:text="@{Strings.screen_yap_to_yap_transfer_display_text_button}" />
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -77,10 +77,17 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.fromFxRateCurrency)
         }
     @get:Bindable
-    override var toFxRate: String? = ""
+    override var toFxRate: String? = "0.0"
         set(value) {
             field = value
             notifyPropertyChanged(BR.toFxRate)
+        }
+
+    @get:Bindable
+    override var rate: String? = "0.0"
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.rate)
         }
     @get:Bindable
     override var toFxRateCurrency: String? = ""
@@ -178,11 +185,11 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.beneficiaryId)
         }
     @get:Bindable
-    override var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+    override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()
         set(value) {
             field = value
-            notifyPropertyChanged(BR.listItemSelectedCart)
+            notifyPropertyChanged(BR.listItemRemittanceFee)
         }
 
     fun validate() {
@@ -199,12 +206,16 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                     setSpanable(0.0)
                     ""
                 } else {
-                    val amount =
+                    var amount =
                         receiverCurrencyAmountFxRate?.let {
                             fxRateAmount?.toDouble()?.times(it.toDouble())
                         }
                     setSpanable(amount ?: 0.0)
-                    amount.toString()
+                    val amountFxRate = amount
+                    val receiveFxRate = rate!!.toDouble()
+                    val result = amountFxRate?.times(receiveFxRate)
+                    receiverCurrencyAmount = result.toString()
+                    receiverCurrencyAmount.toString()
                 }
             }
         }
@@ -239,7 +250,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     ): Double {
         var totalAmount = 0.0
         val remittanceTierFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>? =
-            listItemSelectedCart.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
+            listItemRemittanceFee.filter { item -> item.amountFrom!! <= value && item.amountTo!! >= value }
         if (remittanceTierFee != null) {
             if (remittanceTierFee.isNotEmpty()) {
                 val feeAmount = remittanceTierFee[0].feeAmount

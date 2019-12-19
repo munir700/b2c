@@ -13,9 +13,11 @@ import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentCashTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
+import co.yap.modules.dashboard.yapit.sendmoney.adapters.ReasonListAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
@@ -24,14 +26,18 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.toast
-import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.*
+import kotlinx.android.synthetic.main.fragment_cash_transfer.*
+import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.clFTSnackbar
+import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
 
 class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), ICashTransfer.View {
 
 //    val args: Y2YTransferFragmentArgs by navArgs()
 
+    private var mReasonListAdapter: ReasonListAdapter? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_cash_transfer
 
@@ -51,14 +57,23 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
-
         viewModel.errorEvent.observe(this, Observer {
             showErrorSnackBar()
         })
 
-
+        viewModel.populateSpinnerData.observe(this, Observer {
+            if (it == null) return@Observer
+            reasonsSpinnerCashTransfer.adapter = getReasonListAdapter(it)
+            mReasonListAdapter?.setItemListener(listener)
+        })
     }
 
+    val listener = object : OnItemClickListener {
+        override fun onItemClick(view: View, data: Any, pos: Int) {
+            reasonsSpinnerCashTransfer.setSelection(pos)
+            toast(data.toString())
+        }
+    }
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
@@ -230,9 +245,15 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             }
         }
         return ""
-
     }
 
+    fun getReasonListAdapter(it: List<InternationalFundsTransferReasonList.ReasonList>): ReasonListAdapter {
+        if (mReasonListAdapter == null)
+            mReasonListAdapter = ReasonListAdapter(
+                requireContext(), R.layout.item_reason_list, it
+            )
+        return this.mReasonListAdapter!!
+    }
 
     private fun startFlows() {
         (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
