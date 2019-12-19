@@ -295,7 +295,6 @@
                 app:text="@{Strings.screen_international_funds_transfer_display_text_reson}"
                 tools:text="@string/screen_international_funds_transfer_display_text_reson" />
 
-
             <RelativeLayout
                 android:id="@+id/layoutReasonsSpinner"
                 android:layout_width="match_parent"
@@ -309,6 +308,11 @@
                     android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
                     android:spinnerMode="dropdown" />
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_1sdp"
+                    android:layout_alignBottom="@+id/reasonsSpinner"
+                    android:background="@color/greySoft" />
 
             </RelativeLayout>
 
