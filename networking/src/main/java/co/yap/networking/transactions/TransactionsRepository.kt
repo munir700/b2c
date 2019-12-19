@@ -181,8 +181,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
         executeSafely(call = { api.uaeftsTransferRequest(uaeftsTransactionRequestDTO) })
 
-    override suspend fun rmtTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
-        executeSafely(call = { api.rmtTransferRequest(uaeftsTransactionRequestDTO) })
+    override suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+        executeSafely(call = { api.rmtTransferRequest(rmtTransactionRequestDTO) })
 
 
     override suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =

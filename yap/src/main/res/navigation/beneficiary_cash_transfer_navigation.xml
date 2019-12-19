@@ -73,6 +73,16 @@
             app:enterAnim="@anim/slide_in_from_bottom"
             app:exitAnim="@anim/slide_down"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment"
+            app:destination="@id/internationalTransactionConfirmationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
+    <fragment
+        android:id="@+id/internationalTransactionConfirmationFragment"
+        android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragment"
+        android:label="InternationalTransactionConfirmationFragment"
+        tools:layout="@layout/fragment_international_transaction_confirmation"/>
 
 </navigation>

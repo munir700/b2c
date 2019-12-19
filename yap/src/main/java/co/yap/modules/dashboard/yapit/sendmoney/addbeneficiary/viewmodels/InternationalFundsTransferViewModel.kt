@@ -10,9 +10,11 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
+import co.yap.networking.transactions.RMTTransactionRequestDTO
 import co.yap.networking.transactions.TransactionsRepository
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
 import co.yap.networking.transactions.requestdtos.RxListRequest
+import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
@@ -105,6 +107,62 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
             }
             // state.loading = false
+        }
+    }
+
+    override fun rmtTransferRequest(beneficiaryId: String?) {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.rmtTransferRequest(
+                    RMTTransactionRequestDTO(
+                        "25",
+                        beneficiaryId,
+                        state.fxRateAmount?.toDouble(),
+                        state.beneficiaryCurrency,
+                        ""
+                    )
+                )
+                ) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.ADD_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    clickEvent.postValue(Constants.ADD_SUCCESS)
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
+        }
+    }
+
+    override fun swiftTransferRequest(beneficiaryId: String?) {
+        launch {
+            state.loading = true
+            when (val response =
+                mTransactionsRepository.swiftTransferRequest(
+                    UAEFTSTransactionRequestDTO(
+                        beneficiaryId,
+                        state.fxRateAmount?.toDouble(),
+                        0.0,
+                        "51",
+                        "dsdsdsds",
+                        "",
+                        ""
+                    )
+                )
+                ) {
+                is RetroApiResponse.Success -> {
+                    clickEvent.postValue(Constants.ADD_SUCCESS)
+                }
+                is RetroApiResponse.Error -> {
+                    clickEvent.postValue(Constants.ADD_SUCCESS)
+                    state.toast = response.error.message
+                    state.loading = false
+                }
+            }
+            state.loading = false
         }
     }
 

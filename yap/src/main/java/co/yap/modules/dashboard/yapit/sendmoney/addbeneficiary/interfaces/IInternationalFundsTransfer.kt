@@ -41,6 +41,8 @@ interface IInternationalFundsTransfer {
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         fun handlePressOnButton(id:Int)
         fun getTransactionFeeInternational(productCode:String?)
+        fun rmtTransferRequest(beneficiaryId: String?)
+        fun swiftTransferRequest(beneficiaryId: String?)
         var otpAction: String?
     }
 

@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -46,15 +47,16 @@ class InternationalFundsTransferFragment :
         successOtpFlow()
     }
 
-    fun successOtpFlow(){
+    fun successOtpFlow() {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
                 if (it) {
-                    showToast("m from otp success")
+                    callTransactionApi()
                 }
             }
         }
     }
+
     private fun setObservers() {
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.populateSpinnerData.observe(this, Observer {
@@ -76,6 +78,9 @@ class InternationalFundsTransferFragment :
                         viewModel.state.fxRateAmount.toString()
                     )
                 findNavController().navigate(action)
+            }
+            Constants.ADD_SUCCESS -> {
+                findNavController().navigate(R.id.action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment)
             }
 
         }
@@ -162,5 +167,29 @@ class InternationalFundsTransferFragment :
         }
     }
 
+
+    private fun callTransactionApi() {
+        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+            beneficiary.beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        SendMoneyBeneficiaryType.RMT -> {
+                            beneficiary.id?.let { beneficiaryId ->
+                                viewModel.rmtTransferRequest(beneficiaryId.toString())
+                            }
+                        }
+                        SendMoneyBeneficiaryType.SWIFT -> {
+                            beneficiary.id?.let { beneficiaryId ->
+                                viewModel.swiftTransferRequest(beneficiaryId.toString())
+                            }
+                        }
+                        else -> {
+
+                        }
+                    }
+            }
+        }
+
+    }
 
 }
