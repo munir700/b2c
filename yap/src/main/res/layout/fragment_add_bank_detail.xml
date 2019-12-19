@@ -196,11 +196,12 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/margin_normal"
                         android:layout_marginTop="@dimen/margin_normal"
-                        android:text="Select your bank (1 bank found)"
-                        android:visibility="@{viewModel.bankList.empty ? View.VISIBLE:View.GONE}"
+                        android:text="@{viewModel.state.txtCount}"
+                        android:visibility="@{viewModel.state.txtCount.empty ? View.GONE : View.VISIBLE}"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
+                        tools:text="Select your bank (1 bank found)" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycler_banks"

@@ -52,7 +52,7 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         }
 
     override var isRmt: ObservableField<Boolean> = ObservableField(false)
-
+    override var txtCount: ObservableField<String> = ObservableField("")
 
     @get:Bindable
     override var valid: Boolean = false

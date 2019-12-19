@@ -35,8 +35,8 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     override val viewModel: BankDetailsViewModel
         get() = ViewModelProviders.of(this).get(BankDetailsViewModel::class.java)
 
-    var adaptor: AddBeneficiariesAdaptor? = null
-    var adaptorBanks: RAKBankAdaptor? = null
+    private var adaptor: AddBeneficiariesAdaptor? = null
+    private var adaptorBanks: RAKBankAdaptor? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +61,11 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     }
 
     private fun setupAdaptorBanks(list: List<Bank>) {
+        if (list.isEmpty()) {
+            viewModel.state.txtCount.set("")
+        } else {
+            viewModel.state.txtCount.set("Select your bank (${list.size} bank found)")
+        }
         adaptorBanks = RAKBankAdaptor(list as MutableList<Bank>)
         adaptorBanks?.setItemListener(listener)
         recycler_banks.adapter = adaptorBanks

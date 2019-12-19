@@ -83,30 +83,7 @@ class BankDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        //toggleAddButtonVisibility(false)
     }
-
-//    override fun createBeneficiaryRequest() {
-//        parentViewModel?.beneficiary?.value?.let {
-//            launch {
-//                state.loading = true
-//                when (val response = repository.addBeneficiary(it)) {
-//                    is RetroApiResponse.Success -> {
-//                        state.loading = false
-//                        state.toast = response.data.toString()
-//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-//                    }
-//
-//                    is RetroApiResponse.Error -> {
-//                        state.loading = false
-//                        state.toast = response.error.message
-//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     override fun searchRMTBanks(otherBankQuery: OtherBankQuery) {
         parentViewModel?.beneficiary?.value?.let {
@@ -122,6 +99,7 @@ class BankDetailsViewModel(application: Application) :
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         state.toast = response.error.message
+                        bankList.value = ArrayList()
                     }
                 }
             }
