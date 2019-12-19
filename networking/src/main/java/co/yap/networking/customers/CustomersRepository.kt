@@ -9,6 +9,7 @@ import co.yap.networking.customers.responsedtos.beneficiary.BankParamsResponse
 import co.yap.networking.customers.responsedtos.documents.GetMoreDocumentsResponse
 import co.yap.networking.customers.responsedtos.sendmoney.AddBeneficiaryResponseDTO
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
+import co.yap.networking.customers.responsedtos.sendmoney.RAKBankModel
 import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 import okhttp3.MediaType
@@ -214,7 +215,7 @@ object CustomersRepository : BaseRepository(), CustomersApi {
     override suspend fun getCurrenciesByCountryCode(country: String) =
         executeSafely(call = { api.getCurrenciesByCountryCode(country) })
 
-    override suspend fun findOtherBank(otherBankQuery: OtherBankQuery): RetroApiResponse<ApiResponse> =
+    override suspend fun findOtherBank(otherBankQuery: OtherBankQuery): RetroApiResponse<RAKBankModel> =
         executeSafely(call = { api.findOtherBank(otherBankQuery) })
 
     override suspend fun getOtherBankParams(countryName: String): RetroApiResponse<BankParamsResponse> =

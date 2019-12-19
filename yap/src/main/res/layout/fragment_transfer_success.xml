@@ -21,260 +21,201 @@
         android:layout_height="match_parent"
         android:fillViewport="true">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorWhite"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/margin_medium"
-                android:paddingRight="@dimen/margin_medium">
-
-                <TextView
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_large"
-                    android:gravity="center"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_crash_transfer_success_display_text_title}"
-                    tools:text="@string/screen_crash_transfer_success_display_text_title" />
+            <TextView
+                android:id="@+id/tvSuccess"
+                style="@style/Large"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:text="@{Strings.screen_crash_transfer_success_display_text_title}"
+                tools:text="@string/screen_crash_transfer_success_display_text_title" />
 
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_116sdp"
-                    android:background="@color/white"
-                    android:gravity="center|center_vertical">
+            <co.yap.widgets.CoreCircularImageView
+                android:id="@+id/ivUserImage"
+                android:layout_width="@dimen/_62sdp"
+                android:layout_height="@dimen/_62sdp"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:src="@drawable/ic_store_b2b"
+                app:colorType="@{`Beneficiary`}"
+                app:fullName="@{viewModel.state.name}"
+                app:imageUrl="@{viewModel.state.picture}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvSuccess"
+                app:position="@{viewModel.state.position}" />
 
-                    <RelativeLayout
-                        android:id="@+id/rlPicture"
+            <View
+                android:id="@+id/barrier"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="@+id/ivUserImage"
+                app:layout_constraintStart_toStartOf="@+id/ivUserImage"
+                app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
+
+            <View
+                android:id="@+id/barrier2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
+                app:layout_constraintStart_toStartOf="@+id/ivUserImage"
+                app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
+
+            <RelativeLayout
+                android:id="@+id/rlAddNewProfilePic"
+                android:layout_width="47dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/_35sdp"
+                android:visibility="@{viewModel.state.flagLayoutVisibility? View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toTopOf="@+id/barrier2"
+                app:layout_constraintEnd_toEndOf="@+id/barrier"
+                app:layout_constraintTop_toTopOf="@+id/ivUserImage"
+                tools:visibility="visible">
+
+                <FrameLayout
+                    android:layout_width="@dimen/_29sdp"
+                    android:layout_height="@dimen/_29sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/bg_round_red"
+                    android:backgroundTint="@color/white"
+                    tools:ignore="UselessParent">
+
+                    <ImageView
+                        android:id="@+id/ivAddProfilePic"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_gravity="center|center_vertical"
-                        android:background="@color/white"
-                        android:gravity="center|center_vertical">
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:background="@drawable/bitmap"
+                        android:contentDescription="@string/empty_string" />
+
+                </FrameLayout>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/tvBeneficiaryName"
+                style="@style/Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:gravity="center"
+                android:text="@{viewModel.state.name}"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivUserImage"
+                tools:text="Bernard Erickson" />
+
+            <TextView
+                android:id="@+id/tvTransferCaption"
+                style="@style/MicroGrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_small"
+                android:textSize="@dimen/text_size_c3"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvBeneficiaryName"
+                app:text="@{Strings.screen_crash_transfer_success_display_text_transfer}"
+                tools:text="@string/screen_crash_transfer_success_display_text_transfer" />
+
+            <TextView
+                android:id="@+id/tvAmount"
+                style="@style/Large"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_2sdp"
+                android:gravity="center"
+                android:text="@{viewModel.state.amount}"
+                android:textSize="@dimen/text_size_h5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvTransferCaption"
+                tools:text="AED 410.00" />
+
+            <FrameLayout
+                android:id="@+id/flTransactionComplete"
+                android:layout_width="@dimen/_70sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:background="@drawable/transaction_complete_selector"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvAmount">
 
 
-                        <co.yap.widgets.CoreCircularImageView
-                            android:id="@+id/ivUserImage"
-                            android:layout_width="@dimen/_62sdp"
-                            android:layout_height="@dimen/_62sdp"
-                            android:gravity="center"
-                            android:src="@drawable/ic_store_b2b"
-                            app:colorType="@{`Beneficiary`}"
-                            app:fullName="@{viewModel.state.name}"
-                            app:imageUrl="@{viewModel.state.picture}"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:position="@{viewModel.state.position}" />
+                <ImageView
+                    android:layout_width="@dimen/_45sdp"
+                    android:layout_height="@dimen/_45sdp"
+                    android:layout_gravity="center_vertical|center"
+                    android:contentDescription="@string/empty_string"
+                    android:src="@drawable/ic_check" />
+            </FrameLayout>
 
-
-                        <!--     <TextView
-                                 android:id="@+id/tvAccountHolderNameInitials"
-                                 android:layout_width="@dimen/_65sdp"
-                                 android:layout_height="@dimen/_65sdp"
-                                 android:background="@drawable/bg_round_red"
-                                 android:backgroundTint="#D8F6F3"
-                                 android:contentDescription="@string/app_name"
-                                 android:gravity="center"
-                                 android:maxLength="2"
-                                 android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.name)}"
-                                 android:textColor="@color/colorSecondaryGreen"
-                                 android:textSize="@dimen/_24sdp" />
-
-                             <co.yap.widgets.CoreCircularImageView
-                                 android:id="@+id/ivProfilePic"
-                                 android:layout_width="@dimen/_65sdp"
-                                 android:layout_height="@dimen/_65sdp"
-                                 android:contentDescription="@string/app_name"
-                                 android:visibility="invisible"
-                                 app:src="@{viewModel.state.picture}" />-->
-
-                        <!--
-                           toggle visibility on the basis of transfer type
-                             -->
-
-                        <RelativeLayout
-                            android:id="@+id/rlAddNewProfilePic"
-                            android:layout_width="47dp"
-                            android:layout_height="49dp"
-                            android:layout_alignParentTop="true"
-                            android:layout_marginStart="-11dp"
-                            android:layout_marginTop="-10dp"
-                            android:visibility="@{viewModel.state.flagLayoutVisibility? View.VISIBLE:View.GONE}"
-                            tools:visibility="visible">
-
-                            <FrameLayout
-                                android:layout_width="@dimen/_29sdp"
-                                android:layout_height="@dimen/_29sdp"
-                                android:layout_gravity="center"
-                                android:layout_margin="@dimen/_2sdp"
-                                android:background="@drawable/bg_round_red"
-                                android:backgroundTint="@color/white"
-                                tools:ignore="UselessParent">
-
-                                <ImageView
-                                    android:id="@+id/ivAddProfilePic"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_marginStart="@dimen/_2sdp"
-                                    android:layout_marginTop="@dimen/_2sdp"
-                                    android:layout_marginEnd="@dimen/_2sdp"
-                                    android:layout_marginBottom="@dimen/_2sdp"
-                                    android:background="@drawable/bitmap"
-                                    android:contentDescription="@string/empty_string" />
-
-                            </FrameLayout>
-                        </RelativeLayout>
-                    </RelativeLayout>
-                </RelativeLayout>
-
-
-                <TextView
-                    android:id="@+id/tvBeneficiaryName"
-                    style="@style/Large"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@{viewModel.state.name}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    tools:text="Bernard Erickson" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/llData"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
+                android:layout_marginBottom="@dimen/margin_medium"
+                android:background="@drawable/card_border_selector"
+                android:paddingTop="@dimen/margin_medium"
+                android:paddingBottom="@dimen/margin_medium"
+                app:layout_constraintBottom_toTopOf="@+id/confirmButton"
+                app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
+                app:layout_constraintVertical_bias="0.751"
+                tools:layout_editor_absoluteX="21dp">
 
                 <TextView
-                    android:id="@+id/tvTransferCaption"
+                    android:id="@+id/tvIdCode"
                     style="@style/MicroGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
+                    android:text="@string/screen_crash_transfer_success_display_text_reference_number"
                     android:textSize="@dimen/text_size_c3"
-                    app:text="@{Strings.screen_crash_transfer_success_display_text_transfer}"
-                    tools:text="@string/screen_crash_transfer_success_display_text_transfer" />
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
                 <TextView
-                    android:id="@+id/tvAmount"
+                    android:id="@+id/tvReferenceNumber"
                     style="@style/Large"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_2sdp"
+                    android:layout_marginTop="@dimen/margin_extra_small"
                     android:gravity="center"
-                    android:text="@{viewModel.state.amount}"
+                    android:text="@{viewModel.state.referenceNumber}"
                     android:textSize="@dimen/text_size_h5"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    tools:text="AED 410.00" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvIdCode"
+                    tools:text="00313249457" />
 
-                <FrameLayout
-                    android:id="@+id/flTransactionComplete"
-                    android:layout_width="@dimen/_70sdp"
-                    android:layout_height="@dimen/_70sdp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="@dimen/_20sdp"
-                    android:background="@drawable/transaction_complete_selector"
-                    app:layout_constraintBottom_toTopOf="@+id/btnDoneAddingSpareVirtualCard"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTransactionComplete">
-
-
-                    <ImageView
-                        android:layout_width="@dimen/_45sdp"
-                        android:layout_height="@dimen/_45sdp"
-                        android:layout_gravity="center_vertical|center"
-                        android:contentDescription="@string/empty_string"
-                        android:src="@drawable/ic_check" />
-                </FrameLayout>
-
-                <LinearLayout
+                <include
+                    android:id="@+id/layoutAgentLocation"
+                    layout="@layout/layout_agent_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="@dimen/margin_medium"
-                    android:background="@drawable/card_border_selector"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:orientation="vertical"
-                    android:paddingTop="@dimen/margin_medium"
-                    android:paddingBottom="@dimen/margin_medium">
-
-                    <TextView
-                        android:id="@+id/tvIdCode"
-                        style="@style/MicroGrey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:gravity="center"
-                        android:text="@string/screen_crash_transfer_success_display_text_reference_number"
-                        android:textSize="@dimen/text_size_c3" />
-
-
-                    <TextView
-                        android:id="@+id/tvReferenceNumber"
-                        style="@style/Large"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_extra_small"
-                        android:gravity="center"
-                        android:text="@{viewModel.state.referenceNumber}"
-                        android:textSize="@dimen/text_size_h5"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        tools:text="00313249457" />
-
-
-                    <TextView
-                        android:id="@+id/tvAgentLocationCaption"
-                        style="@style/MicroGrey"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_small"
-                        android:gravity="center"
-                        android:text="@string/screen_crash_transfer_success_display_text_agent_location"
-                        android:textSize="@dimen/text_size_c3" />
-
-                    <TextView
-                        android:id="@+id/tvAgentLocation"
-                        style="@style/Micro"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:gravity="center"
-                        android:paddingLeft="@dimen/margin_medium"
-                        android:paddingRight="@dimen/margin_medium"
-                        android:text="@{viewModel.state.pickUpAgentLocationAddress}"
-                        android:textSize="@dimen/text_size_c3"
-                        tools:text="Exchange house 1, Exchange house 2, Exhange house 3" />
-
-                    <TextView
-                        android:id="@+id/tvShareCode"
-                        style="@style/Small"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center|center_horizontal"
-                        android:layout_marginTop="@dimen/_2sdp"
-                        android:drawableEnd="@drawable/ic_share"
-                        android:drawablePadding="@dimen/margin_extra_small"
-                        android:drawableTint="@color/colorPrimary"
-                        android:gravity="center"
-                        android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
-                        android:paddingTop="@dimen/margin_small"
-                        android:text="@string/screen_crash_transfer_success_display_text_share_code"
-                        android:textColor="@color/colorPrimary"
-                        android:textSize="@dimen/text_size_c3" />
-                </LinearLayout>
-            </LinearLayout>
+                    app:layout_constraintTop_toBottomOf="@+id/tvReferenceNumber"
+                    app:viewModel="@{viewModel}" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <co.yap.widgets.CoreButton
                 android:id="@+id/confirmButton"
@@ -293,6 +234,6 @@
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="44dp"
                 tools:text="@string/screen_crash_transfer_success_button_text_back" />
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>

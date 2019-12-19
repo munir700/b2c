@@ -3,18 +3,17 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import co.yap.R
-import co.yap.countryutils.country.Country
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.BankDetailsState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams
+import co.yap.networking.customers.responsedtos.sendmoney.Bank
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class BankDetailsViewModel(application: Application) :
@@ -22,6 +21,7 @@ class BankDetailsViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override var bankParams: MutableLiveData<List<BankParams>> = MutableLiveData()
+    override var bankList: MutableLiveData<ArrayList<Bank>> = MutableLiveData()
     override val repository: CustomersRepository = CustomersRepository
     override val state: BankDetailsState = BankDetailsState()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
@@ -64,9 +64,7 @@ class BankDetailsViewModel(application: Application) :
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
                         SendMoneyBeneficiaryType.RMT -> {
-                            state.buttonText = "Find Bank"
-                            state.hideSwiftSection = false
-                            searchRMTBanks(otherSearchParams(parentViewModel?.selectedCountry?.value))
+                            clickEvent.setValue(id)
                         }
                         SendMoneyBeneficiaryType.SWIFT -> {
                             clickEvent.setValue(id)
@@ -82,53 +80,10 @@ class BankDetailsViewModel(application: Application) :
         }
     }
 
-    private fun otherSearchParams(country: Country?): OtherBankQuery {
-        val query = OtherBankQuery()
-        parentViewModel?.selectedCountry?.value?.let {
-            query.max_records = 10
-            query.other_bank_country = it.getCurrency()?.name
-        }
-
-//        val bankName = OtherBankQuery.Params()
-//        bankName.id = ""
-//        query.params?.add(bankName)
-//
-//        val branchName = OtherBankQuery.Params()
-//        query.params?.add(branchName)
-//
-//        val bankCity = OtherBankQuery.Params()
-//        query.params?.add(bankCity)
-
-        return query
-    }
-
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
-        //toggleAddButtonVisibility(false)
     }
-
-//    override fun createBeneficiaryRequest() {
-//        parentViewModel?.beneficiary?.value?.let {
-//            launch {
-//                state.loading = true
-//                when (val response = repository.addBeneficiary(it)) {
-//                    is RetroApiResponse.Success -> {
-//                        state.loading = false
-//                        state.toast = response.data.toString()
-//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-//                    }
-//
-//                    is RetroApiResponse.Error -> {
-//                        state.loading = false
-//                        state.toast = response.error.message
-//                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-//
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     override fun searchRMTBanks(otherBankQuery: OtherBankQuery) {
         parentViewModel?.beneficiary?.value?.let {
@@ -138,14 +93,13 @@ class BankDetailsViewModel(application: Application) :
                     is RetroApiResponse.Success -> {
                         state.loading = false
                         state.toast = response.data.toString()
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                        bankList.value = response.data.data?.banks
                     }
 
                     is RetroApiResponse.Error -> {
                         state.loading = false
                         state.toast = response.error.message
-                        clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
-
+                        bankList.value = ArrayList()
                     }
                 }
             }
@@ -171,6 +125,5 @@ class BankDetailsViewModel(application: Application) :
     }
 
     override fun retry() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

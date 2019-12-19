@@ -9,6 +9,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ISelec
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.SelectCountryState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.CountryModel
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -33,30 +34,16 @@ class SelectCountryViewModel(application: Application) :
         if (id == R.id.nextButton) {
             parentViewModel?.selectedCountry?.value = state.selectedCountry
 
-            parentViewModel?.selectedCountry?.value?.let { country ->
-                country.isoCountryCode2Digit?.let { code ->
-                    if (code.equals("ae", true)) {
-                        country.cashPickUp = false
-                    }
-                }
-                country.cashPickUp?.let { it ->
+            parentViewModel?.selectedCountry?.value?.getCurrency()?.let { currency ->
+                currency.cashPickUp?.let { it ->
                     if (!it) {
-                        country.isoCountryCode2Digit?.let { code ->
-                            if (code.equals("ae", true)) {
+                        currency.rmtCountry?.let { isRmt ->
+                            if (isRmt) {
                                 parentViewModel?.transferType?.value =
-                                    (SendMoneyBeneficiaryType.DOMESTIC.name)
-                                state.isDomestic.set(true)
+                                    (SendMoneyBeneficiaryType.RMT.name)
                             } else {
-                                state.isDomestic.set(false)
-                                country.rmtCountry?.let { isRmt ->
-                                    if (isRmt) {
-                                        parentViewModel?.transferType?.value =
-                                            (SendMoneyBeneficiaryType.RMT.name)
-                                    } else {
-                                        parentViewModel?.transferType?.value =
-                                            (SendMoneyBeneficiaryType.SWIFT.name)
-                                    }
-                                }
+                                parentViewModel?.transferType?.value =
+                                    (SendMoneyBeneficiaryType.SWIFT.name)
                             }
                         }
                     }
@@ -96,28 +83,22 @@ class SelectCountryViewModel(application: Application) :
                                 Country(
                                     id = it.id,
                                     isoCountryCode3Digit = it.isoCountryCode2Digit,
-                                    cashPickUp = it.cashPickUp,
-                                    rmtCountry = it.rmtCountry,
                                     isoCountryCode2Digit = it.isoCountryCode2Digit,
                                     supportedCurrencies = it.currencyList?.map { cur ->
                                         Currency(
                                             code = cur.code,
                                             default = cur.default,
                                             name = cur.name,
-                                            active = cur.active
+                                            active = cur.active,
+                                            cashPickUp = cur.cashPickUp,
+                                            rmtCountry = cur.rmtCountry
                                         )
                                     },
                                     active = it.active,
                                     isoNum = it.isoNum,
                                     signUpAllowed = it.signUpAllowed,
-                                    cashPickUpAllowed = it.cashPickUp,
                                     name = it.name,
-                                    currency = Currency(
-                                        code = it.currencyList?.firstOrNull { cur -> cur.default!! }?.code,
-                                        default = it.currencyList?.firstOrNull { cur -> cur.default!! }?.default,
-                                        name = it.currencyList?.firstOrNull { cur -> cur.default!! }?.name,
-                                        active = it.currencyList?.firstOrNull { cur -> cur.default!! }?.active
-                                    )
+                                    currency = getDefaultCountry(it.currencyList)
                                 )
                             })
                             populateSpinnerData.setValue(countries)
@@ -135,6 +116,26 @@ class SelectCountryViewModel(application: Application) :
         }
     }
 
+    private fun getDefaultCountry(currencyList: List<CountryModel.Data.Currency>?): Currency? {
+        var currency: Currency? = null
+        currencyList?.let {
+            for (item in it) {
+                if (item.default != null && item.default!!) {
+                    currency = Currency(
+                        code = item.code,
+                        default = item.default,
+                        name = item.name,
+                        active = item.active,
+                        cashPickUp = item.cashPickUp,
+                        rmtCountry = item.rmtCountry
+                    )
+                    break
+                }
+
+            }
+        }
+        return currency
+    }
 
     override fun onCountrySelected(pos: Int) {
         if (pos == 0) {

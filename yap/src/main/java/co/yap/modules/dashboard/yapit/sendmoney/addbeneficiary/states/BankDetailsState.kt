@@ -52,7 +52,7 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         }
 
     override var isRmt: ObservableField<Boolean> = ObservableField(false)
-
+    override var txtCount: ObservableField<String> = ObservableField("")
 
     @get:Bindable
     override var valid: Boolean = false
@@ -70,6 +70,14 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         }
 
     fun validate() {
+        if (!hideSwiftSection) {
+            if (bankBranch.isNotEmpty() && bankCity.isNotEmpty() && bankName.isNotEmpty()) {
+                valid = true
+                notifyPropertyChanged(BR.valid)
+                return
+            }
+        }
+
         if (!bankBranch.isNullOrEmpty() && !bankCity.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !bankName.isNullOrEmpty()) {
             valid = true
             notifyPropertyChanged(BR.valid)

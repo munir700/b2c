@@ -23,6 +23,7 @@ interface ITransferSuccess {
         var referenceNumber: String?
         var flagLayoutVisibility: Boolean?
         var position: Int?
+        var locationLayoutVisibility: Boolean
 
     }
 }

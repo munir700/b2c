@@ -383,6 +383,7 @@
         <attr name="pse_setPrefixTextColor" format="color" />
         <attr name="pse_setPrefixDrawable" format="reference" />
         <attr name="pse_compoundDrawableWidth" format="dimension"/>
+        <attr name="pse_space" format="dimension"/>
         <attr name="pse_compoundDrawableHeight" format="dimension"/>
     </declare-styleable>
 

@@ -23,6 +23,7 @@ interface ICashTransfer {
         fun getTransactionFeeForCashPayout(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: String?)
         fun domesticTransferRequest(beneficiaryId: String?)
+        fun uaeftsTransferRequest(beneficiaryId: String?)
 
     }
 
@@ -52,5 +53,8 @@ interface ICashTransfer {
 
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
+        var ibanNumber: String?
+        var ibanVisibility: Boolean?
+        var beneficiaryCountry: String?
     }
 }

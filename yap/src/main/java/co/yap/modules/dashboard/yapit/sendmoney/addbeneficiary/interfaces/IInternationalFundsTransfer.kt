@@ -15,7 +15,7 @@ interface IInternationalFundsTransfer {
         var nameInitialsVisibility: Int
         var senderCurrency: String?
         var beneficiaryCurrency: String
-        var beneficiaryCountry: String
+        var beneficiaryCountry: String?
         var senderAmount: String
         var beneficiaryAmount: String
         var transferFee: String
@@ -33,8 +33,8 @@ interface IInternationalFundsTransfer {
         var minLimit: Double?
         var toFxRateCurrency: String?
         var valid: Boolean
+        var beneficiaryId: String?
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-
 
     }
 
@@ -42,8 +42,16 @@ interface IInternationalFundsTransfer {
         var clickEvent: SingleClickEvent
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
+<<<<<<< HEAD
         fun handlePressOnNext(id: Int)
         fun getFundTransferLimits(productCode: String)
+=======
+        fun handlePressOnButton(id: Int)
+        fun getTransactionFeeInternational(productCode: String?)
+        fun rmtTransferRequest(beneficiaryId: String?)
+        fun swiftTransferRequest(beneficiaryId: String?)
+        var otpAction: String?
+>>>>>>> feature/YM-3132-andorid-cash-pick-api-integration
     }
 
     interface View : IBase.View<ViewModel>

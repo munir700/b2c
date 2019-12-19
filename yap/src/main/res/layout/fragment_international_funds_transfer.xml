@@ -6,6 +6,7 @@
     <data>
 
         <import type="co.yap.yapcore.helpers.StringUtils" />
+
         <import type="co.yap.translation.Strings" />
 
         <variable
@@ -157,12 +158,12 @@
                     android:background="@null"
                     android:gravity="center"
                     android:imeOptions="actionDone"
-                    android:text="@={viewModel.state.fxRateAmount}"
                     android:importantForAutofill="no"
                     android:inputType="numberDecimal"
                     android:labelFor="@+id/etAmount"
                     android:maxLength="7"
                     android:maxLines="1"
+                    android:text="@={viewModel.state.fxRateAmount}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -213,8 +214,8 @@
                     android:inputType="numberDecimal"
                     android:labelFor="@+id/etAmount"
                     android:maxLength="7"
-                    android:text="@{viewModel.state.receiverCurrencyAmount}"
                     android:maxLines="1"
+                    android:text="@{viewModel.state.receiverCurrencyAmount}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -224,11 +225,11 @@
 
             <LinearLayout
                 android:id="@+id/ly_YapRate"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/margin_normal"
+                android:gravity="center"
                 android:orientation="horizontal"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent">
@@ -348,7 +349,7 @@
                 tools:text="@string/screen_international_funds_transfer_display_text_note" />
 
             <co.yap.widgets.CoreButton
-                android:id="@+id/next_button"
+                android:id="@+id/btnNext"
                 style="@style/FragmentsBtnStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -356,6 +357,7 @@
                 android:layout_marginTop="@dimen/margin_large"
                 android:layout_marginRight="@dimen/margin_xxl"
                 android:layout_marginBottom="@dimen/margin_medium_large"
+                android:onClick="@{(v)->viewModel.handlePressOnButton(v.id)}"
                 android:text="@string/common_button_next"
                 app:enableCoreButton="@{viewModel.state.valid}"
                 app:layout_constraintBottom_toBottomOf="parent"

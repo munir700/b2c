@@ -26,7 +26,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     @get:Bindable
     override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
     @get:Bindable
@@ -34,6 +34,11 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.fxRateAmount)
+            fxRateAmount?.let {
+                if (it.isNotEmpty()) {
+                    valid = it.toDouble() > 0.0
+                }
+            }
             checkValidation()
         }
 
@@ -102,7 +107,6 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 //        }
 
 
-
     @get:Bindable
     override var nameInitialsVisibility: Int = View.VISIBLE
         set(value) {
@@ -146,7 +150,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiaryCountry: String = "AED"
+    override var beneficiaryCountry: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryCountry)
@@ -173,6 +177,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         set(value) {
             field = value
             notifyPropertyChanged(BR.valid)
+        }
+    @get:Bindable
+    override var beneficiaryId: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryId)
         }
     @get:Bindable
     override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =

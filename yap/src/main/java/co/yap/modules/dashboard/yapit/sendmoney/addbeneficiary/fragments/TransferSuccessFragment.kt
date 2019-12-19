@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -15,8 +16,10 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Transf
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.InviteBottomSheet
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import com.digitify.identityscanner.camera.engine.offset.Reference
+
 
 class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel>(),
     ITransferSuccess.View, InviteBottomSheet.OnItemClickListener {
@@ -35,6 +38,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
+            setData()
             (activity as BeneficiaryCashTransferActivity).let {
                 it.viewModel.state.leftButtonVisibility =
                     false
@@ -99,27 +103,90 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
 
     private fun inviteViaWhatsapp(referenceNumber: String) {
         val url =
-            "https://api.whatsapp.com/send?text=${referenceNumber})}"
-        val i = Intent(Intent.ACTION_SENDTO, Uri.fromParts("", "", null))
+            "https://wa.me/?text=${referenceNumber})}"
+        val i = Intent(Intent.ACTION_SEND, Uri.fromParts("", "", null))
         i.data = Uri.parse(url)
-        startActivity(i)
+        if (canHandleIntent(intent = i, activity = activity))
+            startActivity(i)
     }
 
     private fun inviteViaEmail(referenceNumber: String) {
-        val intent = Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "", null))
-        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name))
+        val intent = Intent(Intent.ACTION_VIEW, Uri.fromParts("mailto", "", null))
         intent.putExtra(Intent.EXTRA_TEXT, referenceNumber)
         startActivity(Intent.createChooser(intent, "Send mail..."))
-
     }
 
     private fun inviteViaSms(referenceNumber: String) {
-        val uri = Uri.parse(
-            "sms:"
-        )
-        val it = Intent(Intent.ACTION_SEND,uri)
-        it.putExtra("sms_body", referenceNumber)
-        startActivity(it)
+        val sendIntent = Intent(Intent.ACTION_VIEW)
+        sendIntent.data = Uri.parse("sms:")
+        sendIntent.putExtra("sms_body", referenceNumber)
+        if (canHandleIntent(intent = sendIntent, activity = activity))
+            startActivity(sendIntent)
+    }
+
+    private fun canHandleIntent(intent: Intent, activity: Activity?): Boolean {
+        val packageManager = activity?.packageManager
+        packageManager?.let {
+            return if (intent.resolveActivity(packageManager) != null) {
+                true
+            } else {
+                showToast("No app available to handle action")
+                false
+            }
+        }
+        return false
+    }
+    fun setData() {
+        if (context is BeneficiaryCashTransferActivity) {
+            (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                beneficiary.beneficiaryType?.let { beneficiaryType ->
+                    if (beneficiaryType.isNotEmpty())
+                        when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                            SendMoneyBeneficiaryType.RMT -> {
+                                //Set views for RMT
+
+
+                            }
+                            SendMoneyBeneficiaryType.SWIFT -> {
+                                //set views for Swift
+
+                            }
+                            SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                //set views for cash payout
+                                setDataForCashPayout()
+                            }
+                            SendMoneyBeneficiaryType.DOMESTIC -> {
+                                //set views for domestic
+                                setDataForDomestic()
+                            }
+                            /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
+                                //call service for INTERNAL_TRANSFER
+
+                            }*/
+                            SendMoneyBeneficiaryType.UAEFTS -> {
+                                //set views for UAEFTS
+                                setDataForUAEFTS()
+                            }
+                            else -> {
+                                //common views
+
+                            }
+                        }
+                }
+            }
+        }
+    }
+
+    fun setDataForCashPayout() {
+        viewModel.state.locationLayoutVisibility = true
+    }
+
+    fun setDataForDomestic() {
+        viewModel.state.locationLayoutVisibility = false
+    }
+
+    fun setDataForUAEFTS() {
+        viewModel.state.locationLayoutVisibility = false
     }
 
 }

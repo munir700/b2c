@@ -41,12 +41,12 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAllBeneficiaries()
+        requestRecentBeneficiaries()
     }
 
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_send_money_display_text_title))
-        requestAllBeneficiaries()
     }
 
 
@@ -99,7 +99,7 @@ class SendMoneyHomeScreenViewModel(application: Application) :
             when (val response = repository.deleteBeneficiaryFromList(beneficiaryId.toString())) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-                    state.toast = response.data.toString()
+                    state.toast = "Deleted Successfully"
                     onDeleteSuccess.setValue(111)
 
                 }

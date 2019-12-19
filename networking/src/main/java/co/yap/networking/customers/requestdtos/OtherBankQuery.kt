@@ -12,11 +12,11 @@ data class OtherBankQuery(
     @SerializedName("max_records")
     var max_records: Int? = 0,
     @SerializedName("params")
-    val params: ArrayList<Params>? = null
+    val params: ArrayList<Params>? = ArrayList()
 ) : ApiResponse(), Parcelable {
     @Parcelize
     data class Params(
-        val id: String? = "",
-        val value: String? = ""
+        var id: String? = null,
+        var value: String? = null
     ) : ApiResponse(), Parcelable
 }

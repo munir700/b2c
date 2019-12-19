@@ -8,6 +8,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.R
 import co.yap.databinding.FragmentCashTransferBinding
@@ -46,9 +47,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.state.availableBalance = MyUserManager.cardBalance.value?.availableBalance
-        viewModel.getTransactionFeeForCashPayout(getProductCode())
-        setObservers()
+        startFlows()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -146,26 +145,17 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             beneficiary.beneficiaryType?.let { beneficiaryType ->
                 if (beneficiaryType.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                        //RMT is for international( RMT(linked with Rak))
-                        SendMoneyBeneficiaryType.RMT -> {
-                            //Call service for RMT
-                            toast("Flow to be implemented for RMT")
-                        }
-                        //Swift is for international(non RMT(Not linked with Rak))
-                        SendMoneyBeneficiaryType.SWIFT -> {
-                            //call service for SWIFT
-                            toast("Flow to be implemented for swift")
-                        }
                         SendMoneyBeneficiaryType.CASHPAYOUT -> {
                             //call service for CASHPAYOUT
+                            toast("cashpayout request")
                             beneficiary.id?.let { beneficiaryId ->
                                 viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
                             }
-
                         }
                         //Rak to Rak(yap to rak(Internal transfer))
                         SendMoneyBeneficiaryType.DOMESTIC -> {
                             //call service for DOMESTIC
+                            toast("domestic request")
                             beneficiary.id?.let { beneficiaryId ->
                                 viewModel.domesticTransferRequest(beneficiaryId.toString())
                             }
@@ -174,8 +164,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                             //call service for INTERNAL_TRANSFER
 
                         }
+                        //UAE non RAK(within UAE(External transfer))
                         SendMoneyBeneficiaryType.UAEFTS -> {
                             //call service for INTERNAL_TRANSFER
+                            toast("Uaefts request")
+                            beneficiary.id?.let { beneficiaryId ->
+                                viewModel.uaeftsTransferRequest(beneficiaryId.toString())
+                            }
 
                         }
                         else -> {
@@ -209,10 +204,10 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         return viewDataBinding as FragmentCashTransferBinding
     }
 
-    fun getProductCode(): String {
-
+    private fun getProductCode(): String {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                viewModel.state.beneficiaryCountry = beneficiary.country
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
@@ -223,9 +218,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                                 return SendMoneyBeneficiaryProductCode.P011.name
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                toast("cashpayout flow")
                                 return SendMoneyBeneficiaryProductCode.P013.name
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
+                                toast("domestic flow")
+                                viewModel.state.ibanVisibility = true
+                                viewModel.state.ibanNumber = beneficiary.accountNo
                                 return SendMoneyBeneficiaryProductCode.P023.name
                             }
                             /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
@@ -233,13 +232,13 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
                             }*/
                             SendMoneyBeneficiaryType.UAEFTS -> {
+                                toast("UAEFTS flow")
+                                viewModel.state.ibanVisibility = true
+                                viewModel.state.ibanNumber = beneficiary.accountNo
                                 return SendMoneyBeneficiaryProductCode.P010.name
-
-
                             }
                             else -> {
                                 return SendMoneyBeneficiaryProductCode.P010.name
-
                             }
                         }
                 }
@@ -256,4 +255,39 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         return this.mReasonListAdapter!!
     }
 
+    private fun startFlows() {
+        (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+            beneficiary.beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isNotEmpty())
+                    when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                        //RMT is for international( RMT(linked with Rak))
+                        SendMoneyBeneficiaryType.RMT -> {
+                            skipCashTransferFragment()
+                        }
+                        //Swift is for international(non RMT(Not linked with Rak))
+                        SendMoneyBeneficiaryType.SWIFT -> {
+                            skipCashTransferFragment()
+                        }
+                        else -> {
+                            viewModel.state.availableBalance =
+                                MyUserManager.cardBalance.value?.availableBalance
+                            viewModel.getTransactionFeeForCashPayout(getProductCode())
+                            setObservers()
+                        }
+                    }
+            }
+        }
+    }
+
+    private fun skipCashTransferFragment() {
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.cashTransferFragment, true) // starting destination skiped
+            .build()
+        findNavController().navigate(
+            R.id.action_cashTransferFragment_to_internationalFundsTransferFragment,
+            null,
+            navOptions
+        )
+
+    }
 }

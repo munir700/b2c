@@ -8,7 +8,7 @@ import co.yap.yapcore.BaseState
 class TransferSuccessState : BaseState(), ITransferSuccess.State {
 
     @get:Bindable
-    override var transferType: String? = "bank trasfer"
+    override var transferType: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferType)
@@ -33,7 +33,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var flag: String? = "flag"
+    override var flag: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.flag)
@@ -48,13 +48,19 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             notifyPropertyChanged(BR.name)
         }
 
+    /*   @get:Bindable
+       override var picture: String =
+           "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+           set(value) {
+               field = value
+               notifyPropertyChanged(BR.picture)
+
+           }*/
     @get:Bindable
-    override var picture: String =
-        "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+    override var picture: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.picture)
-
         }
 
     @get:Bindable
@@ -75,6 +81,12 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         set(value) {
             field = value
             notifyPropertyChanged(BR.position)
+        }
+    @get:Bindable
+    override var locationLayoutVisibility: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.locationLayoutVisibility)
         }
 
     @get:Bindable
