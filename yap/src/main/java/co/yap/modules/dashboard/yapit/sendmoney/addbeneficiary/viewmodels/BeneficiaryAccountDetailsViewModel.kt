@@ -27,9 +27,9 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.transferType?.value?.let { it ->
-            if (it.isNotEmpty())
-                when (SendMoneyBeneficiaryType.valueOf(it)) {
+        parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
+            if (beneficiaryType.isNotEmpty())
+                when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                     SendMoneyBeneficiaryType.SWIFT -> {
                         state.showlyIban.set(true)
                         //state.showlyConfirmIban.set(true)
@@ -53,7 +53,7 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
 
     override fun handlePressOnAddBank(id: Int) {
         if (id == R.id.confirmButton) {
-            parentViewModel?.transferType?.value?.let { it ->
+            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
                         SendMoneyBeneficiaryType.SWIFT -> {

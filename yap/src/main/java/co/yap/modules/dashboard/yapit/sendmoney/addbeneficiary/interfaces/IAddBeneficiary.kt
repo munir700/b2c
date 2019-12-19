@@ -40,6 +40,7 @@ interface IAddBeneficiary {
         var branchAddress: String?
         var identifierCode1: String?
         var identifierCode2: String?
+        var selectedBeneficiaryType: String?
     }
 
     interface ViewModel : IBase.ViewModel<State> {

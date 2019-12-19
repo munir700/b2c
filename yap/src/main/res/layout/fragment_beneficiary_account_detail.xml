@@ -153,12 +153,14 @@
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/greyLight"
                         android:drawableEnd="@drawable/ic_support"
+                        android:drawableRight="@drawable/ic_support"
                         android:hint="xxxxxxxxx"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:maxLength="50"
                         android:singleLine="true"
                         android:text="@={viewModel.state.accountIban}"
+                        android:textAllCaps="true"
                         app:isDrawableShownWhenTextIsEmpty="true"
                         app:popupContentValue="@string/screen_add_beneficiary_display_help_content" />
 

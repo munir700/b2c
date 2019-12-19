@@ -75,7 +75,7 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
                     beneficiary.identifierCode1 = data.identifier_code1
                     beneficiary.identifierCode2 = data.identifier_code2
                     beneficiary.branchName = data.other_branch_name
-                    beneficiary.branchAddress = data.other_branch_name
+                    beneficiary.branchAddress = data.other_branch_addr1
                     findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
                 }
             }

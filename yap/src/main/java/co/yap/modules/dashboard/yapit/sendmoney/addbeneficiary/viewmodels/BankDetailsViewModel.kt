@@ -28,7 +28,7 @@ class BankDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        parentViewModel?.transferType?.value?.let {
+        parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
             if (it.isNotEmpty())
                 when (SendMoneyBeneficiaryType.valueOf(it)) {
                     SendMoneyBeneficiaryType.RMT -> {
@@ -60,7 +60,7 @@ class BankDetailsViewModel(application: Application) :
             parentViewModel?.beneficiary?.value?.bankCity = state.bankCity
             parentViewModel?.beneficiary?.value?.swiftCode = state.swiftCode
 
-            parentViewModel?.transferType?.value?.let {
+            parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
                 if (it.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(it)) {
                         SendMoneyBeneficiaryType.RMT -> {
