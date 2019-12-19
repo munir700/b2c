@@ -14,6 +14,7 @@ interface ITransferSuccess {
 
     interface State : IBase.State {
         var transferType: String?
+        var successHeader: String?
         var amount: String?
         var currency: String?
         var flag: String?

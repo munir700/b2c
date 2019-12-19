@@ -55,6 +55,7 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
             (activity as BeneficiaryCashTransferActivity).let {
                 it.viewModel.state.toolBarTitle =
                     getString(Strings.screen_cash_pickup_funds_display_otp_header)
+                it.viewModel.state.leftButtonVisibility = true
                 viewModel.state.fullName = it.viewModel.state.beneficiary?.fullName()
                 viewModel.state.imageUrl = it.viewModel.state.beneficiary?.beneficiaryPictureUrl
                 viewModel.state.amount = genericOtpLogoFragmentArgs.amount

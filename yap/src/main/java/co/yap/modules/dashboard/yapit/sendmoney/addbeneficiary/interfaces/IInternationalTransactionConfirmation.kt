@@ -1,12 +1,19 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 
 import co.yap.yapcore.IBase
+import co.yap.yapcore.SingleClickEvent
 
 interface IInternationalTransactionConfirmation {
-    interface View : IBase.View<ViewModel>
-    interface ViewModel : IBase.ViewModel<State>{
-        fun handlePressOnButtonClick(id:Int)
+    interface View : IBase.View<ViewModel> {
+        fun setObservers()
+        fun setData()
     }
+
+    interface ViewModel : IBase.ViewModel<State> {
+        fun handlePressOnButtonClick(id: Int)
+        val clickEvent: SingleClickEvent
+    }
+
     interface State : IBase.State {
         var name: String?
         var picture: String?
@@ -14,5 +21,6 @@ interface IInternationalTransactionConfirmation {
         var flagLayoutVisibility: Boolean?
         var transferDescription: String?
         var referenceNumber: String?
+        var confirmHeading: String?
     }
 }
