@@ -18,7 +18,7 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
 ) :
     ArrayAdapter<T>(context, resourceId, objects) {
 
-//    var onItemClickListener: OnItemClickListener? = null
+    //    var onItemClickListener: OnItemClickListener? = null
 //        get() {
 //            if (field == null) field =
 //                OnItemClickListener.invoke()
@@ -57,9 +57,10 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
     ): View {
         var view = view
         var holder: VH? = null
+        var binding: ViewDataBinding? = null
         if (view == null) {
-            val binding =
-                DataBindingUtil.inflate<ViewDataBinding>(layoutInflater, resource, parent, false)
+            binding =
+                DataBindingUtil.inflate(layoutInflater, resource, parent, false)
             view = binding.root
             holder = createViewHolder(binding)
             view.tag = holder
@@ -68,7 +69,7 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
         }
 
         holder.adapterPosition = position
-        holder.bind(getItem(position) as Object)
+        holder.bind(getItem(position) as Object, binding)
         return view
     }
 

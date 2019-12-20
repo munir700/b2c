@@ -21,7 +21,6 @@ class AddBeneficiaryViewModel(application: Application) :
     IRepositoryHolder<CustomersRepository> {
 
     override val repository: CustomersRepository = CustomersRepository
-//    override val state: AddBeneficiaryStates = AddBeneficiaryStates(parentViewModel?.beneficiary?.value?.beneficiaryType)
     override val state: AddBeneficiaryStates = AddBeneficiaryStates()
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)

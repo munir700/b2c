@@ -45,8 +45,17 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
         }
         parentViewModel?.beneficiary?.value?.let {
             state.bankName = it.bankName ?: ""
-            state.idCode = ""
-            state.bankAddress = it.branchAddress ?: ""
+            if (it.identifierCode1.isNullOrEmpty()) {
+                if (it.identifierCode2.isNullOrEmpty()) {
+                    state.idCode = ""
+                } else {
+                    state.idCode = "ID Code: " + it.identifierCode2
+                }
+            } else {
+                state.idCode = "ID Code: " + it.identifierCode1
+            }
+
+            state.bankAddress = it.branchName ?: "" + it.branchAddress ?: ""
             state.bankPhoneNumber = ""
         }
     }

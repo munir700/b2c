@@ -26,10 +26,13 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginBottom="@dimen/margin_medium_large"
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/margin_medium"
-                android:paddingRight="@dimen/margin_medium">
+                android:paddingRight="@dimen/margin_medium"
+                app:layout_constraintBottom_toTopOf="@+id/confirmButton"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     style="@style/Large"
@@ -147,7 +150,7 @@
                         tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
 
                     <co.yap.widgets.DrawableClickEditText
-                        android:id="@+id/etBranch"
+                        android:id="@+id/etIban"
                         style="@style/Regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
