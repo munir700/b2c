@@ -18,7 +18,9 @@ class ReasonListAdapter(
         objects
     ) {
 
+
     override fun createViewHolder(binding: ViewDataBinding): ViewHolder {
+
         return ViewHolder(binding)
     }
 
@@ -26,7 +28,6 @@ class ReasonListAdapter(
     inner class ViewHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
         override fun getBindingVariable(): Int = BR.reasonList
         private fun onBind(binding: Object){
-
         }
     }
 }

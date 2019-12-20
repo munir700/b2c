@@ -23,7 +23,7 @@ interface TransactionsRetroService {
 
     // Get fund transfer limits
     @GET(TransactionsRepository.URL_FUND_TRANSFER_LIMITS)
-    suspend fun getFundTransferLimits(@Path("product-code") productCode: String): Response<FundTransferLimitsResponse>
+    suspend fun getFundTransferLimits(@Path("product-code") productCode: String?): Response<FundTransferLimitsResponse>
 
     // Get fund transfer denominations
     @GET(TransactionsRepository.URL_FUND_TRANSFER_DENOMINATIONS)
