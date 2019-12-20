@@ -20,6 +20,7 @@ import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResp
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.helpers.Utils
 
 class InternationalFundsTransferViewModel(application: Application) :
@@ -35,15 +36,12 @@ class InternationalFundsTransferViewModel(application: Application) :
         InternationalFundsTransferState(application)
     private val messagesRepository: MessagesRepository = MessagesRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
-        ArrayList()
-    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
-        MutableLiveData()
-    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
-        ArrayList()
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> = MutableLiveData()
+    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
 
     override fun handlePressOnButton(id: Int) {
-        clickEvent.postValue(id)
+        createOtp(id = id)
     }
 
     var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
@@ -75,9 +73,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
-
-                    getFundTransferLimits(productCode)
-
                     var totalAmount: Double
                     if (response.data.data?.feeType == "FLAT") {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
@@ -120,11 +115,11 @@ class InternationalFundsTransferViewModel(application: Application) :
             when (val response =
                 mTransactionsRepository.rmtTransferRequest(
                     RMTTransactionRequestDTO(
-                        state.reasonTransferCode,
+                        "25",
                         beneficiaryId,
                         state.fxRateAmount?.toDouble(),
                         state.beneficiaryCurrency,
-                        state.noteTransfer
+                        ""
                     )
                 )
                 ) {
@@ -133,6 +128,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
+                    clickEvent.postValue(Constants.ADD_SUCCESS)
                     //state.referenceNumber = "0123456789"
                     //clickEvent.postValue(Constants.ADD_SUCCESS)
                     state.toast = response.error.message
@@ -142,7 +138,6 @@ class InternationalFundsTransferViewModel(application: Application) :
             state.loading = false
         }
     }
-
 
     override fun swiftTransferRequest(beneficiaryId: String?) {
         launch {
@@ -153,10 +148,10 @@ class InternationalFundsTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.fxRateAmount?.toDouble(),
                         0.0,
-                        state.reasonTransferCode,
-                        state.reasonTransferValue,
+                        "51",
+                        "dsdsdsds",
                         "",
-                        state.rate
+                        ""
                     )
                 )
                 ) {
@@ -165,6 +160,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
+                    clickEvent.postValue(Constants.ADD_SUCCESS)
                     //state.referenceNumber = "0123456789"
                     //clickEvent.postValue(Constants.ADD_SUCCESS)
                     state.toast = response.error.message
@@ -172,28 +168,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
             }
             state.loading = false
-        }
-    }
-
-    override fun createOtp(id: Int) {
-        launch {
-            //  state.loading = true
-            when (val response =
-                messagesRepository.createOtpGeneric(
-                    createOtpGenericRequest = CreateOtpGenericRequest(
-                        otpAction.toString()
-                    )
-                )) {
-                is RetroApiResponse.Success -> {
-                    clickEvent.postValue(id)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-            state.loading = false
-
         }
     }
 
@@ -256,8 +230,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                         "${response.data.data.value?.amount} ${state.fromFxRateCurrency}"
                     state.toFxRateCurrency = response.data.data.toCurrencyCode
                     state.toFxRate =
-                        "${response.data.data.fxRates?.get(0)?.convertedAmount} ${state.toFxRateCurrency}"
-                    state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
+                        "${response.data.data.fxRates?.get(0)?.rate} ${state.toFxRateCurrency}"
+                    state.rate = response.data.data.fxRates?.get(0)?.rate
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
@@ -267,23 +241,25 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-    /*
-    * In this function we get Min Max value for transaction.
-    * */
-
-    override fun getFundTransferLimits(productCode: String?) {
+    private fun createOtp(id: Int = 0) {
         launch {
-            when (val response = mTransactionsRepository.getFundTransferLimits(productCode)) {
+            state.loading = true
+            when (val response =
+                messagesRepository.createOtpGeneric(
+                    createOtpGenericRequest = CreateOtpGenericRequest(
+                        otpAction.toString()
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
-                    state.maxLimit = response.data.data.maxLimit.toDouble()
-                    state.minLimit = response.data.data.minLimit.toDouble()
+                    clickEvent.postValue(id)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.loading = false
                 }
             }
+            state.loading = false
         }
     }
-
 
 }

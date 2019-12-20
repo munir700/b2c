@@ -24,7 +24,6 @@ interface IInternationalFundsTransfer {
         var receiverCurrency: String?
         var receiverCurrencyAmount: String?
         var receiverCurrencyAmountFxRate: String?
-        var noteTransfer: String?
 
         var internationalFee: String?
         var referenceNumber:String?
@@ -32,31 +31,23 @@ interface IInternationalFundsTransfer {
         var fromFxRateCurrency: String?
         var toFxRate: String?
         var rate: String?
-        var maxLimit: Double?
-        var minLimit: Double?
         var toFxRateCurrency: String?
         var valid: Boolean
         var beneficiaryId: String?
         var position: Int?
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
-        var reasonTransferValue: String?
-        var reasonTransferCode: String?
-        var transferFeeAmount:Double
+
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
-        fun getFundTransferLimits(productCode: String?)
         fun handlePressOnButton(id: Int)
         fun getTransactionFeeInternational(productCode: String?)
         fun rmtTransferRequest(beneficiaryId: String?)
         fun swiftTransferRequest(beneficiaryId: String?)
-        fun createOtp(id:Int)
         var otpAction: String?
-
-
     }
 
     interface View : IBase.View<ViewModel>

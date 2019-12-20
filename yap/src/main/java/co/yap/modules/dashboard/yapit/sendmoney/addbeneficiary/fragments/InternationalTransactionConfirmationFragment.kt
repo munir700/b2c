@@ -42,6 +42,7 @@ class InternationalTransactionConfirmationFragment :
         if (activity is BeneficiaryCashTransferActivity) {
             setData()
             (activity as BeneficiaryCashTransferActivity).viewModel.state.toolBarVisibility = false
+
         }
     }
 
@@ -72,19 +73,19 @@ class InternationalTransactionConfirmationFragment :
         viewModel.state.transferFeeDescription =
             getString(Strings.screen_funds_transfer_fee_description).format(args.transferFee)
 
-       /* val feeSpannable = SpannableString(viewModel.state.transferFeeDescription)
-        Utils.setSpan(
-            5,c
-            args.transferFee.length,
-            feeSpannable,
-            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-        )
-        getBinding().tvFeeDescription.text = Utils.setSpan(
-            20,
-            args.transferFee.length,
-            feeSpannable,
-            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-        )*/
+        /* val feeSpannable = SpannableString(viewModel.state.transferFeeDescription)
+         Utils.setSpan(
+             5,c
+             args.transferFee.length,
+             feeSpannable,
+             ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+         )
+         getBinding().tvFeeDescription.text = Utils.setSpan(
+             20,
+             args.transferFee.length,
+             feeSpannable,
+             ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+         )*/
     }
 
     override fun setObservers() {
@@ -94,6 +95,7 @@ class InternationalTransactionConfirmationFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
+                findNavController().navigate(R.id.action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2)
                 viewModel.state.referenceNumber?.let { referenceNumber ->
                     viewModel.state.position?.let { position ->
                         val action =

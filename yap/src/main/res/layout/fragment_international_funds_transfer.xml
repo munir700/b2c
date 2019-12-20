@@ -336,7 +336,6 @@
                     android:inputType="text"
                     android:maxLength="100"
                     android:minHeight="@dimen/_40sdp"
-                    android:text="@={viewModel.state.noteTransfer}"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
