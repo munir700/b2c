@@ -64,6 +64,10 @@ class InternationalFundsTransferFragment :
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
             bankReasonList = it as MutableList<InternationalFundsTransferReasonList.ReasonList>
+            bankReasonList.add(
+                0,
+                InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
+            )
             reasonsSpinner.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
         })
@@ -72,16 +76,46 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                viewModel.state.position?.let { position ->
-                    val action =
-                        InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
-                            false,
-                            viewModel.otpAction.toString(),
-                            viewModel.state.fxRateAmount.toString(), position
-                        )
-                    findNavController().navigate(action)
-                }
 
+
+                if (viewModel.state.reasonTransferValue.equals("")) {
+                    toast(activity as BeneficiaryCashTransferActivity, "Please select Reason List")
+                } else {
+
+                    val availableBalance =
+                        MyUserManager.cardBalance.value?.availableBalance?.toDouble()
+                    if (availableBalance != null) {
+                        val inputAmount = viewModel.state.fxRateAmount?.toDouble() ?: 0.0
+                        +viewModel.state.transferFeeAmount
+
+                        if (availableBalance > inputAmount) {
+                            if (viewModel.state.minLimit != null && viewModel.state.maxLimit != null) {
+                                if (inputAmount < viewModel.state.minLimit!!.toDouble() && inputAmount > viewModel.state.maxLimit!!.toDouble()) {
+                                    showErrorSnackBar()
+                                } else {
+                                    viewModel.createOtp(R.id.btnNext)
+                                    val action =
+                                        InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
+                                            false,
+                                            viewModel.otpAction.toString(),
+                                            viewModel.state.fxRateAmount.toString()
+                                        )
+                                    findNavController().navigate(action)
+                                }
+                            }
+                        } else {
+                            showErrorSnackBar()
+                        }
+                    }
+
+//                val action =
+//                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
+//                        false,
+//                        viewModel.otpAction.toString(),
+//                        viewModel.state.fxRateAmount.toString()
+//                    )
+//                findNavController().navigate(action)
+                }
 
             }
             Constants.ADD_SUCCESS -> {
@@ -110,14 +144,8 @@ class InternationalFundsTransferFragment :
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinner.setSelection(pos)
             if (bankReasonList.isNotEmpty()) {
-                println(data.toString())
-                bankReasonList[pos].code
-                bankReasonList[pos].reason
-
-
-                println(bankReasonList[pos].code)
-                println(bankReasonList[pos].reason)
-                toast("")
+                viewModel.state.reasonTransferValue = bankReasonList[pos].reason
+                viewModel.state.reasonTransferCode = bankReasonList[pos].code
             }
 
 
@@ -147,11 +175,10 @@ class InternationalFundsTransferFragment :
 
     }
 
-    override fun onResume() {
+    /*override fun onResume() {
         setObservers()
         super.onResume()
-    }
-
+    }*/
 
     fun getReasonListAdapter(it: List<InternationalFundsTransferReasonList.ReasonList>): ReasonListAdapter {
         if (mReasonListAdapter == null)
@@ -232,6 +259,23 @@ class InternationalFundsTransferFragment :
             }
         }
 
+    }
+
+    private fun showErrorSnackBar() {
+        val des = Translator.getString(
+            requireContext(),
+            Strings.screen_y2y_funds_transfer_display_text_error_exceeding_amount
+        )
+        CustomSnackbar.showErrorCustomSnackbar(
+            context = requireContext(),
+            layout = clFTSnackbar,
+            message = des
+        )
+    }
+
+    override fun onDestroy() {
+        viewModel.clickEvent.removeObservers(this)
+        super.onDestroy()
     }
 
 }
