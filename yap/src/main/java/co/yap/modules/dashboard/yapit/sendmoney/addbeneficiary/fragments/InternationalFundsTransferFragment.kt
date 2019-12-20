@@ -90,6 +90,7 @@ class InternationalFundsTransferFragment :
                     if (availableBalance != null) {
                         val inputAmount = viewModel.state.fxRateAmount?.toDouble() ?: 0.0
                         +viewModel.state.transferFeeAmount
+
                         if (availableBalance > inputAmount) {
                             if (viewModel.state.minLimit != null && viewModel.state.maxLimit != null) {
                                 if (inputAmount < viewModel.state.minLimit!!.toDouble() && inputAmount > viewModel.state.maxLimit!!.toDouble()) {
