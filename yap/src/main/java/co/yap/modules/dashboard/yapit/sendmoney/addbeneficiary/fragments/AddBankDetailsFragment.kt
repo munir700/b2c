@@ -70,12 +70,13 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             if (data is Bank) {
-                viewModel.parentViewModel?.beneficiary?.value?.also {beneficiary ->
+                viewModel.parentViewModel?.beneficiary?.value?.also { beneficiary ->
                     beneficiary.bankName = data.other_bank_name
                     beneficiary.identifierCode1 = data.identifier_code1
                     beneficiary.identifierCode2 = data.identifier_code2
                     beneficiary.branchName = data.other_branch_name
-                    beneficiary.branchAddress = data.other_branch_addr1
+                    beneficiary.branchAddress =
+                        data.other_branch_addr1 + " " + data.other_branch_addr2
                     findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
                 }
             }

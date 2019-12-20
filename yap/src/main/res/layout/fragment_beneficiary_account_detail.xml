@@ -147,7 +147,7 @@
                         tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
 
                     <co.yap.widgets.DrawableClickEditText
-                        android:id="@+id/etBranch"
+                        android:id="@+id/etIban"
                         style="@style/Regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
