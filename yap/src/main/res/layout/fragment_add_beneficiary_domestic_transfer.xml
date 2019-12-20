@@ -103,7 +103,8 @@
                     android:maxLength="50"
                     android:singleLine="true"
                     android:text="@={viewModel.state.firstName}"
-                    app:hint="@{Strings.screen_add_beneficiary_detail_display_text_transfer_first_name}" />
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_first_name_hint"
+                    app:hint="@{Strings.screen_add_beneficiary_detail_input_text_first_name_hint}" />
 
 
                 <TextView
@@ -128,6 +129,7 @@
                     android:maxLength="50"
                     android:singleLine="true"
                     android:text="@={viewModel.state.lastName}"
+                    tools:hint="@string/screen_add_beneficiary_detail_input_text_last_name_hint"
                     app:hint="@{Strings.screen_add_beneficiary_detail_input_text_last_name_hint}" />
 
 
@@ -154,6 +156,7 @@
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:maxLength="50"
+                        android:textAllCaps="true"
                         android:singleLine="true"
                         android:text="@={viewModel.state.iban}"
                         app:isDrawableShownWhenTextIsEmpty="true"
@@ -193,7 +196,7 @@
                     android:layout_marginRight="@dimen/margin_btn_side_paddings_xl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
-                    app:enableCoreButton="@{viewModel.state.validateDomesticButton}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:text="@{Strings.screen_add_beneficiary_detail_button_confirm}"
                     tools:text="@string/screen_add_beneficiary_detail_button_confirm" />

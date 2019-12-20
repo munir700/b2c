@@ -294,7 +294,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                    app:text="@{Strings.screen_add_beneficiary_detail_display_text_transfer_phone}"
+                    app:text="@{viewModel.state.selectedBeneficiaryType==`CASHPAYOUT`? Strings.screen_personal_detail_display_text_phone_number:Strings.screen_add_beneficiary_detail_display_text_transfer_phone}"
                     app:textColor="@{viewModel.state.mobileNo.empty ? true : false}"
                     tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_phone" />
 

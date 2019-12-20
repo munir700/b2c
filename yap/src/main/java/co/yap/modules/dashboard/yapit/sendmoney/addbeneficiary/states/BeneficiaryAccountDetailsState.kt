@@ -9,7 +9,7 @@ import co.yap.yapcore.BaseState
 class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.State {
 
     override var showlyIban: ObservableField<Boolean> = ObservableField(false)
-    override var showlyConfirmIban: ObservableField<Boolean> = ObservableField(false)
+    //override var showlyConfirmIban: ObservableField<Boolean> = ObservableField(false)
 
     @get:Bindable
     override var accountIban: String = ""
@@ -19,13 +19,13 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
             validateNonRmt()
         }
 
-    @get:Bindable
-    override var accountConfirmIban: String = ""
-        set(value) {
-            field = value
-            notifyPropertyChanged(BR.accountConfirmIban)
-            validateNonRmt()
-        }
+//    @get:Bindable
+//    override var accountConfirmIban: String = ""
+//        set(value) {
+//            field = value
+//            notifyPropertyChanged(BR.accountConfirmIban)
+//            validateNonRmt()
+//        }
 
     @get:Bindable
     override var swiftCode: String = ""
@@ -59,8 +59,7 @@ class BeneficiaryAccountDetailsState : BaseState(), IBeneficiaryAccountDetails.S
         }
 
     private fun validateNonRmt() {
-        valid =
-            !accountIban.isNullOrEmpty() && !accountConfirmIban.isNullOrEmpty() && accountIban == accountConfirmIban
+        valid = !accountIban.isNullOrEmpty() && accountIban.length > 14
         notifyPropertyChanged(BR.valid)
     }
 
