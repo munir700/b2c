@@ -136,7 +136,8 @@ class AddBeneficiaryStates : BaseState(),
 
                 }
                 SendMoneyBeneficiaryType.CASHPAYOUT -> {
-
+                    valid =
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && mobileNo.length > 1
                 }
                 SendMoneyBeneficiaryType.UAEFTS -> {
 
