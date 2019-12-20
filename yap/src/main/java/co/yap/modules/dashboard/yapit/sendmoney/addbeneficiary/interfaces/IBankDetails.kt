@@ -24,8 +24,8 @@ interface IBankDetails {
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
-        var bankParams: MutableLiveData<List<BankParams>>
-        var bankList: MutableLiveData<ArrayList<Bank>>
+        var bankParams: ObservableField<MutableList<BankParams>>
+        var bankList: MutableLiveData<MutableList<Bank>>
         fun handlePressOnView(id: Int)
         fun searchRMTBanks(otherBankQuery: OtherBankQuery)
         fun retry()

@@ -20,6 +20,7 @@ import co.yap.translation.Translator
 import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.widgets.popmenu.PopupMenuItem
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.tvChangeCurrency
@@ -101,7 +102,7 @@ class AddBeneficiaryInternationlTransferFragment :
 
             }
             R.id.tvChangeCurrency -> {
-                currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency,0,30)
+                currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency, 0, 30)
 
             }
         }
@@ -113,10 +114,31 @@ class AddBeneficiaryInternationlTransferFragment :
                 viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies?.get(position)
             if (currencyItem != null) {
                 currencyPopMenu?.selectedPosition = position
-                viewModel.state.currency = currencyItem.code ?: "AED"
-                viewModel.parentViewModel?.selectedCountry?.value?.setCurrency(
-                    currencyItem
-                )
+                viewModel.state.currency = currencyItem.code ?: ""
+                viewModel.parentViewModel?.selectedCountry?.value?.setCurrency(currencyItem)
+                viewModel.parentViewModel?.selectedCountry?.value?.let { country ->
+                    if (country.isoCountryCode2Digit == "AE") {
+                        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                            SendMoneyBeneficiaryType.DOMESTIC.name
+                    } else {
+                        country.getCurrency()?.cashPickUp?.let { it ->
+                            if (!it) {
+                                country.getCurrency()?.rmtCountry?.let { isRmt ->
+                                    if (isRmt) {
+                                        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                            SendMoneyBeneficiaryType.RMT.name
+                                    } else {
+                                        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                            SendMoneyBeneficiaryType.SWIFT.name
+                                    }
+                                }
+                            } else {
+                                viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                    SendMoneyBeneficiaryType.CASHPAYOUT.name
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -155,7 +177,12 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let { beneficiary ->
-            startActivity(BeneficiaryCashTransferActivity.newIntent(requireContext(), beneficiary))
+            startActivity(
+                BeneficiaryCashTransferActivity.newIntent(
+                    requireContext(),
+                    beneficiary
+                )
+            )
             activity?.let {
                 setIntentResult()
             }
@@ -175,8 +202,7 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     override fun onBackPressed(): Boolean {
-        if(currencyPopMenu?.isShowing!!)
-        {
+        if (currencyPopMenu?.isShowing!!) {
             currencyPopMenu?.dismiss()
             return true
         }
