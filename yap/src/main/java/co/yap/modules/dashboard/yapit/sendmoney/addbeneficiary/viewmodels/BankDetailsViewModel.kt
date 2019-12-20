@@ -9,7 +9,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewMode
 import co.yap.networking.customers.CustomersRepository
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams
-import co.yap.networking.customers.responsedtos.sendmoney.Bank
+import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings

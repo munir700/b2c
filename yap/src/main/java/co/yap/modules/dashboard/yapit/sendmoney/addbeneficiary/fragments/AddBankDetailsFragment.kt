@@ -16,7 +16,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BankDe
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.requestdtos.OtherBankQuery
 import co.yap.networking.customers.responsedtos.beneficiary.BankParams
-import co.yap.networking.customers.responsedtos.sendmoney.Bank
+import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_add_bank_detail.*
 import kotlinx.coroutines.*
