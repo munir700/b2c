@@ -30,8 +30,6 @@ interface IInternationalFundsTransfer {
         var fromFxRateCurrency: String?
         var toFxRate: String?
         var rate: String?
-        var maxLimit: Double?
-        var minLimit: Double?
         var toFxRateCurrency: String?
         var valid: Boolean
         var beneficiaryId: String?
@@ -39,6 +37,8 @@ interface IInternationalFundsTransfer {
         var reasonTransferValue: String?
         var reasonTransferCode: String?
         var transferFeeAmount:Double
+        var maxLimit: Double?
+        var minLimit: Double?
     }
 
     interface ViewModel : IBase.ViewModel<State> {

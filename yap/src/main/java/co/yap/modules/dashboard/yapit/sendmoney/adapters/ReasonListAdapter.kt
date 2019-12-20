@@ -20,7 +20,6 @@ class ReasonListAdapter(
 
 
     override fun createViewHolder(binding: ViewDataBinding): ViewHolder {
-
         return ViewHolder(binding)
     }
 
