@@ -114,8 +114,10 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
             launch {
                 delay(300)
                 if (adaptor?.getDataList() != null) {
+                    val mn = adaptor?.getDataList()!!.filter { it.isMandatory == "Y" }
                     var isValid = false
                     for (field in adaptor?.getDataList()!!.iterator()) {
+                        if (mn.isEmpty()) break
                         if (field.isMandatory == "Y") {
                             if (field.minCharacters?.toInt() != null &&
                                 field.minCharacters?.toInt()!! > field.data?.length ?: 0
@@ -127,6 +129,18 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
                             }
                         }
                     }
+                    if (!isValid && mn.isNullOrEmpty()) {
+                        for (field in adaptor?.getDataList()!!.iterator()) {
+                            if (field.data?.length ?: 0 > 0) {
+                                isValid = true
+                                break
+                            } else {
+                                isValid = false
+                            }
+
+                        }
+                    }
+
                     viewModel.state.valid = isValid
                 }
             }
