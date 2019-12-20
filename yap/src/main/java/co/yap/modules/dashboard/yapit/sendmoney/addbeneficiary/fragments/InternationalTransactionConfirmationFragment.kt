@@ -1,9 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
-import android.text.SpannableString
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
