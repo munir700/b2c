@@ -95,7 +95,7 @@ class InternationalTransactionConfirmationFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                findNavController().navigate(R.id.action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2)
+//                findNavController().navigate(R.id.action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2)
                 viewModel.state.referenceNumber?.let { referenceNumber ->
                     viewModel.state.position?.let { position ->
                         val action =

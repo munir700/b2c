@@ -129,7 +129,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     clickEvent.postValue(Constants.ADD_SUCCESS)
-                    //state.referenceNumber = "0123456789"
+                    state.referenceNumber = "0123456789"
                     //clickEvent.postValue(Constants.ADD_SUCCESS)
                     state.toast = response.error.message
                     state.loading = false
@@ -161,7 +161,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     clickEvent.postValue(Constants.ADD_SUCCESS)
-                    //state.referenceNumber = "0123456789"
+                    state.referenceNumber = "0123456789"
                     //clickEvent.postValue(Constants.ADD_SUCCESS)
                     state.toast = response.error.message
                     state.loading = false
