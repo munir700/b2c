@@ -73,7 +73,6 @@ class SendMoneyHomeScreenViewModel(application: Application) :
 
     override fun requestRecentBeneficiaries() {
         launch {
-            state.loading = false
             when (val response = repository.getRecentBeneficiaries()) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
