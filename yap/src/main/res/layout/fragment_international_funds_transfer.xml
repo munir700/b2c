@@ -43,27 +43,18 @@
                     android:background="@color/white"
                     android:gravity="center|center_vertical">
 
-                    <TextView
-                        android:id="@+id/tvAccountHolderNameInitials"
-                        android:layout_width="@dimen/_65sdp"
-                        android:layout_height="@dimen/_65sdp"
-                        android:background="@drawable/bg_round_red"
-                        android:backgroundTint="#D8F6F3"
-                        android:contentDescription="@string/app_name"
-                        android:gravity="center"
-                        android:maxLength="2"
-                        android:text="@{StringUtils.INSTANCE.getInitials(viewModel.state.beneficiaryName)}"
-                        android:textColor="@color/colorSecondaryGreen"
-                        android:textSize="@dimen/_24sdp"
-                        android:visibility="@{viewModel.state.nameInitialsVisibility}" />
-
                     <co.yap.widgets.CoreCircularImageView
-                        android:id="@+id/ivProfilePic"
-                        android:layout_width="@dimen/_65sdp"
-                        android:layout_height="@dimen/_65sdp"
-                        android:contentDescription="@string/app_name"
-                        android:visibility="invisible"
-                        app:src="@{viewModel.state.beneficiaryPicture}" />
+                        android:id="@+id/tvAccountHolderNameInitials"
+                        android:layout_width="@dimen/_62sdp"
+                        android:layout_height="@dimen/_62sdp"
+                        android:contentDescription="@string/empty_string"
+                        android:gravity="center"
+                        android:src="@drawable/ic_store_b2b"
+                        app:colorType="@{`Beneficiary`}"
+                        app:fullName="@{viewModel.state.beneficiaryName}"
+                        app:imageUrl="@{viewModel.state.beneficiaryPicture}"
+                        app:position="@{viewModel.state.position}" />
+
 
                     <!--
                        toggle visibility on the basis of transfer type
@@ -74,8 +65,8 @@
                         android:layout_width="47dp"
                         android:layout_height="49dp"
                         android:layout_alignParentTop="true"
-                        android:layout_marginLeft="-11dp"
-                        android:layout_marginTop="-10dp"
+                        android:layout_marginStart="-11dp"
+                        android:layout_marginTop="-12dp"
                         android:visibility="visible">
 
                         <FrameLayout

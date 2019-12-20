@@ -13,6 +13,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
+import co.yap.translation.Strings
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -20,6 +21,7 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
+import kotlinx.android.synthetic.main.item_transaction_list.*
 
 
 class InternationalFundsTransferFragment :
@@ -70,21 +72,35 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
+                viewModel.state.position?.let { position ->
+                    val action =
+                        InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
+                            false,
+                            viewModel.otpAction.toString(),
+                            viewModel.state.fxRateAmount.toString(), position
+                        )
+                    findNavController().navigate(action)
+                }
 
-                val action =
-                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
-                        false,
-                        viewModel.otpAction.toString(),
-                        viewModel.state.fxRateAmount.toString()
-                    )
-                findNavController().navigate(action)
+
             }
             Constants.ADD_SUCCESS -> {
-                val action =
-                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
-                        viewModel.state.beneficiaryName
-                    )
-                findNavController().navigate(action)
+                viewModel.state.position?.let { position ->
+                    val action =
+                        InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
+                            viewModel.state.beneficiaryName,
+                            viewModel.state.senderCurrency.toString(),
+                            viewModel.state.fxRateAmount.toString(),
+                            viewModel.state.receiverCurrencyAmount.toString(),
+                            viewModel.state.internationalFee.toString(),
+                            viewModel.state.fromFxRate.toString(),
+                            viewModel.state.toFxRate.toString(),
+                            viewModel.state.referenceNumber.toString(), position
+
+                        )
+                    findNavController().navigate(action)
+                }
+
             }
 
         }
@@ -153,8 +169,15 @@ class InternationalFundsTransferFragment :
     private fun getProductCode(): String {
 
         if (context is BeneficiaryCashTransferActivity) {
+            (context as BeneficiaryCashTransferActivity).let { beneficiaryCashTransaferActivity ->
+                beneficiaryCashTransaferActivity.viewModel.state.toolBarTitle = getString(
+                    Strings.screen_funds_toolbar_header
+                )
+                viewModel.state.position = beneficiaryCashTransaferActivity.viewModel.state.position
+            }
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
                 viewModel.state.beneficiaryCountry = beneficiary.country
+                viewModel.state.beneficiaryName = beneficiary.fullName()
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         return when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {

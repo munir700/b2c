@@ -24,7 +24,8 @@ interface IInternationalFundsTransfer {
         var receiverCurrency: String?
         var receiverCurrencyAmount: String?
         var receiverCurrencyAmountFxRate: String?
-
+        var internationalFee: String?
+        var referenceNumber:String?
         var fromFxRate: String?
         var fromFxRateCurrency: String?
         var toFxRate: String?
@@ -32,6 +33,7 @@ interface IInternationalFundsTransfer {
         var toFxRateCurrency: String?
         var valid: Boolean
         var beneficiaryId: String?
+        var position: Int?
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
 
     }

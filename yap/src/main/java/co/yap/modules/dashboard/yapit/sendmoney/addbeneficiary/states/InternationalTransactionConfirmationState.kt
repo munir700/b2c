@@ -32,22 +32,33 @@ class InternationalTransactionConfirmationState : BaseState(),
             notifyPropertyChanged(BR.flagLayoutVisibility)
         }
     @get:Bindable
-    override var transferDescription: String? =
-        "Your transfer of AED 1000 to Jonathan will be sent at the exchange rage of X AED to X CAD"
+    override var transferDescription: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferDescription)
         }
     @get:Bindable
-    override var referenceNumber: String? = "00313249457"
+    override var referenceNumber: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.referenceNumber)
         }
     @get:Bindable
-    override var confirmHeading: String?=""
+    override var confirmHeading: String? = ""
         set(value) {
-            field=value
+            field = value
             notifyPropertyChanged(BR.confirmHeading)
+        }
+    @get:Bindable
+    override var receivingAmountDescription: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.receivingAmountDescription)
+        }
+    @get:Bindable
+    override var transferFeeDescription: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeDescription)
         }
 }

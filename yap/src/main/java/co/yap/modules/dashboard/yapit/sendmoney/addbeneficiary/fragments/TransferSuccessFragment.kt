@@ -40,6 +40,8 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         if (activity is BeneficiaryCashTransferActivity) {
             setData()
             viewModel.state.amount = "${args.currencyType} ${args.amount}"
+            viewModel.state.referenceNumber = args.referenceNumber
+            viewModel.state.position = args.position
 
         }
         viewModel.clickEvent.observe(this, Observer {
@@ -76,6 +78,92 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
 
     override fun onBackPressed(): Boolean {
         return true
+    }
+
+    private fun setData() {
+        if (context is BeneficiaryCashTransferActivity) {
+            (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
+                beneficiary.beneficiaryType?.let { beneficiaryType ->
+                    if (beneficiaryType.isNotEmpty())
+                        when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
+                            SendMoneyBeneficiaryType.RMT -> {
+                                setDataForRmt()
+                            }
+                            SendMoneyBeneficiaryType.SWIFT -> {
+                                setDataForSwift()
+                            }
+                            SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                setDataForCashPayout()
+                            }
+                            SendMoneyBeneficiaryType.DOMESTIC -> {
+                                setDataForDomestic()
+                            }
+                            SendMoneyBeneficiaryType.UAEFTS -> {
+                                setDataForUAEFTS()
+                            }
+                            else -> {
+                                //common views
+
+                            }
+                        }
+                }
+            }
+        }
+    }
+
+    private fun setDataForCashPayout() {
+        viewModel.state.flagLayoutVisibility = false
+        viewModel.state.locationLayoutVisibility = true
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForDomestic() {
+        viewModel.state.flagLayoutVisibility = false
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForUAEFTS() {
+        viewModel.state.flagLayoutVisibility = false
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForSwift() {
+        viewModel.state.flagLayoutVisibility = true
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_funds_success_header)
+        }
+    }
+
+    private fun setDataForRmt() {
+        viewModel.state.locationLayoutVisibility = false
+        viewModel.state.flagLayoutVisibility = true
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_funds_success_header)
+        }
     }
 
     override fun onClick(viewId: Int, data: Any) {
@@ -123,87 +211,6 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             }
         }
         return false
-    }
-
-    private fun setData() {
-        if (context is BeneficiaryCashTransferActivity) {
-            (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
-                beneficiary.beneficiaryType?.let { beneficiaryType ->
-                    if (beneficiaryType.isNotEmpty())
-                        when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
-                            SendMoneyBeneficiaryType.RMT -> {
-                                setDataForRmt()
-                            }
-                            SendMoneyBeneficiaryType.SWIFT -> {
-                                setDataForSwift()
-                            }
-                            SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                                setDataForCashPayout()
-                            }
-                            SendMoneyBeneficiaryType.DOMESTIC -> {
-                                setDataForDomestic()
-                            }
-                            SendMoneyBeneficiaryType.UAEFTS -> {
-                                setDataForUAEFTS()
-                            }
-                            else -> {
-                                //common views
-
-                            }
-                        }
-                }
-            }
-        }
-    }
-
-    private fun setDataForCashPayout() {
-        viewModel.state.locationLayoutVisibility = true
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
-            viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
-        }
-    }
-
-    private fun setDataForDomestic() {
-        viewModel.state.locationLayoutVisibility = false
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
-            viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
-        }
-    }
-
-    private fun setDataForUAEFTS() {
-        viewModel.state.locationLayoutVisibility = false
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
-            viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
-        }
-    }
-
-    private fun setDataForSwift() {
-        viewModel.state.locationLayoutVisibility = false
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
-            viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
-        }
-    }
-
-    private fun setDataForRmt() {
-        viewModel.state.locationLayoutVisibility = false
-        (activity as BeneficiaryCashTransferActivity).let {
-            it.viewModel.state.toolBarVisibility = false
-            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
-            viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
-        }
     }
 
 }

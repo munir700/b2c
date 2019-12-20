@@ -42,6 +42,10 @@
             android:name="amount"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
 
     </fragment>
     <fragment
@@ -61,6 +65,14 @@
             android:name="amount"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="referenceNumber"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/internationalFundsTransferFragment"
@@ -88,6 +100,40 @@
             android:name="name"
             android:defaultValue=" "
             app:argType="string" />
+        <argument
+            android:name="transferAmountCurrency"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="transferAmount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="convertedReceivingAmount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="transferFee"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="fromAmount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="toAmount"
+            android:defaultValue=" "
+            app:argType="string" />
+        <argument
+            android:name="referenceNumber"
+            android:defaultValue=" "
+            app:argType="string" />
+
+        <argument
+            android:name="position"
+            android:defaultValue="0"
+            app:argType="integer" />
+
         <action
             android:id="@+id/action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2"
             app:destination="@id/transferSuccessFragment2"

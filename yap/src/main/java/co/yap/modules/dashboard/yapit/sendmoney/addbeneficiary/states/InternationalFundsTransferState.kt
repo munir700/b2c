@@ -63,6 +63,18 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.receiverCurrencyAmountFxRate)
 
         }
+    @get:Bindable
+    override var internationalFee: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.internationalFee)
+        }
+    @get:Bindable
+    override var referenceNumber: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.referenceNumber)
+        }
 
     @get:Bindable
     override var fromFxRate: String? = ""
@@ -115,21 +127,14 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiaryPicture: String =
-        "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+    override var beneficiaryPicture: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryPicture)
-            if (!beneficiaryPicture.isNullOrEmpty()) {
-                nameInitialsVisibility = View.GONE
-            } else {
-                nameInitialsVisibility = View.VISIBLE
-            }
-
         }
 
     @get:Bindable
-    override var beneficiaryName: String = "Jonathan Newport"
+    override var beneficiaryName: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryName)
@@ -185,6 +190,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.beneficiaryId)
         }
     @get:Bindable
+    override var position: Int? = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
+    @get:Bindable
     override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()
         set(value) {
@@ -230,6 +241,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 "AED",
                 Utils.getFormattedCurrency(findFee(amount).toString())
             )
+        internationalFee = "${"AED"} ${findFee(amount).toString()}"
 
         notifyPropertyChanged(BR.transferFee)
 

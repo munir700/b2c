@@ -36,9 +36,12 @@ class InternationalFundsTransferViewModel(application: Application) :
         InternationalFundsTransferState(application)
     private val messagesRepository: MessagesRepository = MessagesRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
-    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> = MutableLiveData()
-    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
+        ArrayList()
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+        MutableLiveData()
+    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+        ArrayList()
 
     override fun handlePressOnButton(id: Int) {
         createOtp(id = id)
@@ -124,10 +127,12 @@ class InternationalFundsTransferViewModel(application: Application) :
                 )
                 ) {
                 is RetroApiResponse.Success -> {
+                    state.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    clickEvent.postValue(Constants.ADD_SUCCESS)
+                    //state.referenceNumber = "0123456789"
+                    //clickEvent.postValue(Constants.ADD_SUCCESS)
                     state.toast = response.error.message
                     state.loading = false
                 }
@@ -153,10 +158,12 @@ class InternationalFundsTransferViewModel(application: Application) :
                 )
                 ) {
                 is RetroApiResponse.Success -> {
+                    state.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    clickEvent.postValue(Constants.ADD_SUCCESS)
+                    //state.referenceNumber = "0123456789"
+                    //clickEvent.postValue(Constants.ADD_SUCCESS)
                     state.toast = response.error.message
                     state.loading = false
                 }

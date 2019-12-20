@@ -159,6 +159,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.beneficiaryCountry)
         }
+    @get:Bindable
+    override var referenceNumber: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.referenceNumber)
+        }
 
     @get:Bindable
     override var transferFee: String = ""
@@ -194,7 +200,6 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
     @get:Bindable
     override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
-
 
 
     fun checkValidity(): String {

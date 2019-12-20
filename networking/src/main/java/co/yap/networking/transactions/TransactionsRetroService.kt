@@ -102,7 +102,7 @@ interface TransactionsRetroService {
 
     //Cash payout transfer request
     @POST(TransactionsRepository.URL_CASH_PAYOUT_TRANSFER)
-    suspend fun cashPayoutTransferRequest(@Body cashPayoutRequestDTO: CashPayoutRequestDTO): Response<ApiResponse>
+    suspend fun cashPayoutTransferRequest(@Body cashPayoutRequestDTO: CashPayoutRequestDTO): Response<SendMoneyTransactionResponseDTO>
 
     //Get transaction fee
     @POST(TransactionsRepository.URL_GET_TRANSACTION_FEE_WITH_PRODUCT_CODE)
@@ -118,17 +118,17 @@ interface TransactionsRetroService {
 
     //Domestic transfer request
     @POST(TransactionsRepository.URL_DOMESTIC_TRANSFER)
-    suspend fun domesticTransferRequest(@Body domesticTransactionRequestDTO: DomesticTransactionRequestDTO): Response<ApiResponse>
+    suspend fun domesticTransferRequest(@Body domesticTransactionRequestDTO: DomesticTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
 
     //Uaefts transfer request
     @POST(TransactionsRepository.URL_UAEFTS_TRANSFER)
-    suspend fun uaeftsTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<ApiResponse>
+    suspend fun uaeftsTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
    //RMT transfer request
     @POST(TransactionsRepository.URL_RMT_TRANSFER)
-    suspend fun rmtTransferRequest(@Body rmtTransactionRequestDTO: RMTTransactionRequestDTO): Response<ApiResponse>
+    suspend fun rmtTransferRequest(@Body rmtTransactionRequestDTO: RMTTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
   //Swift transfer request
     @POST(TransactionsRepository.URL_SWIFT_TRANSFER)
-    suspend fun swiftTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<ApiResponse>
+    suspend fun swiftTransferRequest(@Body uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): Response<SendMoneyTransactionResponseDTO>
 
 
 }
