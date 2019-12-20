@@ -37,17 +37,19 @@ interface IInternationalFundsTransfer {
         var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO>
         var reasonTransferValue: String?
         var reasonTransferCode: String?
+        var transferFeeAmount:Double
     }
 
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
-        fun getFundTransferLimits(productCode: String)
+        fun getFundTransferLimits(productCode: String?)
         fun handlePressOnButton(id: Int)
         fun getTransactionFeeInternational(productCode: String?)
         fun rmtTransferRequest(beneficiaryId: String?)
         fun swiftTransferRequest(beneficiaryId: String?)
+        fun createOtp(id:Int)
         var otpAction: String?
 
 

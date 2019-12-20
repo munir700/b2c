@@ -12,6 +12,8 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
 
+
+
 class InternationalFundsTransferState(val application: Application) : BaseState(),
     IInternationalFundsTransfer.State {
 
@@ -226,6 +228,12 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.reasonTransferCode)
         }
+    @get:Bindable
+    override var transferFeeAmount: Double = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeAmount)
+        }
 
     fun validate() {
         if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()) {
@@ -295,8 +303,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 }
             }
         }
+        transferFeeAmount = totalAmount
         return totalAmount
     }
-
 
 }
