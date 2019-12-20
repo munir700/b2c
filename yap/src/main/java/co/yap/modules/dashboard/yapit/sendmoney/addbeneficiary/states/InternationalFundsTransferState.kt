@@ -23,6 +23,20 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.transferFee)
 
         }
+
+    @get:Bindable
+    override var reasonTransferValue: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferValue)
+        }
+    @get:Bindable
+    override var reasonTransferCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferCode)
+        }
+
     @get:Bindable
     override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
         set(value) {
@@ -209,6 +223,32 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.listItemRemittanceFee)
         }
 
+
+    @get:Bindable
+    override var transferFeeAmount: Double = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeAmount)
+        }
+    @get:Bindable
+    override var maxLimit: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.maxLimit)
+        }
+    @get:Bindable
+    override var minLimit: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.minLimit)
+        }
+    @get:Bindable
+    override var transactionNote: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionNote)
+        }
+
     fun validate() {
         if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
 
@@ -278,6 +318,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 }
             }
         }
+        transferFeeAmount = totalAmount
         return totalAmount
     }
 

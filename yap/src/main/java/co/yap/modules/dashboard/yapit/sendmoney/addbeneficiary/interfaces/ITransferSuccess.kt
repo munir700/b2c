@@ -25,6 +25,7 @@ interface ITransferSuccess {
         var flagLayoutVisibility: Boolean?
         var position: Int?
         var locationLayoutVisibility: Boolean
+        var beneficiaryCountry: String?
 
     }
 }

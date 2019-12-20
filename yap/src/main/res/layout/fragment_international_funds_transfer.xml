@@ -107,6 +107,7 @@
                                     android:layout_marginTop="@dimen/_2sdp"
                                     android:layout_marginEnd="@dimen/_2sdp"
                                     android:layout_marginBottom="@dimen/_2sdp"
+                                    app:setFlagDrawable="@{viewModel.state.beneficiaryCountry}"
                                     android:background="@drawable/bitmap" />
 
                             </FrameLayout>
@@ -335,6 +336,7 @@
                     android:gravity="top"
                     android:inputType="text"
                     android:maxLength="100"
+                    android:text="@{viewModel.state.transactionNote}"
                     android:minHeight="@dimen/_40sdp"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                     app:layout_constraintBottom_toBottomOf="parent" />

@@ -145,6 +145,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
     }
 
     private fun setDataForSwift() {
+        viewModel.state.beneficiaryCountry = args.country
         viewModel.state.flagLayoutVisibility = true
         viewModel.state.locationLayoutVisibility = false
         (activity as BeneficiaryCashTransferActivity).let {
@@ -156,6 +157,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
     }
 
     private fun setDataForRmt() {
+        viewModel.state.beneficiaryCountry = args.country
         viewModel.state.locationLayoutVisibility = false
         viewModel.state.flagLayoutVisibility = true
         (activity as BeneficiaryCashTransferActivity).let {

@@ -99,6 +99,8 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:layout_marginEnd="@dimen/_2sdp"
                         android:layout_marginBottom="@dimen/_2sdp"
+                        app:setFlagDrawable="@{viewModel.state.beneficiaryCountry}"
+
                         android:background="@drawable/bitmap"
                         android:contentDescription="@string/empty_string" />
 

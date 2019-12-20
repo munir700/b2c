@@ -50,6 +50,8 @@ class InternationalTransactionConfirmationFragment :
             getString(Strings.screen_cash_pickup_funds_display_otp_header)
 
         viewModel.state.referenceNumber = args.referenceNumber
+        viewModel.state.beneficiaryCountry = args.country
+
 
         viewModel.state.transferDescription =
             getString(Strings.screen_funds_confirmation_success_description).format(
@@ -93,17 +95,18 @@ class InternationalTransactionConfirmationFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-//                findNavController().navigate(R.id.action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2)
                 viewModel.state.referenceNumber?.let { referenceNumber ->
                     viewModel.state.position?.let { position ->
-                        val action =
-                            InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToTransferSuccessFragment2(
-                                "",
-                                args.transferAmountCurrency,
-                                Utils.getFormattedCurrency(args.transferAmount),
-                                referenceNumber, position
-                            )
-                        findNavController().navigate(action)
+                        viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
+                            val action =
+                                InternationalTransactionConfirmationFragmentDirections.actionInternationalTransactionConfirmationFragmentToTransferSuccessFragment2(
+                                    "",
+                                    args.transferAmountCurrency,
+                                    Utils.getFormattedCurrency(args.transferAmount),
+                                    referenceNumber, position, beneficiaryCountry
+                                )
+                            findNavController().navigate(action)
+                        }
                     }
                 }
 

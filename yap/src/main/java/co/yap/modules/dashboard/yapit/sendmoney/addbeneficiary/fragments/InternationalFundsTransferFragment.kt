@@ -14,10 +14,14 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Intern
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
+import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.CustomSnackbar
+import co.yap.yapcore.helpers.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
+import co.yap.yapcore.managers.MyUserManager
 import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
@@ -73,11 +77,14 @@ class InternationalFundsTransferFragment :
         })
     }
 
+    override fun onResume() {
+        setObservers()
+        super.onResume()
+    }
+
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-
-
                 if (viewModel.state.reasonTransferValue.equals("")) {
                     toast(activity as BeneficiaryCashTransferActivity, "Please select Reason List")
                 } else {
@@ -94,13 +101,6 @@ class InternationalFundsTransferFragment :
                                     showErrorSnackBar()
                                 } else {
                                     viewModel.createOtp(R.id.btnNext)
-                                    val action =
-                                        InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
-                                            false,
-                                            viewModel.otpAction.toString(),
-                                            viewModel.state.fxRateAmount.toString()
-                                        )
-                                    findNavController().navigate(action)
                                 }
                             }
                         } else {
@@ -118,21 +118,34 @@ class InternationalFundsTransferFragment :
                 }
 
             }
+
+            200 -> {
+                val action =
+                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
+                        false,
+                        viewModel.otpAction.toString(),
+                        viewModel.state.fxRateAmount.toString()
+                    )
+                findNavController().navigate(action)
+            }
             Constants.ADD_SUCCESS -> {
                 viewModel.state.position?.let { position ->
-                    val action =
-                        InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
-                            viewModel.state.beneficiaryName,
-                            viewModel.state.senderCurrency.toString(),
-                            viewModel.state.fxRateAmount.toString(),
-                            viewModel.state.receiverCurrencyAmount.toString(),
-                            viewModel.state.internationalFee.toString(),
-                            viewModel.state.fromFxRate.toString(),
-                            viewModel.state.toFxRate.toString(),
-                            viewModel.state.referenceNumber.toString(), position
+                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
+                        val action =
+                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
+                                viewModel.state.beneficiaryName,
+                                viewModel.state.senderCurrency.toString(),
+                                viewModel.state.fxRateAmount.toString(),
+                                viewModel.state.receiverCurrencyAmount.toString(),
+                                viewModel.state.internationalFee.toString(),
+                                viewModel.state.fromFxRate.toString(),
+                                viewModel.state.toFxRate.toString(),
+                                viewModel.state.referenceNumber.toString(),
+                                position, beneficiaryCountry
+                            )
+                        findNavController().navigate(action)
+                    }
 
-                        )
-                    findNavController().navigate(action)
                 }
 
             }
@@ -272,6 +285,7 @@ class InternationalFundsTransferFragment :
             message = des
         )
     }
+
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)

@@ -24,5 +24,6 @@ interface IInternationalTransactionConfirmation {
         var confirmHeading: String?
         var receivingAmountDescription: String?
         var transferFeeDescription: String?
+        var beneficiaryCountry: String?
     }
 }

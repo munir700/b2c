@@ -73,6 +73,10 @@
             android:name="position"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="country"
+            android:defaultValue=" "
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/internationalFundsTransferFragment"
@@ -133,6 +137,10 @@
             android:name="position"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="country"
+            android:defaultValue=" "
+            app:argType="string" />
 
         <action
             android:id="@+id/action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2"

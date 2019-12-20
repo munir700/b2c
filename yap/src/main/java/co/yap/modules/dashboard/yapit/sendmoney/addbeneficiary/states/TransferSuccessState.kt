@@ -94,6 +94,12 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             field = value
             notifyPropertyChanged(BR.locationLayoutVisibility)
         }
+    @get:Bindable
+    override var beneficiaryCountry: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryCountry)
+        }
 
     @get:Bindable
     override var pickUpAgentLocationAddress: String? =

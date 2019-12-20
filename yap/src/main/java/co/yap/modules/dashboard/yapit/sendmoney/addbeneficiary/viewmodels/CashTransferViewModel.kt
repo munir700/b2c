@@ -104,8 +104,8 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    //state.referenceNumber = "0123456789"
-                    //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.referenceNumber = "0123456789"
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
                     state.loading = false
@@ -137,8 +137,8 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    //state.referenceNumber = "0123456789"
-                    //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    state.referenceNumber = "0123456789"
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
                     state.loading = false

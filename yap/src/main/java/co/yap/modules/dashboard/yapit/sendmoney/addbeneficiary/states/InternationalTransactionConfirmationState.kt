@@ -61,4 +61,10 @@ class InternationalTransactionConfirmationState : BaseState(),
             field = value
             notifyPropertyChanged(BR.transferFeeDescription)
         }
+    @get:Bindable
+    override var beneficiaryCountry: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryCountry)
+        }
 }
