@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
 import co.yap.countryutils.country.InternationalPhoneTextWatcher
+import co.yap.countryutils.country.utils.Currency
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
@@ -65,22 +66,27 @@ class AddBeneficiaryInternationlTransferFragment :
     }
 
     private fun initComponents() {
+        val currencies = viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies
         currencyPopMenu =
             requireContext().getCurrencyPopMenu(
                 this,
-                getCurrencyList(),
+                getCurrencyList(currencies),
                 popupItemClickListener,
                 null
             )
-        currencyPopMenu?.selectedPosition = 0
+        // setting the default select currecny on selected state
+        val index: Int =
+            currencies?.indexOf(viewModel.parentViewModel?.selectedCountry?.value?.getCurrency())
+                ?: 0
+        currencyPopMenu?.selectedPosition = index
     }
 
-    private fun getCurrencyList(): ArrayList<PopupMenuItem> {
-        val currencies = viewModel.parentViewModel?.selectedCountry?.value?.supportedCurrencies
+    private fun getCurrencyList(currencies: List<Currency>?): ArrayList<PopupMenuItem> {
         val popMenuCurrenciesList = ArrayList<PopupMenuItem>()
         for (currency in currencies!!.iterator()) {
             popMenuCurrenciesList.add(PopupMenuItem(currency.name))
         }
+
         return popMenuCurrenciesList
     }
 
