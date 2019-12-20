@@ -73,13 +73,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
 
-                    /*
-                    * Call Min & Max limit
-                    * */
-
                     getFundTransferLimits(productCode)
-
-                    /**********/
 
                     var totalAmount: Double
                     if (response.data.data?.feeType == "FLAT") {
@@ -127,7 +121,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.fxRateAmount?.toDouble(),
                         state.beneficiaryCurrency,
-                        ""
+                        state.noteTransfer
                     )
                 )
                 ) {
@@ -255,8 +249,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                         "${response.data.data.value?.amount} ${state.fromFxRateCurrency}"
                     state.toFxRateCurrency = response.data.data.toCurrencyCode
                     state.toFxRate =
-                        "${response.data.data.fxRates?.get(0)?.rate} ${state.toFxRateCurrency}"
-                    state.rate = response.data.data.fxRates?.get(0)?.rate
+                        "${response.data.data.fxRates?.get(0)?.convertedAmount} ${state.toFxRateCurrency}"
+                    state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false

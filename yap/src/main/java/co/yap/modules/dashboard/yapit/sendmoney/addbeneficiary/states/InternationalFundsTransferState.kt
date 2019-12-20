@@ -72,6 +72,14 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
 
         }
 
+
+    @get:Bindable
+    override var noteTransfer: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.noteTransfer)
+        }
+
     @get:Bindable
     override var fromFxRate: String? = ""
         set(value) {

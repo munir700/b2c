@@ -79,10 +79,12 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
+
+
                 if (viewModel.state.reasonTransferValue.equals("")) {
                     toast(activity as BeneficiaryCashTransferActivity, "Please select Reason List")
-
                 } else {
+
                     val availableBalance =
                         MyUserManager.cardBalance.value?.availableBalance?.toDouble()
                     if (availableBalance != null) {
