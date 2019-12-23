@@ -23,8 +23,8 @@ import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
 import co.yap.yapcore.R
-import co.yap.yapcore.helpers.PhoneNumberUtils.getCountryCodeForRegion
 import co.yap.yapcore.helpers.Utils.getDefaultCountryCode
+import co.yap.yapcore.helpers.getCountryCodeForRegion
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.util.*
 
