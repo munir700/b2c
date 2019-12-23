@@ -279,7 +279,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
                     if (!isSearching) {
-                        startActivity(getIntent(this, true, null))
+                        startActivityForResult(getIntent(this, true, null), REQUEST_TRANSFER_MONEY)
                     }
                 }
             }
@@ -310,6 +310,12 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                         )
                     ) {
                         viewModel.requestAllBeneficiaries()
+                    } else if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
+                            Constants.MONEY_TRANSFERED,
+                            false
+                        )
+                    ) {
+                        finish()
                     }
                 }
                 REQUEST_TRANSFER_MONEY -> {
@@ -318,7 +324,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                             false
                         )
                     ) {
-                        finish()
+                        if (viewModel.isSearching.value!!) {
+                            val intent = Intent()
+                            intent.putExtra(Constants.MONEY_TRANSFERED, true)
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
+                        } else {
+                            finish()
+                        }
                     }
                 }
             }

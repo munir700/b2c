@@ -70,27 +70,19 @@ class SendMoneyHomeActivity : BaseBindingActivity<ISendMoney.ViewModel>(), INavi
 
         data?.let {
             when (requestCode) {
-                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
-                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            Constants.BENEFICIARY_CHANGE,
-                            false
-                        )
-                    ) {
-                        val intent = Intent()
-                        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
-                        setResult(Activity.RESULT_OK, intent)
-                    }
-                }
                 RequestCodes.REQUEST_TRANSFER_MONEY -> {
-                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            Constants.MONEY_TRANSFERED,
-                            false
-                        )
-                    ) {
-                        val intent = Intent()
-                        intent.putExtra(Constants.MONEY_TRANSFERED, true)
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
+                    if (resultCode == Activity.RESULT_OK) {
+                        if (data.getBooleanExtra(Constants.MONEY_TRANSFERED, false)) {
+                            val intent = Intent()
+                            intent.putExtra(Constants.MONEY_TRANSFERED, true)
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
+                        } else if (data.getBooleanExtra(Constants.BENEFICIARY_CHANGE, false)) {
+                            val intent = Intent()
+                            intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+                            setResult(Activity.RESULT_OK, intent)
+                            finish()
+                        }
                     }
                 }
             }

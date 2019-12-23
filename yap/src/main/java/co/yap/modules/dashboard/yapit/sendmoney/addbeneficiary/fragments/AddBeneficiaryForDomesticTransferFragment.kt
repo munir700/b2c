@@ -88,15 +88,12 @@ class AddBeneficiaryForDomesticTransferFragment :
     }
 
     private fun startMoneyTransfer() {
-        val intent = Intent()
-        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
-        activity?.setResult(Activity.RESULT_OK, intent)
-
         viewModel.beneficiary?.let { beneficiary ->
-            startActivityForResult(
+            requireActivity().startActivityForResult(
                 BeneficiaryCashTransferActivity.newIntent(
                     requireActivity(),
-                    beneficiary
+                    beneficiary,
+                    isNewBeneficiary = true
                 ), RequestCodes.REQUEST_TRANSFER_MONEY
             )
         }
