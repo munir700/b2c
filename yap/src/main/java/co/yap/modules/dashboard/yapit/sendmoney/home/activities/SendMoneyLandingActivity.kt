@@ -24,9 +24,12 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScr
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
+<<<<<<< HEAD
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
+=======
+>>>>>>> dev
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -95,7 +98,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
                 if (viewModel.state.isSearching.get()!!)
-                    Utils.requestKeyboard(getSearchView(), request = false, forced = true)
+                    Utils.hideKeyboard(getSearchView())
             }
         })
         //Beneficiaries list Search Query observer
