@@ -110,6 +110,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         if (activity is BeneficiaryCashTransferActivity) {
             (activity as BeneficiaryCashTransferActivity).let { it ->
                 it.viewModel.state.leftButtonVisibility = false
+                it.viewModel.state.rightButtonVisibility = true
+                it.viewModel.state.toolBarTitle =
+                    getString(Strings.screen_cash_pickup_funds_display_text_header)
                 it.viewModel.state.beneficiary?.let {
                     viewModel.state.fullName = "${it.firstName} ${it.lastName}"
                 }
@@ -159,10 +162,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                             beneficiary.id?.let { beneficiaryId ->
                                 viewModel.domesticTransferRequest(beneficiaryId.toString())
                             }
-                        }
-                        SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
-                            //call service for INTERNAL_TRANSFER
-
                         }
                         //UAE non RAK(within UAE(External transfer))
                         SendMoneyBeneficiaryType.UAEFTS -> {

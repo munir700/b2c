@@ -53,9 +53,9 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
             when (it) {
                 R.id.nextButton -> {
                     viewModel.state.selectedCountry?.getCurrency()?.let { it ->
-                        //                        if (viewModel.state.isDomestic.get() == true && it.cashPickUp == false) {
-//                            findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
-//                        } else {
+                        if (viewModel.state.selectedCountry?.isoCountryCode2Digit == "AE") {
+                            findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
+                        } else {
                         it.cashPickUp?.let { cashPickup ->
                             if (cashPickup) {
                                 moveToTransferType()
@@ -63,7 +63,7 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                                 moveToAddBeneficiary()
                             }
                         }
-//                        }
+                        }
                     }
                 }
 

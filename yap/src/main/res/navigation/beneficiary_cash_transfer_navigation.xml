@@ -77,12 +77,22 @@
             android:id="@+id/action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment"
             app:destination="@id/internationalTransactionConfirmationFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/internationalTransactionConfirmationFragment"
         android:name="co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments.InternationalTransactionConfirmationFragment"
         android:label="InternationalTransactionConfirmationFragment"
-        tools:layout="@layout/fragment_international_transaction_confirmation"/>
+        tools:layout="@layout/fragment_international_transaction_confirmation">
+        <argument
+            android:name="name"
+            android:defaultValue=" "
+            app:argType="string" />
+        <action
+            android:id="@+id/action_internationalTransactionConfirmationFragment_to_transferSuccessFragment2"
+            app:destination="@id/transferSuccessFragment2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
 
 </navigation>

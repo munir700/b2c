@@ -18,8 +18,9 @@ class CountryAdapter(context: Context, resource: Int, objects: List<Country>) :
 
     inner class ViewHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
         override fun getBindingVariable(): Int = BR.dataCountry
-        private fun onBind(binding: Object) {
-
+        override fun bind(obj: Object, binding: ViewDataBinding?) {
+            binding?.setVariable(getBindingVariable(), obj)
+            binding?.executePendingBindings()
         }
     }
 }

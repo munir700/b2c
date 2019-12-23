@@ -23,8 +23,7 @@ interface IAddBeneficiary {
         var drawbleRight: Drawable?
         var mobileNoLength: Int
         var valid: Boolean
-        var validateCashflowButton: Boolean
-        var validateDomesticButton: Boolean
+        var country2DigitIsoCode:String
 
         var id: Int
         var beneficiaryId: String?
@@ -39,6 +38,7 @@ interface IAddBeneficiary {
         var branchAddress: String?
         var identifierCode1: String?
         var identifierCode2: String?
+        var selectedBeneficiaryType: String?
     }
 
     interface ViewModel : IBase.ViewModel<State> {

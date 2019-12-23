@@ -13,7 +13,6 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
-import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
@@ -28,13 +27,17 @@ class AddBeneficiaryViewModel(application: Application) :
     override var beneficiary: Beneficiary? = Beneficiary()
     override fun onCreate() {
         super.onCreate()
+        state.selectedBeneficiaryType = parentViewModel?.beneficiary?.value?.beneficiaryType
+
         parentViewModel?.selectedCountry?.value?.let {
             state.country = it.getName()
+            state.country2DigitIsoCode = it.isoCountryCode2Digit ?: "AE"
             state.flagDrawableResId =
                 Country(isoCountryCode2Digit = it.isoCountryCode2Digit).getFlagDrawableResId()
 
-            parentViewModel?.transferType?.value?.let { it ->
-                when (SendMoneyBeneficiaryType.valueOf(it)) {
+            parentViewModel?.beneficiary?.value?.beneficiaryType?.let { beneficiaryType ->
+                if (beneficiaryType.isEmpty()) return@let
+                when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                     SendMoneyBeneficiaryType.CASHPAYOUT -> {
                         state.transferType = "Cash Pickup"
                     }
@@ -68,8 +71,6 @@ class AddBeneficiaryViewModel(application: Application) :
     }
 
     private fun setBeneficiaryDetail() {
-        parentViewModel?.beneficiary?.value?.beneficiaryType =
-            parentViewModel?.transferType?.value ?: ""
         parentViewModel?.beneficiary?.value?.title = state.nickName
         parentViewModel?.beneficiary?.value?.firstName = state.firstName
         parentViewModel?.beneficiary?.value?.lastName = state.lastName

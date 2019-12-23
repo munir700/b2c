@@ -14,6 +14,12 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             notifyPropertyChanged(BR.transferType)
 
         }
+    @get:Bindable
+    override var successHeader: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.successHeader)
+        }
 
     @get:Bindable
     override var amount: String? = ""

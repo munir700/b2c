@@ -39,9 +39,15 @@ class InternationalTransactionConfirmationState : BaseState(),
             notifyPropertyChanged(BR.transferDescription)
         }
     @get:Bindable
-    override var referenceNumber: String? = ""
+    override var referenceNumber: String? = "00313249457"
         set(value) {
             field = value
             notifyPropertyChanged(BR.referenceNumber)
+        }
+    @get:Bindable
+    override var confirmHeading: String?=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.confirmHeading)
         }
 }

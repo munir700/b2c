@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -73,8 +75,8 @@ class AddBeneficiaryForDomesticTransferFragment :
                             if (data) {
                                 startMoneyTransfer()
                             } else {
-                                activity?.let { activity ->
-                                    activity.finish()
+                                activity?.let {
+                                    setIntentResult()
                                 }
                             }
                         }
@@ -86,8 +88,8 @@ class AddBeneficiaryForDomesticTransferFragment :
     private fun startMoneyTransfer() {
         viewModel.beneficiary?.let { beneficiary ->
             startActivity(BeneficiaryCashTransferActivity.newIntent(requireContext(), beneficiary))
-            activity?.let { activity ->
-                activity.finish()
+            activity?.let {
+                setIntentResult()
             }
         }
     }
@@ -100,6 +102,13 @@ class AddBeneficiaryForDomesticTransferFragment :
         beneficiary.country = "AE"
         beneficiary.accountNo = viewModel.state.iban
         viewModel.addDomesticBeneficiary(beneficiary)
+    }
+
+    private fun setIntentResult() {
+        val intent = Intent()
+        intent.putExtra("beneficiary_change", true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 
 }

@@ -33,7 +33,8 @@ import kotlinx.android.synthetic.main.layout_beneficiaries.*
 
 class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>(),
     ISendMoneyHome.View {
-    var positionToDelete = 0
+
+    private var positionToDelete = 0
     private lateinit var onTouchListener: RecyclerTouchListener
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.activity_send_money_landing
@@ -106,8 +107,8 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             if (it.isNullOrEmpty()) return@Observer
             val adapter = RecentTransferAdaptor(
                 it.toMutableList(),
-                    null
-                )
+                null
+            )
             adapter.onItemClickListener = recentItemClickListener
             viewModel.adapter.set(adapter)
 
@@ -224,7 +225,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                     R.string.common_button_yes
                 )
             ) { dialog, which ->
-                viewModel.requestDeleteBeneficiary(beneficiary.id?:0)
+                viewModel.requestDeleteBeneficiary(beneficiary.id ?: 0)
             }
 
             .setNegativeButton(
@@ -259,8 +260,14 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private val clickListener = Observer<Int> {
         when (it) {
-            R.id.addContactsButton -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //btn invoke add Beneficiary flow
-            R.id.tbBtnAddBeneficiary -> startActivity(SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity)) //toolbar invoke add Beneficiary flow
+            R.id.addContactsButton -> startActivityForResult(
+                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                REQUEST_CODE
+            ) //btn invoke add Beneficiary flow
+            R.id.tbBtnAddBeneficiary -> startActivityForResult(
+                SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
+                REQUEST_CODE
+            ) //toolbar invoke add Beneficiary flow
             R.id.tbBtnBack -> finish()
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->

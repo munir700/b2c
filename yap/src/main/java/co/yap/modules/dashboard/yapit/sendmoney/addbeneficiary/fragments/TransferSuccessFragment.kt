@@ -39,25 +39,13 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         super.onViewCreated(view, savedInstanceState)
         if (activity is BeneficiaryCashTransferActivity) {
             setData()
-            (activity as BeneficiaryCashTransferActivity).let {
-                it.viewModel.state.leftButtonVisibility =
-                    false
-                it.viewModel.state.rightButtonVisibility =
-                    false
-                viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
-                it.viewModel.state.toolBarTitle =
-                    getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
-            }
             viewModel.state.amount = "${args.currencyType} ${args.amount}"
 
         }
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton -> {
-                    // go back to dashboard
-//                    activity!!.recreate()
                     activity?.finish()
-//                    findNavController().navigate(R.id.action_beneficiaryOverviewFragment_to_transferSuccessFragment)
                 }
                 R.id.tvShareCode -> {
                     showToast(
@@ -136,35 +124,26 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         }
         return false
     }
-    fun setData() {
+
+    private fun setData() {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                             SendMoneyBeneficiaryType.RMT -> {
-                                //Set views for RMT
-
-
+                                setDataForRmt()
                             }
                             SendMoneyBeneficiaryType.SWIFT -> {
-                                //set views for Swift
-
+                                setDataForSwift()
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                                //set views for cash payout
                                 setDataForCashPayout()
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
-                                //set views for domestic
                                 setDataForDomestic()
                             }
-                            /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
-                                //call service for INTERNAL_TRANSFER
-
-                            }*/
                             SendMoneyBeneficiaryType.UAEFTS -> {
-                                //set views for UAEFTS
                                 setDataForUAEFTS()
                             }
                             else -> {
@@ -177,16 +156,54 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         }
     }
 
-    fun setDataForCashPayout() {
+    private fun setDataForCashPayout() {
         viewModel.state.locationLayoutVisibility = true
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
     }
 
-    fun setDataForDomestic() {
+    private fun setDataForDomestic() {
         viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
     }
 
-    fun setDataForUAEFTS() {
+    private fun setDataForUAEFTS() {
         viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForSwift() {
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
+    }
+
+    private fun setDataForRmt() {
+        viewModel.state.locationLayoutVisibility = false
+        (activity as BeneficiaryCashTransferActivity).let {
+            it.viewModel.state.toolBarVisibility = false
+            viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
+            viewModel.state.successHeader =
+                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+        }
     }
 
 }

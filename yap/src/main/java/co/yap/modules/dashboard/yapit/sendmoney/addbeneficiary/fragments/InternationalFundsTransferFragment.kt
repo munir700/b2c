@@ -42,7 +42,6 @@ class InternationalFundsTransferFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setObservers()
         getBeneficiaryId()
         viewModel.getTransactionFeeInternational(getProductCode())
     }
@@ -123,7 +122,11 @@ class InternationalFundsTransferFragment :
             }
 
             Constants.ADD_SUCCESS -> {
-                findNavController().navigate(R.id.action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment)
+                val action =
+                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
+                        viewModel.state.beneficiaryName
+                    )
+                findNavController().navigate(action)
             }
 
         }
@@ -218,7 +221,6 @@ class InternationalFundsTransferFragment :
             }
         }
     }
-
 
     private fun callTransactionApi() {
         (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->

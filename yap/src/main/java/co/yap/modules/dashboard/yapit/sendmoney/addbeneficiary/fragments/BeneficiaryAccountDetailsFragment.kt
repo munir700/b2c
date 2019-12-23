@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -11,6 +12,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransf
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -50,14 +52,16 @@ class BeneficiaryAccountDetailsFragment :
                             override fun onItemClick(view: View, data: Any, pos: Int) {
                                 if (data is Boolean) {
                                     if (data) {
-                                        startActivity(Intent(it, BeneficiaryCashTransferActivity::class.java))
-                                        activity?.let { activity ->
-                                            activity.finish()
-                                        }
+                                        startActivity(
+                                            BeneficiaryCashTransferActivity.newIntent(
+                                                it,
+                                                Beneficiary()
+                                            )
+                                        )
+                                        // start for result
+                                        setIntentResult()
                                     } else {
-                                        activity?.let { activity ->
-                                            activity.finish()
-                                        }
+                                        setIntentResult()
                                     }
                                 }
                             }
@@ -67,6 +71,15 @@ class BeneficiaryAccountDetailsFragment :
                 // error while creating beneficiary
             }
         })
+    }
+
+    private fun setIntentResult() {
+        activity?.let { it ->
+            val intent = Intent()
+            intent.putExtra("beneficiary_change", true)
+            it.setResult(Activity.RESULT_OK, intent)
+            it.finish()
+        }
     }
 
     private val observer = Observer<Int> {
@@ -83,7 +96,6 @@ class BeneficiaryAccountDetailsFragment :
     }
 
     override fun onBackPressed(): Boolean {
-
         return super.onBackPressed()
     }
 

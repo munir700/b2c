@@ -11,7 +11,7 @@ interface IBeneficiaryAccountDetails {
 
     interface State : IBase.State {
         var accountIban: String
-        var accountConfirmIban: String
+        //var accountConfirmIban: String
         var countryBankRequirementFieldCode: String
         var beneficiaryAccountNumber: String
         var swiftCode: String
@@ -23,7 +23,7 @@ interface IBeneficiaryAccountDetails {
         var bankPhoneNumber: String
 
         var showlyIban: ObservableField<Boolean>
-        var showlyConfirmIban: ObservableField<Boolean>
+        //var showlyConfirmIban: ObservableField<Boolean>
 
     }
 

@@ -104,8 +104,9 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                  //  clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
+                    errorEvent.call()
                     state.loading = false
                 }
             }

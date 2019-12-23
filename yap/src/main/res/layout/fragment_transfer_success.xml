@@ -36,7 +36,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:text="@{Strings.screen_crash_transfer_success_display_text_title}"
+                android:text="@{viewModel.state.successHeader}"
                 tools:text="@string/screen_crash_transfer_success_display_text_title" />
 
 

@@ -61,8 +61,7 @@
                         android:layout_width="@dimen/_42sdp"
                         android:layout_height="@dimen/_42sdp"
                         android:layout_gravity="center"
-                        android:layout_margin="@dimen/_2sdp"
-                        android:background="@drawable/bg_round_purple">
+                        android:layout_margin="@dimen/_2sdp">
 
                         <co.yap.widgets.CoreCircularImageView
                             android:id="@+id/imgProfile"
@@ -75,7 +74,6 @@
 
                     </FrameLayout>
 
-
                     <TextView
                         android:id="@+id/tvBankName"
                         style="@style/Micro"
@@ -85,6 +83,7 @@
                         android:gravity="center"
                         android:text="@{viewModel.state.bankName}"
                         android:textSize="@dimen/text_size_c3"
+                        android:visibility="@{viewModel.state.bankName.empty? View.GONE :View.VISIBLE}"
                         tools:text="TD BANK" />
 
                     <TextView
@@ -96,6 +95,7 @@
                         android:gravity="center"
                         android:text="@{viewModel.state.idCode}"
                         android:textSize="@dimen/text_size_c3"
+                        android:visibility="@{viewModel.state.idCode.empty? View.GONE :View.VISIBLE}"
                         tools:text="ID Code: 8060" />
 
                     <TextView
@@ -107,6 +107,7 @@
                         android:gravity="center"
                         android:text="@{viewModel.state.bankAddress}"
                         android:textSize="@dimen/text_size_c3"
+                        android:visibility="@{viewModel.state.bankAddress.empty? View.GONE :View.VISIBLE}"
                         tools:text="340 5TH AVE SW, CALGARY, AB, T2P0L3" />
 
 
@@ -119,9 +120,8 @@
                         android:gravity="center"
                         android:text="@{viewModel.state.bankPhoneNumber}"
                         android:textSize="@dimen/text_size_c3"
+                        android:visibility="@{viewModel.state.bankPhoneNumber.empty? View.GONE :View.VISIBLE}"
                         tools:text="(403) 292-1100" />
-
-
                 </LinearLayout>
 
                 <LinearLayout
@@ -146,55 +146,61 @@
                         app:textColor="@{viewModel.state.accountIban.empty ? true : false}"
                         tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
 
-                    <EditText
-                        android:id="@+id/etBranch"
+                    <co.yap.widgets.DrawableClickEditText
+                        android:id="@+id/etIban"
                         style="@style/Regular"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:backgroundTint="@color/greyLight"
-                        android:hint="34564567"
+                        android:drawableEnd="@drawable/ic_support"
+                        android:drawableRight="@drawable/ic_support"
+                        android:hint="xxxxxxxxx"
                         android:imeOptions="actionNext"
                         android:importantForAutofill="no"
                         android:maxLength="50"
-                        android:text="@={viewModel.state.accountIban}" />
+                        android:singleLine="true"
+                        android:text="@={viewModel.state.accountIban}"
+                        android:textAllCaps="true"
+                        app:isDrawableShownWhenTextIsEmpty="true"
+                        app:popupContentValue="@string/screen_add_beneficiary_display_help_content" />
 
                 </LinearLayout>
 
-                <LinearLayout
-                    android:id="@+id/lyConfirmIban"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:visibility="@{viewModel.state.showlyConfirmIban ? View.VISIBLE : View.GONE}"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">
+                <!--                <LinearLayout-->
+                <!--                    android:id="@+id/lyConfirmIban"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:orientation="vertical"-->
+                <!--                    android:visibility="@{viewModel.state.showlyConfirmIban ? View.VISIBLE : View.GONE}"-->
+                <!--                    app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--                    app:layout_constraintRight_toRightOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading">-->
 
-                    <TextView
-                        style="@style/Small"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/margin_medium_large"
-                        android:text="Confirm IBAN"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
-                        app:textColor="@{viewModel.state.accountConfirmIban.empty ? true : false}"
-                        tools:text="@string/screen_beneficiary_account_details_display_text_iban" />
+                <!--                    <TextView-->
+                <!--                        style="@style/Small"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:layout_marginTop="@dimen/margin_medium_large"-->
+                <!--                        android:text="Confirm IBAN"-->
+                <!--                        app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--                        app:layout_constraintRight_toRightOf="parent"-->
+                <!--                        app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"-->
+                <!--                        app:textColor="@{viewModel.state.accountConfirmIban.empty ? true : false}"-->
+                <!--                        tools:text="@string/screen_beneficiary_account_details_display_text_iban" />-->
 
-                    <EditText
-                        android:id="@+id/etConfirmIBAN"
-                        style="@style/Regular"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:backgroundTint="@color/greyLight"
-                        android:hint="34564567"
-                        android:imeOptions="actionNext"
-                        android:importantForAutofill="no"
-                        android:maxLength="50"
-                        android:text="@={viewModel.state.accountConfirmIban}" />
+                <!--                    <EditText-->
+                <!--                        android:id="@+id/etConfirmIBAN"-->
+                <!--                        style="@style/Regular"-->
+                <!--                        android:layout_width="match_parent"-->
+                <!--                        android:layout_height="wrap_content"-->
+                <!--                        android:backgroundTint="@color/greyLight"-->
+                <!--                        android:hint="34564567"-->
+                <!--                        android:imeOptions="actionNext"-->
+                <!--                        android:importantForAutofill="no"-->
+                <!--                        android:maxLength="50"-->
+                <!--                        android:text="@={viewModel.state.accountConfirmIban}" />-->
 
-                </LinearLayout>
+                <!--                </LinearLayout>-->
 
                 <LinearLayout
                     android:id="@+id/lyaccount"

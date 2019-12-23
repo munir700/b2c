@@ -33,24 +33,34 @@ class SelectCountryViewModel(application: Application) :
     override fun handlePressOnSeclectCountry(id: Int) {
         if (id == R.id.nextButton) {
             parentViewModel?.selectedCountry?.value = state.selectedCountry
-
-            parentViewModel?.selectedCountry?.value?.getCurrency()?.let { currency ->
-                currency.cashPickUp?.let { it ->
-                    if (!it) {
-                        currency.rmtCountry?.let { isRmt ->
-                            if (isRmt) {
-                                parentViewModel?.transferType?.value =
-                                    (SendMoneyBeneficiaryType.RMT.name)
-                            } else {
-                                parentViewModel?.transferType?.value =
-                                    (SendMoneyBeneficiaryType.SWIFT.name)
+            parentViewModel?.selectedCountry?.value?.let { country ->
+                if (country.isoCountryCode2Digit == "AE") {
+                    parentViewModel?.beneficiary?.value?.beneficiaryType =
+                        SendMoneyBeneficiaryType.DOMESTIC.name
+                    clickEvent.setValue(id)
+                } else {
+                    country.getCurrency()?.cashPickUp?.let { it ->
+                        if (!it) {
+                            country.getCurrency()?.rmtCountry?.let { isRmt ->
+                                if (isRmt) {
+                                    parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                        SendMoneyBeneficiaryType.RMT.name
+                                    clickEvent.setValue(id)
+                                } else {
+                                    parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                        SendMoneyBeneficiaryType.SWIFT.name
+                                    clickEvent.setValue(id)
+                                }
                             }
+                        } else {
+                            clickEvent.setValue(id)
                         }
                     }
                 }
             }
+        } else {
+            clickEvent.setValue(id)
         }
-        clickEvent.setValue(id)
     }
 
     override fun onCreate() {
