@@ -32,7 +32,7 @@
                 style="@style/Large"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginTop="@dimen/margin_medium_large"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -44,7 +44,7 @@
                 android:id="@+id/ivUserImage"
                 android:layout_width="@dimen/_62sdp"
                 android:layout_height="@dimen/_62sdp"
-                android:layout_marginTop="@dimen/margin_medium"
+                android:layout_marginTop="@dimen/margin_large"
                 android:src="@drawable/ic_store_b2b"
                 app:colorType="@{`Beneficiary`}"
                 app:fullName="@{viewModel.state.name}"
@@ -99,6 +99,8 @@
                         android:layout_marginTop="@dimen/_2sdp"
                         android:layout_marginEnd="@dimen/_2sdp"
                         android:layout_marginBottom="@dimen/_2sdp"
+                        app:setFlagDrawable="@{viewModel.state.beneficiaryCountry}"
+
                         android:background="@drawable/bitmap"
                         android:contentDescription="@string/empty_string" />
 
@@ -179,15 +181,19 @@
                 android:paddingBottom="@dimen/margin_medium"
                 app:layout_constraintBottom_toTopOf="@+id/confirmButton"
                 app:layout_constraintTop_toBottomOf="@+id/flTransactionComplete"
-                app:layout_constraintVertical_bias="0.751"
+                app:layout_constraintVertical_bias="0.900"
                 tools:layout_editor_absoluteX="21dp">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tvIdCode"
                     style="@style/MicroGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_small"
                     android:gravity="center"
                     android:text="@string/screen_crash_transfer_success_display_text_reference_number"
                     android:textSize="@dimen/text_size_c3"
@@ -207,14 +213,15 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvIdCode"
                     tools:text="00313249457" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <include
+              <!--  <include
                     android:id="@+id/layoutAgentLocation"
                     layout="@layout/layout_agent_location"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintTop_toBottomOf="@+id/tvReferenceNumber"
-                    app:viewModel="@{viewModel}" />
+                    app:viewModel="@{viewModel}" />-->
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <co.yap.widgets.CoreButton

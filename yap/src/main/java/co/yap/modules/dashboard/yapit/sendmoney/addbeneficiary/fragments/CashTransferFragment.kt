@@ -82,18 +82,24 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                         false,
                         Constants.BENEFICIARY_CASH_TRANSFER,
                         viewModel.state.amount
+                        , viewModel.state.position
 
                     )
                 findNavController().navigate(action)
             }
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
-                val action =
-                    CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
-                        "",
-                        viewModel.state.currencyType,
-                        Utils.getFormattedCurrency(viewModel.state.amount)
-                    )
-                findNavController().navigate(action)
+                viewModel.state.referenceNumber?.let { referenceNumber ->
+                    val action =
+                        CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
+                            "",
+                            viewModel.state.currencyType,
+                            Utils.getFormattedCurrency(viewModel.state.amount),
+                            referenceNumber,
+                            viewModel.state.position
+                        )
+                    findNavController().navigate(action)
+                }
+
             }
         }
     }
@@ -113,6 +119,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 it.viewModel.state.rightButtonVisibility = true
                 it.viewModel.state.toolBarTitle =
                     getString(Strings.screen_cash_pickup_funds_display_text_header)
+                viewModel.state.position = it.viewModel.state.position
                 it.viewModel.state.beneficiary?.let {
                     viewModel.state.fullName = "${it.firstName} ${it.lastName}"
                 }
@@ -149,24 +156,18 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 if (beneficiaryType.isNotEmpty())
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                         SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                            //call service for CASHPAYOUT
-                            toast("cashpayout request")
                             beneficiary.id?.let { beneficiaryId ->
                                 viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
                             }
                         }
                         //Rak to Rak(yap to rak(Internal transfer))
                         SendMoneyBeneficiaryType.DOMESTIC -> {
-                            //call service for DOMESTIC
-                            toast("domestic request")
                             beneficiary.id?.let { beneficiaryId ->
                                 viewModel.domesticTransferRequest(beneficiaryId.toString())
                             }
                         }
                         //UAE non RAK(within UAE(External transfer))
                         SendMoneyBeneficiaryType.UAEFTS -> {
-                            //call service for INTERNAL_TRANSFER
-                            toast("Uaefts request")
                             beneficiary.id?.let { beneficiaryId ->
                                 viewModel.uaeftsTransferRequest(beneficiaryId.toString())
                             }
@@ -217,11 +218,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                                 return SendMoneyBeneficiaryProductCode.P011.name
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                                toast("cashpayout flow")
                                 return SendMoneyBeneficiaryProductCode.P013.name
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
-                                toast("domestic flow")
                                 viewModel.state.ibanVisibility = true
                                 viewModel.state.ibanNumber = beneficiary.accountNo
                                 return SendMoneyBeneficiaryProductCode.P023.name
@@ -231,7 +230,6 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
                             }*/
                             SendMoneyBeneficiaryType.UAEFTS -> {
-                                toast("UAEFTS flow")
                                 viewModel.state.ibanVisibility = true
                                 viewModel.state.ibanNumber = beneficiary.accountNo
                                 return SendMoneyBeneficiaryProductCode.P010.name
@@ -282,6 +280,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.cashTransferFragment, true) // starting destination skiped
             .build()
+
         findNavController().navigate(
             R.id.action_cashTransferFragment_to_internationalFundsTransferFragment,
             null,

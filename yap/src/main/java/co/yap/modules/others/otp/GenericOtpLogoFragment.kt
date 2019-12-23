@@ -12,6 +12,7 @@ import co.yap.databinding.FragmentGenericOtpLogoBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.forgotpasscode.interfaces.IForgotPasscodeOtp
 import co.yap.translation.Strings
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
 class GenericOtpLogoFragment : GenericOtpFragment() {
@@ -29,6 +30,11 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
 
     override fun loadData() {
         viewModel.action = args?.otpType
+        if (!viewModel.action.isNullOrEmpty()) {
+            if (viewModel.action == SendMoneyBeneficiaryType.RMT.type || viewModel.action == SendMoneyBeneficiaryType.SWIFT.type) {
+                viewModel.state.flagLayoutVisibility = true
+            }
+        }
         args?.mobileNumber?.let {
             when {
                 it.startsWith("00") -> {
@@ -59,6 +65,7 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
                 viewModel.state.fullName = it.viewModel.state.beneficiary?.fullName()
                 viewModel.state.imageUrl = it.viewModel.state.beneficiary?.beneficiaryPictureUrl
                 viewModel.state.amount = genericOtpLogoFragmentArgs.amount
+                viewModel.state.position = genericOtpLogoFragmentArgs.position
             }
 
         }

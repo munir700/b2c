@@ -23,6 +23,20 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.transferFee)
 
         }
+
+    @get:Bindable
+    override var reasonTransferValue: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferValue)
+        }
+    @get:Bindable
+    override var reasonTransferCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferCode)
+        }
+
     @get:Bindable
     override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
         set(value) {
@@ -62,6 +76,18 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.receiverCurrencyAmountFxRate)
 
+        }
+    @get:Bindable
+    override var internationalFee: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.internationalFee)
+        }
+    @get:Bindable
+    override var referenceNumber: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.referenceNumber)
         }
 
     @get:Bindable
@@ -115,8 +141,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiaryPicture: String =
-        "https://scoopak.com/wp-content/uploads/2013/06/free-hd-natural-wallpapers-download-for-pc.jpg"
+    override var beneficiaryPicture: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryPicture)
@@ -129,7 +154,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
         }
 
     @get:Bindable
-    override var beneficiaryName: String = "Jonathan Newport"
+    override var beneficiaryName: String = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.beneficiaryName)
@@ -185,11 +210,43 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.beneficiaryId)
         }
     @get:Bindable
+    override var position: Int? = 0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.position)
+        }
+    @get:Bindable
     override var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()
         set(value) {
             field = value
             notifyPropertyChanged(BR.listItemRemittanceFee)
+        }
+
+
+    @get:Bindable
+    override var transferFeeAmount: Double = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeAmount)
+        }
+    @get:Bindable
+    override var maxLimit: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.maxLimit)
+        }
+    @get:Bindable
+    override var minLimit: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.minLimit)
+        }
+    @get:Bindable
+    override var transactionNote: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transactionNote)
         }
 
     fun validate() {
@@ -230,6 +287,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 "AED",
                 Utils.getFormattedCurrency(findFee(amount).toString())
             )
+        internationalFee = "${"AED"} ${findFee(amount).toString()}"
 
         notifyPropertyChanged(BR.transferFee)
 
@@ -260,6 +318,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 }
             }
         }
+        transferFeeAmount = totalAmount
         return totalAmount
     }
 

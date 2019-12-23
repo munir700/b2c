@@ -40,5 +40,6 @@ interface IForgotPasscodeOtp {
         var currencyType: String?
         var amount: String?
         var position: Int?
+        var flagLayoutVisibility: Boolean?
     }
 }

@@ -69,7 +69,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse> =
         executeSafely(call = { api.removeFunds(removeFundsResponse) })
 
-    override suspend fun getFundTransferLimits(productCode: String): RetroApiResponse<FundTransferLimitsResponse> =
+    override suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse> =
         executeSafely(call = { api.getFundTransferLimits(productCode) })
 
     override suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse> =
@@ -172,20 +172,20 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     ): RetroApiResponse<AnalyticsResponseDTO> =
         executeSafely(call = { api.getAnalyticsByCategoryName(cardSerialNo, date) })
 
-    override suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<ApiResponse> =
+    override suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.cashPayoutTransferRequest(cashPayoutRequestDTO) })
 
-    override suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+    override suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.domesticTransferRequest(domesticTransactionRequestDTO) })
 
-    override suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+    override suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.uaeftsTransferRequest(uaeftsTransactionRequestDTO) })
 
-    override suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+    override suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.rmtTransferRequest(rmtTransactionRequestDTO) })
 
 
-    override suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse> =
+    override suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
         executeSafely(call = { api.swiftTransferRequest(uaeftsTransactionRequestDTO) })
 
 

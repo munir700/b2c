@@ -11,7 +11,7 @@ import co.yap.networking.transactions.responsedtos.transaction.HomeTransactionsR
 interface TransactionsApi {
     suspend fun addFunds(addFundsRequest: AddFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
     suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse>
-    suspend fun getFundTransferLimits(productCode: String): RetroApiResponse<FundTransferLimitsResponse>
+    suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse>
     suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse>
     suspend fun getCardFee(cardType: String): RetroApiResponse<CardFeeResponse>
     suspend fun getTransactionFeeWithProductCode(
@@ -51,10 +51,10 @@ interface TransactionsApi {
         date: String? = ""
     ): RetroApiResponse<AnalyticsResponseDTO>
 
-    suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<ApiResponse>
-    suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<ApiResponse>
-    suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse>
-    suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<ApiResponse>
-    suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<ApiResponse>
+    suspend fun cashPayoutTransferRequest(cashPayoutRequestDTO: CashPayoutRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
 
 }

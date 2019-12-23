@@ -1140,4 +1140,15 @@ object Strings {
     const val screen_cash_pickup_funds_success_toolbar_header: String =
         "screen_cash_pickup_funds_success_toolbar_header"
 
+    //success Transfer flow
+    const val screen_funds_success_header: String =
+        "screen_funds_success_header"
+    const val screen_funds_toolbar_header: String =
+        "screen_funds_toolbar_header"
+    const val screen_funds_confirmation_success_description: String =
+        "screen_funds_confirmation_success_description"
+    const val screen_funds_receive_description: String =
+        "screen_funds_receive_description"
+    const val screen_funds_transfer_fee_description: String =
+        "screen_funds_transfer_fee_description"
 }
