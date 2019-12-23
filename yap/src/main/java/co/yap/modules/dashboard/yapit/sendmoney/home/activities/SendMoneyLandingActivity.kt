@@ -17,7 +17,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.Bundle_EXTRA
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.OVERVIEW_BENEFICIARY
-import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity.Companion.REQUEST_CODE
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.AllBeneficiariesAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.home.adapters.RecentTransferAdaptor
 import co.yap.modules.dashboard.yapit.sendmoney.home.interfaces.ISendMoneyHome
@@ -26,6 +25,8 @@ import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
+import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -94,7 +95,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                 viewModel.state.hasBeneficiary.set(true)
                 getAdaptor().setList(it)
                 if (viewModel.state.isSearching.get()!!)
-                    Utils.requestKeyboard(getSearchView(), request = false, forced = true)
+                    Utils.hideKeyboard(getSearchView())
             }
         })
         //Beneficiaries list Search Query observer
@@ -190,7 +191,13 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
 
     private fun startMoneyTransfer(beneficiary: Beneficiary?, position: Int) {
         Utils.hideKeyboard(getSearchView())
-        startActivity(BeneficiaryCashTransferActivity.newIntent(this, beneficiary, position))
+        startActivityForResult(
+            BeneficiaryCashTransferActivity.newIntent(
+                this,
+                beneficiary,
+                position
+            ), REQUEST_TRANSFER_MONEY
+        )
     }
 
     private fun openEditBeneficiary(beneficiary: Beneficiary?) {
@@ -201,7 +208,7 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
             bundle.putBoolean(OVERVIEW_BENEFICIARY, true)
             bundle.putParcelable(Beneficiary::class.java.name, beneficiary)
             intent.putExtra(Bundle_EXTRA, bundle)
-            startActivityForResult(intent, REQUEST_CODE)
+            startActivityForResult(intent, RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST)
         }
     }
 
@@ -262,17 +269,17 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         when (it) {
             R.id.addContactsButton -> startActivityForResult(
                 SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                REQUEST_CODE
+                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
             ) //btn invoke add Beneficiary flow
             R.id.tbBtnAddBeneficiary -> startActivityForResult(
                 SendMoneyHomeActivity.newIntent(this@SendMoneyLandingActivity),
-                REQUEST_CODE
+                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST
             ) //toolbar invoke add Beneficiary flow
             R.id.tbBtnBack -> finish()
             R.id.layoutSearchView -> {
                 viewModel.isSearching.value?.let { isSearching ->
                     if (!isSearching) {
-                        startActivity(getIntent(this, true, null))
+                        startActivityForResult(getIntent(this, true, null), REQUEST_TRANSFER_MONEY)
                     }
                 }
             }
@@ -296,13 +303,37 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
         super.onActivityResult(requestCode, resultCode, data)
         data?.let {
             when (requestCode) {
-                REQUEST_CODE -> {
+                RequestCodes.REQUEST_NOTIFY_BENEFICIARY_LIST -> {
                     if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
-                            "beneficiary_change",
+                            Constants.BENEFICIARY_CHANGE,
                             false
                         )
                     ) {
                         viewModel.requestAllBeneficiaries()
+                    } else if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
+                            Constants.MONEY_TRANSFERED,
+                            false
+                        )
+                    ) {
+                        finish()
+                    }
+                }
+                REQUEST_TRANSFER_MONEY -> {
+                    if (resultCode == Activity.RESULT_OK && data.getBooleanExtra(
+                            Constants.MONEY_TRANSFERED,
+                            false
+                        )
+                    ) {
+                        viewModel.isSearching.value?.let {
+                            if (it) {
+                                val intent = Intent()
+                                intent.putExtra(Constants.MONEY_TRANSFERED, true)
+                                setResult(Activity.RESULT_OK, intent)
+                                finish()
+                            } else {
+                                finish()
+                            }
+                        }
                     }
                 }
             }
