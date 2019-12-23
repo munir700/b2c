@@ -98,4 +98,10 @@ object Constants {
     const val USER_STATUS_CARD_ACTIVATED: String = "CARD_ACTIVATED"
 
     const val BROADCAST_UPDATE_TRANSACTION: String = "BROADCAST_UPDATE_TRANSACTION"
+
+    // Money Transfer
+
+    const val MONEY_TRANSFERED = "MONEY_TRANSFERED"
+    const val BENEFICIARY_CHANGE = "BENEFICIARY_CHANGE"
+
 }

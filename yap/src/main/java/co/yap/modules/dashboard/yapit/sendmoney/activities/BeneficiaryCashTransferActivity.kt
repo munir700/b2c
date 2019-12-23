@@ -77,4 +77,5 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
             super.onBackPressed()
         }
     }
+
 }

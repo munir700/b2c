@@ -14,6 +14,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBen
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -86,11 +88,17 @@ class AddBeneficiaryForDomesticTransferFragment :
     }
 
     private fun startMoneyTransfer() {
+        val intent = Intent()
+        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+
         viewModel.beneficiary?.let { beneficiary ->
-            startActivity(BeneficiaryCashTransferActivity.newIntent(requireContext(), beneficiary))
-            activity?.let {
-                setIntentResult()
-            }
+            startActivityForResult(
+                BeneficiaryCashTransferActivity.newIntent(
+                    requireActivity(),
+                    beneficiary
+                ), RequestCodes.REQUEST_TRANSFER_MONEY
+            )
         }
     }
 
@@ -106,7 +114,7 @@ class AddBeneficiaryForDomesticTransferFragment :
 
     private fun setIntentResult() {
         val intent = Intent()
-        intent.putExtra("beneficiary_change", true)
+        intent.putExtra( Constants.BENEFICIARY_CHANGE, true)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }

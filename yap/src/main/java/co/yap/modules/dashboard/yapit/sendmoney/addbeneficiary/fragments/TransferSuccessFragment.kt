@@ -16,9 +16,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Transf
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.InviteBottomSheet
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.Utils
-import com.digitify.identityscanner.camera.engine.offset.Reference
 
 
 class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel>(),
@@ -47,7 +46,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton -> {
-                    activity?.finish()
+                    setResultData()
                 }
                 R.id.tvShareCode -> {
                     showToast(
@@ -57,6 +56,13 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
                 }
             }
         })
+    }
+
+    private fun setResultData() {
+        val intent = Intent()
+        intent.putExtra(Constants.MONEY_TRANSFERED, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 
     private fun shareCode(referenceCode: String) {

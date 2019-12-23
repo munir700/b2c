@@ -20,6 +20,7 @@ import co.yap.translation.Translator
 import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.widgets.popmenu.PopupMenuItem
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
@@ -191,7 +192,7 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun setIntentResult() {
         val intent = Intent()
-        intent.putExtra("beneficiary_change", true)
+        intent.putExtra( Constants.BENEFICIARY_CHANGE, true)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }
