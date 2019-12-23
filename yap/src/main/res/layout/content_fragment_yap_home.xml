@@ -217,8 +217,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/margin_extra_large"
-                android:src="@drawable/ic_no_transaction"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:srcCompat="@drawable/ic_no_transaction" />
 
         </LinearLayout>
 
