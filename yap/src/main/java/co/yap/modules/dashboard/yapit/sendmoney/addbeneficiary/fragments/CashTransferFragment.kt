@@ -47,6 +47,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         startFlows()
+        viewModel.getTransactionFeeInternational()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -168,7 +169,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                         SendMoneyBeneficiaryType.CASHPAYOUT -> {
                             beneficiary.id?.let { beneficiaryId ->
-                                viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
+                                viewModel.cashPayoutTransferRequest(beneficiaryId)
                             }
                         }
                         //Rak to Rak(yap to rak(Internal transfer))
@@ -233,6 +234,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                                 return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                viewModel.state.reasonsVisibility = false
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P013.name
                                 return viewModel.state.produceCode ?: ""

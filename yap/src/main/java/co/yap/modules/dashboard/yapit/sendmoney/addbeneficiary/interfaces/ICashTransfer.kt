@@ -21,9 +21,11 @@ interface ICashTransfer {
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
         fun getTransactionFeeForCashPayout(productCode: String?)
-        fun cashPayoutTransferRequest(beneficiaryId: String?)
+        fun cashPayoutTransferRequest(beneficiaryId: Int?)
+        fun getTransactionInternationalReasonList()
         fun domesticTransferRequest(beneficiaryId: String?)
         fun uaeftsTransferRequest(beneficiaryId: String?)
+        fun getTransactionFeeInternational()
 
     }
 
