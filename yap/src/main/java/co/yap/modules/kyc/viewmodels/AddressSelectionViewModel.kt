@@ -592,12 +592,22 @@ class AddressSelectionViewModel(application: Application) :
         getDefaultLocationMap(mapDetailViewActivity)
     }
 
-
     fun setAddress(latitude: Double, longitude: Double) {
-        var geocoder: Geocoder = Geocoder(getApplication())
-        list = geocoder.getFromLocation(latitude, longitude, 1)
+        try {
+            var geocoder: Geocoder = Geocoder(getApplication())
+            list = geocoder.getFromLocation(latitude, longitude, 1)
 
-        city = list.get(0).locality
-        country = list.get(0).countryName
+            if (!list.isNullOrEmpty()) {
+                city = list[0].locality
+                country = list[0].countryName
+            } else {
+                city = "Dubai"
+                country = "UAE"
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            city = "Dubai"
+            country = "UAE"
+        }
     }
 }
