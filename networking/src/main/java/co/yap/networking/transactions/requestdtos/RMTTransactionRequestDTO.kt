@@ -1,9 +1,11 @@
 package co.yap.networking.transactions.requestdtos
 
-data class CashPayoutRequestDTO(
+data class RMTTransactionRequestDTO(
     var amount: Double?,
     var currency: String?,
     var purposeCode: String?,
-    var beneficiaryId: Int?,
-    var transactionNote:String?
+    var beneficiaryId: String?,
+    var remarks: String?,
+    var purposeReason: String?
+
 )

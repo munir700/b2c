@@ -1151,4 +1151,34 @@ object Strings {
         "screen_funds_receive_description"
     const val screen_funds_transfer_fee_description: String =
         "screen_funds_transfer_fee_description"
+
+
+    // Screen cash pickup funds transfer success
+    const val screen_cash_pickup_funds_transfer_display_text_amount_heading: String =
+        "screen_cash_pickup_funds_transfer_display_text_amount_heading"
+    const val screen_cash_pickup_funds_transfer_display_text_title: String =
+        "screen_cash_pickup_funds_transfer_display_text_title"
+    const val screen_cash_pickup_funds_transfer_back_to_dashboard: String =
+        "screen_cash_pickup_funds_transfer_back_to_dashboard"
+
+
+    //Screen international funds transfer success
+    const val screen_international_funds_transfer_display_text_amount_heading: String =
+        "screen_international_funds_transfer_display_text_amount_heading"
+    const val screen_international_funds_transfer_display_text_success_title: String =
+        "screen_international_funds_transfer_display_text_success_title"
+    const val screen_international_funds_transfer_back_to_dashboard: String =
+        "screen_international_funds_transfer_back_to_dashboard"
+
+    //Screen domestic funds transfer success
+    const val screen_domestic_funds_transfer_display_text_amount_heading: String =
+        "screen_domestic_funds_transfer_display_text_amount_heading"
+    const val screen_domestic_funds_transfer_display_text_title: String =
+        "screen_domestic_funds_transfer_display_text_title"
+
+
+    //Screen funds transfer information custom view
+    const val custom_view_funds_transfer_display_text_reference_number_heading: String =
+        "custom_view_funds_transfer_display_text_reference_number_heading"
+
 }

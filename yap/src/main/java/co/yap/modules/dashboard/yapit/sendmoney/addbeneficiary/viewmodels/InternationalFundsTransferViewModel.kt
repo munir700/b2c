@@ -10,11 +10,8 @@ import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
-import co.yap.networking.transactions.RMTTransactionRequestDTO
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
-import co.yap.networking.transactions.requestdtos.RxListRequest
-import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
+import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
@@ -117,11 +114,12 @@ class InternationalFundsTransferViewModel(application: Application) :
             when (val response =
                 mTransactionsRepository.rmtTransferRequest(
                     RMTTransactionRequestDTO(
+                        state.fxRateAmount?.toDouble(),
+                        state.fromFxRateCurrency,
                         state.reasonTransferCode,
                         beneficiaryId,
-                        state.fxRateAmount?.toDouble(),
-                        state.beneficiaryCurrency,
-                        state.transactionNote
+                        state.transactionNote,
+                        state.reasonTransferValue
                     )
                 )
                 ) {
@@ -130,8 +128,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    state.referenceNumber = "0123456789"
-                    clickEvent.postValue(Constants.ADD_SUCCESS)
                     state.toast = response.error.message
                     state.loading = false
                 }
@@ -145,7 +141,7 @@ class InternationalFundsTransferViewModel(application: Application) :
             state.loading = true
             when (val response =
                 mTransactionsRepository.swiftTransferRequest(
-                    UAEFTSTransactionRequestDTO(
+                    SwiftTransactionRequestDTO(
                         beneficiaryId,
                         state.fxRateAmount?.toDouble(),
                         0.0,
@@ -161,8 +157,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    clickEvent.postValue(Constants.ADD_SUCCESS)
-                    state.referenceNumber = "0123456789"
                     state.toast = response.error.message
                     state.loading = false
                 }
@@ -220,8 +214,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                 )) {
                 is RetroApiResponse.Success -> {
                     state.loading = false
-
-                    println(response.data.data)
                     state.senderCurrency = response.data.data.fromCurrencyCode
                     state.receiverCurrency = response.data.data.toCurrencyCode
                     state.receiverCurrencyAmountFxRate = response.data.data.value?.amount

@@ -55,6 +55,6 @@ interface TransactionsApi {
     suspend fun domesticTransferRequest(domesticTransactionRequestDTO: DomesticTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun uaeftsTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
     suspend fun rmtTransferRequest(rmtTransactionRequestDTO: RMTTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
-    suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
+    suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO>
 
 }
