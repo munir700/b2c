@@ -58,8 +58,8 @@ class PrefixSuffixEditText : AppCompatEditText {
         get() = this.mPrefix
         set(prefix) {
             this.mPrefix = prefix
-
-            mask(mPrefix)
+            if (mPrefix?.isNotBlank()!!)
+                mask(mPrefix)
             // textFormatter.countryCode = "CZ"
             calculatePrefix()
             invalidate()
