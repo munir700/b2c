@@ -420,7 +420,8 @@ object UIBinder {
     @BindingAdapter("src")
     @JvmStatic
     fun setImageResId(view: ImageView, resId: Int) {
-        view.setImageResource(resId)
+        if (resId != -1)
+            view.setImageResource(resId)
     }
 
     @JvmStatic
@@ -753,7 +754,7 @@ object UIBinder {
 
     }
 
-     @BindingAdapter("textColor")
+    @BindingAdapter("textColor")
     @JvmStatic
     fun setSelectedTextColor(view: TextView, isActive: Boolean) {
         if (isActive) {
@@ -774,7 +775,8 @@ object UIBinder {
             imageView.setImageResource(R.drawable.ic_bank)
         }
     }
-     @JvmStatic
+
+    @JvmStatic
     @BindingAdapter("cardNickname")
     fun setCardNickname(view: CorePaymentCard, cardNickname: String?) {
         if (cardNickname != null) {
@@ -810,4 +812,4 @@ object UIBinder {
             view.setCardLogoByType(cardType)
     }
 
- }
+}
