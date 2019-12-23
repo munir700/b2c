@@ -1,8 +1,8 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -44,6 +44,7 @@ class InternationalFundsTransferFragment :
         super.onCreate(savedInstanceState)
         getBeneficiaryId()
         viewModel.getTransactionFeeInternational(getProductCode())
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -158,7 +159,6 @@ class InternationalFundsTransferFragment :
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinner.setSelection(pos)
-
             if (bankReasonList.isNotEmpty()) {
                 viewModel.state.reasonTransferValue = bankReasonList[pos].reason
                 viewModel.state.reasonTransferCode = bankReasonList[pos].code

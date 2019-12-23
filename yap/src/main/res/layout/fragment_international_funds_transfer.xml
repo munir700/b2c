@@ -169,6 +169,7 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="center"
+                        android:focusableInTouchMode="true"
                         android:imeOptions="actionDone"
                         android:importantForAutofill="no"
                         android:inputType="numberDecimal"
