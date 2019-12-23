@@ -25,16 +25,11 @@ class ReasonListAdapter(
 
 
     inner class ViewHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
-//        override fun bind(obj: Object, binding: ViewDataBinding?) {
-//            //TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//        }
 
         override fun bind(obj: Any, binding: ViewDataBinding?) {
-            //   TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            println(obj)
-            println(binding)
+            binding?.setVariable(getBindingVariable(), obj)
+            binding?.executePendingBindings()
         }
-
 
         override fun getBindingVariable(): Int = BR.reasonList
         private fun onBind(binding: Object) {

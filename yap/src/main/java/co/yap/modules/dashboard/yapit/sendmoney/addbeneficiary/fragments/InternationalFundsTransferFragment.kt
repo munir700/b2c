@@ -37,12 +37,10 @@ class InternationalFundsTransferFragment :
     override val viewModel: IInternationalFundsTransfer.ViewModel
         get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
 
-    val reasonList = charArrayOf()
     var bankReasonList: MutableList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setObservers()
         getBeneficiaryId()
         viewModel.getTransactionFeeInternational(getProductCode())
     }
@@ -71,16 +69,21 @@ class InternationalFundsTransferFragment :
                 0,
                 InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
             )
+
             reasonsSpinner.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
+
         })
+    }
+
+    override fun onResume() {
+        setObservers()
+        super.onResume()
     }
 
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-
-
                 if (viewModel.state.reasonTransferValue.equals("")) {
                     toast(activity as BeneficiaryCashTransferActivity, "Please select Reason List")
                 } else {
@@ -97,13 +100,6 @@ class InternationalFundsTransferFragment :
                                     showErrorSnackBar()
                                 } else {
                                     viewModel.createOtp(R.id.btnNext)
-                                    val action =
-                                        InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
-                                            false,
-                                            viewModel.otpAction.toString(),
-                                            viewModel.state.fxRateAmount.toString()
-                                        )
-                                    findNavController().navigate(action)
                                 }
                             }
                         } else {
@@ -122,21 +118,49 @@ class InternationalFundsTransferFragment :
 
             }
 
+            200 -> {
+                val action =
+                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
+                        false,
+                        viewModel.otpAction.toString(),
+                        viewModel.state.fxRateAmount.toString()
+                    )
+                findNavController().navigate(action)
+            }
             Constants.ADD_SUCCESS -> {
-                findNavController().navigate(R.id.action_internationalFundsTransferFragment_to_internationalTransactionConfirmationFragment)
+                viewModel.state.position?.let { position ->
+                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
+                        val action =
+                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToInternationalTransactionConfirmationFragment(
+                                viewModel.state.beneficiaryName,
+                                viewModel.state.senderCurrency.toString(),
+                                viewModel.state.fxRateAmount.toString(),
+                                viewModel.state.receiverCurrencyAmount.toString(),
+                                viewModel.state.internationalFee.toString(),
+                                viewModel.state.fromFxRate.toString(),
+                                viewModel.state.toFxRate.toString(),
+                                viewModel.state.referenceNumber.toString(),
+                                position, beneficiaryCountry
+                            )
+                        findNavController().navigate(action)
+                    }
+
+                }
+
             }
 
         }
     }
 
+
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinner.setSelection(pos)
+
             if (bankReasonList.isNotEmpty()) {
                 viewModel.state.reasonTransferValue = bankReasonList[pos].reason
                 viewModel.state.reasonTransferCode = bankReasonList[pos].code
             }
-
 
         }
     }
@@ -185,8 +209,15 @@ class InternationalFundsTransferFragment :
     private fun getProductCode(): String {
 
         if (context is BeneficiaryCashTransferActivity) {
+            (context as BeneficiaryCashTransferActivity).let { beneficiaryCashTransaferActivity ->
+                beneficiaryCashTransaferActivity.viewModel.state.toolBarTitle = getString(
+                    Strings.screen_funds_toolbar_header
+                )
+                viewModel.state.position = beneficiaryCashTransaferActivity.viewModel.state.position
+            }
             (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
                 viewModel.state.beneficiaryCountry = beneficiary.country
+                viewModel.state.beneficiaryName = beneficiary.fullName()
                 beneficiary.beneficiaryType?.let { beneficiaryType ->
                     if (beneficiaryType.isNotEmpty())
                         return when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
@@ -218,7 +249,6 @@ class InternationalFundsTransferFragment :
             }
         }
     }
-
 
     private fun callTransactionApi() {
         (context as BeneficiaryCashTransferActivity).viewModel.state.beneficiary?.let { beneficiary ->
@@ -255,6 +285,8 @@ class InternationalFundsTransferFragment :
             message = des
         )
     }
+
+
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()

@@ -9,10 +9,10 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
 import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
+import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
@@ -41,7 +41,6 @@ class CashTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        // getTransactionFeeForCashPayout()
         state.availableBalanceGuide =
             getString(Strings.screen_add_funds_display_text_available_balance)
 
@@ -101,9 +100,11 @@ class CashTransferViewModel(application: Application) :
                 )
                 ) {
                 is RetroApiResponse.Success -> {
+                    state.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
+                    state.referenceNumber = "0123456789"
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
@@ -124,17 +125,19 @@ class CashTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.amount.toDouble(),
                         0.0,
-                        "57",
-                        "iueieieieiei",
+                        state.reasonTransferCode,
+                        state.reasonTransferValue,
                         state.noteValue
                     )
 
                 )
                 ) {
                 is RetroApiResponse.Success -> {
+                    state.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
+                    state.referenceNumber = "0123456789"
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
@@ -144,6 +147,7 @@ class CashTransferViewModel(application: Application) :
             state.loading = false
         }
     }
+
 
     override fun uaeftsTransferRequest(beneficiaryId: String?) {
 
@@ -155,18 +159,20 @@ class CashTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.amount.toDouble(),
                         0.0,
-                        "51",
-                        "dsdsdsds",
+                        state.reasonTransferCode,
+                        state.reasonTransferValue,
                         state.noteValue,
                         ""
                     )
                 )
                 ) {
                 is RetroApiResponse.Success -> {
+                    state.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                  //  clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
+                    //state.referenceNumber = "0123456789"
+                    //  clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
                     state.loading = false
@@ -252,7 +258,8 @@ class CashTransferViewModel(application: Application) :
                 }
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
                 }
             }
             //state.loading = false
@@ -304,7 +311,7 @@ class CashTransferViewModel(application: Application) :
 
                 is RetroApiResponse.Error -> {
                     state.loading = false
-                    state.toast = response.error.message
+                    state.errorDescription = response.error.message
                 }
             }
             // state.loading = false
