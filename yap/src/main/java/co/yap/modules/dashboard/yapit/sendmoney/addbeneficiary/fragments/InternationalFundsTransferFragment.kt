@@ -37,7 +37,6 @@ class InternationalFundsTransferFragment :
     override val viewModel: IInternationalFundsTransfer.ViewModel
         get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
 
-    val reasonList = charArrayOf()
     var bankReasonList: MutableList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -120,13 +119,19 @@ class InternationalFundsTransferFragment :
             }
 
             200 -> {
-                val action =
-                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
-                        false,
-                        viewModel.otpAction.toString(),
-                        viewModel.state.fxRateAmount.toString()
-                    )
-                findNavController().navigate(action)
+                viewModel.state.position?.let { position ->
+                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
+                        val action =
+                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
+                                false,
+                                viewModel.otpAction.toString(),
+                                viewModel.state.fxRateAmount.toString(),
+                                position,
+                                beneficiaryCountry
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
             }
             Constants.ADD_SUCCESS -> {
                 viewModel.state.position?.let { position ->

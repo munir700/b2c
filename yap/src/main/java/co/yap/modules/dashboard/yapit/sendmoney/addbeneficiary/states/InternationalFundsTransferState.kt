@@ -243,7 +243,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.minLimit)
         }
     @get:Bindable
-    override var transactionNote: String? = ""
+    override var transactionNote: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.transactionNote)

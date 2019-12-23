@@ -46,6 +46,10 @@
             android:name="position"
             android:defaultValue="0"
             app:argType="integer" />
+        <argument
+            android:name="beneficiaryCountry"
+            android:defaultValue=" "
+            app:argType="string" />
 
     </fragment>
     <fragment

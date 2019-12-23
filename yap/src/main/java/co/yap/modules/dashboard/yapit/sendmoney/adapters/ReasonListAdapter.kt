@@ -25,10 +25,10 @@ class ReasonListAdapter(
 
 
     inner class ViewHolder(binding: ViewDataBinding) : BaseBindingHolder(binding) {
-        override fun bind(obj: Object, binding: ViewDataBinding?) {
+
+        override fun bind(obj: Any, binding: ViewDataBinding?) {
             binding?.setVariable(getBindingVariable(), obj)
             binding?.executePendingBindings()
-
         }
 
         override fun getBindingVariable(): Int = BR.reasonList

@@ -124,7 +124,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             it.viewModel.state.toolBarVisibility = false
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+                getString(Strings.screen_cash_pickup_funds_transfer_display_text_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_cash_pickup_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
         }
     }
 
@@ -136,6 +140,12 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
                 getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+            viewModel.state.successHeader =
+                getString(Strings.screen_domestic_funds_transfer_display_text_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_domestic_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
         }
     }
 
@@ -146,7 +156,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             it.viewModel.state.toolBarVisibility = false
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+                getString(Strings.screen_cash_pickup_funds_transfer_display_text_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_cash_pickup_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
         }
     }
 
@@ -158,7 +172,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             it.viewModel.state.toolBarVisibility = false
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
-                getString(Strings.screen_funds_success_header)
+                getString(Strings.screen_international_funds_transfer_display_text_success_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_international_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_international_funds_transfer_back_to_dashboard)
         }
     }
 
@@ -170,7 +188,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             it.viewModel.state.toolBarVisibility = false
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
-                getString(Strings.screen_funds_success_header)
+                getString(Strings.screen_international_funds_transfer_display_text_success_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_international_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_international_funds_transfer_back_to_dashboard)
         }
     }
 

@@ -185,8 +185,8 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
         executeSafely(call = { api.rmtTransferRequest(rmtTransactionRequestDTO) })
 
 
-    override suspend fun swiftTransferRequest(uaeftsTransactionRequestDTO: UAEFTSTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
-        executeSafely(call = { api.swiftTransferRequest(uaeftsTransactionRequestDTO) })
+    override suspend fun swiftTransferRequest(swiftTransactionRequestDTO: SwiftTransactionRequestDTO): RetroApiResponse<SendMoneyTransactionResponseDTO> =
+        executeSafely(call = { api.swiftTransferRequest(swiftTransactionRequestDTO) })
 
 
 }
