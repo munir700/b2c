@@ -178,6 +178,21 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             notifyPropertyChanged(BR.produceCode)
         }
 
+
+    @get:Bindable
+    override var reasonTransferValue: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferValue)
+        }
+
+    @get:Bindable
+    override var reasonTransferCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferCode)
+        }
+
     @get:Bindable
     override var transferFee: String = ""
         set(value) {

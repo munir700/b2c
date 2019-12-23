@@ -28,7 +28,6 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.clFTSnackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
@@ -43,7 +42,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override val viewModel: CashTransferViewModel
         get() = ViewModelProviders.of(this).get(CashTransferViewModel::class.java)
-
+    var bankReasonList: MutableList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,6 +62,14 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
+
+            bankReasonList =
+                it as MutableList<InternationalFundsTransferReasonList.ReasonList>
+            bankReasonList.add(
+                0,
+                InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
+            )
+
             reasonsSpinnerCashTransfer.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
         })
@@ -71,7 +78,11 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinnerCashTransfer.setSelection(pos)
-            toast(data.toString())
+            if (bankReasonList.isNotEmpty()) {
+                viewModel.state.reasonTransferValue = bankReasonList[pos].reason
+                viewModel.state.reasonTransferCode = bankReasonList[pos].code
+            }
+
         }
     }
     val clickEvent = Observer<Int> {

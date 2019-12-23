@@ -108,11 +108,15 @@ fun setCircleCropImage(imageView: ImageView, url: String, fallback: Int) {
 
 fun setCircleCropImage(imageView: ImageView, url: String, fallback: Drawable) {
 
-    val mUrl = getUrl(url)
-    Glide.with(imageView).load(mUrl)
-        .error(fallback)
-        .placeholder(fallback)
-        .into(imageView)
+    if (url.isNullOrEmpty()) {
+        imageView.setImageDrawable(fallback)
+    } else {
+        val mUrl = getUrl(url)
+        Glide.with(imageView).load(mUrl)
+            .error(fallback)
+            .placeholder(fallback)
+            .into(imageView)
+    }
 }
 
 fun setCirculerCenterCropImage(imageView: ImageView, url: String, fallback: Drawable) {

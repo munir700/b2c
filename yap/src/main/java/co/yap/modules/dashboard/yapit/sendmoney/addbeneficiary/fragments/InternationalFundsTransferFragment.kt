@@ -22,10 +22,8 @@ import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
-import kotlinx.android.synthetic.main.item_transaction_list.*
 
 
 class InternationalFundsTransferFragment :
@@ -39,7 +37,6 @@ class InternationalFundsTransferFragment :
     override val viewModel: IInternationalFundsTransfer.ViewModel
         get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
 
-    val reasonList = charArrayOf()
     var bankReasonList: MutableList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,8 +69,10 @@ class InternationalFundsTransferFragment :
                 0,
                 InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
             )
+
             reasonsSpinner.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
+
         })
     }
 
@@ -159,14 +158,15 @@ class InternationalFundsTransferFragment :
         }
     }
 
+
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinner.setSelection(pos)
+
             if (bankReasonList.isNotEmpty()) {
                 viewModel.state.reasonTransferValue = bankReasonList[pos].reason
                 viewModel.state.reasonTransferCode = bankReasonList[pos].code
             }
-
 
         }
     }

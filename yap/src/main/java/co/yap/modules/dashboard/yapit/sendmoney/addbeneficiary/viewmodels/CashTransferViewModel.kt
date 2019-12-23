@@ -9,10 +9,10 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.*
 import co.yap.networking.transactions.requestdtos.CashPayoutRequestDTO
 import co.yap.networking.transactions.requestdtos.DomesticTransactionRequestDTO
 import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
+import co.yap.networking.transactions.requestdtos.UAEFTSTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
@@ -125,8 +125,8 @@ class CashTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.amount.toDouble(),
                         0.0,
-                        "57",
-                        "iueieieieiei",
+                        state.reasonTransferCode,
+                        state.reasonTransferValue,
                         state.noteValue
                     )
 
@@ -148,6 +148,7 @@ class CashTransferViewModel(application: Application) :
         }
     }
 
+
     override fun uaeftsTransferRequest(beneficiaryId: String?) {
 
         launch {
@@ -158,8 +159,8 @@ class CashTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.amount.toDouble(),
                         0.0,
-                        "51",
-                        "dsdsdsds",
+                        state.reasonTransferCode,
+                        state.reasonTransferValue,
                         state.noteValue
                     )
                 )

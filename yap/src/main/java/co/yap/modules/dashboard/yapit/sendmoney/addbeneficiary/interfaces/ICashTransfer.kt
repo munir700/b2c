@@ -57,6 +57,9 @@ interface ICashTransfer {
         var ibanVisibility: Boolean?
         var beneficiaryCountry: String?
         var referenceNumber: String?
+
+        var reasonTransferValue: String?
+        var reasonTransferCode: String?
         var reasonsVisibility: Boolean?
         var produceCode: String?
     }
