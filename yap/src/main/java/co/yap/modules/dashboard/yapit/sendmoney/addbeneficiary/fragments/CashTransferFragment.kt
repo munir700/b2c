@@ -78,6 +78,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinnerCashTransfer.setSelection(pos)
+
             if (bankReasonList.isNotEmpty()) {
                 viewModel.state.reasonTransferValue = bankReasonList[pos].reason
                 viewModel.state.reasonTransferCode = bankReasonList[pos].code
@@ -98,6 +99,11 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     )
                 findNavController().navigate(action)
             }
+
+            R.id.viewTriggerSpinnerClickReasonCash -> {
+                reasonsSpinnerCashTransfer.performClick()
+            }
+
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
                 viewModel.state.referenceNumber?.let { referenceNumber ->
                     val action =
@@ -112,6 +118,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 }
 
             }
+
         }
     }
 

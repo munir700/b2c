@@ -325,9 +325,15 @@
                         android:spinnerMode="dropdown" />
 
                     <View
+                        android:id="@+id/viewTriggerSpinnerClickReason"
+                        android:layout_width="match_parent"
+                        android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_alignParentTop="true" />
+
+                    <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
-                        android:layout_alignBottom="@+id/reasonsSpinner"
                         android:background="@color/greySoft" />
 
                 </RelativeLayout>

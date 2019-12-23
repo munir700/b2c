@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -117,7 +118,6 @@ class InternationalFundsTransferFragment :
                 }
 
             }
-
             200 -> {
                 val action =
                     InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
@@ -148,7 +148,9 @@ class InternationalFundsTransferFragment :
                 }
 
             }
-
+            R.id.viewTriggerSpinnerClickReason -> {
+                reasonsSpinner.performClick()
+            }
         }
     }
 
