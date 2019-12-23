@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.os.Build
 import android.os.Bundle
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -32,10 +31,9 @@ import co.yap.modules.dashboard.main.adapters.YapDashboardAdaptor
 import co.yap.modules.dashboard.main.interfaces.IYapDashboard
 import co.yap.modules.dashboard.main.viewmodels.YapDashBoardViewModel
 import co.yap.modules.dashboard.unverifiedemail.UnVerifiedEmailActivity
+import co.yap.modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.modules.dashboard.yapit.topup.landing.TopUpLandingActivity
 import co.yap.modules.dashboard.yapit.y2y.home.activities.YapToYapDashboardActivity
-import co.yap.modules.dashboard.yapit.sendmoney.activities.SendMoneyHomeActivity
-import co.yap.modules.dashboard.yapit.sendmoney.home.activities.SendMoneyLandingActivity
 import co.yap.modules.others.helper.Constants.FLAVOR
 import co.yap.modules.others.helper.Constants.VERSION_CODE
 import co.yap.modules.others.helper.Constants.VERSION_NAME
@@ -52,7 +50,6 @@ import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.activity_yap_dashboard.*
 import kotlinx.android.synthetic.main.layout_drawer_yap_dashboard.*
 import net.cachapa.expandablelayout.ExpandableLayout
-import java.lang.Exception
 
 class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYapDashboard.View,
     IFragmentHolder, AppBarConfiguration.OnNavigateUpListener {
@@ -132,17 +129,25 @@ class YapDashboardActivity : BaseBindingActivity<IYapDashboard.ViewModel>(), IYa
                             }
                         }
                         3 -> {
-                            startActivity(
-                                SendMoneyLandingActivity.newIntent(
-                                    this@YapDashboardActivity
-                                )
-                            )
+                            if (PartnerBankStatus.ACTIVATED.status == MyUserManager.user?.partnerBankStatus) {
+                                openSendMoneyScreen()
+                            } else {
+                                showToast("Account activation pending")
+                            }
                         }
                     }
                 }
 
             })
             .build()
+    }
+
+    private fun openSendMoneyScreen() {
+        startActivity(
+            SendMoneyLandingActivity.newIntent(
+                this@YapDashboardActivity
+            )
+        )
     }
 
     private fun openTopUpScreen() {
