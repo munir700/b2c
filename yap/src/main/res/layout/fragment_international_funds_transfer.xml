@@ -311,13 +311,13 @@
                 <RelativeLayout
                     android:id="@+id/layoutReasonsSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_50sdp"
                     android:paddingBottom="@dimen/margin_normal">
 
                     <Spinner
                         android:id="@+id/reasonsSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_50sdp"
                         android:paddingBottom="@dimen/_5sdp"
                         android:drawSelectorOnTop="false"
                         android:dropDownHeight="@dimen/_50sdp"
@@ -335,6 +335,7 @@
                         android:layout_alignParentTop="true" />
 
                     <View
+                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
                         android:background="@color/greySoft" />
