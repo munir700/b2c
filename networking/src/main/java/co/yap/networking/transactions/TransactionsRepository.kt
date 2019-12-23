@@ -69,7 +69,7 @@ object TransactionsRepository : BaseRepository(), TransactionsApi {
     override suspend fun removeFunds(removeFundsResponse: RemoveFundsRequest): RetroApiResponse<AddRemoveFundsResponse> =
         executeSafely(call = { api.removeFunds(removeFundsResponse) })
 
-    override suspend fun getFundTransferLimits(productCode: String): RetroApiResponse<FundTransferLimitsResponse> =
+    override suspend fun getFundTransferLimits(productCode: String?): RetroApiResponse<FundTransferLimitsResponse> =
         executeSafely(call = { api.getFundTransferLimits(productCode) })
 
     override suspend fun getFundTransferDenominations(productCode: String): RetroApiResponse<FundTransferDenominationsResponse> =

@@ -12,6 +12,8 @@ import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
 
+
+
 class InternationalFundsTransferState(val application: Application) : BaseState(),
     IInternationalFundsTransfer.State {
 
@@ -23,12 +25,14 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.transferFee)
 
         }
+
     @get:Bindable
     override var transferFeeSpannable: SpannableStringBuilder? = SpannableStringBuilder("")
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferFeeSpannable)
         }
+
     @get:Bindable
     override var fxRateAmount: String? = ""
         set(value) {
@@ -37,9 +41,13 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             fxRateAmount?.let {
                 if (it.isNotEmpty()) {
                     valid = it.toDouble() > 0.0
+                } else {
+                    valid = false
                 }
+
             }
             checkValidation()
+            validate()
         }
 
     @get:Bindable
@@ -62,6 +70,14 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.receiverCurrencyAmountFxRate)
 
+        }
+
+
+    @get:Bindable
+    override var noteTransfer: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.noteTransfer)
         }
 
     @get:Bindable
@@ -89,6 +105,21 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             field = value
             notifyPropertyChanged(BR.rate)
         }
+
+    @get:Bindable
+    override var maxLimit: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.maxLimit)
+        }
+
+    @get:Bindable
+    override var minLimit: Double? = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.minLimit)
+        }
+
     @get:Bindable
     override var toFxRateCurrency: String? = ""
         set(value) {
@@ -192,10 +223,30 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.listItemRemittanceFee)
         }
 
-    fun validate() {
-        if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
+    @get:Bindable
+    override var reasonTransferValue: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferValue)
+        }
 
+    @get:Bindable
+    override var reasonTransferCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonTransferCode)
+        }
+    @get:Bindable
+    override var transferFeeAmount: Double = 0.0
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.transferFeeAmount)
+        }
+
+    fun validate() {
+        if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()) {
             valid = true
+
         }
     }
 
@@ -260,8 +311,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 }
             }
         }
+        transferFeeAmount = totalAmount
         return totalAmount
     }
-
 
 }
