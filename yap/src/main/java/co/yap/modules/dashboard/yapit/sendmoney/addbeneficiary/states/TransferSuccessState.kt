@@ -100,6 +100,18 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             field = value
             notifyPropertyChanged(BR.beneficiaryCountry)
         }
+    @get:Bindable
+    override var transferAmountHeading: String?=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.transferAmountHeading)
+        }
+    @get:Bindable
+    override var buttonTitle: String?=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.buttonTitle)
+        }
 
     @get:Bindable
     override var pickUpAgentLocationAddress: String? =
