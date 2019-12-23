@@ -102,6 +102,12 @@ class ForgotPasscodeOtpState(application: Application) : BaseState(), IForgotPas
             field = value
             notifyPropertyChanged(BR.position)
         }
+    @get:Bindable
+    override var flagLayoutVisibility: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.flagLayoutVisibility)
+        }
 
     private fun validate(): Boolean {
         var validateOtp: Boolean = false

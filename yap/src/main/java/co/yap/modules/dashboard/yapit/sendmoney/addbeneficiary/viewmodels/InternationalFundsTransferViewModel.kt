@@ -35,12 +35,16 @@ class InternationalFundsTransferViewModel(application: Application) :
         InternationalFundsTransferState(application)
     private val messagesRepository: MessagesRepository = MessagesRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
-    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
-    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> = MutableLiveData()
-    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
+    override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
+        ArrayList()
+    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+        MutableLiveData()
+    private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
+        ArrayList()
 
     override fun handlePressOnButton(id: Int) {
         clickEvent.postValue(id)
+        //createOtp(id = id)
     }
 
     var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
@@ -54,7 +58,6 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_international_funds_transfer_display_text_title))
-        //toggleAddButtonVisibility(false)
     }
 
 
@@ -72,9 +75,6 @@ class InternationalFundsTransferViewModel(application: Application) :
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
-
-                    getFundTransferLimits(productCode)
-
                     var totalAmount: Double
                     if (response.data.data?.feeType == "FLAT") {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
@@ -121,14 +121,16 @@ class InternationalFundsTransferViewModel(application: Application) :
                         beneficiaryId,
                         state.fxRateAmount?.toDouble(),
                         state.beneficiaryCurrency,
-                        state.noteTransfer
+                        state.transactionNote
                     )
                 )
                 ) {
                 is RetroApiResponse.Success -> {
+                    state.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
+                    state.referenceNumber = "0123456789"
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                     state.toast = response.error.message
                     state.loading = false
@@ -137,7 +139,6 @@ class InternationalFundsTransferViewModel(application: Application) :
             state.loading = false
         }
     }
-
 
     override fun swiftTransferRequest(beneficiaryId: String?) {
         launch {
@@ -150,43 +151,23 @@ class InternationalFundsTransferViewModel(application: Application) :
                         0.0,
                         state.reasonTransferCode,
                         state.reasonTransferValue,
-                        "",
+                        state.transactionNote,
                         state.rate
                     )
                 )
                 ) {
                 is RetroApiResponse.Success -> {
+                    state.referenceNumber = response.data.data
                     clickEvent.postValue(Constants.ADD_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
                     clickEvent.postValue(Constants.ADD_SUCCESS)
+                    state.referenceNumber = "0123456789"
                     state.toast = response.error.message
                     state.loading = false
                 }
             }
             state.loading = false
-        }
-    }
-
-    override fun createOtp(id: Int) {
-        launch {
-            //  state.loading = true
-            when (val response =
-                messagesRepository.createOtpGeneric(
-                    createOtpGenericRequest = CreateOtpGenericRequest(
-                        otpAction.toString()
-                    )
-                )) {
-                is RetroApiResponse.Success -> {
-                    clickEvent.postValue(id)
-                }
-                is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
-                    state.loading = false
-                }
-            }
-            state.loading = false
-
         }
     }
 
@@ -260,23 +241,25 @@ class InternationalFundsTransferViewModel(application: Application) :
         }
     }
 
-    /*
-    * In this function we get Min Max value for transaction.
-    * */
-
-    override fun getFundTransferLimits(productCode: String?) {
+    override fun createOtp(id: Int) {
         launch {
-            when (val response = mTransactionsRepository.getFundTransferLimits(productCode)) {
+            state.loading = true
+            when (val response =
+                messagesRepository.createOtpGeneric(
+                    createOtpGenericRequest = CreateOtpGenericRequest(
+                        otpAction.toString()
+                    )
+                )) {
                 is RetroApiResponse.Success -> {
-                    state.maxLimit = response.data.data.maxLimit.toDouble()
-                    state.minLimit = response.data.data.minLimit.toDouble()
+                    clickEvent.postValue(200)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message
+                    state.loading = false
                 }
             }
+            state.loading = false
         }
     }
-
 
 }

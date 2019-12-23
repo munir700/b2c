@@ -8,6 +8,9 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="co.yap.yapcore.helpers.PhoneNumberUtilsKt" />
+        <import type="co.yap.yapcore.helpers.Utils" />
+
         <import type="android.view.View" />
 
         <variable
@@ -358,7 +361,7 @@
                     android:paddingBottom="16dp"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.phoneNumber}"
-                    app:countryCode="@{editBeneficiaryViewModel.state.beneficiary.country!=null?editBeneficiaryViewModel.state.beneficiary.country:` `}"
+                    app:countryCode="@{editBeneficiaryViewModel.state.beneficiary.country!=null?PhoneNumberUtilsKt.getCountryCodeForRegion(editBeneficiaryViewModel.state.beneficiary.country):` `}"
                     app:countryName="@{editBeneficiaryViewModel.state.beneficiary.country!=null?editBeneficiaryViewModel.state.beneficiary.country:` `}"
                     app:pse_compoundDrawableHeight="@dimen/_16sdp"
                     app:pse_compoundDrawableWidth="@dimen/_16sdp"
@@ -366,6 +369,7 @@
                     app:pse_setPrefixDrawable="@drawable/flag_in"
                     app:pse_space="@dimen/_12sdp"
                     tools:text="322335" />
+
 
                 <LinearLayout
                     android:id="@+id/llBankDetail"

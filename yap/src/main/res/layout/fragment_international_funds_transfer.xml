@@ -107,6 +107,7 @@
                                     android:layout_marginTop="@dimen/_2sdp"
                                     android:layout_marginEnd="@dimen/_2sdp"
                                     android:layout_marginBottom="@dimen/_2sdp"
+                                    app:setFlagDrawable="@{viewModel.state.beneficiaryCountry}"
                                     android:background="@drawable/bitmap" />
 
                             </FrameLayout>
@@ -315,6 +316,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingBottom="@dimen/_5sdp"
+                        android:drawSelectorOnTop="false"
+                        android:dropDownHeight="@dimen/_50sdp"
+                        android:gravity="bottom"
+                        android:overScrollMode="never"
+                        android:overlapAnchor="false"
                         android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
                         android:spinnerMode="dropdown" />
 
@@ -335,8 +341,8 @@
                     android:gravity="top"
                     android:inputType="text"
                     android:maxLength="100"
+                    android:text="@{viewModel.state.transactionNote}"
                     android:minHeight="@dimen/_40sdp"
-                    android:text="@={viewModel.state.noteTransfer}"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                     app:layout_constraintBottom_toBottomOf="parent" />
 

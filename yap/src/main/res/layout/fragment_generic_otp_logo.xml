@@ -11,6 +11,8 @@
 
         <import type="co.yap.translation.Strings" />
 
+        <import type="android.view.View" />
+
     </data>
 
     <ScrollView
@@ -34,16 +36,67 @@
                 android:id="@+id/ivUserImage"
                 android:layout_width="@dimen/_62sdp"
                 android:layout_height="@dimen/_62sdp"
+                android:layout_marginTop="@dimen/margin_small"
                 android:contentDescription="@string/empty_string"
                 android:src="@drawable/ic_store_b2b"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:colorType="@{`Beneficiary`}"
                 app:fullName="@{viewModel.state.fullName}"
                 app:imageUrl="@{viewModel.state.imageUrl}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 app:position="@{viewModel.state.position}" />
 
+            <View
+                android:id="@+id/barrier"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintEnd_toEndOf="@+id/ivUserImage"
+                app:layout_constraintStart_toStartOf="@+id/ivUserImage"
+                app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
+
+            <View
+                android:id="@+id/barrier2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintBottom_toBottomOf="@+id/ivUserImage"
+                app:layout_constraintStart_toStartOf="@+id/ivUserImage"
+                app:layout_constraintTop_toTopOf="@+id/ivUserImage" />
+
+            <RelativeLayout
+                android:id="@+id/rlAddNewProfilePic"
+                android:layout_width="47dp"
+                android:layout_height="49dp"
+                android:layout_marginTop="@dimen/margin_medium_large"
+                android:layout_marginEnd="@dimen/_35sdp"
+                android:visibility="@{viewModel.state.flagLayoutVisibility? View.VISIBLE:View.GONE}"
+                app:layout_constraintBottom_toTopOf="@+id/barrier2"
+                app:layout_constraintEnd_toEndOf="@+id/barrier"
+                app:layout_constraintTop_toTopOf="@+id/ivUserImage"
+                tools:visibility="visible">
+
+                <FrameLayout
+                    android:layout_width="@dimen/_29sdp"
+                    android:layout_height="@dimen/_29sdp"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/_2sdp"
+                    android:background="@drawable/bg_round_red"
+                    android:backgroundTint="@color/white"
+                    tools:ignore="UselessParent">
+
+                    <ImageView
+                        android:id="@+id/ivAddProfilePic"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_2sdp"
+                        android:layout_marginTop="@dimen/_2sdp"
+                        android:layout_marginEnd="@dimen/_2sdp"
+                        android:layout_marginBottom="@dimen/_2sdp"
+                        android:background="@drawable/bitmap"
+                        android:contentDescription="@string/empty_string" />
+
+                </FrameLayout>
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tvTitle"

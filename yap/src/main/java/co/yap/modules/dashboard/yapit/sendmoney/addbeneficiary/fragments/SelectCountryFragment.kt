@@ -28,7 +28,6 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         viewModel.populateSpinnerData.observe(this, Observer {
             countriesSpinner.adapter = getCountryAdapter()
             getCountryAdapter()?.setItemListener(listener)
@@ -83,7 +82,6 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
     }
 
     private fun getCountryAdapter(): CountryAdapter? {
-
         if (countryAdapter == null)
             countryAdapter =
                 context?.let {

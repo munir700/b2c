@@ -70,7 +70,7 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
         }
 
     @get:Bindable
-    override var referenceNumber: String? = "00313249457"
+    override var referenceNumber: String? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.referenceNumber)
@@ -94,10 +94,16 @@ class TransferSuccessState : BaseState(), ITransferSuccess.State {
             field = value
             notifyPropertyChanged(BR.locationLayoutVisibility)
         }
+    @get:Bindable
+    override var beneficiaryCountry: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.beneficiaryCountry)
+        }
 
     @get:Bindable
     override var pickUpAgentLocationAddress: String? =
-        "Exchange house 1, Exchange house 2, Exhange house 3"
+        ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.pickUpAgentLocationAddress)
