@@ -14,6 +14,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Benefi
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -76,7 +77,7 @@ class BeneficiaryAccountDetailsFragment :
     private fun setIntentResult() {
         activity?.let { it ->
             val intent = Intent()
-            intent.putExtra("beneficiary_change", true)
+            intent.putExtra( Constants.BENEFICIARY_CHANGE, true)
             it.setResult(Activity.RESULT_OK, intent)
             it.finish()
         }

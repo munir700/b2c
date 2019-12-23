@@ -41,7 +41,10 @@ class SendMoneyHomeScreenViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         requestAllBeneficiaries()
-        requestRecentBeneficiaries()
+        isSearching.value?.let {
+            if (!it)
+                requestRecentBeneficiaries()
+        }
     }
 
     override fun onResume() {
