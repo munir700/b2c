@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
+import android.telephony.PhoneNumberUtils
 import android.text.Editable
 import android.text.TextUtils
 import android.text.method.DigitsKeyListener
@@ -21,8 +22,10 @@ import androidx.annotation.ColorInt
 import androidx.appcompat.widget.AppCompatEditText
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.DrawableCompat
-import co.yap.countryutils.country.InternationalPhoneTextWatcher
 import co.yap.yapcore.R
+import co.yap.yapcore.helpers.PhoneNumberUtils.getCountryCodeForRegion
+import co.yap.yapcore.helpers.Utils.getDefaultCountryCode
+import com.google.i18n.phonenumbers.PhoneNumberUtil
 import java.util.*
 
 
@@ -50,10 +53,14 @@ class PrefixSuffixEditText : AppCompatEditText {
     private var pseSpace: Int = 0
     private var mPrefix: String? = null
     private var prefixBitmap: Bitmap? = null
+    // private val textFormatter = PhoneNumberFormatter(Locale.getDefault().country)
     var prefix: String?
         get() = this.mPrefix
         set(prefix) {
             this.mPrefix = prefix
+
+            mask(mPrefix)
+            // textFormatter.countryCode = "CZ"
             calculatePrefix()
             invalidate()
         }
@@ -136,7 +143,8 @@ class PrefixSuffixEditText : AppCompatEditText {
             a.getColor(R.styleable.PrefixSuffixEditText_pse_hideShowPasswordIconTint, DEFAULTCOLOR)
         clearIconTint = a.getColor(R.styleable.PrefixSuffixEditText_pse_clearIconTint, DEFAULTCOLOR)
         mPrefix = a.getString(R.styleable.PrefixSuffixEditText_pse_setPrefix)
-        prefixTextColor = a.getColor(R.styleable.PrefixSuffixEditText_pse_setPrefixTextColor, DEFAULTCOLOR)
+        prefixTextColor =
+            a.getColor(R.styleable.PrefixSuffixEditText_pse_setPrefixTextColor, DEFAULTCOLOR)
         mCornerRadius = a.getDimension(R.styleable.PrefixSuffixEditText_pse_setCornerRadius, 1f)
         mPrefixDrawable = a.getDrawable(R.styleable.PrefixSuffixEditText_pse_setPrefixDrawable)
 
@@ -188,9 +196,10 @@ class PrefixSuffixEditText : AppCompatEditText {
             }
             false
         })
-        addTextChangedListener(InternationalPhoneTextWatcher(context,"PK",92,true))
+        //textFormatter.countryCode = "PK"
+        ///addTextChangedListener(textFormatter)
         a.recycle()
-
+        // mask("PK")
 //        val drawables = compoundDrawables
 //        /// icon = drawableToBitmap(ContextCompat.getDrawable(context, R.drawable.flag_ad)!!)
 //
@@ -316,13 +325,13 @@ class PrefixSuffixEditText : AppCompatEditText {
                 canvas.drawBitmap(
                     prefixBitmap!!,
                     mOriginalLeftPadding,
-                    (((height - prefixBitmap?.height!!)/2)-(paddingBottom/2-paddingTop)).toFloat(),
+                    (((height - prefixBitmap?.height!!) / 2) - (paddingBottom / 2 - paddingTop)).toFloat(),
                     myPaint
                         ?: paint
                 )
-                    canvas.drawText(
-                        prefix!!,
-                    prefixBitmap?.width?.plus(mOriginalLeftPadding)?.plus(pseSpace/2)!!,
+                canvas.drawText(
+                    prefix!!,
+                    prefixBitmap?.width?.plus(mOriginalLeftPadding)?.plus(pseSpace / 2)!!,
                     getLineBounds(0, null).toFloat(),
                     myPaint
                         ?: paint
@@ -336,7 +345,8 @@ class PrefixSuffixEditText : AppCompatEditText {
         if (drawable is BitmapDrawable) {
             val bitmapDrawable: BitmapDrawable = drawable as BitmapDrawable
             if (bitmapDrawable.bitmap != null) {
-                val b = Bitmap.createScaledBitmap(bitmapDrawable.bitmap,
+                val b = Bitmap.createScaledBitmap(
+                    bitmapDrawable.bitmap,
                     mDrawableWidth,
                     mDrawableHeight,
                     false
@@ -387,24 +397,24 @@ class PrefixSuffixEditText : AppCompatEditText {
     }
 
 
-    public override fun onTextChanged(s: CharSequence, i: Int, i1: Int, i2: Int) {
-        try {
-            if (isPassword) {
-                if (s.isNotEmpty()) {
-                    showPasswordVisibilityIndicator(true)
-                } else {
-                    isShowingPassword = false
-                    maskPassword()
-                    showPasswordVisibilityIndicator(false)
-                }
-            } else if (isClearIconVisible)
-                this@PrefixSuffixEditText.handleClearButton()
-
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-    }
+//    public override fun onTextChanged(s: CharSequence, i: Int, i1: Int, i2: Int) {
+//        try {
+//            if (isPassword) {
+//                if (s.isNotEmpty()) {
+//                    showPasswordVisibilityIndicator(true)
+//                } else {
+//                    isShowingPassword = false
+//                    maskPassword()
+//                    showPasswordVisibilityIndicator(false)
+//                }
+//            } else if (isClearIconVisible)
+//                this@PrefixSuffixEditText.handleClearButton()
+//
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//
+//    }
 
     private fun showPasswordVisibilityIndicator(show: Boolean) {
         if (show) {
@@ -555,5 +565,50 @@ class PrefixSuffixEditText : AppCompatEditText {
         private const val TYPE_TEXT_VARIATION_PASSWORD = 129
         private const val TYPE_NUMBER_VARIATION_PASSWORD = 18
         private const val DEFAULT_PADDING = 15
+    }
+
+    var maskTextWatcher: MaskTextWatcher? = null
+    var mask: String? = null
+        set(value) {
+            field = value
+            if (value.isNullOrEmpty()) {
+                removeTextChangedListener(maskTextWatcher)
+            } else {
+                maskTextWatcher = MaskTextWatcher(this, mask!!)
+                addTextChangedListener(maskTextWatcher)
+            }
+        }
+
+    val rawText: String?
+        get() {
+            val formatted = text
+            return maskTextWatcher?.unformat(formatted) ?: formatted.toString()
+        }
+    var phoneUtil: PhoneNumberUtil? = PhoneNumberUtil.getInstance()
+    private fun mask(countryCode: String?) {
+        val countryCode =
+            countryCode?.replace("+", "")//getCountryCodeFormString(countryCode?.toUpperCase()!!)
+
+        var formattedNumber = ""
+        val exampleNumber =
+            phoneUtil?.getExampleNumberForType(
+                getCountryCodeForRegion(countryCode?.toInt()!!),
+                PhoneNumberUtil.PhoneNumberType.MOBILE
+            )
+        exampleNumber?.let {
+            formattedNumber = exampleNumber.nationalNumber.toString()
+            formattedNumber = PhoneNumberUtils.formatNumber(
+                countryCode + formattedNumber,
+                getDefaultCountryCode(context)
+
+            )
+            if (formattedNumber != null) {
+                formattedNumber = formattedNumber.substring(countryCode?.length!!).trim()
+            }
+
+            formattedNumber = formattedNumber.replace("[0-9]".toRegex(), "#")
+
+        }
+        mask = formattedNumber
     }
 }
