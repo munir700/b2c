@@ -607,7 +607,6 @@
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
 
     <!--  bank details screen -->
-
     <string name="screen_bank_details_display_text_title">Tell us about the bank</string>
     <string name="screen_bank_details_display_text_bank_name">Bank name</string>
     <string name="screen_bank_details_display_text_branch_name">Bank branch</string>

@@ -129,14 +129,17 @@ class AddBeneficiaryInternationlTransferFragment :
                                     if (isRmt) {
                                         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
                                             SendMoneyBeneficiaryType.RMT.name
+                                        viewModel.state.transferType = "Bank Transfer"
                                     } else {
                                         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
                                             SendMoneyBeneficiaryType.SWIFT.name
+                                        viewModel.state.transferType = "Bank Transfer"
                                     }
                                 }
                             } else {
                                 viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
                                     SendMoneyBeneficiaryType.CASHPAYOUT.name
+                                viewModel.state.transferType = "Cash Pickup"
                             }
                         }
                     }
@@ -191,7 +194,7 @@ class AddBeneficiaryInternationlTransferFragment :
 
     private fun setIntentResult() {
         val intent = Intent()
-        intent.putExtra( Constants.BENEFICIARY_CHANGE, true)
+        intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
         activity?.setResult(Activity.RESULT_OK, intent)
         activity?.finish()
     }
