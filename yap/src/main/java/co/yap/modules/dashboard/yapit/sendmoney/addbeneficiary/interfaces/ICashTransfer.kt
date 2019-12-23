@@ -42,7 +42,7 @@ interface ICashTransfer {
         var availableBalanceText: String
         var availableBalanceGuide: String
         var fullName: String
-        var noteValue: String
+        var noteValue: String?
         var imageUrl: String
         var feeStringVisibility: Boolean
 
@@ -57,5 +57,7 @@ interface ICashTransfer {
         var ibanVisibility: Boolean?
         var beneficiaryCountry: String?
         var referenceNumber: String?
+        var reasonsVisibility: Boolean?
+        var produceCode: String?
     }
 }

@@ -160,8 +160,7 @@ class CashTransferViewModel(application: Application) :
                         0.0,
                         "51",
                         "dsdsdsds",
-                        state.noteValue,
-                        ""
+                        state.noteValue
                     )
                 )
                 ) {
@@ -242,7 +241,7 @@ class CashTransferViewModel(application: Application) :
         launch {
             //            state.loading = true
             when (val response =
-                transactionRepository.getTransactionInternationalReasonList("P012")) {
+                transactionRepository.getTransactionInternationalReasonList(state.produceCode)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNullOrEmpty()) return@launch
                     response.data.data?.let {
@@ -272,11 +271,10 @@ class CashTransferViewModel(application: Application) :
 
     private fun getTransactionFeeInternational() {
         launch {
-            val remittanceFeeRequestBody = RemittanceFeeRequest("PK", "")
+            val remittanceFeeRequestBody = RemittanceFeeRequest(state.beneficiaryCountry, "")
             when (val response =
-                /*TODO:For Swift (P011) and for cash pickup (P011) */
                 transactionRepository.getTransactionFeeWithProductCode(
-                    "P013",
+                    state.produceCode,
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {

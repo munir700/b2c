@@ -120,13 +120,19 @@ class InternationalFundsTransferFragment :
             }
 
             200 -> {
-                val action =
-                    InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
-                        false,
-                        viewModel.otpAction.toString(),
-                        viewModel.state.fxRateAmount.toString()
-                    )
-                findNavController().navigate(action)
+                viewModel.state.position?.let { position ->
+                    viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
+                        val action =
+                            InternationalFundsTransferFragmentDirections.actionInternationalFundsTransferFragmentToGenericOtpLogoFragment(
+                                false,
+                                viewModel.otpAction.toString(),
+                                viewModel.state.fxRateAmount.toString(),
+                                position,
+                                beneficiaryCountry
+                            )
+                        findNavController().navigate(action)
+                    }
+                }
             }
             Constants.ADD_SUCCESS -> {
                 viewModel.state.position?.let { position ->

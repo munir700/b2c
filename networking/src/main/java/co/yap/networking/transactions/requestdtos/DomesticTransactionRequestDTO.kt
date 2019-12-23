@@ -6,6 +6,6 @@ data class DomesticTransactionRequestDTO(
     var settlementAmount: Double?,
     var purposeCode: String?,
     var purposeReason: String?,
-    var transactionNote: String?
+    var remarks: String?
 ) {
 }
