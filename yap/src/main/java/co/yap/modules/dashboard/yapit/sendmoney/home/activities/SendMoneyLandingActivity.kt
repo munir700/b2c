@@ -24,12 +24,9 @@ import co.yap.modules.dashboard.yapit.sendmoney.home.viewmodels.SendMoneyHomeScr
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseBindingActivity
-<<<<<<< HEAD
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.constants.RequestCodes.REQUEST_TRANSFER_MONEY
-=======
->>>>>>> dev
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import com.nikhilpanju.recyclerviewenhanced.RecyclerTouchListener
@@ -327,13 +324,15 @@ class SendMoneyLandingActivity : BaseBindingActivity<ISendMoneyHome.ViewModel>()
                             false
                         )
                     ) {
-                        if (viewModel.isSearching.value!!) {
-                            val intent = Intent()
-                            intent.putExtra(Constants.MONEY_TRANSFERED, true)
-                            setResult(Activity.RESULT_OK, intent)
-                            finish()
-                        } else {
-                            finish()
+                        viewModel.isSearching.value?.let {
+                            if (it) {
+                                val intent = Intent()
+                                intent.putExtra(Constants.MONEY_TRANSFERED, true)
+                                setResult(Activity.RESULT_OK, intent)
+                                finish()
+                            } else {
+                                finish()
+                            }
                         }
                     }
                 }
