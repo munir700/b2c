@@ -63,7 +63,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
         set(value) {
             field = value
             notifyPropertyChanged(BR.phoneNumber)
-            beneficiary?.mobileNo = field
+            beneficiary?.mobileNo = field?.replace(" ","")
         }
     @get:Bindable
     override var accountNumber: String? = null
@@ -99,7 +99,7 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             updateAllFields(beneficiary)
         }
     @get:Bindable
-    override var countryCode: String? = Utils.getDefaultCountryCode(application)
+    override var countryCode: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.countryCode)

@@ -15,6 +15,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Intern
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseBindingFragment
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.spannables.color
+import co.yap.yapcore.helpers.spannables.getText
 
 class InternationalTransactionConfirmationFragment :
     BaseBindingFragment<IInternationalTransactionConfirmation.ViewModel>(),
@@ -53,39 +55,40 @@ class InternationalTransactionConfirmationFragment :
         viewModel.state.beneficiaryCountry = args.country
 
 
-        viewModel.state.transferDescription =
-            getString(Strings.screen_funds_confirmation_success_description).format(
-                args.transferAmountCurrency,
-                Utils.getFormattedCurrency(args.transferAmount),
-                viewModel.state.name,
-                args.fromAmount,
-                args.toAmount
+        viewModel.state.transferDescription = resources.getText(
+            getString(Strings.screen_funds_confirmation_success_description)
+            ,
+            requireContext().color(R.color.colorPrimaryDark, args.transferAmountCurrency)
+            ,
+            requireContext().color(
+                R.color.colorPrimaryDark,
+                Utils.getFormattedCurrency(args.transferAmount)
+            ),
+            viewModel.state.name
+            ,
+            requireContext().color(
+                R.color.colorPrimaryDark,
+                "${args.fromAmount} to ${args.toAmount}"
             )
+        )
 
         viewModel.state.position = args.position
 
         viewModel.state.receivingAmountDescription =
-            getString(Strings.screen_funds_receive_description).format(
-                viewModel.state.name,
-                args.toAmount
+            resources.getText(
+                getString(Strings.screen_funds_receive_description)
+                , viewModel.state.name,
+                requireContext().color(
+                    R.color.colorPrimaryDark, args.toAmount
+                )
             )
 
         viewModel.state.transferFeeDescription =
-            getString(Strings.screen_funds_transfer_fee_description).format(args.transferFee)
-
-        /* val feeSpannable = SpannableString(viewModel.state.transferFeeDescription)
-         Utils.setSpan(
-             5,c
-             args.transferFee.length,
-             feeSpannable,
-             ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-         )
-         getBinding().tvFeeDescription.text = Utils.setSpan(
-             20,
-             args.transferFee.length,
-             feeSpannable,
-             ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-         )*/
+            resources.getText(
+                getString(Strings.screen_funds_transfer_fee_description), requireContext().color(
+                    R.color.colorPrimaryDark, args.transferFee
+                )
+            )
     }
 
     override fun setObservers() {
