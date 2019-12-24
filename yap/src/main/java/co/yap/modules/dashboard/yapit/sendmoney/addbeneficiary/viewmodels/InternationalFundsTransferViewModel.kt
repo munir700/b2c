@@ -11,7 +11,10 @@ import co.yap.networking.messages.MessagesRepository
 import co.yap.networking.messages.requestdtos.CreateOtpGenericRequest
 import co.yap.networking.models.RetroApiResponse
 import co.yap.networking.transactions.TransactionsRepository
-import co.yap.networking.transactions.requestdtos.*
+import co.yap.networking.transactions.requestdtos.RMTTransactionRequestDTO
+import co.yap.networking.transactions.requestdtos.RemittanceFeeRequest
+import co.yap.networking.transactions.requestdtos.RxListRequest
+import co.yap.networking.transactions.requestdtos.SwiftTransactionRequestDTO
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.networking.transactions.responsedtos.transaction.RemittanceFeeResponse
 import co.yap.translation.Strings
@@ -49,6 +52,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     override fun onCreate() {
         super.onCreate()
         transactionData.clear()
+        state.setSpanable(0.0)
     }
 
 

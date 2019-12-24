@@ -104,6 +104,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 }
         })
     }
+
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnConfirm -> {
@@ -117,6 +118,11 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     )
                 findNavController().navigate(action)
             }
+
+            R.id.viewTriggerSpinnerClickReasonCash -> {
+                reasonsSpinnerCashTransfer.performClick()
+            }
+
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
                 // Send Broadcast for updating transactions list in `Home Fragment`
                 val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
@@ -134,6 +140,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 }
 
             }
+
         }
     }
 

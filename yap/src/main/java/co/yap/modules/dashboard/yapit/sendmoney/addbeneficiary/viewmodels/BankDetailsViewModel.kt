@@ -79,6 +79,7 @@ class BankDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        state.selectedBeneficiaryType = parentViewModel?.beneficiary?.value?.beneficiaryType
         parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
             if (it.isNotEmpty())
                 when (SendMoneyBeneficiaryType.valueOf(it)) {

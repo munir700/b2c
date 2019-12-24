@@ -209,6 +209,14 @@
                     android:layout_height="@dimen/_50sdp"
                     android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
                     android:spinnerMode="dropdown" />
+                <View
+                    android:id="@+id/viewTriggerSpinnerClickReasonCash"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_below="@+id/countriesSpinner"
+                    android:layout_alignParentTop="true"
+                    android:onClick="@{(v) -> viewModel.handlePressOnView(v.id)}" />
+
             </RelativeLayout>
 
 

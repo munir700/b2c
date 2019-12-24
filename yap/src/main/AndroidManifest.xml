@@ -180,9 +180,10 @@
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.editbeneficiary.activity.EditBeneficiaryActivity"
             android:screenOrientation="portrait" />
+        <!--Update Flag to hide keyboard-->
         <activity
             android:name=".modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" />
 
         <activity

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -139,7 +140,6 @@ class InternationalFundsTransferFragment :
                 }
 
             }
-
             200 -> {
                 viewModel.state.position?.let { position ->
                     viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
@@ -179,7 +179,9 @@ class InternationalFundsTransferFragment :
                 }
 
             }
-
+            R.id.viewTriggerSpinnerClickReason -> {
+                reasonsSpinner.performClick()
+            }
         }
     }
 
