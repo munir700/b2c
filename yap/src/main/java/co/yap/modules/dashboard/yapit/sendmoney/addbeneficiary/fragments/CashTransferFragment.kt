@@ -28,7 +28,6 @@ import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
-import co.yap.yapcore.toast
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.clFTSnackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
@@ -43,11 +42,12 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
     override val viewModel: CashTransferViewModel
         get() = ViewModelProviders.of(this).get(CashTransferViewModel::class.java)
-
+    var bankReasonList: MutableList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         startFlows()
+        viewModel.getTransactionFeeInternational()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,6 +63,14 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
+
+            bankReasonList =
+                it as MutableList<InternationalFundsTransferReasonList.ReasonList>
+            bankReasonList.add(
+                0,
+                InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
+            )
+
             reasonsSpinnerCashTransfer.adapter = getReasonListAdapter(it)
             mReasonListAdapter?.setItemListener(listener)
         })
@@ -71,7 +79,11 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinnerCashTransfer.setSelection(pos)
-            toast(data.toString())
+            if (bankReasonList.isNotEmpty()) {
+                viewModel.state.reasonTransferValue = bankReasonList[pos].reason
+                viewModel.state.reasonTransferCode = bankReasonList[pos].code
+            }
+
         }
     }
     val clickEvent = Observer<Int> {
@@ -157,7 +169,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                         SendMoneyBeneficiaryType.CASHPAYOUT -> {
                             beneficiary.id?.let { beneficiaryId ->
-                                viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
+                                viewModel.cashPayoutTransferRequest(beneficiaryId)
                             }
                         }
                         //Rak to Rak(yap to rak(Internal transfer))
@@ -212,27 +224,38 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                             SendMoneyBeneficiaryType.RMT -> {
-                                return SendMoneyBeneficiaryProductCode.P012.name
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P012.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.SWIFT -> {
-                                return SendMoneyBeneficiaryProductCode.P011.name
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P011.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                                return SendMoneyBeneficiaryProductCode.P013.name
+                                viewModel.state.reasonsVisibility = false
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P013.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P023.name
                                 viewModel.state.ibanVisibility = true
                                 viewModel.state.ibanNumber = beneficiary.accountNo
-                                return SendMoneyBeneficiaryProductCode.P023.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
                                 //call service for INTERNAL_TRANSFER
 
                             }*/
                             SendMoneyBeneficiaryType.UAEFTS -> {
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P010.name
                                 viewModel.state.ibanVisibility = true
                                 viewModel.state.ibanNumber = beneficiary.accountNo
-                                return SendMoneyBeneficiaryProductCode.P010.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             else -> {
                                 return SendMoneyBeneficiaryProductCode.P010.name

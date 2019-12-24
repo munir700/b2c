@@ -129,8 +129,8 @@
                 android:textSize="@dimen/text_size_c3"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:text="@{viewModel.state.transferAmountHeading}"
                 app:layout_constraintTop_toBottomOf="@+id/tvBeneficiaryName"
-                app:text="@{Strings.screen_crash_transfer_success_display_text_transfer}"
                 tools:text="@string/screen_crash_transfer_success_display_text_transfer" />
 
             <TextView
@@ -236,8 +236,8 @@
                 android:enabled="true"
                 android:onClick="@{(v) -> viewModel.handlePressOnButtonClick(v.id)}"
                 app:btn_enable="true"
+                android:text="@{viewModel.state.buttonTitle}"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:text="@{Strings.screen_crash_transfer_success_button_text_back}"
                 tools:ignore="MissingConstraints"
                 tools:layout_editor_absoluteX="44dp"
                 tools:text="@string/screen_crash_transfer_success_button_text_back" />

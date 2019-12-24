@@ -69,7 +69,7 @@ abstract class BaseBindingArrayAdapter<T, VH : BaseBindingHolder>(
         }
 
         holder.adapterPosition = position
-        holder.bind(getItem(position) as Object, binding)
+        holder.bind(getItem(position) as Any, binding)
         return view
     }
 

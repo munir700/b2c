@@ -3,7 +3,6 @@ package co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.activity
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,7 +14,7 @@ import co.yap.modules.others.helper.getCurrencyPopMenu
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
-import co.yap.yapcore.helpers.spannables.*
+import co.yap.yapcore.constants.Constants
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.*
 
 
@@ -76,11 +75,11 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
         viewModel.onUpdateSuccess.observe(this, Observer {
             val intent = Intent()
             if (it) {
-                intent.putExtra("beneficiary_change", true)
+                intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
             } else {
-                intent.putExtra("beneficiary_change", false)
+                intent.putExtra(Constants.BENEFICIARY_CHANGE, false)
                 setResult(Activity.RESULT_CANCELED, intent)
             }
 

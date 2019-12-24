@@ -16,7 +16,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.Utils
 
 class GenericOtpLogoFragment : GenericOtpFragment() {
-    private val genericOtpLogoFragmentArgs: GenericOtpLogoFragmentArgs by navArgs()
+    private val genericOtpLogoFragmentArgs: GenericOtpLogoFragmentArgs? by navArgs()
 
     override val viewModel: IForgotPasscodeOtp.ViewModel
         get() = ViewModelProviders.of(this).get(GenericOtpLogoViewModel::class.java)
@@ -57,6 +57,7 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
         }
         viewModel.destination = args?.username
         viewModel.emailOtp = args?.emailOtp
+        viewModel.state.beneficiaryCountry = genericOtpLogoFragmentArgs?.beneficiaryCountry
         if (activity is BeneficiaryCashTransferActivity) {
             (activity as BeneficiaryCashTransferActivity).let {
                 it.viewModel.state.toolBarTitle =
@@ -64,8 +65,8 @@ class GenericOtpLogoFragment : GenericOtpFragment() {
                 it.viewModel.state.leftButtonVisibility = true
                 viewModel.state.fullName = it.viewModel.state.beneficiary?.fullName()
                 viewModel.state.imageUrl = it.viewModel.state.beneficiary?.beneficiaryPictureUrl
-                viewModel.state.amount = genericOtpLogoFragmentArgs.amount
-                viewModel.state.position = genericOtpLogoFragmentArgs.position
+                viewModel.state.amount = genericOtpLogoFragmentArgs?.amount
+                viewModel.state.position = genericOtpLogoFragmentArgs?.position
             }
 
         }

@@ -21,9 +21,11 @@ interface ICashTransfer {
         val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
         fun getTransactionFeeForCashPayout(productCode: String?)
-        fun cashPayoutTransferRequest(beneficiaryId: String?)
+        fun cashPayoutTransferRequest(beneficiaryId: Int?)
+        fun getTransactionInternationalReasonList()
         fun domesticTransferRequest(beneficiaryId: String?)
         fun uaeftsTransferRequest(beneficiaryId: String?)
+        fun getTransactionFeeInternational()
 
     }
 
@@ -42,7 +44,7 @@ interface ICashTransfer {
         var availableBalanceText: String
         var availableBalanceGuide: String
         var fullName: String
-        var noteValue: String
+        var noteValue: String?
         var imageUrl: String
         var feeStringVisibility: Boolean
 
@@ -57,5 +59,10 @@ interface ICashTransfer {
         var ibanVisibility: Boolean?
         var beneficiaryCountry: String?
         var referenceNumber: String?
+
+        var reasonTransferValue: String?
+        var reasonTransferCode: String?
+        var reasonsVisibility: Boolean?
+        var produceCode: String?
     }
 }

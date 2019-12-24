@@ -607,7 +607,6 @@
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
 
     <!--  bank details screen -->
-
     <string name="screen_bank_details_display_text_title">Tell us about the bank</string>
     <string name="screen_bank_details_display_text_bank_name">Bank name</string>
     <string name="screen_bank_details_display_text_branch_name">Bank branch</string>
@@ -722,5 +721,23 @@
     <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rage of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
+
+<!--    Screen cash pickup funds transfer success-->
+    <string name="screen_cash_pickup_funds_transfer_display_text_amount_heading">You have sent</string>
+    <string name="screen_cash_pickup_funds_transfer_display_text_title">Cash transfer successful</string>
+    <string name="screen_cash_pickup_funds_transfer_back_to_dashboard">Back to dashboard</string>
+
+
+<!--     Screen international funds transfer success-->
+    <string name="screen_international_funds_transfer_display_text_amount_heading">You have sent</string>
+    <string name="screen_international_funds_transfer_display_text_success_title">Transfer successful</string>
+    <string name="screen_international_funds_transfer_back_to_dashboard">Back to dashboard</string>
+
+<!--    Screen domestic funds transfer success-->
+    <string name="screen_domestic_funds_transfer_display_text_amount_heading">You have sent</string>
+    <string name="screen_domestic_funds_transfer_display_text_title">Transfer successful</string>
+
+<!--    Screen funds transfer information custom view-->
+    <string name="custom_view_funds_transfer_display_text_reference_number_heading">Reference number</string>
 
 </resources>
