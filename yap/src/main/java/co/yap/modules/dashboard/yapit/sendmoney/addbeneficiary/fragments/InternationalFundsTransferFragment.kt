@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -144,7 +145,6 @@ class InternationalFundsTransferFragment :
                 }
 
             }
-
             200 -> {
                 viewModel.state.position?.let { position ->
                     viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
@@ -184,7 +184,9 @@ class InternationalFundsTransferFragment :
                 }
 
             }
-
+            R.id.viewTriggerSpinnerClickReason -> {
+                reasonsSpinner.performClick()
+            }
         }
     }
 
@@ -192,7 +194,6 @@ class InternationalFundsTransferFragment :
     val listener = object : OnItemClickListener {
         override fun onItemClick(view: View, data: Any, pos: Int) {
             reasonsSpinner.setSelection(pos)
-
             if (bankReasonList.isNotEmpty()) {
                 viewModel.state.reasonTransferValue = bankReasonList[pos].reason
                 viewModel.state.reasonTransferCode = bankReasonList[pos].code

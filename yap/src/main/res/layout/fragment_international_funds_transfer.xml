@@ -158,6 +158,8 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="center"
+                        android:hint="0.00"
+                        android:focusableInTouchMode="true"
                         android:imeOptions="actionDone"
                         android:importantForAutofill="no"
                         android:inputType="numberDecimal"
@@ -215,6 +217,7 @@
                         android:inputType="numberDecimal"
                         android:labelFor="@+id/etAmount"
                         android:maxLength="7"
+                        android:hint="0.00"
                         android:maxLines="1"
                         android:text="@{viewModel.state.receiverCurrencyAmount}"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -297,13 +300,13 @@
                 <RelativeLayout
                     android:id="@+id/layoutReasonsSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/_50sdp"
                     android:paddingBottom="@dimen/margin_normal">
 
                     <Spinner
                         android:id="@+id/reasonsSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/_60sdp"
                         android:paddingBottom="@dimen/_5sdp"
                         android:drawSelectorOnTop="false"
                         android:dropDownHeight="@dimen/_50sdp"
@@ -314,9 +317,16 @@
                         android:spinnerMode="dropdown" />
 
                     <View
+                        android:id="@+id/viewTriggerSpinnerClickReason"
+                        android:layout_width="match_parent"
+                        android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_alignParentTop="true" />
+
+                    <View
+                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
-                        android:layout_alignBottom="@+id/reasonsSpinner"
                         android:background="@color/greySoft" />
 
                 </RelativeLayout>
@@ -355,6 +365,7 @@
                     android:layout_marginRight="@dimen/margin_extra_small"
                     android:gravity="center"
                     android:textSize="@dimen/text_size_c3"
+                    app:text="@{Strings.screen_international_funds_transfer_display_text_note}"
                     tools:text="@string/screen_international_funds_transfer_display_text_note" />
 
                 <co.yap.widgets.CoreButton

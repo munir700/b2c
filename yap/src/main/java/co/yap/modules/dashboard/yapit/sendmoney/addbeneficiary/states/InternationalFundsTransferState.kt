@@ -282,8 +282,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             }
         }
     }
-
-    private fun setSpanable(amount: Double) {
+    fun setSpanable(amount: Double) {
         transferFee =
             Translator.getString(
                 context,
@@ -292,7 +291,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 "AED",
                 Utils.getFormattedCurrency(findFee(amount).toString())
             )
-        internationalFee = "${"AED"} ${findFee(amount).toString()}"
+        internationalFee = "${"AED"} ${findFee(amount)}"
 
         notifyPropertyChanged(BR.transferFee)
 
