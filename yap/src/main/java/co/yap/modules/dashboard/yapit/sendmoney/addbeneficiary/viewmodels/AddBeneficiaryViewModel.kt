@@ -25,6 +25,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     override var beneficiary: Beneficiary? = Beneficiary()
+
     override fun onCreate() {
         super.onCreate()
         state.selectedBeneficiaryType = parentViewModel?.beneficiary?.value?.beneficiaryType

@@ -97,7 +97,6 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 when (val response = repository.addBeneficiary(it)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-                        state.toast = response.data.toString()
                         success.value = true
                     }
 

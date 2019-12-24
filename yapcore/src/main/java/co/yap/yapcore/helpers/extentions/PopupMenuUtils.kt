@@ -1,4 +1,4 @@
-package co.yap.modules.others.helper
+package co.yap.yapcore.helpers.extentions
 
 import android.content.Context
 import android.graphics.Color
@@ -6,8 +6,8 @@ import android.view.Gravity
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import co.yap.R
 import co.yap.widgets.popmenu.*
+import co.yap.yapcore.R
 
 fun Context.getCurrencyPopMenu(
     lifecycleOwner: LifecycleOwner?, itemList: List<PopupMenuItem>,

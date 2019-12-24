@@ -1,6 +1,5 @@
 package co.yap.modules.others.helper
 
-import android.graphics.Color
 import android.net.Uri
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
@@ -12,8 +11,8 @@ import co.yap.widgets.PrefixSuffixEditText
 import co.yap.widgets.TextDrawable
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.helpers.dimen
-import com.homemedics.app.glide.setCircleCropImage
-import com.homemedics.app.glide.setImage
+import co.yap.yapcore.helpers.glide.setCircleCropImage
+import co.yap.yapcore.helpers.glide.setImage
 
 
 object ImageBinding {
