@@ -39,22 +39,26 @@ class SelectCountryViewModel(application: Application) :
                         SendMoneyBeneficiaryType.DOMESTIC.name
                     clickEvent.setValue(id)
                 } else {
-                    country.getCurrency()?.cashPickUp?.let { it ->
-                        if (!it) {
-                            country.getCurrency()?.rmtCountry?.let { isRmt ->
-                                if (isRmt) {
-                                    parentViewModel?.beneficiary?.value?.beneficiaryType =
-                                        SendMoneyBeneficiaryType.RMT.name
-                                    clickEvent.setValue(id)
-                                } else {
-                                    parentViewModel?.beneficiary?.value?.beneficiaryType =
-                                        SendMoneyBeneficiaryType.SWIFT.name
-                                    clickEvent.setValue(id)
+                    if (country.getCurrency() != null) {
+                        country.getCurrency()?.cashPickUp?.let { it ->
+                            if (!it) {
+                                country.getCurrency()?.rmtCountry?.let { isRmt ->
+                                    if (isRmt) {
+                                        parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                            SendMoneyBeneficiaryType.RMT.name
+                                        clickEvent.setValue(id)
+                                    } else {
+                                        parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                            SendMoneyBeneficiaryType.SWIFT.name
+                                        clickEvent.setValue(id)
+                                    }
                                 }
+                            } else {
+                                clickEvent.setValue(id)
                             }
-                        } else {
-                            clickEvent.setValue(id)
                         }
+                    } else {
+                        state.toast = ("Invalid country found")
                     }
                 }
             }

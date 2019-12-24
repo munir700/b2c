@@ -50,9 +50,12 @@ interface IInternationalFundsTransfer {
         val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         fun handlePressOnButton(id: Int)
         fun getTransactionFeeInternational(productCode: String?)
+        fun getReasonList(productCode: String?)
+        fun getTransactionInternationalfxList(productCode: String?)
         fun rmtTransferRequest(beneficiaryId: String?)
         fun swiftTransferRequest(beneficiaryId: String?)
         var otpAction: String?
+        var reasonPosition: Int
         fun createOtp(id:Int)
     }
 
