@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -34,7 +33,6 @@ import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 class InternationalFundsTransferFragment :
     SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
-
 
     private var mReasonListAdapter: ReasonListAdapter? = null
     override fun getBindingVariable(): Int = BR.viewModel
