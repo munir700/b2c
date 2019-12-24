@@ -102,8 +102,8 @@ class SendMoneyHomeScreenViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     state.loading = false
                     state.toast = "Deleted Successfully"
+                    requestRecentBeneficiaries()
                     onDeleteSuccess.setValue(111)
-
                 }
 
                 is RetroApiResponse.Error -> {

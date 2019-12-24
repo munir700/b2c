@@ -1,5 +1,7 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
@@ -7,11 +9,17 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BankDetailsViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.customers.requestdtos.OtherBankQuery
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.customers.responsedtos.sendmoney.RAKBank.Bank
+import co.yap.translation.Translator
+import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
+import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.fragment_add_bank_detail.*
 import kotlinx.coroutines.CoroutineScope
@@ -46,6 +54,16 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
         recycler_banks.adapter = viewModel.adaptorBanks
     }
 
+    private fun setIntentResult() {
+        activity?.let { it ->
+            val intent = Intent()
+            intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
+            it.setResult(Activity.RESULT_OK, intent)
+            it.finish()
+        }
+    }
+
+
     private fun setupAdaptorBanks(list: MutableList<Bank>) {
         viewModel.state.txtCount.set(if (list.isEmpty()) "" else "Select your bank (${list.size} bank found)")
         viewModel.adaptorBanks.setItemListener(listener)
@@ -71,7 +89,20 @@ class AddBankDetailsFragment : SendMoneyBaseFragment<IBankDetails.ViewModel>(),
     val observer = Observer<Int> {
         when (it) {
             R.id.confirmButton -> {
-                viewModel.searchRMTBanks(otherSearchParams())
+                viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType?.let { it ->
+                    if (it.isNotEmpty())
+                        when (SendMoneyBeneficiaryType.valueOf(it)) {
+                            SendMoneyBeneficiaryType.RMT -> {
+                                viewModel.searchRMTBanks(otherSearchParams())
+                            }
+                            SendMoneyBeneficiaryType.SWIFT -> {
+                                findNavController().navigate(R.id.action_addBankDetailsFragment_to_beneficiaryAccountDetailsFragment)
+                            }
+                            else -> {
+
+                            }
+                        }
+                }
             }
         }
     }

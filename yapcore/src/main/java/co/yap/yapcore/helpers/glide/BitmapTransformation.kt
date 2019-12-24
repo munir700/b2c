@@ -1,4 +1,4 @@
-package com.homemedics.app.glide
+package co.yap.yapcore.helpers.glide
 
 
 /**

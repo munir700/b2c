@@ -12,9 +12,9 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransf
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBeneficiaryAccountDetails
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.BeneficiaryAccountDetailsViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.translation.Translator
 import co.yap.yapcore.constants.Constants
+import co.yap.yapcore.constants.RequestCodes
 import co.yap.yapcore.helpers.Utils
 import co.yap.yapcore.interfaces.OnItemClickListener
 
@@ -25,7 +25,7 @@ class BeneficiaryAccountDetailsFragment :
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_beneficiary_account_detail
 
-    override val viewModel: IBeneficiaryAccountDetails.ViewModel
+    override val viewModel: BeneficiaryAccountDetailsViewModel
         get() = ViewModelProviders.of(this).get(BeneficiaryAccountDetailsViewModel::class.java)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,14 +53,7 @@ class BeneficiaryAccountDetailsFragment :
                             override fun onItemClick(view: View, data: Any, pos: Int) {
                                 if (data is Boolean) {
                                     if (data) {
-                                        startActivity(
-                                            BeneficiaryCashTransferActivity.newIntent(
-                                                it,
-                                                Beneficiary()
-                                            )
-                                        )
-                                        // start for result
-                                        setIntentResult()
+                                        startMoneyTransfer()
                                     } else {
                                         setIntentResult()
                                     }
@@ -74,14 +67,27 @@ class BeneficiaryAccountDetailsFragment :
         })
     }
 
+    private fun startMoneyTransfer() {
+        viewModel.beneficiary?.let { beneficiary ->
+            requireActivity().startActivityForResult(
+                BeneficiaryCashTransferActivity.newIntent(
+                    requireActivity(),
+                    beneficiary,
+                    isNewBeneficiary = true
+                ), RequestCodes.REQUEST_TRANSFER_MONEY
+            )
+        }
+    }
+
     private fun setIntentResult() {
         activity?.let { it ->
             val intent = Intent()
-            intent.putExtra( Constants.BENEFICIARY_CHANGE, true)
+            intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
             it.setResult(Activity.RESULT_OK, intent)
             it.finish()
         }
     }
+
 
     private val observer = Observer<Int> {
         when (it) {
