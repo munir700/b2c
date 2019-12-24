@@ -25,7 +25,6 @@ import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContextCompat
 import androidx.databinding.*
 import co.yap.networking.cards.responsedtos.Card
 import co.yap.networking.customers.responsedtos.beneficiary.TopUpCard
@@ -41,7 +40,7 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.DateUtils
 import co.yap.yapcore.helpers.StringUtils
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.helpers.loadImage
+import co.yap.yapcore.helpers.extentions.loadImage
 import co.yap.yapcore.interfaces.IBindable
 import co.yap.yapcore.managers.MyUserManager
 import com.bumptech.glide.Glide

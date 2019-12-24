@@ -15,7 +15,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransf
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.modules.others.helper.getCurrencyPopMenu
+import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.translation.Translator
 import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
