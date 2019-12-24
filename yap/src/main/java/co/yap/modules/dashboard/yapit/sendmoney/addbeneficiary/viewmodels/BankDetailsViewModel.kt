@@ -79,6 +79,7 @@ class BankDetailsViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
+        state.selectedBeneficiaryType = parentViewModel?.beneficiary?.value?.beneficiaryType
         parentViewModel?.beneficiary?.value?.beneficiaryType?.let {
             if (it.isNotEmpty())
                 when (SendMoneyBeneficiaryType.valueOf(it)) {
@@ -95,9 +96,6 @@ class BankDetailsViewModel(application: Application) :
                         state.isRmt.set(false)
                         state.buttonText = "Next"
                         state.hideSwiftSection = true
-                        state.valid = true
-                        //searchRMTBanks()
-                        //Swift changes
                     }
                     else -> {
                         state.isRmt.set(false)

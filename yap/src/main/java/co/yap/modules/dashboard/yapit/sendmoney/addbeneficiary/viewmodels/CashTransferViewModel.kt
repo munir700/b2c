@@ -19,6 +19,7 @@ import co.yap.translation.Strings
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.helpers.Utils
+import co.yap.yapcore.helpers.toast
 
 class CashTransferViewModel(application: Application) :
     SendMoneyBaseViewModel<ICashTransfer.State>(application),
@@ -35,7 +36,7 @@ class CashTransferViewModel(application: Application) :
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
-    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+    override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
     override var receiverUUID: String = ""
 
@@ -57,8 +58,15 @@ class CashTransferViewModel(application: Application) :
 
     override fun handlePressOnView(id: Int) {
         if (state.checkValidity() == "") {
+            if (!state.reasonTransferValue.equals("Select a Reason")) {
+                createOtp(id = id)
+            } else {
+                toast(context, "Select a Reason")
+
+            }
+
 //            temporary comment this service for
-            createOtp(id = id)
+
         } else {
             errorEvent.postValue(id)
         }

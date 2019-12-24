@@ -2,6 +2,10 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import androidx.lifecycle.Observer
@@ -10,6 +14,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.adapters.ReasonListAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
@@ -23,8 +28,8 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
+import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.toast
-import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
@@ -40,7 +45,6 @@ class InternationalFundsTransferFragment :
     override val viewModel: IInternationalFundsTransfer.ViewModel
         get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
 
-    var bankReasonList: MutableList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,6 +55,23 @@ class InternationalFundsTransferFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         successOtpFlow()
+        getBindings().etSenderAmount.filters =
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+        getBindings().etSenderAmount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    getBindings().etSenderAmount.gravity = Gravity.CENTER
+                } else {
+                    getBindings().etSenderAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                }
+            }
+        })
     }
 
     fun successOtpFlow() {
@@ -67,13 +88,11 @@ class InternationalFundsTransferFragment :
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
-            bankReasonList = it as MutableList<InternationalFundsTransferReasonList.ReasonList>
-            bankReasonList.add(
+            it.add(
                 0,
-                InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
+                InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
             )
 
-//            reasonsSpinner.adapter = getReasonListAdapter(it)
             reasonsSpinner.adapter = ViewHolderArrayAdapter(requireContext(), it, { parent ->
                 CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
             }, { parent ->
@@ -97,7 +116,6 @@ class InternationalFundsTransferFragment :
                     viewModel.state.reasonTransferCode = it[position].code
                 }
             }
-            // reasonsSpinner.adapter.setItemListener(listener)
 
         })
     }
@@ -111,8 +129,8 @@ class InternationalFundsTransferFragment :
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                if (viewModel.state.reasonTransferValue.equals("")) {
-                    toast(activity as BeneficiaryCashTransferActivity, "Please select Reason List")
+                if (viewModel.state.reasonTransferValue.equals("Select a Reason")) {
+                    toast(activity as BeneficiaryCashTransferActivity, "Select a Reason")
                 } else {
 
                     val availableBalance =
@@ -183,24 +201,11 @@ class InternationalFundsTransferFragment :
                 }
 
             }
-            R.id.viewTriggerSpinnerClickReason -> {
+            R.id.viewSpinnerClickReason -> {
                 reasonsSpinner.performClick()
             }
         }
     }
-
-
-    val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            reasonsSpinner.setSelection(pos)
-            if (bankReasonList.isNotEmpty()) {
-                viewModel.state.reasonTransferValue = bankReasonList[pos].reason
-                viewModel.state.reasonTransferCode = bankReasonList[pos].code
-            }
-
-        }
-    }
-
 
     private fun editBeneficiaryScreen() {
         etnickName.isEnabled = true
@@ -223,20 +228,6 @@ class InternationalFundsTransferFragment :
         super.onPause()
 
     }
-
-    /*override fun onResume() {
-        setObservers()
-        super.onResume()
-    }*/
-
-    fun getReasonListAdapter(it: List<InternationalFundsTransferReasonList.ReasonList>): ReasonListAdapter {
-        if (mReasonListAdapter == null)
-            mReasonListAdapter = ReasonListAdapter(
-                requireContext(), R.layout.item_reason_list, it
-            )
-        return this.mReasonListAdapter!!
-    }
-
 
     override fun onBackPressed(): Boolean {
         return super.onBackPressed()
@@ -328,4 +319,7 @@ class InternationalFundsTransferFragment :
         super.onDestroy()
     }
 
+    fun getBindings(): FragmentInternationalFundsTransferBinding {
+        return viewDataBinding as FragmentInternationalFundsTransferBinding
+    }
 }
