@@ -18,7 +18,7 @@ interface ICashTransfer {
         val errorEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
-        val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
+        val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         var receiverUUID: String
         fun getTransactionFeeForCashPayout(productCode: String?)
         fun cashPayoutTransferRequest(beneficiaryId: Int?)
