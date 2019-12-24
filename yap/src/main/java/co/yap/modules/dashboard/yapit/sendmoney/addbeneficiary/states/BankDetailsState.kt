@@ -5,9 +5,16 @@ import androidx.databinding.ObservableField
 import androidx.databinding.library.baseAdapters.BR
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBankDetails
 import co.yap.yapcore.BaseState
+import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 
 class BankDetailsState : BaseState(), IBankDetails.State {
 
+    @get:Bindable
+    override var selectedBeneficiaryType: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.selectedBeneficiaryType)
+        }
 
     @get:Bindable
     override var buttonText: String = ""
@@ -69,45 +76,41 @@ class BankDetailsState : BaseState(), IBankDetails.State {
             notifyPropertyChanged(BR.hideSwiftSection)
         }
 
-    fun validate() {
-        if (!hideSwiftSection) {
-            if (bankBranch.isNotEmpty() && bankCity.isNotEmpty() && bankName.isNotEmpty()) {
-                valid = true
-                notifyPropertyChanged(BR.valid)
-                return
-            }
-        }
-
-        if (!bankBranch.isNullOrEmpty() && !bankCity.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !bankName.isNullOrEmpty()) {
-            valid = true
-            notifyPropertyChanged(BR.valid)
-        }
-    }
-
-
 //    fun validate() {
-//        if (!selectedBeneficiaryType.isNullOrEmpty()) {
-//            when (SendMoneyBeneficiaryType.valueOf(selectedBeneficiaryType!!)) {
-//                SendMoneyBeneficiaryType.RMT -> {
-//                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
-//                }
-//                SendMoneyBeneficiaryType.SWIFT -> {
-//
-//                }
-//                SendMoneyBeneficiaryType.DOMESTIC -> {
-//                    valid =
-//                        firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
-//                }
-//                SendMoneyBeneficiaryType.CASHPAYOUT -> {
-//                    valid =
-//                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && mobileNo.length > 1
-//                }
-//                SendMoneyBeneficiaryType.UAEFTS -> {
-//
-//                }
-//                SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> TODO()
+//        if (!hideSwiftSection) {
+//            if (bankBranch.isNotEmpty() && bankCity.isNotEmpty() && bankName.isNotEmpty()) {
+//                valid = true
+//                notifyPropertyChanged(BR.valid)
+//                return
 //            }
 //        }
+//
+//        if (!bankBranch.isNullOrEmpty() && !bankCity.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !bankName.isNullOrEmpty()) {
+//            valid = true
+//            notifyPropertyChanged(BR.valid)
+//        }
 //    }
+
+
+    fun validate() {
+        if (!selectedBeneficiaryType.isNullOrEmpty()) {
+            when (SendMoneyBeneficiaryType.valueOf(selectedBeneficiaryType!!)) {
+                SendMoneyBeneficiaryType.RMT -> {
+                }
+                SendMoneyBeneficiaryType.SWIFT -> {
+                    valid =
+                        !bankBranch.isNullOrEmpty() && !bankCity.isNullOrEmpty() && !swiftCode.isNullOrEmpty() && !bankName.isNullOrEmpty()
+                }
+                SendMoneyBeneficiaryType.DOMESTIC -> {
+                }
+                SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                }
+                SendMoneyBeneficiaryType.UAEFTS -> {
+                }
+                SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
+                }
+            }
+        }
+    }
 
 }

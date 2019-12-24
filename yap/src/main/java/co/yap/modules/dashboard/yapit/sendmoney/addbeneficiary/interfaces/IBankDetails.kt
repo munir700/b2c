@@ -20,6 +20,7 @@ interface IBankDetails {
         var isRmt: ObservableField<Boolean>
         var buttonText: String
         var txtCount: ObservableField<String>
+        var selectedBeneficiaryType: String?
     }
 
     interface ViewModel : IBase.ViewModel<State> {
