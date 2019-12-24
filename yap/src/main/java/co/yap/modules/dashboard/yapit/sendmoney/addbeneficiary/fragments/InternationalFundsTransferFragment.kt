@@ -1,9 +1,11 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -134,6 +136,9 @@ class InternationalFundsTransferFragment :
                 }
             }
             Constants.ADD_SUCCESS -> {
+                // Send Broadcast for updating transactions list in `Home Fragment`
+                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
                 viewModel.state.position?.let { position ->
                     viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
                         val action =
