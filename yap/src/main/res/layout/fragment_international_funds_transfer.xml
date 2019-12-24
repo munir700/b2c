@@ -317,7 +317,7 @@
                     <Spinner
                         android:id="@+id/reasonsSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_50sdp"
+                        android:layout_height="@dimen/_60sdp"
                         android:paddingBottom="@dimen/_5sdp"
                         android:drawSelectorOnTop="false"
                         android:dropDownHeight="@dimen/_50sdp"

@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.activities
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,20 +18,22 @@ import co.yap.yapcore.defaults.DefaultNavigator
 import co.yap.yapcore.defaults.INavigator
 import co.yap.yapcore.interfaces.BackPressImpl
 import co.yap.yapcore.interfaces.IBaseNavigator
-import androidx.navigation.NavOptions
-import androidx.navigation.Navigation
-import androidx.navigation.findNavController
-import kotlinx.android.synthetic.main.activity_beneficiary_cash_transfer.*
 
 
 class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTransfer.ViewModel>(),
     IFragmentHolder, INavigator {
 
     companion object {
-        fun newIntent(context: Context, beneficiary: Beneficiary?, position: Int = 0): Intent {
+        fun newIntent(
+            context: Context,
+            beneficiary: Beneficiary?,
+            position: Int = 0,
+            isNewBeneficiary: Boolean = false
+        ): Intent {
             val intent = Intent(context, BeneficiaryCashTransferActivity::class.java)
             intent.putExtra(Constants.BENEFICIARY, beneficiary)
             intent.putExtra(Constants.POSITION, position)
+            intent.putExtra(Constants.IS_NEW_BENEFICIARY, isNewBeneficiary)
             return intent
         }
     }
@@ -56,7 +59,17 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.tbIvClose -> onBackPressed()
-            R.id.tvRightToolbar -> this.finish()
+            R.id.tvRightToolbar -> {
+                val i = Intent()
+                intent?.let { inten ->
+                    i.putExtra(
+                        Constants.BENEFICIARY_CHANGE,
+                        inten.getBooleanExtra(Constants.IS_NEW_BENEFICIARY, false)
+                    )
+                    setResult(Activity.RESULT_OK, i)
+                    finish()
+                }
+            }
         }
     }
 
@@ -77,4 +90,5 @@ class BeneficiaryCashTransferActivity : BaseBindingActivity<IBeneficiaryCashTran
             super.onBackPressed()
         }
     }
+
 }

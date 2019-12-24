@@ -123,7 +123,7 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         }
 
     @get:Bindable
-    override var noteValue: String = ""
+    override var noteValue: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.noteValue)
@@ -164,6 +164,18 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
         set(value) {
             field = value
             notifyPropertyChanged(BR.referenceNumber)
+        }
+    @get:Bindable
+    override var reasonsVisibility: Boolean? = true
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.reasonsVisibility)
+        }
+    @get:Bindable
+    override var produceCode: String? = ""
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.produceCode)
         }
 
 

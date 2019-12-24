@@ -22,8 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/margin_medium"
-            android:paddingRight="@dimen/margin_medium">
+            >
 
             <TextView
                 android:id="@+id/tvSelectCountryHeading"
@@ -34,6 +33,8 @@
                 android:gravity="center"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
                 app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
                 app:text="@{Strings.screen_add_beneficiary_display_text_country_title}"
                 tools:text="@string/screen_add_beneficiary_display_text_country_title" />
@@ -45,6 +46,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/_36sdp"
                 android:gravity="start"
+                android:layout_marginStart="@dimen/margin_medium"
+                android:layout_marginEnd="@dimen/margin_medium"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvSuccessHeading"
@@ -66,7 +69,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginRight="@dimen/margin_normal"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_normal"
                     android:background="@drawable/bg_spinner"
                     android:drawSelectorOnTop="false"
                     android:dropDownHeight="@dimen/_50sdp"
@@ -78,6 +82,8 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
+                    android:layout_marginStart="@dimen/margin_medium"
+                    android:layout_marginEnd="@dimen/margin_medium_large"
                     android:layout_below="@+id/countriesSpinner"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="@dimen/_30sdp"

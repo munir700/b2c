@@ -251,19 +251,30 @@ class VerifyPasscodeFragment : BaseBindingFragment<IVerifyPasscode.ViewModel>(),
 
     override fun onAuthenticationSuccessful() {
         viewModel.isFingerprintLogin = true
-        EncryptionUtils.decrypt(
-            requireContext(),
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE) as String
-        )?.let {
-            viewModel.state.passcode = it
+        sharedPreferenceManager?.let { sharedPreferenceManager ->
+            context?.let { context ->
+                val passCode =
+                    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_PASSCODE)
+                passCode?.let {
+                    val passedCode = EncryptionUtils.decrypt(context, passCode)
+                    passedCode?.let { passedCode ->
+                        viewModel.state.passcode = passedCode
+                    }
+                }
+
+                val userName =
+                    sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME)
+                userName?.let {
+                    val encryptedUserName = EncryptionUtils.decrypt(context, userName)
+                    encryptedUserName?.let { encryptedUserName ->
+                        viewModel.state.username = encryptedUserName
+                    }
+                }
+
+                if (!viewModel.state.username.isNullOrEmpty() && !viewModel.state.passcode.isNullOrEmpty())
+                    viewModel.login()
+            }
         }
-
-        EncryptionUtils.decrypt(
-            requireContext(),
-            sharedPreferenceManager.getValueString(SharedPreferenceManager.KEY_USERNAME) as String
-        )?.let { viewModel.state.username = it }
-
-        viewModel.login()
     }
 
     override fun onAuthenticationHelp(helpCode: Int, helpString: CharSequence) {

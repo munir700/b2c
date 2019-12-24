@@ -47,6 +47,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         startFlows()
+        viewModel.getTransactionFeeInternational()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -175,7 +176,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                         SendMoneyBeneficiaryType.CASHPAYOUT -> {
                             beneficiary.id?.let { beneficiaryId ->
-                                viewModel.cashPayoutTransferRequest(beneficiaryId.toString())
+                                viewModel.cashPayoutTransferRequest(beneficiaryId)
                             }
                         }
                         //Rak to Rak(yap to rak(Internal transfer))
@@ -230,27 +231,38 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                             SendMoneyBeneficiaryType.RMT -> {
-                                return SendMoneyBeneficiaryProductCode.P012.name
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P012.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.SWIFT -> {
-                                return SendMoneyBeneficiaryProductCode.P011.name
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P011.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
-                                return SendMoneyBeneficiaryProductCode.P013.name
+                                viewModel.state.reasonsVisibility = false
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P013.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P023.name
                                 viewModel.state.ibanVisibility = true
                                 viewModel.state.ibanNumber = beneficiary.accountNo
-                                return SendMoneyBeneficiaryProductCode.P023.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             /*SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> {
                                 //call service for INTERNAL_TRANSFER
 
                             }*/
                             SendMoneyBeneficiaryType.UAEFTS -> {
+                                viewModel.state.produceCode =
+                                    SendMoneyBeneficiaryProductCode.P010.name
                                 viewModel.state.ibanVisibility = true
                                 viewModel.state.ibanNumber = beneficiary.accountNo
-                                return SendMoneyBeneficiaryProductCode.P010.name
+                                return viewModel.state.produceCode ?: ""
                             }
                             else -> {
                                 return SendMoneyBeneficiaryProductCode.P010.name

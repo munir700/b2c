@@ -243,7 +243,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             notifyPropertyChanged(BR.minLimit)
         }
     @get:Bindable
-    override var transactionNote: String? = ""
+    override var transactionNote: String? = null
         set(value) {
             field = value
             notifyPropertyChanged(BR.transactionNote)
@@ -287,7 +287,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                 "AED",
                 Utils.getFormattedCurrency(findFee(amount).toString())
             )
-        internationalFee = "${"AED"} ${findFee(amount).toString()}"
+        internationalFee = "${"AED"} ${findFee(amount)}"
 
         notifyPropertyChanged(BR.transferFee)
 

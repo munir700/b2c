@@ -16,9 +16,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.Transf
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.modules.dashboard.yapit.y2y.home.phonecontacts.InviteBottomSheet
 import co.yap.translation.Strings
+import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
-import co.yap.yapcore.helpers.Utils
-import com.digitify.identityscanner.camera.engine.offset.Reference
 
 
 class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel>(),
@@ -47,7 +46,7 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton -> {
-                    activity?.finish()
+                    setResultData()
                 }
                 R.id.tvShareCode -> {
                     showToast(
@@ -57,6 +56,13 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
                 }
             }
         })
+    }
+
+    private fun setResultData() {
+        val intent = Intent()
+        intent.putExtra(Constants.MONEY_TRANSFERED, true)
+        activity?.setResult(Activity.RESULT_OK, intent)
+        activity?.finish()
     }
 
     private fun shareCode(referenceCode: String) {
@@ -118,7 +124,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             it.viewModel.state.toolBarVisibility = false
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+                getString(Strings.screen_cash_pickup_funds_transfer_display_text_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_cash_pickup_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
         }
     }
 
@@ -130,6 +140,12 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
                 getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+            viewModel.state.successHeader =
+                getString(Strings.screen_domestic_funds_transfer_display_text_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_domestic_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
         }
     }
 
@@ -140,7 +156,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             it.viewModel.state.toolBarVisibility = false
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
-                getString(Strings.screen_cash_pickup_funds_success_toolbar_header)
+                getString(Strings.screen_cash_pickup_funds_transfer_display_text_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_cash_pickup_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_cash_pickup_funds_transfer_back_to_dashboard)
         }
     }
 
@@ -152,7 +172,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             it.viewModel.state.toolBarVisibility = false
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
-                getString(Strings.screen_funds_success_header)
+                getString(Strings.screen_international_funds_transfer_display_text_success_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_international_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_international_funds_transfer_back_to_dashboard)
         }
     }
 
@@ -164,7 +188,11 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             it.viewModel.state.toolBarVisibility = false
             viewModel.state.name = it.viewModel.state.beneficiary?.fullName()
             viewModel.state.successHeader =
-                getString(Strings.screen_funds_success_header)
+                getString(Strings.screen_international_funds_transfer_display_text_success_title)
+            viewModel.state.transferAmountHeading =
+                getString(Strings.screen_international_funds_transfer_display_text_amount_heading)
+            viewModel.state.buttonTitle =
+                getString(Strings.screen_international_funds_transfer_back_to_dashboard)
         }
     }
 

@@ -46,8 +46,6 @@ class CashTransferViewModel(application: Application) :
 
         transactionData.clear()
         state.currencyType = "AED"
-        getTransactionInternationalReasonList()
-        getTransactionFeeInternational()
     }
 
     override fun onResume() {
@@ -79,22 +77,25 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(id)
                 }
                 is RetroApiResponse.Error -> {
-                    state.toast = response.error.message
                     state.loading = false
+                    state.errorDescription = response.error.message
+                    errorEvent.call()
                 }
             }
             state.loading = false
         }
     }
 
-    override fun cashPayoutTransferRequest(beneficiaryId: String?) {
+    override fun cashPayoutTransferRequest(beneficiaryId: Int?) {
         launch {
             state.loading = true
             when (val response =
                 transactionRepository.cashPayoutTransferRequest(
                     CashPayoutRequestDTO(
-                        "other",
-                        beneficiaryId, state.amount.toDouble(), state.currencyType,
+                        state.amount.toDouble(),
+                        state.currencyType,
+                        "8",
+                        beneficiaryId,
                         state.noteValue
                     )
                 )
@@ -104,8 +105,6 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    state.referenceNumber = "0123456789"
-                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
                     state.loading = false
@@ -137,8 +136,6 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    state.referenceNumber = "0123456789"
-                    clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
                     state.loading = false
@@ -161,8 +158,7 @@ class CashTransferViewModel(application: Application) :
                         0.0,
                         state.reasonTransferCode,
                         state.reasonTransferValue,
-                        state.noteValue,
-                        ""
+                        state.noteValue
                     )
                 )
                 ) {
@@ -171,8 +167,6 @@ class CashTransferViewModel(application: Application) :
                     clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    //state.referenceNumber = "0123456789"
-                    //  clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
                     state.loading = false
@@ -221,11 +215,8 @@ class CashTransferViewModel(application: Application) :
                         state.currencyType,
                         Utils.getFormattedCurrencyWithoutComma(totalAmount.toString())
                     )
-
-                    //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                 }
                 is RetroApiResponse.Error -> {
-                    //clickEvent.postValue(Constants.ADD_CASH_PICK_UP_SUCCESS)
                     state.errorDescription = response.error.message
                     errorEvent.call()
                     state.loading = false
@@ -239,11 +230,11 @@ class CashTransferViewModel(application: Application) :
     * In this function get All List of reasons.
     * */
 
-    private fun getTransactionInternationalReasonList() {
+    override fun getTransactionInternationalReasonList() {
         launch {
             //            state.loading = true
             when (val response =
-                transactionRepository.getTransactionInternationalReasonList("P012")) {
+                transactionRepository.getTransactionInternationalReasonList(state.produceCode)) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNullOrEmpty()) return@launch
                     response.data.data?.let {
@@ -271,13 +262,12 @@ class CashTransferViewModel(application: Application) :
    * In this function get Remittance Transaction Fee.
    * */
 
-    private fun getTransactionFeeInternational() {
+    override fun getTransactionFeeInternational() {
         launch {
-            val remittanceFeeRequestBody = RemittanceFeeRequest("PK", "")
+            val remittanceFeeRequestBody = RemittanceFeeRequest(state.beneficiaryCountry, "")
             when (val response =
-                /*TODO:For Swift (P011) and for cash pickup (P011) */
                 transactionRepository.getTransactionFeeWithProductCode(
-                    "P013",
+                    state.produceCode,
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
@@ -306,7 +296,9 @@ class CashTransferViewModel(application: Application) :
                         listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
                         state.listItemRemittanceFee = listItemRemittanceFee
                     }
-                    getTransactionInternationalReasonList()
+                    if (state.reasonsVisibility!!) {
+                        getTransactionInternationalReasonList()
+                    }
                 }
 
                 is RetroApiResponse.Error -> {
