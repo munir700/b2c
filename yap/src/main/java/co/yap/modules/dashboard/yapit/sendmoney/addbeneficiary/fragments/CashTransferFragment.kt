@@ -1,5 +1,6 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
@@ -8,6 +9,7 @@ import android.view.Gravity
 import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import co.yap.R
@@ -100,6 +102,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 findNavController().navigate(action)
             }
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
+                // Send Broadcast for updating transactions list in `Home Fragment`
+                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
                 viewModel.state.referenceNumber?.let { referenceNumber ->
                     val action =
                         CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
