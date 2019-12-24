@@ -123,7 +123,6 @@
                         app:textColor="@{viewModel.state.bankCity.empty ? true : false}"
                         tools:text="@string/screen_bank_details_display_text_bank_city" />
 
-
                     <EditText
                         android:id="@+id/etBankCity"
                         style="@style/Regular"
@@ -166,7 +165,7 @@
                             android:importantForAutofill="no"
                             android:maxLength="50"
                             android:text="@={viewModel.state.swiftCode}"
-                            app:hint="@{Strings.screen_bank_details_input_text_city_hint}" />
+                            app:hint="@{Strings.screen_bank_details_display_text_swift_code}" />
 
                     </LinearLayout>
                 </LinearLayout>

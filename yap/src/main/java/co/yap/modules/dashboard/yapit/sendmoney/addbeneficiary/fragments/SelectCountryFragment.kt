@@ -55,13 +55,13 @@ class SelectCountryFragment : SendMoneyBaseFragment<ISelectCountry.ViewModel>(),
                         if (viewModel.state.selectedCountry?.isoCountryCode2Digit == "AE") {
                             findNavController().navigate(R.id.action_selectCountryFragment_to_DomesticFragment)
                         } else {
-                        it.cashPickUp?.let { cashPickup ->
-                            if (cashPickup) {
-                                moveToTransferType()
-                            } else {
-                                moveToAddBeneficiary()
+                            it.cashPickUp?.let { cashPickup ->
+                                if (cashPickup) {
+                                    moveToTransferType()
+                                } else {
+                                    moveToAddBeneficiary()
+                                }
                             }
-                        }
                         }
                     }
                 }
