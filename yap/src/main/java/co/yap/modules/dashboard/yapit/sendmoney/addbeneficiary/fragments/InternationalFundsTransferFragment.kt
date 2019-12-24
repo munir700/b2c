@@ -31,7 +31,6 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.toast
-import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_beneficiary_overview.*
 import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
@@ -48,7 +47,6 @@ class InternationalFundsTransferFragment :
     override val viewModel: IInternationalFundsTransfer.ViewModel
         get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
 
-    var bankReasonList: MutableList<InternationalFundsTransferReasonList.ReasonList> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -92,13 +90,11 @@ class InternationalFundsTransferFragment :
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
-            bankReasonList = it as MutableList<InternationalFundsTransferReasonList.ReasonList>
-            bankReasonList.add(
+            it.add(
                 0,
-                InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
+                InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
             )
 
-//            reasonsSpinner.adapter = getReasonListAdapter(it)
             reasonsSpinner.adapter = ViewHolderArrayAdapter(requireContext(), it, { parent ->
                 CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
             }, { parent ->
@@ -122,7 +118,6 @@ class InternationalFundsTransferFragment :
                     viewModel.state.reasonTransferCode = it[position].code
                 }
             }
-            // reasonsSpinner.adapter.setItemListener(listener)
 
         })
     }
@@ -213,19 +208,6 @@ class InternationalFundsTransferFragment :
         }
     }
 
-
-    val listener = object : OnItemClickListener {
-        override fun onItemClick(view: View, data: Any, pos: Int) {
-            reasonsSpinner.setSelection(pos)
-            if (bankReasonList.isNotEmpty()) {
-                viewModel.state.reasonTransferValue = bankReasonList[pos].reason
-                viewModel.state.reasonTransferCode = bankReasonList[pos].code
-            }
-
-        }
-    }
-
-
     private fun editBeneficiaryScreen() {
         etnickName.isEnabled = true
         etFirstName.isEnabled = true
@@ -247,20 +229,6 @@ class InternationalFundsTransferFragment :
         super.onPause()
 
     }
-
-    /*override fun onResume() {
-        setObservers()
-        super.onResume()
-    }*/
-
-    fun getReasonListAdapter(it: List<InternationalFundsTransferReasonList.ReasonList>): ReasonListAdapter {
-        if (mReasonListAdapter == null)
-            mReasonListAdapter = ReasonListAdapter(
-                requireContext(), R.layout.item_reason_list, it
-            )
-        return this.mReasonListAdapter!!
-    }
-
 
     override fun onBackPressed(): Boolean {
         return super.onBackPressed()
