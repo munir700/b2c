@@ -51,7 +51,7 @@ class InternationalFundsTransferViewModel(application: Application) :
 
     override fun onCreate() {
         super.onCreate()
-        transactionData.clear()
+
         state.setSpanable(0.0)
     }
 
@@ -177,6 +177,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     private fun getTransactionInternationalReasonList(productCode: String?) {
         launch {
             state.loading = true
+            transactionData.clear()
             when (val response =
                 mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
                 is RetroApiResponse.Success -> {

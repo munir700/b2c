@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -90,41 +89,43 @@ class InternationalFundsTransferFragment :
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
-            it.add(
-                0,
-                InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
-            )
-
-            reasonsSpinner.adapter = ViewHolderArrayAdapter(requireContext(), it, { parent ->
-                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
-            }, { parent ->
-                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
-            }, { viewHolder, position, item ->
-                viewHolder.bind(item)
-            }, { viewHolder, position, item ->
-                viewHolder.bind(item)
-            })
-            reasonsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onNothingSelected(parent: AdapterView<*>?) {
-                }
-
-                override fun onItemSelected(
-                    parent: AdapterView<*>?,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    viewModel.state.reasonTransferValue = it[position].reason
-                    viewModel.state.reasonTransferCode = it[position].code
-                }
-            }
+            setSpinnerAdapter(list = it)
 
         })
     }
 
-    override fun onResume() {
-        setObservers()
-        super.onResume()
+    private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>) {
+
+        val data = ArrayList<InternationalFundsTransferReasonList.ReasonList>()
+        data.addAll(list)
+        data.add(
+            0,
+            InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
+        )
+        reasonsSpinner.adapter = ViewHolderArrayAdapter(requireContext(), data, { parent ->
+            CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+        }, { parent ->
+            CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+        }, { viewHolder, position, item ->
+            viewHolder.bind(item)
+        }, { viewHolder, position, item ->
+            viewHolder.bind(item)
+        })
+        reasonsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                viewModel.state.reasonTransferValue = list[position].reason
+                viewModel.state.reasonTransferCode = list[position].code
+            }
+        }
+
     }
 
     val clickEvent = Observer<Int> {
@@ -221,6 +222,10 @@ class InternationalFundsTransferFragment :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setObservers()
+//        if (viewModel.transactionData.size > 0)
+//            setSpinnerAdapter(viewModel.transactionData)
+
 
     }
 
