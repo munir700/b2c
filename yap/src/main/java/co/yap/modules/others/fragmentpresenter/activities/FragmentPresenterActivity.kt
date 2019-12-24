@@ -18,7 +18,7 @@ import co.yap.networking.cards.responsedtos.Card
 import co.yap.yapcore.BaseBindingActivity
 import co.yap.yapcore.IFragmentHolder
 import co.yap.yapcore.constants.Constants
-import co.yap.yapcore.helpers.replaceFragment
+import co.yap.yapcore.helpers.extentions.replaceFragment
 
 class FragmentPresenterActivity : BaseBindingActivity<IFragmentPresenter.ViewModel>(),
     IFragmentPresenter.View,

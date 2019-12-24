@@ -15,7 +15,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransf
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IAddBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.AddBeneficiaryViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
-import co.yap.modules.others.helper.getCurrencyPopMenu
+import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.translation.Translator
 import co.yap.widgets.popmenu.OnMenuItemClickListener
 import co.yap.widgets.popmenu.PopupMenu
@@ -28,18 +28,11 @@ import co.yap.yapcore.interfaces.OnItemClickListener
 import kotlinx.android.synthetic.main.activity_edit_beneficiary.tvChangeCurrency
 import kotlinx.android.synthetic.main.fragment_add_beneficiary_international_bank_transfer.*
 
-
-//this wil be the common screen in all three case only change in CASH FLOW CHANGE CURRENCY OPTION WILL BE HIDDEN
-
 class AddBeneficiaryInternationlTransferFragment :
     SendMoneyBaseFragment<IAddBeneficiary.ViewModel>(),
     IAddBeneficiary.View {
     private var currencyPopMenu: PopupMenu? = null
     override fun getBindingVariable(): Int = BR.viewModel
-    /*
-     Need to take the decision that if is from cash flow then use the fragment_add_beneficiary_domestic_transfer or other wise use fragment_add_beneficiary
-       */
-//    override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_domestic_transfer
     override fun getLayoutId(): Int = R.layout.fragment_add_beneficiary_international_bank_transfer
 
     override val viewModel: AddBeneficiaryViewModel
@@ -89,10 +82,8 @@ class AddBeneficiaryInternationlTransferFragment :
         for (currency in currencies!!.iterator()) {
             popMenuCurrenciesList.add(PopupMenuItem(currency.name))
         }
-
         return popMenuCurrenciesList
     }
-
 
     private val observer = Observer<Int> {
         when (it) {
@@ -123,25 +114,18 @@ class AddBeneficiaryInternationlTransferFragment :
                         viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
                             SendMoneyBeneficiaryType.DOMESTIC.name
                     } else {
-                        country.getCurrency()?.cashPickUp?.let { it ->
-                            if (!it) {
-                                country.getCurrency()?.rmtCountry?.let { isRmt ->
-                                    if (isRmt) {
-                                        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
-                                            SendMoneyBeneficiaryType.RMT.name
-                                        viewModel.state.transferType = "Bank Transfer"
-                                    } else {
-                                        viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
-                                            SendMoneyBeneficiaryType.SWIFT.name
-                                        viewModel.state.transferType = "Bank Transfer"
-                                    }
-                                }
+                        country.getCurrency()?.rmtCountry?.let { isRmt ->
+                            if (isRmt) {
+                                viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
+                                    SendMoneyBeneficiaryType.RMT.name
+                                viewModel.state.transferType = "Bank Transfer"
                             } else {
                                 viewModel.parentViewModel?.beneficiary?.value?.beneficiaryType =
-                                    SendMoneyBeneficiaryType.CASHPAYOUT.name
-                                viewModel.state.transferType = "Cash Pickup"
+                                    SendMoneyBeneficiaryType.SWIFT.name
+                                viewModel.state.transferType = "Bank Transfer"
                             }
                         }
+
                     }
                 }
             }

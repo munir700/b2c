@@ -1,4 +1,4 @@
-package com.homemedics.app.glide
+package co.yap.yapcore.helpers.glide
 
 import android.content.Context
 import android.graphics.drawable.ColorDrawable
@@ -8,7 +8,7 @@ import android.text.TextUtils
 import android.widget.ImageView
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.ContextCompat.getColor
-import co.yap.R
+import co.yap.yapcore.R
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
