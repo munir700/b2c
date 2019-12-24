@@ -2,6 +2,10 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.text.Editable
+import android.text.InputFilter
+import android.text.TextWatcher
+import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.view.WindowManager
@@ -11,6 +15,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
+import co.yap.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
 import co.yap.modules.dashboard.yapit.sendmoney.adapters.ReasonListAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
@@ -24,6 +29,7 @@ import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
+import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.toast
 import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
@@ -53,6 +59,23 @@ class InternationalFundsTransferFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         successOtpFlow()
+        getBindings().etSenderAmount.filters =
+            arrayOf(InputFilter.LengthFilter(7), DecimalDigitsInputFilter(2))
+        getBindings().etSenderAmount.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (p0?.length!! > 0) {
+                    getBindings().etSenderAmount.gravity = Gravity.CENTER
+                } else {
+                    getBindings().etSenderAmount.gravity = Gravity.START or Gravity.CENTER_VERTICAL
+                }
+            }
+        })
     }
 
     fun successOtpFlow() {
@@ -184,7 +207,7 @@ class InternationalFundsTransferFragment :
                 }
 
             }
-            R.id.viewTriggerSpinnerClickReason -> {
+            R.id.viewSpinnerClickReason -> {
                 reasonsSpinner.performClick()
             }
         }
@@ -329,4 +352,7 @@ class InternationalFundsTransferFragment :
         super.onDestroy()
     }
 
+    fun getBindings(): FragmentInternationalFundsTransferBinding {
+        return viewDataBinding as FragmentInternationalFundsTransferBinding
+    }
 }
