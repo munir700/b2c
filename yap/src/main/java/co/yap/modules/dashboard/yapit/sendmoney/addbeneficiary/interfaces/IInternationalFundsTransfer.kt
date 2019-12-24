@@ -47,7 +47,7 @@ interface IInternationalFundsTransfer {
     interface ViewModel : IBase.ViewModel<State> {
         var clickEvent: SingleClickEvent
         var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList>
-        val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>>
+        val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>>
         fun handlePressOnButton(id: Int)
         fun getTransactionFeeInternational(productCode: String?)
         fun rmtTransferRequest(beneficiaryId: String?)
