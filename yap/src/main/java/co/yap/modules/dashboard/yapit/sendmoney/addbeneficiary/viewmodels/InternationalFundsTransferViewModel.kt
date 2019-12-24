@@ -37,7 +37,7 @@ class InternationalFundsTransferViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
-    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+    override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
     private var listItemRemittanceFee: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> =
         ArrayList()

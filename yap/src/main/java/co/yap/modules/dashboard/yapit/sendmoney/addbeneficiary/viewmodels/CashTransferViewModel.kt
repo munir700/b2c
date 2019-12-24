@@ -35,7 +35,7 @@ class CashTransferViewModel(application: Application) :
     override val errorEvent: SingleClickEvent = SingleClickEvent()
     override var transactionData: ArrayList<InternationalFundsTransferReasonList.ReasonList> =
         ArrayList()
-    override val populateSpinnerData: MutableLiveData<List<InternationalFundsTransferReasonList.ReasonList>> =
+    override val populateSpinnerData: MutableLiveData<ArrayList<InternationalFundsTransferReasonList.ReasonList>> =
         MutableLiveData()
     override var receiverUUID: String = ""
 

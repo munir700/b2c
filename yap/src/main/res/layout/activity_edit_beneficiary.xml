@@ -154,7 +154,8 @@
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_marginTop="@dimen/margin_normal"
-                            app:srcCompat="@drawable/ic_bank"
+                            android:src='@{editBeneficiaryViewModel.state.transferType.equals("CASHPAYOUT")? @drawable/ic_cash:@drawable/ic_bank}'
+                            tools:src="@drawable/ic_cash"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvTransferType" />
 
