@@ -72,6 +72,8 @@ class SelectCountryViewModel(application: Application) :
         super.onResume()
         state.valid = false
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
+        parentViewModel?.state?.toolbarVisibility?.set(true)
+        parentViewModel?.state?.toolbarTitle   = "dsadsa"
     }
 
     private fun getAllCountries() {
