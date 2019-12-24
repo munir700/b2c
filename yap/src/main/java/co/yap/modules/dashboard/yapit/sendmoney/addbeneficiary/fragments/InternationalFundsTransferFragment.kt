@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -106,6 +105,19 @@ class InternationalFundsTransferFragment :
 
     override fun onResume() {
         setObservers()
+        if (!viewModel.transactionData.isNullOrEmpty()) {
+            viewModel.transactionData.let {
+                reasonsSpinner.adapter = ViewHolderArrayAdapter(requireContext(), it, { parent ->
+                    CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+                }, { parent ->
+                    CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+                }, { viewHolder, position, item ->
+                    viewHolder.bind(item)
+                }, { viewHolder, position, item ->
+                    viewHolder.bind(item)
+                })
+            }
+        }
         super.onResume()
     }
 
@@ -221,6 +233,7 @@ class InternationalFundsTransferFragment :
 
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.populateSpinnerData.removeObservers(this)
         super.onPause()
 
     }
@@ -321,12 +334,6 @@ class InternationalFundsTransferFragment :
             layout = clFTSnackbar,
             message = des
         )
-    }
-
-
-    override fun onDestroy() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
     }
 
 }
