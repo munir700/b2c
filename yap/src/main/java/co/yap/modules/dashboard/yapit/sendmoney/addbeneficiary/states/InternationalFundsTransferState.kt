@@ -277,8 +277,7 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
             }
         }
     }
-
-    private fun setSpanable(amount: Double) {
+    fun setSpanable(amount: Double) {
         transferFee =
             Translator.getString(
                 context,
