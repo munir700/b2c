@@ -52,7 +52,11 @@ class InternationalFundsTransferFragment :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getBeneficiaryId()
-        viewModel.getTransactionFeeInternational(getProductCode())
+        val productCode = getProductCode()
+        viewModel.getTransactionFeeInternational(productCode)
+        viewModel.getReasonList(productCode)
+        viewModel.getTransactionInternationalfxList(productCode)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -359,9 +363,6 @@ class InternationalFundsTransferFragment :
         )
     }
 
-<<<<<<< HEAD
-=======
-
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
         super.onDestroy()
@@ -370,5 +371,4 @@ class InternationalFundsTransferFragment :
     fun getBindings(): FragmentInternationalFundsTransferBinding {
         return viewDataBinding as FragmentInternationalFundsTransferBinding
     }
->>>>>>> 3c509af7f20eeaf9a7b9aaec00d257512e0e07b6
 }

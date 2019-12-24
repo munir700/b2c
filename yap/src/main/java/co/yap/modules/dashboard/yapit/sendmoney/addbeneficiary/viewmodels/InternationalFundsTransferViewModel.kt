@@ -43,11 +43,8 @@ class InternationalFundsTransferViewModel(application: Application) :
         ArrayList()
 
     override fun handlePressOnButton(id: Int) {
-        clickEvent.postValue(id)
-        //createOtp(id = id)
+        clickEvent.setValue(id)
     }
-
-    var listItemSelectedCart: List<RemittanceFeeResponse.RemittanceFee.TierRateDTO> = ArrayList()
 
     override fun onCreate() {
         super.onCreate()
@@ -55,16 +52,10 @@ class InternationalFundsTransferViewModel(application: Application) :
         state.setSpanable(0.0)
     }
 
-
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_international_funds_transfer_display_text_title))
     }
-
-
-    /*
-    * In this function get Remittance Transaction Fee.
-    * */
 
     override fun getTransactionFeeInternational(productCode: String?) {
         launch {
@@ -76,6 +67,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     remittanceFeeRequestBody
                 )) {
                 is RetroApiResponse.Success -> {
+
                     var totalAmount: Double
                     if (response.data.data?.feeType == "FLAT") {
                         val feeAmount = response.data.data?.tierRateDTOList?.get(0)?.feeAmount
@@ -100,7 +92,8 @@ class InternationalFundsTransferViewModel(application: Application) :
                         listItemRemittanceFee = response.data.data!!.tierRateDTOList!!
                         state.listItemRemittanceFee = listItemRemittanceFee
                     }
-                    getTransactionInternationalReasonList(productCode)
+                    state.loading = false
+                    //getTransactionInternationalReasonList(productCode)
                 }
 
                 is RetroApiResponse.Error -> {
@@ -170,45 +163,9 @@ class InternationalFundsTransferViewModel(application: Application) :
     }
 
 
-    /*
-    * In this function get All List of reasons.
-    * */
-
-    private fun getTransactionInternationalReasonList(productCode: String?) {
+    override fun getTransactionInternationalfxList(productCode: String?) {
         launch {
-            state.loading = true
-            when (val response =
-                mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data.isNullOrEmpty()) return@launch
-                    response.data.data?.let {
-                        transactionData.addAll(it.map { item ->
-                            InternationalFundsTransferReasonList.ReasonList(
-                                code = item.code ?: "",
-                                reason = item.reason ?: ""
-                            )
-                        })
-                    }
-                    getTransactionInternationalfxList(productCode)
-                    populateSpinnerData.value = transactionData
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
-                }
-            }
-        }
-    }
-
-
-    /*
-    * In this function get All List of reasons.
-    * */
-
-    private fun getTransactionInternationalfxList(productCode: String?) {
-        launch {
-
-            state.loading = true
+            //            state.loading = true
             val rxListBody = RxListRequest(state.beneficiaryId)
 
             when (val response =
@@ -217,7 +174,7 @@ class InternationalFundsTransferViewModel(application: Application) :
                     rxListBody
                 )) {
                 is RetroApiResponse.Success -> {
-                    state.loading = false
+//                    state.loading = false
                     state.senderCurrency = response.data.data.fromCurrencyCode
                     state.receiverCurrency = response.data.data.toCurrencyCode
                     state.receiverCurrencyAmountFxRate = response.data.data.value?.amount
@@ -230,7 +187,33 @@ class InternationalFundsTransferViewModel(application: Application) :
                     state.rate = response.data.data.fxRates?.get(0)?.convertedAmount
                 }
                 is RetroApiResponse.Error -> {
-                    state.loading = false
+//                    state.loading = false
+                    state.toast = response.error.message
+                }
+            }
+        }
+    }
+
+    override fun getReasonList(productCode: String?) {
+        launch {
+            //            state.loading = true
+            when (val response =
+                mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
+                is RetroApiResponse.Success -> {
+                    if (response.data.data.isNullOrEmpty()) return@launch
+                    response.data.data?.let {
+                        transactionData.addAll(it.map { item ->
+                            InternationalFundsTransferReasonList.ReasonList(
+                                code = item.code ?: "",
+                                reason = item.reason ?: ""
+                            )
+                        })
+                    }
+                    //getTransactionInternationalfxList(productCode)
+                    populateSpinnerData.value = transactionData
+                }
+                is RetroApiResponse.Error -> {
+//                    state.loading = false
                     state.toast = response.error.message
                 }
             }
