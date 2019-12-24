@@ -32,7 +32,7 @@ class InternationalTransactionConfirmationState : BaseState(),
             notifyPropertyChanged(BR.flagLayoutVisibility)
         }
     @get:Bindable
-    override var transferDescription: String? = ""
+    override var transferDescription: CharSequence? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferDescription)
@@ -50,13 +50,13 @@ class InternationalTransactionConfirmationState : BaseState(),
             notifyPropertyChanged(BR.confirmHeading)
         }
     @get:Bindable
-    override var receivingAmountDescription: String? = ""
+    override var receivingAmountDescription: CharSequence? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.receivingAmountDescription)
         }
     @get:Bindable
-    override var transferFeeDescription: String? = ""
+    override var transferFeeDescription: CharSequence? = ""
         set(value) {
             field = value
             notifyPropertyChanged(BR.transferFeeDescription)

@@ -365,7 +365,7 @@
                     app:countryName="@{editBeneficiaryViewModel.state.countryCode!=null?editBeneficiaryViewModel.state.countryCode:` `}"
                     app:pse_compoundDrawableHeight="@dimen/_16sdp"
                     app:pse_compoundDrawableWidth="@dimen/_16sdp"
-                    app:pse_setPrefix="+92"
+                    app:pse_setPrefix="+927"
                     app:pse_setPrefixDrawable="@drawable/flag_in"
                     app:pse_space="@dimen/_12sdp"
                     tools:text="322335" />
@@ -406,9 +406,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
-                        android:text="ID Code: 8060"
+                        android:text="@{`ID Code: ` + editBeneficiaryViewModel.state.beneficiary.identifierCode1}"
                         android:textSize="@dimen/text_size_c3"
-                        android:visibility="gone" />
+                        android:visibility="@{editBeneficiaryViewModel.state.beneficiary.identifierCode1.length()>0?View.VISIBLE:View.GONE}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvBankAddress"

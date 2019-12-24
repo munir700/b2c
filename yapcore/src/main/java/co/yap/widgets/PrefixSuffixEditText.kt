@@ -501,7 +501,7 @@ class PrefixSuffixEditText : AppCompatEditText {
                 )
             } else {
                 setPadding(
-                    (textWidth + mOriginalLeftPadding).toInt() + 10,
+                    (textWidth + mOriginalLeftPadding).toInt() + pseSpace,
                     paddingRight, paddingTop,
                     paddingBottom
                 )
@@ -610,5 +610,7 @@ class PrefixSuffixEditText : AppCompatEditText {
 
         }
         mask = formattedNumber
+
+        text = text
     }
 }
