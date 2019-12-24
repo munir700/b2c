@@ -1,15 +1,23 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputFilter
 import android.text.TextWatcher
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import co.yap.R
 import co.yap.databinding.FragmentCashTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
@@ -19,6 +27,8 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTr
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
+import co.yap.widgets.spinneradapter.SingleTextViewHolderArrayAdapter
+import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
@@ -71,8 +81,34 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
             )
 
-            reasonsSpinnerCashTransfer.adapter = getReasonListAdapter(it)
-            mReasonListAdapter?.setItemListener(listener)
+//            reasonsSpinnerCashTransfer.adapter = getReasonListAdapter(it)
+
+            reasonsSpinnerCashTransfer.adapter =
+                ViewHolderArrayAdapter(requireContext(), it, { parent ->
+                    ReasonDropDownViewHolder.inflate(parent)
+                }, { parent ->
+                    ReasonDropDownViewHolder.inflate(parent)
+                }, { viewHolder, position, item ->
+                    viewHolder.bind(item)
+                }, { viewHolder, position, item ->
+                    viewHolder.bind(item)
+                })
+            reasonsSpinnerCashTransfer.onItemSelectedListener =
+                object : AdapterView.OnItemSelectedListener {
+                    override fun onNothingSelected(parent: AdapterView<*>?) {
+                    }
+
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        viewModel.state.reasonTransferValue = it[position].reason
+                        viewModel.state.reasonTransferCode = it[position].code
+                    }
+                }
+//            mReasonListAdapter?.setItemListener(listener)
         })
     }
 
@@ -106,6 +142,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             }
 
             Constants.ADD_CASH_PICK_UP_SUCCESS -> {
+                // Send Broadcast for updating transactions list in `Home Fragment`
+                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
                 viewModel.state.referenceNumber?.let { referenceNumber ->
                     val action =
                         CashTransferFragmentDirections.actionCashTransferFragmentToTransferSuccessFragment2(
@@ -275,6 +314,8 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     }
 
     fun getReasonListAdapter(it: List<InternationalFundsTransferReasonList.ReasonList>): ReasonListAdapter {
+
+
         if (mReasonListAdapter == null)
             mReasonListAdapter = ReasonListAdapter(
                 requireContext(), R.layout.item_reason_list, it
@@ -317,5 +358,23 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             navOptions
         )
 
+    }
+
+    class ReasonDropDownViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        companion object {
+            fun inflate(parent: ViewGroup): ReasonDropDownViewHolder {
+                val view = LayoutInflater.from(parent.context)
+                    .inflate(R.layout.item_spinner, parent, false)
+                return ReasonDropDownViewHolder(view)
+            }
+        }
+
+        var title: TextView = view.findViewById(android.R.id.text1)
+
+
+        fun bind(reason: InternationalFundsTransferReasonList.ReasonList) {
+            title.text = reason.reason
+        }
     }
 }

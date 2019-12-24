@@ -1,10 +1,13 @@
 package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.widget.AdapterView
 import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.navigation.fragment.findNavController
 import co.yap.BR
 import co.yap.R
@@ -16,6 +19,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
 import co.yap.translation.Translator
+import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.constants.Constants
 import co.yap.yapcore.enums.SendMoneyBeneficiaryProductCode
 import co.yap.yapcore.enums.SendMoneyBeneficiaryType
@@ -44,7 +48,6 @@ class InternationalFundsTransferFragment :
         super.onCreate(savedInstanceState)
         getBeneficiaryId()
         viewModel.getTransactionFeeInternational(getProductCode())
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -72,8 +75,31 @@ class InternationalFundsTransferFragment :
                 InternationalFundsTransferReasonList.ReasonList("Please select Reason List", "0")
             )
 
-            reasonsSpinner.adapter = getReasonListAdapter(it)
-            mReasonListAdapter?.setItemListener(listener)
+//            reasonsSpinner.adapter = getReasonListAdapter(it)
+            reasonsSpinner.adapter = ViewHolderArrayAdapter(requireContext(), it, { parent ->
+                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+            }, { parent ->
+                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+            }, { viewHolder, position, item ->
+                viewHolder.bind(item)
+            }, { viewHolder, position, item ->
+                viewHolder.bind(item)
+            })
+            reasonsSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.state.reasonTransferValue = it[position].reason
+                    viewModel.state.reasonTransferCode = it[position].code
+                }
+            }
+            // reasonsSpinner.adapter.setItemListener(listener)
 
         })
     }
@@ -135,6 +161,9 @@ class InternationalFundsTransferFragment :
                 }
             }
             Constants.ADD_SUCCESS -> {
+                // Send Broadcast for updating transactions list in `Home Fragment`
+                val intent = Intent(Constants.BROADCAST_UPDATE_TRANSACTION)
+                LocalBroadcastManager.getInstance(requireContext()).sendBroadcast(intent)
                 viewModel.state.position?.let { position ->
                     viewModel.state.beneficiaryCountry?.let { beneficiaryCountry ->
                         val action =

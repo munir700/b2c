@@ -245,13 +245,18 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
     @get:Bindable
     override var transactionNote: String? = null
         set(value) {
-            field = value
+            value?.let {
+                field = if (it.isEmpty()) {
+                    null
+                } else {
+                    value
+                }
+            }
             notifyPropertyChanged(BR.transactionNote)
         }
 
     fun validate() {
         if (!senderAmount.isNullOrEmpty() && !beneficiaryAmount.isNullOrEmpty()/* &&  reason must be selected as well */) {
-
             valid = true
         }
     }
