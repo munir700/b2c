@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
+import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -51,7 +52,11 @@ class InternationalFundsTransferFragment :
         super.onCreate(savedInstanceState)
         setObservers()
         getBeneficiaryId()
-        viewModel.getTransactionFeeInternational(getProductCode())
+        val productCode = getProductCode()
+        viewModel.getTransactionFeeInternational(productCode)
+        viewModel.getReasonList(productCode)
+        viewModel.getTransactionInternationalfxList(productCode)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -307,7 +312,6 @@ class InternationalFundsTransferFragment :
             message = des
         )
     }
-
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
