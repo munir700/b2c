@@ -5,5 +5,5 @@ data class CashPayoutRequestDTO(
     var currency: String?,
     var purposeCode: String?,
     var beneficiaryId: Int?,
-    var transactionNote:String?
+    var remarks:String?
 )
