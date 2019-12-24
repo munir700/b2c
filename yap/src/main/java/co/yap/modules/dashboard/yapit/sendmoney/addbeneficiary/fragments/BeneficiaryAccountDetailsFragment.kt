@@ -83,6 +83,7 @@ class BeneficiaryAccountDetailsFragment :
         }
     }
 
+
     private val observer = Observer<Int> {
         when (it) {
             R.id.confirmButton ->
