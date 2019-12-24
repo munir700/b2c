@@ -607,7 +607,6 @@
     <string name="screen_unverified_display_button_back_to_dashboard">Back to dashboard</string>
 
     <!--  bank details screen -->
-
     <string name="screen_bank_details_display_text_title">Tell us about the bank</string>
     <string name="screen_bank_details_display_text_bank_name">Bank name</string>
     <string name="screen_bank_details_display_text_branch_name">Bank branch</string>
@@ -719,7 +718,7 @@
 
 <!--   success Transfer flow-->
     <string name="screen_funds_success_header">Transfer successful</string>
-    <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rage of %4s to %5s</string>
+    <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rage of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 

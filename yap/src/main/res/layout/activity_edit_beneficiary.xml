@@ -149,12 +149,12 @@
                             app:layout_constraintTop_toTopOf="parent"
                             tools:text="@string/screen_add_beneficiary_detail_display_text_transfer_type" />
 
-                        <androidx.appcompat.widget.AppCompatImageButton
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/imgBankTransfer"
                             android:layout_width="@dimen/_20sdp"
                             android:layout_height="@dimen/_20sdp"
                             android:layout_marginTop="@dimen/margin_normal"
-                            android:src="@drawable/ic_bank"
+                            app:srcCompat="@drawable/ic_bank"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/tvTransferType" />
 
@@ -361,11 +361,11 @@
                     android:paddingBottom="16dp"
                     android:singleLine="true"
                     android:text="@={editBeneficiaryViewModel.state.phoneNumber}"
-                    app:countryCode="@{editBeneficiaryViewModel.state.beneficiary.country!=null?PhoneNumberUtilsKt.getCountryCodeForRegion(editBeneficiaryViewModel.state.beneficiary.country):` `}"
-                    app:countryName="@{editBeneficiaryViewModel.state.beneficiary.country!=null?editBeneficiaryViewModel.state.beneficiary.country:` `}"
+                    app:countryCode="@{editBeneficiaryViewModel.state.countryCode!=null?PhoneNumberUtilsKt.getCountryCodeForRegion(editBeneficiaryViewModel.state.countryCode):` `}"
+                    app:countryName="@{editBeneficiaryViewModel.state.countryCode!=null?editBeneficiaryViewModel.state.countryCode:` `}"
                     app:pse_compoundDrawableHeight="@dimen/_16sdp"
                     app:pse_compoundDrawableWidth="@dimen/_16sdp"
-                    app:pse_setPrefix="+92"
+                    app:pse_setPrefix="+927"
                     app:pse_setPrefixDrawable="@drawable/flag_in"
                     app:pse_space="@dimen/_12sdp"
                     tools:text="322335" />
@@ -406,9 +406,9 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/margin_small"
                         android:gravity="center"
-                        android:text="ID Code: 8060"
+                        android:text="@{`ID Code: ` + editBeneficiaryViewModel.state.beneficiary.identifierCode1}"
                         android:textSize="@dimen/text_size_c3"
-                        android:visibility="gone" />
+                        android:visibility="@{editBeneficiaryViewModel.state.beneficiary.identifierCode1.length()>0?View.VISIBLE:View.GONE}" />
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/tvBankAddress"
@@ -505,8 +505,9 @@
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:singleLine="true"
+                    android:visibility="gone"
                     android:text="@={editBeneficiaryViewModel.state.countryBankRequirementFieldCode}"
-                    android:visibility='@{(editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("RMT") || editBeneficiaryViewModel.state.beneficiary.beneficiaryType.equals("SWIFT")) ? View.VISIBLE : View.GONE }' />
+                 />
 
 
                 <co.yap.widgets.CoreButton

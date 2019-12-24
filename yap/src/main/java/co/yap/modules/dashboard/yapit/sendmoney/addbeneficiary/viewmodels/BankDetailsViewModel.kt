@@ -95,6 +95,7 @@ class BankDetailsViewModel(application: Application) :
                         state.isRmt.set(false)
                         state.buttonText = "Next"
                         state.hideSwiftSection = true
+                        state.valid = true
                         //searchRMTBanks()
                         //Swift changes
                     }
@@ -135,6 +136,8 @@ class BankDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
+        parentViewModel?.state?.toolbarVisibility?.set(true)
+        parentViewModel?.state?.leftIcon?.set(true)
     }
 
     override fun searchRMTBanks(otherBankQuery: OtherBankQuery) {
@@ -180,12 +183,4 @@ class BankDetailsViewModel(application: Application) :
     override fun retry() {
     }
 
-    fun updateBeneficiaryBankData(data: Bank) {
-        parentViewModel?.beneficiary?.value?.also {
-            it.bankName = data.other_bank_name
-            it.identifierCode1 = data.identifier_code1
-            it.identifierCode2 = data.identifier_code2
-            it.branchAddress = data.other_branch_name
-        }
-    }
 }

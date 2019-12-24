@@ -10,7 +10,7 @@ import co.yap.BR
 import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.interfaces.IEditBeneficiary
 import co.yap.modules.dashboard.yapit.sendmoney.editbeneficiary.viewmodel.EditBeneficiaryViewModel
-import co.yap.modules.others.helper.getCurrencyPopMenu
+import co.yap.yapcore.helpers.extentions.getCurrencyPopMenu
 import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.widgets.popmenu.PopupMenu
 import co.yap.yapcore.BaseBindingActivity
@@ -46,39 +46,41 @@ class EditBeneficiaryActivity : BaseBindingActivity<IEditBeneficiary.ViewModel>(
             if (it.hasExtra(Bundle_EXTRA)) {
                 val bundle = it.getBundleExtra(Bundle_EXTRA)
                 bundle?.let {
-                    viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY,false)
-                    viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name) }
+                    viewModel.state.needOverView = it.getBoolean(OVERVIEW_BENEFICIARY, false)
+                    viewModel.state.beneficiary = bundle.getParcelable(Beneficiary::class.java.name)
+                }
             }
         }
         setObservers()
         currencyPopMenu = getCurrencyPopMenu(this, mutableListOf(), null, null)
+
     }
 
 
     override fun setObservers() {
         viewModel.clickEvent?.observe(this, Observer {
             when (it) {
-                R.id.tbBtnBack ->{
+                R.id.tbBtnBack -> {
                     val intent = Intent()
-                    setResult(Activity.RESULT_CANCELED,intent)
-                    finish()}
+                    setResult(Activity.RESULT_CANCELED, intent)
+                    finish()
+                }
                 R.id.confirmButton ->
-                        viewModel.requestUpdateBeneficiary()
-                R.id.tvChangeCurrency->
+                    viewModel.requestUpdateBeneficiary()
+                R.id.tvChangeCurrency ->
                     currencyPopMenu?.showAsAnchorRightBottom(tvChangeCurrency)
             }
         })
 
         viewModel.onUpdateSuccess.observe(this, Observer {
             val intent = Intent()
-            if(it) {
-                intent.putExtra( Constants.BENEFICIARY_CHANGE, true)
+            if (it) {
+                intent.putExtra(Constants.BENEFICIARY_CHANGE, true)
                 setResult(Activity.RESULT_OK, intent)
                 finish()
-            }else
-            {
-                intent.putExtra( Constants.BENEFICIARY_CHANGE, false)
-                setResult(Activity.RESULT_CANCELED,intent)
+            } else {
+                intent.putExtra(Constants.BENEFICIARY_CHANGE, false)
+                setResult(Activity.RESULT_CANCELED, intent)
             }
 
         })

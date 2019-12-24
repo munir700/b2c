@@ -58,8 +58,8 @@ class PrefixSuffixEditText : AppCompatEditText {
         get() = this.mPrefix
         set(prefix) {
             this.mPrefix = prefix
-
-            mask(mPrefix)
+            if (mPrefix?.isNotBlank()!!)
+                mask(mPrefix)
             // textFormatter.countryCode = "CZ"
             calculatePrefix()
             invalidate()
@@ -501,7 +501,7 @@ class PrefixSuffixEditText : AppCompatEditText {
                 )
             } else {
                 setPadding(
-                    (textWidth + mOriginalLeftPadding).toInt() + 10,
+                    (textWidth + mOriginalLeftPadding).toInt() + pseSpace,
                     paddingRight, paddingTop,
                     paddingBottom
                 )
@@ -610,5 +610,7 @@ class PrefixSuffixEditText : AppCompatEditText {
 
         }
         mask = formattedNumber
+
+        text = text
     }
 }

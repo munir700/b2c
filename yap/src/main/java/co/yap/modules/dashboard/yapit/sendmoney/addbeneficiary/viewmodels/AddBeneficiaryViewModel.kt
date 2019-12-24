@@ -25,6 +25,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override var clickEvent: SingleClickEvent = SingleClickEvent()
     override var addBeneficiarySuccess: MutableLiveData<Boolean> = MutableLiveData(false)
     override var beneficiary: Beneficiary? = Beneficiary()
+
     override fun onCreate() {
         super.onCreate()
         state.selectedBeneficiaryType = parentViewModel?.beneficiary?.value?.beneficiaryType
@@ -128,5 +129,7 @@ class AddBeneficiaryViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
+        parentViewModel?.state?.toolbarVisibility?.set(true)
+        parentViewModel?.state?.leftIcon?.set(true)
     }
 }

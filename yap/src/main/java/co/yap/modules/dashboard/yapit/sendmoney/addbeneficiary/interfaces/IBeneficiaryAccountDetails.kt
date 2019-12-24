@@ -3,6 +3,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 import co.yap.yapcore.SingleLiveEvent
@@ -28,6 +29,7 @@ interface IBeneficiaryAccountDetails {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
+        var beneficiary: Beneficiary?
         val backButtonPressEvent: SingleLiveEvent<Boolean>
         val success: MutableLiveData<Boolean>
         var clickEvent: SingleClickEvent

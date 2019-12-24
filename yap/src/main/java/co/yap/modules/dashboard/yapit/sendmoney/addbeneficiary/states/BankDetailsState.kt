@@ -84,4 +84,30 @@ class BankDetailsState : BaseState(), IBankDetails.State {
         }
     }
 
+
+//    fun validate() {
+//        if (!selectedBeneficiaryType.isNullOrEmpty()) {
+//            when (SendMoneyBeneficiaryType.valueOf(selectedBeneficiaryType!!)) {
+//                SendMoneyBeneficiaryType.RMT -> {
+//                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
+//                }
+//                SendMoneyBeneficiaryType.SWIFT -> {
+//
+//                }
+//                SendMoneyBeneficiaryType.DOMESTIC -> {
+//                    valid =
+//                        firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
+//                }
+//                SendMoneyBeneficiaryType.CASHPAYOUT -> {
+//                    valid =
+//                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && mobileNo.length > 1
+//                }
+//                SendMoneyBeneficiaryType.UAEFTS -> {
+//
+//                }
+//                SendMoneyBeneficiaryType.INTERNAL_TRANSFER -> TODO()
+//            }
+//        }
+//    }
+
 }

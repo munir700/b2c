@@ -7,6 +7,7 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IBenef
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.BeneficiaryAccountDetailsState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
 import co.yap.networking.customers.CustomersRepository
+import co.yap.networking.customers.responsedtos.sendmoney.Beneficiary
 import co.yap.networking.interfaces.IRepositoryHolder
 import co.yap.networking.models.RetroApiResponse
 import co.yap.translation.Strings
@@ -24,6 +25,7 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
     override val state: BeneficiaryAccountDetailsState = BeneficiaryAccountDetailsState()
     override val repository: CustomersRepository = CustomersRepository
     override var clickEvent: SingleClickEvent = SingleClickEvent()
+    override var beneficiary: Beneficiary? = Beneficiary()
 
     override fun onCreate() {
         super.onCreate()
@@ -85,6 +87,8 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
     override fun onResume() {
         super.onResume()
         setToolBarTitle(getString(Strings.screen_add_beneficiary_display_text_title))
+        parentViewModel?.state?.toolbarVisibility?.set(true)
+        parentViewModel?.state?.leftIcon?.set(true)
         //toggleAddButtonVisibility(false)
     }
 
@@ -95,8 +99,8 @@ class BeneficiaryAccountDetailsViewModel(application: Application) :
                 when (val response = repository.addBeneficiary(it)) {
                     is RetroApiResponse.Success -> {
                         state.loading = false
-                        state.toast = response.data.toString()
                         success.value = true
+                        beneficiary = response.data.data
                     }
 
                     is RetroApiResponse.Error -> {

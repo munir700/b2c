@@ -14,7 +14,7 @@ class EditBeneficiaryViewModel(application: Application) :
     SendMoneyBaseViewModel<IEditBeneficiary.State>(application), IEditBeneficiary.ViewModel
 , IRepositoryHolder<CustomersRepository> {
     override val repository: CustomersRepository = CustomersRepository
-    override val state: EditBeneficiaryStates=EditBeneficiaryStates()
+    override val state: EditBeneficiaryStates=EditBeneficiaryStates(application)
 
     override var clickEvent: SingleClickEvent? = SingleClickEvent()
 

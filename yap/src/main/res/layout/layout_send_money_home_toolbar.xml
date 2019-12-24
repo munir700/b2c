@@ -49,7 +49,7 @@
             android:layout_toEndOf="@id/tbBtnBack"
             android:gravity="center"
             android:text="@{viewModel.state.toolbarTitle}"
-            android:visibility="@{viewModel.state.toolbarTitle.equals(``)? View.VISIBLE:View.GONE}" />
+            android:visibility="@{viewModel.state.toolbarTitle.isEmpty()? View.GONE:View.VISIBLE}" />
 
         <ImageView
             android:id="@+id/tbBtnAddBeneficiary"
