@@ -19,11 +19,11 @@ interface IInternationalTransactionConfirmation {
         var picture: String?
         var position: Int?
         var flagLayoutVisibility: Boolean?
-        var transferDescription: String?
+        var transferDescription: CharSequence?
         var referenceNumber: String?
         var confirmHeading: String?
-        var receivingAmountDescription: String?
-        var transferFeeDescription: String?
+        var receivingAmountDescription: CharSequence?
+        var transferFeeDescription: CharSequence?
         var beneficiaryCountry: String?
     }
 }

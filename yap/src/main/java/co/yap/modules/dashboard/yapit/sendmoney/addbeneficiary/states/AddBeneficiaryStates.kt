@@ -101,7 +101,7 @@ class AddBeneficiaryStates : BaseState(),
     @get:Bindable
     override var mobileNo: String = ""
         set(value) {
-            field = value
+            field = value.replace(" ","")
             notifyPropertyChanged(co.yap.BR.mobile)
             if (mobileNo.length < 9) {
                 mobileNoLength = 11

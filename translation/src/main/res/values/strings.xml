@@ -719,7 +719,7 @@
 
 <!--   success Transfer flow-->
     <string name="screen_funds_success_header">Transfer successful</string>
-    <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rage of %4s to %5s</string>
+    <string name="screen_funds_confirmation_success_description">Your transfer of %1s %2s to %3s will be sent at the exchange rage of %4s</string>
     <string name="screen_funds_receive_description">%1s will receive %2s</string>
     <string name="screen_funds_transfer_fee_description">International transfer fee: %1s \n Note that the recipient\'s bank may have its own charges.</string>
 
