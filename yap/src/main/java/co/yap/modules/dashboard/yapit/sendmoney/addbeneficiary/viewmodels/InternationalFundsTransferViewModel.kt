@@ -175,28 +175,32 @@ class InternationalFundsTransferViewModel(application: Application) :
     * */
 
     private fun getTransactionInternationalReasonList(productCode: String?) {
-        launch {
-            state.loading = true
-            when (val response =
-                mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
-                is RetroApiResponse.Success -> {
-                    if (response.data.data.isNullOrEmpty()) return@launch
-                    response.data.data?.let {
-                        transactionData.addAll(it.map { item ->
-                            InternationalFundsTransferReasonList.ReasonList(
-                                code = item.code ?: "",
-                                reason = item.reason ?: ""
-                            )
-                        })
+        if (populateSpinnerData.value.isNullOrEmpty()) {
+            launch {
+                state.loading = true
+                when (val response =
+                    mTransactionsRepository.getTransactionInternationalReasonList(productCode)) {
+                    is RetroApiResponse.Success -> {
+                        if (response.data.data.isNullOrEmpty()) return@launch
+                        response.data.data?.let {
+                            transactionData.addAll(it.map { item ->
+                                InternationalFundsTransferReasonList.ReasonList(
+                                    code = item.code ?: "",
+                                    reason = item.reason ?: ""
+                                )
+                            })
+                        }
+                        getTransactionInternationalfxList(productCode)
+                        populateSpinnerData.value = transactionData
                     }
-                    getTransactionInternationalfxList(productCode)
-                    populateSpinnerData.value = transactionData
-                }
-                is RetroApiResponse.Error -> {
-                    state.loading = false
-                    state.toast = response.error.message
+                    is RetroApiResponse.Error -> {
+                        state.loading = false
+                        state.toast = response.error.message
+                    }
                 }
             }
+        } else {
+            populateSpinnerData.value = populateSpinnerData.value
         }
     }
 

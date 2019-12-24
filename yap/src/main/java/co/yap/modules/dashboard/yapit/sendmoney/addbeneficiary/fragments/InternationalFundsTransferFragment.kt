@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
-import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
@@ -50,6 +49,7 @@ class InternationalFundsTransferFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setObservers()
         getBeneficiaryId()
         viewModel.getTransactionFeeInternational(getProductCode())
     }
@@ -76,7 +76,7 @@ class InternationalFundsTransferFragment :
         })
     }
 
-    fun successOtpFlow() {
+    private fun successOtpFlow() {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
                 if (it) {
@@ -123,7 +123,7 @@ class InternationalFundsTransferFragment :
     }
 
     override fun onResume() {
-        setObservers()
+        //setObservers()
         super.onResume()
     }
 
@@ -224,12 +224,6 @@ class InternationalFundsTransferFragment :
 
     }
 
-    override fun onPause() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onPause()
-
-    }
-
     override fun onBackPressed(): Boolean {
         return super.onBackPressed()
     }
@@ -317,6 +311,7 @@ class InternationalFundsTransferFragment :
 
     override fun onDestroy() {
         viewModel.clickEvent.removeObservers(this)
+        viewModel.populateSpinnerData.removeObservers(this)
         super.onDestroy()
     }
 

@@ -2,6 +2,7 @@ package co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels
 
 import android.app.Application
 import androidx.lifecycle.MutableLiveData
+import co.yap.R
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.ICashTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.states.CashTransferState
 import co.yap.modules.dashboard.yapit.sendmoney.viewmodels.SendMoneyBaseViewModel
@@ -56,11 +57,14 @@ class CashTransferViewModel(application: Application) :
 
 
     override fun handlePressOnView(id: Int) {
-        if (state.checkValidity() == "") {
-//            temporary comment this service for
-            createOtp(id = id)
+        if (R.id.btnConfirm == id) {
+            if (state.checkValidity() == "") {
+                createOtp(id = id)
+            } else {
+                errorEvent.setValue(id)
+            }
         } else {
-            errorEvent.postValue(id)
+            clickEvent.setValue(id)
         }
     }
 

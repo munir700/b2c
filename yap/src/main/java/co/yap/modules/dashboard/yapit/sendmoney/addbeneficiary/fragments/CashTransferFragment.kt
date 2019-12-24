@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,7 +26,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTr
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
-import co.yap.widgets.spinneradapter.SingleTextViewHolderArrayAdapter
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
@@ -36,7 +34,6 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.clFTSnackbar
@@ -138,9 +135,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                         )
                     findNavController().navigate(action)
                 }
-
             }
-
         }
     }
 
