@@ -118,30 +118,32 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             0,
             InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
         )
-        reasonsSpinnerCashTransfer.adapter = ViewHolderArrayAdapter(requireContext(), data, { parent ->
-            CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
-        }, { parent ->
-            CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
-        }, { viewHolder, position, item ->
-            viewHolder.bind(item)
-        }, { viewHolder, position, item ->
-            viewHolder.bind(item)
-        })
-        reasonsSpinnerCashTransfer.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-            }
+        reasonsSpinnerCashTransfer.adapter =
+            ViewHolderArrayAdapter(requireContext(), data, { parent ->
+                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+            }, { parent ->
+                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+            }, { viewHolder, position, item ->
+                viewHolder.bind(item)
+            }, { viewHolder, position, item ->
+                viewHolder.bind(item)
+            })
+        reasonsSpinnerCashTransfer.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
 
-            override fun onItemSelected(
-                parent: AdapterView<*>?,
-                view: View?,
-                position: Int,
-                id: Long
-            ) {
-                viewModel.reasonPosition = position
-                viewModel.state.reasonTransferValue = data[position].reason
-                viewModel.state.reasonTransferCode = data[position].code
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.reasonPosition = position
+                    viewModel.state.reasonTransferValue = data[position].reason
+                    viewModel.state.reasonTransferCode = data[position].code
+                }
             }
-        }
         reasonsSpinnerCashTransfer.setSelection(viewModel.reasonPosition)
     }
 
@@ -151,7 +153,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 val action =
                     CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
                         false,
-                        Constants.BENEFICIARY_CASH_TRANSFER,
+                        viewModel.state.otpAction ?: "",
                         viewModel.state.amount
                         , viewModel.state.position
 
@@ -290,22 +292,29 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                             SendMoneyBeneficiaryType.RMT -> {
+                                viewModel.state.otpAction = SendMoneyBeneficiaryType.RMT.type
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P012.name
                                 return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.SWIFT -> {
+                                viewModel.state.otpAction = SendMoneyBeneficiaryType.SWIFT.type
+
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P011.name
                                 return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                viewModel.state.otpAction = SendMoneyBeneficiaryType.CASHPAYOUT.type
+
                                 viewModel.state.reasonsVisibility = false
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P013.name
                                 return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
+                                viewModel.state.otpAction =
+                                    SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P023.name
                                 viewModel.state.ibanVisibility = true
@@ -317,6 +326,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
                             }*/
                             SendMoneyBeneficiaryType.UAEFTS -> {
+                                viewModel.state.otpAction = SendMoneyBeneficiaryType.UAEFTS.type
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P010.name
                                 viewModel.state.ibanVisibility = true

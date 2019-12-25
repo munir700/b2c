@@ -65,5 +65,6 @@ interface ICashTransfer {
         var reasonTransferCode: String?
         var reasonsVisibility: Boolean?
         var produceCode: String?
+        var otpAction: String?
     }
 }
