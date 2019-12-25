@@ -183,6 +183,12 @@ class CashTransferState(application: Application) : BaseState(), ICashTransfer.S
             field = value
             notifyPropertyChanged(BR.produceCode)
         }
+    @get:Bindable
+    override var otpAction: String?=""
+        set(value) {
+            field=value
+            notifyPropertyChanged(BR.otpAction)
+        }
 
 
     @get:Bindable
