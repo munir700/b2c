@@ -1,6 +1,8 @@
 package co.yap.networking.customers.models
 
+import com.google.gson.annotations.SerializedName
+
 class DocumentPage {
-    var pageNo: Int = -1
-    var imageURL: String = ""
+    @SerializedName("pageNo") var pageNo: Int? = -1
+    @SerializedName("imageURL") var imageURL: String? = ""
 }

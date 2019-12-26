@@ -18,7 +18,8 @@ import co.yap.yapcore.SingleLiveEvent
 import co.yap.yapcore.helpers.SharedPreferenceManager
 import java.util.regex.Pattern
 
-class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyPasscode.State>(application),
+class VerifyPasscodeViewModel(application: Application) :
+    BaseViewModel<IVerifyPasscode.State>(application),
     IVerifyPasscode.ViewModel, IRepositoryHolder<AuthRepository> {
 
     override val forgotPasscodeButtonPressEvent: SingleClickEvent = SingleClickEvent()
@@ -31,7 +32,7 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
     override var isFingerprintLogin: Boolean = false
     private val customersRepository: CustomersRepository = CustomersRepository
     override var emailOtp: Boolean = false
-    override var mobileNumber:String=""
+    override var mobileNumber: String = ""
 
     private val messagesRepository: MessagesRepository = MessagesRepository
 
@@ -54,8 +55,12 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
     override fun handlePressOnForgotPasscodeButton(id: Int) {
         var sharedPreferenceManager: SharedPreferenceManager = SharedPreferenceManager(context)
-        var username : String = ""
-        if (!sharedPreferenceManager.getValueBoolien(SharedPreferenceManager.KEY_IS_USER_LOGGED_IN, false)) {
+        var username: String = ""
+        if (!sharedPreferenceManager.getValueBoolien(
+                SharedPreferenceManager.KEY_IS_USER_LOGGED_IN,
+                false
+            )
+        ) {
             username = state.username
         } else {
             username = EncryptionUtils.decrypt(
@@ -67,14 +72,21 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
         launch {
             state.loading = true
-            when (val response=messagesRepository.createForgotPasscodeOTP(CreateForgotPasscodeOtpRequest(verifyUsername(username),emailOtp))) {
-                is RetroApiResponse.Success ->{
+            when (val response = messagesRepository.createForgotPasscodeOTP(
+                CreateForgotPasscodeOtpRequest(
+                    verifyUsername(username),
+                    emailOtp
+                )
+            )) {
+                is RetroApiResponse.Success -> {
+                    response.data.data?.let {
+                        mobileNumber = it
+                    }
 
-                    mobileNumber=response.data.data
                     state.loading = false
                     forgotPasscodeButtonPressEvent.setValue(id)
                 }
-                is RetroApiResponse.Error->{
+                is RetroApiResponse.Error -> {
                     state.toast = response.error.message
                     state.loading = false
                 }
@@ -83,10 +95,11 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
 
 
     }
+
     private fun verifyUsername(enteredUsername: String): String {
         var username = enteredUsername
         if (isUsernameNumeric(username)) {
-            emailOtp=false
+            emailOtp = false
             if (username.startsWith("+")) {
                 username = username.replace("+", "00")
                 return username
@@ -99,10 +112,11 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
                 return username
             }
         } else {
-            emailOtp=true
+            emailOtp = true
             return username
         }
     }
+
     fun isUsernameNumeric(username: String): Boolean {
         var inputStr: CharSequence
         var isValid = false
@@ -122,10 +136,10 @@ class VerifyPasscodeViewModel(application: Application) : BaseViewModel<IVerifyP
         launch {
             when (val response = customersRepository.validateDemographicData(state.deviceId)) {
                 is RetroApiResponse.Success -> {
-                    if(response.data.data){
-                        state.loading = false
+                    response.data.data?.let {
+                        if (it) state.loading = false
+                        validateDeviceResult.postValue(it)
                     }
-                    validateDeviceResult.postValue(response.data.data)
                 }
                 is RetroApiResponse.Error -> {
                     state.toast = response.error.message

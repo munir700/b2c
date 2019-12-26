@@ -43,6 +43,9 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             viewModel.state.position = args.position
 
         }
+    }
+
+    override fun setObservers() {
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.confirmButton -> {
@@ -57,7 +60,6 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
             }
         })
     }
-
     private fun setResultData() {
         val intent = Intent()
         intent.putExtra(Constants.MONEY_TRANSFERED, true)
@@ -72,14 +74,16 @@ class TransferSuccessFragment : SendMoneyBaseFragment<ITransferSuccess.ViewModel
         }
     }
 
+
+
+    override fun onResume() {
+        setObservers()
+        super.onResume()
+    }
+
     override fun onPause() {
         viewModel.clickEvent.removeObservers(this)
         super.onPause()
-
-    }
-
-    override fun onResume() {
-        super.onResume()
     }
 
     override fun onBackPressed(): Boolean {

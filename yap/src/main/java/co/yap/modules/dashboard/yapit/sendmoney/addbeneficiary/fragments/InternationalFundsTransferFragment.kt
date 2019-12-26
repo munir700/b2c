@@ -16,7 +16,6 @@ import co.yap.BR
 import co.yap.R
 import co.yap.databinding.FragmentInternationalFundsTransferBinding
 import co.yap.modules.dashboard.yapit.sendmoney.activities.BeneficiaryCashTransferActivity
-import co.yap.modules.dashboard.yapit.sendmoney.adapters.ReasonListAdapter
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.interfaces.IInternationalFundsTransfer
 import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.InternationalFundsTransferViewModel
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
@@ -39,18 +38,19 @@ class InternationalFundsTransferFragment :
     SendMoneyBaseFragment<IInternationalFundsTransfer.ViewModel>(),
     IInternationalFundsTransfer.View {
 
-
-    private var mReasonListAdapter: ReasonListAdapter? = null
     override fun getBindingVariable(): Int = BR.viewModel
     override fun getLayoutId(): Int = R.layout.fragment_international_funds_transfer
     override val viewModel: IInternationalFundsTransfer.ViewModel
         get() = ViewModelProviders.of(this).get(InternationalFundsTransferViewModel::class.java)
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getBeneficiaryId()
-        viewModel.getTransactionFeeInternational(getProductCode())
+        val productCode = getProductCode()
+        viewModel.getTransactionFeeInternational(productCode)
+        viewModel.getReasonList(productCode)
+        viewModel.getTransactionInternationalfxList(productCode)
+
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -75,7 +75,7 @@ class InternationalFundsTransferFragment :
         })
     }
 
-    fun successOtpFlow() {
+    private fun successOtpFlow() {
         if (context is BeneficiaryCashTransferActivity) {
             (context as BeneficiaryCashTransferActivity).viewModel.state.otpSuccess?.let {
                 if (it) {
@@ -89,13 +89,11 @@ class InternationalFundsTransferFragment :
         viewModel.clickEvent.observe(this, clickEvent)
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
-            setSpinnerAdapter(list = it)
-
+            setSpinnerAdapter(it)
         })
     }
 
     private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>) {
-
         val data = ArrayList<InternationalFundsTransferReasonList.ReasonList>()
         data.addAll(list)
         data.add(
@@ -121,18 +119,19 @@ class InternationalFundsTransferFragment :
                 position: Int,
                 id: Long
             ) {
-                viewModel.state.reasonTransferValue = list[position].reason
-                viewModel.state.reasonTransferCode = list[position].code
+                viewModel.reasonPosition = position
+                viewModel.state.reasonTransferValue = data[position].reason
+                viewModel.state.reasonTransferCode = data[position].code
             }
         }
-
+        reasonsSpinner.setSelection(viewModel.reasonPosition)
     }
 
     val clickEvent = Observer<Int> {
         when (it) {
             R.id.btnNext -> {
-                if (viewModel.state.reasonTransferValue.equals("")) {
-                    toast(activity as BeneficiaryCashTransferActivity, "Please select Reason List")
+                if (viewModel.state.reasonTransferValue.equals("Select a Reason")) {
+                    toast(activity as BeneficiaryCashTransferActivity, "Select a Reason")
                 } else {
 
                     val availableBalance =
@@ -220,21 +219,6 @@ class InternationalFundsTransferFragment :
     }
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setObservers()
-//        if (viewModel.transactionData.size > 0)
-//            setSpinnerAdapter(viewModel.transactionData)
-
-
-    }
-
-    override fun onPause() {
-        viewModel.clickEvent.removeObservers(this)
-        super.onPause()
-
-    }
-
     override fun onBackPressed(): Boolean {
         return super.onBackPressed()
     }
@@ -319,10 +303,16 @@ class InternationalFundsTransferFragment :
         )
     }
 
+    override fun onResume() {
+        super.onResume()
+        setObservers()
+    }
 
-    override fun onDestroy() {
+
+    override fun onPause() {
+        super.onPause()
         viewModel.clickEvent.removeObservers(this)
-        super.onDestroy()
+        viewModel.populateSpinnerData.removeObservers(this)
     }
 
     fun getBindings(): FragmentInternationalFundsTransferBinding {

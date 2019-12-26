@@ -1,7 +1,9 @@
 package co.yap.networking.messages.responsedtos
 
 import co.yap.networking.models.ApiResponse
+import com.google.gson.annotations.SerializedName
 
-class FaqsResponse : ApiResponse() {
-    var data: String = ""
-}
+data class FaqsResponse(
+    @SerializedName("data")
+    var data: String? = ""
+) : ApiResponse()

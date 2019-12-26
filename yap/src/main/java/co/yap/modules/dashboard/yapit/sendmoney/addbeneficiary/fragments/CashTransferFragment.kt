@@ -10,7 +10,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -27,7 +26,6 @@ import co.yap.modules.dashboard.yapit.sendmoney.addbeneficiary.viewmodels.CashTr
 import co.yap.modules.dashboard.yapit.sendmoney.fragments.SendMoneyBaseFragment
 import co.yap.networking.transactions.responsedtos.InternationalFundsTransferReasonList
 import co.yap.translation.Strings
-import co.yap.widgets.spinneradapter.SingleTextViewHolderArrayAdapter
 import co.yap.widgets.spinneradapter.ViewHolderArrayAdapter
 import co.yap.yapcore.BR
 import co.yap.yapcore.constants.Constants
@@ -36,9 +34,9 @@ import co.yap.yapcore.enums.SendMoneyBeneficiaryType
 import co.yap.yapcore.helpers.CustomSnackbar
 import co.yap.yapcore.helpers.DecimalDigitsInputFilter
 import co.yap.yapcore.helpers.Utils
-import co.yap.yapcore.interfaces.OnItemClickListener
 import co.yap.yapcore.managers.MyUserManager
 import kotlinx.android.synthetic.main.fragment_cash_transfer.*
+import kotlinx.android.synthetic.main.fragment_international_funds_transfer.*
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.clFTSnackbar
 import kotlinx.android.synthetic.main.fragment_y2y_funds_transfer.etAmount
 
@@ -62,6 +60,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpData()
+        if (viewModel.transactionData.size > 0)
+            setSpinnerAdapter(viewModel.transactionData)
+
     }
 
     override fun setObservers() {
@@ -72,37 +73,78 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
         viewModel.populateSpinnerData.observe(this, Observer {
             if (it == null) return@Observer
-            it.add(
-                0,
-                InternationalFundsTransferReasonList.ReasonList("Select a reason", "0")
-            )
+            setSpinnerAdapter(it)
+//            it.add(
+//                0,
+//                InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
+//            )
 
-            reasonsSpinnerCashTransfer.adapter =
-                ViewHolderArrayAdapter(requireContext(), it, { parent ->
-                    ReasonDropDownViewHolder.inflate(parent)
-                }, { parent ->
-                    ReasonDropDownViewHolder.inflate(parent)
-                }, { viewHolder, position, item ->
-                    viewHolder.bind(item)
-                }, { viewHolder, position, item ->
-                    viewHolder.bind(item)
-                })
-            reasonsSpinnerCashTransfer.onItemSelectedListener =
-                object : AdapterView.OnItemSelectedListener {
-                    override fun onNothingSelected(parent: AdapterView<*>?) {
-                    }
+//            reasonsSpinnerCashTransfer.adapter = getReasonListAdapter(it)
 
-                    override fun onItemSelected(
-                        parent: AdapterView<*>?,
-                        view: View?,
-                        position: Int,
-                        id: Long
-                    ) {
-                        viewModel.state.reasonTransferValue = it[position].reason
-                        viewModel.state.reasonTransferCode = it[position].code
-                    }
-                }
+//            reasonsSpinnerCashTransfer.adapter =
+//                ViewHolderArrayAdapter(requireContext(), it, { parent ->
+//                    ReasonDropDownViewHolder.inflate(parent)
+//                }, { parent ->
+//                    ReasonDropDownViewHolder.inflate(parent)
+//                }, { viewHolder, position, item ->
+//                    viewHolder.bind(item)
+//                }, { viewHolder, position, item ->
+//                    viewHolder.bind(item)
+//                })
+//            reasonsSpinnerCashTransfer.onItemSelectedListener =
+//                object : AdapterView.OnItemSelectedListener {
+//                    override fun onNothingSelected(parent: AdapterView<*>?) {
+//                    }
+//
+//                    override fun onItemSelected(
+//                        parent: AdapterView<*>?,
+//                        view: View?,
+//                        position: Int,
+//                        id: Long
+//                    ) {
+//                        viewModel.reasonPosition = position
+//                        viewModel.state.reasonTransferValue = it[position].reason
+//                        viewModel.state.reasonTransferCode = it[position].code
+//                    }
+//                }
         })
+        //reasonsSpinnerCashTransfer.setSelection(viewModel.reasonPosition)
+    }
+
+    private fun setSpinnerAdapter(list: ArrayList<InternationalFundsTransferReasonList.ReasonList>) {
+        val data = ArrayList<InternationalFundsTransferReasonList.ReasonList>()
+        data.addAll(list)
+        data.add(
+            0,
+            InternationalFundsTransferReasonList.ReasonList("Select a Reason", "0")
+        )
+        reasonsSpinnerCashTransfer.adapter =
+            ViewHolderArrayAdapter(requireContext(), data, { parent ->
+                ReasonDropDownViewHolder.inflate(parent)
+            }, { parent ->
+                ReasonDropDownViewHolder.inflate(parent)
+            }, { viewHolder, position, item ->
+                viewHolder.bind(item)
+            }, { viewHolder, position, item ->
+                viewHolder.bind(item)
+            })
+        reasonsSpinnerCashTransfer.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onNothingSelected(parent: AdapterView<*>?) {
+                }
+
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    viewModel.reasonPosition = position
+                    viewModel.state.reasonTransferValue = data[position].reason
+                    viewModel.state.reasonTransferCode = data[position].code
+                }
+            }
+        reasonsSpinnerCashTransfer.setSelection(viewModel.reasonPosition)
     }
 
     val clickEvent = Observer<Int> {
@@ -111,7 +153,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                 val action =
                     CashTransferFragmentDirections.actionCashTransferFragmentToGenericOtpLogoFragment(
                         false,
-                        Constants.BENEFICIARY_CASH_TRANSFER,
+                        viewModel.state.otpAction ?: "",
                         viewModel.state.amount
                         , viewModel.state.position
 
@@ -138,9 +180,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                         )
                     findNavController().navigate(action)
                 }
-
             }
-
         }
     }
 
@@ -252,22 +292,29 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
                     if (beneficiaryType.isNotEmpty())
                         when (SendMoneyBeneficiaryType.valueOf(beneficiaryType)) {
                             SendMoneyBeneficiaryType.RMT -> {
+                                viewModel.state.otpAction = SendMoneyBeneficiaryType.RMT.type
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P012.name
                                 return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.SWIFT -> {
+                                viewModel.state.otpAction = SendMoneyBeneficiaryType.SWIFT.type
+
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P011.name
                                 return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.CASHPAYOUT -> {
+                                viewModel.state.otpAction = SendMoneyBeneficiaryType.CASHPAYOUT.type
+
                                 viewModel.state.reasonsVisibility = false
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P013.name
                                 return viewModel.state.produceCode ?: ""
                             }
                             SendMoneyBeneficiaryType.DOMESTIC -> {
+                                viewModel.state.otpAction =
+                                    SendMoneyBeneficiaryType.DOMESTIC_TRANSFER.type
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P023.name
                                 viewModel.state.ibanVisibility = true
@@ -279,6 +326,7 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
 
                             }*/
                             SendMoneyBeneficiaryType.UAEFTS -> {
+                                viewModel.state.otpAction = SendMoneyBeneficiaryType.UAEFTS.type
                                 viewModel.state.produceCode =
                                     SendMoneyBeneficiaryProductCode.P010.name
                                 viewModel.state.ibanVisibility = true

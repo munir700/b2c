@@ -47,11 +47,11 @@ class YapDashBoardViewModel(application: Application) :
     }
 
     private fun populateState() {
-        MyUserManager.user?.let {
-            state.accountNo = MyUserManager.user!!.accountNo
-            state.ibanNo = MyUserManager.user!!.iban
-            state.fullName = MyUserManager.user!!.currentCustomer.getFullName()
-            state.firstName = MyUserManager.user!!.currentCustomer.firstName
+        MyUserManager.user?.let { it ->
+            it.accountNo?.let { state.accountNo = it }
+            it.iban?.let { state.ibanNo = it }
+            state.fullName = it.currentCustomer.getFullName()
+            state.firstName = it.currentCustomer.firstName
         }
     }
 
@@ -62,11 +62,15 @@ class YapDashBoardViewModel(application: Application) :
                 is RetroApiResponse.Success -> {
                     MyUserManager.user = response.data.data[0]
                     MyUserManager.user?.setLiveData() // DOnt remove this line
-                    MoreActivity.showExpiredIcon = MyUserManager.user?.isDocumentsVerified.equals("N")
+                    MyUserManager.user?.isDocumentsVerified?.let {
+                        MoreActivity.showExpiredIcon =
+                            it == "N"
+                    }
+
                     getAccountInfoSuccess.value = true
                     populateState()
-                    if( MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N",true)){
-                        showUnverifedscreen.value =true
+                    if (MyUserManager.user?.currentCustomer?.isEmailVerified.equals("N", true)) {
+                        showUnverifedscreen.value = true
                     }
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
@@ -80,7 +84,7 @@ class YapDashBoardViewModel(application: Application) :
             when (val response = cardsRepository.getAccountBalanceRequest()) {
                 is RetroApiResponse.Success -> {
                     MyUserManager.cardBalance.value =
-                        CardBalance(availableBalance = response.data.data.availableBalance.toString())
+                        CardBalance(availableBalance = response.data.data?.availableBalance.toString())
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

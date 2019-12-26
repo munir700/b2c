@@ -300,16 +300,15 @@
                 <RelativeLayout
                     android:id="@+id/layoutReasonsSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/margin_normal">
 
                     <Spinner
                         android:id="@+id/reasonsSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_60sdp"
+                        android:layout_height="@dimen/_30sdp"
                         android:paddingBottom="@dimen/_5sdp"
-                        android:dropDownHeight="@dimen/_50sdp"
-                        android:gravity="bottom"
+                        android:drawSelectorOnTop="false"
                         android:overScrollMode="never"
                         android:overlapAnchor="false"
                         android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
@@ -323,10 +322,11 @@
                         android:layout_alignParentTop="true" />
 
                     <View
-                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
+                        android:layout_below="@+id/viewSpinnerClickReason"
                         android:background="@color/greySoft" />
+
 
                 </RelativeLayout>
 

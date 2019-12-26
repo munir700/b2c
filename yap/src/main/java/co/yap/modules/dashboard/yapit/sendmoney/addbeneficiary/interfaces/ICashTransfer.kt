@@ -14,6 +14,7 @@ interface ICashTransfer {
     }
 
     interface ViewModel : IBase.ViewModel<State> {
+        var reasonPosition: Int
         val clickEvent: SingleClickEvent
         val errorEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
@@ -64,5 +65,6 @@ interface ICashTransfer {
         var reasonTransferCode: String?
         var reasonsVisibility: Boolean?
         var produceCode: String?
+        var otpAction: String?
     }
 }

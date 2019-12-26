@@ -6,6 +6,8 @@ import co.yap.networking.models.ApiResponse
 import co.yap.networking.models.RetroApiResponse
 
 interface AdminApi {
+    /*TODO: adil ******************************/
+
     suspend fun verifyUsername(username: String): RetroApiResponse<VerifyUsernameResponse>
     suspend fun forgotPasscode(forgotPasscodeRequest: ForgotPasscodeRequest): RetroApiResponse<ApiResponse>
     suspend fun validateCurrentPasscode(passcode:String): RetroApiResponse<ApiResponse>
