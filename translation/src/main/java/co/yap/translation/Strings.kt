@@ -1231,6 +1231,8 @@ object Strings {
         "screen_yap_house_hold_success_display_text_share_email"
     const val screen_yap_house_hold_success_display_text_share_pass_code: String =
         "screen_yap_house_hold_success_display_text_share_pass_code"
+    const val screen_yap_house_hold_success_display_text_share_mobile_no: String =
+        "screen_yap_house_hold_success_display_text_share_mobile_no"
     const val screen_yap_house_hold_success_button_text_share: String =
         "screen_yap_house_hold_success_button_text_share"
     const val screen_yap_house_hold_success_button_text_goto_house_hold: String =

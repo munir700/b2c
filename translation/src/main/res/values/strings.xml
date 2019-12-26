@@ -762,11 +762,12 @@
     <string name="screen_yap_house_hold_success_display_text_title">%1s has been added to your account</string>
     <string name="screen_yap_house_hold_success_display_text_heading">%1s\'s card is on it\'s way</string>
     <string name="screen_yap_house_hold_success_display_text_house_hold_card">Household card</string>
-    <string name="screen_yap_house_hold_success_display_text_direct_message">%1s will receive an SMS and email to download the app</string>
-    <string name="screen_yap_house_hold_success_display_text_share_credentials">Share sign in credentials with %1s</string>
+    <string name="screen_yap_house_hold_success_display_text_direct_message">%1s will receive an SMS with instructions to download the app and complete sign up</string>
+    <string name="screen_yap_house_hold_success_display_text_share_credentials">Let %1s know by sharing the details below:</string>
     <string name="screen_yap_house_hold_success_display_text_share_email">Email address</string>
-    <string name="screen_yap_house_hold_success_display_text_share_pass_code">Passcode</string>
-    <string name="screen_yap_house_hold_success_button_text_share">Share</string>
+     <string name="screen_yap_house_hold_success_display_text_share_mobile_no">Mobile number</string>
+     <string name="screen_yap_house_hold_success_display_text_share_pass_code">Temporary passcode</string>
+     <string name="screen_yap_house_hold_success_button_text_share">Share</string>
     <string name="screen_yap_house_hold_success_button_text_goto_house_hold">Go to Household</string>
 
 

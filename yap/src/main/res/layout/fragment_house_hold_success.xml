@@ -43,19 +43,20 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginBottom="@dimen/margin_medium_large"
                 app:textVal="@{Strings.screen_yap_house_hold_success_display_text_title}" />
 
 
-            <androidx.appcompat.widget.AppCompatTextView
-                style="@style/RegularGrey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margin_medium_large"
-                android:gravity="center"
-                android:lineSpacingExtra="@dimen/_1sdp"
-                android:text="@string/screen_yap_house_hold_success_display_text_heading"
-                app:concatVal="@{viewModel.state.houseHoldUserName}"
-                app:textVal="@{Strings.screen_yap_house_hold_success_display_text_heading}" />
+<!--            <androidx.appcompat.widget.AppCompatTextView-->
+<!--                style="@style/RegularGrey"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginBottom="@dimen/margin_medium_large"-->
+<!--                android:gravity="center"-->
+<!--                android:lineSpacingExtra="@dimen/_1sdp"-->
+<!--                android:text="@string/screen_yap_house_hold_success_display_text_heading"-->
+<!--                app:concatVal="@{viewModel.state.houseHoldUserName}"-->
+<!--                app:textVal="@{Strings.screen_yap_house_hold_success_display_text_heading}" />-->
 
 
             <ImageView
@@ -154,17 +155,17 @@
                     style="@style/RegularGrey"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/screen_yap_house_hold_success_display_text_share_email"
-                    app:text="@{Strings.screen_yap_house_hold_success_display_text_share_email}"
-                    tools:text="@string/screen_yap_house_hold_success_display_text_share_email" />
+                    android:text="@string/screen_yap_house_hold_success_display_text_share_mobile_no"
+                    app:text="@{Strings.screen_yap_house_hold_success_display_text_share_mobile_no}"
+                    tools:text="@string/screen_yap_house_hold_success_display_text_share_mobile_no" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
                     style="@style/Regular"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{viewModel.state.houseHoldUserEmail}"
-                    tools:text="@string/screen_yap_house_hold_success_display_text_share_email" />
+                    android:text="@{viewModel.state.houseHoldUserMobile}"
+                    tools:text="@string/screen_yap_house_hold_success_display_text_share_mobile_no" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView
