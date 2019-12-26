@@ -121,4 +121,5 @@
             app:enableCoreButton="@{viewModel.state.valid}"
             />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>
