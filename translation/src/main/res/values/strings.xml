@@ -582,7 +582,7 @@
     <string name="screen_add_beneficiary_detail_display_text_change_currency">Change currency</string>
     <string name="screen_add_beneficiary_detail_input_text_nick_name_hint">Add nickname</string>
     <string name="screen_add_beneficiary_detail_input_text_first_name_hint">Add first name</string>
-    <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add Last name</string>
+    <string name="screen_add_beneficiary_detail_input_text_last_name_hint">Add last name</string>
 
     <string name="screen_add_beneficiary_detail_display_text_transfer_nick_name">Nickname</string>
     <string name="screen_add_beneficiary_detail_display_text_transfer_first_name">First name</string>

@@ -102,6 +102,7 @@ class AddBeneficiaryForDomesticTransferFragment :
     private fun onConfirmClick() {
         val beneficiary = Beneficiary()
         beneficiary.beneficiaryType = SendMoneyBeneficiaryType.DOMESTIC.name
+        beneficiary.title = viewModel.state.nickName
         beneficiary.firstName = viewModel.state.firstName
         beneficiary.lastName = viewModel.state.lastName
         beneficiary.country = "AE"
