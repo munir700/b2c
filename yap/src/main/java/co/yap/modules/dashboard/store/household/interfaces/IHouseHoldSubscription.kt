@@ -9,6 +9,8 @@ interface IHouseHoldSubscription {
         var monthlyFee: String
         var annuallyFee: String
         var subscriptionFee: String
+        var hasSelectedPackage: Boolean
+        var valid: Boolean
     }
 
     interface ViewModel : IBase.ViewModel<State> {
@@ -18,6 +20,7 @@ interface IHouseHoldSubscription {
         fun handlePressOnCloseIcon(id: Int)
         fun handlePressOnMonthlyPackage(id: Int)
         fun handlePressOnYearlyPackage(id: Int)
+        fun handlePressOnGetStarted(id: Int)
         fun loadDummyData(): ArrayList<BenefitsModel>
     }
 

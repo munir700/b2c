@@ -30,7 +30,6 @@ class HouseHoldSuccessFragment : BaseOnBoardingFragment<IHouseHoldSuccess.ViewMo
     override fun onResume() {
         super.onResume()
 
-
         viewModel.clickEvent.observe(this, Observer {
             when (it) {
                 R.id.btnGoToHouseHold -> {

@@ -20,6 +20,10 @@ class SubscriptionSelectionViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
+    override fun handlePressOnGetStarted(id: Int) {
+        clickEvent.setValue(id)
+    }
+
     override fun handlePressOnMonthlyPackage(id: Int) {
         clickEvent.setValue(id)
     }

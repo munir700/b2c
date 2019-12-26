@@ -727,14 +727,18 @@
     <!-- YAP Household subscription selection screen-->
     <string name="screen_yap_house_hold_subscription_selection_display_text_title">Get a Household card</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_card">Household card</string>
-    <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_heading">Get a card for your household help and start managing your finances easily! </string>
-    <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan">Select a plan. You will be charged only when your Household staff confirms their card. </string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_house_hold_heading">Simplify your household expenses and get your help a card with just their mobile number and email</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan">Select a plan: </string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan_monthly">Monthly</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_select_plan_yearly">Yearly</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_per_month">per month</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_per_year">per year</string>
-    <string name="screen_yap_house_hold_subscription_selection_display_text_months">12 months</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_months">12 month contract</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_saving">save 25%</string>
+    <string name="screen_yap_house_hold_subscription_selection_display_text_charges">You will be charged only when your Household staff completes their registration and orders their card </string>
+    <string name="screen_yap_house_hold_subscription_selection_button_get_started">Get started</string>
+
+
     <!--benefits-->
     <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries">Send salaries directly to account</string>
     <string name="screen_yap_house_hold_subscription_selection_display_text_benefit_allocate_budget">Allocate household budgets</string>

@@ -46,18 +46,28 @@ class SubscriptionSelectionActivity :
             when (it) {
 
                 R.id.btnClose -> {
-//                    startActivity(newIntent(this))
+
                     finish() // will check in fsd/story till where is it required to go back
                 }
                 R.id.llAnnualSubscription -> {
-                    startActivity(HouseHoldOnboardingActivity.newIntent(this))
-//                    showToast("llAnnualSubscription")
+                    viewModel.state.hasSelectedPackage = true
+
+                    llMonthlySubscription.isActivated = false
+                    llAnnualSubscription.isActivated = true
                 }
 
 
                 R.id.llMonthlySubscription -> {
+
+                    viewModel.state.hasSelectedPackage = true
+
+                    llMonthlySubscription.isActivated = true
+                    llAnnualSubscription.isActivated = false
+                }
+
+                R.id.btnGetStarted -> {
                     startActivity(HouseHoldOnboardingActivity.newIntent(this))
-//                    showToast("llMonthlySubscription")
+
                 }
 
                 R.id.imgClose -> {

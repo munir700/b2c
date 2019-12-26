@@ -1172,10 +1172,14 @@ object Strings {
         "screen_yap_house_hold_subscription_selection_display_text_per_month"
     const val screen_yap_house_hold_subscription_selection_display_text_per_year: String =
         "screen_yap_house_hold_subscription_selection_display_text_per_year"
+    const val screen_yap_house_hold_subscription_selection_display_text_charges: String =
+        "screen_yap_house_hold_subscription_selection_display_text_charges"
     const val screen_yap_house_hold_subscription_selection_display_text_months: String =
         "screen_yap_house_hold_subscription_selection_display_text_months"
     const val screen_yap_house_hold_subscription_selection_display_text_saving: String =
         "screen_yap_house_hold_subscription_selection_display_text_saving"
+    const val screen_yap_house_hold_subscription_selection_button_get_started: String =
+        "screen_yap_house_hold_subscription_selection_button_get_started"
     //benefits
     const val screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries: String =
         "screen_yap_house_hold_subscription_selection_display_text_benefit_send_salaries"

@@ -133,7 +133,7 @@
                     android:layout_marginTop="@dimen/margin_normal"
                     android:paddingLeft="@dimen/small"
                     android:paddingRight="@dimen/small"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
@@ -145,18 +145,20 @@
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="@dimen/margin_medium"
-                    android:gravity="center"
+                    android:gravity="center_horizontal"
+
                     android:paddingLeft="@dimen/margin_normal"
                     android:paddingRight="@dimen/margin_normal"
                     android:text="@string/screen_yap_house_hold_subscription_selection_display_text_select_plan"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rvSubscriptionPackageBenefits"
                     app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_select_plan}" />
 
                 <LinearLayout
+                    android:id="@+id/llFees"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/margin_large"
@@ -172,7 +174,7 @@
                         android:layout_width="@dimen/_130sdp"
                         android:layout_height="@dimen/_150sdp"
                         android:layout_marginRight="@dimen/margin_medium"
-                        android:background="@drawable/card_border_selector"
+                         android:background="@drawable/card_selector"
                         android:clickable="true"
                         android:onClick="@{(v) -> viewModel.handlePressOnMonthlyPackage(v.id)}"
                         android:orientation="vertical"
@@ -223,7 +225,7 @@
                         android:id="@+id/llAnnualSubscription"
                         android:layout_width="@dimen/_130sdp"
                         android:layout_height="@dimen/_150sdp"
-                        android:background="@drawable/card_border_selector"
+                        android:background="@drawable/card_selector"
                         android:clickable="true"
                         android:onClick="@{(v) -> viewModel.handlePressOnYearlyPackage(v.id)}"
                         android:orientation="vertical"
@@ -278,6 +280,42 @@
 
                     </LinearLayout>
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tvCharges"
+                    style="@style/ASmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_medium"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:layout_marginRight="@dimen/margin_medium"
+                    android:foregroundGravity="center"
+                    android:gravity="center"
+                    android:paddingLeft="@dimen/margin_medium"
+                    android:paddingRight="@dimen/margin_medium"
+                    android:text="@string/screen_yap_house_hold_subscription_selection_display_text_charges"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llFees"
+                    app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_charges}" />
+
+
+                <co.yap.widgets.CoreButton
+                    android:id="@+id/btnGetStarted"
+                    style="@style/FragmentsBtnStyle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_xxl"
+                    android:layout_marginRight="@dimen/margin_xxl"
+                    android:layout_marginBottom="@dimen/margin_medium_large"
+                    android:onClick="@{(v) -> viewModel.handlePressOnGetStarted(v.id)}"
+                    app:enableCoreButton="@{viewModel.state.valid}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    app:layout_constraintTop_toBottomOf="@+id/tvCharges"
+                    app:text="@{Strings.screen_yap_house_hold_subscription_selection_button_get_started}"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="44dp" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </LinearLayout>

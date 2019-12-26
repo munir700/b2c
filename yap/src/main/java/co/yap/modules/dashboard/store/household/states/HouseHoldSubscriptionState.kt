@@ -30,4 +30,21 @@ class HouseHoldSubscriptionState : BaseState(), IHouseHoldSubscription.State {
             notifyPropertyChanged(BR.subscriptionFee)
 
         }
+
+    @get:Bindable
+    override var hasSelectedPackage: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.hasSelectedPackage)
+            if (hasSelectedPackage) {
+                valid = true
+            }
+        }
+
+    @get:Bindable
+    override var valid: Boolean = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
 }
