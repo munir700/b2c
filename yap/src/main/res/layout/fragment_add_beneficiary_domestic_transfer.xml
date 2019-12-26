@@ -226,8 +226,8 @@
                     android:onClick="@{(v) -> viewModel.handlePressOnAddDomestic(v.id)}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:text="@{Strings.screen_add_beneficiary_detail_button_confirm}"
-                    tools:text="@string/screen_add_beneficiary_detail_button_confirm" />
+                    app:text="@{Strings.screen_add_beneficiary_button_next}"
+                    tools:text="@string/screen_add_beneficiary_button_next" />
             </LinearLayout>
     </ScrollView>
 </layout>
