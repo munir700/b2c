@@ -46,7 +46,6 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
         set(value) {
             field = value
             notifyPropertyChanged(BR.firstName)
-            //notifyChange()
             beneficiary?.firstName = field
         }
 
@@ -55,7 +54,6 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
         set(value) {
             field = value
             notifyPropertyChanged(BR.lastName)
-            notifyChange()
             beneficiary?.lastName = field
         }
     @get:Bindable
@@ -105,6 +103,13 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             notifyPropertyChanged(BR.countryCode)
 
         }
+    @get:Bindable
+    override var valid: Boolean? = false
+        set(value) {
+            field = value
+            notifyPropertyChanged(BR.valid)
+        }
+
 
     private fun updateAllFields(beneficiary: Beneficiary?) {
 
@@ -125,7 +130,6 @@ class EditBeneficiaryStates(val application: Application) : BaseState(), IEditBe
             it.swiftCode?.let { swiftCode = it }
             it.beneficiaryType?.let { transferType = it }
         }
-        notifyChange()
     }
 
 

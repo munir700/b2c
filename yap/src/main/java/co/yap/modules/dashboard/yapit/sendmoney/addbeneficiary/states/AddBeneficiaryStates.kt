@@ -242,7 +242,7 @@ class AddBeneficiaryStates : BaseState(),
                 }
                 DOMESTIC -> {
                     valid =
-                        firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
                 }
                 CASHPAYOUT -> {
                     valid =
