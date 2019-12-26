@@ -120,9 +120,9 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
         )
         reasonsSpinnerCashTransfer.adapter =
             ViewHolderArrayAdapter(requireContext(), data, { parent ->
-                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+                ReasonDropDownViewHolder.inflate(parent)
             }, { parent ->
-                CashTransferFragment.ReasonDropDownViewHolder.inflate(parent)
+                ReasonDropDownViewHolder.inflate(parent)
             }, { viewHolder, position, item ->
                 viewHolder.bind(item)
             }, { viewHolder, position, item ->
@@ -197,8 +197,14 @@ class CashTransferFragment : SendMoneyBaseFragment<ICashTransfer.ViewModel>(), I
             (activity as BeneficiaryCashTransferActivity).let { it ->
                 it.viewModel.state.leftButtonVisibility = false
                 it.viewModel.state.rightButtonVisibility = true
-                it.viewModel.state.toolBarTitle =
-                    getString(Strings.screen_cash_pickup_funds_display_text_header)
+                if (it.viewModel.state.beneficiary?.beneficiaryType.equals(SendMoneyBeneficiaryType.CASHPAYOUT.type)) {
+                    it.viewModel.state.toolBarTitle =
+                        getString(Strings.screen_cash_pickup_funds_display_text_header)
+                } else {
+                    it.viewModel.state.toolBarTitle =
+                        getString(Strings.screen_funds_local_toolbar_header)
+                }
+
                 viewModel.state.position = it.viewModel.state.position
                 it.viewModel.state.beneficiary?.let {
                     viewModel.state.fullName = "${it.firstName} ${it.lastName}"

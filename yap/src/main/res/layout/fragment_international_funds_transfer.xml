@@ -24,13 +24,14 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:id="@+id/clFTSnackbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toTopOf="@+id/ly_internationalTransfer"
                 android:background="@android:color/transparent"
-                android:rotation="180" />
+                android:rotation="180"
+                app:layout_constraintTop_toTopOf="@+id/ly_internationalTransfer" />
 
             <LinearLayout
                 android:id="@+id/ly_internationalTransfer"
@@ -62,10 +63,10 @@
                             android:layout_height="@dimen/_65sdp"
                             android:contentDescription="@string/app_name"
                             app:colorType="@{`Beneficiary`}"
-                            tools:src="@drawable/flag_ae"
                             app:fullName="@{viewModel.state.beneficiaryName}"
                             app:imageUrl="@{viewModel.state.beneficiaryPicture}"
-                            app:position="@{viewModel.state.position}"/>
+                            app:position="@{viewModel.state.position}"
+                            tools:src="@drawable/flag_ae" />
 
                         <!--
                            toggle visibility on the basis of transfer type
@@ -96,8 +97,8 @@
                                     android:layout_marginTop="@dimen/_2sdp"
                                     android:layout_marginEnd="@dimen/_2sdp"
                                     android:layout_marginBottom="@dimen/_2sdp"
-                                    app:setFlagDrawable="@{viewModel.state.beneficiaryCountry}"
-                                    android:background="@drawable/bitmap" />
+                                    android:background="@drawable/bitmap"
+                                    app:setFlagDrawable="@{viewModel.state.beneficiaryCountry}" />
 
                             </FrameLayout>
                         </RelativeLayout>
@@ -157,9 +158,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@null"
+                        android:focusableInTouchMode="true"
                         android:gravity="center"
                         android:hint="0.00"
-                        android:focusableInTouchMode="true"
                         android:imeOptions="actionDone"
                         android:importantForAutofill="no"
                         android:inputType="numberDecimal"
@@ -202,6 +203,7 @@
                     android:background="@drawable/bg_funds"
                     android:paddingStart="@dimen/margin_medium"
                     android:paddingEnd="@dimen/margin_medium"
+                    android:visibility="gone"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tvFullName">
 
@@ -212,12 +214,11 @@
                         android:layout_height="wrap_content"
                         android:background="@null"
                         android:gravity="center"
+                        android:hint="0.00"
                         android:imeOptions="actionDone"
                         android:importantForAutofill="no"
                         android:inputType="numberDecimal"
                         android:labelFor="@+id/etAmount"
-                        android:maxLength="7"
-                        android:hint="0.00"
                         android:maxLines="1"
                         android:text="@{viewModel.state.receiverCurrencyAmount}"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -225,6 +226,27 @@
                         app:layout_constraintRight_toRightOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <co.yap.widgets.EasyMoneyEditText
+                    style="@style/ATitle2"
+                    android:layout_width="@dimen/_140sdp"
+                    android:layout_height="@dimen/_50sdp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/margin_extra_small"
+                    android:background="@drawable/bg_funds"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:gravity="center"
+                    android:hint="0.0"
+                    android:inputType="numberDecimal"
+                    android:paddingStart="@dimen/margin_medium"
+                    android:paddingEnd="@dimen/margin_medium"
+                    android:text="@{viewModel.state.receiverCurrencyAmount}"
+                    app:currency_symbol="$"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvFullName"
+                    app:show_commas="true"
+                    app:show_currency="false" />
 
                 <LinearLayout
                     android:id="@+id/ly_YapRate"
@@ -300,34 +322,33 @@
                 <RelativeLayout
                     android:id="@+id/layoutReasonsSpinner"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_height="wrap_content"
                     android:paddingBottom="@dimen/margin_normal">
 
                     <Spinner
                         android:id="@+id/reasonsSpinner"
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/_60sdp"
-                        android:paddingBottom="@dimen/_5sdp"
+                        android:layout_height="@dimen/_30sdp"
                         android:drawSelectorOnTop="false"
-                        android:dropDownHeight="@dimen/_50sdp"
-                        android:gravity="bottom"
                         android:overScrollMode="never"
                         android:overlapAnchor="false"
+                        android:paddingBottom="@dimen/_5sdp"
                         android:prompt="@string/screen_international_funds_transfer_dropdown_text_reason_hint"
                         android:spinnerMode="dropdown" />
 
                     <View
                         android:id="@+id/viewSpinnerClickReason"
                         android:layout_width="match_parent"
-                        android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}"
                         android:layout_height="@dimen/_30sdp"
-                        android:layout_alignParentTop="true" />
+                        android:layout_alignParentTop="true"
+                        android:onClick="@{(v) -> viewModel.handlePressOnButton(v.id)}" />
 
                     <View
-                        android:layout_alignParentBottom="true"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/_1sdp"
+                        android:layout_below="@+id/viewSpinnerClickReason"
                         android:background="@color/greySoft" />
+
 
                 </RelativeLayout>
 
@@ -338,11 +359,11 @@
                     android:layout_height="wrap_content"
                     android:focusable="true"
                     android:gravity="top"
-                    android:singleLine="true"
                     android:inputType="text"
                     android:maxLength="@integer/note_max_length"
-                    android:text="@={viewModel.state.transactionNote}"
                     android:minHeight="@dimen/_40sdp"
+                    android:singleLine="true"
+                    android:text="@={viewModel.state.transactionNote}"
                     app:hint="@{Strings.screen_international_funds_transfer_input_text_note_hint}"
                     app:layout_constraintBottom_toBottomOf="parent" />
 
