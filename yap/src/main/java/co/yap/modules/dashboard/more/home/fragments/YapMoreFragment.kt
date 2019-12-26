@@ -56,22 +56,25 @@ class YapMoreFragment : YapDashboardChildFragment<IMoreHome.ViewModel>(), IMoreH
     private fun initComponents() {
         getBinding().tvName.text =
             MyUserManager.user?.currentCustomer?.getFullName()
+        MyUserManager.user?.iban?.let {
+            val ibanSpan = SpannableString("IBAN $it")
+            getBinding().tvIban.text = Utils.setSpan(
+                0,
+                4,
+                ibanSpan,
+                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+            )
+        }
+        MyUserManager.user?.bank?.swiftCode?.let {
+            val bicSpan = SpannableString("BIC $it")
+            getBinding().tvBic.text = Utils.setSpan(
+                0,
+                3,
+                bicSpan,
+                ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
+            )
+        }
 
-        val ibanSpan = SpannableString("IBAN " + MyUserManager.user?.iban)
-        val bicSpan = SpannableString("BIC " + MyUserManager.user?.bank?.swiftCode)
-
-        getBinding().tvIban.text = Utils.setSpan(
-            0,
-            4,
-            ibanSpan,
-            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-        )
-        getBinding().tvBic.text = Utils.setSpan(
-            0,
-            3,
-            bicSpan,
-            ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark)
-        )
     }
 
     private fun setupRecycleView() {

@@ -187,7 +187,7 @@ class EmailViewModel(application: Application) :
             when (val response = repository.getAccountInfo()) {
                 is RetroApiResponse.Success -> {
                     if (response.data.data.isNotEmpty()) {
-                        parentViewModel!!.onboardingData.ibanNumber = response.data.data[0].iban
+                        parentViewModel?.onboardingData?.ibanNumber = response.data.data[0].iban
                         Handler().postDelayed({
                             nextButtonPressEvent.setValue(EVENT_NAVIGATE_NEXT)
                         }, 400)

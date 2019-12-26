@@ -13,7 +13,7 @@ interface ITransactionNote {
         val clickEvent: SingleClickEvent
         fun handlePressOnView(id: Int)
         fun handlePressOnCrossButton(id: Int)
-        fun addEditNote(transactionId: String, transactionDetail: String)
+        fun addEditNote(transactionId: String?, transactionDetail: String?)
         val addEditNoteSuccess: MutableLiveData<Boolean>
     }
 

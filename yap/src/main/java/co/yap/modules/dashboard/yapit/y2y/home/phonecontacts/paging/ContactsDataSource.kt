@@ -39,11 +39,13 @@ class ContactsDataSource(
                 when (val response =
                     repo.getY2YBeneficiaries(response)) {
                     is RetroApiResponse.Success -> {
-                        callback.onResult(
-                            response.data.data,
-                            null,
-                            null
-                        )
+                        response.data.data?.let {
+                            callback.onResult(
+                                it,
+                                null,
+                                null
+                            )
+                        }
                         updateState(PagingState.DONE)
                     }
                     is RetroApiResponse.Error -> {

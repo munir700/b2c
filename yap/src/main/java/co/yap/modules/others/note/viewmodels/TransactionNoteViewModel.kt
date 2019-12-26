@@ -30,7 +30,7 @@ class TransactionNoteViewModel(application: Application) :
         clickEvent.setValue(id)
     }
 
-    override fun addEditNote(transactionId: String, transactionDetail: String) {
+    override fun addEditNote(transactionId: String?, transactionDetail: String?) {
         launch {
             state.loading = true
             when (val response =

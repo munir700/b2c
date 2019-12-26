@@ -40,6 +40,7 @@ class YapHomeViewModel(application: Application) :
     init {
         YAPApplication.clearFilters()
     }
+
     override fun onCreate() {
         super.onCreate()
         requestAccountTransactions()
@@ -235,10 +236,16 @@ class YapHomeViewModel(application: Application) :
             state.loading = true
             when (val response = cardsRepository.getDebitCards("DEBIT")) {
                 is RetroApiResponse.Success -> {
-                    if (response.data.data.isNotEmpty()) {
-                        debitCardSerialNumber = response.data.data[0].cardSerialNumber
-                        clickEvent.setValue(EVENT_SET_CARD_PIN)
+                    response.data.data?.let { it ->
+                        if (it.isNotEmpty()) {
+                            response.data.data?.let {
+                                debitCardSerialNumber = it[0].cardSerialNumber
+                            }
+
+                            clickEvent.setValue(EVENT_SET_CARD_PIN)
+                        }
                     }
+
                 }
                 is RetroApiResponse.Error -> state.toast = response.error.message
             }

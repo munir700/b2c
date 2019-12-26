@@ -1,5 +1,9 @@
 package co.yap.networking.transactions.responsedtos
 
 import co.yap.networking.models.ApiResponse
+import com.google.gson.annotations.SerializedName
 
-class AddEditNoteResponse(val data: String?) : ApiResponse()
+class AddEditNoteResponse(
+    @SerializedName("data")
+    val data: String? = ""
+) : ApiResponse()
