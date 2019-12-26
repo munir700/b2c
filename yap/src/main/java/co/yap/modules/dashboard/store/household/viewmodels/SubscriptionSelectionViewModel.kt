@@ -1,9 +1,12 @@
 package co.yap.modules.dashboard.store.household.viewmodels
 
 import android.app.Application
+import co.yap.R
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
 import co.yap.modules.dashboard.store.household.interfaces.IHouseHoldSubscription
 import co.yap.modules.dashboard.store.household.states.HouseHoldSubscriptionState
+import co.yap.modules.onboarding.enums.AccountType
+import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.translation.Strings
 import co.yap.yapcore.BaseViewModel
 import co.yap.yapcore.SingleClickEvent
@@ -36,6 +39,26 @@ class SubscriptionSelectionViewModel(application: Application) :
         super.onResume()
     }
 
+    override fun getPages(): ArrayList<WelcomeContent> = generateB2CPages()
+
+    private fun generateB2CPages(): ArrayList<WelcomeContent> {
+        val content1 = WelcomeContent(
+            getString(Strings.screen_welcome_b2c_display_text_page1_title),
+            getString(Strings.screen_welcome_b2c_display_text_page1_details),
+            R.drawable.ic_real_time_banking
+        )
+        val content2 = WelcomeContent(
+            getString(Strings.screen_welcome_b2c_display_text_page2_title),
+            getString(Strings.screen_welcome_b2c_display_text_page2_details),
+            R.drawable.ic_real_time_perks
+        )
+        val content3 = WelcomeContent(
+            getString(Strings.screen_welcome_b2c_display_text_page3_title),
+            getString(Strings.screen_welcome_b2c_display_text_page3_details),
+            R.drawable.ic_real_time_benefits
+        )
+        return arrayListOf(content1, content2, content3)
+    }
 
     override fun loadDummyData(): ArrayList<BenefitsModel> {
 

@@ -1,4 +1,4 @@
-package co.yap.app.modules.startup.adapters
+package co.yap.modules.dashboard.store.household.activities
 
 import android.content.Context
 import android.util.SparseArray
@@ -13,7 +13,8 @@ import co.yap.databinding.ContentOnboardingWelcomeBinding
 import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.yapcore.interfaces.IBindable
 
-public class WelcomePagerAdapter(
+
+public class SubscriptionPagerAdapter(
     private val context: Context,
     private val contents: ArrayList<WelcomeContent>,
     private val layout: Int

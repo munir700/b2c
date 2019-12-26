@@ -15,6 +15,7 @@
 
 
     <LinearLayout
+        android:id="@+id/llContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -70,17 +71,62 @@
                 android:paddingTop="@dimen/margin_medium"
                 android:paddingBottom="@dimen/margin_medium">
 
-                <ImageView
-                    android:id="@+id/linearLayout2"
+                <!--                <ImageView-->
+                <!--                    android:id="@+id/welcome_pager"-->
+                <!--                    android:layout_width="@dimen/_121sdp"-->
+                <!--                    android:layout_height="@dimen/_190sdp"-->
+                <!--                    android:layout_gravity="center_horizontal"-->
+                <!--                    android:layout_marginTop="@dimen/margin_small"-->
+                <!--                    android:orientation="vertical"-->
+                <!--                    android:src="@drawable/card_spare"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    tools:ignore="MissingConstraints" />-->
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/welcome_pager"
                     android:layout_width="@dimen/_121sdp"
                     android:layout_height="@dimen/_190sdp"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="@dimen/margin_small"
+                    android:layout_weight="1"
                     android:orientation="vertical"
                     android:src="@drawable/card_spare"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="MissingConstraints" />
+
+
+                <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
+                    android:id="@+id/worm_dots_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/_24sdp"
+                    app:dotsColor="@color/colorPrimary"
+                    app:dotsCornerRadius="8dp"
+                    app:dotsSize="12dp"
+                    app:dotsSpacing="4dp"
+                    app:dotsStrokeColor="@color/grey"
+                    app:dotsStrokeWidth="6dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/welcome_pager" />
+
+
+                <!--                <TextView-->
+                <!--                     style="@style/ASmall"-->
+                <!--                    android:layout_width="wrap_content"-->
+                <!--                    android:layout_height="wrap_content"-->
+                <!--                    android:layout_marginTop="@dimen/margin_medium"-->
+                <!--                    android:gravity="center"-->
+                <!--                    android:paddingLeft="@dimen/margin_medium"-->
+                <!--                    android:paddingRight="@dimen/margin_medium"-->
+                <!--                    android:text="Choose from different card colors"-->
+                <!--                    app:layout_constraintEnd_toEndOf="parent"-->
+                <!--                    app:layout_constraintStart_toStartOf="parent"-->
+                <!--                    app:layout_constraintTop_toBottomOf="@+id/tvCardFee"-->
+                <!--                    />-->
 
 
                 <View
@@ -89,7 +135,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/margin_medium"
                     android:background="@color/greyLight"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+                    app:layout_constraintTop_toBottomOf="@+id/worm_dots_indicator" />
 
 
                 <TextView

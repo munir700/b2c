@@ -1,6 +1,7 @@
 package co.yap.modules.dashboard.store.household.interfaces
 
 import co.yap.modules.dashboard.cards.addpaymentcard.models.BenefitsModel
+import co.yap.modules.onboarding.models.WelcomeContent
 import co.yap.yapcore.IBase
 import co.yap.yapcore.SingleClickEvent
 
@@ -22,6 +23,8 @@ interface IHouseHoldSubscription {
         fun handlePressOnYearlyPackage(id: Int)
         fun handlePressOnGetStarted(id: Int)
         fun loadDummyData(): ArrayList<BenefitsModel>
+        fun getPages(): ArrayList<WelcomeContent>
+
     }
 
     interface View : IBase.View<ViewModel>
