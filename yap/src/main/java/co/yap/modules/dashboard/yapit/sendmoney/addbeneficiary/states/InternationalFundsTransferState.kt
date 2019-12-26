@@ -11,6 +11,8 @@ import co.yap.translation.Strings
 import co.yap.translation.Translator
 import co.yap.yapcore.BaseState
 import co.yap.yapcore.helpers.Utils
+import java.util.*
+import kotlin.collections.ArrayList
 
 class InternationalFundsTransferState(val application: Application) : BaseState(),
     IInternationalFundsTransfer.State {
@@ -276,7 +278,8 @@ class InternationalFundsTransferState(val application: Application) : BaseState(
                     val amountFxRate = amount
                     val receiveFxRate = rate!!.toDouble()
                     val result = amountFxRate?.times(receiveFxRate)
-                    receiverCurrencyAmount = result.toString()
+                  //  achieverReceive.setText(String.format(getDefault(), "%.0f", achieverWillGet));
+                    receiverCurrencyAmount = String.format(Locale.getDefault() ,"%.02f",result ) //result.toString()
                     receiverCurrencyAmount.toString()
                 }
             }
