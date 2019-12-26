@@ -30,5 +30,6 @@ interface IEditBeneficiary {
         var countryBankRequirementFieldCode: String?
         var beneficiary: Beneficiary?
         var needOverView:Boolean?
+        var valid: Boolean?
     }
 }

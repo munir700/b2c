@@ -238,11 +238,11 @@ class AddBeneficiaryStates : BaseState(),
                     valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
                 }
                 SWIFT -> {
-
+                    valid = nickName.length > 1 && firstName.length > 1 && lastName.length > 1
                 }
                 DOMESTIC -> {
                     valid =
-                        firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
+                        nickName.length > 1 && firstName.length > 1 && lastName.length > 1 && iban.isNotEmpty() && confirmIban.isNotEmpty() && iban == confirmIban
                 }
                 CASHPAYOUT -> {
                     valid =
