@@ -7,6 +7,7 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/*
+/.idea/codeStyles/*
 /.idea/assetWizardSettings.xml
 /authentication/build/*
 /authentication/build
@@ -15,5 +16,6 @@
 /build
 /captures
 /.idea/project.xml
+/.idea/codeStyles/*
 /.idea/codeStyles/Project.xml
 .externalNativeBuild
