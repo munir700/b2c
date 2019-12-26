@@ -82,39 +82,22 @@
                     app:layout_constraintStart_toStartOf="parent"
                     tools:ignore="MissingConstraints" />
 
-                <TextView
-                    android:id="@+id/tvCardFeeHeading"
-                    style="@style/ASmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
-                    android:gravity="center"
-                    android:text="@string/screen_yap_house_hold_subscription_selection_display_text_house_hold_card"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
-                    app:text="@{Strings.screen_yap_house_hold_subscription_selection_display_text_house_hold_card}" />
 
-
-                <TextView
+                <View
                     android:id="@+id/tvCardFee"
-                    style="@style/SmallGrey"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="@={viewModel.state.subscriptionFee}"
-                    android:textSize="@dimen/_11sdp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvCardFeeHeading"
-                    tools:text="AED 19.99/month" />
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/margin_medium"
+                    android:background="@color/greyLight"
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
 
                 <TextView
                     android:id="@+id/tvBenefits"
                     style="@style/ASmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/margin_normal"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:gravity="center"
                     android:paddingLeft="@dimen/margin_medium"
                     android:paddingRight="@dimen/margin_medium"
@@ -174,7 +157,7 @@
                         android:layout_width="@dimen/_130sdp"
                         android:layout_height="@dimen/_150sdp"
                         android:layout_marginRight="@dimen/margin_medium"
-                         android:background="@drawable/card_selector"
+                        android:background="@drawable/card_selector"
                         android:clickable="true"
                         android:onClick="@{(v) -> viewModel.handlePressOnMonthlyPackage(v.id)}"
                         android:orientation="vertical"
@@ -306,12 +289,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_xxl"
+                    android:layout_marginTop="@dimen/margin_medium"
                     android:layout_marginRight="@dimen/margin_xxl"
                     android:layout_marginBottom="@dimen/margin_medium_large"
                     android:onClick="@{(v) -> viewModel.handlePressOnGetStarted(v.id)}"
                     app:enableCoreButton="@{viewModel.state.valid}"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginTop="@dimen/margin_medium"
                     app:layout_constraintTop_toBottomOf="@+id/tvCharges"
                     app:text="@{Strings.screen_yap_house_hold_subscription_selection_button_get_started}"
                     tools:ignore="MissingConstraints"
