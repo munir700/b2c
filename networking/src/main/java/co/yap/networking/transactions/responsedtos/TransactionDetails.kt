@@ -21,7 +21,7 @@ data class TransactionDetails(
     val creationDate: String?,
     val paymentMode: String?,
     val count: Int?,
-    val fee: Double?,
+    val feeAmount: Double?,
     val transactionNote: String?,
     val senderName: String?,
     val receiverName: String?

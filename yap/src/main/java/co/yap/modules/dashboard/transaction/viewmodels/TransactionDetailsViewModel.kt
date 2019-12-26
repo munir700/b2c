@@ -70,8 +70,9 @@ class TransactionDetailsViewModel(application: Application) :
                     }
                     state.spentAmount =
                         response.data.data?.currency + " " + Utils.getFormattedCurrency(response.data.data?.amount.toString())
-                    if (response.data.data?.fee != null) state.feeAmount =
-                        response.data.data?.currency + " " + response.data.data?.fee else state.feeAmount =
+                    if (response.data.data?.feeAmount != null)
+                        state.feeAmount =
+                        response.data.data?.currency + " " + response.data.data?.feeAmount else state.feeAmount =
                         response.data.data?.currency + " " + "0.00"
 
                     if (response.data.data?.transactionNote != null && response.data.data?.transactionNote != "") {
