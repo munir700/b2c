@@ -114,7 +114,7 @@
             android:onClick="@{(v) -> viewModel.handlePressOnSeclectCountry(v.id)}"
             app:btn_enable="false"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:text="@{Strings.screen_add_beneficiary_display_text_select_country}"
+            app:text="@{Strings.screen_add_beneficiary_button_next}"
             tools:ignore="MissingConstraints"
             tools:layout_editor_absoluteX="44dp"
             tools:text="@string/screen_add_beneficiary_display_text_select_country"
