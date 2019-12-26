@@ -46,8 +46,8 @@ data class TransactionDetails(
     val paymentMode: String?,
     @SerializedName("count")
     val count: Int?,
-    @SerializedName("fee")
-    val fee: Double?,
+    @SerializedName("feeAmount")
+    val feeAmount: Double?,
     @SerializedName("transactionNote")
     val transactionNote: String?,
     @SerializedName("senderName")
